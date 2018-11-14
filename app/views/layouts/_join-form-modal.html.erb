@@ -1,0 +1,47 @@
+<div class="modal fade" id="join_form_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog wide" role="document">
+    <div class="modal-content" style="overflow: scroll;">
+    	<div class="modal-header">
+        <h3 class="mt-2">Join our community</h3>
+        <button type="button" class="btn btn-link" data-dismiss="modal">X</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="form_ready"><small>This publishing platform has been created to reward thought provoking ideas - from all sides of every spectrum. TheArticle will never turn down a piece of writing because of an overbearing owner or commercial constraints, and nor will we hide our journalism behind a paywall. What we will do is directly reinvest money spent by premium advertisers back to our contributors.</small></p>
+
+        <p class="form_ready"><small>Our next step is to start a community of readers.  These readers will be able to create libraries, rate articles and exchange ideas with other members. This is where we need you.</small></p>
+
+        <p class="form_ready"><small>Please sign up below and in return, you will get an email each week with the best of TheArticle, along with exclusive offers and event invitations.  More importantly, you will be given the opportunity to help shape the future of our community and create a renaissance in journalism.</small></p>
+
+        <form class="form_ready" novalidate id="join_form">
+          <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <label for="first_name">First name</label>
+                <input type="text" class="form-control mobile_hide_placeholder" id="first_name" name="first_name" placeholder="Your first name">
+              </div>
+              <div class="col">
+                <label for="last_name">Last name</label>
+                <input type="text" class="form-control mobile_hide_placeholder" id="last_name" name="last_name" placeholder="Your last name">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control mobile_hide_placeholder" id="email" name="email" aria-describedby="emailHelp" placeholder="Your email address">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else and you can unsubscribe at any point using the unsubscribe link on our emails. <a href="/privacy-policy" target="_blank">Read more</a></small>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="tandcs" name="tandcs">
+            <label class="form-check-label" for="tandcs">I am over 16 and agree to TheArticle <a href="/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></label>
+          </div>
+          <p id="form_error" class="text-red mb-0 mt-2" style="display:none"><!-- --></p>
+          <button type="submit" class="btn text-white bg-blue my-3" id="join_button">SUBMIT</button>
+        </form>
+
+        <p id="form_success" style="display:none"><!-- --></p>
+        <button id="form_close" class="btn text-white bg-blue" data-dismiss="modal" style="display:none">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+.modal {
+
+  &.full_height {
+  	height: 100vh;
+  }
+
+	.modal-header {
+		padding: 10px 1rem 0;
+
+		button {
+			font-size: 1.25em;
+	    color: #333;
+			position: relative;
+			top: -3px;
+			right: -12px;
+		}
+
+		h3 {
+			margin-top: 6px;
+		}
+	}
+
+	.modal-body {
+		label {
+			color: #000;
+			font-weight: 500;
+		}
+
+		#join_button {
+	    width: 100%;
+		}
+	}
+}

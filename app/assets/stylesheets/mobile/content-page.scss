@@ -1,0 +1,56 @@
+#content-page {
+	h1 {
+		width: 100%;
+		font-size: 1.7em;
+		color: #fff;
+		background-color: #000;
+		background-image: linear-gradient(#323232, #000000);
+		height: 100px;
+		line-height: 104px;
+
+		div.container {
+			line-height: inherit;
+		}
+	}
+
+
+	#content_body {
+		margin-top: 40px;
+
+		h2 {
+			font-size: 1.6em;
+		}
+
+		ul.anchors {
+			padding-left: 20px;
+
+			li {
+				a {
+					color: $black;
+					text-decoration: underline;
+				}
+			}
+		}
+
+		.content_item {
+			padding: 60px 0 0;
+
+			table {
+				margin-bottom: 40px;
+				border-collapse: collapse;
+
+				th, td {
+					font-size: 10px;
+					border: 1px solid #ccc;
+					padding: 1.5%;
+					width: 33%;
+					vertical-align: top;
+				}
+			}
+
+			p {
+				line-height: 1.7em;
+			}
+		}
+	}
+}

@@ -1,0 +1,61 @@
+@font-face {
+  font-family: 'Gabriela';
+  src: url('gabriela.eot'); /* IE9 Compat Modes */
+  src: url('gabriela.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('gabriela.woff2') format('woff2'), /* Super Modern Browsers */
+       url('gabriela.woff') format('woff'), /* Pretty Modern Browsers */
+       url('gabriela.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+.gabriela {
+	font-family: Gabriela, verdana, sans-serif;
+}
+
+h1.bullet,
+h2.bullet {
+	background-image: url('heading.png');
+	background-repeat: no-repeat;
+	padding-left: 1em;
+	background-position: left 0.2em;
+	background-size: 0.7em;
+}
+
+h2.underline {
+	padding-bottom: 6px;
+	border-bottom: 1px solid $grey;
+	margin-bottom: 40px;
+}
+
+h1, h2, h3 {
+	@extend .gabriela;
+}
+
+body, h4, h5, p {
+	font-family: 'Montserrat', sans-serif;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+	color: $black;
+
+	a {
+		color: $black;
+
+		&:hover {
+			color: $grey_dark !important;
+			text-decoration: none;
+		}
+	}
+}
+
+body, p {
+	color: #555;
+}
+
+p.intro {
+	font-weight: 800;
+	font-size: 1.1em;
+}

@@ -1,0 +1,31 @@
+.modal {
+	.modal-dialog.wide {
+		max-width: 900px;
+		width: 900px;
+
+		form {
+			max-width: 500px;
+		}
+	}
+
+	.modal-header {
+		padding: 10px 1rem 0;
+
+		button {
+			font-size: 1.3em;
+	    color: #333;
+		}
+
+		h3 {
+			margin-top: 6px;
+		}
+
+	}
+
+	.modal-body {
+		label {
+			color: #000;
+			font-weight: 500;
+		}
+	}
+}

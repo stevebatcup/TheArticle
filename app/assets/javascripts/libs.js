@@ -1,0 +1,10 @@
+// Bower packages
+//= require jquery
+//= require rails-ujs
+//= require activestorage
+//= require tether
+//= require bootstrap
+//= require modernizr/dist/modernizr-build
+//= require underscore/underscore-min
+//= require slick-carousel/slick/slick.min
+//= require fontawesome/svg-with-js/js/fontawesome-all.min

@@ -1,0 +1,10 @@
+{
+  "name": "dsl-generated-dependencies",
+  "dependencies": {
+    "bootstrap": "4.0.0-alpha.6",
+    "fontawesome": "5.0",
+    "underscore": "latest",
+    "modernizr": "latest",
+    "slick-carousel": "latest"
+  }
+}

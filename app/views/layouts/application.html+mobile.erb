@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TheArticle</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <%= javascript_include_tag 'libs', 'data-turbolinks-track' => true %>
+
+    <% if(!is_development?) %>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ga_tracking_id %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<%= ga_tracking_id %>');
+      </script>
+    <% end %>
+
+    <% if(show_ads?) %>
+      <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+      <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+      </script>
+
+      <script>
+        googletag.cmd.push(function() {
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn', [[300, 600]], 'div-gpt-ad-<%= ad_page_id %>-0').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/sidecolumn', [[300, 250]], 'div-gpt-ad-<%= ad_page_id %>-1').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/skin', [1, 1], 'div-gpt-ad-<%= ad_page_id %>-2').addService(googletag.pubads());
+          var topBanner = googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/topbanner', [[320, 50], [320, 100]], 'div-gpt-ad-<%= ad_page_id %>-3').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
+
+          <% if is_article_page? %>
+              googletag.pubads().setTargeting('article_id', <%= nil %>);
+          <% end %>
+          googletag.pubads().enableSingleRequest();
+          googletag.pubads().collapseEmptyDivs();
+          googletag.enableServices();
+          googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+            if(event.slot == topBanner) {
+              window.TA.bindFixedNavScrolling();
+            }
+          });
+        });
+      </script>
+    <% end %>
+
+    <%= stylesheet_link_tag  'mobile', media: 'all', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% if show_ads? %>
+     <div id="ads_top" class="bg-light py-3 mx-auto my-0">
+        <!-- /21757645549/thearticle_<%= ad_page_type %>/skin -->
+        <div id='div-gpt-ad-<%= ad_page_id %>-2' style='height:1px; width:1px;'>
+          <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-2'); });
+          </script>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 d-flex justify-content-center">
+              <div id="ads_top_box" class="ads_box">
+                <!-- /21757645549/thearticle_<%= ad_page_type %>/topbanner -->
+                <div id='div-gpt-ad-<%= ad_page_id %>-3'>
+                  <script>
+                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-3'); });
+                  </script>
+                </div>
+              </div>
+            </div>
+            <div class="col-2"></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <nav id="sidebar">
+          <div id="dismiss"><i class="fas fa-times"></i></div>
+
+          <ul class="list-unstyled">
+            <li>
+              <a class="" href="/" id="nav_home">Home</a>
+            </li>
+            <li>
+              <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
+            </li>
+            <li>
+              <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
+            </li>
+            <li>
+              <a class="join_button" data-toggle="modal" data-target="#join_form_modal" href="#" id="nav_link_exchanges">Join us</a>
+            </li>
+            <li>
+              <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
+            </li>
+            <li>
+              <a class="" href="/write-for-us" id="nav_link_write_for_ud">Write for Us</a>
+            </li>
+            <li>
+              <a class="" href="/contact" id="nav_link_contact">Contact</a>
+            </li>
+          </ul>
+      </nav>
+
+      <!-- Page Content -->
+      <div id="content">
+        <header id="main_header">
+          <div class="container">
+            <div class="row">
+
+              <div class="col-3 align-items-center">
+                <a id="sidebarCollapse" class="text-black" href='#'>
+                  <i class="fas fa-align-left" aria-hidden="true"></i>
+                </a>
+               </div>
+
+              <div id="logo" class="col-6 d-flex justify-content-center">
+                <a href="/">
+                  <span class="text-hide">TheArticle</span>
+                </a>
+              </div>
+
+              <div class="col-3 align-items-center">
+                <a class="text-black search_trigger" href="#">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </header>
+
+        <nav id="search_box" class="collapse hide" aria-expanded="true" style="">
+          <div class="row" id="search_box_row">
+            <div class="justify-content-center" id="search_inner">
+              <form method="get" id="search_form" class="search_form" action="/" role="search" >
+                <div class="input-group">
+                  <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="s">
+                  <span class="input-group-btn">
+                    <button class="btn-link btn-sm btn bg-colour-1 text-white gabriela" type="submit">
+                      GO <i class="fas fa-angle-right"></i>
+                    </button>
+                  </span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <main id="main_content">
+          <%= yield %>
+        </main>
+
+        <footer id="main_footer_top" class="main_footer bg-black text-white">
+          <div class="container">
+            <div class="inner border-light border-bottom">
+              <div class="row py-2">
+                <nav class="navbar navbar-expand-lg col-12 d-flex justify-content-center" id="footer_nav">
+                  <ul class="navbar-nav text-center" id="main_footer_links">
+                    <li class="nav-item">
+                      <a class="mr-3 text-white nav-link" href="/our-mission">Our Mission</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="mr-3 text-white nav-link" href="/terms-and-conditions">Terms & Conditions</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="mr-3 text-white nav-link" href="/privacy-policy">Privacy Policy</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="mr-3 text-white nav-link" href="/contributors">Contributors</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="mr-3 text-white nav-link" href="/write-for-us">Write for Us</a>
+                    </li class="nav-item">
+                    <li class="nav-item">
+                      <a class="mr-3 text-white nav-link" href="/contact">Contact</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+
+          <div class="container pb-3">
+            <div class="inner border-light border-top">
+              <div class="row py-3">
+                <div class="col-1"></div>
+                <div class="col-10">
+                  <nav class="pt-2" id="social_links">
+                    <ul class="row list-unstyled px-0 py-0 mx-0 my-0">
+                      <li class="col-3 nav-item px-0 py-0" id="social_facebook">
+                        <a class="nav-link text-center text-white" href="https://www.facebook.com/TheArticle-607840469632004/?modal=admin_todo_tour" target="_blank">
+                          <i class="fab fa-facebook-f"></i>
+                        </a>
+                      </li>
+                      <li class="col-3 nav-item px-0 py-0" id="social_twitter">
+                        <a class="nav-link text-center text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
+                          <i class="fab fa-twitter"></i>
+                        </a>
+                      </li>
+                      <li class="col-3 nav-item px-0 py-0" id="social_linked_in">
+                        <a class="nav-link text-center text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
+                          <i class="fab fa-linkedin-in"></i>
+                        </a>
+                      </li>
+                      <li class="col-3 nav-item px-0 py-0" id="social_rss">
+                        <a class="nav-link text-center text-white" href="/feed/rss" target="_blank">
+                          <i class="fas fa-rss"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+                <div class="col-1"></div>
+              </div>
+
+              <div class="row py-3">
+                <div class="col-12 d-flex align-items-center justify-content-center"">
+                  <button data-toggle="modal" data-target="#join_form_modal" class="join_button btn btn-sm bg-grass text-white">Join our community</button>
+                </div>
+              </div>
+
+              <div class="row pt-3 px-2 pb-5">
+                <div id="copyright" class="col-12 d-flex align-items-center">
+                  <p class="text-light w-100 text-center pt-1">
+                    <small style="font-size: 70%;">&copy; <%= Date.today.strftime("%Y") %> TheArticle. All rights reserved</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <div class="overlay"></div>
+
+    <%= render 'layouts/join-form-modal' %>
+
+    <%= javascript_include_tag 'mobile', 'data-turbolinks-track': 'reload' %>
+
+    <script>window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));</script>
+
+  </body>
+</html>
