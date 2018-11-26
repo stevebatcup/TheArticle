@@ -194,9 +194,11 @@
           <div id="copyright" class="col-6 col-lg-5 d-flex align-items-center">
             <p class="text-light pl-5 pt-2">
               <small>
-                &copy; <%= Date.today.strftime("%Y") %> TheArticle. All rights reserved
+                &copy; <%= Date.today.strftime("%Y") %> TheArticle.&nbsp;
                 <% if is_staging? %>
-                  | (staging server)
+                  Staging server
+                <% else %>
+                  All rights reserved
                 <% end %>
               </small>
             </p>
@@ -206,7 +208,7 @@
             <nav class="navbar navbar-expand-md ml-auto pr-0" id="social_links">
               <ul class="navbar-nav ">
                 <li class="nav-item" id="social_facebook">
-                  <a class="ml-4 nav-link text-white" href="https://www.facebook.com/TheArticle-607840469632004" target="_blank">
+                  <a class="ml-4 nav-link text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                   </a>
                 </li>

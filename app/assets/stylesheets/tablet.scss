@@ -11,7 +11,7 @@ header#main_header {
 }
 
 footer.main_footer nav#footer_nav .nav-link {
-  font-size: 0.75em;
+  font-size: 0.67em;
 }
 
 .exchange-badge {
@@ -137,4 +137,26 @@ footer.main_footer nav#footer_nav .nav-link {
 .modal-dialog.wide {
   max-width: 720px !important;
   width: 720px !important;
+}
+
+
+.article-listing.sponsor {
+  .inner {
+    .entry-content {
+      height: initial !important;
+      opacity: 1 !important;
+    }
+
+    .sponsor_listing_img {
+      width: 34% !important;
+    }
+
+    .inner_inner {
+      position: static;
+    }
+  }
+}
+
+#featured_articles_sidebar .row .article-listing.post .img_mask {
+    height: 41% !important;
 }
