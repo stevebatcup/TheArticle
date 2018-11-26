@@ -5,6 +5,10 @@ class Article < ApplicationRecord
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
 
+	def limited_exchanges(exchange_limit)
+		self.exchanges.limit(exchange_limit)
+	end
+
 	def self.wp_type
 		'posts'
 	end
