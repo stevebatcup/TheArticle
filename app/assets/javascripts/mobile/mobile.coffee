@@ -3,6 +3,7 @@ class Mobile extends TheArticle
 		super()
 
 	bindEvents: =>
+		@bindCookieAcceptance()
 		@bindSideMenu()
 		@bindJoinForm()
 		@bindContactForm()

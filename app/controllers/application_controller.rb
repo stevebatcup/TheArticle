@@ -1,6 +1,17 @@
 class ApplicationController < ActionController::Base
 	before_action :set_device_type
 
+	def body_classes
+		@body_classes ||= begin
+			bclasses = []
+			unless cookies[:cookie_permission_set]
+				bclasses << 'show_cookie_notice'
+			end
+			bclasses.join(" ")
+		end
+	end
+	helper_method	:body_classes
+
 	def is_development?
 		false
 	end

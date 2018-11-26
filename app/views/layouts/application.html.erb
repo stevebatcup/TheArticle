@@ -61,7 +61,7 @@
     <% end %>
   </head>
 
-  <body>
+  <body class="<%= body_classes %>">
     <% if show_ads? %>
     <div id="ads_top" class="bg-light py-4">
       <!-- /21757645549/thearticle_<%= ad_page_type %>/skin -->
@@ -233,6 +233,8 @@
         </div>
       </div>
     </footer>
+
+    <%= render 'layouts/cookie-notice' %>
 
     <%= javascript_include_tag 'desktop', 'data-turbolinks-track': 'reload' %>
 

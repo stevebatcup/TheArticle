@@ -4,6 +4,7 @@ class Desktop extends TheArticle
 		@reLinePosts() unless @isTablet()
 
 	bindEvents: =>
+		@bindCookieAcceptance()
 		@bindCarousels()
 		@bindSearch()
 		@bindJoinForm()

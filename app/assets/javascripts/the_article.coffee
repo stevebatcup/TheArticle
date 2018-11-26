@@ -1,5 +1,9 @@
 class TheArticle
 	constructor: ->
+		@showCookieNotice() if $('body').hasClass('show_cookie_notice')
+
+	showCookieNotice: =>
+		$('#cookie-notice').show()
 
 	isDevelopment: =>
 		$('body').hasClass('development')
@@ -15,6 +19,9 @@ class TheArticle
 		pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 		return pattern.test email
 
+	alert: (msg, title, callback=null) =>
+		alert msg, title, callback
+
 	postJSON: (url, data, successCallback=null, errorCallback=null) =>
 		$.ajax
 			url: url,
@@ -28,6 +35,20 @@ class TheArticle
 					errorCallback.call(@, response) if errorCallback?
 			error: (response) =>
 				errorCallback.call(@, response) if errorCallback?
+
+	bindCookieAcceptance: =>
+		$('#cn-accept-cookie').on 'click', (e) =>
+			$.getJSON '/cookie-acceptance', (response) =>
+				if response.status is 'success'
+					$('#cookie-notice').fadeOut()
+					$('body').removeClass('show_cookie_notice')
+				else
+					@cookieAcceptanceError()
+			.fail (error) =>
+				@cookieAcceptanceError()
+
+	cookieAcceptanceError: =>
+		@alert "Sorry there has been an error. Please try again.", "Error"
 
 	bindJoinForm: =>
 		$("#join_form_modal").on 'shown.bs.modal', =>
