@@ -1,3 +1,9 @@
 <div class="container">
 	<h2 class="my-5">HOMEPAGE</h2>
+
+	<ul>
+	<% @articles.each do |article| %>
+		<li><%= link_to article.title, article_path(article.slug) %></li>
+	<% end %>
+	</ul>
 </div>

@@ -343,18 +343,24 @@ html.svg header#main_header nav li.nav-item #nav_link_join {
 	text-transform: uppercase;
 	color: white;
 	display: inline-block;
-	padding: 3px 8px 2px;
+	padding: 3px 8px 3px;
 	letter-spacing: 1.3px;
 	margin: 0;
 	font-size: 0.62em;
 	font-weight: 600;
 	position: relative;
-	top: -4.2px;
+	top: -4px;
 	white-space: nowrap;
 
 	&:hover {
 		text-decoration: none;
 		color: #eee !important;
+	}
+
+	&.exchange-editor-at-the-article {
+		background-color: $black;
+		border: 1px solid #ffffff;
+		border-radius: 1px;
 	}
 
 	&.exchange-sponsored {
@@ -514,8 +520,17 @@ html.svg header#main_header nav li.nav-item #nav_link_join {
 	&.exchange {
 		height: 246px;
 
-		.img_mask {
-			height: 78%;
+		.inner {
+			background-color: $black;
+			.img_mask {
+				height: 78%;
+			}
+
+			.heading_box {
+				h5 {
+					font-size: 1.15em;
+				}
+			}
 		}
 
 		&.hovered {

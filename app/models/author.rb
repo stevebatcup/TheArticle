@@ -39,4 +39,8 @@ class Author < ApplicationRecord
 		end
 	end
 
+	def post_count
+		3
+	end
+
 end

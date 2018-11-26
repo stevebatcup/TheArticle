@@ -1,6 +1,16 @@
 class ApplicationController < ActionController::Base
 	before_action :set_device_type
 
+	def default_meta_description
+		"In a post-truth world, thoughtful analysis has never been more necessary. And at TheArticle, we provide it by funding journalism for informed debate"
+	end
+	helper_method	:default_meta_description
+
+	def default_page_title
+		"Funding journalism for informed debate"
+	end
+	helper_method	:default_page_title
+
 	def body_classes
 		@body_classes ||= begin
 			bclasses = []

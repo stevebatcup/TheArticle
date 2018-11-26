@@ -409,6 +409,12 @@ footer {
 	position: relative;
 	top: -5px;
 
+	&.exchange-editor-at-the-article {
+		background-color: $black;
+		border: 1px solid #ffffff;
+		border-radius: 1px;
+	}
+
 	&.exchange-sponsored {
 		@extend .bg-gold-dark;
 		padding-left: 10px;
@@ -511,15 +517,28 @@ footer {
 	}
 
 	&.exchange {
-		height: 135px;
+		height: 150px;
 
-		h5 {
-			font-size: 0.9em;
-			text-shadow: 1px 1px 1px #888;
-		}
+		.inner {
+			position: relative;
 
-		.img_mask {
-			height: 95px;
+			.img_mask {
+				height: 140px;
+			}
+
+			.heading_box {
+				background-color: $black;
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+
+				h5 {
+					font-size: 0.85em;
+					line-height: 1.35em;
+					padding-left: 2px;
+				}
+			}
 		}
 	}
 

@@ -10,11 +10,11 @@ class Article < ApplicationRecord
 	end
 
 	def update_wp_cache(json)
+		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
 		self.content = json["content"]["rendered"]
 		self.excerpt = json["excerpt"]["rendered"]
 		self.author_id = json["author"]
-		self.slug = json["slug"]
 		self.published_at = Time.parse(json['date_gmt'])
 
 		self.canonical_url = json["seo_fields"]["canonical"]
@@ -52,7 +52,7 @@ class Article < ApplicationRecord
 				})
 			end
 		else
-			self.featured_image.destroy
+			self.featured_image.destroy if self.featured_image
 		end
 	end
 

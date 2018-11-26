@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TheArticle</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
+    <title><%= yield_page_title(default_page_title) %></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <!-- Standard SEO tags -->
+    <meta name="description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
+    <% if content_for?(:meta_image) %>
+    <meta itemprop="image" content="<%= yield_meta_tag(:image) %>" />
+    <% end %>
+
+    <!-- OpenGraph SEO tags -->
+    <meta property="og:title" content="<%= yield_page_title(default_page_title) %>" />
+    <meta property="og:url" content="<%= request.url %>" />
+    <meta property="og:description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
+    <meta property="og:site_name" content="TheArticle" />
+    <meta property="og:type" content="<%= page_og_type %>" />
+    <% if content_for?(:meta_image) %>
+    <meta property="og:image" content="<%= yield_meta_tag(:image) %>" />
+    <% end %>
+
+    <!-- Twitter SEO tags -->
+    <meta property="twitter:title" content="<%= yield_page_title(default_page_title) %>" />
+    <meta name="twitter:description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:domain" content="www.thearticle.com" />
+    <meta name="twitter:site" content="@TweetTheArticle" />
+    <% if content_for?(:meta_image) %>
+    <meta name="twitter:image" content="<%= yield_meta_tag(:image) %>" />
+    <% end %>
+
+    <% if content_for?(:"meta_canonical") %>
+    <link rel="canonical" href="<%= yield_meta_tag(:canonical) %>" />
+    <% end %>
+
+    <% if is_article_page? && @article %>
+    <meta property="article:published_time" content='<%= @article.published.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
+    <meta property="article:modified_time" content='<%= @article.published.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
+    <% end %>
 
     <%= javascript_include_tag 'libs', 'data-turbolinks-track' => true %>
 

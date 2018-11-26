@@ -1,0 +1,13 @@
+<% page_title @article.title %>
+<% meta_tag :description, truncate(@article.meta_description, length: 120) %>
+<% if @article.featured_image %>
+	<% meta_tag :image, @article.featured_image.url %>
+<% end %>
+
+<div class="container mt-md-4 mb-3 mb-md-2">
+	<article id="post-<%= @article.id %>" class="article_detail">
+		<header class="entry-header">
+			<h1><%= @article.title %></h1>
+		</header>
+	</article>
+</div>
