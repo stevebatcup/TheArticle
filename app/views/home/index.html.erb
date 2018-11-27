@@ -14,4 +14,8 @@ end %>
 	render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
 end %>
 
-<%= render partial: 'layouts/page-bottom', locals: { spotlight_heading: 'Contributor spotlight' } %>
+<%= render partial: 'layouts/page-bottom', locals: {
+		spotlight_heading: 'Contributor spotlight',
+		contributors: @contributors_for_spotlight,
+		recent_articles: @recent_articles
+	} %>

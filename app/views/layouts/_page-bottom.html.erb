@@ -13,100 +13,58 @@
 				<h2 class="bullet">
 					<%= spotlight_heading %>
 				</h2>
-				<%
-					$journoCounter = 0;
-					if(is_array($journoSpotlightAuthorIds)) {
-						$journalists = get_users(array(
-							'include' => $journoSpotlightAuthorIds
-						));
-					}
-					else {
-						$journalists = get_users(array(
-							'role__in' => array('journalist'),
-						));
-					}
-					shuffle($journalists);
-					foreach($journalists as $journalist) :
-						$post_count = count_user_posts($journalist->id);
-						$isInHouse = (bool) strstr($journalist->user_email, '@thearticle.com');
-						if($post_count > 0 && $journoCounter < 6 && !$isInHouse) : %>
-							<article class="row my-4">
-								<div class="col-4 col-md-2 col-lg-4">
-									<a href="<%= get_author_posts_url($journalist->id); %>">
-										<img src="<%= get_wp_user_avatar_src($journalist->id, "thumbnail"); %>" alt="" />
-									</a>
-								</div>
-								<div class="col-8 col-md-10 col-lg-8 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
-									<h5 class="mb-1">
-										<a href="<%= get_author_posts_url($journalist->id); %>"><%= $journalist->display_name; %></a>
-									</h5>
-									<p class="mb-0"><%= get_the_author_meta('title', $journalist->id); %></p>
-								</div>
-							</article>
-						<%
-							$journoCounter++; endif; end
-						%>
-					<a class="btn btn-standard mt-md-4 mb-4" href="/contributors">See More</a>
-				</div>
+				<% contributors.each do |contributor| %>
+					<article class="row my-4">
+						<div class="col-4 col-md-2 col-lg-4">
+							<a href="<%= contributor_path(slug: contributor.slug) %>">
+								<img src="<%= contributor.image_url %>" alt="<%= contributor.display_name %>" />
+							</a>
+						</div>
+						<div class="col-8 col-md-10 col-lg-8 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
+							<h5 class="mb-1">
+								<a href="<%= contributor_path(slug: contributor.slug) %>">
+									<%= contributor.display_name %></a>
+							</h5>
+							<% if contributor.title %>
+								<p class="mb-0">
+									<%= contributor.title %>
+								</p>
+							<% end %>
+						</div>
+					</article>
+				<% end %>
+				<a class="btn btn-standard mt-md-4 mb-4" href="/contributors">See More</a>
+			</div>
 		</div>
 
-		<%
-		$sponsorIds = get_sponsor_ids();
-		$numberPosts = count($sponsorIds) > 0 ? 5 : 6;
-		$args = array(
-			'numberposts' => $numberPosts,
-			'orderby' => 'post_date',
-			'order' => 'DESC',
-			'post_type' => 'post',
-			'post_status' => 'publish',
-			'suppress_filters' => true,
-			'author' => array_to_negative_list($sponsorIds)
-		);
-		$recent_posts = wp_get_recent_posts($args);
-		if(count($sponsorIds) > 0) {
-			$sponsored_args = array(
-				'numberposts' => 1,
-				'order' => 'RAND',
-				'post_type' => 'post',
-				'post_status' => 'publish',
-				'suppress_filters' => true,
-				'author' => array_to_list($sponsorIds)
-			);
-			$recent_sponsored_post = wp_get_recent_posts($sponsored_args);
-			array_splice($recent_posts, 3, 0, $recent_sponsored_post);
-		}
-		%>
+
 		<div class="col-12 col-lg-8">
 			<div class="row">
 				<div class="col-12 col-md-6 pt-4 pt-md-5" id="home_latest_articles">
 					<div class="container">
 						<h2 class="bullet mb-4">Latest articles</h2>
-						<% foreach ($recent_posts as $recent_post) : %>
-							<%
-								$author_id = $recent_post['post_author'];
-								$isSponsored = in_array($author_id, $sponsorIds);
-							%>
-							<article class="row mt-3<%= $isSponsored ? ' sponsored_article' : ''; %>">
+						<% recent_articles.each do |recent_article| %>
+							<article class="row mt-3<%= recent_article.is_sponsored ? ' sponsored_article' : '' %>">
 								<div class="col-12">
-									<% if($isSponsored) : %>
+									<% if recent_article.is_sponsored %>
 										<a href='/sponsors' class="sponsored">
 											<i class="fas fa-star"></i>
 											SPONSORED
 										</a>
-									<% endif; %>
+									<% end %>
 									<h5 class="">
-										<a href="<%= get_actual_permalink($recent_post['ID'], "/articles/".$recent_post['post_name']); %>">
-											<%= $recent_post['post_title']; %>
+										<a href="<%= article_path(slug: recent_article.slug) %>">
+											<%= recent_article.title.html_safe %>
 										</a>
 									</h5>
-									<% $footerPaddingBottom = $isSponsored ? 'pb-2' : 'pb-0'; %>
-									<footer class="entry-footer pl-0 pt-1 <%= $footerPaddingBottom; %>">
+									<% footer_padding_bottom = recent_article.is_sponsored ? 'pb-2' : 'pb-0' %>
+									<footer class="entry-footer pl-0 pt-1 <%= footer_padding_bottom %>">
 										<p class="author_link">
-											<a href="<%= get_author_posts_url($author_id); %>">
-												by <span><%= get_the_author_meta( 'display_name' , $author_id ); %></span>
-											</a>&nbsp;
+											<a href="<%= contributor_path(slug: recent_article.author.slug) %>">
+												by <span><%= recent_article.author.display_name %></span>
+											</a>&nbsp
 											<span class="entry-date">
-												<%= strtoupper(date("d M Y", strtotime($recent_post['post_date']))); %>
+												<%= article_date(recent_article) %>
 											</span>
 										</p>
 									</footer>
@@ -119,10 +77,10 @@
 				<div class="col-12 col-md-6 pt-md-5 mb-4" id="home_bottom_ad">
 					<div class="ads_box m-auto align-middle double_mpu text-center">
 						 <% if(show_ads?) %>
-							<!-- /21757645549/thearticle_<%= ad_page_type; %>/bottomsidecolumn -->
+							<!-- /21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn -->
 							<div id='div-gpt-ad-<%= ad_page_id %>-0'>
 								<script>
-									googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-0'); });
+									googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-0') })
 								</script>
 							</div>
  							<% end %>

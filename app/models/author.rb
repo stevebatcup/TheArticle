@@ -3,17 +3,31 @@ class Author < ApplicationRecord
 	has_many	:articles
 	belongs_to	:author_role, foreign_key: :role_id
 
+	def self.contributors_for_spotlight
+		contributor_role = AuthorRole.find_by(slug: 'contributor')
+		self.joins(:articles)
+				.where(author_role: contributor_role)
+				.where("email NOT LIKE ?", '@thearticle.com')
+				.distinct
+				.limit(6)
+	end
+
 	def random_article(tag=nil)
 		random_articles = self.articles.order("RAND()")
 		random_articles = random_articles.includes(:keyword_tags).references(:keyword_tags).where("keyword_tags.slug = ?", tag) if tag
 		random_articles.first
 	end
 
+	def self.sponsors
+		@@sponsors ||= begin
+			sponsor_role = AuthorRole.find_by(slug: 'sponsor')
+			sponsors = self.where(author_role: sponsor_role)
+		end
+	end
+
 	def self.get_sponsors_single_posts(tag=nil, limit=nil)
-		sponsor_role = AuthorRole.find_by(slug: 'sponsor')
-		sponsors = self.where(author_role: sponsor_role)
 		sponsored_articles = []
-		sponsors.each do |sponsor|
+		self.sponsors.each do |sponsor|
 			if sponsor.articles.any?
 				random_article = sponsor.random_article(tag)
 				sponsored_articles << random_article unless random_article.nil?

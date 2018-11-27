@@ -5,6 +5,24 @@ class Article < ApplicationRecord
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
 
+	def self.recent
+		sponsors = Author.sponsors
+		limit = sponsors.any? ? 5 : 6
+		articles = self.not_sponsored
+									.order(published_at: :desc)
+									.limit(limit)
+									.all.to_a
+
+		if sponsors.any?
+			sponsored_articles = self.sponsored
+																.order("RAND()")
+																.limit(1)
+			articles.insert(3, sponsored_articles.first) if sponsored_articles.any?
+		end
+
+		articles
+	end
+
 	def self.for_carousel(sponsored_starting_position=2)
 		articles = self.not_sponsored
 			.includes(:keyword_tags).references(:keyword_tags)

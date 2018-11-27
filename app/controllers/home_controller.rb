@@ -6,5 +6,7 @@ class HomeController < ApplicationController
 		if leading_article = Article.leading_editor_article
 			@articles.unshift(leading_article)
 		end
+		@contributors_for_spotlight = Author.contributors_for_spotlight
+		@recent_articles = Article.recent
 	end
 end

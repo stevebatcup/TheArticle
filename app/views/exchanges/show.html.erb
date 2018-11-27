@@ -2,3 +2,9 @@
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
 
 <%= @exchange.name %> details here...
+
+<%= render partial: 'layouts/page-bottom', locals: {
+		spotlight_heading: 'Contributor spotlight',
+		contributors: @contributors_for_spotlight,
+		recent_articles: @recent_articles
+	} %>

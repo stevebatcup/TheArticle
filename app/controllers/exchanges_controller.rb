@@ -7,5 +7,7 @@ class ExchangesController < ApplicationController
 
 	def show
 		@exchange = Exchange.find_by(slug: params[:slug])
+		@contributors_for_spotlight = Author.contributors_for_spotlight
+		@recent_articles = Article.recent
 	end
 end
