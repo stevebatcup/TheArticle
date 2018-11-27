@@ -52,6 +52,16 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:is_article_page?
 
+	def articles_per_page
+		browser.device.mobile? ? 3 : 6
+	end
+	helper_method	:articles_per_page
+
+	def is_editor_exchange?
+		params[:controller] == 'editors' && params[:action] == 'show' && @exchange && @exchange.slug == 'editor-at-the-article'
+	end
+	helper_method	:is_editor_exchange?
+
 	def ad_page_type
 		@ad_page_type ||= begin
 		  if is_article_page?
@@ -75,6 +85,16 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	helper_method	:ad_page_id
+
+	def article_carousel_sponsored_position
+		if browser.device.mobile?
+			3
+		elsif browser.device.tablet?
+			1
+		else
+			2
+		end
+	end
 
 private
   def set_device_type

@@ -3,6 +3,26 @@ class Author < ApplicationRecord
 	has_many	:articles
 	belongs_to	:author_role, foreign_key: :role_id
 
+	def random_article(tag=nil)
+		random_articles = self.articles.order("RAND()")
+		random_articles = random_articles.includes(:keyword_tags).references(:keyword_tags).where("keyword_tags.slug = ?", tag) if tag
+		random_articles.first
+	end
+
+	def self.get_sponsors_single_posts(tag=nil, limit=nil)
+		sponsor_role = AuthorRole.find_by(slug: 'sponsor')
+		sponsors = self.where(author_role: sponsor_role)
+		sponsored_articles = []
+		sponsors.each do |sponsor|
+			if sponsor.articles.any?
+				random_article = sponsor.random_article(tag)
+				sponsored_articles << random_article unless random_article.nil?
+			end
+			break if limit && (sponsored_articles.size >= limit)
+		end
+		sponsored_articles.sort_by {|a| a.published_at}
+	end
+
 	def self.wp_type
 		'users'
 	end

@@ -3,6 +3,28 @@ class Exchange < ApplicationRecord
 	has_and_belongs_to_many	:articles
 	has_one	:exchange_image
 
+  def self.trending_list
+    includes(:exchange_image).references(:exchange_image)
+      .where.not(exchange_images: {id: nil})
+      .where(is_trending: true)
+      .where("description > ''")
+      .where("article_count > 0")
+      .order("RAND()")
+  end
+
+  def self.listings
+    includes(:exchange_image).references(:exchange_image)
+      .where.not(exchange_images: {id: nil})
+      .where("article_count > 0")
+      .where("description > ''")
+      .where("slug != 'editor-at-the-article'")
+      .order(:name)
+  end
+
+  def self.editor_item
+    where("slug = 'editor-at-the-article'").first
+  end
+
 	def self.wp_type
 		'exchanges'
 	end

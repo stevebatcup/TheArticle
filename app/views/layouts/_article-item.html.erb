@@ -1,0 +1,30 @@
+<article id="article-listing-post-<%= article.id %>" data-id="<%= article.id %>" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click<%= article.is_sponsored ? ' sponsored_article' : '' %>" data-href="<%=  article_path(slug: article.slug) %>">
+	<div class="inner">
+		<div class="img_mask">
+			<% if article.is_newly_published? %>
+				<div class="new_article"><span>New</span></div>
+			<% end %>
+			<% if article.featured_image %>
+				<a href="<%= article_path(slug: article.slug) %>">
+					<img src="<%= article.featured_image.url %>" alt="<%= article.title %>" />
+				</a>
+			<% end %>
+		</div>
+
+		<%= render partial: 'layouts/exchange-badges', locals: { article: article } if article.exchanges.any? %>
+
+		<header class="entry-header pt-0 px-3">
+			<h4 class="entry-title mb-0" id="article-post-title-<%= article.id %>"><a href="%s" rel="bookmark">
+				<a href="<%= article_path(slug: article.slug) %>"><%= article.title.html_safe %></a>
+			</a>
+		</header>
+
+		<div class="entry-content py-0 px-3">
+			<%= article_excerpt_for_listing(article) %>
+		</div>
+
+		<footer class="entry-footer pt-1 px-3 pb-2">
+			<p class="author_link"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%= article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+		</footer>
+	</div>
+</article><!-- #post-## -->

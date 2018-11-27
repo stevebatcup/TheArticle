@@ -1,0 +1,27 @@
+<div class="container">
+	<h2 class="h1 bullet mb-2 mb-md-3"><%= title %></h2>
+	<div class="row">
+		<% section = 1 %>
+		<% articles.each_with_index do |article, counter| %>
+			<% if (counter > 0) && (counter % articles_per_page == 0) %>
+				<% if is_editor_exchange? %>
+					<?php callout = (counter / articles_per_page) %>
+					<?php include( locate_template( "partials/editor_exchange_callout_".callout.".php", false, false ) ) %>
+				<% end %>
+				</div>
+				<a class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" data-toggle="collapse" href="#hidden_listings_<%= section %>" role="button" aria-expanded="false" aria-controls="hidden_listings" data-section="<%= section %>" style="display: <%= section == 1 ? 'inline-block' : 'none' %>">
+					<% if is_editor_exchange? %>
+						See More articles
+					<% else %>
+						See More
+					<% end %>
+				</a>
+				<div class="row collapse hidden_listings" id="hidden_listings_<%= section %>">
+				<% section += 1 %>
+			<% end %>
+			<%= render partial: 'layouts/article-item', locals: { article: article } %>
+			<% if counter == (articles.size - 1) %>
+				</div><!-- end hidden row -->
+			<% end %>
+		<% end %>
+</div><!-- end container -->

@@ -1,0 +1,27 @@
+<div id="trendingCarousel" class="articles slick-carousel slide w-100">
+	<% articles.each do |article| %>
+		<% unless article.nil? %>
+    <div class="slick-carousel-item block_click<%=  article.is_sponsored ? ' sponsored_article' : '' %>"
+				style="<%= article.featured_image ? "background-image: url('#{article.featured_image.url}');" : '' %>"
+  			id="<%=  article.slug %>"
+        data-href="<%=  article_path(slug: article.slug) %>">
+        <div class="mask">
+        	<% if article.is_newly_published? %>
+        		<div class="new_article"><span>New</span></div>
+        	<% end %>
+          <div class="inner">
+	        	<%= render partial: 'layouts/exchange-badges', locals: { article: article } if article.exchanges.any? %>
+	        	<h2 class="shadow">
+	            <a href="<%=  article_path(slug: article.slug) %>">
+	              <%= article.title.html_safe %>
+	            </a>
+	          </h2>
+	        	<footer class="entry-footer">
+	        		<p class="author_link shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+	        	</footer>
+        	</div>
+      	</div>
+    </div>
+    <% end %>
+  <% end %>
+</div>

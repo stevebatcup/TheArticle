@@ -1,9 +1,17 @@
-<div class="container">
-	<h2 class="my-5">HOMEPAGE</h2>
-
-	<ul>
-	<% @articles.each do |article| %>
-		<li><%= link_to article.title, article_path(article.slug) %></li>
-	<% end %>
-	</ul>
+<div class="container mt-4 mt-md-5 slick-carousel-title">
+  <h1 class="bullet">Trending articles</h1>
 </div>
+
+<%= if @articles_for_carousel.any?
+	render partial: 'carousels/articles', locals: { articles: @articles_for_carousel }
+end %>
+
+<%= if @articles.any?
+	render partial: 'layouts/article-listings', locals: { articles: @articles, title: "Editor's picks" }
+end %>
+
+<%= if @trending_exchanges.any?
+	render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
+end %>
+
+<%= render partial: 'layouts/page-bottom', locals: { spotlight_heading: 'Contributor spotlight' } %>

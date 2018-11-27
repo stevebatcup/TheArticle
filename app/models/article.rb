@@ -5,6 +5,93 @@ class Article < ApplicationRecord
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
 
+	def self.for_carousel(sponsored_starting_position=2)
+		articles = self.not_sponsored
+			.includes(:keyword_tags).references(:keyword_tags)
+			.includes(:exchanges).references(:exchanges)
+			.includes(:author).references(:author)
+			.includes(:featured_image).references(:featured_image)
+			.where("keyword_tags.slug = 'trending-article'")
+      .where.not(featured_images: {id: nil})
+			.order(published_at: :desc)
+			.limit(12)
+			.all.to_a
+
+		carousel_articles = []
+		carousel_articles_evens = []
+		carousel_articles_odds = []
+		articles.each_with_index do |article, i|
+			if i % 2 == 0
+				carousel_articles_evens << article
+			else
+				carousel_articles_odds << article
+			end
+		end
+
+		carousel_articles_evens.each_with_index do |even_article, i|
+			odd_article = carousel_articles_odds[i]
+			carousel_articles.unshift even_article
+			carousel_articles.push odd_article if odd_article
+		end
+
+		shifted = []
+		halfway = (carousel_articles.length / 2).ceil - 2
+		for i in 0..halfway do
+			article = carousel_articles[i]
+			shifted << article if article
+		end
+		shifted.each do |s|
+			carousel_articles.delete(s)
+		end
+		carousel_articles = carousel_articles + shifted
+
+		sponsored_carousel_articles = Author.get_sponsors_single_posts('trending-article', 3)
+		if sponsored_carousel_articles[0]
+			carousel_articles[sponsored_starting_position] = sponsored_carousel_articles[0]
+		end
+		if sponsored_carousel_articles[1]
+			carousel_articles[sponsored_starting_position+4] = sponsored_carousel_articles[1]
+		end
+		if sponsored_carousel_articles[2]
+			carousel_articles[sponsored_starting_position+8] = sponsored_carousel_articles[2]
+		end
+
+		carousel_articles
+	end
+
+	def is_newly_published?
+		published_at >= 1.day.ago
+	end
+
+	def self.sponsored
+		self.where(is_sponsored: true)
+	end
+
+	def self.not_sponsored
+		self.where(is_sponsored: false)
+	end
+
+	def self.leading_editor_article
+		self.not_sponsored
+			.includes(:keyword_tags).references(:keyword_tags)
+			.includes(:exchanges).references(:exchanges)
+			.includes(:author).references(:author)
+			.where("keyword_tags.slug = 'leading-article'")
+			.where("exchanges.slug = 'editor-at-the-article'")
+			.order(published_at: :desc)
+			.limit(1)
+			.first
+	end
+
+	def self.editors_picks
+		editor_articles = Exchange.where(slug: 'editor-at-the-article').first.articles
+		self.not_sponsored
+			.includes(:exchanges).references(:exchanges)
+			.includes(:author).references(:author)
+			.where.not(:id => editor_articles)
+			.limit(17)
+	end
+
 	def limited_exchanges(exchange_limit)
 		self.exchanges.limit(exchange_limit)
 	end

@@ -14,4 +14,8 @@ module ApplicationHelper
 	def article_date(article)
 		article.published_at.strftime("%d %b %Y").upcase
 	end
+
+	def article_excerpt_for_listing(article, length=130)
+		truncate(article.excerpt, length: length, escape: false).html_safe
+	end
 end

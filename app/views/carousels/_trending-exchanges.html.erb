@@ -1,0 +1,15 @@
+<div class="container mt-4 mt-md-0 slick-carousel-title">
+	<h2 class="h1 bullet">Trending exchanges</h2>
+</div>
+
+<div id="exchangesCarousel" class="exchanges slick-carousel slide w-100">
+	<% exchanges.each_with_index do |exchange, index| %>
+    <div class="slick-carousel-item block_click" data-href="/exchanges/<%= exchange.slug %>">
+  		<div class="img" style="background-image: url('<%= exchange.exchange_image.url %>')"></div>
+  		<div class="entry-content bg-colour-<%= index+1 %>">
+      	<h4><a href="/exchanges/<%= exchange.slug %>"><%= exchange.name %></a></h4>
+      	<p><%= truncate(exchange.description, length: 220) %></p>
+      </div>
+    </div>
+  <% end %>
+</div>

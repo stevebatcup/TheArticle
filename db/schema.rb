@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_13_135217) do
+ActiveRecord::Schema.define(version: 2018_11_27_082432) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2018_11_13_135217) do
     t.string "social_image"
     t.boolean "robots_nofollow"
     t.boolean "robots_noindex"
+    t.boolean "is_sponsored", default: false
   end
 
   create_table "articles_exchanges", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -86,6 +87,7 @@ ActiveRecord::Schema.define(version: 2018_11_13_135217) do
     t.boolean "is_trending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "article_count", default: 0
   end
 
   create_table "featured_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

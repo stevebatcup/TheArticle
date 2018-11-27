@@ -1,7 +1,8 @@
 class ExchangesController < ApplicationController
 	def index
-		# exchange.count > 0 && exchange.has_image? && !exchange.description.nil?
-		@exchanges = Exchange.order(:name)
+		@trending_exchanges = Exchange.trending_list
+		@exchanges = Exchange.listings.all.to_a
+		@exchanges.unshift(Exchange.editor_item)
 	end
 
 	def show

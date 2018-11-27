@@ -1,8 +1,8 @@
 <% page_title "Exchanges" %>
 <% meta_tag :description, "List of exchanges" %>
 
-<div class="container mt-4 mt-md-0 slick-carousel-title">
-	<h2 class="h1 bullet">Trending exchanges</h2>
+<div class="pt-md-5">
+	<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>
 </div>
 
 <div class="container py-md-5">
@@ -27,7 +27,7 @@
 			<div class="inner">
 				<div class="img_mask">
 					<a href="<%= exchange_path(slug: exchange.slug) %>">
-						<img class="w-100 exchange_image" src="" alt="" />
+						<img class="w-100 exchange_image" src="<%= exchange.exchange_image.url %>" alt="" />
 					</a>
 				</div>
 				<div class="px-2 px-md-3 py-2 py-lg-3 block_click heading_box" data-href="<%= exchange_path(slug: exchange.slug) %>">
