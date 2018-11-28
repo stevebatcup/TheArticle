@@ -49,7 +49,8 @@
 	render partial: 'layouts/article-listings', locals: {
 		block_id: 'exchange_listings',
 		articles: @articles_for_listings,
-		title: listings_heading
+		title: listings_heading,
+		is_editor_exchange: @exchange.is_editor_item?
 	}
 end %>
 

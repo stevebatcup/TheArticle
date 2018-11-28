@@ -32,6 +32,12 @@ class Author < ApplicationRecord
 		random_articles.first
 	end
 
+	def self.sponsors_for_listings
+		self.sponsors.where("article_count > ?", 0)
+								.where("display_name > ''")
+								.where("blurb > ''")
+	end
+
 	def self.sponsors
 		@@sponsors ||= begin
 			sponsor_role = AuthorRole.find_by(slug: 'sponsor')

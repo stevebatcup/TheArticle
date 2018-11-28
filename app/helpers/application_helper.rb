@@ -18,4 +18,8 @@ module ApplicationHelper
 	def article_excerpt_for_listing(article, length=130)
 		truncate(article.excerpt, length: length, escape: false).html_safe
 	end
+
+	def article_path(article)
+		"/#{article.slug}"
+	end
 end

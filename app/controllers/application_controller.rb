@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
 	before_action :set_device_type
 
+	def not_found
+	  raise ActionController::RoutingError.new('Not Found')
+	end
+
 	def default_meta_description
 		"In a post-truth world, thoughtful analysis has never been more necessary. And at TheArticle, we provide it by funding journalism for informed debate"
 	end
@@ -56,11 +60,6 @@ class ApplicationController < ActionController::Base
 		browser.device.mobile? ? 3 : 6
 	end
 	helper_method	:articles_per_page
-
-	def is_editor_exchange?
-		params[:controller] == 'editors' && params[:action] == 'show' && @exchange && @exchange.slug == 'editor-at-the-article'
-	end
-	helper_method	:is_editor_exchange?
 
 	def ad_page_type
 		@ad_page_type ||= begin

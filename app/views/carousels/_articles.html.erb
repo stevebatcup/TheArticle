@@ -4,7 +4,7 @@
     <div class="slick-carousel-item block_click<%=  article.is_sponsored ? ' sponsored_article' : '' %>"
 				style="<%= article.featured_image ? "background-image: url('#{article.featured_image.url}');" : '' %>"
   			id="<%=  article.slug %>"
-        data-href="<%=  article_path(slug: article.slug) %>">
+        data-href="<%=  article_path(article) %>">
         <div class="mask">
         	<% if article.is_newly_published? %>
         		<div class="new_article"><span>New</span></div>
@@ -12,7 +12,7 @@
           <div class="inner">
 	        	<%= render partial: 'layouts/exchange-badges', locals: { article: article } if article.exchanges.any? %>
 	        	<h2 class="shadow">
-	            <a href="<%=  article_path(slug: article.slug) %>">
+	            <a href="<%=  article_path(article) %>">
 	              <%= article.title.html_safe %>
 	            </a>
 	          </h2>

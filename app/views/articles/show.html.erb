@@ -10,7 +10,7 @@
 			<p id="article_exchanges">
 				<%= render partial: 'layouts/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
 			</p>
-			<h1 class="entry-title mt-4"><%= @article.title %></h1>
+			<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
 
 			<div id="article_meta" class="mt-0 mt-lg-2 mb-md-3 row px-3">
 				<div class="col-12 col-lg-6 pr-0 pr-md-0 pr-lg-3 author_link row">
