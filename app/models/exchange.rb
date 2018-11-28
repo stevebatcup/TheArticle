@@ -3,6 +3,20 @@ class Exchange < ApplicationRecord
 	has_and_belongs_to_many	:articles
 	has_one	:exchange_image
 
+  def self.sponsored_exchange
+    find_by(slug: 'sponsored')
+  end
+
+  def self.update_article_counts
+    all.each do |e|
+      e.update_attribute(:article_count, e.articles.size)
+    end
+  end
+
+  def update_article_count
+    self.update_attribute(:article_count, self.articles.size)
+  end
+
   def self.trending_list
     includes(:exchange_image).references(:exchange_image)
       .where.not(exchange_images: {id: nil})
@@ -36,6 +50,9 @@ class Exchange < ApplicationRecord
 		self.is_trending = !(json["is_trending"].to_i.zero?)
 		update_exchange_image(json)
     self.save
+
+    # update counter cache
+    update_article_count
   end
 
   def update_exchange_image(json)

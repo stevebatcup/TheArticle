@@ -3,6 +3,20 @@ class Author < ApplicationRecord
 	has_many	:articles
 	belongs_to	:author_role, foreign_key: :role_id
 
+	def is_sponsor?
+		self.author_role == AuthorRole.find_by(slug: 'sponsor')
+	end
+
+  def self.update_article_counts
+    all.each do |a|
+      a.update_attribute(:article_count, a.articles.size)
+    end
+  end
+
+	def update_article_count
+		self.update_attribute(:article_count, self.articles.size)
+	end
+
 	def self.contributors_for_spotlight
 		contributor_role = AuthorRole.find_by(slug: 'contributor')
 		self.joins(:articles)
@@ -57,6 +71,9 @@ class Author < ApplicationRecord
 		self.image_url = json["author_image"]
 		update_author_role(json)
 		self.save
+
+		# update counter cache
+		update_article_count
 	end
 
 	def update_author_role(json)

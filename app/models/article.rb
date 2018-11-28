@@ -139,6 +139,17 @@ class Article < ApplicationRecord
 		update_exchanges(json)
 
     self.save
+
+    # update counter caches
+    Author.update_article_counts
+    Exchange.update_article_counts
+    update_is_sponsored_cache
+  end
+
+  def update_is_sponsored_cache
+  	result = self.exchanges.include?(Exchange.sponsored_exchange)
+  	self.update_attribute(:is_sponsored, self.author.is_sponsor? && result)
+  	result
   end
 
   def update_author(json)
