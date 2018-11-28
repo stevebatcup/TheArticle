@@ -9,14 +9,14 @@
 					<?php include( locate_template( "partials/editor_exchange_callout_".callout.".php", false, false ) ) %>
 				<% end %>
 				</div>
-				<a class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" data-toggle="collapse" href="#hidden_listings_<%= section %>" role="button" aria-expanded="false" aria-controls="hidden_listings" data-section="<%= section %>" style="display: <%= section == 1 ? 'inline-block' : 'none' %>">
+				<a class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" data-toggle="collapse" href="#<%= "hidden_listings_#{block_id}_#{section}" %>" role="button" aria-expanded="false" aria-controls="hidden_listings" data-section="<%= section %>" style="display: <%= section == 1 ? 'inline-block' : 'none' %>">
 					<% if is_editor_exchange? %>
 						See More articles
 					<% else %>
 						See More
 					<% end %>
 				</a>
-				<div class="row collapse hidden_listings" id="hidden_listings_<%= section %>">
+				<div class="row collapse hidden_listings" id="<%= "hidden_listings_#{block_id}_#{section}" %>">
 				<% section += 1 %>
 			<% end %>
 			<%= render partial: 'layouts/article-item', locals: { article: article } %>

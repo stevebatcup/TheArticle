@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   post   'wp-connector/:model',     to: 'wp_connector#model_save'
 	delete 'wp-connector/:model/:id', to: 'wp_connector#model_delete'
+  post   'wp-connector/:model/:id/unpublish',  to: 'wp_connector#model_delete'
 
 	mount Sidekiq::Web, at: '/sidekiq'
 

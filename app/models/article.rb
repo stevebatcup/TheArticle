@@ -4,6 +4,7 @@ class Article < ApplicationRecord
 	has_and_belongs_to_many	:exchanges
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
+	after_destroy :update_all_article_counts
 
 	def self.recent
 		sponsors = Author.sponsors
@@ -65,13 +66,13 @@ class Article < ApplicationRecord
 
 		sponsored_carousel_articles = Author.get_sponsors_single_posts('trending-article', 3)
 		if sponsored_carousel_articles[0]
-			carousel_articles[sponsored_starting_position] = sponsored_carousel_articles[0]
+			carousel_articles.insert(sponsored_starting_position, sponsored_carousel_articles[0])
 		end
 		if sponsored_carousel_articles[1]
-			carousel_articles[sponsored_starting_position+4] = sponsored_carousel_articles[1]
+			carousel_articles.insert(sponsored_starting_position+4, sponsored_carousel_articles[1])
 		end
 		if sponsored_carousel_articles[2]
-			carousel_articles[sponsored_starting_position+8] = sponsored_carousel_articles[2]
+			carousel_articles.insert(sponsored_starting_position+8, sponsored_carousel_articles[2])
 		end
 
 		carousel_articles
@@ -141,9 +142,13 @@ class Article < ApplicationRecord
     self.save
 
     # update counter caches
+    update_all_article_counts
+    update_is_sponsored_cache
+  end
+
+  def update_all_article_counts
     Author.update_article_counts
     Exchange.update_article_counts
-    update_is_sponsored_cache
   end
 
   def update_is_sponsored_cache

@@ -6,6 +6,7 @@ class HomeController < ApplicationController
 		if leading_article = Article.leading_editor_article
 			@articles.unshift(leading_article)
 		end
+		@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick')
 		@contributors_for_spotlight = Author.contributors_for_spotlight
 		@recent_articles = Article.recent
 	end

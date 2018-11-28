@@ -7,12 +7,35 @@
 end %>
 
 <%= if @articles.any?
-	render partial: 'layouts/article-listings', locals: { articles: @articles, title: "Editor's picks" }
+	render partial: 'layouts/article-listings', locals: {
+		block_id: 'editors_picks',
+		articles: @articles,
+		title: "Editor's picks"
+	}
 end %>
 
-<%= if @trending_exchanges.any?
-	render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
-end %>
+<% if @sponsored_picks.any? %>
+	<% if browser.device.mobile? %>
+		<div class="mb-5">
+			<div class="container mt-4 mt-md-5 slick-carousel-title">
+			  <h1 class="bullet">Sponsored picks</h1>
+			</div>
+			<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
+		</div>
+	<% else %>
+		<%= render partial: 'layouts/article-listings', locals: {
+			block_id: 'sponsored_picks',
+			articles: @sponsored_picks,
+			title: "Sponsored picks",
+		} %>
+	<% end %>
+<% end %>
+
+<div class="mb-md-3">
+	<%= if @trending_exchanges.any?
+		render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
+	end %>
+</div>
 
 <%= render partial: 'layouts/page-bottom', locals: {
 		spotlight_heading: 'Contributor spotlight',
