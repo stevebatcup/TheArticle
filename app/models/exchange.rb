@@ -35,6 +35,10 @@ class Exchange < ApplicationRecord
       .order(:name)
   end
 
+  def is_editor_item?
+    self.slug == 'editor-at-the-article'
+  end
+
   def self.editor_item
     where("slug = 'editor-at-the-article'").first
   end

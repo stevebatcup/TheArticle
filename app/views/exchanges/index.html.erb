@@ -32,7 +32,7 @@
 				</div>
 				<div class="px-2 px-md-3 py-2 py-lg-3 block_click heading_box" data-href="<%= exchange_path(slug: exchange.slug) %>">
 					<h5 class="text-white mb-0">
-						<a href="/exchanges/<?php echo $exchange->slug; ?>" class="text-white inherit_hover filter_target">
+						<a href="<%= exchange_path(slug: exchange.slug) %>" class="text-white inherit_hover filter_target">
 							<%= exchange.name %>
 						</a>
 					</h5>

@@ -4,10 +4,10 @@
 
 <div id="exchangesCarousel" class="exchanges slick-carousel slide w-100">
 	<% exchanges.each_with_index do |exchange, index| %>
-    <div class="slick-carousel-item block_click" data-href="/exchanges/<%= exchange.slug %>">
+    <div class="slick-carousel-item block_click" data-href="<%= exchange_path(slug: exchange.slug) %>">
   		<div class="img" style="background-image: url('<%= exchange.exchange_image.url %>')"></div>
   		<div class="entry-content bg-colour-<%= index+1 %>">
-      	<h4><a href="/exchanges/<%= exchange.slug %>"><%= exchange.name %></a></h4>
+      	<h4><a href="<%= exchange_path(slug: exchange.slug) %>"><%= exchange.name %></a></h4>
       	<p><%= truncate(exchange.description, length: 220) %></p>
       </div>
     </div>
