@@ -252,6 +252,7 @@ html.svg #logo {
 	ul {
 		text-align: center;
     padding-top: 7vh;
+    display: none;
 
 	  li {
 			font-size: 2em;
@@ -324,12 +325,14 @@ html.svg #logo {
 }
 
 #dismiss {
+	display: none;
   width: 35px;
   height: 35px;
   position: absolute;
   top: 1vh;
   left: 4vw;
   font-size: 2.2em;
+  color: #fff;
 }
 
 /**** BUTTONS ******/

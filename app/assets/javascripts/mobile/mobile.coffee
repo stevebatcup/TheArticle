@@ -33,6 +33,7 @@ class Mobile extends TheArticle
 			$('.overlay').addClass('active')
 			$('.collapse.in').toggleClass('in')
 			$('a[aria-expanded=true]').attr('aria-expanded', 'false')
+			$('#dismiss, ul', 'nav#sidebar').show()
 
 	bindFixedNavScrolling: =>
 		$win = $(window)
@@ -61,8 +62,9 @@ class Mobile extends TheArticle
 
 	bindCarousels: =>
 		$('.slick-carousel').on 'init', (e) =>
-			$(e.currentTarget).css({opacity: 1})
-			$(e.currentTarget).parent().find('.slick-carousel-title').css({opacity: 1})
+			window.setTimeout =>
+				$(e.currentTarget).find('.inner').addClass('shown')
+			, 350
 
 		$('.slick-carousel.articles').slick
 			infinite: true

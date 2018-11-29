@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   post   'wp-connector/:model/:id/unpublish',  to: 'wp_connector#model_delete'
 
   PageRouter.load
-  ArticleRouter.load
+  # ArticleRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
-  # get "*slug", to: "articles#show", as: :article
+  get "*slug", to: "articles#show", as: :article
 end

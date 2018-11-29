@@ -1,11 +1,12 @@
-.slick-carousel-title {
-	opacity: 0;
-	transition: opacity 1s;
-}
-
 .slick-carousel {
-	opacity: 0;
-	transition: opacity 1s;
+	.inner {
+		opacity: 0;
+
+		&.shown {
+			transition: opacity 1.2s;
+			opacity: 1;
+		}
+	}
 
 	.slick-arrow {
 		z-index: 99;

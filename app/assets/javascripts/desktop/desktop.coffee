@@ -71,8 +71,9 @@ class Desktop extends TheArticle
 	bindCarousels: =>
 		windowWidith = $(window).width()
 		$('.slick-carousel').on 'init', (e) =>
-			$(e.currentTarget).css({opacity: 1})
-			$(e.currentTarget).parent().find('.slick-carousel-title').css({opacity: 1})
+			window.setTimeout =>
+				$(e.currentTarget).find('.inner').addClass('shown')
+			, 350
 
 		$('.slick-carousel.articles').slick
 			infinite: true
