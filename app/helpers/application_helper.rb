@@ -22,4 +22,8 @@ module ApplicationHelper
 	def article_path(article)
 		"/#{article.slug}"
 	end
+
+	def strip_protocol(url)
+		url.sub('https://','').sub('http://','')
+	end
 end

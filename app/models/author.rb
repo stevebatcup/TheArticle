@@ -26,6 +26,16 @@ class Author < ApplicationRecord
 				.limit(6)
 	end
 
+	def self.contributors_with_complete_profile(exclude=[])
+		self.contributors
+				.where.not(id: exclude)
+				.where("image_url > ''")
+				.where("display_name > ''")
+				.where("blurb > ''")
+				.where("article_count > 0")
+				.distinct
+	end
+
 	def random_article(tag=nil)
 		random_articles = self.articles.order("RAND()")
 		random_articles = random_articles.includes(:keyword_tags).references(:keyword_tags).where("keyword_tags.slug = ?", tag) if tag
@@ -42,6 +52,13 @@ class Author < ApplicationRecord
 		@@sponsors ||= begin
 			sponsor_role = AuthorRole.find_by(slug: 'sponsor')
 			sponsors = self.where(author_role: sponsor_role)
+		end
+	end
+
+	def self.contributors
+		@@contributors ||= begin
+			contributor_role = AuthorRole.find_by(slug: 'contributor')
+			contributors = self.where(author_role: contributor_role)
 		end
 	end
 
@@ -74,6 +91,7 @@ class Author < ApplicationRecord
 		self.twitter_handle = json["twitter_handle"]
 		self.facebook_url = json["facebook_url"]
 		self.instagram_username = json["instagram_username"]
+		self.youtube_url = json["youtube_url"]
 		self.image_url = json["author_image"]
 		update_author_role(json)
 		self.save
