@@ -79,7 +79,7 @@ class TheArticle
 			if error
 				$('p#form_error', $form).text(error).show()
 			else
-				@postJSON "/wp-json/register/details",
+				@postJSON "/register",
 					first_name: $form.find('input[name=first_name]').val()
 					last_name: $form.find('input[name=last_name]').val()
 					email: $form.find('input[name=email]').val()
@@ -122,7 +122,7 @@ class TheArticle
 			if error
 				$('p#contact_error', $form).text(error).show()
 			else
-				@postJSON "/wp-json/contact/details",
+				@postJSON "/contact",
 					first_name: $form.find('input[name=first_name]').val()
 					last_name: $form.find('input[name=last_name]').val()
 					email: $form.find('input[name=email]').val()
@@ -135,7 +135,7 @@ class TheArticle
 					$('#contact_success').text(msg).show()
 				, (response) =>
 					msg = "Sorry there has been an error sending your message, please try again."
-					$('p#form_error', $form).text(msg).show()
+					$('p#contact_error', $form).text(msg).show()
 
 	bindSearchFilters: =>
 		$('input[name=search_filter]', 'form.filter_list_form').on 'keyup', (e) =>

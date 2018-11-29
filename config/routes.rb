@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'cookie-acceptance',          to: 'cookie_acceptance#new'
   get 'contact',                    to: 'contact#new'
+  post 'contact',                   to: 'contact#create'
+  post 'register',                   to: 'register#create'
 
   get 'exchanges',				 					to: 'exchanges#index'
   get 'exchange/:slug',				 			to: 'exchanges#show', as: :exchange

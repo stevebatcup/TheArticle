@@ -1,0 +1,9 @@
+<p>Hello,</p>
+
+<p>
+	Message from <b><%= @contact[:first_name] %> <%= @contact[:last_name] %> (<%= @contact[:email] %>)</b> with the subject <b><%= @contact[:subject] %></b> as follows:
+</p>
+
+<hr />
+
+<%= @contact[:message] %>
