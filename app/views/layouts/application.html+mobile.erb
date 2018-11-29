@@ -304,5 +304,9 @@
       return t;
     }(document, "script", "twitter-wjs"));</script>
 
+    <% if Rails.env == 'production' %>
+    <script id="parsely-cfg" data-parsely-site="thearticle.com" src="//cdn.parsely.com/keys/thearticle.com/p.js"></script>
+    <% end %>
+
   </body>
 </html>
