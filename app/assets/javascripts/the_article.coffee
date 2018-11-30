@@ -90,11 +90,7 @@ class TheArticle
 					$('#form_success').text(msg).show()
 					$('#form_close').show()
 				, (response) =>
-					if response.status is 'existing'
-						msg = "It looks like that email address has already been registered with TheArticle."
-					else
-						msg = "Sorry there has been an error submitting your details, please try again."
-					$('p#form_error', $form).text(msg).show()
+					$('p#form_error', $form).text(response.message).show()
 
 	bindContactForm: =>
 		$form = $('#contact_form')
