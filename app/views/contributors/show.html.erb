@@ -69,7 +69,7 @@
 
 
 <%= if @contributor.articles.any?
-	render partial: 'layouts/article-listings', locals: {
+	render partial: 'articles/listings', locals: {
 		block_id: 'contributor_listings',
 		articles: @contributor.articles,
 		title: "Articles by #{@contributor.display_name.capitalize}"

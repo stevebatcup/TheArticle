@@ -55,7 +55,7 @@ class Desktop extends TheArticle
 				$('#ads_top').slideUp(200)
 				$box.slideDown(200)
 				$('body, html').scrollTop(0)
-				$box.find('input[name=s]').focus()
+				$box.find('input[name=query]').focus()
 				$('main#main_content').hide()
 			else
 				$box.slideUp(200)

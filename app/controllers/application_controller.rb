@@ -41,20 +41,15 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:show_ads?
 
+	def is_article_page?
+		ad_page_type == 'article'
+	end
+	helper_method	:is_article_page?
+
 	def is_tablet?
 		browser.device.tablet?
 	end
 	helper_method	:is_tablet?
-
-	def is_home_page?
-		false
-	end
-	helper_method	:is_home_page?
-
-	def is_article_page?
-		false
-	end
-	helper_method	:is_article_page?
 
 	def articles_per_page
 		browser.device.mobile? ? 3 : 6
@@ -62,20 +57,12 @@ class ApplicationController < ActionController::Base
 	helper_method	:articles_per_page
 
 	def ad_page_type
-		@ad_page_type ||= begin
-		  if is_article_page?
-		    'article'
-		  elsif is_home_page?
-		    'homepage'
-		  else
-		    'ros'
-		  end
-		end
+		@ad_page_type ||= 'ros'
 	end
 	helper_method	:ad_page_type
 
 	def ad_page_id
-		if ad_page_type == 'article'
+		if is_article_page?
 			1540285666748
 		elsif ad_page_type == 'homepage'
 			1540285666750

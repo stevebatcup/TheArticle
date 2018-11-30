@@ -7,7 +7,7 @@
 end %>
 
 <%= if @articles.any?
-	render partial: 'layouts/article-listings', locals: {
+	render partial: 'articles/listings', locals: {
 		block_id: 'editors_picks',
 		articles: @articles,
 		title: "Editor's picks"
@@ -23,7 +23,7 @@ end %>
 			<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
 		</div>
 	<% else %>
-		<%= render partial: 'layouts/article-listings', locals: {
+		<%= render partial: 'articles/listings', locals: {
 			block_id: 'sponsored_picks',
 			articles: @sponsored_picks,
 			title: "Sponsored picks",

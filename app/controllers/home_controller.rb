@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
 	def index
+		@ad_page_type = 'homepage'
 		@trending_exchanges = Exchange.trending_list
 		@articles_for_carousel = Article.for_carousel(article_carousel_sponsored_position)
 		@articles = Article.editors_picks.all.to_a

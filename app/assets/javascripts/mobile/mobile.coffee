@@ -52,7 +52,7 @@ class Mobile extends TheArticle
 			$box = $('#search_box')
 			if $box.is(':hidden')
 				$box.slideDown(200)
-				$box.find('input[name=s]').focus()
+				$box.find('input[name=query]').focus()
 				$('#ads_top').hide()
 				$('.wrapper').addClass('no-scroll')
 			else

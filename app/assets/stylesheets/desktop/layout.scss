@@ -260,6 +260,10 @@ footer.main_footer {
 	}
 }
 
+section.no-results {
+	min-height: 280px;
+}
+
 #search_box {
   position: fixed;
   width: 100%;
@@ -695,9 +699,8 @@ footer.entry-footer {
 	}
 }
 
-#home_latest_articles {
-	padding-top: 80px;
-
+#home_latest_articles,
+#most_read_articles {
 	article.sponsored_article {
 		background-color: $gold_light;
 
@@ -915,6 +918,11 @@ form#filter_list_form {
   bottom: 0px;
   right: 0;
   letter-spacing: 1.9px;
+
+  &:hover,
+  &:active {
+  	color: #ededed !important;
+  }
 
   &.large {
   	font-size: 0.75em;

@@ -1,0 +1,29 @@
+<div class="container mt-4 mt-lg-5">
+<% if @articles.any? %>
+	<header class="page-header">
+		<h1 class="bullet mb-2 mb-md-3 page-title">
+			Search results for: <%= @query %>
+		</h1>
+	</header>
+	<div class="row">
+		<% @articles.each do |result| %>
+			<%= render partial: 'articles/item', locals: { article: result } %>
+		<% end %>
+	</div>
+<% else %>
+	<section class="no-results not-found">
+		<header class="page-header">
+			<h1 class="bullet mb-2 mb-md-3 page-title">Nothing Found</h1>
+		</header>
+		<div class="page-content">
+			<p>Sorry, but nothing matched your search terms. Please <a href="#" class="search_trigger">try again</a> with some different keywords.</p>
+		</div>
+	</section>
+<% end %>
+</div>
+
+<%= render partial: 'layouts/page-bottom', locals: {
+		spotlight_heading: 'Contributor spotlight',
+		contributors: @contributors_for_spotlight,
+		recent_articles: @recent_articles
+	} %>

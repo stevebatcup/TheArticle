@@ -166,6 +166,10 @@ html.svg #logo {
 }
 
 /***** SEARCH ******/
+section.no-results {
+	min-height: 150px;
+}
+
 #search_box {
   position: fixed;
   width: 100%;
@@ -655,6 +659,17 @@ footer.entry-footer {
 	}
 }
 
+#home_latest_articles,
+#most_read_articles {
+	article.sponsored_article {
+		background-color: $gold_light;
+
+		h5 {
+			margin-top: 15px;
+		}
+	}
+}
+
 #article_more_on {
 	.article-listing {
 		.inner {
@@ -832,16 +847,26 @@ form#filter_list_form {
 }
 
 .sponsored {
-	background: #111;
+	background: $gold_dark;
   color: #fff;
-  font-size: 0.5em;
+  font-size: 0.6em;
   padding: 3px 5px 2px;
   font-weight: 500;
   display: inline-block;
   position: absolute;
-  top: 0px;
-  left: 0;
+  bottom: 0px;
+  right: 0;
   letter-spacing: 1.9px;
+
+  &:hover,
+  &:active {
+  	color: #ededed !important;
+  }
+
+  &.large {
+  	font-size: 0.75em;
+  	padding: 4px 8px 3px;
+	}
 
   svg {
   	margin-right: 4px;

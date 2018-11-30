@@ -37,5 +37,141 @@
 				</div>
 			</div>
 		</header>
+		<div class="row">
+			<div class="col-12 col-md-7 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
+				<div id="img_box" class="mb-4">
+					<img src="<%= @article.featured_image.url %>" alt="<%= @article.title.html_safe %>" class="w-100" />
+					<p class="caption">
+						<%= @article.featured_image.caption %>
+					</p>
+				</div>
+
+				<div id="content_box">
+					<%= adified_content(@article) %>
+				</div>
+
+				<footer class="entry-footer row pl-0 mt-5">
+					<div class="col-12 col-md-5" id="twitter_follow_col">
+						<a class="btn btn-primary text-white text-case-inherit"
+								href="https://twitter.com/TweetTheArticle">
+								<i class="fab fa-twitter"></i>
+								<span class="ml-2">Follow TheArticle</span>
+						</a>
+					</div>
+					<div class="col-12 col-md-0 col-lg-7 pl-lg-5 d-flex share_links">
+						<%= render 'layouts/share-buttons' %>
+					</div>
+				</footer><!-- .entry-footer -->
+
+				<hr />
+
+				<% if @sponsored_picks.any? %>
+				<div id="featured_articles_content_bar" class="mt-5" style="display: none;">
+					<h1 class="bullet underline">Sponsored picks</h1>
+					<div class="row">
+						<% @sponsored_picks.each do |sp| %>
+							<%= render partial: 'articles/item', locals: { article: sp } %>
+						<% end %>
+					</div>
+				</div>
+				<% end %>
+
+			</div>
+
+			<div class="col-12 col-md-5 col-lg-4" id="sidebar">
+				<div class="sidebar_inner mt-0">
+					<div class="ads_box mx-auto align-middle">
+						<% if show_ads? %>
+							<!-- /21757645549/thearticle_<%= ad_page_type %>/<%= @firstSideAdType %> -->
+							<div id='div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'>
+								<script>
+									googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'); });
+								</script>
+							</div>
+						<% end %>
+					</div>
+				</div>
+
+				<div class="sidebar_inner" id="most_read_articles">
+					<h2 class="bullet underline">Trending articles</h2>
+					<% @trending_articles.each do |ta| %>
+						<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+							<div class="col-12">
+								<% if(ta.is_sponsored?) %>
+									<a href='/sponsors' class="sponsored">
+										<i class="fas fa-star"></i>
+										SPONSORED
+									</a>
+								<% end %>
+								<h5 class="">
+									<a href="<%= article_path(ta) %>">
+										<%= ta.title.html_safe %>
+									</a>
+								</h5>
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+									<p class="author_link">
+										<a href="<%= contributor_path(slug: ta.author.slug) %>">
+											by <span><%= ta.author.display_name %></span>
+										</a>&nbsp;
+										<span class="entry-date">
+											<%= article_date(ta) %>
+										</span>
+									</p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
+				</div>
+
+				<div class="sidebar_inner">
+					<div class="ads_box mx-auto align-middle">
+						<% if show_ads? %>
+							<!-- /21757645549/thearticle_<%= ad_page_type %>/<%= @secondSideAdType %> -->
+							<div id='div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'>
+								<script>
+									googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'); });
+								</script>
+							</div>
+						<% end %>
+					</div>
+				</div>
+
+				<% if @article.keyword_tags.exclude_special.any? %>
+					<div class="sidebar_inner">
+						<h2 class="bullet underline">Filed under</h2>
+						<% @article.keyword_tags.exclude_special.each do |tag| %>
+								<a href="<%= search_path(query: tag.name.capitalize) %>" class="tag gabriela"><%= tag.name.capitalize %></a>
+						<% end %>
+					</div>
+				<% end %>
+
+				<% if @sponsored_picks.any? %>
+				<div class="sidebar_inner" id="featured_articles_sidebar">
+					<h2 class="bullet underline" style="display: none;">Sponsored picks</h2>
+					<div class="row">
+						<% @sponsored_picks.each do |sp| %>
+							<%= render partial: 'articles/sponsored-item-for-sidebar', locals: { article: sp } %>
+						<% end %>
+					</div>
+				</div>
+				<% end %>
+
+			</div>
+		</div>
 	</article>
 </div>
+
+<% if @articles_in_same_exchange.any? %>
+	<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
+		<%= render partial: 'articles/listings', locals: {
+			block_id: 'articles_in_same_exchange',
+			articles: @articles_in_same_exchange,
+			title: "More on #{@exchange_for_more.name}",
+		} %>
+	</div>
+<% end %>
+
+<%= if @trending_exchanges.any?
+	render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
+end %>

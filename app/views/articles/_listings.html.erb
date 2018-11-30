@@ -19,7 +19,7 @@
 				<div class="row collapse hidden_listings" id="<%= "hidden_listings_#{block_id}_#{section}" %>">
 				<% section += 1 %>
 			<% end %>
-			<%= render partial: 'layouts/article-item', locals: { article: article } %>
+			<%= render partial: 'articles/item', locals: { article: article } %>
 			<% if counter == (articles.size - 1) %>
 				</div><!-- end hidden row -->
 			<% end %>

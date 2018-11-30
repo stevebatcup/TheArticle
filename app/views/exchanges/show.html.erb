@@ -46,7 +46,7 @@
 
 <%= if @articles_for_listings.any?
 	listings_heading = @exchange.is_editor_item? ? "Latest articles from #{@exchange.name}" : "Latest articles on #{@exchange.name}"
-	render partial: 'layouts/article-listings', locals: {
+	render partial: 'articles/listings', locals: {
 		block_id: 'exchange_listings',
 		articles: @articles_for_listings,
 		title: listings_heading,

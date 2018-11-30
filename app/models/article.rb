@@ -6,6 +6,25 @@ class Article < ApplicationRecord
 	belongs_to :author
 	after_destroy :update_all_article_counts
 
+	searchable do
+		text :title, boost: 3
+		text :strip_content, :publish_month
+		text :keyword_tags do
+			keyword_tags.map(&:name)
+		end
+		text :exchanges do
+			exchanges.map(&:name)
+		end
+	end
+
+	def strip_content
+		ActionView::Base.full_sanitizer.sanitize(self.content)
+	end
+
+	def publish_month
+	  published_at.strftime("%B %Y")
+	end
+
 	def self.recent
 		sponsors = Author.sponsors
 		limit = sponsors.any? ? 5 : 6
@@ -24,13 +43,17 @@ class Article < ApplicationRecord
 		articles
 	end
 
-	def self.for_carousel(sponsored_starting_position=2)
-		articles = self.not_sponsored
+	def self.trending
+		self.not_sponsored
 			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
 			.includes(:featured_image).references(:featured_image)
 			.where("keyword_tags.slug = 'trending-article'")
+	end
+
+	def self.for_carousel(sponsored_starting_position=2)
+		articles = self.trending
       .where.not(featured_images: {id: nil})
 			.order(published_at: :desc)
 			.limit(12)
@@ -203,5 +226,44 @@ class Article < ApplicationRecord
 				self.exchanges << exchange
 			end
 		end
+	end
+
+	def self.content_ad_slots(is_mobile=true, ad_page_type, ad_page_id)
+		if is_mobile
+			ads = [
+				{
+					position: 3,
+					ad_type_id: 4,
+					ad_page_id: ad_page_id,
+					ad_page_type: ad_page_type,
+					ad_classes: 'unruly_video ads_box text-center my-2'
+				},
+				{
+					position: 7,
+					ad_type_id: 1,
+					ad_page_id: ad_page_id,
+					ad_page_type: ad_page_type,
+					ad_classes: 'ads_box text-center my-2'
+				},
+				{
+					position: 11,
+					ad_type_id: 1,
+					ad_page_id: ad_page_id,
+					ad_page_type: ad_page_type,
+					ad_classes: 'ads_box text-center my-2'
+				}
+			]
+		else
+			ads = [
+				{
+					position: 3,
+					ad_type_id: 4,
+					ad_page_id: ad_page_id,
+					ad_page_type: ad_page_type,
+					ad_classes: 'unruly_video ads_box text-center'
+				}
+			]
+		end
+		ads
 	end
 end
