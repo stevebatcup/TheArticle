@@ -1,5 +1,6 @@
 class ContactMailer < ApplicationMailer
 	include Rails.application.routes.url_helpers
+
   def contact(contact_data)
 		@contact = contact_data
 		mail(
