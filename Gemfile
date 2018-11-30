@@ -27,6 +27,10 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# Email APIs
+gem 'mandrill-api'
+gem 'mailchimp-api'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -37,7 +41,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Connect to Wordpress
-gem 'wp-connector', :github => 'wponrails/wp-connector'
+gem 'wp-connector', :git => 'git@github.com:BigDilettante/wp-connector.git'
 gem 'sinatra', require: false
 gem 'slim'
 
