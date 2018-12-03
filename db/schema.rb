@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_29_132357) do
+ActiveRecord::Schema.define(version: 2018_12_03_121833) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
     t.string "title"
     t.integer "author_id"
     t.text "content"
+    t.string "image"
+    t.string "image_caption"
+    t.integer "wp_image_id"
     t.string "slug"
     t.text "excerpt"
     t.datetime "created_at", null: false
@@ -90,14 +93,6 @@ ActiveRecord::Schema.define(version: 2018_11_29_132357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "article_count", default: 0
-  end
-
-  create_table "featured_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "article_id"
-    t.integer "wp_id"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "keyword_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

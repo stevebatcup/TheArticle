@@ -2,7 +2,7 @@
 	<% articles.each do |article| %>
 		<% unless article.nil? %>
     <div class="slick-carousel-item block_click<%=  article.is_sponsored ? ' sponsored_article' : '' %>"
-				style="<%= article.featured_image ? "background-image: url('#{article.featured_image.url}');" : '' %>"
+				style="<%= article.image? ? "background-image: url('#{article.image.url(:carousel)}');" : '' %>"
   			id="<%=  article.slug %>"
         data-href="<%=  article_path(article) %>">
         <div class="mask">

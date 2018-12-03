@@ -1,3 +1,6 @@
+<% page_title "Search results for: #{@query}" %>
+<% meta_tag :description, "Showing #{@articles.size} search results for query: #{@query}" %>
+
 <div class="container mt-4 mt-lg-5">
 <% if @articles.any? %>
 	<header class="page-header">

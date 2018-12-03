@@ -4,9 +4,10 @@
 			<% if article.is_newly_published? %>
 				<div class="new_article"><span>New</span></div>
 			<% end %>
-			<% if article.featured_image %>
+			<% if article.image? %>
 				<a href="<%= article_path(article) %>">
-					<img src="<%= article.featured_image.url %>" alt="<%= article.title %>" />
+					<% image_size = browser.device.mobile? ? :listing_mobile : :listing_desktop %>
+					<img src="<%= article.image.url(image_size) %>" alt="<%= article.title %>" />
 				</a>
 			<% end %>
 		</div>

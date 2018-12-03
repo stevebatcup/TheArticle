@@ -1,10 +1,10 @@
 class Article < ApplicationRecord
 	include WpCache
-	has_one	:featured_image
 	has_and_belongs_to_many	:exchanges
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
 	after_destroy :update_all_article_counts
+	mount_uploader :image, ArticleImageUploader
 
 	searchable do
 		text :title, boost: 3
@@ -48,13 +48,12 @@ class Article < ApplicationRecord
 			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
-			.includes(:featured_image).references(:featured_image)
 			.where("keyword_tags.slug = 'trending-article'")
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
 		articles = self.trending
-      .where.not(featured_images: {id: nil})
+      .where.not(image: nil)
 			.order(published_at: :desc)
 			.limit(12)
 			.all.to_a
@@ -158,7 +157,7 @@ class Article < ApplicationRecord
 		self.robots_noindex = json["seo_fields"]["noindex"]
 
 		update_author(json)
-		update_featured_image(json)
+		update_image(json)
 		update_keyword_tags(json)
 		update_exchanges(json)
 
@@ -188,19 +187,24 @@ class Article < ApplicationRecord
     self.author = author
   end
 
-	def update_featured_image(json)
-		featured_image_id = json["featured_media"].to_i
-		if featured_image_id > 0
-			unless self.featured_image && (self.featured_image == FeaturedImage.find_by_wp_id(featured_image_id))
-				self.featured_image.destroy if self.featured_image
-				image_json = self.class.get_from_wp_api("media/#{featured_image_id}")
-				self.build_featured_image({
-					wp_id: featured_image_id,
-					url: image_json["source_url"]
-				})
+	def update_image(json)
+		remote_wp_image_id = json["featured_media"].to_i
+		if remote_wp_image_id > 0
+			unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
+				self.wp_image_id = remote_wp_image_id
+				image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+				self.remote_image_url = image_json["source_url"]
+				if image_json["caption"]["rendered"] && (image_json["caption"]["rendered"].length > 0)
+					caption = ActionController::Base.helpers.strip_tags(image_json["caption"]["rendered"])
+					self.image_caption = ActionController::Base.helpers.truncate(caption, length: 150)
+					puts "Setting caption"
+				else
+					puts "no caption"
+				end
 			end
 		else
-			self.featured_image.destroy if self.featured_image
+			self.wp_image_id = nil
+			self.image = nil
 		end
 	end
 

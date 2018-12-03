@@ -1,5 +1,6 @@
 <% page_title "Exchange on #{@exchange.name}" %>
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
+<% meta_tag :image, @exchange.exchange_image.url %>
 
 <header class="black_heading py-4 py-md-5">
 	<div class="container">

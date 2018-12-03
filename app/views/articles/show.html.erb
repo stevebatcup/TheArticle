@@ -1,7 +1,7 @@
 <% page_title @article.title %>
 <% meta_tag :description, truncate(@article.meta_description, length: 120) %>
-<% if @article.featured_image %>
-	<% meta_tag :image, @article.featured_image.url %>
+<% if @article.image? %>
+	<% meta_tag :image, @article.image.url %>
 <% end %>
 
 <div class="container mt-md-4 mb-3 mb-md-2">
@@ -40,10 +40,12 @@
 		<div class="row">
 			<div class="col-12 col-md-7 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
 				<div id="img_box" class="mb-4">
-					<img src="<%= @article.featured_image.url %>" alt="<%= @article.title.html_safe %>" class="w-100" />
-					<p class="caption">
-						<%= @article.featured_image.caption %>
-					</p>
+					<% if @article.image? %>
+						<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
+						<p class="caption">
+							<%= @article.image_caption %>
+						</p>
+					<% end %>
 				</div>
 
 				<div id="content_box">
