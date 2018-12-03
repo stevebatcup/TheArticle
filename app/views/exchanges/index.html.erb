@@ -27,7 +27,9 @@
 			<div class="inner">
 				<div class="img_mask">
 					<a href="<%= exchange_path(slug: exchange.slug) %>">
-						<img class="w-100 exchange_image" src="<%= exchange.exchange_image.url %>" alt="" />
+						<% if exchange.image? %>
+							<img class="w-100 exchange_image" src="<%= exchange.image.url(:listing) %>" alt="<%= exchange.name %>" />
+						<% end %>
 					</a>
 				</div>
 				<div class="px-2 px-md-3 py-2 py-lg-3 block_click heading_box" data-href="<%= exchange_path(slug: exchange.slug) %>">

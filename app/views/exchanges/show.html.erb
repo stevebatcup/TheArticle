@@ -1,12 +1,14 @@
 <% page_title "Exchange on #{@exchange.name}" %>
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
-<% meta_tag :image, @exchange.exchange_image.url %>
+<% meta_tag :image, @exchange.image.url(:detail) %>
 
 <header class="black_heading py-4 py-md-5">
 	<div class="container">
 		<div class="row">
 			<div class="col-3 col-md-2">
-				<img src="<%= @exchange.exchange_image.url %>" alt="<%=  @exchange.name %>" class="mt-1 mt-md-1 mt-xl-2" />
+				<% if @exchange.image? %>
+					<img src="<%= @exchange.image.url(:detail) %>" alt="<%=  @exchange.name %>" class="mt-1 mt-md-1 mt-xl-2" />
+				<% end %>
 			</div>
 			<div class="col-9 col-md-10 pl-0 pl-md-2 pl-lg-3 pt-0">
 				<h1 class="mb-0 text-white">

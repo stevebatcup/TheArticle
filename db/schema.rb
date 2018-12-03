@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_03_121833) do
+ActiveRecord::Schema.define(version: 2018_12_03_131503) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -76,19 +76,13 @@ ActiveRecord::Schema.define(version: 2018_12_03_121833) do
     t.string "youtube_url"
   end
 
-  create_table "exchange_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "wp_id"
-    t.integer "exchange_id"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
     t.string "name"
     t.string "slug"
     t.text "description"
+    t.string "image"
+    t.integer "wp_image_id"
     t.boolean "is_trending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

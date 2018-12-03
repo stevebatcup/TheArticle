@@ -197,9 +197,6 @@ class Article < ApplicationRecord
 				if image_json["caption"]["rendered"] && (image_json["caption"]["rendered"].length > 0)
 					caption = ActionController::Base.helpers.strip_tags(image_json["caption"]["rendered"])
 					self.image_caption = ActionController::Base.helpers.truncate(caption, length: 150)
-					puts "Setting caption"
-				else
-					puts "no caption"
 				end
 			end
 		else

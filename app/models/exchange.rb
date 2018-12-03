@@ -1,7 +1,7 @@
 class Exchange < ApplicationRecord
 	include WpCache
 	has_and_belongs_to_many	:articles
-	has_one	:exchange_image
+  mount_uploader :image, ExchangeImageUploader
 
   def self.sponsored_exchange
     find_by(slug: 'sponsored')
@@ -18,8 +18,7 @@ class Exchange < ApplicationRecord
   end
 
   def self.trending_list
-    includes(:exchange_image).references(:exchange_image)
-      .where.not(exchange_images: {id: nil})
+      where.not(image: nil)
       .where(is_trending: true)
       .where("description > ''")
       .where("article_count > 0")
@@ -27,8 +26,7 @@ class Exchange < ApplicationRecord
   end
 
   def self.listings
-    includes(:exchange_image).references(:exchange_image)
-      .where.not(exchange_images: {id: nil})
+      where.not(image: nil)
       .where("article_count > 0")
       .where("description > ''")
       .where("slug != 'editor-at-the-article'")
@@ -60,18 +58,16 @@ class Exchange < ApplicationRecord
   end
 
   def update_exchange_image(json)
-  	exchange_image_id = json["exchange-image-id"].to_i
-  	if exchange_image_id > 0
-  		unless self.exchange_image && (self.exchange_image == ExchangeImage.find_by_wp_id(exchange_image_id))
-  			self.exchange_image.destroy if self.exchange_image
-  			image_json = self.class.get_from_wp_api("media/#{exchange_image_id}")
-  			self.build_exchange_image({
-  				wp_id: exchange_image_id,
-  				url: image_json["source_url"]
-  			})
+  	remote_wp_image_id = json["exchange-image-id"].to_i
+  	if remote_wp_image_id > 0
+  		unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
+        self.wp_image_id = remote_wp_image_id
+  			image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+        self.remote_image_url = image_json["source_url"]
   		end
   	else
-			self.exchange_image.destroy if self.exchange_image
+      self.wp_image_id = nil
+      self.image = nil
   	end
   end
 end
