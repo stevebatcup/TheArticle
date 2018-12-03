@@ -15,14 +15,14 @@
 	<div class="row filter_list" id="sponsors_list">
 	<% @sponsors.each do |sponsor| %>
 			<article class="col-6 col-md-4 col-lg-3 px-md-2 py-md-2 py-xl-3 mb-3 mb-md-4 hoveraction article-listing sponsor <%= sponsor.article_count > 0 ? 'block_click' : '' %>"
-				 data-href="<%= contributor_path(slug: sponsor.slug) %>">
+				 data-href="<%= sponsor_path(slug: sponsor.slug) %>">
 				<div class="inner">
 					<div class="inner_inner">
-						<img src="<%= sponsor.image_url %>" alt="<%= sponsor.display_name %>" class="sponsor_listing_img" />
+						<img src="<%= sponsor.image.url(:listing) %>" alt="<%= sponsor.display_name %>" class="sponsor_listing_img" />
 						<div class="px-2 px-md-2 py-0">
 							<h3 class="mb-0 filter_target text-center">
 								<% if sponsor.article_count > 0 %>
-									<a href="<%= contributor_path(slug: sponsor.slug) %>" class="inherit_hover">
+									<a href="<%= sponsor_path(slug: sponsor.slug) %>" class="inherit_hover">
 										<%= sponsor.display_name.capitalize %>
 									</a>
 								<% else %>
@@ -30,7 +30,7 @@
 								<% end %>
 							</h3>
 							<p class="entry-content mb-0 mx-0 mt-1 mobile_hide"
-									data-href="<%= contributor_path(slug: sponsor.slug) %>">
+									data-href="<%= sponsor_path(slug: sponsor.slug) %>">
 								<%= truncate(sponsor.blurb, length: 225).html_safe %>
 							</p>
 						</div>

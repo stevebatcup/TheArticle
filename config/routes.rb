@@ -11,9 +11,10 @@ Rails.application.routes.draw do
   get 'exchanges',				 					to: 'exchanges#index'
   get 'exchange/:slug',				 			to: 'exchanges#show', as: :exchange
 
-  get 'sponsors',                   to: 'sponsors#index'
   get 'contributors',               to: 'contributors#index'
-  get 'contributor/:slug',				 	to: 'contributors#show', as: :contributor
+  get 'contributor/:slug',          to: 'contributors#show', as: :contributor
+  get 'sponsors',                   to: 'sponsors#index'
+  get 'sponsor',                    to: 'sponsors#show', as: :sponsor
 
   post   'wp-connector/:model',     to: 'wp_connector#model_save'
 	delete 'wp-connector/:model/:id', to: 'wp_connector#model_delete'

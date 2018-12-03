@@ -1,12 +1,16 @@
 <% page_title @contributor.display_name %>
 <% meta_tag :description, truncate(@contributor.blurb, length: 120) %>
-<% meta_tag :image, @contributor.image_url %>
+<% if @contributor.image? %>
+	<% meta_tag :image, @contributor.image.url(:detail) %>
+<% end %>
 
 <header class="black_heading pt-4 pb-3 py-md-5 mb-4 mb-md-5">
 	<div class="container">
 		<div class="row">
 			<div class="col-2 col-md-2 my-md-auto">
-				<img src="<%= @contributor.image_url %>" alt="<%= @contributor.display_name.capitalize %>" />
+				<% if @contributor.image? %>
+					<img src="<%= @contributor.image.url(:detail) %>" alt="<%= @contributor.display_name.capitalize %>" />
+				<% end %>
 			</div>
 			<div class="col-10 col-md-8 col-lg-5 pl-0 pl-md-2 pl-lg-3 pt-0 my-md-auto">
 				<h1 class="text-white mb-0"><%= @contributor.display_name.capitalize %></h1>
@@ -77,16 +81,13 @@
 	}
 end %>
 
-
-<% unless @contributor.is_sponsor? %>
-	<% if @contributors_for_carousel.any? %>
-		<div class="container">
-			<h2 class="h1 bullet mb-2 mb-md-3 slick-carousel-title">
-				Other contributors
-			</h2>
-		</div>
-		<%= render partial: 'carousels/contributors', locals: { contributors: @contributors_for_carousel } %>
-	<% end %>
+<% if @contributors_for_carousel.any? %>
+	<div class="container">
+		<h2 class="h1 bullet mb-2 mb-md-3 slick-carousel-title">
+			Other contributors
+		</h2>
+	</div>
+	<%= render partial: 'carousels/contributors', locals: { contributors: @contributors_for_carousel } %>
 <% end %>
 
 <% if browser.device.mobile? && show_ads? %>

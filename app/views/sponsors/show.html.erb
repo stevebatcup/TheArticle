@@ -1,0 +1,93 @@
+<% page_title @sponsor.display_name %>
+<% meta_tag :description, truncate(@sponsor.blurb, length: 120) %>
+<% if @sponsor.image? %>
+	<% meta_tag :image, @sponsor.image.url(:detail) %>
+<% end %>
+
+<header class="black_heading pt-4 pb-3 py-md-5 mb-4 mb-md-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-2 col-md-2 my-md-auto">
+				<% if @sponsor.image? %>
+					<img src="<%= @sponsor.image.url(:detail) %>" alt="<%= @sponsor.display_name.capitalize %>" />
+				<% end %>
+			</div>
+			<div class="col-10 col-md-8 col-lg-5 pl-0 pl-md-2 pl-lg-3 pt-0 my-md-auto">
+				<h1 class="text-white mb-0"><%= @sponsor.display_name.capitalize %></h1>
+
+				<% if @sponsor.title.present? %>
+					<h6 class="text-white mb-2 mt-1"><%= @sponsor.title %></h6>
+				<% end %>
+
+				<% if @sponsor.url.present? %>
+					<h6><a href="<%= @sponsor.url %>" target="_blank" class="text-colour-2 url">
+						<span><%= strip_protocol(@sponsor.url) %></span>
+					</a></h6>
+				<% end %>
+
+				<% if @sponsor.twitter_handle.present? %>
+					<h6><a href="https://twitter.com/<%= @sponsor.twitter_handle %>" target="_blank" class="text-white twitter_handle">
+						<i class="fab fa-twitter text-colour-2-light"></i>
+						<span><%= @sponsor.twitter_handle %></span>
+					</a></h6>
+				<% end %>
+
+				<% if @sponsor.instagram_username.present? %>
+					<h6><a href="https://www.instagram.com/<%= @sponsor.instagram_username %>" target="_blank" class="text-white instagram_username">
+						<i class="fab fa-instagram text-colour-2-light"></i>
+						<span><%= @sponsor.instagram_username %></span>
+					</a></h6>
+				<% end %>
+
+				<% if @sponsor.facebook_url.present? %>
+					<h6><a href="<%= @sponsor.facebook_url %>" target="_blank" class="text-white facebook_url">
+						<i class="fab fa-facebook-f text-colour-2-light"></i>
+						<span><%= strip_protocol(@sponsor.facebook_url) %></span>
+					</a></h6>
+				<% end %>
+
+				<% if @sponsor.youtube_url.present? %>
+					<h6><a href="<%= @sponsor.youtube_url %>" target="_blank" class="text-white youtube_url">
+						<i class="fab fa-youtube text-colour-2-light"></i>
+						<span><%= @sponsor.display_name.capitalize %> on YouTube</span>
+					</a></h6>
+				<% end %>
+
+			</div>
+			<div class="d-hide d-lg-block col-lg-5 pl-0 pt-md-3 pt-lg-0 my-md-auto text-lg-right">
+				<% if !browser.device.mobile? %>
+					<p class="l-height-3 mb-0 text-white"><%= @sponsor.blurb %></p>
+				<% end %>
+			</div>
+		</div>
+		<% if browser.device.mobile? %>
+			<div class="row">
+				<div class="col-12 pt-md-3">
+					<p class="l-height-3 w-100 pr-2 mb-0 text-white l-height-1">
+						<small><%= @sponsor.blurb %></small>
+					</p>
+				</div>
+			</div>
+		<% end %>
+	</div>
+</header>
+
+
+<%= if @sponsor.articles.any?
+	render partial: 'articles/listings', locals: {
+		block_id: 'contributor_listings',
+		articles: @sponsor.articles,
+		title: "Articles by #{@sponsor.display_name.capitalize}"
+	}
+end %>
+
+<% if browser.device.mobile? && show_ads? %>
+	<div class="ads_box single_mpu mx-auto align-middle text-center mb-4">
+		<!-- /21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn -->
+		<div id='div-gpt-ad-<%= ad_page_id %>-0'>
+			<script>
+				googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-0'); });
+			</script>
+		</div>
+	</div>
+<% end %>

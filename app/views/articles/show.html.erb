@@ -15,7 +15,9 @@
 			<div id="article_meta" class="mt-0 mt-lg-2 mb-md-3 row px-3">
 				<div class="col-12 col-lg-6 pr-0 pr-md-0 pr-lg-3 author_link row">
 					<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
-						<img src="<%= @article.author.image_url %>" alt="<%= @article.author.display_name %>" />
+						<% if @article.author.image? %>
+							<img src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name %>" />
+						<% end %>
 					</a>
 
 					<a href="<%= article_author_url(@article); %>">by <span>

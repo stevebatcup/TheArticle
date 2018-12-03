@@ -2,6 +2,7 @@ class Author < ApplicationRecord
 	include WpCache
 	has_many	:articles
 	belongs_to	:author_role, foreign_key: :role_id
+  mount_uploader :image, AuthorImageUploader
 
 	def is_sponsor?
 		self.author_role == AuthorRole.find_by(slug: 'sponsor')
@@ -26,10 +27,10 @@ class Author < ApplicationRecord
 				.limit(6)
 	end
 
-	def self.contributors_with_complete_profile(exclude=[])
+	def self.with_complete_profile(exclude=[])
 		self.contributors
 				.where.not(id: exclude)
-				.where("image_url > ''")
+				.where.not(image: nil)
 				.where("display_name > ''")
 				.where("blurb > ''")
 				.where("article_count > 0")
@@ -92,7 +93,7 @@ class Author < ApplicationRecord
 		self.facebook_url = json["facebook_url"]
 		self.instagram_username = json["instagram_username"]
 		self.youtube_url = json["youtube_url"]
-		self.image_url = json["author_image"]
+		update_author_image(json)
 		update_author_role(json)
 		self.save
 
@@ -111,6 +112,20 @@ class Author < ApplicationRecord
 					slug: json["role"]
 				})
 			end
+		end
+	end
+
+	def update_author_image(json)
+		remote_wp_image_id = json["author-image-id"].to_i
+		if remote_wp_image_id > 0
+			unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
+	      self.wp_image_id = remote_wp_image_id
+				image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+	      self.remote_image_url = image_json["source_url"]
+			end
+		else
+	    self.wp_image_id = nil
+	    self.image = nil
 		end
 	end
 
