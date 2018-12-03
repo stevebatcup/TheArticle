@@ -6,9 +6,10 @@
 
 <div class="container mt-md-4 mb-3 mb-md-2">
 	<article id="post-<%= @article.id %>" class="article_detail">
+		<% cache "article_header_#{@article}" do %>
 		<header class="entry-header">
 			<p id="article_exchanges">
-				<%= render partial: 'layouts/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
+				<%= render partial: 'layouts/exchange-badges', locals: { article: @article } %>
 			</p>
 			<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
 
@@ -39,8 +40,11 @@
 				</div>
 			</div>
 		</header>
+		<% end %>
+
 		<div class="row">
 			<div class="col-12 col-md-7 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
+				<% cache "article_image_#{@article}" do %>
 				<div id="img_box" class="mb-4">
 					<% if @article.image? %>
 						<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
@@ -49,6 +53,7 @@
 						</p>
 					<% end %>
 				</div>
+				<% end %>
 
 				<div id="content_box">
 					<%= adified_content(@article) %>
@@ -65,7 +70,7 @@
 					<div class="col-12 col-md-0 col-lg-7 pl-lg-5 d-flex share_links">
 						<%= render 'layouts/share-buttons' %>
 					</div>
-				</footer><!-- .entry-footer -->
+				</footer>
 
 				<hr />
 
@@ -141,10 +146,11 @@
 					</div>
 				</div>
 
-				<% if @article.keyword_tags.exclude_special.any? %>
+				<% tags = @article.keyword_tags.exclude_special.to_a %>
+				<% if tags.any? %>
 					<div class="sidebar_inner">
 						<h2 class="bullet underline">Filed under</h2>
-						<% @article.keyword_tags.exclude_special.each do |tag| %>
+						<% tags.each do |tag| %>
 								<a href="<%= search_path(query: tag.name.capitalize) %>" class="tag gabriela"><%= tag.name.capitalize %></a>
 						<% end %>
 					</div>
@@ -176,6 +182,4 @@
 	</div>
 <% end %>
 
-<%= if @trending_exchanges.any?
-	render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
-end %>
+<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>

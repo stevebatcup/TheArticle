@@ -12,7 +12,7 @@
 			<% end %>
 		</div>
 
-		<%= render partial: 'layouts/exchange-badges', locals: { article: article } if article.exchanges.any? %>
+		<%= render partial: 'layouts/exchange-badges', locals: { article: article } %>
 
 		<header class="entry-header pt-0 px-3">
 			<h4 class="entry-title mb-0" id="article-post-title-<%= article.id %>"><a href="%s" rel="bookmark">

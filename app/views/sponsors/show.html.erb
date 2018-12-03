@@ -73,13 +73,11 @@
 </header>
 
 
-<%= if @sponsor.articles.any?
-	render partial: 'articles/listings', locals: {
+<%= render partial: 'articles/listings', locals: {
 		block_id: 'contributor_listings',
-		articles: @sponsor.articles,
+		articles: @sponsor.articles.includes(:exchanges).references(:exchanges),
 		title: "Articles by #{@sponsor.display_name.capitalize}"
-	}
-end %>
+	} %>
 
 <% if browser.device.mobile? && show_ads? %>
 	<div class="ads_box single_mpu mx-auto align-middle text-center mb-4">

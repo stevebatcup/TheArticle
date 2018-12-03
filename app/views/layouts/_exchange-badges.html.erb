@@ -1,7 +1,8 @@
-<% article.limited_exchanges(4).each_with_index do |exchange, index| %>
+<% article.exchanges.each_with_index do |exchange, index| %>
+<% if index < 4 %>
 <a href="<%= exchange_badge_url(exchange) %>" class="exchange-badge bg-colour-<%= index+1 %>-dark exchange-<%= exchange.slug %>">
   <% if(exchange.slug == 'sponsored') %>
     <i class="fas fa-star"></i>
   <% end %>
   <%= exchange.name %>
-</a><% end %>
+</a><% end %><% end %>

@@ -18,8 +18,19 @@ class Author < ApplicationRecord
 		self.update_attribute(:article_count, self.articles.size)
 	end
 
+	def self.sponsor_role
+		Rails.cache.fetch([self, :sponsor_role]) do
+			AuthorRole.find_by(slug: 'sponsor')
+		end
+	end
+
+	def self.contributor_role
+		Rails.cache.fetch([self, :contributor_role]) do
+			AuthorRole.find_by(slug: 'contributor')
+		end
+	end
+
 	def self.contributors_for_spotlight
-		contributor_role = AuthorRole.find_by(slug: 'contributor')
 		self.joins(:articles)
 				.where(author_role: contributor_role)
 				.where("email NOT LIKE ?", '@thearticle.com')
@@ -38,8 +49,12 @@ class Author < ApplicationRecord
 	end
 
 	def random_article(tag=nil)
-		random_articles = self.articles.order("RAND()")
-		random_articles = random_articles.includes(:keyword_tags).references(:keyword_tags).where("keyword_tags.slug = ?", tag) if tag
+		random_articles = self.articles.includes(:exchanges)
+																		.references(:exchanges)
+																		.order(Arel.sql('RAND()'))
+		random_articles = random_articles.includes(:keyword_tags)
+																			.references(:keyword_tags)
+																			.where("keyword_tags.slug = ?", tag) if tag
 		random_articles.first
 	end
 
@@ -51,28 +66,32 @@ class Author < ApplicationRecord
 
 	def self.sponsors
 		@@sponsors ||= begin
-			sponsor_role = AuthorRole.find_by(slug: 'sponsor')
 			sponsors = self.where(author_role: sponsor_role)
+											.includes(:articles)
+											.references(:articles)
+											.where.not(articles: {id: nil})
 		end
 	end
 
 	def self.contributors
 		@@contributors ||= begin
-			contributor_role = AuthorRole.find_by(slug: 'contributor')
 			contributors = self.where(author_role: contributor_role)
 		end
 	end
 
 	def self.get_sponsors_single_posts(tag=nil, limit=nil)
-		sponsored_articles = []
-		self.sponsors.each do |sponsor|
-			if sponsor.articles.any?
+		cache_key = "sponsors_single_posts"
+		cache_key << "_#{tag}" unless tag.nil?
+		cache_key << "_#{limit}" unless limit.nil?
+		Rails.cache.fetch([self, cache_key]) do
+			sponsored_articles = []
+			self.sponsors.each do |sponsor|
 				random_article = sponsor.random_article(tag)
 				sponsored_articles << random_article unless random_article.nil?
+				break if limit && (sponsored_articles.size >= limit)
 			end
-			break if limit && (sponsored_articles.size >= limit)
+			sponsored_articles.sort_by {|a| a.published_at}
 		end
-		sponsored_articles.sort_by {|a| a.published_at}
 	end
 
 	def self.wp_type

@@ -73,13 +73,11 @@
 </header>
 
 
-<%= if @contributor.articles.any?
-	render partial: 'articles/listings', locals: {
+<%= render partial: 'articles/listings', locals: {
 		block_id: 'contributor_listings',
-		articles: @contributor.articles,
+		articles: @contributor.articles.includes(:exchanges).references(:exchanges),
 		title: "Articles by #{@contributor.display_name.capitalize}"
-	}
-end %>
+	} %>
 
 <% if @contributors_for_carousel.any? %>
 	<div class="container">

@@ -18,11 +18,13 @@ class Exchange < ApplicationRecord
   end
 
   def self.trending_list
-      where.not(image: nil)
-      .where(is_trending: true)
-      .where("description > ''")
-      .where("article_count > 0")
-      .order("RAND()")
+    Rails.cache.fetch([self, "trending_exchanges"]) do
+        where.not(image: nil)
+        .where(is_trending: true)
+        .where("description > ''")
+        .where("article_count > 0")
+        .all.to_a.shuffle
+    end
   end
 
   def self.listings

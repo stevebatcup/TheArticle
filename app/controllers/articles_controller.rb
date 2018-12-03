@@ -11,7 +11,10 @@ class ArticlesController < ApplicationController
 
 	def show
 		@ad_page_type = 'article'
-		if @article = Article.find_by(slug: params[:slug])
+		if @article = Article.where(slug: params[:slug])
+													.includes(:author).references(:author)
+													.includes(:exchanges).references(:exchanges)
+													.first
 			@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
 			@trending_exchanges = Exchange.trending_list
 			if rand(1..2) == 1
@@ -26,12 +29,13 @@ class ArticlesController < ApplicationController
 				@secondSideAdSlot = 1
 			end
 			@trending_articles = Article.trending.limit(Author.sponsors.any? ? 4 : 5).all.to_a
-			if Author.sponsors.any?
-				sponsored_post =
-				@trending_articles.insert 2, Author.get_sponsors_single_posts(nil, 1).first
-			end
-			@exchange_for_more = @article.exchanges.order("RAND()").first
-			@articles_in_same_exchange = @exchange_for_more.articles.where.not(id: @article.id).limit 6
+			@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+			@exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
+			@articles_in_same_exchange = @exchange_for_more.articles
+																										.includes(:exchanges).references(:exchanges)
+																										.includes(:author).references(:author)
+																										.where.not(id: @article.id)
+																										.limit(6)
 		end
 	end
 end

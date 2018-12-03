@@ -17,7 +17,9 @@
 					<article class="row my-4">
 						<div class="col-4 col-md-2 col-lg-4">
 							<a href="<%= contributor_path(slug: contributor.slug) %>">
-								<img src="<%= contributor.image_url %>" alt="<%= contributor.display_name %>" />
+								<% if contributor.image? %>
+									<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
+								<% end %>
 							</a>
 						</div>
 						<div class="col-8 col-md-10 col-lg-8 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">

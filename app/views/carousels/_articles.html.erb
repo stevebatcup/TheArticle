@@ -10,7 +10,7 @@
         		<div class="new_article"><span>New</span></div>
         	<% end %>
           <div class="inner">
-	        	<%= render partial: 'layouts/exchange-badges', locals: { article: article } if article.exchanges.any? %>
+	        	<%= render partial: 'layouts/exchange-badges', locals: { article: article } %>
 	        	<h2 class="shadow">
 	            <a href="<%=  article_path(article) %>">
 	              <%= article.title.html_safe %>

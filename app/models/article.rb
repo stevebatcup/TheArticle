@@ -26,16 +26,19 @@ class Article < ApplicationRecord
 	end
 
 	def self.recent
-		sponsors = Author.sponsors
+		sponsors = Author.sponsors.to_a
 		limit = sponsors.any? ? 5 : 6
-		articles = self.not_sponsored
-									.order(published_at: :desc)
-									.limit(limit)
-									.all.to_a
-
+		articles = Rails.cache.fetch([self, "recent_unsponsored"]) do
+			self.not_sponsored
+					.includes(:author).references(:author)
+					.order(published_at: :desc)
+					.limit(limit)
+					.all.to_a
+		end
 		if sponsors.any?
 			sponsored_articles = self.sponsored
-																.order("RAND()")
+																.includes(:author).references(:author)
+																.order(Arel.sql('RAND()'))
 																.limit(1)
 			articles.insert(3, sponsored_articles.first) if sponsored_articles.any?
 		end
@@ -52,52 +55,55 @@ class Article < ApplicationRecord
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
-		articles = self.trending
-      .where.not(image: nil)
-			.order(published_at: :desc)
-			.limit(12)
-			.all.to_a
+		Rails.cache.fetch([self, "article_carousel"]) do
+			articles = self.trending
+				.includes(:exchanges).references(:exchanges)
+	      .where.not(image: nil)
+				.order(published_at: :desc)
+				.limit(12)
+				.all.to_a
 
-		carousel_articles = []
-		carousel_articles_evens = []
-		carousel_articles_odds = []
-		articles.each_with_index do |article, i|
-			if i % 2 == 0
-				carousel_articles_evens << article
-			else
-				carousel_articles_odds << article
+			carousel_articles = []
+			carousel_articles_evens = []
+			carousel_articles_odds = []
+			articles.each_with_index do |article, i|
+				if i % 2 == 0
+					carousel_articles_evens << article
+				else
+					carousel_articles_odds << article
+				end
 			end
-		end
 
-		carousel_articles_evens.each_with_index do |even_article, i|
-			odd_article = carousel_articles_odds[i]
-			carousel_articles.unshift even_article
-			carousel_articles.push odd_article if odd_article
-		end
+			carousel_articles_evens.each_with_index do |even_article, i|
+				odd_article = carousel_articles_odds[i]
+				carousel_articles.unshift even_article
+				carousel_articles.push odd_article if odd_article
+			end
 
-		shifted = []
-		halfway = (carousel_articles.length / 2).ceil - 2
-		for i in 0..halfway do
-			article = carousel_articles[i]
-			shifted << article if article
-		end
-		shifted.each do |s|
-			carousel_articles.delete(s)
-		end
-		carousel_articles = carousel_articles + shifted
+			shifted = []
+			halfway = (carousel_articles.length / 2).ceil - 2
+			for i in 0..halfway do
+				article = carousel_articles[i]
+				shifted << article if article
+			end
+			shifted.each do |s|
+				carousel_articles.delete(s)
+			end
+			carousel_articles = carousel_articles + shifted
 
-		sponsored_carousel_articles = Author.get_sponsors_single_posts('trending-article', 3)
-		if sponsored_carousel_articles[0]
-			carousel_articles.insert(sponsored_starting_position, sponsored_carousel_articles[0])
-		end
-		if sponsored_carousel_articles[1]
-			carousel_articles.insert(sponsored_starting_position+4, sponsored_carousel_articles[1])
-		end
-		if sponsored_carousel_articles[2]
-			carousel_articles.insert(sponsored_starting_position+8, sponsored_carousel_articles[2])
-		end
+			sponsored_carousel_articles = Author.get_sponsors_single_posts('trending-article', 3)
+			if sponsored_carousel_articles[0]
+				carousel_articles.insert(sponsored_starting_position, sponsored_carousel_articles[0])
+			end
+			if sponsored_carousel_articles[1]
+				carousel_articles.insert(sponsored_starting_position+4, sponsored_carousel_articles[1])
+			end
+			if sponsored_carousel_articles[2]
+				carousel_articles.insert(sponsored_starting_position+8, sponsored_carousel_articles[2])
+			end
 
-		carousel_articles
+			carousel_articles
+		end
 	end
 
 	def is_newly_published?
@@ -113,15 +119,15 @@ class Article < ApplicationRecord
 	end
 
 	def self.leading_editor_article
-		self.not_sponsored
-			.includes(:keyword_tags).references(:keyword_tags)
-			.includes(:exchanges).references(:exchanges)
-			.includes(:author).references(:author)
-			.where("keyword_tags.slug = 'leading-article'")
-			.where("exchanges.slug = 'editor-at-the-article'")
-			.order(published_at: :desc)
-			.limit(1)
-			.first
+		Rails.cache.fetch([self, "leading_editor_article"]) do
+			self.not_sponsored
+				.includes(:keyword_tags).references(:keyword_tags)
+				.includes(:exchanges).references(:exchanges)
+				.includes(:author).references(:author)
+				.where("keyword_tags.slug = 'leading-article'")
+				.where("exchanges.slug = 'editor-at-the-article'")
+				.order(published_at: :desc).first
+		end
 	end
 
 	def self.editors_picks
