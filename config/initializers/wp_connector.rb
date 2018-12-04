@@ -2,7 +2,7 @@ WpConnector.configure do |config|
 	if Rails.env == 'development'
 		config.wordpress_url = "http://admin.thearticle.jazz/wp-json/wp/v2"
 	else
-	  config.wordpress_url = "http://railstaging.thearticle.com/wp-json/wp/v2"
+	  config.wordpress_url = "http://staging.thearticle.com/wp-json/wp/v2"
 	end
 	# puts "******** Env for WpConnector #{Rails.env} | #{config.wordpress_url} ********"
   config.wp_connector_api_key = "Y9H3FFF2P91BX47"
