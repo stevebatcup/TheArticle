@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:BigDilettante/wp-connector.git
-  revision: 024b0c259650c9fc078e8afabe57e5aa10e638df
+  revision: bad2b5601d18f8656b93f0e80109031052be0078
   specs:
-    wp-connector (1.0.0)
+    wp-connector (1.0.1)
       faraday
       json
       rails (>= 4.0.0)
