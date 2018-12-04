@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_development?
 
 	def is_staging?
-		false
+		Rails.env == 'staging'
 	end
 	helper_method	:is_staging?
 
