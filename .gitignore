@@ -47,3 +47,8 @@ node_modules/
 # Solr search index
 solr/development/*
 solr/pids/*
+
+# Capistrano
+Capfile
+config/deploy
+config/deploy.rb
