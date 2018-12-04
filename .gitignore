@@ -10,6 +10,7 @@ public/assets/*
 node_modules/
 /yarn-error.log
 
+/config/nginx.conf
 /config/database.yml
 /config/credentials.yml.enc
 
