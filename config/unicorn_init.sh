@@ -7,7 +7,7 @@ set -e
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/var/www/thearticle/rails/current
 PID=$APP_ROOT/tmp/pids/unicorn.pid
-CMD="bundle exec $APP_ROOT/bin/unicorn -D -c $APP_ROOT/config/unicorn.rb -E staging"
+CMD="$HOME/.rbenv/bin/rbenv exec bundle exec $APP_ROOT/bin/unicorn -D -c $APP_ROOT/config/unicorn.rb -E staging"
 action="$1"
 set -u
 
