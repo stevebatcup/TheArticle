@@ -11,7 +11,6 @@ node_modules/
 /yarn-error.log
 
 /config/database.yml
-/config/application.yml
 /config/credentials.yml.enc
 
 # Ignore master key for decrypting credentials and more.
@@ -22,6 +21,7 @@ node_modules/
 ## Environment normalization:
 /.bundle
 /vendor/bundle
+/bin
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -32,10 +32,6 @@ node_modules/
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-
-# Sssshhhh secrets!
-/config/application.yml
-
 
 # Ignore uploaded files in development
 /storage/*
@@ -52,3 +48,5 @@ solr/pids/*
 Capfile
 config/deploy
 config/deploy.rb
+
+public/robots.txt

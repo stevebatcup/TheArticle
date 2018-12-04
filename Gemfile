@@ -31,12 +31,6 @@ gem 'jbuilder', '~> 2.5'
 gem 'mandrill-api'
 gem 'mailchimp-api'
 
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -75,7 +69,7 @@ group :development do
   # Deployment
   gem "capistrano", "3.11.0", require: false
   gem "capistrano-rails", "~> 1.3", require: false
-  gem 'capistrano-rbenv', '~> 2.1'
+  # gem 'capistrano-rbenv', '~> 2.1'
 end
 
 group :test do
