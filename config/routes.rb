@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 	delete 'wp-connector/:model/:id', to: 'wp_connector#model_delete'
   post   'wp-connector/:model/:id/unpublish',  to: 'wp_connector#model_delete'
 
-  # PageRouter.load
+  PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
     req.path.exclude? 'amazonaws.com'
