@@ -48,5 +48,6 @@ solr/pids/*
 Capfile
 config/deploy
 config/deploy.rb
+config/recipes
 
 public/robots.txt
