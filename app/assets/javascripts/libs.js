@@ -4,6 +4,7 @@
 //= require activestorage
 //= require tether
 //= require bootstrap
+//= require modernizr
 //= require underscore/underscore-min
 //= require slick-carousel/slick/slick.min
 //= require fontawesome/svg-with-js/js/fontawesome-all.min
