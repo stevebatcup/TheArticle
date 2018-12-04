@@ -174,6 +174,7 @@ class Article < ApplicationRecord
     update_is_sponsored_cache
 
     # bust caches
+    # Rails.cache.clear
     ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
     	puts "busting cache: #{cache_key}"
     	Rails.cache.delete(cache_key)
