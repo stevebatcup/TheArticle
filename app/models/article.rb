@@ -28,7 +28,7 @@ class Article < ApplicationRecord
 	def self.recent
 		sponsors = Author.sponsors.to_a
 		limit = sponsors.any? ? 5 : 6
-		articles = Rails.cache.fetch([self, "recent_unsponsored"]) do
+		articles = Rails.cache.fetch("recent_unsponsored_articles") do
 			self.not_sponsored
 					.includes(:author).references(:author)
 					.order(published_at: :desc)
@@ -55,7 +55,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
-		Rails.cache.fetch([self, "article_carousel"]) do
+		Rails.cache.fetch("article_carousel") do
 			articles = self.trending
 				.includes(:exchanges).references(:exchanges)
 	      .where.not(image: nil)
@@ -119,7 +119,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.leading_editor_article
-		Rails.cache.fetch([self, "leading_editor_article"]) do
+		Rails.cache.fetch("leading_editor_article") do
 			self.not_sponsored
 				.includes(:keyword_tags).references(:keyword_tags)
 				.includes(:exchanges).references(:exchanges)
@@ -169,9 +169,15 @@ class Article < ApplicationRecord
 
     self.save
 
-    # update counter caches
+    # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache
+
+    # bust caches
+    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
+    	puts "busting cache: #{cache_key}"
+    	Rails.cache.delete(cache_key)
+    end
   end
 
   def update_all_article_counts

@@ -18,7 +18,7 @@ class Exchange < ApplicationRecord
   end
 
   def self.trending_list
-    Rails.cache.fetch([self, "trending_exchanges"]) do
+    Rails.cache.fetch("trending_exchanges") do
         where.not(image: nil)
         .where(is_trending: true)
         .where("description > ''")
@@ -55,8 +55,14 @@ class Exchange < ApplicationRecord
 		update_exchange_image(json)
     self.save
 
-    # update counter cache
+    # update counter cache column
     update_article_count
+
+    # bust caches
+    ["trending_exchanges"].each do |cache_key|
+      puts "busting cache: #{cache_key}"
+      Rails.cache.delete(cache_key)
+    end
   end
 
   def update_exchange_image(json)

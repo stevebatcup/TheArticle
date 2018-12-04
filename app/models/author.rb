@@ -19,13 +19,13 @@ class Author < ApplicationRecord
 	end
 
 	def self.sponsor_role
-		Rails.cache.fetch([self, :sponsor_role]) do
+		Rails.cache.fetch("sponsor_role") do
 			AuthorRole.find_by(slug: 'sponsor')
 		end
 	end
 
 	def self.contributor_role
-		Rails.cache.fetch([self, :contributor_role]) do
+		Rails.cache.fetch("contributor_role") do
 			AuthorRole.find_by(slug: 'contributor')
 		end
 	end
@@ -83,7 +83,7 @@ class Author < ApplicationRecord
 		cache_key = "sponsors_single_posts"
 		cache_key << "_#{tag}" unless tag.nil?
 		cache_key << "_#{limit}" unless limit.nil?
-		Rails.cache.fetch([self, cache_key]) do
+		Rails.cache.fetch(cache_key) do
 			sponsored_articles = []
 			self.sponsors.each do |sponsor|
 				random_article = sponsor.random_article(tag)
@@ -116,8 +116,15 @@ class Author < ApplicationRecord
 		update_author_role(json)
 		self.save
 
-		# update counter cache
+		# update counter cache column
 		update_article_count
+
+    # bust caches
+    ["sponsors_single_posts"].each do |cache_key|
+    	puts "busting cache: #{cache_key}_*"
+      Rails.cache.delete_matched("#{cache_key}_*")
+    end
+
 	end
 
 	def update_author_role(json)

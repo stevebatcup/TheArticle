@@ -6,7 +6,6 @@
 
 <div class="container mt-md-4 mb-3 mb-md-2">
 	<article id="post-<%= @article.id %>" class="article_detail">
-		<% cache "article_header_#{@article}" do %>
 		<header class="entry-header">
 			<p id="article_exchanges">
 				<%= render partial: 'layouts/exchange-badges', locals: { article: @article } %>
@@ -40,11 +39,9 @@
 				</div>
 			</div>
 		</header>
-		<% end %>
 
 		<div class="row">
 			<div class="col-12 col-md-7 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
-				<% cache "article_image_#{@article}" do %>
 				<div id="img_box" class="mb-4">
 					<% if @article.image? %>
 						<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
@@ -53,7 +50,6 @@
 						</p>
 					<% end %>
 				</div>
-				<% end %>
 
 				<div id="content_box">
 					<%= adified_content(@article) %>

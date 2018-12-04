@@ -45,3 +45,4 @@ node_modules/
 .byebug_history
 
 solr/development/*
+solr/pids/*
