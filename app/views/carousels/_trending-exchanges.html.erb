@@ -6,9 +6,9 @@
 	<% exchanges.each_with_index do |exchange, index| %>
     <div class="slick-carousel-item block_click" data-href="<%= exchange_path(slug: exchange.slug) %>">
       <% if exchange.image? %>
-    		<div class="img" style="background-image: url('<%= exchange.image.url %>')"></div>
+        <div class="img" style="background-image: url('<%= exchange.image.url %>')"></div>
       <% end %>
-  		<div class="entry-content bg-colour-<%= index+1 %>">
+  		<div class="inner entry-content bg-colour-<%= index+1 %>">
       	<h4><a href="<%= exchange_path(slug: exchange.slug) %>"><%= exchange.name %></a></h4>
       	<p><%= truncate(exchange.description, length: 220) %></p>
       </div>
