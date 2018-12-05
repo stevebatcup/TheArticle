@@ -128,10 +128,13 @@ class Article < ApplicationRecord
 	end
 
 	def self.editors_picks
-		editor_articles = Exchange.where(slug: 'editor-at-the-article').first.articles
-		editor_articles.not_sponsored
+		editor_at_exchange_articles = Exchange.where(slug: 'editor-at-the-article').first.articles
+		self.not_sponsored
+			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
+			.where("keyword_tags.slug = 'editors-picks'")
+			.where.not(:id => editor_at_exchange_articles)
 			.limit(17)
 	end
 
