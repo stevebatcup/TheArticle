@@ -6,10 +6,10 @@ module MandrillMailer
 private
 
   def requires_interception
-    if Rails.env.production?
-      return false
-    else
+    if Rails.env.development?
       return true
+    else
+      return false
     end
   end
 
