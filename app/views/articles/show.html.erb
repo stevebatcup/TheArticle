@@ -169,11 +169,12 @@
 </div>
 
 <% if @articles_in_same_exchange.any? %>
+	<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
 	<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
 		<%= render partial: 'articles/listings', locals: {
 			block_id: 'articles_in_same_exchange',
 			articles: @articles_in_same_exchange,
-			title: "More on #{@exchange_for_more.name}",
+			title: listings_heading,
 		} %>
 	</div>
 <% end %>
