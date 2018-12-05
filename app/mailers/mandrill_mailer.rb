@@ -13,16 +13,29 @@ private
     end
   end
 
-  def send_mail(email_address, subject, body)
+  def send_mail(email_address, name, subject, body)
     if requires_interception
       to = "steve.batcup@gmail.com"
       subject = "#{subject} [for #{email_address}]"
     else
       to = email_address
     end
-    data = { to: to, subject: subject, body: body, content_type: "text/html" }
-    response = mail(**data)
-    # log_mandrill_request(user.id, "send_mail", data, response)
+    data = {
+      subject: subject,
+      html: body,
+      from_email: 'info@thearticle.com',
+      from_name: 'TheArticle',
+      to: [
+        {
+          email: to,
+          name: name,
+          type: 'to'
+        }
+      ],
+      headers: {'Reply-To': 'info@thearticle.com'},
+      merge: true
+    }
+    response = api.messages.send(data)
   end
 
   def send_admin_mail(subject, body)
@@ -31,12 +44,16 @@ private
     # log_mandrill_request(0, "send_admin_mail", data, response)
   end
 
+  def api
+    @api ||= Mandrill::API.new(Rails.application.credentials.mandrill[:api_key][Rails.env.to_sym])
+  end
+
   def mandrill_template(template_name, attributes)
-    mandrill = Mandrill::API.new(Rails.application.credentials.mandrill[:api_key][Rails.env.to_sym])
+
     merge_vars = attributes.map do |key, value|
       { name: key, content: value }
     end
-    mandrill.templates.render(template_name, [], merge_vars)["html"]
+    api.templates.render(template_name, [], merge_vars)["html"]
   end
 
   def log_mandrill_request(user_id, method, request_data, response)

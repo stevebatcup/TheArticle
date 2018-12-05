@@ -10,6 +10,6 @@ class UserMailer < ApplicationMailer
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("registration-phase-1-welcome-email", merge_vars)
-    send_mail(email_address, subject, body)
+    send_mail(email_address, "#{first_name} #{last_name}", subject, body)
   end
 end
