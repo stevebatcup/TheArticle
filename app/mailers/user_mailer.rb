@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
       "FNAME" => first_name,
       "LNAME" => last_name
     }
-    body = mandrill_template("registration", merge_vars)
+    body = mandrill_template("registration-phase-1-welcome-email", merge_vars)
     send_mail(email_address, subject, body)
   end
 end
