@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_staging?
 
 	def show_ads?
-		false
+		Rails.env != 'development'
 	end
 	helper_method	:show_ads?
 
