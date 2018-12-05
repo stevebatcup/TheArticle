@@ -129,10 +129,9 @@ class Article < ApplicationRecord
 
 	def self.editors_picks
 		editor_articles = Exchange.where(slug: 'editor-at-the-article').first.articles
-		self.not_sponsored
+		editor_articles.not_sponsored
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
-			.where.not(:id => editor_articles)
 			.limit(17)
 	end
 
