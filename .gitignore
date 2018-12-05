@@ -51,3 +51,4 @@ config/deploy.rb
 config/recipes
 
 public/robots.txt
+public/uploads

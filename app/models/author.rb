@@ -38,6 +38,28 @@ class Author < ApplicationRecord
 				.limit(6)
 	end
 
+	def self.prioritise_editors_in_list(list)
+		editors = []
+		list.each_with_index do |item, index|
+			if item.email == 'stephen.rand@thearticle.com'
+				editors.unshift item
+				list.delete(item)
+			end
+			if item.email == 'olivia.utley@thearticle.com'
+				editors.unshift item
+				list.delete(item)
+			end
+			if item.email == 'daniel.johnson@thearticle.com'
+				editors.unshift item
+				list.delete(item)
+			end
+		end
+		editors.each do |editor|
+			list.unshift editor
+		end
+		list
+	end
+
 	def self.with_complete_profile(exclude=[])
 		self.contributors
 				.where.not(id: exclude)

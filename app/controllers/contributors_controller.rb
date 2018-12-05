@@ -1,6 +1,7 @@
 class ContributorsController < ApplicationController
 	def index
-		@contributors = Author.with_complete_profile.order(:display_name)
+		list = Author.with_complete_profile().order(:display_name)
+		@contributors = Author.prioritise_editors_in_list(list.to_a)
 	end
 
 	def show

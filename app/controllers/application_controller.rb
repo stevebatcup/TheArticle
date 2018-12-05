@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:body_classes
 
 	def is_development?
-		false
+		Rails.env == 'development'
 	end
 	helper_method	:is_development?
 
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_staging?
 
 	def show_ads?
-		Rails.env != 'development'
+		!is_development?
 	end
 	helper_method	:show_ads?
 
