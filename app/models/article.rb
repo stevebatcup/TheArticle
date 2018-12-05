@@ -135,6 +135,7 @@ class Article < ApplicationRecord
 			.includes(:author).references(:author)
 			.where("keyword_tags.slug = 'editors-pick'")
 			.where.not(:id => editor_at_exchange_articles)
+			.order(published_at: :desc)
 			.limit(17)
 	end
 
