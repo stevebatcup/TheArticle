@@ -6,16 +6,13 @@ class Article < ApplicationRecord
 	after_destroy :update_all_article_counts
 	mount_uploader :image, ArticleImageUploader
 
-	# searchable do
-	# 	text :title, boost: 3
-	# 	text :strip_content, :publish_month
-	# 	text :keyword_tags do
-	# 		keyword_tags.map(&:name)
-	# 	end
-	# 	text :exchanges do
-	# 		exchanges.map(&:name)
-	# 	end
-	# end
+	def exchange_names
+		exchanges.collect(&:name).join(" ")
+	end
+
+	def keyword_tags_names
+		keyword_tags.collect(&:name).join(" ")
+	end
 
 	def strip_content
 		ActionView::Base.full_sanitizer.sanitize(self.content)

@@ -46,8 +46,7 @@ gem 'browser'
 gem "bower-rails", "~> 0.11.0"
 
 gem "nokogiri"
-gem "sunspot_rails"
-gem "sunspot_solr"
+gem 'thinking-sphinx', '~> 4.0'
 
 # Upload images
 gem "mini_magick"

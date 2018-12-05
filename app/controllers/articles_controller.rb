@@ -1,10 +1,7 @@
 class ArticlesController < ApplicationController
 	def index
 		@query = params[:query]
-		@search = Article.search do
-			fulltext params[:query]
-		end
-		@articles = @search.results
+		@articles = Article.search(params[:query], match_mode: :boolean)
 		@contributors_for_spotlight = Author.contributors_for_spotlight
 		@recent_articles = Article.recent
 	end
