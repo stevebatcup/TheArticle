@@ -133,7 +133,7 @@ class Article < ApplicationRecord
 			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
-			.where("keyword_tags.slug = 'editors-picks'")
+			.where("keyword_tags.slug = 'editors-pick'")
 			.where.not(:id => editor_at_exchange_articles)
 			.limit(17)
 	end
