@@ -1,0 +1,5 @@
+staging:
+  pid_file: /var/www/thearticle/rails/shared/tmp/searchd.pid
+  indices_location: /var/www/thearticle/rails/shared/db/sphinx
+  configuration_file: /var/www/thearticle/rails/shared/production.sphinx.conf
+  binlog_path: /var/www/thearticle/rails/shared/binlog
