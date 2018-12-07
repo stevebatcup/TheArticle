@@ -1,5 +1,10 @@
 class HomeController < ApplicationController
+	layout	:set_layout
+
 	def index
+		if user_signed_in? && !params[:force_home]
+			redirect_to front_page_path
+		end
 		@ad_page_type = 'homepage'
 		@trending_exchanges = Exchange.trending_list.to_a
 		@articles_for_carousel = Article.for_carousel(article_carousel_sponsored_position)

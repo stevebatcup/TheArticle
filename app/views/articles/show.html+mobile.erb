@@ -8,7 +8,7 @@
 	<article id="post-<%= @article.id %>" class="article_detail">
 		<header class="entry-header">
 			<p id="article_exchanges">
-				<%= render partial: 'layouts/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
+				<%= render partial: 'common/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
 			</p>
 			<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
 
@@ -36,7 +36,7 @@
 
 		<div class="row">
 			<div class="col-12 mt-0 d-flex share_links">
-				<%= render 'layouts/share-buttons' %>
+				<%= render 'common/share-buttons' %>
 			</div>
 
 			<div class="col-12 pb-3 mb-2">
@@ -62,7 +62,7 @@
 						</a>
 					</div>
 					<div class="col-12 mt-3 d-flex share_links">
-						<%= render 'layouts/share-buttons' %>
+						<%= render 'common/share-buttons' %>
 					</div>
 				</footer><!-- .entry-footer -->
 

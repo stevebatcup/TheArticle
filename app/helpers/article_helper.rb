@@ -19,7 +19,7 @@ module ArticleHelper
 		content_html =  Nokogiri::HTML.fragment(article.content)
 		ad_slots = Article.content_ad_slots(request.variant.mobile?, ad_page_type, ad_page_id)
 		ad_slots.each do |slot|
-			ad_html = ActionController::Base.render(partial: 'layouts/ad', locals: slot)
+			ad_html = ActionController::Base.render(partial: 'common/ad', locals: slot)
 			if position = content_html.css('p')[slot[:position]]
 				position.before ad_html
 			end

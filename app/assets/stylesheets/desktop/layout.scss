@@ -31,8 +31,6 @@ h2 {
 	}
 }
 
-
-
 h3 {
 	font-size: 1.6em;
 }
@@ -69,47 +67,7 @@ header.black_heading {
 }
 
 #ads_top_box {
-	// width: 728px;
-	// height: 90px;
 	margin: 0 auto;
-}
-
-#ads_top {
-	// display: none;
-}
-
-.ads_box {
-	// display: none;
-	// text-align: center;
-	// background: #000;
-	// color: #fff;
-	// text-transform: capitalize;
-	// font-size: 55px;
-
-	// &.unruly_video {
-	// 	height: 350px;
-	// 	line-height: 350px;
-	// 	margin-bottom: 18px;
-	// }
-
-	// &.single_mpu {
-	// 	height: 300px;
-	// 	width: 300px;
-	// 	line-height: 300px;
-	// 	margin-bottom: 40px;
-	// }
-
-	// &.double_mpu {
-	// 	height: 600px;
-	// 	width: 300px;
-	// 	line-height: 600px;
-	// 	margin-bottom: 20px;
-	// }
-
-	// p {
-	// 	color: #fff;
-	// 	line-height: inherit;
-	// }
 }
 
 .row.collapse.show {
@@ -133,6 +91,33 @@ header#main_header {
 				background-position: left center;
 				background-size: 1em;
 
+				&.nav-icon {
+					font-size: 1.3em;
+					position: relative;
+					top: 6px;
+
+					&#nav_link_my_profile {
+						font-size: 2em;
+					}
+				}
+
+				&#nav_link_search {
+					position: relative;
+			    top: 0px;
+			    left: -8px;
+				}
+
+				&.nav-icon-text {
+					position: relative;
+					top: -3px;
+
+					span {
+						font-size: 1.2em;
+						position: relative;
+						top: 1px;
+					}
+				}
+
 				&#nav_link_mission {
 					background-size: 0.95em;
 					background-image: url('nav/mission.png');
@@ -144,6 +129,8 @@ header#main_header {
 
 				&#nav_link_join {
 					background-image: url('nav/join.png');
+					background-position: left 11px;
+					padding-left: 1.8rem;
 				}
 			}
 		}
@@ -1040,11 +1027,6 @@ div.new_article {
 }
 
 #featured_articles_sidebar {
-	// position: absolute;
- //  bottom: 10px;
- //  margin-bottom: 0;
- //  left: 40px;
-
 	.row {
 	  .article-listing.post {
 	  	h4.entry-title {
@@ -1061,5 +1043,30 @@ div.new_article {
 	     	}
 	     }
 	  }
+	}
+}
+
+.dropdown-menu {
+	&#my_profile_menu {
+		width: 300px;
+		left: -220px;
+	}
+
+	&#notifications_menu {
+		width: 400px;
+		max-height: 580px;
+		overflow: auto;
+		left: -330px;
+
+		.dropdown-item {
+			padding-top: 0.7em;
+			padding-bottom: 0.5em;
+			white-space: normal;
+			font-size: 0.75em;
+
+			p {
+				margin: 0;
+			}
+		}
 	}
 }

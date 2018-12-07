@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= yield_page_title(default_page_title) %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <!-- Standard SEO tags -->
+    <meta name="description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
+    <% if content_for?(:meta_image) %>
+    <meta itemprop="image" content="<%= yield_meta_tag(:image) %>" />
+    <% end %>
+
+    <!-- OpenGraph SEO tags -->
+    <meta property="og:title" content="<%= yield_page_title(default_page_title) %>" />
+    <meta property="og:url" content="<%= request.url %>" />
+    <meta property="og:description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
+    <meta property="og:site_name" content="TheArticle" />
+    <meta property="og:type" content="<%= page_og_type %>" />
+    <% if content_for?(:meta_image) %>
+    <meta property="og:image" content="<%= yield_meta_tag(:image) %>" />
+    <% end %>
+
+    <!-- Twitter SEO tags -->
+    <meta property="twitter:title" content="<%= yield_page_title(default_page_title) %>" />
+    <meta name="twitter:description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:domain" content="www.thearticle.com" />
+    <meta name="twitter:site" content="@TweetTheArticle" />
+    <% if content_for?(:meta_image) %>
+    <meta name="twitter:image" content="<%= yield_meta_tag(:image) %>" />
+    <% end %>
+
+    <% if content_for?(:"meta_canonical") %>
+    <link rel="canonical" href="<%= yield_meta_tag(:canonical) %>" />
+    <% end %>
+
+    <% if is_article_page? && @article %>
+    <meta property="article:published_time" content='<%= @article.published_at.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
+    <meta property="article:modified_time" content='<%= @article.published_at.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
+    <% end %>
+
+    <%= javascript_include_tag 'libs', 'data-turbolinks-track' => true %>
+
+    <% if(!is_development?) %>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ga_tracking_id %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<%= ga_tracking_id %>');
+      </script>
+    <% end %>
+
+    <% if(show_ads?) %>
+      <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+      <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+      </script>
+
+      <script>
+        googletag.cmd.push(function() {
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn', [[300, 600]], 'div-gpt-ad-<%= ad_page_id %>-0').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/sidecolumn', [[300, 250]], 'div-gpt-ad-<%= ad_page_id %>-1').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/skin', [1, 1], 'div-gpt-ad-<%= ad_page_id %>-2').addService(googletag.pubads());
+          var topBanner = googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/topbanner', [[970, 90], [970, 250], [728, 90]], 'div-gpt-ad-<%= ad_page_id %>-3').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
+
+          <% if is_article_page? %>
+              googletag.pubads().setTargeting('article_id', <%= nil %>);
+          <% end %>
+          googletag.pubads().enableSingleRequest();
+          googletag.pubads().collapseEmptyDivs();
+          googletag.enableServices();
+          googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+            if(event.slot == topBanner) {
+              window.TA.bindFixedNavScrolling();
+            }
+          });
+        });
+      </script>
+    <% end %>
+
+    <%= stylesheet_link_tag  'desktop', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% if is_tablet? %>
+      <%= stylesheet_link_tag  'tablet', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <% end %>
+  </head>
+
+  <body class="<%= body_classes %>">
+    <% if show_ads? %>
+    <div id="ads_top" class="bg-light py-4">
+      <!-- /21757645549/thearticle_<%= ad_page_type %>/skin -->
+      <div id='div-gpt-ad-<%= ad_page_id %>-2' style='height:1px; width:1px;'>
+        <script>
+          googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-2'); });
+        </script>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-8 d-flex justify-content-center">
+            <div id="ads_top_box" class="ads_box">
+              <!-- /21757645549/thearticle_<%= ad_page_type %>/topbanner -->
+              <div id='div-gpt-ad-<%= ad_page_id %>-3'>
+                <script>
+                  googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-3'); });
+                </script>
+              </div>
+            </div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </div>
+    </div>
+    <% end %>

@@ -91,4 +91,7 @@ private
     end
   end
 
+	def set_layout
+		user_signed_in? ? 'member' : 'application'
+	end
 end

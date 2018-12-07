@@ -1,4 +1,6 @@
 class ExchangesController < ApplicationController
+	layout	:set_layout
+
 	def index
 		@trending_exchanges = Exchange.trending_list
 		@exchanges = Exchange.listings.all.to_a

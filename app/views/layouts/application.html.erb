@@ -1,297 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title><%= yield_page_title(default_page_title) %></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+ <%= render 'layouts/head' %>
 
-    <link rel="profile" href="http://gmpg.org/xfn/11">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
-
-    <!-- Standard SEO tags -->
-    <meta name="description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
-    <% if content_for?(:meta_image) %>
-    <meta itemprop="image" content="<%= yield_meta_tag(:image) %>" />
-    <% end %>
-
-    <!-- OpenGraph SEO tags -->
-    <meta property="og:title" content="<%= yield_page_title(default_page_title) %>" />
-    <meta property="og:url" content="<%= request.url %>" />
-    <meta property="og:description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
-    <meta property="og:site_name" content="TheArticle" />
-    <meta property="og:type" content="<%= page_og_type %>" />
-    <% if content_for?(:meta_image) %>
-    <meta property="og:image" content="<%= yield_meta_tag(:image) %>" />
-    <% end %>
-
-    <!-- Twitter SEO tags -->
-    <meta property="twitter:title" content="<%= yield_page_title(default_page_title) %>" />
-    <meta name="twitter:description"  content="<%= yield_meta_tag(:description, default_meta_description) %>" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:domain" content="www.thearticle.com" />
-    <meta name="twitter:site" content="@TweetTheArticle" />
-    <% if content_for?(:meta_image) %>
-    <meta name="twitter:image" content="<%= yield_meta_tag(:image) %>" />
-    <% end %>
-
-    <% if content_for?(:"meta_canonical") %>
-    <link rel="canonical" href="<%= yield_meta_tag(:canonical) %>" />
-    <% end %>
-
-    <% if is_article_page? && @article %>
-    <meta property="article:published_time" content='<%= @article.published_at.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
-    <meta property="article:modified_time" content='<%= @article.published_at.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
-    <% end %>
-
-    <%= javascript_include_tag 'libs', 'data-turbolinks-track' => true %>
-
-    <% if(!is_development?) %>
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ga_tracking_id %>"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', '<%= ga_tracking_id %>');
-      </script>
-    <% end %>
-
-    <% if(show_ads?) %>
-      <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
-      <script>
-        var googletag = googletag || {};
-        googletag.cmd = googletag.cmd || [];
-      </script>
-
-      <script>
-        googletag.cmd.push(function() {
-          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn', [[300, 600]], 'div-gpt-ad-<%= ad_page_id %>-0').addService(googletag.pubads());
-          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/sidecolumn', [[300, 250]], 'div-gpt-ad-<%= ad_page_id %>-1').addService(googletag.pubads());
-          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/skin', [1, 1], 'div-gpt-ad-<%= ad_page_id %>-2').addService(googletag.pubads());
-          var topBanner = googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/topbanner', [[970, 90], [970, 250], [728, 90]], 'div-gpt-ad-<%= ad_page_id %>-3').addService(googletag.pubads());
-          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
-
-          <% if is_article_page? %>
-              googletag.pubads().setTargeting('article_id', <%= nil %>);
-          <% end %>
-          googletag.pubads().enableSingleRequest();
-          googletag.pubads().collapseEmptyDivs();
-          googletag.enableServices();
-          googletag.pubads().addEventListener('slotRenderEnded', function(event) {
-            if(event.slot == topBanner) {
-              window.TA.bindFixedNavScrolling();
-            }
-          });
-        });
-      </script>
-    <% end %>
-
-    <%= stylesheet_link_tag  'desktop', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% if is_tablet? %>
-      <%= stylesheet_link_tag  'tablet', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <% end %>
-  </head>
-
-  <body class="<%= body_classes %>">
-    <% if show_ads? %>
-    <div id="ads_top" class="bg-light py-4">
-      <!-- /21757645549/thearticle_<%= ad_page_type %>/skin -->
-      <div id='div-gpt-ad-<%= ad_page_id %>-2' style='height:1px; width:1px;'>
-        <script>
-          googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-2'); });
-        </script>
-      </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-2"></div>
-          <div class="col-8 d-flex justify-content-center">
-            <div id="ads_top_box" class="ads_box">
-              <!-- /21757645549/thearticle_<%= ad_page_type %>/topbanner -->
-              <div id='div-gpt-ad-<%= ad_page_id %>-3'>
-                <script>
-                  googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-3'); });
-                </script>
-              </div>
-            </div>
-          </div>
-          <div class="col-2"></div>
-        </div>
-      </div>
-    </div>
-    <% end %>
-
-    <header id="main_header">
-      <div class="container">
-        <div class="row">
-          <nav id="main_nav_left" class="navbar navbar-expand-md col-4 px-md-0 px-lg-1">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link text-black pl-md-4" href="/our-mission" id="nav_link_mission">
-                  Our Mission
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-black pl-md-4" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
-              </li>
-            </ul>
-          </nav>
-
-          <div id="logo" class="col-4 d-flex justify-content-center px-md-0 px-lg-1">
-            <a href="/">
-              <span class="text-hide">TheArticle</span>
+<header id="main_header">
+  <div class="container">
+    <div class="row">
+      <nav id="main_nav_left" class="navbar navbar-expand-md col-4 px-md-0 px-lg-1 pb-0 pt-3">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link nav-icon-text text-black pl-md-4" href="/our-mission" id="nav_link_mission">
+              Our Mission
             </a>
-          </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-icon-text text-black pl-md-4" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
+          </li>
+        </ul>
+      </nav>
 
-          <nav class="navbar navbar-expand-md col-4 d-flex justify-content-end align-items-center px-md-0 px-lg-1">
-            <ul class="navbar-nav">
-              <li class="nav-item mr-2" id="nav_link_search">
-                <a class="text-black search_trigger" href="#">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3 mt-1">
-                    <circle cx="10.5" cy="10.5" r="7.5"></circle>
-                    <line x1="21" y1="21" x2="15.8" y2="15.8"></line>
-                  </svg>
-                </a>
-              </li>
-              <li class="nav-item" >
-                <a class="nav-link text-black pl-md-4" href="#" data-toggle="modal" data-target="#join_form_modal" id="nav_link_join">Join Us</a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+      <div id="logo" class="col-4 d-flex justify-content-center px-md-0 px-lg-1">
+        <a href="/?<%= 'force_home=1' if user_signed_in? %>">
+          <span class="text-hide">TheArticle</span>
+        </a>
       </div>
-    </header>
 
-    <nav id="search_box" class="collapse hide" aria-expanded="true" style="">
-      <div class="row" id="search_box_row">
-        <div class="justify-content-center" id="search_inner">
-          <form method="get" id="search_form" class="search_form" action="<%= search_path %>" role="search" >
-            <div class="input-group">
-              <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query">
-              <span class="input-group-btn">
-                <button class="btn-link btn-lg btn bg-colour-1 text-white gabriela" type="submit">
-                  GO <i class="fas fa-angle-right"></i>
-                </button>
-              </span>
-            </div>
-          </form>
+      <nav class="navbar navbar-expand-md col-4 d-flex px-md-0 px-lg-1 pb-0">
+        <ul class="nav w-100 justify-content-end ">
+          <li class="nav-item mr-3">
+            <a class="nav-link nav-icon py-0 text-black search_trigger" href="#" style="font-size: 1.3em;" id="nav_link_search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+          <li class="nav-item mr-1">
+            <a class="nav-link nav-icon-text text-black pl-md-4 pb-0 pr-0" href="<%= new_user_registration_path %>" id="nav_link_join">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-icon-text text-black pl-md-4 pb-0" href="<%= new_user_session_path %>" id="nav_link_sign_in">
+              <i class="fas fa-sign-in-alt"></i>
+              Sign in
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<nav id="search_box" class="collapse hide" aria-expanded="true" style="">
+  <div class="row" id="search_box_row">
+    <div class="justify-content-center" id="search_inner">
+      <form method="get" id="search_form" class="search_form" action="<%= search_path %>" role="search" >
+        <div class="input-group">
+          <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query">
+          <span class="input-group-btn">
+            <button class="btn-link btn-lg btn bg-colour-1 text-white gabriela" type="submit">
+              GO <i class="fas fa-angle-right"></i>
+            </button>
+          </span>
         </div>
-      </div>
-    </nav>
+      </form>
+    </div>
+  </div>
+</nav>
 
-    <%= render 'layouts/join-form-modal' %>
+<%= render 'common/join-form-modal' %>
 
-    <main id="main_content" class="mb-4" role="main">
-      <%= yield %>
-    </main>
+<main id="main_content" class="mb-4" role="main">
+  <%= yield %>
+</main>
 
-    <footer id="main_footer_top" class="main_footer bg-black text-white border-light border-bottom">
-      <div class="container">
-        <div class="row py-2">
-          <nav class="navbar navbar-expand-md col-12 col-lg-10 d-flex" id="footer_nav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/our-mission">Our Mission</a>
-              </li>
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/terms-and-conditions">Terms & Conditions</a>
-              </li>
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/privacy-policy">Privacy Policy</a>
-              </li>
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/contributors">Contributors</a>
-              </li>
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/sponsors">Sponsors</a>
-              </li>
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/write-for-us">Write for Us</a>
-              </li class="nav-item">
-              <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/contact">Contact</a>
-              </li>
-            </ul>
-          </nav>
-
-          <div class="col-md-0 col-lg-2 d-flex align-items-center justify-content-end"">
-            <button data-toggle="modal" data-target="#join_form_modal" class="join_button btn btn-sm bg-grass text-white">Join Us</button>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <footer id="main_footer_bottom" class="main_footer bg-black text-white border-light border-top">
-      <div class="container">
-        <div class="row py-3">
-          <div id="copyright" class="col-6 col-lg-5 d-flex align-items-center">
-            <p class="text-light pl-5 pt-2">
-              <small>
-                &copy; <%= Date.today.strftime("%Y") %> TheArticle.&nbsp;
-                <% if is_staging? %>
-                  Staging server
-                <% else %>
-                  All rights reserved
-                <% end %>
-              </small>
-            </p>
-          </div>
-          <div class="col-md-0 col-lg-2"></div>
-          <div class="col-6 col-lg-5 d-flex justify-content-end">
-            <nav class="navbar navbar-expand-md ml-auto pr-0" id="social_links">
-              <ul class="navbar-nav ">
-                <li class="nav-item" id="social_facebook">
-                  <a class="ml-4 nav-link text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
-                    <i class="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li class="nav-item" id="social_twitter">
-                  <a class="ml-4 nav-link text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
-                    <i class="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li class="nav-item" id="social_linked_in">
-                  <a class="ml-4 nav-link text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
-                    <i class="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
-                <li class="nav-item" id="social_rss">
-                  <a class="ml-4 nav-link text-white" href="/feed/rss" target="_blank">
-                    <i class="fas fa-rss"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <%= render 'layouts/cookie-notice' %>
-
-    <%= javascript_include_tag 'desktop', 'data-turbolinks-track': 'reload' %>
-
-    <script>window.twttr = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {};
-      if (d.getElementById(id)) return t;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
-
-      t._e = [];
-      t.ready = function(f) {
-        t._e.push(f);
-      };
-
-      return t;
-    }(document, "script", "twitter-wjs"));</script>
-
-    <% if Rails.env == 'production' %>
-    <script id="parsely-cfg" data-parsely-site="thearticle.com" src="//cdn.parsely.com/keys/thearticle.com/p.js"></script>
-    <% end %>
-
-  </body>
-</html>
+<%= render 'layouts/footer' %>

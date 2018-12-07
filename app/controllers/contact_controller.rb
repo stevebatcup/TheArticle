@@ -1,4 +1,6 @@
 class ContactController < ApplicationController
+	layout	:set_layout
+
 	def new
 	end
 
