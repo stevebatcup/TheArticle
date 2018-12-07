@@ -1,5 +1,6 @@
-class TheArticle
+class TheArticle.PageController extends TheArticle.NGController
 	constructor: ->
+		super
 		@showCookieNotice() if $('body').hasClass('show_cookie_notice')
 
 	showCookieNotice: =>
@@ -190,5 +191,3 @@ class TheArticle
 				$header.addClass('short') unless $header.hasClass('short')
 			else
 				$header.removeClass('short')
-
-window.TheArticle = TheArticle

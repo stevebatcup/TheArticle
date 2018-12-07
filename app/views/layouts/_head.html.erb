@@ -46,7 +46,7 @@
     <meta property="article:modified_time" content='<%= @article.published_at.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
     <% end %>
 
-    <%= javascript_include_tag 'libs', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'setup', 'data-turbolinks-track' => true %>
 
     <% if(!is_development?) %>
       <!-- Global site tag (gtag.js) - Google Analytics -->

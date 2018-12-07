@@ -1,4 +1,4 @@
-class Mobile extends TheArticle
+class TheArticle.MobilePageController extends TheArticle.PageController
 	constructor: ->
 		super()
 
@@ -96,6 +96,3 @@ class Mobile extends TheArticle
 			dots: if $(window).width() <= 320 then true else false
 			arrows: false
 			centerMode: true
-
-
-window.Mobile = Mobile

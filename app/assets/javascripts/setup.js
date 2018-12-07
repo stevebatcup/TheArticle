@@ -1,0 +1,22 @@
+//= require jquery
+//= require rails-ujs
+//= require activestorage
+//= require tether
+//= require bootstrap
+//= require modernizr
+//= require underscore/underscore-min
+//= require slick-carousel/slick/slick.min
+//= require fontawesome/svg-with-js/js/fontawesome-all.min
+//= require mustache/mustache.min
+//= require angular
+//= require angular-animate/angular-animate
+//= require angularjs/rails/resource
+//= require angularjs/rails/resource/extensions/snapshots
+//= require angular-utils-pagination/dirPagination
+//= require angular-flash-alert/dist/angular-flash
+//= require angular-route/angular-route
+TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
+TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);
+TheArticle.FilterModule = angular.module('TheArticle.filters', []);
+TheArticle.FactoryModule = angular.module('TheArticle.factories', []);
+TheArticle.DirectiveModule = angular.module('TheArticle.directives', []);

@@ -1,46 +1,45 @@
 <% meta_tag :image, asset_url("social-logo-square.png") %>
 
-<div class="container mt-4 mt-md-5 slick-carousel-title">
-  <h1 class="bullet cloak">Trending articles</h1>
-</div>
+<section ng-controller="HomeController">
+	<div class="container mt-4 mt-md-5 slick-carousel-title">
+	  <h1 class="bullet cloak">Trending articles</h1>
+	</div>
 
-<%= if @articles_for_carousel.any?
-	render partial: 'carousels/articles', locals: { articles: @articles_for_carousel }
-end %>
-
-<%= if @articles.any?
-	render partial: 'articles/listings', locals: {
-		block_id: 'editors_picks',
-		articles: @articles,
-		title: "Editor's picks"
-	}
-end %>
-
-<% if @sponsored_picks.any? %>
-	<% if browser.device.mobile? %>
-		<div class="mb-5">
-			<div class="container mt-4 mt-md-5 slick-carousel-title">
-			  <h1 class="bullet">Sponsored picks</h1>
-			</div>
-			<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
-		</div>
-	<% else %>
-		<%= render partial: 'articles/listings', locals: {
-			block_id: 'sponsored_picks',
-			articles: @sponsored_picks,
-			title: "Sponsored picks",
-		} %>
-	<% end %>
-<% end %>
-
-<div class="mb-md-3">
-	<%= if @trending_exchanges.any?
-		render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
+	<%= if @articles_for_carousel.any?
+		render partial: 'carousels/articles', locals: { articles: @articles_for_carousel }
 	end %>
-</div>
 
-<%= render partial: 'common/page-bottom', locals: {
-		spotlight_heading: 'Contributor spotlight',
-		contributors: @contributors_for_spotlight,
-		recent_articles: @recent_articles
-	} %>
+
+	<%= render partial: 'articles/listings', locals: {
+			block_id: 'editors_picks',
+			title: "Editor's picks"
+		} %>
+
+	<% if @sponsored_picks.any? %>
+		<% if browser.device.mobile? %>
+			<div class="mb-5">
+				<div class="container mt-4 mt-md-5 slick-carousel-title">
+				  <h1 class="bullet">Sponsored picks</h1>
+				</div>
+				<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
+			</div>
+		<% else %>
+			<%= render partial: 'articles/listings', locals: {
+				block_id: 'sponsored_picks',
+				title: "Sponsored picks",
+			} %>
+		<% end %>
+	<% end %>
+
+	<div class="mb-md-3">
+		<%= if @trending_exchanges.any?
+			render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
+		end %>
+	</div>
+
+	<%= render partial: 'common/page-bottom', locals: {
+			spotlight_heading: 'Contributor spotlight',
+			contributors: @contributors_for_spotlight,
+			recent_articles: @recent_articles
+		} %>
+</section>

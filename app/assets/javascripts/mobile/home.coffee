@@ -1,4 +1,4 @@
-class Home extends Mobile
+class TheArticle.Home extends TheArticle.MobilePageController
 	constructor: ->
 		super()
 		@bindEvents()
@@ -9,5 +9,3 @@ class Home extends Mobile
 			$clicked = $(e.currentTarget)
 			nextSection = Number($clicked.data('section')) + 1
 			$clicked.hide().parent().find("a[data-section=#{nextSection}]").show()
-
-window.Home = Home

@@ -1,11 +1,13 @@
-class Desktop extends TheArticle
+class TheArticle.DesktopPageController extends TheArticle.PageController
 	constructor: ->
-		super()
+		super
 		@reLinePosts() unless @isTablet()
 
 	bindEvents: =>
 		@bindCookieAcceptance()
-		@bindCarousels()
+		setTimeout =>
+			@bindCarousels()
+		, 1000
 		@bindSearch()
 		@bindJoinForm()
 		@bindContactForm()
@@ -63,9 +65,9 @@ class Desktop extends TheArticle
 				$('main#main_content').show()
 
 	bindListingHovers: =>
-		$('.hoveraction').on 'mouseover', (e) =>
+		$(document).on 'mouseover', '.hoveraction', (e) =>
 			$(e.currentTarget).addClass('hovered')
-		.on 'mouseout', (e) =>
+		$(document).on 'mouseout', '.hoveraction', (e) =>
 			$(e.currentTarget).removeClass('hovered')
 
 	bindCarousels: =>
@@ -110,5 +112,3 @@ class Desktop extends TheArticle
 			dots: true
 			arrows: true
 			centerMode: true
-
-window.Desktop = Desktop

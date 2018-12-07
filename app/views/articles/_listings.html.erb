@@ -1,27 +1,20 @@
-<div class="container">
+<div class="container" ng-if="loaded">
 	<h2 class="h1 bullet mb-2 mb-md-3<%= ' cloak' if block_id == 'editors_picks' %>"><%= title %></h2>
 	<div class="row">
-		<% section = 1 %>
-		<% articles.each_with_index do |article, counter| %>
-			<% if (counter > 0) && (counter % articles_per_page == 0) %>
-				<% if block_id == 'exchange_listings' && is_editor_exchange %>
-					<% callout = counter / articles_per_page %>
-					<%= render "exchanges/editor_exchange_callout_#{callout}" %>
-				<% end %>
-				</div>
-				<a class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" data-toggle="collapse" href="#<%= "hidden_listings_#{block_id}_#{section}" %>" role="button" aria-expanded="false" aria-controls="hidden_listings" data-section="<%= section %>" style="display: <%= section == 1 ? 'inline-block' : 'none' %>">
-					<% if block_id == 'exchange_listings' && is_editor_exchange %>
-						See More articles
-					<% else %>
-						See More
-					<% end %>
-				</a>
-				<div class="row collapse hidden_listings" id="<%= "hidden_listings_#{block_id}_#{section}" %>">
-				<% section += 1 %>
-			<% end %>
-			<%= render partial: 'articles/item', locals: { article: article } %>
-			<% if counter == (articles.size - 1) %>
-				</div><!-- end hidden row -->
-			<% end %>
+		<article ng-repeat="article in editorsPicks" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.is_sponsored ? ' sponsored_article' : '' }}" data-href="{{  article.path }}">
+			<%= render partial: 'articles/item' %>
+		</article>
+	</div>
+	<a ng-if="moreToLoad" class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" href="#" ng-click="loadMore()">
+		<% if block_id == 'exchange_listings' && is_editor_exchange %>
+			See More articles
+		<% else %>
+			See More
 		<% end %>
-</div><!-- end container -->
+	</a>
+
+	<% if block_id == 'exchange_listings' && is_editor_exchange %>
+		<% callout = counter / articles_per_page %>
+		<%= render "exchanges/editor_exchange_callout_#{callout}" %>
+	<% end %>
+</div>

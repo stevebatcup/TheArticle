@@ -89,6 +89,10 @@
     <%= render 'common/join-form-modal' %>
     <%= render 'common/cookie-notice' %>
 
+    <script type="text/javascript">
+      // A namespace to export methods
+      TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
+    </script>
     <%= javascript_include_tag 'mobile', 'data-turbolinks-track': 'reload' %>
 
     <script>window.twttr = (function(d, s, id) {

@@ -83,6 +83,28 @@
 
   <%= render 'common/cookie-notice' %>
 
+  <script type="text/javascript">
+    // Bootstrap the app
+    var moduleName = "TheArticleNG"
+    window.App = angular.module(moduleName, ['rails',
+      'angularUtils.directives.dirPagination',
+      'ngAnimate',
+      'ngRoute',
+      'ngFlash',
+      'TheArticle.directives',
+      'TheArticle.factories',
+      'TheArticle.filters',
+      'TheArticle.controllers'
+    ]);
+    $(document).ready(function() {
+      $root = $('[ng-controller]').first();
+      if (!$root.hasClass('ng-scope')) {
+        angular.bootstrap($root, [moduleName]);
+        console.log("bootstrapped " + $root.attr('ng-controller'));
+      }
+    });
+  </script>
+
   <%= javascript_include_tag 'desktop', 'data-turbolinks-track': 'reload' %>
 
   <script>window.twttr = (function(d, s, id) {

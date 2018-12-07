@@ -4,6 +4,12 @@
     "bootstrap": "4.0.0",
     "fontawesome": "5.0",
     "underscore": "latest",
-    "slick-carousel": "latest"
+    "slick-carousel": "latest",
+    "angular": "1.6.6",
+    "angular-utils-pagination": "latest",
+    "angular-animate": "1.6.6",
+    "angular-route": "latest",
+    "angular-flash-alert": "latest",
+    "mustache": "latest"
   }
 }

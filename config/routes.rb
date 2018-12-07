@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
   get 'search',                                to: 'articles#index', as: :search
+  get 'articles',                              to: 'articles#index', as: :articles
   get 'contact',                               to: 'contact#new'
   post 'contact',                              to: 'contact#create'
   post 'register',                             to: 'register#create'

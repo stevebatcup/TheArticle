@@ -136,7 +136,6 @@ class Article < ApplicationRecord
 			.where("keyword_tags.slug = 'editors-pick'")
 			.where.not(:id => editor_at_exchange_articles)
 			.order(published_at: :desc)
-			.limit(17)
 	end
 
 	def limited_exchanges(exchange_limit)
