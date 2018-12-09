@@ -1,5 +1,5 @@
 <div class="container">
-	<h2 class="h1 bullet mb-2 mb-md-3"><%= title %></h2>
+	<h2 class="h1 bullet mb-2 mb-md-3<%= ' cloak' if block_id == 'editors_picks' %>"><%= title %></h2>
 	<div class="row">
 		<% section = 1 %>
 		<% articles.each_with_index do |article, counter| %>

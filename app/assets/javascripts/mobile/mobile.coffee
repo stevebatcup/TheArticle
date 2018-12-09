@@ -64,7 +64,8 @@ class Mobile extends TheArticle
 		$('.slick-carousel').on 'init', (e) =>
 			window.setTimeout =>
 				$(e.currentTarget).find('.inner').addClass('shown')
-			, 350
+				$('.cloak').fadeIn('slow').removeClass('cloak')
+			, 750
 
 		$('.slick-carousel.articles').slick
 			infinite: true
