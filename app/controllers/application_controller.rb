@@ -81,7 +81,7 @@ private
   end
 
 	def set_layout
-		user_signed_in? ? 'member' : 'application'
+		user_signed_in? && browser.device.mobile? ? 'member' : 'application'
 	end
 
 	def authenticate_user!

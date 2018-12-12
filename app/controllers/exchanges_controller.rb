@@ -14,9 +14,6 @@ class ExchangesController < ApplicationController
 																			.not_sponsored
 																			.order(Arel.sql('RAND()'))
 																			.limit(12)
-		@articles_for_listings = @exchange.articles.not_sponsored
-																							.includes(:author).references(:author)
-																							.includes(:exchanges).references(:exchanges)
 		@contributors_for_spotlight = Author.contributors_for_spotlight
 		@recent_articles = Article.recent
 	end

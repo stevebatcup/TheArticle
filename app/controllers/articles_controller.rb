@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
 	def index
+		params[:page] ||= 1
 		if params[:query] # search
 			@query = params[:query]
 			@articles = Article.search(params[:query], match_mode: :boolean)
@@ -7,7 +8,7 @@ class ArticlesController < ApplicationController
 			@recent_articles = Article.recent
 		elsif params[:tagged]
 			if params[:tagged] == 'editors-picks'
-				@articles = Article.editors_picks.page(params[:page] ||= 1).per(articles_per_page)
+				@articles = Article.editors_picks.page(params[:page]).per(articles_per_page)
 				if params[:page].to_i == 1
 					@total = Article.editors_picks.size
 					leading_article = Article.leading_editor_article
@@ -18,7 +19,14 @@ class ArticlesController < ApplicationController
 				end
 			end
 		elsif params[:exchange]
-
+			exchange = Exchange.find_by(slug: params[:exchange])
+			@articles = exchange.articles.not_sponsored
+													.includes(:author).references(:author)
+													.includes(:exchanges).references(:exchanges)
+													.page(params[:page]).per(articles_per_page)
+			if params[:page].to_i == 1
+				@total = exchange.articles.not_sponsored.size
+			end
 		end
 	end
 

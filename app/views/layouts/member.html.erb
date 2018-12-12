@@ -1,151 +1,136 @@
- <%= render 'layouts/head' %>
+<%= render 'layouts/head' %>
 
-<header id="main_header">
-  <div class="container">
-    <div class="row">
-      <nav id="main_nav_left" class="navbar navbar-expand-md col-4 px-md-0 px-lg-1 pb-0 pt-3">
-        <ul class="nav">
+<section ng-controller="RouterController">
+  <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: true } %>
+
+  <main id="panel_for_side_menu">
+    <div id="content">
+      <header id="main_header">
+        <div class="container">
+
+          <!-- Non tabbed app page header -->
+          <div class="row" ng-show="appPage">
+            <div class="col-12">
+              <a ng-click="openFrontPage()" href='#' class="d-block py-2" id="close_app_page">
+                <i class="fas fa-arrow-left text-black mr-2"></i>
+                {{appPage}}
+              </a>
+            </div>
+          </div>
+
+          <!-- Tabbed app page header -->
+          <div class="row" ng-show="!appPage">
+
+            <div class="col-3 align-items-center">
+              <a id="sidebarCollapse" class="text-black" href='#'>
+                <i class="fas fa-align-left" aria-hidden="true"></i>
+              </a>
+             </div>
+
+            <div id="logo" class="col-6 d-flex justify-content-center">
+              <a href="/?<%= 'force_home=1' if user_signed_in? %>">
+                <span class="text-hide">TheArticle</span>
+              </a>
+            </div>
+
+            <div class="col-3 align-items-center" ng-if="notifications">
+              <a class="text-black" ng-click="openAccountSettings('notifications')" href='#' id="notification_settings_btn">
+                <i class="fas fa-cogs" aria-hidden="true"></i>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </header>
+
+      <nav id="member_options" ng-show="!appPage">
+        <ul class="nav nav-pills nav-fill d-flex">
           <li class="nav-item">
-            <a class="nav-link nav-icon-text text-black pl-0" href="/front-page" id="nav_link_front_page">
-              <span class="pr-1 pt-1">
-              	<i class="far fa-newspaper"></i>
-              </span> Front Page
+            <a class="nav-link active" id="front-page-tab" data-toggle="tab" href="#content-front-page">
+              <i class="fas fa-home"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-black pl-md-4" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
+            <a class="nav-link" id="follows-tab" data-toggle="tab" href="#content-follows">
+              <i class="fas fa-users"></i>
+            </a>
           </li>
-        </ul>
-      </nav>
-
-      <div id="logo" class="col-4 d-flex justify-content-center px-md-0 px-lg-1">
-        <a href="/?force_home=1">
-          <span class="text-hide">TheArticle</span>
-        </a>
-      </div>
-
-      <nav class="navbar navbar-expand-md col-4 d-flex align-items-center px-md-0 px-lg-1">
-        <ul class="nav w-100 justify-content-end">
-          <li class="nav-item mr-2" id="nav_link_search_signed_in">
-            <a class="nav-link nav-icon py-2 text-black search_trigger" href="#">
+          <li class="nav-item">
+            <a class="nav-link" id="search-tab" data-toggle="tab" href="#content-search">
               <i class="fas fa-search"></i>
             </a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link nav-icon py-2 text-black pl-md-5" href="#" id="nav_link_notifications" data-toggle="dropdown">
-            	<i class="fas fa-bell"></i>
+          <li class="nav-item">
+            <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#content-notifications">
+              <i class="fas fa-bell"></i>
             </a>
-	           <div class="dropdown-menu dropdown-menu-right bg-light" id="notifications_menu">
-	           	<h6 class="dropdown-header">Notifications</h6>
-	           	<% for i in 1..12 %>
-						    <div class="dropdown-item notification-item border-bottom d-flex bg-white">
-						    	<img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle " alt="<%= current_user.display_name %>" style="width:45px; height: 45px;">
-						    	<p class="ml-4 notification-item-detail"><b>Lorem ipsum</b> dolor sit amet, consectetur <b>adipisicing elit</b>, sed do eiusmod tempor.<br />
-						    	<span class="notification-item-time">1 hour ago</span></p>
-						    </div>
-						   <% end %>
-						   <p class="dropdown-see-all text-center pt-2 my-0">
-						   	<a href="/notifications"><small>See all notifications</small></a>
-						   </p>
-					  </div>
-          </li>
-          <li class="nav-item dropdown" >
-            <a class="nav-link nav-icon py-0 text-black pl-md-5" href="#" id="nav_link_my_profile" data-toggle="dropdown">
-            	<i class="fas fa-user-circle"></i>
-            </a>
-           <div class="dropdown-menu dropdown-menu-right bg-light" id="my_profile_menu">
-	           	<h6 class="dropdown-header mb-2">
-	           		<b><%= current_user.display_name %></b>
-	           		<br /><%= current_user.username %>
-	           	</h6>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="<%= front_page_path %>">
-					    	<i class="far fa-newspaper mr-2"></i>
-					    	Front page
-					    </a>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="/my-profile">
-					    	<i class="fas fa-user mr-2"></i>
-					    	My profile
-					    </a>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="/following">
-					    	<i class="fas fa-angle-double-right mr-2"></i>
-					  		Following (4)
-					  	</a>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="/following">
-					    	<i class="fas fa-angle-double-left mr-2"></i>
-					    	Followers (12)
-					    </a>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="/following">
-					    	<i class="far fa-list-alt mr-2"></i>
-					    	Follow suggestions
-					    </a>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="/account-settings">
-					    	<i class="fas fa-cogs mr-2"></i>
-					    	Account settings
-					    </a>
-					    <a class="dropdown-item py-2 bg-white notification-item" href="<%= destroy_user_session_path %>" data-method="delete">
-					    	<i class="fas fa-sign-out-alt mr-2"></i>
-					    	Sign out
-					    </a>
-					  </div>
-
           </li>
         </ul>
       </nav>
+
+      <%= render 'common/search-box' %>
+
+      <main id="main_content">
+        <div class="tab-content" id="app_tabs" ng-show="!appPage">
+          <%= render 'mobile/front_page' %>
+          <%= render 'mobile/follows' %>
+          <%= render 'mobile/notifications' %>
+        </div>
+
+        <%= render 'mobile/my_profile' %>
+        <%= render 'mobile/account_settings' %>
+      </main>
+
+      <footer id="main_footer_top" class="main_footer bg-black text-white">
+        <div class="container pb-3">
+          <div class="inner border-light border-top">
+            <div class="row py-3">
+              <div class="col-1"></div>
+              <div class="col-10">
+                <nav class="pt-2" id="social_links">
+                  <ul class="row list-unstyled px-0 py-0 mx-0 my-0">
+                    <li class="col-3 nav-item px-0 py-0" id="social_facebook">
+                      <a class="nav-link text-center text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                    </li>
+                    <li class="col-3 nav-item px-0 py-0" id="social_twitter">
+                      <a class="nav-link text-center text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                    </li>
+                    <li class="col-3 nav-item px-0 py-0" id="social_linked_in">
+                      <a class="nav-link text-center text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
+                        <i class="fab fa-linkedin-in"></i>
+                      </a>
+                    </li>
+                    <li class="col-3 nav-item px-0 py-0" id="social_rss">
+                      <a class="nav-link text-center text-white" href="/feed/rss" target="_blank">
+                        <i class="fas fa-rss"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="col-1"></div>
+            </div>
+
+            <div class="row pt-3 px-2 pb-5">
+              <div id="copyright" class="col-12 d-flex align-items-center">
+                <p class="text-light w-100 text-center pt-1">
+                  <small style="font-size: 70%;">&copy; <%= Date.today.strftime("%Y") %> TheArticle. All rights reserved</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
     </div>
-  </div>
-</header>
 
-<%= render 'common/search-box' %>
+    <div class="overlay"></div>
 
-<%= render 'common/join-form-modal' %>
+  </main>
+</section>
 
-<main id="main_content" class="mb-4" role="main">
-  <%= yield %>
-</main>
-
-<footer id="main_footer_bottom" class="main_footer bg-black text-white border-light border-top">
-  <div class="container">
-    <div class="row py-3">
-      <div id="copyright" class="col-6 col-lg-5 d-flex align-items-center">
-        <p class="text-light pl-5 pt-2">
-          <small>
-            &copy; <%= Date.today.strftime("%Y") %> TheArticle.&nbsp;
-            <% if is_staging? %>
-              Staging server
-            <% else %>
-              All rights reserved
-            <% end %>
-          </small>
-        </p>
-      </div>
-      <div class="col-md-0 col-lg-2"></div>
-      <div class="col-6 col-lg-5 d-flex justify-content-end">
-        <nav class="navbar navbar-expand-md ml-auto pr-0" id="social_links">
-          <ul class="nav ">
-            <li class="nav-item" id="social_facebook">
-              <a class="ml-2 nav-link text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-            </li>
-            <li class="nav-item" id="social_twitter">
-              <a class="ml-2 nav-link text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
-                <i class="fab fa-twitter"></i>
-              </a>
-            </li>
-            <li class="nav-item" id="social_linked_in">
-              <a class="ml-2 nav-link text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </li>
-            <li class="nav-item" id="social_rss">
-              <a class="ml-2 nav-link text-white mr-0 pr-0" href="/feed/rss" target="_blank">
-                <i class="fas fa-rss"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</footer>
 <%= render 'layouts/foot' %>

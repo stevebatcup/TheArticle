@@ -1,6 +1,6 @@
 class FrontPageController < ApplicationController
 	before_action :authenticate_user!
-	layout	'member'
+	layout	:set_layout
 
 	def index
 

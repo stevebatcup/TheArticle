@@ -1,4 +1,4 @@
-class TheArticle.MemberApp extends TheArticle.MobilePageController
+class TheArticle.Router extends TheArticle.MobilePageController
 
 	@register window.App
 	@$inject: [
@@ -80,4 +80,4 @@ class TheArticle.MemberApp extends TheArticle.MobilePageController
 			$('#search-tab').click()
 		, 100
 
-TheArticle.ControllerModule.controller('MemberAppController', TheArticle.MemberApp)
+TheArticle.ControllerModule.controller('RouterController', TheArticle.Router)

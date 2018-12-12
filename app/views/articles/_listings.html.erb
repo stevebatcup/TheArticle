@@ -1,20 +1,20 @@
 <div class="container" ng-if="loaded">
-	<h2 class="h1 bullet mb-2 mb-md-3<%= ' cloak' if block_id == 'editors_picks' %>"><%= title %></h2>
+	<h2 class="h1 bullet mb-2 mb-md-3<%= ' cloak' if block_id == 'editorsPicks' %>"><%= title %></h2>
 	<div class="row">
-		<article ng-repeat="article in editorsPicks" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.is_sponsored ? ' sponsored_article' : '' }}" data-href="{{  article.path }}">
+		<article ng-repeat="article in <%= block_id %>" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.is_sponsored ? ' sponsored_article' : '' }}" data-href="{{  article.path }}">
 			<%= render partial: 'articles/item' %>
 		</article>
+		<% if block_id == 'exchangeArticles' && is_editor_exchange %>
+			<%= render "exchanges/editor_exchange_callout_3" %>
+			<%= render "exchanges/editor_exchange_callout_2" %>
+			<%= render "exchanges/editor_exchange_callout_1" %>
+		<% end %>
 	</div>
-	<a ng-if="moreToLoad" class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" href="#" ng-click="loadMore()">
-		<% if block_id == 'exchange_listings' && is_editor_exchange %>
+	<a ng-if="moreToLoad" class="btn btn-standard mt-4 mb-4 mt-md-0 mb-md-5 see_more_articles" ng-click="loadMore()">
+		<% if block_id == 'exchangeArticles' && is_editor_exchange %>
 			See More articles
 		<% else %>
 			See More
 		<% end %>
 	</a>
-
-	<% if block_id == 'exchange_listings' && is_editor_exchange %>
-		<% callout = counter / articles_per_page %>
-		<%= render "exchanges/editor_exchange_callout_#{callout}" %>
-	<% end %>
 </div>

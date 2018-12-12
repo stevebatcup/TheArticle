@@ -26,6 +26,11 @@ Rails.application.routes.draw do
   post   'wp-connector/:model/:id/unpublish',  to: 'wp_connector#model_delete'
 
   get 'front-page',                            to: 'front_page#index', as: :front_page
+  get 'my-profile',                            to: 'users#show'
+  get 'following',                             to: 'follows#index', mode: :following
+  get 'followers',                             to: 'follows#index', mode: :followers
+  get 'follow-suggestions',                    to: 'follows#index', mode: :suggestions
+  get 'account-settings',                      to: 'account_settings#edit'
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

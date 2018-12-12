@@ -19,7 +19,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		super
 
 	bindSideMenu: =>
-		if $("#member_side_menu").length > 0
+		if $("#mobile_side_menu").length > 0
 			@bindMemberSideMenu()
 		else
 			# console.log 'bind mCustomScrollbar'
@@ -30,7 +30,8 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 				$('#sidebar').removeClass('active')
 				$('.overlay').removeClass('active')
 
-			$('#sidebarCollapse').on 'click', =>
+			$('#sidebarCollapse').on 'click', (e) =>
+				e.preventDefault()
 				$('#search_box').slideUp(200) if $('#search_box').is(':visible')
 				$('#sidebar').addClass('active')
 				$('.overlay').addClass('active')
@@ -42,14 +43,16 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		# console.log 'bindMemberSideMenu'
 		@scope.slideout = new Slideout
 			'panel': document.getElementById('panel_for_side_menu')
-			'menu': document.getElementById('member_side_menu')
+			'menu': document.getElementById('mobile_side_menu')
 			'padding': 256
 			'tolerance': 70
 
 		$(document).on 'click', '#sidebarCollapse', (e) =>
+			e.preventDefault()
 			@scope.slideout.toggle()
 
 		$(document).on 'click', '.overlay.show_menu', (e) =>
+			e.preventDefault()
 			@scope.slideout.toggle()
 
 		@scope.slideout.on 'beforeopen', (e, l) =>

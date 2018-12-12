@@ -1,4 +1,4 @@
-<nav id="member_side_menu" class="menu">
+<nav id="mobile_side_menu" class="menu">
   <section class="menu-section">
     <div id="sidebar_logo" class="justify-content-center">
       <a href="/?force_home=1">
@@ -12,7 +12,7 @@
         <%= current_user.display_name %>&nbsp;<span class="username text-muted"><%= current_user.username %></span>
         <br />
         <% if use_app_links %>
-          <a ng-click="openMyProfile()" href='#'>
+          <a href='#myprofile' ng-click="openMyProfile()">
         <% else %>
           <a href="<%= front_page_path(route: 'myprofile') %>">
         <% end %>
@@ -24,7 +24,7 @@
       <p>
         <span class="pr-1">
           <% if use_app_links %>
-            <a ng-click="openFollows('following')" href='#'>
+            <a href='#following' ng-click="openFollows('following')">
           <% else %>
             <a href="<%= front_page_path(route: 'following') %>">
           <% end %>
@@ -32,7 +32,7 @@
         </span>
         <span class="pl-1">
           <% if use_app_links %>
-            <a ng-click="openFollows('followers')" href='#'>
+            <a href='#followers' ng-click="openFollows('followers')">
           <% else %>
             <a href="<%= front_page_path(route: 'followers') %>">
           <% end %>
@@ -45,7 +45,7 @@
     <ul class="list-unstyled menu-section-list">
       <li>
         <% if use_app_links %>
-          <a ng-click="openFrontPage()" href='#'>
+          <a href='#front_page' ng-click="openFrontPage()">
         <% else %>
           <a href='<%= front_page_path(route: '') %>'>
         <% end %>
@@ -53,7 +53,7 @@
       </li>
       <li>
         <% if use_app_links %>
-          <a ng-click="openSearch()" href='#'>
+          <a href='#search' ng-click="openSearch()">
         <% else %>
           <a href='<%= front_page_path(route: 'search') %>'>
         <% end %>
@@ -61,7 +61,7 @@
       </li>
       <li>
         <% if use_app_links %>
-          <a ng-click="openFollows('suggestions')" href='#'>
+          <a href='#suggestions' ng-click="openFollows('suggestions')">
         <% else %>
           <a href="<%= front_page_path(route: 'suggestions') %>">
         <% end %>
@@ -69,7 +69,7 @@
       </li>
       <li>
         <% if use_app_links %>
-          <a ng-click="openNotifications()" href='#'>
+          <a href='#notifications' ng-click="openNotifications()">
         <% else %>
           <a href="<%= front_page_path(route: 'notifications') %>">
         <% end %>
@@ -77,7 +77,7 @@
       </li>
       <li>
         <% if use_app_links %>
-          <a ng-click="openAccountSettings()" href='#'>
+          <a href='#account' ng-click="openAccountSettings()">
         <% else %>
           <a href="<%= front_page_path(route: 'account') %>">
         <% end %>

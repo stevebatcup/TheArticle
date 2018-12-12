@@ -2,7 +2,7 @@
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
 <% meta_tag :image, @exchange.image.url(:detail) %>
 
-<section ng-controller="ExchangesController">
+<section ng-controller="ExchangesController" data-exchange="<%= @exchange.slug %>">
 	<header class="black_heading py-4 py-md-5">
 		<div class="container">
 			<div class="row">
@@ -47,16 +47,13 @@
 		<% end %>
 	<% end %>
 
-
-	<%= if @articles_for_listings.any?
-		listings_heading = @exchange.is_editor_item? ? "Latest articles from #{@exchange.name}" : "Latest articles on #{@exchange.name}"
+	<%=
 		render partial: 'articles/listings', locals: {
-			block_id: 'exchange_listings',
-			articles: @articles_for_listings,
-			title: listings_heading,
+			block_id: 'exchangeArticles',
+			title: @exchange.is_editor_item? ? "Latest articles from #{@exchange.name}" : "Latest articles on #{@exchange.name}",
 			is_editor_exchange: @exchange.is_editor_item?
 		}
-	end %>
+	%>
 
 	<%= render partial: 'common/page-bottom', locals: {
 			spotlight_heading: 'Popular contributors',
