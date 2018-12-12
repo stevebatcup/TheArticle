@@ -44,22 +44,7 @@
   </div>
 </header>
 
-<nav id="search_box" class="collapse hide" aria-expanded="true" style="">
-  <div class="row" id="search_box_row">
-    <div class="justify-content-center" id="search_inner">
-      <form method="get" id="search_form" class="search_form" action="<%= search_path %>" role="search" >
-        <div class="input-group">
-          <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query">
-          <span class="input-group-btn">
-            <button class="btn-link btn-lg btn bg-colour-1 text-white gabriela" type="submit">
-              GO <i class="fas fa-angle-right"></i>
-            </button>
-          </span>
-        </div>
-      </form>
-    </div>
-  </div>
-</nav>
+<%= render 'common/search-box' %>
 
 <%= render 'common/join-form-modal' %>
 
@@ -67,4 +52,86 @@
   <%= yield %>
 </main>
 
-<%= render 'layouts/footer' %>
+<footer id="main_footer_top" class="main_footer bg-black text-white border-light border-bottom">
+  <div class="container">
+    <div class="row py-2">
+      <nav class="navbar navbar-expand-md col-12 col-lg-10 d-flex" id="footer_nav">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/our-mission">Our Mission</a>
+          </li>
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/terms-and-conditions">Terms & Conditions</a>
+          </li>
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/privacy-policy">Privacy Policy</a>
+          </li>
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/contributors">Contributors</a>
+          </li>
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/sponsors">Sponsors</a>
+          </li>
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/write-for-us">Write for Us</a>
+          </li class="nav-item">
+          <li class="nav-item">
+            <a class="mr-3 text-white nav-link px-2" href="/contact">Contact</a>
+          </li>
+        </ul>
+      </nav>
+
+      <% unless user_signed_in? %>
+      <div class="col-md-0 col-lg-2 d-flex align-items-center justify-content-end"">
+        <button data-toggle="modal" data-target="#join_form_modal" class="join_button btn btn-sm bg-grass text-white">Join Us</button>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</footer>
+<footer id="main_footer_bottom" class="main_footer bg-black text-white border-light border-top">
+  <div class="container">
+    <div class="row py-3">
+      <div id="copyright" class="col-6 col-lg-5 d-flex align-items-center">
+        <p class="text-light pl-5 pt-2">
+          <small>
+            &copy; <%= Date.today.strftime("%Y") %> TheArticle.&nbsp;
+            <% if is_staging? %>
+              Staging server
+            <% else %>
+              All rights reserved
+            <% end %>
+          </small>
+        </p>
+      </div>
+      <div class="col-md-0 col-lg-2"></div>
+      <div class="col-6 col-lg-5 d-flex justify-content-end">
+        <nav class="navbar navbar-expand-md ml-auto pr-0" id="social_links">
+          <ul class="nav ">
+            <li class="nav-item" id="social_facebook">
+              <a class="ml-2 nav-link text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="nav-item" id="social_twitter">
+              <a class="ml-2 nav-link text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="nav-item" id="social_linked_in">
+              <a class="ml-2 nav-link text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+            <li class="nav-item" id="social_rss">
+              <a class="ml-2 nav-link text-white mr-0 pr-0" href="/feed/rss" target="_blank">
+                <i class="fas fa-rss"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+<%= render 'layouts/foot' %>

@@ -2,7 +2,7 @@
 	<h2 class="h1 bullet">Trending exchanges</h2>
 </div>
 
-<div id="exchangesCarousel" class="exchanges slick-carousel slide w-100">
+<div id="exchangesCarousel" class="exchanges slick-carousel slide w-100" data-slideout-ignore>
 	<% exchanges.each_with_index do |exchange, index| %>
     <div class="slick-carousel-item block_click" data-href="<%= exchange_path(slug: exchange.slug) %>">
       <% if exchange.image? %>

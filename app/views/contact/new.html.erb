@@ -1,56 +1,58 @@
 <% page_title "Contact Us" %>
 <% meta_tag :description, "To get in touch with us, please fill out the form below." %>
 
-<div id="content-page">
-	<header class="entry-header">
-		<h1 class="mb-0">
-			<div class="container">
-				Contact us
-			</div>
-		</h1>
-	</header>
-</div>
-
-<div class="container">
-	<div class="row pt-4">
-		<div class="col-0 col-lg-2"></div>
-		<div class="col-0 col-lg-8">
-		  <form class="contact_ready" novalidate id="contact_form">
-			  <p class="form_ready">To get in touch with us, please fill out the form below.</p>
-		    <div class="form-group">
-		    	<div class="row">
-				    <div class="col">
-		          <label for="first_name">First name</label>
-		          <input type="text" class="form-control mobile_hide_placeholder" id="first_name" name="first_name" placeholder="Your first name">
-		        </div>
-		        <div class="col">
-		          <label for="last_name">Last name</label>
-		          <input type="text" class="form-control mobile_hide_placeholder" id="last_name" name="last_name" placeholder="Your last name">
-		        </div>
-		    	</div>
-		   	</div>
-		    <div class="form-group">
-		    	<div class="row">
-				    <div class="col">
-				    	<label for="email">Email address</label>
-				    	<input type="email" class="form-control mobile_hide_placeholder" id="email" name="email" aria-describedby="emailHelp" placeholder="Your email address">
-				    	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. <a href="/privacy-policy" target="_blank">Read more</a></small>
-		        </div>
-		        <div class="col">
-		          <label for="subject">Subject</label>
-		          <input type="text" class="form-control mobile_hide_placeholder" id="subject" name="subject" placeholder="Subject of message">
-		        </div>
-		    	</div>
-		   	</div>
-		   	<div class="form-group">
-		   		<textarea class="form-control" id="message" name="message" placeholder="Type your message here..." rows="6"></textarea>
-		   	</div>
-		    <p id="contact_error" class="text-red" style="display:none"><!-- --></p>
-		    <button type="submit" class="btn text-white bg-blue my-3" id="send_message">Send message</button>
-		  </form>
-
-		  <p id="contact_success" style="display:none"><!-- --></p>
-		</div>
-		<div class="col-0 col-lg-2"></div>
+<section ng-controller="ContentPageController">
+	<div id="content-page">
+		<header class="entry-header">
+			<h1 class="mb-0">
+				<div class="container">
+					Contact us
+				</div>
+			</h1>
+		</header>
 	</div>
-</div>
+
+	<div class="container">
+		<div class="row pt-4">
+			<div class="col-0 col-lg-2"></div>
+			<div class="col-0 col-lg-8">
+			  <form class="contact_ready" novalidate id="contact_form">
+				  <p class="form_ready">To get in touch with us, please fill out the form below.</p>
+			    <div class="form-group">
+			    	<div class="row">
+					    <div class="col">
+			          <label for="first_name">First name</label>
+			          <input type="text" class="form-control mobile_hide_placeholder" id="first_name" name="first_name" placeholder="Your first name">
+			        </div>
+			        <div class="col">
+			          <label for="last_name">Last name</label>
+			          <input type="text" class="form-control mobile_hide_placeholder" id="last_name" name="last_name" placeholder="Your last name">
+			        </div>
+			    	</div>
+			   	</div>
+			    <div class="form-group">
+			    	<div class="row">
+					    <div class="col">
+					    	<label for="email">Email address</label>
+					    	<input type="email" class="form-control mobile_hide_placeholder" id="email" name="email" aria-describedby="emailHelp" placeholder="Your email address">
+					    	<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. <a href="/privacy-policy" target="_blank">Read more</a></small>
+			        </div>
+			        <div class="col">
+			          <label for="subject">Subject</label>
+			          <input type="text" class="form-control mobile_hide_placeholder" id="subject" name="subject" placeholder="Subject of message">
+			        </div>
+			    	</div>
+			   	</div>
+			   	<div class="form-group">
+			   		<textarea class="form-control" id="message" name="message" placeholder="Type your message here..." rows="6"></textarea>
+			   	</div>
+			    <p id="contact_error" class="text-red" style="display:none"><!-- --></p>
+			    <button type="submit" class="btn text-white bg-blue my-3" id="send_message">Send message</button>
+			  </form>
+
+			  <p id="contact_success" style="display:none"><!-- --></p>
+			</div>
+			<div class="col-0 col-lg-2"></div>
+		</div>
+	</div>
+</section>

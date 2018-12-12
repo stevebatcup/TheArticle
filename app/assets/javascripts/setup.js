@@ -3,18 +3,17 @@
 //= require activestorage
 //= require tether
 //= require bootstrap
-//= require modernizr
+//= require vendor/modernizr
 //= require underscore/underscore-min
 //= require slick-carousel/slick/slick.min
 //= require fontawesome/svg-with-js/js/fontawesome-all.min
 //= require mustache/mustache.min
 //= require angular
-//= require angular-animate/angular-animate
+//= require angular-animate
 //= require angularjs/rails/resource
 //= require angularjs/rails/resource/extensions/snapshots
-//= require angular-utils-pagination/dirPagination
-//= require angular-flash-alert/dist/angular-flash
-//= require angular-route/angular-route
+//= require angular-utils-pagination
+//= require angular-flash-alert
 TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
 TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);
 TheArticle.FilterModule = angular.module('TheArticle.filters', []);

@@ -1,66 +1,68 @@
 <% page_title "Contributors" %>
 <% meta_tag :description, "Our contributors" %>
 
-<div id="content-page">
-	<header class="entry-header">
-		<h1 class="mb-0">
-			<div class="container">
-			Contributors
-			</div>
-		</h1>
-	</header>
-</div>
+<section ng-controller="ContributorsController">
+	<div id="content-page">
+		<header class="entry-header">
+			<h1 class="mb-0">
+				<div class="container">
+				Contributors
+				</div>
+			</h1>
+		</header>
+	</div>
 
 
-<div class="container py-4 py-md-5">
-	<form id="filter_list_form" name="filter_list_form"
-				class="filter_list_form mb-3 mb-md-2"
-				onsubmit="return false;">
-    <div class="input-group">
-      <input placeholder="Search for a contributor" class="text-dark form-control" type="text" value="" name="search_filter">
-      <span class="input-group-btn" id="magnify">
-      	<i class="fas fa-search"></i>
-      </span>
-    </div>
-	</form>
+	<div class="container py-4 py-md-5">
+		<form id="filter_list_form" name="filter_list_form"
+					class="filter_list_form mb-3 mb-md-2"
+					onsubmit="return false;">
+	    <div class="input-group">
+	      <input placeholder="Search for a contributor" class="text-dark form-control" type="text" value="" name="search_filter">
+	      <span class="input-group-btn" id="magnify">
+	      	<i class="fas fa-search"></i>
+	      </span>
+	    </div>
+		</form>
 
-	<div class="row filter_list" id="journalists_list">
-		<p style="display: none;" class="filter_none_found my-3 text-center h5 w-100">Sorry there are no contributors for your search term</p>
+		<div class="row filter_list" id="journalists_list">
+			<p style="display: none;" class="filter_none_found my-3 text-center h5 w-100">Sorry there are no contributors for your search term</p>
 
-		<% @contributors.each do |contributor| %>
-			<article class="col-6 col-md-4 col-lg-3 col-xl-5ths px-md-2 py-md-2 py-xl-3 mb-3 mb-md-4 hoveraction article-listing journalist <%= contributor.post_count > 0 ? 'block_click' : '' %>"
-				 data-href="">
-				<div class="inner" style="background-image: url('<%= contributor.image.url(:listing) %>')" alt="<%= contributor.display_name; %>" />
-					<div class="mask">
-						<div class="inner_inner">
-							<div class="px-2 px-md-2 py-0">
-								<h3 class="shadow text-white mb-0 filter_target">
-									<% if contributor.post_count > 0 %>
-										<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
+			<% @contributors.each do |contributor| %>
+				<article class="col-6 col-md-4 col-lg-3 col-xl-5ths px-md-2 py-md-2 py-xl-3 mb-3 mb-md-4 hoveraction article-listing journalist <%= contributor.post_count > 0 ? 'block_click' : '' %>"
+					 data-href="<%= contributor_path(slug: contributor.slug) %>">
+					<div class="inner" style="background-image: url('<%= contributor.image.url(:listing) %>')" alt="<%= contributor.display_name; %>" />
+						<div class="mask">
+							<div class="inner_inner">
+								<div class="px-2 px-md-2 py-0">
+									<h3 class="shadow text-white mb-0 filter_target">
+										<% if contributor.post_count > 0 %>
+											<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
+												<%= contributor.display_name; %>
+											</a>
+										<% else %>
 											<%= contributor.display_name; %>
-										</a>
-									<% else %>
-										<%= contributor.display_name; %>
-									<% end %>
-								</h3>
-								<h4 class="shadow text-white mb-0 mx-0 mt-1">
-									<% if contributor.post_count > 0 %>
-										<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
+										<% end %>
+									</h3>
+									<h4 class="shadow text-white mb-0 mx-0 mt-1">
+										<% if contributor.post_count > 0 %>
+											<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
+												<%= contributor.title %>
+											</a>
+										<% else %>
 											<%= contributor.title %>
-										</a>
-									<% else %>
-										<%= contributor.title %>
-									<% end %>
-								</h4>
-								<p class="shadow text-white entry-content mb-0 mx-0 mt-2 mobile_hide"
-										data-href="<%= contributor_path(slug: contributor.slug) %>">
-									<%= truncate(contributor.blurb, length: 230); %>
-								</p>
+										<% end %>
+									</h4>
+									<p class="shadow text-white entry-content mb-0 mx-0 mt-2 mobile_hide"
+											data-href="<%= contributor_path(slug: contributor.slug) %>">
+										<%= truncate(contributor.blurb, length: 230); %>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</article>
-    <% end %>
+				</article>
+	    <% end %>
+		</div>
 	</div>
-</div>
+</section>

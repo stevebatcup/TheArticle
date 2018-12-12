@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   get 'articles',                              to: 'articles#index', as: :articles
   get 'contact',                               to: 'contact#new'
   post 'contact',                              to: 'contact#create'
+
   post 'register',                             to: 'register#create'
+  get 'new_profile',                           to: 'profile_wizard#new', as: :profile_wizard
+  post 'new_profile',                          to: 'profile_wizard#create'
 
   get 'exchanges',				 					           to: 'exchanges#index'
   get 'exchange/:slug',				 			           to: 'exchanges#show', as: :exchange

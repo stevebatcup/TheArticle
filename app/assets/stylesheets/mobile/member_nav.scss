@@ -1,0 +1,151 @@
+.slideout-panel {
+  will-change: unset;
+}
+
+.menu {
+  background-color: #1D1F20;
+  background-image: linear-gradient(145deg, #1D1F20, #404348);
+
+  #sidebar_logo {
+    background-image: url('logo-2-lines-white.png');
+    background-size: 42%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    top: -1em;
+    line-height: 2.2em;
+    margin-bottom: 0;
+  }
+}
+
+.menu a {
+  color: #fff;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
+.menu-section {
+  margin: 25px 0;
+}
+
+.menu-section-title {
+  text-transform: uppercase;
+  color: #85888d;
+  font-weight: 200;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 0 20px;
+  margin:0;
+}
+
+.menu-section-list {
+  padding:0;
+  margin: 10px 0;
+  list-style:none;
+
+  li {
+    font-size: 0.8em;
+    a {
+      display: block;
+      padding: 10px 20px;
+    }
+  }
+}
+
+div#sidebar_me {
+  padding: 10px 20px;
+
+  p {
+    color: #fff;
+    font-size: 0.7em;
+    padding-left: 10px;
+    line-height: 2em;
+
+    a {
+      color: $blue_dark;
+    }
+  }
+}
+
+div#follows_info {
+  padding: 10px 20px;
+
+  p {
+    color: #fff;
+    font-size: 0.9em;
+    padding-left: 10px;
+    line-height: 2em;
+  }
+}
+
+#notification_settings_btn {
+  font-size: 24px;
+  padding: 0.4rem 0.1rem 0 0 !important;
+  display: block;
+  text-align: right;
+}
+
+body.fixed-nav {
+  main#main_content {
+    padding-top: 3.2rem;
+  }
+}
+
+#member_options {
+  transition: top 0.3s;
+  width: 100vw;
+  left: 0;
+  background-color: #fff;
+
+  body.fixed-header & {
+    position: fixed;
+    top: 43px;
+  }
+
+  body.fixed-nav & {
+    position: fixed;
+    top: 0;
+  }
+
+  li.nav-item {
+    background-color: $black;
+
+    a.nav-link {
+      color: #fff;
+
+      &.active {
+        background-color: #fff;
+        border-radius: 0;
+        color: #111 !important;
+      }
+    }
+  }
+}
+
+a#close_app_page {
+  font-size: 1.4em;
+}
+
+.app_page {
+  padding-top: 12px;
+}
+
+nav.sub_tabs {
+  background-color: #303030;
+
+  li {
+    a {
+      color: #fff;
+      font-size: 0.8em;
+      border-radius: 0 !important;
+
+      &.active {
+        background-color: #303030 !important;
+        color: #fff !important;
+        border-bottom: 2px solid #fff;
+      }
+    }
+  }
+}

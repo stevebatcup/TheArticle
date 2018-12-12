@@ -1,0 +1,117 @@
+<nav id="member_side_menu" class="menu">
+  <section class="menu-section">
+    <div id="sidebar_logo" class="justify-content-center">
+      <a href="/?force_home=1">
+        <span class="text-hide">TheArticle</span>
+      </a>
+    </div>
+
+    <div id="sidebar_me" class="d-flex">
+      <img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="width:45px; height: 45px;">
+      <p>
+        <%= current_user.display_name %>&nbsp;<span class="username text-muted"><%= current_user.username %></span>
+        <br />
+        <% if use_app_links %>
+          <a ng-click="openMyProfile()" href='#'>
+        <% else %>
+          <a href="<%= front_page_path(route: 'myprofile') %>">
+        <% end %>
+        View my profile</a>
+      </p>
+    </div>
+
+    <div id="follows_info" class="d-flex">
+      <p>
+        <span class="pr-1">
+          <% if use_app_links %>
+            <a ng-click="openFollows('following')" href='#'>
+          <% else %>
+            <a href="<%= front_page_path(route: 'following') %>">
+          <% end %>
+          Following <span class="text-muted pl-1">4</span></a>
+        </span>
+        <span class="pl-1">
+          <% if use_app_links %>
+            <a ng-click="openFollows('followers')" href='#'>
+          <% else %>
+            <a href="<%= front_page_path(route: 'followers') %>">
+          <% end %>
+          Followers <span class="text-muted pl-1">12</span></a>
+        </span>
+      </p>
+    </div>
+
+    <h3 class="menu-section-title">My pages</h3>
+    <ul class="list-unstyled menu-section-list">
+      <li>
+        <% if use_app_links %>
+          <a ng-click="openFrontPage()" href='#'>
+        <% else %>
+          <a href='<%= front_page_path(route: '') %>'>
+        <% end %>
+        Front page</a>
+      </li>
+      <li>
+        <% if use_app_links %>
+          <a ng-click="openSearch()" href='#'>
+        <% else %>
+          <a href='<%= front_page_path(route: 'search') %>'>
+        <% end %>
+        Search</a>
+      </li>
+      <li>
+        <% if use_app_links %>
+          <a ng-click="openFollows('suggestions')" href='#'>
+        <% else %>
+          <a href="<%= front_page_path(route: 'suggestions') %>">
+        <% end %>
+        Follow suggestions</a>
+      </li>
+      <li>
+        <% if use_app_links %>
+          <a ng-click="openNotifications()" href='#'>
+        <% else %>
+          <a href="<%= front_page_path(route: 'notifications') %>">
+        <% end %>
+        Notifications</a>
+      </li>
+      <li>
+        <% if use_app_links %>
+          <a ng-click="openAccountSettings()" href='#'>
+        <% else %>
+          <a href="<%= front_page_path(route: 'account') %>">
+        <% end %>
+        Account settings</a>
+      </li>
+      <li>
+        <a class="" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
+      </li>
+    </ul>
+
+    <h3 class="menu-section-title">Browse</h3>
+    <ul class="list-unstyled menu-section-list">
+      <li>
+        <a class="" href="/exchanges">Exchanges</a>
+      </li>
+      <li>
+        <a class="" href="/contributors">Contributors</a>
+      </li>
+      <li>
+        <a class="" href="/sponsors">Sponsors</a>
+      </li>
+    </ul>
+
+    <h3 class="menu-section-title">Information</h3>
+    <ul class="list-unstyled menu-section-list">
+      <li>
+        <a class="" href="/write-for-us">Write for Us</a>
+      </li>
+      <li>
+        <a class="" href="/contact">Contact</a>
+      </li>
+      <li>
+        <a class="" href="/our-mission">Our Mission</a>
+      </li>
+    </ul>
+  </section>
+</nav>

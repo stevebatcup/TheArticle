@@ -2,63 +2,65 @@
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
 <% meta_tag :image, @exchange.image.url(:detail) %>
 
-<header class="black_heading py-4 py-md-5">
-	<div class="container">
-		<div class="row">
-			<div class="col-3 col-md-2">
-				<% if @exchange.image? %>
-					<img src="<%= @exchange.image.url(:detail) %>" alt="<%=  @exchange.name %>" class="mt-1 mt-md-1 mt-xl-2" />
-				<% end %>
-			</div>
-			<div class="col-9 col-md-10 pl-0 pl-md-2 pl-lg-3 pt-0">
-				<h1 class="mb-0 text-white">
-					<% if @exchange.is_editor_item? %>
-						<%= @exchange.name %>
-					<% else %>
-						Exchange on <%= @exchange.name %>
-					<% end %>
-				</h1>
-				<% if !browser.device.mobile? %>
-					<p class="h6 w-md-90 mb-0 text-white"><%=  @exchange.description %></p>
-				<% end %>
-			</div>
-		</div>
-		<% if browser.device.mobile? %>
+<section ng-controller="ExchangesController">
+	<header class="black_heading py-4 py-md-5">
+		<div class="container">
 			<div class="row">
-				<div class="col-12 pt-3">
-					<p class="h6 w-100 pr-2 mb-0 text-white l-height-1">
-						<small><%=  @exchange.description %></small>
-					</p>
+				<div class="col-3 col-md-2">
+					<% if @exchange.image? %>
+						<img src="<%= @exchange.image.url(:detail) %>" alt="<%=  @exchange.name %>" class="mt-1 mt-md-1 mt-xl-2" />
+					<% end %>
+				</div>
+				<div class="col-9 col-md-10 pl-0 pl-md-2 pl-lg-3 pt-0">
+					<h1 class="mb-0 text-white">
+						<% if @exchange.is_editor_item? %>
+							<%= @exchange.name %>
+						<% else %>
+							Exchange on <%= @exchange.name %>
+						<% end %>
+					</h1>
+					<% if !browser.device.mobile? %>
+						<p class="h6 w-md-90 mb-0 text-white"><%=  @exchange.description %></p>
+					<% end %>
 				</div>
 			</div>
+			<% if browser.device.mobile? %>
+				<div class="row">
+					<div class="col-12 pt-3">
+						<p class="h6 w-100 pr-2 mb-0 text-white l-height-1">
+							<small><%=  @exchange.description %></small>
+						</p>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	</header>
+
+	<%if @exchange.is_editor_item? %>
+		<div class="my-5"></div>
+	<% else %>
+		<div class="container mt-4 mt-md-5 slick-carousel-title">
+		  <h1 class="bullet">Trending articles on <%= @exchange.name %></h1>
+		</div>
+		<% if @articles_for_carousel.any? %>
+			<%= render partial: 'carousels/articles', locals: { articles: @articles_for_carousel } %>
 		<% end %>
-	</div>
-</header>
-
-<%if @exchange.is_editor_item? %>
-	<div class="my-5"></div>
-<% else %>
-	<div class="container mt-4 mt-md-5 slick-carousel-title">
-	  <h1 class="bullet">Trending articles on <%= @exchange.name %></h1>
-	</div>
-	<% if @articles_for_carousel.any? %>
-		<%= render partial: 'carousels/articles', locals: { articles: @articles_for_carousel } %>
 	<% end %>
-<% end %>
 
 
-<%= if @articles_for_listings.any?
-	listings_heading = @exchange.is_editor_item? ? "Latest articles from #{@exchange.name}" : "Latest articles on #{@exchange.name}"
-	render partial: 'articles/listings', locals: {
-		block_id: 'exchange_listings',
-		articles: @articles_for_listings,
-		title: listings_heading,
-		is_editor_exchange: @exchange.is_editor_item?
-	}
-end %>
+	<%= if @articles_for_listings.any?
+		listings_heading = @exchange.is_editor_item? ? "Latest articles from #{@exchange.name}" : "Latest articles on #{@exchange.name}"
+		render partial: 'articles/listings', locals: {
+			block_id: 'exchange_listings',
+			articles: @articles_for_listings,
+			title: listings_heading,
+			is_editor_exchange: @exchange.is_editor_item?
+		}
+	end %>
 
-<%= render partial: 'common/page-bottom', locals: {
-		spotlight_heading: 'Popular contributors',
-		contributors: @contributors_for_spotlight,
-		recent_articles: @recent_articles
-	} %>
+	<%= render partial: 'common/page-bottom', locals: {
+			spotlight_heading: 'Popular contributors',
+			contributors: @contributors_for_spotlight,
+			recent_articles: @recent_articles
+		} %>
+</section>

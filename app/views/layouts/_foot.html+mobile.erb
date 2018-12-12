@@ -1,0 +1,47 @@
+    <%= render 'common/cookie-notice' %>
+
+    <script type="text/javascript">
+      // Bootstrap the app
+      var moduleName = "TheArticleNG"
+      window.App = angular.module(moduleName, [
+        'rails',
+        'ngFlash',
+        'TheArticle.directives',
+        'TheArticle.factories',
+        'TheArticle.filters',
+        'TheArticle.controllers'
+      ]);
+      $(document).ready(function() {
+        $('[ng-controller]').each(function(index, root) {
+          if (!$(root).hasClass('ng-scope')) {
+            angular.bootstrap($(root), [moduleName]);
+            // console.log("bootstrapped " + $(root).attr('ng-controller'));
+          }
+        })
+      });
+    </script>
+    <%= javascript_include_tag 'mobile', 'data-turbolinks-track': 'reload' %>
+
+    <script>window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));</script>
+
+    <% if Rails.env == 'production' %>
+    <script id="parsely-cfg" data-parsely-site="thearticle.com" src="//cdn.parsely.com/keys/thearticle.com/p.js"></script>
+    <% end %>
+
+  </body>
+</html>

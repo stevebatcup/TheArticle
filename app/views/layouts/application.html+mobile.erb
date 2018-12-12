@@ -1,82 +1,169 @@
-  <%= render 'layouts/head' %>
+<%= render 'layouts/head' %>
 
-<div class="wrapper">
-<!-- Sidebar -->
-<nav id="sidebar">
-  <div id="dismiss"><i class="fas fa-times"></i></div>
+<% if user_signed_in? %>
+  <%= render partial: 'layouts/member-side-menu', locals: { use_app_links: false } %>
+      <main id="panel_for_side_menu">
+<% else %>
+  <nav id="sidebar">
+    <div id="dismiss"><i class="fas fa-times"></i></div>
 
-  <ul class="list-unstyled">
-    <li>
-      <a class="" href="/" id="nav_home">Home</a>
-    </li>
-    <li>
-      <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
-    </li>
-    <li>
-      <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
-    </li>
-    <li>
-      <a class="join_button" data-toggle="modal" data-target="#join_form_modal" href="#" id="nav_link_exchanges">Join us</a>
-    </li>
-    <li>
-      <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
-    </li>
-    <li>
-      <a class="" href="/write-for-us" id="nav_link_write_for_ud">Write for Us</a>
-    </li>
-    <li>
-      <a class="" href="/contact" id="nav_link_contact">Contact</a>
-    </li>
-  </ul>
-</nav>
+    <ul class="list-unstyled">
+      <li>
+        <a class="" href="/" id="nav_home">Home</a>
+      </li>
+      <li>
+        <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
+      </li>
+      <li>
+        <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
+      </li>
+      <li>
+        <a class="join_button" href="<%= new_user_registration_path %>">Register</a>
+      </li>
+      <li>
+        <a class="join_button" href="<%= new_user_session_path %>">Sign in</a>
+      </li>
+      <li>
+        <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
+      </li>
+      <li>
+        <a class="" href="/write-for-us" id="nav_link_write_for_ud">Write for Us</a>
+      </li>
+      <li>
+        <a class="" href="/contact" id="nav_link_contact">Contact</a>
+      </li>
+    </ul>
+  </nav>
+<% end %>
 
 <!-- Page Content -->
 <div id="content">
-<header id="main_header">
-  <div class="container">
-    <div class="row">
+  <header id="main_header">
+    <div class="container">
+      <div class="row">
 
-      <div class="col-3 align-items-center">
-        <a id="sidebarCollapse" class="text-black" href='#'>
-          <i class="fas fa-align-left" aria-hidden="true"></i>
-        </a>
-       </div>
+        <div class="col-3 align-items-center">
+          <a id="sidebarCollapse" class="text-black" href='#'>
+            <i class="fas fa-align-left" aria-hidden="true"></i>
+          </a>
+         </div>
 
-      <div id="logo" class="col-6 d-flex justify-content-center">
-        <a href="/?<%= 'force_home=1' if user_signed_in? %>">
-          <span class="text-hide">TheArticle</span>
-        </a>
-      </div>
-
-      <div class="col-3 align-items-center">
-        <a class="text-black search_trigger" href="#">
-          <i class="fas fa-search" aria-hidden="true"></i>
-        </a>
-      </div>
-
-    </div>
-  </div>
-</header>
-
-<nav id="search_box" class="collapse hide" aria-expanded="true" style="">
-  <div class="row" id="search_box_row">
-    <div class="justify-content-center" id="search_inner">
-      <form method="get" id="search_form" class="search_form" action="<%= search_path %>" role="search" >
-        <div class="input-group">
-          <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query">
-          <span class="input-group-btn">
-            <button class="btn-link btn-sm btn bg-colour-1 text-white gabriela" type="submit">
-              GO <i class="fas fa-angle-right"></i>
-            </button>
-          </span>
+        <div id="logo" class="col-6 d-flex justify-content-center">
+          <a href="/?<%= 'force_home=1' if user_signed_in? %>">
+            <span class="text-hide">TheArticle</span>
+          </a>
         </div>
-      </form>
+
+        <div class="col-3 align-items-center">
+          <% unless user_signed_in? %>
+          <a class="text-black search_trigger" href="#">
+            <i class="fas fa-search" aria-hidden="true"></i>
+          </a>
+          <% end %>
+        </div>
+
+      </div>
     </div>
-  </div>
-</nav>
+  </header>
 
-<main id="main_content">
-  <%= yield %>
-</main>
+  <%= render 'common/search-box' %>
 
-<%= render 'layouts/footer' %>
+  <main id="main_content">
+    <%= yield %>
+  </main>
+
+  <footer id="main_footer_top" class="main_footer bg-black text-white">
+    <div class="container">
+      <div class="inner border-light border-bottom">
+        <div class="row py-2">
+          <nav class="navbar navbar-expand-lg col-12 d-flex justify-content-center" id="footer_nav">
+            <ul class="navbar-nav text-center" id="main_footer_links">
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/our-mission">Our Mission</a>
+              </li>
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/terms-and-conditions">Terms & Conditions</a>
+              </li>
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/privacy-policy">Privacy Policy</a>
+              </li>
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/contributors">Contributors</a>
+              </li>
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/sponsors">Sponsors</a>
+              </li>
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/write-for-us">Write for Us</a>
+              </li class="nav-item">
+              <li class="nav-item">
+                <a class="mr-3 text-white nav-link" href="/contact">Contact</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="container pb-3">
+      <div class="inner border-light border-top">
+        <div class="row py-3">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <nav class="pt-2" id="social_links">
+              <ul class="row list-unstyled px-0 py-0 mx-0 my-0">
+                <li class="col-3 nav-item px-0 py-0" id="social_facebook">
+                  <a class="nav-link text-center text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                </li>
+                <li class="col-3 nav-item px-0 py-0" id="social_twitter">
+                  <a class="nav-link text-center text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="col-3 nav-item px-0 py-0" id="social_linked_in">
+                  <a class="nav-link text-center text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                </li>
+                <li class="col-3 nav-item px-0 py-0" id="social_rss">
+                  <a class="nav-link text-center text-white" href="/feed/rss" target="_blank">
+                    <i class="fas fa-rss"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+       <% unless user_signed_in? %>
+       <div class="row py-3">
+          <div class="col-12 d-flex align-items-center justify-content-center"">
+            <a class="join_button btn btn-sm bg-grass text-white" href="<%= new_user_registration_path %>">Register now</a>
+          </div>
+        </div>
+        <% end %>
+
+        <div class="row pt-3 px-2 pb-5">
+          <div id="copyright" class="col-12 d-flex align-items-center">
+            <p class="text-light w-100 text-center pt-1">
+              <small style="font-size: 70%;">&copy; <%= Date.today.strftime("%Y") %> TheArticle. All rights reserved</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<%= render 'common/join-form-modal' %>
+
+  <div class="overlay"></div>
+
+<% if user_signed_in? %>
+    </main>
+<% end %>
+
+<%= render 'layouts/foot' %>

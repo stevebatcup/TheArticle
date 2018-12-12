@@ -4,136 +4,142 @@
 	<% meta_tag :image, @article.image.url %>
 <% end %>
 
-<div class="container mb-3">
-	<article id="post-<%= @article.id %>" class="article_detail">
-		<header class="entry-header">
-			<p id="article_exchanges">
-				<%= render partial: 'common/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
-			</p>
-			<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
+<section ng-controller="ArticleController">
+	<div class="container mb-3">
+		<article id="post-<%= @article.id %>" class="article_detail">
+			<header class="entry-header">
+				<p id="article_exchanges">
+					<%= render partial: 'common/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
+				</p>
+				<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
 
-			<div id="article_meta" class="mt-0 row px-3 pb-4">
-				<div class="col-12 pr-0 author_link row">
-					<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 ">
-						<img src="<%= @article.author.image_url %>" alt="<%= @article.author.display_name %>" />
-					</a>
-
-					<a href="<%= article_author_url(@article); %>">by <span>
-					<%= @article.author.display_name %></span></a>
-					<% if @article.author.twitter_handle %>
-						<span class="ml-1  ml-xl-3 mr-0">|</span>
-						 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
-								<i class="text-colour-2 fab fa-twitter  ml-1  ml-xl-3"></i>
-								<span><%= @article.author.twitter_handle %></span>
-							</a>
-					<% end %>
-
-					<span class="mx-1  mx-xl-3">|</span>
-					<span class="entry-date"><%= @article.author.twitter_handle %></span>
-				</div>
-			</div>
-		</header>
-
-		<div class="row">
-			<div class="col-12 mt-0 d-flex share_links">
-				<%= render 'common/share-buttons' %>
-			</div>
-
-			<div class="col-12 pb-3 mb-2">
-				<div id="img_box" class="mb-4">
-					<% if @article.image? %>
-						<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
-						<p class="caption">
-							<%= @article.image_caption %>
-						</p>
-					<% end %>
-				</div>
-
-				<div id="content_box">
-					<%= adified_content(@article) %>
-				</div>
-
-				<footer class="row pl-0 mt-3 mb-4">
-					<div class="col-12 c" id="twitter_follow_col">
-						<a class="btn btn-primary text-white text-case-inherit w-75 d-block mx-auto mt-2"
-								href="https://twitter.com/TweetTheArticle">
-								<i class="fab fa-twitter"></i>
-								<span class="ml-2">Follow TheArticle</span>
+				<div id="article_meta" class="mt-0 row px-3 pb-4">
+					<div class="col-12 pr-0 author_link row">
+						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 ">
+							<img src="<%= @article.author.image_url %>" alt="<%= @article.author.display_name %>" />
 						</a>
+
+						<a href="<%= article_author_url(@article); %>">by <span>
+						<%= @article.author.display_name %></span></a>
+						<% if @article.author.twitter_handle %>
+							<span class="ml-1  ml-xl-3 mr-0">|</span>
+							 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
+									<i class="text-colour-2 fab fa-twitter  ml-1  ml-xl-3"></i>
+									<span><%= @article.author.twitter_handle %></span>
+								</a>
+						<% end %>
+
+						<span class="mx-1  mx-xl-3">|</span>
+						<span class="entry-date"><%= @article.author.twitter_handle %></span>
 					</div>
-					<div class="col-12 mt-3 d-flex share_links">
-						<%= render 'common/share-buttons' %>
+				</div>
+			</header>
+
+			<div class="row">
+				<div class="col-12 mt-0 d-flex share_links">
+					<%= render 'common/share-buttons' %>
+				</div>
+
+				<div class="col-12 pb-3 mb-2">
+					<div id="img_box" class="mb-4">
+						<% if @article.image? %>
+							<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
+							<p class="caption">
+								<%= @article.image_caption %>
+							</p>
+						<% end %>
 					</div>
-				</footer><!-- .entry-footer -->
+
+					<div id="content_box">
+						<% if show_ads? %>
+							<%= adified_content(@article) %>
+						<% else %>
+							<%= simple_format @article.content.html_safe %>
+						<% end %>
+					</div>
+
+					<footer class="row pl-0 mt-3 mb-4">
+						<div class="col-12 c" id="twitter_follow_col">
+							<a class="btn btn-primary text-white text-case-inherit w-75 d-block mx-auto mt-2"
+									href="https://twitter.com/TweetTheArticle">
+									<i class="fab fa-twitter"></i>
+									<span class="ml-2">Follow TheArticle</span>
+							</a>
+						</div>
+						<div class="col-12 mt-3 d-flex share_links">
+							<%= render 'common/share-buttons' %>
+						</div>
+					</footer><!-- .entry-footer -->
 
 
-				<% if @article.keyword_tags.exclude_special.any? %>
-					<h2 class="bullet underline mb-3">Filed under</h2>
-					<% @article.keyword_tags.exclude_special.each do |tag| %>
-							<a href="<%= search_path(query: tag.name.capitalize) %>" class="tag gabriela"><%= tag.name.capitalize %></a>
+					<% if @article.keyword_tags.exclude_special.any? %>
+						<h2 class="bullet underline mb-3">Filed under</h2>
+						<% @article.keyword_tags.exclude_special.each do |tag| %>
+								<a href="<%= search_path(query: tag.name.capitalize) %>" class="tag gabriela"><%= tag.name.capitalize %></a>
+						<% end %>
 					<% end %>
-				<% end %>
-			</div>
-		</div>
-	</article>
-</div>
-
-<% if @articles_in_same_exchange.any? %>
-	<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
-	<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
-		<%= render partial: 'articles/listings', locals: {
-			block_id: 'articles_in_same_exchange',
-			articles: @articles_in_same_exchange,
-			title: listings_heading,
-		} %>
-	</div>
-<% end %>
-
-
-<%= if @trending_exchanges.any?
-	render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
-end %>
-
-
-<div class="container pb-5" id="most_read_articles">
-	<h2 class="bullet underline">Trending articles</h2>
-	<% @trending_articles.each do |ta| %>
-		<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
-			<div class="col-12">
-				<% if(ta.is_sponsored?) %>
-					<a href='/sponsors' class="sponsored">
-						<i class="fas fa-star"></i>
-						SPONSORED
-					</a>
-				<% end %>
-				<h5 class="">
-					<a href="<%= article_path(ta) %>">
-						<%= ta.title.html_safe %>
-					</a>
-				</h5>
-				<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
-				<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
-					<p class="author_link">
-						<a href="<%= contributor_path(slug: ta.author.slug) %>">
-							by <span><%= ta.author.display_name %></span>
-						</a>&nbsp;
-						<span class="entry-date">
-							<%= article_date(ta) %>
-						</span>
-					</p>
-				</footer>
+				</div>
 			</div>
 		</article>
-	<% end %>
-</div>
+	</div>
 
-<div class="ads_box single_mpu mx-auto align-middle text-center mb-4">
-	<% if show_ads? %>
-		<!-- /21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn -->
-		<div id='div-gpt-ad-<%= ad_page_id %>-0'>
-			<script>
-				googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-0'); });
-			</script>
+	<% if @articles_in_same_exchange.any? %>
+		<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
+		<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
+			<%= render partial: 'articles/listings', locals: {
+				block_id: 'articles_in_same_exchange',
+				articles: @articles_in_same_exchange,
+				title: listings_heading,
+			} %>
 		</div>
 	<% end %>
-</div>
+
+
+	<%= if @trending_exchanges.any?
+		render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
+	end %>
+
+
+	<div class="container pb-5" id="most_read_articles">
+		<h2 class="bullet underline">Trending articles</h2>
+		<% @trending_articles.each do |ta| %>
+			<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+				<div class="col-12">
+					<% if(ta.is_sponsored?) %>
+						<a href='/sponsors' class="sponsored">
+							<i class="fas fa-star"></i>
+							SPONSORED
+						</a>
+					<% end %>
+					<h5 class="">
+						<a href="<%= article_path(ta) %>">
+							<%= ta.title.html_safe %>
+						</a>
+					</h5>
+					<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
+					<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+						<p class="author_link">
+							<a href="<%= contributor_path(slug: ta.author.slug) %>">
+								by <span><%= ta.author.display_name %></span>
+							</a>&nbsp;
+							<span class="entry-date">
+								<%= article_date(ta) %>
+							</span>
+						</p>
+					</footer>
+				</div>
+			</article>
+		<% end %>
+	</div>
+
+	<div class="ads_box single_mpu mx-auto align-middle text-center mb-4">
+		<% if show_ads? %>
+			<!-- /21757645549/thearticle_<%= ad_page_type %>/bottomsidecolumn -->
+			<div id='div-gpt-ad-<%= ad_page_id %>-0'>
+				<script>
+					googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-0'); });
+				</script>
+			</div>
+		<% end %>
+	</div>
+</section>

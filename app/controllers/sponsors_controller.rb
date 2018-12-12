@@ -1,6 +1,4 @@
 class SponsorsController < ApplicationController
-	layout	:set_layout
-
 	def index
 		@sponsors = Author.sponsors_for_listings
 	end

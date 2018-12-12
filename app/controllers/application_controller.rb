@@ -15,17 +15,6 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:default_page_title
 
-	def body_classes
-		@body_classes ||= begin
-			bclasses = []
-			unless cookies[:cookie_permission_set]
-				bclasses << 'show_cookie_notice'
-			end
-			bclasses.join(" ")
-		end
-	end
-	helper_method	:body_classes
-
 	def is_development?
 		Rails.env == 'development'
 	end
@@ -93,5 +82,10 @@ private
 
 	def set_layout
 		user_signed_in? ? 'member' : 'application'
+	end
+
+	def authenticate_user!
+		super
+		redirect_to new_profile_path unless current_user.has_completed_wizard? || self.class == ProfileWizardController
 	end
 end

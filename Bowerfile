@@ -6,8 +6,11 @@ asset 'fontawesome', '5.0'
 asset 'underscore'
 asset 'slick-carousel'
 asset 'angular', '1.6.6'
-asset 'angular-utils-pagination'
-asset 'angular-animate', "1.6.6"
-asset 'angular-route'
 asset 'angular-flash-alert'
 asset 'mustache'
+asset 'slideout', 'https://github.com/mango/slideout.git'
+
+# asset 'angular-utils-pagination'
+# asset 'angular-animate', "1.6.6"
+# asset 'angular-ui-router', "0.2.13"
+# asset 'angular-sanitize'

@@ -1,5 +1,13 @@
 //= require coffee_class_base
 //= require factories/articles
-//= require page_controller
-//= require desktop/desktop
-//= require desktop/home
+//= require controllers/page
+//= require controllers/desktop/_page
+//= require controllers/desktop/home
+//= require controllers/desktop/content_page
+//= require controllers/desktop/article
+//= require controllers/desktop/exchanges
+//= require controllers/desktop/contributors
+//= require controllers/desktop/auth
+//= require controllers/desktop/profile_wizard
+//= require controllers/desktop/front_page
+//= require controllers/desktop/my_profile

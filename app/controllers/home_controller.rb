@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-	layout	:set_layout
 
 	def index
 		@articles = []

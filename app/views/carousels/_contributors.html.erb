@@ -1,4 +1,4 @@
-<div id="journalistsCarousel" class="journalists slick-carousel slide w-100 mb-3 mb-md-3">
+<div id="journalistsCarousel" class="journalists slick-carousel slide w-100 mb-3 mb-md-3" data-slideout-ignore>
 	<% contributors.each do |contributor| %>
 		<div class="slick-carousel-item hoveraction block_click" data-href="<%= contributor_path(slug: contributor.slug) %>">
 			<div class="inner" style="background-image: url('<%= contributor.image.url(:listing) %>')" alt="<%= contributor.display_name %>" />

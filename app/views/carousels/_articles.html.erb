@@ -1,4 +1,4 @@
-<div id="trendingCarousel" class="articles slick-carousel slide w-100">
+<div id="trendingCarousel" class="articles slick-carousel slide w-100" data-slideout-ignore>
 	<% articles.each do |article| %>
 		<% unless article.nil? %>
     <div class="slick-carousel-item block_click<%=  article.is_sponsored ? ' sponsored_article' : '' %>"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_06_080706) do
+ActiveRecord::Schema.define(version: 2018_12_11_100456) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -110,11 +110,16 @@ ActiveRecord::Schema.define(version: 2018_12_06_080706) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
+    t.boolean "has_completed_wizard", default: false
     t.string "username", default: ""
     t.string "display_name", default: ""
     t.string "location", default: ""
+    t.string "profile_photo"
+    t.string "cover_photo"
+    t.text "bio"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

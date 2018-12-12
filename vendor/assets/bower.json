@@ -8,8 +8,10 @@
     "angular": "1.6.6",
     "angular-utils-pagination": "latest",
     "angular-animate": "1.6.6",
-    "angular-route": "latest",
+    "angular-ui-router": "0.2.13",
     "angular-flash-alert": "latest",
-    "mustache": "latest"
+    "angular-sanitize": "latest",
+    "mustache": "latest",
+    "slideout": "https://github.com/mango/slideout.git"
   }
 }

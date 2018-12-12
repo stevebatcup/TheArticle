@@ -10,4 +10,12 @@ module ApplicationHelper
 	def strip_protocol(url)
 		url.sub('https://','').sub('http://','')
 	end
+
+	def body_classes
+		bclasses = [Rails.env]
+		unless cookies[:cookie_permission_set]
+			bclasses << 'show_cookie_notice'
+		end
+		bclasses.join(" ")
+	end
 end
