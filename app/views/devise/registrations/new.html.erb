@@ -19,6 +19,11 @@
         <%= devise_error_messages! %>
 
         <div class="form-group">
+          <%= f.label :title %><br />
+          <%= f.select :title, options_for_select([ "Mrs", "Mr", "Dr", "Rt. Hon", "Rev" ], resource.title), {}, { class: "form-control", required: '' } %>
+        </div>
+
+        <div class="form-group">
           <%= f.label :first_name %><br />
           <%= f.text_field :first_name, autofocus: true, autocomplete: "First name", class: "form-control", required: '' %>
         </div>
