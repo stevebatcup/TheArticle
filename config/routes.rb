@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "registrations" }
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
   get 'search',                                to: 'articles#index', as: :search

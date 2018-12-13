@@ -983,3 +983,30 @@ div.new_article {
 	  // font-weight: bold;
 	}
 }
+
+.form_field_error {
+	color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 10px;
+}
+
+.field_with_errors {
+	@extend .form_field_error;
+
+	input {
+		border-color: #721c24;
+	}
+
+	& + em {
+		@extend .form_field_error;
+		display: inline-block;
+		width: 100%;
+		padding: 0 10px;
+	}
+
+	& + br,
+	& + em + br {
+		display: none;
+	}
+}
