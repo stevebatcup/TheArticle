@@ -1010,3 +1010,13 @@ div.new_article {
 		display: none;
 	}
 }
+
+.ajax_loading {
+	display: block;
+	text-align: left;
+  width: fit-content;
+  font-size: 1.4em;
+  padding: 50px 0 50px 45px;
+  margin: 30px auto;
+  background: asset_url('ajax-loader.gif') no-repeat left center;
+}

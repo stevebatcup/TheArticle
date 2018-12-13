@@ -4,7 +4,7 @@
 	<% meta_tag :image, @contributor.image.url(:detail) %>
 <% end %>
 
-<section ng-controller="ContributorsController">
+<section ng-controller="ContributorsController" data-author="<%= @contributor.id %>" data-per-page="<%= articles_per_page %>">
 	<header class="black_heading pt-4 pb-3 py-md-5 mb-4 mb-md-5">
 		<div class="container">
 			<div class="row">
@@ -73,11 +73,13 @@
 		</div>
 	</header>
 
-	<%= render partial: 'articles/listings', locals: {
-			block_id: 'contributor_listings',
-			articles: @contributor.articles.includes(:exchanges).references(:exchanges),
+	<%=
+		render partial: 'articles/listings', locals: {
+			block_id: 'contributorArticles',
 			title: "Articles by #{@contributor.display_name.capitalize}"
-		} %>
+		}
+	%>
+	<div class="ajax_loading contributor_articles" ng-show="contributorArticles.loading">Loading articles</div>
 
 	<% if @contributors_for_carousel.any? %>
 		<div class="container">

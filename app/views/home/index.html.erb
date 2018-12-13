@@ -1,6 +1,6 @@
 <% meta_tag :image, asset_url("social-logo-square.png") %>
 
-<section ng-controller="HomeController">
+<section ng-controller="HomeController" data-per-page="<%= articles_per_page %>">
 	<div class="container mt-4 mt-md-5 slick-carousel-title">
 	  <h1 class="bullet cloak">Trending articles</h1>
 	</div>
@@ -14,22 +14,22 @@
 			block_id: 'editorsPicks',
 			title: "Editor's picks"
 		} %>
+	<div class="ajax_loading editors_picks" ng-show="editorsPicks.loading">Loading Editor's picks</div>
 
-	<% if @sponsored_picks.any? %>
-		<% if browser.device.mobile? %>
-			<div class="mb-5">
-				<div class="container mt-4 mt-md-5 slick-carousel-title">
-				  <h1 class="bullet">Sponsored picks</h1>
-				</div>
-				<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
+	<% if browser.device.mobile? %>
+		<div class="mb-5">
+			<div class="container mt-4 mt-md-5 slick-carousel-title">
+			  <h1 class="bullet">Sponsored picks</h1>
 			</div>
-		<% else %>
-			<%= render partial: 'articles/listings', locals: {
-				block_id: 'sponsored_picks',
-				title: "Sponsored picks",
-			} %>
-		<% end %>
+			<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
+		</div>
+	<% else %>
+		<%= render partial: 'articles/listings', locals: {
+			block_id: 'sponsoredPicks',
+			title: "Sponsored picks",
+		} %>
 	<% end %>
+	<div class="ajax_loading sponsored_picks" ng-show="sponsoredPicks.loading">Loading sponsored articles</div>
 
 	<div class="mb-md-3">
 		<%= if @trending_exchanges.any?

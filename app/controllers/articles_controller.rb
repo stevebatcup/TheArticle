@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
 	def index
 		params[:page] ||= 1
+		params[:per_page] ||= articles_per_page
 		if params[:query] # search
 			@query = params[:query]
 			@articles = Article.search(params[:query], match_mode: :boolean)
@@ -8,13 +9,13 @@ class ArticlesController < ApplicationController
 			@recent_articles = Article.recent
 		elsif params[:tagged]
 			if params[:tagged] == 'editors-picks'
-				@articles = Article.editors_picks.page(params[:page]).per(articles_per_page)
+				@articles = Article.editors_picks.page(params[:page]).per(params[:per_page].to_i)
 				if params[:page].to_i == 1
 					@total = Article.editors_picks.size
 					leading_article = Article.leading_editor_article
 					if leading_article.present?
 						@articles = @articles.all.to_a.unshift(leading_article)
-						@articles.delete_at articles_per_page-1
+						@articles.delete_at(params[:per_page].to_i - 1)
 					end
 				end
 			end
@@ -23,10 +24,18 @@ class ArticlesController < ApplicationController
 			@articles = exchange.articles.not_sponsored
 													.includes(:author).references(:author)
 													.includes(:exchanges).references(:exchanges)
-													.page(params[:page]).per(articles_per_page)
+													.page(params[:page]).per(params[:per_page].to_i)
 			if params[:page].to_i == 1
 				@total = exchange.articles.not_sponsored.size
 			end
+		elsif params[:author]
+			@contributor = Author.find_by(id: params[:author])
+			@articles = @contributor.articles.includes(:exchanges).references(:exchanges).page(params[:page]).per(params[:per_page].to_i)
+			if params[:page].to_i == 1
+				@total = @contributor.articles.size
+			end
+		elsif params[:sponsored_picks]
+			@articles = Author.get_sponsors_single_posts('sponsored-pick', params[:per_page].to_i)
 		end
 	end
 

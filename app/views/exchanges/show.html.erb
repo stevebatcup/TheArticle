@@ -2,7 +2,7 @@
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
 <% meta_tag :image, @exchange.image.url(:detail) %>
 
-<section ng-controller="ExchangesController" data-exchange="<%= @exchange.slug %>">
+<section ng-controller="ExchangesController" data-exchange="<%= @exchange.slug %>" data-per-page="<%= articles_per_page %>">
 	<header class="black_heading py-4 py-md-5">
 		<div class="container">
 			<div class="row">
@@ -39,10 +39,10 @@
 	<%if @exchange.is_editor_item? %>
 		<div class="my-5"></div>
 	<% else %>
-		<div class="container mt-4 mt-md-5 slick-carousel-title">
-		  <h1 class="bullet">Trending articles on <%= @exchange.name %></h1>
-		</div>
 		<% if @articles_for_carousel.any? %>
+			<div class="container mt-4 mt-md-5 slick-carousel-title">
+			  <h1 class="bullet cloak">Trending articles on <%= @exchange.name %></h1>
+			</div>
 			<%= render partial: 'carousels/articles', locals: { articles: @articles_for_carousel } %>
 		<% end %>
 	<% end %>
@@ -54,6 +54,7 @@
 			is_editor_exchange: @exchange.is_editor_item?
 		}
 	%>
+	<div class="ajax_loading exchange_articles" ng-show="exchangeArticles.loading">Loading articles</div>
 
 	<%= render partial: 'common/page-bottom', locals: {
 			spotlight_heading: 'Popular contributors',

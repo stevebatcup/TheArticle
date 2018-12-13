@@ -4,7 +4,7 @@
 	<% meta_tag :image, @sponsor.image.url(:detail) %>
 <% end %>
 
-<section ng-controller="SponsorsController">
+<section ng-controller="ContributorsController" data-author="<%= @sponsor.id %>" data-per-page="<%= articles_per_page %>">
 	<header class="black_heading pt-4 pb-3 py-md-5 mb-4 mb-md-5">
 		<div class="container">
 			<div class="row">
@@ -74,11 +74,13 @@
 	</header>
 
 
-	<%= render partial: 'articles/listings', locals: {
-			block_id: 'contributor_listings',
-			articles: @sponsor.articles.includes(:exchanges).references(:exchanges),
+	<%=
+		render partial: 'articles/listings', locals: {
+			block_id: 'contributorArticles',
 			title: "Articles by #{@sponsor.display_name.capitalize}"
-		} %>
+		}
+	%>
+	<div class="ajax_loading sponsor_articles" ng-show="contributorArticles.loading">Loading articles</div>
 
 	<% if browser.device.mobile? && show_ads? %>
 		<div class="ads_box single_mpu mx-auto align-middle text-center mb-4">

@@ -1,6 +1,6 @@
 <div class="inner">
 	<div class="img_mask">
-		<div ng-if="article.is_new" class="new_article"><span>New</span></div>
+		<div ng-if="article.isNew" class="new_article"><span>New</span></div>
 
 		<a ng-if="article.image" href="{{ article.path }}">
 			<img ng-src="{{ article.image }}" alt="{{ article.title }}" />

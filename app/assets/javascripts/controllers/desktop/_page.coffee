@@ -5,7 +5,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 
 	bindEvents: =>
 		@bindCookieAcceptance()
-		setTimeout @bindCarousels, 1000
+		setTimeout @bindCarousels, 700
 		@bindSearch()
 		@bindJoinForm()
 		@bindContactForm()
@@ -74,7 +74,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			window.setTimeout =>
 				$(e.currentTarget).find('.inner').addClass('shown')
 				$('.cloak').fadeIn('slow').removeClass('cloak')
-			, 750
+			, 300
 
 		$('.slick-carousel.articles').slick
 			infinite: true

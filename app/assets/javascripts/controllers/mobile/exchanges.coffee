@@ -11,32 +11,36 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 
 	init: ->
 		@bindEvents()
-		@scope.moreToLoad = true
-		@scope.page = 1
-		@scope.exchangeArticles = []
-		@scope.totalExchangeArticles = 0
-		@scope.loaded = false
+		@scope.exchangeArticles =
+			page: 1
+			items: []
+			totalItemCount: 0
+			firstLoaded: false
+			loading: false
+			moreToLoad: true
 		@scope.exchange = @rootElement.data('exchange')
-		@getArticles()
 
 	bindEvents: ->
 		super
+		$('.slick-carousel.articles').first().on 'init', (e) =>
+			@getArticles() if @scope.exchange
 
 	loadMore: =>
 		@getArticles()
 
 	getArticles: =>
-		timeoutDelay = if @scope.page is 1 then 1000 else 1
-		vars = { exchange: @scope.exchange, page: @scope.page }
+		@scope.exchangeArticles.loading = true
+		timeoutDelay = if @scope.exchangeArticles.page is 1 then 1200 else 1
+		vars = { exchange: @scope.exchange, page: @scope.exchangeArticles.page, perPage: @rootElement.data('per-page') }
 		@ExchangeArticle.query(vars).then (response) =>
 			@timeout =>
-				@scope.loaded = true
-				console.log response
-				@scope.totalExchangeArticles = response.total if @scope.page is 1
+				@scope.exchangeArticles.totalItemCount = response.total if @scope.exchangeArticles.page is 1
 				angular.forEach response.articles, (article) =>
-					@scope.exchangeArticles.push article
-				@scope.moreToLoad = @scope.totalExchangeArticles > @scope.exchangeArticles.length
-				@scope.page += 1
+					@scope.exchangeArticles.items.push article
+				@scope.exchangeArticles.moreToLoad = @scope.exchangeArticles.totalItemCount > @scope.exchangeArticles.items.length
+				@scope.exchangeArticles.firstLoaded = true if @scope.exchangeArticles.page is 1
+				@scope.exchangeArticles.loading = false
+				@scope.exchangeArticles.page += 1
 			, timeoutDelay
 		, (response) =>
 			@refreshPage() if response.status is 401
