@@ -14,6 +14,7 @@
 //= require angularjs/rails/resource/extensions/snapshots
 //= require angular-utils-pagination
 //= require angular-flash-alert
+//= require angular-wizard
 TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
 TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);
 TheArticle.FilterModule = angular.module('TheArticle.filters', []);

@@ -127,18 +127,28 @@ header.black_heading {
 }
 
 /*** HEADER ***/
-header#main_header {
-	border-bottom: 1px solid #bfbfbf;
-	background-color: #fff;
+header {
 
-	#sidebarCollapse {
-		font-size: 24px;
-	  padding: 0.4rem 0 0 0.1rem !important;
-	  display: block;
+	&#main_header {
+		border-bottom: 1px solid #bfbfbf;
+		background-color: #fff;
 
-	  &:hover {
-	  	color: #000 !important;
-	  }
+		a.search_trigger {
+			font-size: 24px;
+	    padding: 0.5rem 0.1rem 0 0 !important;
+	    display: block;
+	    text-align: right;
+		}
+
+		#sidebarCollapse {
+			font-size: 24px;
+		  padding: 0.4rem 0 0 0.1rem !important;
+		  display: block;
+
+		  &:hover {
+		  	color: #000 !important;
+		  }
+		}
 	}
 
 	#logo {
@@ -157,15 +167,6 @@ header#main_header {
 			height: inherit;
 		}
 	}
-
-
-	a.search_trigger {
-		font-size: 24px;
-    padding: 0.5rem 0.1rem 0 0 !important;
-    display: block;
-    text-align: right;
-	}
-
 }
 
 html.svg #logo {

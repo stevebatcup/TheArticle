@@ -6,12 +6,9 @@
     "underscore": "latest",
     "slick-carousel": "latest",
     "angular": "1.6.6",
-    "angular-utils-pagination": "latest",
-    "angular-animate": "1.6.6",
-    "angular-ui-router": "0.2.13",
     "angular-flash-alert": "latest",
-    "angular-sanitize": "latest",
     "mustache": "latest",
-    "slideout": "https://github.com/mango/slideout.git"
+    "slideout": "https://github.com/mango/slideout.git",
+    "angular-wizard": "latest"
   }
 }

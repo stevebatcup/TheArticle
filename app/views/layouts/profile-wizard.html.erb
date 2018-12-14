@@ -1,7 +1,24 @@
 <%= render 'layouts/head' %>
-<div class="container">
-	<main id="main_content">
-	  <%= yield %>
-	</main>
-</div>
+<header class="pt-2 container">
+	<div class="row">
+		<div class="col col-md-3"></div>
+		<div class="col col-md-6">
+			<div id="logo" class="py-5 my-5">
+		    <span class="text-hide">TheArticle</span>
+			</div>
+		</div>
+		<div class="col col-md-3"></div>
+	</div>
+</header>
+<main id="main_content">
+	<div class="container">
+		<div class="row">
+			<div class="col col-md-3"></div>
+			<div class="col col-md-6">
+			  <%= yield %>
+			 </div>
+		 	<div class="col col-md-3"></div>
+		 </div>
+		</div>
+</main>
 <%= render 'layouts/foot' %>

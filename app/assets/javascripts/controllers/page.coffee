@@ -15,11 +15,6 @@ class TheArticle.PageController extends TheArticle.NGController
 	isProduction: =>
 		$('body').hasClass('production')
 
-	isValidEmailAddress: (email) =>
-		return false if email.length is 0
-		pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-		return pattern.test email
-
 	alert: (msg, title, callback=null) =>
 		alert msg, title, callback
 
@@ -174,6 +169,11 @@ class TheArticle.PageController extends TheArticle.NGController
 			return str
 		else
 			return str.substr 0, str.lastIndexOf(separator, maxLen)
+
+	isValidEmailAddress: (email) =>
+		return false if email.length is 0
+		pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		return pattern.test email
 
 	getUrlVars: =>
 		vars = {}

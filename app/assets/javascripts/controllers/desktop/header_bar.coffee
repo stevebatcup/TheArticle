@@ -4,7 +4,6 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 	@$inject: ['$scope', '$timeout']
 
 	init: ->
-		console.log "HeaderBar > desktop"
 		if @isDevelopment()
 			@timeout =>
 				@bindFixedNavScrolling()

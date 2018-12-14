@@ -4,7 +4,6 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	@$inject: ['$scope', '$timeout']
 
 	init: ->
-		console.log "HeaderBar"
 		if @isDevelopment()
 			@timeout =>
 				@bindFixedNavScrolling()
