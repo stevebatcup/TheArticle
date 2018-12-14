@@ -175,23 +175,6 @@ class TheArticle.PageController extends TheArticle.NGController
 		else
 			return str.substr 0, str.lastIndexOf(separator, maxLen)
 
-	bindFixedNavScrolling: =>
-		$win = $(window)
-		$header = $('header#main_header')
-		$headerPosition = Math.round $header.position().top
-		offset = 20
-		$win.on 'scroll', =>
-			scrollTop = document.scrollingElement.scrollTop
-			if scrollTop  >= $headerPosition
-				$('body').addClass('fixed-header')
-			else
-				$('body').removeClass('fixed-header')
-
-			if scrollTop >= $headerPosition + offset
-				$header.addClass('short') unless $header.hasClass('short')
-			else
-				$header.removeClass('short')
-
 	getUrlVars: =>
 		vars = {}
 		parts = window.location.href.replace /[?&]+([^=&]+)=([^&]*)/gi, (m,key,value) ->

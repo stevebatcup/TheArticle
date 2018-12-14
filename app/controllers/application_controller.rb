@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_staging?
 
 	def show_ads?
-		!is_development?
+		is_development?
 	end
 	helper_method	:show_ads?
 

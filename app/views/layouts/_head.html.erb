@@ -82,7 +82,10 @@
           googletag.enableServices();
           googletag.pubads().addEventListener('slotRenderEnded', function(event) {
             if(event.slot == topBanner) {
-              window.TA.bindFixedNavScrolling();
+              setTimeout(function() {
+                headerBarScope = angular.element('header#main_header').scope()
+                headerBarScope.bindFixedNavScrolling();
+              }, 1000);
             }
           });
         });
