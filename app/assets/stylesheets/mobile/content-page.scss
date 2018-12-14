@@ -8,6 +8,10 @@
 		height: 100px;
 		line-height: 104px;
 
+		&.small {
+			font-size: 1.5em;
+		}
+
 		div.container {
 			line-height: inherit;
 		}

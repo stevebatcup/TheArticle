@@ -998,7 +998,8 @@ div.new_article {
 		border-color: #721c24;
 	}
 
-	& + em {
+	& + em,
+	& + br + em {
 		@extend .form_field_error;
 		display: inline-block;
 		width: 100%;

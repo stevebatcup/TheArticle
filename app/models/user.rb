@@ -5,5 +5,5 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable
 
-  validates_presence_of	:first_name, :last_name
+  validates_presence_of	:first_name, :last_name, on: :create
 end

@@ -15,7 +15,7 @@ private
 
   def send_mail(email_address, name, subject, body)
     if requires_interception
-      to = "steve.batcup@gmail.com"
+      to = "monitoring@maawol.com"
       subject = "#{subject} [for #{email_address}]"
     else
       to = email_address
