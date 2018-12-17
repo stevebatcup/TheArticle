@@ -38,15 +38,15 @@
 
 	    <wz-step wz-title="Exchanges" canexit="validateExchanges">
 	        <h4>Help us understand what interests you by selecting which of our Exchanges you would like to follow.</h4>
-	        <p>Info about Exchanges here.</p>
+	        <p>Info about Exchanges here. Info about Exchanges here. Info about Exchanges here. Info about Exchanges here.</p>
 
-	    		<div class="row pb-4 mb-5">
+	    		<div class="row pb-4 mb-5 px-1">
 	        <% if @exchanges.any? %>
 		        <% @exchanges.each do |exchange| %>
-		        	<article class="col-6 col-md-4 article-listing exchange profile_wizard mb-4 hoveraction"
+		        	<article class="col-6 col-md-4 article-listing exchange profile_wizard mb-1 mb-md-3 mb-lg-4 hoveraction px-1 px-md-2 px-lg-3"
 		        				ng-click="selectExchange(<%= exchange.id %>)"
 		        				ng-class="{'selected': selectedExchanges.indexOf(<%= exchange.id %>) !== -1}">
-		        		<div class="inner">
+		        		<div class="inner rounded">
 		        			<div class="img_mask">
 	        					<% if exchange.image? %>
 	        						<img class="w-100 exchange_image" src="<%= exchange.image.url(:listing) %>" alt="<%= exchange.name %>" />

@@ -8,13 +8,23 @@
 article.article-listing.exchange {
 	height: 134px;
 
-	h6 {
-		font-size: 0.8em;
-		padding-bottom: 0.2em;
-	}
+	.inner {
+		// border-radius: 0.35rem;
+		overflow: hidden;
 
-	img {
-		min-height: 106px;
+		.img_mask {
+			height: 130px !important;
+		}
+
+		h6 {
+			font-size: 0.8em;
+			padding-bottom: 0.2em;
+		}
+
+		img {
+			min-height: 106px;
+			max-height: 100%;
+		}
 	}
 
 	&.selected {
