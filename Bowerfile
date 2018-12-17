@@ -10,6 +10,7 @@ asset 'angular-flash-alert'
 asset 'mustache'
 asset 'slideout', 'https://github.com/mango/slideout.git'
 asset 'angular-wizard'
+asset 'ryanmullins-angular-hammer'
 
 # asset 'angular-utils-pagination'
 # asset 'angular-animate', "1.6.6"

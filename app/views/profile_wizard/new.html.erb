@@ -3,37 +3,83 @@
 				data-default-display_name="<%= current_user.display_name %>"
 				data-default-username="<%= current_user.username %>">
 		<%= form_for(current_user, url: save_profile_wizard_path) do |f| %>
-		<wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" indicators-position="bottom">
+		<wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-indicators="true">
 	    <wz-step wz-title="Names" canexit="validateNames">
-				<h4>Please edit or confirm your display name and unique @username.</h4>
-				<p>These will appear on your public profile and any content you post.</p>
-				  <div class="form-group">
-				    <%= f.label :display_name %><br />
-			    	<p ng-show="user.names.displayName.error" class="alert alert-danger">{{user.names.displayName.error}}</p>
-				    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "user.names.displayName.value" %>
-				  </div>
-
-				  <div class="form-group">
-				    <%= f.label :username %><br />
-			    	<p ng-show="user.names.username.error" class="alert alert-danger">{{user.names.username.error}}</p>
-			    	<div class="input-group mb-2">
-    	        <div class="input-group-prepend">
-    	          <div class="input-group-text">@</div>
-    	        </div>
-					    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "user.names.username.value" %>
+				<div class="row">
+					<div class="col col-md-1"></div>
+					<div class="col-12 col-md-10">
+						<h4>Please edit or confirm your display name and unique @username.</h4>
+						<p>These will appear on your public profile and any content you post.</p>
+					  <div class="form-group">
+					    <%= f.label :display_name %><br />
+				    	<p ng-show="user.names.displayName.error" class="alert alert-danger">{{user.names.displayName.error}}</p>
+					    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "user.names.displayName.value" %>
 					  </div>
-				    <p><small class="form-text text-muted">
-				    	<%= profile_url(username: '') %>/{{user.names.username.value.toLowerCase()}}
-				    </small></p>
-				  </div>
 
-	       <input type="submit" wz-next value="Confirm" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+					  <div class="form-group">
+					    <%= f.label :username %><br />
+				    	<p ng-show="user.names.username.error" class="alert alert-danger">{{user.names.username.error}}</p>
+				    	<div class="input-group mb-2">
+	    	        <div class="input-group-prepend">
+	    	          <div class="input-group-text">@</div>
+	    	        </div>
+						    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "user.names.username.value" %>
+						  </div>
+					    <p><small class="form-text text-muted">
+					    	<%= profile_url(username: '') %>/{{user.names.username.value.toLowerCase()}}
+					    </small></p>
+					  </div>
+
+		       	<input type="submit" wz-next value="Confirm" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+		       </div>
+		       <div class="col col-md-1"></div>
+	      </div>
 	    </wz-step>
 
-	    <wz-step wz-title="Exchanges">
-	        <h1>Continuing</h1>
-	        <p>You have continued here!</p>
-	        <input type="submit" wz-next value="Go on" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+	    <wz-step wz-title="Exchanges" canexit="validateExchanges">
+	        <h4>Help us understand what interests you by selecting which of our Exchanges you would like to follow.</h4>
+	        <p>Info about Exchanges here.</p>
+
+	    		<div class="row pb-4 mb-5">
+	        <% if @exchanges.any? %>
+		        <% @exchanges.each do |exchange| %>
+		        	<article class="col-6 col-md-4 article-listing exchange profile_wizard mb-4 hoveraction"
+		        				ng-click="selectExchange(<%= exchange.id %>)"
+		        				ng-class="{'selected': selectedExchanges.indexOf(<%= exchange.id %>) !== -1}">
+		        		<div class="inner">
+		        			<div class="img_mask">
+	        					<% if exchange.image? %>
+	        						<img class="w-100 exchange_image" src="<%= exchange.image.url(:listing) %>" alt="<%= exchange.name %>" />
+	        					<% end %>
+		        			</div>
+		        			<div class="px-2 px-md-3 py-2 py-lg-2 py-xl-3 block_click heading_box" data-href="<%= exchange_path(slug: exchange.slug) %>">
+		        				<h6 class="text-white mb-0">
+		        					<span class="text-white inherit_hover filter_target">
+		        						<%= exchange.name %>
+		        					</span>
+		        				</h6>
+		        				<p class="text-white entry-content mb-0 mx-0 mt-2 mobile_hide">
+		        					<%= truncate(exchange.description, length: 220) %>
+		        				</p>
+		        			</div>
+		        		</div>
+		        	</article>
+		        <% end %>
+		      <% end %>
+			    </div>
+
+			    <div class="float-bottom py-2 px-3 bg-white">
+			    	<div class="container">
+				    	<div class="row">
+			    			<div class="col-0 col-md-2"></div>
+								<div class="col-12 col-md-8">
+									<h4 class="text-center" ng-show="!exchangesOk">Select 3 or more to continue</h4>
+					        <input type="submit" wz-next value="Continue" class="btn text-white bg-green-dark pt-1 btn-block my-3"  ng-show="exchangesOk" />
+					      </div>
+					      <div class="col-0 col-md-8"></div>
+					    </div>
+					   </div>
+		      </div>
 	    </wz-step>
 
 	    <wz-step wz-title="Location">

@@ -23,7 +23,16 @@ class Exchange < ApplicationRecord
         .where(is_trending: true)
         .where("description > ''")
         .where("article_count > 0")
-        .all.to_a.shuffle
+        .where("slug != 'editor-at-the-article'")
+    end
+  end
+
+  def self.non_trending
+    Rails.cache.fetch("non_trending_exchanges") do
+        where.not(image: nil)
+        .where(is_trending: false)
+        .where("description > ''")
+        .where("article_count > 0")
     end
   end
 
@@ -32,7 +41,6 @@ class Exchange < ApplicationRecord
       .where("article_count > 0")
       .where("description > ''")
       .where("slug != 'editor-at-the-article'")
-      .order(:name)
   end
 
   def is_editor_item?
@@ -40,7 +48,9 @@ class Exchange < ApplicationRecord
   end
 
   def self.editor_item
-    where("slug = 'editor-at-the-article'").first
+    Rails.cache.fetch("exchange_editor_item") do
+      where("slug = 'editor-at-the-article'").first
+    end
   end
 
 	def self.wp_type

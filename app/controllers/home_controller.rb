@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 			redirect_to front_page_path
 		end
 		@ad_page_type = 'homepage'
-		@trending_exchanges = Exchange.trending_list.to_a
+		@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 		@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick').to_a if browser.device.mobile?
 		@articles_for_carousel = Article.for_carousel(article_carousel_sponsored_position)
 		@contributors_for_spotlight = Author.contributors_for_spotlight

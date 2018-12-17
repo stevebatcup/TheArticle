@@ -54,3 +54,5 @@ public/robots.txt
 public/uploads
 
 db/sphinx
+
+Procfile

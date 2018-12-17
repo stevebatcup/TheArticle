@@ -1,7 +1,7 @@
 class ExchangesController < ApplicationController
 	def index
-		@trending_exchanges = Exchange.trending_list
-		@exchanges = Exchange.listings.all.to_a
+		@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
+		@exchanges = Exchange.listings.order(:name).all.to_a
 		@exchanges.unshift(Exchange.editor_item)
 	end
 

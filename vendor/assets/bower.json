@@ -9,6 +9,7 @@
     "angular-flash-alert": "latest",
     "mustache": "latest",
     "slideout": "https://github.com/mango/slideout.git",
-    "angular-wizard": "latest"
+    "angular-wizard": "latest",
+    "ryanmullins-angular-hammer": "latest"
   }
 }

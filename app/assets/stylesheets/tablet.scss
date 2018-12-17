@@ -160,3 +160,15 @@ footer.main_footer nav#footer_nav .nav-link {
 #featured_articles_sidebar .row .article-listing.post .img_mask {
     height: 41% !important;
 }
+
+article.article-listing.exchange.profile_wizard {
+  height: 165px;
+
+  .img_mask {
+    height: 81%;
+  }
+
+  h6 {
+    font-size: 0.75em;
+  }
+}

@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
 													.includes(:exchanges).references(:exchanges)
 													.first
 			@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
-			@trending_exchanges = Exchange.trending_list
+			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
 				@firstSideAdType = 'sidecolumn'
 				@firstSideAdSlot = 1

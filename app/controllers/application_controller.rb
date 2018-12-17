@@ -86,6 +86,6 @@ private
 
 	def authenticate_user!
 		super
-		redirect_to new_profile_path unless current_user.has_completed_wizard? || self.class == ProfileWizardController
+		redirect_to profile_wizard_path unless current_user.has_completed_wizard? || self.class == ProfileWizardController
 	end
 end

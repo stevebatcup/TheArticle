@@ -15,6 +15,8 @@
 //= require angular-utils-pagination
 //= require angular-flash-alert
 //= require angular-wizard
+//= require hammerjs
+//= require ryanmullins-angular-hammer
 TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
 TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);
 TheArticle.FilterModule = angular.module('TheArticle.filters', []);

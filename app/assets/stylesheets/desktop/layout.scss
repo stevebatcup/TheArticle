@@ -75,76 +75,93 @@ header.black_heading {
 }
 
 /**** NAV ******/
-header#main_header {
-	position: relative;
-	width: 100%;
-	padding-top: 1.5rem;
-	padding-bottom: 1.5rem;
-	background-color: #fff;
-	transition: padding 0.5s;
-	border-bottom: 1px solid #ccc;
+header {
+	&#main_header {
+		position: relative;
+		width: 100%;
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+		background-color: #fff;
+		transition: padding 0.5s;
+		border-bottom: 1px solid #ccc;
 
-	nav {
-		li.nav-item {
-			a {
-				background-repeat: no-repeat;
-				background-position: left center;
-				background-size: 1em;
+		nav {
+			li.nav-item {
+				a {
+					background-repeat: no-repeat;
+					background-position: left center;
+					background-size: 1em;
 
-				&.nav-icon {
-					font-size: 1.3em;
-					position: relative;
-					top: 6px;
-
-					&#nav_link_my_profile {
-						font-size: 2em;
-					}
-				}
-
-				&#nav_link_search {
-					position: relative;
-			    top: 0px;
-			    left: -8px;
-				}
-
-				&.nav-icon-text {
-					position: relative;
-					top: -3px;
-
-					span {
-						font-size: 1.2em;
+					&.nav-icon {
+						font-size: 1.3em;
 						position: relative;
-						top: 1px;
+						top: 6px;
+
+						&#nav_link_my_profile {
+							font-size: 2em;
+						}
 					}
-				}
 
-				&#nav_link_mission {
-					background-size: 0.95em;
-					background-image: url('nav/mission.png');
-				}
+					&#nav_link_search {
+						position: relative;
+				    top: 0px;
+				    left: -8px;
+					}
 
-				&#nav_link_exchanges {
-					background-image: url('nav/exchanges.png');
-				}
+					&.nav-icon-text {
+						position: relative;
+						top: -3px;
 
-				&#nav_link_join {
-					background-image: url('nav/join.png');
-					background-position: left 11px;
-					padding-left: 1.8rem;
+						span {
+							font-size: 1.2em;
+							position: relative;
+							top: 1px;
+						}
+					}
+
+					&#nav_link_mission {
+						background-size: 0.95em;
+						background-image: url('nav/mission.png');
+					}
+
+					&#nav_link_exchanges {
+						background-image: url('nav/exchanges.png');
+					}
+
+					&#nav_link_join {
+						background-image: url('nav/join.png');
+						background-position: left 11px;
+						padding-left: 1.8rem;
+					}
 				}
 			}
 		}
-	}
 
-	nav#main_nav_left {
-		li.nav-item {
-			margin-right: 10px;
+		nav#main_nav_left {
+			li.nav-item {
+				margin-right: 10px;
+			}
 		}
-	}
 
-	nav#main_nav_right {
-		li.nav-item {
-			margin-left: 10px;
+		nav#main_nav_right {
+			li.nav-item {
+				margin-left: 10px;
+			}
+		}
+
+		&.short {
+			padding-top: 0;
+			padding-bottom: 0;
+
+			nav {
+				padding-top: 7px !important;
+				padding-bottom: 0 !important;
+			}
+
+			#logo {
+				background-size: 32%;
+				font-size: 2.2em;
+			}
 		}
 	}
 
@@ -160,21 +177,6 @@ header#main_header {
 		a {
 			width: inherit;
 			height: inherit;
-		}
-	}
-
-	&.short {
-		padding-top: 0;
-		padding-bottom: 0;
-
-		nav {
-			padding-top: 7px !important;
-			padding-bottom: 0 !important;
-		}
-
-		#logo {
-			background-size: 32%;
-			font-size: 2.2em;
 		}
 	}
 }
@@ -536,6 +538,14 @@ html.svg header#main_header nav li.nav-item #nav_link_join {
 
 				.img_mask {
 					height: 30%;
+				}
+			}
+
+			&.profile_wizard {
+				.inner {
+					.img_mask {
+						height: 8%;
+					}
 				}
 			}
 		}

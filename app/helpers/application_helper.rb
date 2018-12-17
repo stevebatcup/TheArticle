@@ -13,9 +13,8 @@ module ApplicationHelper
 
 	def body_classes
 		bclasses = [Rails.env]
-		unless cookies[:cookie_permission_set]
-			bclasses << 'show_cookie_notice'
-		end
+		bclasses << 'show_cookie_notice' unless cookies[:cookie_permission_set]
+		bclasses << 'tablet' if browser.device.tablet?
 		bclasses.join(" ")
 	end
 end

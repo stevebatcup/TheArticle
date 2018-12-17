@@ -17,9 +17,13 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 				username:
 					value: @rootElement.data('default-username')
 					error: null
+
+		@scope.exchangesOk = false
+		@scope.selectedExchanges = []
 		@bindEvents()
 
 	bindEvents: =>
+		@bindListingHovers() unless @isTablet()
 		@scope.$on 'wizard:stepChanged', (event, args) =>
 			console.log(args)
 
@@ -44,5 +48,18 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 					return false
 				else
 					return true
+
+	selectExchange: (selected) =>
+		if _.contains(@scope.selectedExchanges, selected)
+			key = _.findIndex @scope.selectedExchanges, (item) =>
+				item is selected
+			@scope.selectedExchanges.splice key, 1
+		else
+			@scope.selectedExchanges.push selected
+		@validateExchanges()
+
+	validateExchanges: =>
+		@scope.exchangesOk = @scope.selectedExchanges.length >= 3
+
 
 TheArticle.ControllerModule.controller('ProfileWizardController', TheArticle.ProfileWizard)

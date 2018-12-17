@@ -5,17 +5,9 @@
 	width: 100%;
 }
 
-article.article-listing.exchange {
-	height: 134px;
-
-	h6 {
-		font-size: 0.8em;
-		padding-bottom: 0.2em;
-	}
-
-	img {
-		min-height: 106px;
-	}
+article.article-listing.exchange.profile_wizard {
+	cursor: pointer;
+	height: 215px;
 
 	&.selected {
 		.inner {
