@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
 	before_action :set_device_type
+  protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
+  protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+  skip_before_action :verify_authenticity_token, if: :json_request?
 
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
@@ -70,6 +73,12 @@ class ApplicationController < ActionController::Base
 			2
 		end
 	end
+
+protected
+
+  def json_request?
+    request.format.json?
+  end
 
 private
   def set_device_type

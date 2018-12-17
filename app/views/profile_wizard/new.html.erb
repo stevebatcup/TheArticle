@@ -45,7 +45,7 @@
 		        <% @exchanges.each do |exchange| %>
 		        	<article class="col-6 col-md-4 article-listing exchange profile_wizard mb-1 mb-md-3 mb-lg-4 hoveraction px-1 px-md-2 px-lg-3"
 		        				ng-click="selectExchange(<%= exchange.id %>)"
-		        				ng-class="{'selected': selectedExchanges.indexOf(<%= exchange.id %>) !== -1}">
+		        				ng-class="{'selected': user.selectedExchanges.indexOf(<%= exchange.id %>) !== -1}">
 		        		<div class="inner rounded">
 		        			<div class="img_mask">
 	        					<% if exchange.image? %>
@@ -83,8 +83,20 @@
 	    </wz-step>
 
 	    <wz-step wz-title="Location">
-	        <p>Even more steps!!</p>
-	        <input type="submit" wz-next value="Finish now" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+				<div class="row">
+					<div class="col col-md-1"></div>
+					<div class="col-12 col-md-10">
+		        <h4>Tell us where you live to help us serve articles that are relevant to you.</h4>
+					  <div class="form-group">
+					    <%= f.label :location %><br />
+				    	<p ng-show="user.location.error" class="alert alert-danger">{{user.location.error}}</p>
+					    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.value" %>
+					  </div>
+		        <input type="submit" wz-next ng-value="user.location.value.length > 0 ? 'Finish' : 'Skip for now'" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+					 </div>
+					 <div class="col col-md-1"></div>
+					</div>
+
 	    </wz-step>
 		</wizard>
 		<% end %>

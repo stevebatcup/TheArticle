@@ -6,10 +6,15 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  'Profile'
 	]
 
 	init: ->
 		@scope.user =
+			id: @rootElement.data('user-id')
+			location:
+				value: ''
+				error: null
 			names:
 				displayName:
 					value: @rootElement.data('default-display_name')
@@ -17,15 +22,15 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 				username:
 					value: @rootElement.data('default-username')
 					error: null
+			selectedExchanges: []
 
 		@scope.exchangesOk = false
-		@scope.selectedExchanges = []
 		@bindEvents()
 
 	bindEvents: =>
 		@bindListingHovers() unless @isTablet()
-		@scope.$on 'wizard:stepChanged', (event, args) =>
-			console.log(args)
+		# @scope.$on 'wizard:stepChanged', (event, args) =>
+		# 	console.log(args)
 
 	validateNames: (context) =>
 		@scope.user.names.displayName.error = @scope.user.names.username.error = false
@@ -50,16 +55,27 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 					return true
 
 	selectExchange: (selected) =>
-		if _.contains(@scope.selectedExchanges, selected)
-			key = _.findIndex @scope.selectedExchanges, (item) =>
+		if _.contains(@scope.user.selectedExchanges, selected)
+			key = _.findIndex @scope.user.selectedExchanges, (item) =>
 				item is selected
-			@scope.selectedExchanges.splice key, 1
+			@scope.user.selectedExchanges.splice key, 1
 		else
-			@scope.selectedExchanges.push selected
+			@scope.user.selectedExchanges.push selected
 		@validateExchanges()
 
 	validateExchanges: =>
-		@scope.exchangesOk = @scope.selectedExchanges.length >= 3
+		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
+	finishedWizard: =>
+		new @Profile(@scope.user).create().then (response) =>
+			if response.status is 'error'
+				@finishedWizardError(response.error)
+			else
+				window.location.href = response.redirect
+		, (error) =>
+			@finishedWizardError(error.statusText)
+
+	finishedWizardError: (msg) =>
+		@alert "Sorry there has been an error: #{msg}"
 
 TheArticle.ControllerModule.controller('ProfileWizardController', TheArticle.ProfileWizard)

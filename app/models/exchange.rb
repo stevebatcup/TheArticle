@@ -2,6 +2,7 @@ class Exchange < ApplicationRecord
 	include WpCache
 	has_and_belongs_to_many	:articles
   mount_uploader :image, ExchangeImageUploader
+  has_and_belongs_to_many  :users
 
   def self.sponsored_exchange
     find_by(slug: 'sponsored')

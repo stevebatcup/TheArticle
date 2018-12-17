@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_11_100456) do
+ActiveRecord::Schema.define(version: 2018_12_17_160825) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -88,6 +88,13 @@ ActiveRecord::Schema.define(version: 2018_12_11_100456) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "article_count", default: 0
+  end
+
+  create_table "exchanges_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "exchange_id"
+    t.bigint "user_id"
+    t.index ["exchange_id"], name: "index_exchanges_users_on_exchange_id"
+    t.index ["user_id"], name: "index_exchanges_users_on_user_id"
   end
 
   create_table "keyword_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -298,4 +305,6 @@ ActiveRecord::Schema.define(version: 2018_12_11_100456) do
   add_foreign_key "articles_exchanges", "exchanges"
   add_foreign_key "articles_keyword_tags", "articles"
   add_foreign_key "articles_keyword_tags", "keyword_tags"
+  add_foreign_key "exchanges_users", "exchanges"
+  add_foreign_key "exchanges_users", "users"
 end

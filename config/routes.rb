@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   get 'username-availability',                 to: 'username_availability#new'
 
   post 'register',                             to: 'register#create'
-  get 'new_profile',                           to: 'profile_wizard#new', as: :profile_wizard
-  post 'new_profile',                          to: 'profile_wizard#create', as: :save_profile_wizard
+  get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
+  post 'profile',                              to: 'profile_wizard#create', as: :save_profile_wizard
   get 'profile/:username',                     to: 'users#show', as: :profile
 
   get 'exchanges',				 					           to: 'exchanges#index'

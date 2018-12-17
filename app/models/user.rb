@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates_presence_of	:first_name, :last_name, on: :create
+  has_and_belongs_to_many  :exchanges
 
   def self.is_username_available?(username)
     !self.find_by(username: username).present?
@@ -27,5 +28,16 @@ class User < ApplicationRecord
       items << username
     end
     items
+  end
+
+  def complete_profile_from_wizard(params)
+    self.display_name = params[:names][:display_name][:value]
+    self.username = params[:names][:username][:value]
+    self.location = params[:location][:value]
+    params[:selected_exchanges].each do |eid|
+      self.exchanges << Exchange.find(eid)
+    end
+    self.has_completed_wizard = 1
+    self.save
   end
 end

@@ -11,7 +11,12 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 
 	init: ->
 		@bindEvents()
-		# console.log "FrontPage init!"
+		vars = @getUrlVars()
+		@scope.showWelcome = if 'from_wizard' of vars then true else false
+
+		@timeout =>
+			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
+		, 500
 
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>

@@ -11,7 +11,12 @@ class TheArticle.FrontPage extends TheArticle.DesktopPageController
 
 	init: ->
 		@bindEvents()
-		console.log "FrontPage yay!"
+		vars = @getUrlVars()
+		@scope.showWelcome = if 'from_wizard' of vars then true else false
+
+		@timeout =>
+			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
+		, 500
 
 	bindEvents: =>
 		super
@@ -19,5 +24,6 @@ class TheArticle.FrontPage extends TheArticle.DesktopPageController
 			$hiding = $(e.relatedTarget)
 			if $hiding.hasClass('search_trigger')
 				@toggleSearch()
+
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)
