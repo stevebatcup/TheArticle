@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   post 'register',                             to: 'register#create'
   get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
   post 'profile',                              to: 'profile_wizard#create', as: :save_profile_wizard
-  get 'profile/:username',                     to: 'users#show', as: :profile
+  get 'profile/:slug',                         to: 'users#show', as: :profile
 
   get 'exchanges',				 					           to: 'exchanges#index'
   get 'exchange/:slug',				 			           to: 'exchanges#show', as: :exchange

@@ -32,7 +32,8 @@ class User < ApplicationRecord
 
   def complete_profile_from_wizard(params)
     self.display_name = params[:names][:display_name][:value]
-    self.username = params[:names][:username][:value]
+    self.username = "@#{params[:names][:username][:value]}"
+    self.slug = self.username.downcase
     self.location = params[:location][:value]
     params[:selected_exchanges].each do |eid|
       self.exchanges << Exchange.find(eid)
