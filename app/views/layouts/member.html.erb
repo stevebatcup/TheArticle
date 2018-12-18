@@ -11,7 +11,7 @@
           <!-- Non tabbed app page header -->
           <div class="row" ng-show="appPage">
             <div class="col-12">
-              <a ng-click="openFrontPage()" href='#' class="d-block py-2" id="close_app_page">
+              <a ng-click="openFrontPage()" href='#' class="d-block py-2 text-black" id="close_app_page">
                 <i class="fas fa-arrow-left text-black mr-2"></i>
                 {{appPage}}
               </a>
@@ -70,14 +70,14 @@
 
       <%= render 'common/search-box' %>
 
-      <main id="main_content">
+      <main id="main_content" ng-class="{'app_page': appPage != false}">
         <div class="tab-content" id="app_tabs" ng-show="!appPage">
           <%= render 'mobile/front_page' %>
           <%= render 'mobile/follows' %>
           <%= render 'mobile/notifications' %>
         </div>
 
-        <%= render 'mobile/my_profile' %>
+        <%= render 'mobile/profile' %>
         <%= render 'mobile/account_settings' %>
       </main>
 

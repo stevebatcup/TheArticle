@@ -1,7 +1,7 @@
 {
   "name": "dsl-generated-dependencies",
   "dependencies": {
-    "bootstrap": "4.0.0",
+    "bootstrap": "4.1.0",
     "fontawesome": "5.0",
     "underscore": "latest",
     "slick-carousel": "latest",

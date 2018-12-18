@@ -1,7 +1,7 @@
 # A sample Bowerfile
 # Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
 
-asset 'bootstrap', '4.0.0'
+asset 'bootstrap', '4.1.0'
 asset 'fontawesome', '5.0'
 asset 'underscore'
 asset 'slick-carousel'

@@ -6,6 +6,11 @@
 	display: none;
 }
 
+a:hover,
+a:active {
+	color: inherit !important;
+}
+
 h1 {
 	font-size: 1.6em;
 }

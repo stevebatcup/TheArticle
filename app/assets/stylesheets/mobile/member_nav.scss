@@ -57,14 +57,29 @@
 div#sidebar_me {
   padding: 10px 20px;
 
+  img {
+    width: 52px;
+    height:  52px;
+  }
+
   p {
     color: #fff;
     font-size: 0.7em;
-    padding-left: 10px;
-    line-height: 2em;
+    padding-left: 14px;
+    line-height: 1.75em;
+
+    .display_name {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .username {
+      // font-size: 0.9em;
+      display: block;
+    }
 
     a {
-      color: $blue_dark;
+      color: #fff;
     }
   }
 }
@@ -90,6 +105,10 @@ div#follows_info {
 body.fixed-nav {
   main#main_content {
     padding-top: 3.2rem;
+
+    &.app_page {
+      padding-top: 0;
+    }
   }
 }
 
@@ -125,12 +144,12 @@ body.fixed-nav {
 }
 
 a#close_app_page {
-  font-size: 1.4em;
+  font-size: 1.3em;
 }
 
-.app_page {
-  padding-top: 12px;
-}
+// .app_page {
+//   padding-top: 12px;
+// }
 
 nav.sub_tabs {
   background-color: #303030;

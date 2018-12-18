@@ -8,12 +8,6 @@ Rails.application.routes.draw do
   get 'articles',                              to: 'articles#index', as: :articles
   get 'contact',                               to: 'contact#new'
   post 'contact',                              to: 'contact#create'
-  get 'username-availability',                 to: 'username_availability#new'
-
-  post 'register',                             to: 'register#create'
-  get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
-  post 'profile',                              to: 'profile_wizard#create', as: :save_profile_wizard
-  get 'profile/:slug',                         to: 'users#show', as: :profile
 
   get 'exchanges',				 					           to: 'exchanges#index'
   get 'exchange/:slug',				 			           to: 'exchanges#show', as: :exchange
@@ -27,8 +21,14 @@ Rails.application.routes.draw do
 	delete 'wp-connector/:model/:id',            to: 'wp_connector#model_delete'
   post   'wp-connector/:model/:id/unpublish',  to: 'wp_connector#model_delete'
 
+  get 'username-availability',                 to: 'username_availability#new'
+  post 'register',                             to: 'register#create'
+  get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
+  post 'profile',                              to: 'profile_wizard#create', as: :save_profile_wizard
+  get 'profile/:slug',                         to: 'users#show', as: :profile
+
   get 'front-page',                            to: 'front_page#index', as: :front_page
-  get 'my-profile',                            to: 'users#show'
+  get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
   get 'following',                             to: 'follows#index', mode: :following
   get 'followers',                             to: 'follows#index', mode: :followers
   get 'follow-suggestions',                    to: 'follows#index', mode: :suggestions

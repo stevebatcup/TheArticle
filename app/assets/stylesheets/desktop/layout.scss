@@ -1060,6 +1060,33 @@ div.new_article {
 	&#my_profile_menu {
 		width: 300px;
 		left: -220px;
+
+		.dropdown-header {
+			line-height: 1.4em;
+
+			img {
+				width: 62px;
+				height: 62px;
+			}
+
+			a {
+				color: inherit;
+
+				span {
+					display: block;
+
+					&.display_name {
+						font-size: 1.25em;
+						font-weight: bold
+					}
+
+					&.username {
+						opacity: 0.7;
+						font-size: 0.85em;
+					}
+				}
+			}
+		}
 	}
 
 	&#notifications_menu {

@@ -22,6 +22,6 @@
     "commit": "ee611316bec077fcfbba3fd604ebc4b0b35ac288"
   },
   "_source": "https://github.com/EightMedia/hammer.js.git",
-  "_target": "*",
+  "_target": ">=2.0.0",
   "_originalSource": "hammerjs"
 }

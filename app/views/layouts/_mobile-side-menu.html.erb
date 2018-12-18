@@ -7,16 +7,22 @@
     </div>
 
     <div id="sidebar_me" class="d-flex">
-      <img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="width:45px; height: 45px;">
+      <% if use_app_links %>
+        <a href='#myprofile' ng-click="openMyProfile()">
+      <% else %>
+        <a href="<%= front_page_path(route: 'myprofile') %>">
+      <% end %>
+        <img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
+      </a>
       <p>
-        <%= current_user.display_name %>&nbsp;<span class="username text-muted"><%= current_user.username %></span>
-        <br />
         <% if use_app_links %>
           <a href='#myprofile' ng-click="openMyProfile()">
         <% else %>
           <a href="<%= front_page_path(route: 'myprofile') %>">
         <% end %>
-        View my profile</a>
+        <span class="display_name"><%= current_user.display_name %></span>
+        <span class="username text-muted"><%= current_user.username %></span>
+        <span class="link">View profile</span></a>
       </p>
     </div>
 

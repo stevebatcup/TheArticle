@@ -7,6 +7,8 @@ class User < ApplicationRecord
 
   validates_presence_of	:first_name, :last_name, on: :create
   has_and_belongs_to_many  :exchanges
+  # mount_uploader :profile_photo, ProfilePhotoUploader
+  # mount_uploader :cover_photo, CoverPhotoUploader
 
   def self.is_username_available?(username)
     !self.find_by(username: username).present?

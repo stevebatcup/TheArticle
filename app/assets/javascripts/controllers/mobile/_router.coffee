@@ -14,7 +14,9 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.root = @scope
 
 		urlVars = @getUrlVars()
-		@openRoute(urlVars['route']) if 'route' of urlVars
+		if route = urlVars['route']
+			route = route.substring(0, route.indexOf("#")) if route.indexOf("#") > -1
+			@openRoute(route) if 'route' of urlVars
 
 	bindEvents: ->
 		super
@@ -34,6 +36,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	resetAppTabs: =>
 		@scope.appPage = false
 		@scope.front_page = false
+		@scope.showProfile = false
 		@scope.myProfile = false
 		@scope.follows = false
 		@scope.notifications = false
@@ -48,6 +51,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 	openMyProfile: =>
 		@resetAppTabs()
+		@scope.showProfile = true
 		@scope.myProfile = true
 		@scope.appPage = "My Profile"
 		@scope.slideout.close()
