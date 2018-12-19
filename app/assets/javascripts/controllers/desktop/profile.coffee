@@ -53,4 +53,16 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
+	editProfile: (section=null) =>
+		if section
+			console.log "editProfile: #{section}"
+		else
+			console.log 'editProfile'
+
+	editProfilePhoto: =>
+		console.log 'editProfilePhoto'
+
+	editCoverPhoto: =>
+		console.log 'editCoverPhoto'
+
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

@@ -10,6 +10,7 @@
     "mustache": "latest",
     "slideout": "https://github.com/mango/slideout.git",
     "angular-wizard": "latest",
-    "ryanmullins-angular-hammer": "latest"
+    "ryanmullins-angular-hammer": "latest",
+    "popper.js": "latest"
   }
 }

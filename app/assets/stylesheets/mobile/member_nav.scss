@@ -147,6 +147,17 @@ a#close_app_page {
   font-size: 1.3em;
 }
 
+#my_profile_settings_btn {
+  button {
+    font-size: 1.4em;
+    color: inherit;
+
+    &:hover {
+      color: inherit !important;
+    }
+  }
+}
+
 // .app_page {
 //   padding-top: 12px;
 // }

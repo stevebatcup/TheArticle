@@ -10,10 +10,15 @@
 
 		a {
 			color: #fff;
-			font-size: 33px;
+			font-size: 35px;
 			width: fit-content;
 			display: block;
 			margin: 0 auto;
+
+			&:hover,
+			&:active {
+				color: #fff !important;
+			}
 		}
 	}
 
@@ -26,6 +31,10 @@
 	    top: -6.5em;
 	    left: 1em;
       margin-bottom: -5em;
+
+      &.editable {
+      	cursor: pointer;
+      }
 		}
 
 		a {
@@ -35,8 +44,8 @@
 
 	#top_bar {
 		button {
-			// position: relative;
-			// left: -10px;
+			position: relative;
+			left: -10px;
 		}
 
 		ul.nav {

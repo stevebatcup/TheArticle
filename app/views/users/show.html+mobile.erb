@@ -1,16 +1,14 @@
-<section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>">
-	<div ng-show="profile.loadError" class="container mt-4">
-			<div class="alert alert-danger">
-				<p>{{profile.loadError}}</p>
-			</div>
-		</div>
-		<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
+<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>">
 
-		<section id="cover_photo" class="justify-content-center" ng-show="profile.loaded && !profile.loadError">
-			<a ng-click="addCoverPhoto()" href='#' class="align-middle">
-				<i class="fas fa-image"></i>
-			</a>
-		</section>
+	<div ng-show="profile.loaded && profile.loadError" class="container mt-4">
+		<div class="alert alert-danger">
+			<p>{{profile.loadError}}</p>
+		</div>
+	</div>
+	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
+
+	<section id="cover_photo" class="justify-content-center" ng-show="profile.loaded && !profile.loadError">
+	</section>
 
 		<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError">
 			<img ng-src="{{ profile.data.profilePhoto }}" class="rounded-circle" alt="<%= current_user.display_name %>" />

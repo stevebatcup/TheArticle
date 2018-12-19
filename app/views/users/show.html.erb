@@ -1,5 +1,5 @@
 <section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>">
-	<div ng-show="profile.loadError" class="container mt-4">
+	<div ng-show="profile.loaded && profile.loadError" class="container mt-4">
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>
 		</div>
@@ -8,7 +8,7 @@
 
 	<section id="cover_photo" class="row" ng-show="profile.loaded && !profile.loadError">
 		<div class="col-12">
-			<a ng-click="addCoverPhoto()" href='#' class="align-middle">
+			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe">
 				<i class="fas fa-image"></i>
 			</a>
 		</div>
@@ -53,16 +53,29 @@
 		    </a>
 		  </li>
 		</ul>
-		<div class="col-2 px-0">
-			<button class="btn btn-outline-success btn-sm mt-3" ng-click="editProfile()" ng-show="profile.loaded && profile.isMe && !profile.loadError"><i class="fas fa-cog" aria-hidden="true"></i>
-				<span>Edit Profile</span>
-			</button>
+		<div class="col-2 px-0 navbar mt-2">
+			<div class="btn-group" ng-show="profile.loaded && profile.isMe && !profile.loadError">
+			  <button class="btn btn-outline-success btn-sm" type="button" ng-click="editProfile()">
+			    Edit profile
+			  </button>
+			  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  	<span class="sr-only">Toggle Dropdown</span>
+			    <i class="fas fa-cog" aria-hidden="true"></i>
+			  </button>
+			  <div class="dropdown-menu">
+			    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+	        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+	        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+			  </div>
+			</div>
 		</div>
 	</section>
 
 	<div class="row">
 		<section class="col-3" id="basic_info" ng-show="profile.loaded && !profile.loadError">
-			<img ng-src="{{ profile.data.profilePhoto }}" class="rounded-circle" alt="<%= current_user.display_name %>" />
+
+			<img ng-src="{{ profile.data.profilePhoto }}" class="rounded-circle" alt="<%= current_user.display_name %>"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
+
 			<div class="pl-2">
 				<h5>{{ profile.data.displayName }}</h5>
 				<h6 class="text-muted mb-4">{{ profile.data.username }}</h6>
@@ -75,7 +88,7 @@
 					<span class="pl-3">{{ profile.data.location }}</span>
 				</p>
 				<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
-					<a href='#' ng-click="addLocation()">
+					<a href='#' ng-click="editProfile('location')">
 						<i class="fas fa-map-marker-alt"></i>
 						<span class="pl-3">Add Location</span>
 					</a>
@@ -85,7 +98,7 @@
 					{{ profile.data.bio }}
 				</p>
 				<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
-					<a href='#' ng-click="addBio()">
+					<a href='#' ng-click="editProfile('bio')">
 						<i class="far fa-plus-square"></i>
 						<span class="pl-3">Add Bio</span>
 					</a>

@@ -11,13 +11,13 @@
 		<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
 		<section id="cover_photo" class="justify-content-center" ng-show="profile.loaded && !profile.loadError">
-			<a ng-click="addCoverPhoto()" href='#' class="align-middle">
+			<a ng-click="editCoverPhoto()" href='#' class="align-middle">
 				<i class="fas fa-image"></i>
 			</a>
 		</section>
 
 		<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError">
-			<img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle" alt="<%= current_user.display_name %>" />
+			<img ng-src="{{ profile.data.profilePhoto }}" class="rounded-circle" alt="<%= current_user.display_name %>"ng-click="editProfilePhoto()" />
 			<div class="pl-3">
 				<h5>{{ profile.data.displayName }}</h5>
 				<h6 class="text-muted">{{ profile.data.username }}</h6>
