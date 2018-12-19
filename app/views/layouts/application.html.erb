@@ -48,7 +48,7 @@
                 <h6 class="dropdown-header">Notifications</h6>
                 <% for i in 1..12 %>
                   <div class="dropdown-item notification-item border-bottom d-flex bg-white">
-                    <img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle " alt="<%= current_user.display_name %>" style="width:45px; height: 45px;">
+                    <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" style="width:45px; height: 45px;">
                     <p class="ml-4 notification-item-detail"><b>Lorem ipsum</b> dolor sit amet, consectetur <b>adipisicing elit</b>, sed do eiusmod tempor.<br />
                     <span class="notification-item-time">1 hour ago</span></p>
                   </div>
@@ -65,7 +65,7 @@
              <div class="dropdown-menu dropdown-menu-right bg-light" id="my_profile_menu">
                 <h6 class="dropdown-header mb-2 d-flex">
                   <a href="<%= my_profile_path %>" class="mr-3">
-                    <img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
+                    <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
                   </a>
                   <a href="<%= my_profile_path %>" class="pt-1">
                     <span class="display_name"><%= current_user.display_name %></span>
@@ -76,10 +76,6 @@
                 <a class="dropdown-item py-2 bg-white notification-item" href="<%= front_page_path %>">
                   <i class="far fa-newspaper mr-2"></i>
                   Front page
-                </a>
-                <a class="dropdown-item py-2 bg-white notification-item" href="/my-profile">
-                  <i class="fas fa-user mr-2"></i>
-                  My profile
                 </a>
                 <a class="dropdown-item py-2 bg-white notification-item" href="/following">
                   <i class="fas fa-angle-double-right mr-2"></i>

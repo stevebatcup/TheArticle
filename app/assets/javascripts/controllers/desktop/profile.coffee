@@ -35,7 +35,6 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 
 	getMyProfile: =>
 		@MyProfile.get().then (profile) =>
-			console.log profile
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
@@ -45,6 +44,13 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	getProfile:(id) =>
-		@Profile.get()
+		@Profile.get({id: @rootElement.data('user-id')}).then (profile) =>
+			@timeout =>
+				@scope.profile.data = profile
+				@scope.profile.loaded = true
+			, 750
+		, (error) =>
+			@scope.profile.loaded = true
+			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

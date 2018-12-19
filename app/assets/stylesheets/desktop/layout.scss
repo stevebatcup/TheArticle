@@ -1063,6 +1063,9 @@ div.new_article {
 
 		.dropdown-header {
 			line-height: 1.4em;
+			white-space: nowrap;
+		  overflow: hidden;
+		  text-overflow: ellipsis;
 
 			img {
 				width: 62px;
@@ -1076,8 +1079,8 @@ div.new_article {
 					display: block;
 
 					&.display_name {
-						font-size: 1.25em;
-						font-weight: bold
+						font-size: 1.15em;
+						font-weight: bold;
 					}
 
 					&.username {
@@ -1143,4 +1146,8 @@ div.new_article {
   padding: 50px 0 50px 45px;
   margin: 30px auto;
   background: asset_url('ajax-loader.gif') no-repeat left center;
+}
+
+select.short {
+	width: 150px;
 }

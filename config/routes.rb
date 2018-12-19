@@ -21,14 +21,17 @@ Rails.application.routes.draw do
 	delete 'wp-connector/:model/:id',            to: 'wp_connector#model_delete'
   post   'wp-connector/:model/:id/unpublish',  to: 'wp_connector#model_delete'
 
-  get 'username-availability',                 to: 'username_availability#new'
   post 'register',                             to: 'register#create'
-  get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
-  post 'profile',                              to: 'profile_wizard#create', as: :save_profile_wizard
-  get 'profile/:slug',                         to: 'users#show', as: :profile
 
-  get 'front-page',                            to: 'front_page#index', as: :front_page
+  get 'username-availability',                 to: 'username_availability#new'
+  get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
+  post 'my-profile',                           to: 'profile_wizard#create', as: :save_profile_wizard
+
+  get 'debug-users',                           to: 'users#index'
   get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
+  get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
+  get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
+  get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following
   get 'followers',                             to: 'follows#index', mode: :followers
   get 'follow-suggestions',                    to: 'follows#index', mode: :suggestions

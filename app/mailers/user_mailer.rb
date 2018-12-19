@@ -25,7 +25,7 @@ class UserMailer < Devise::Mailer
   end
 
   def confirmation_instructions(user, token, opts={})
-    if user.is_confirmed?
+    if user.confirmed?
       send_email_change_confirmation(user, token)
     else
       send_welcome(user, token)

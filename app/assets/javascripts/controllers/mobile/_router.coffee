@@ -10,6 +10,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		console.log "foo"
 		@bindEvents()
 		@scope.root = @scope
 

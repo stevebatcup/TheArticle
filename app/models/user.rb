@@ -7,11 +7,16 @@ class User < ApplicationRecord
 
   validates_presence_of	:first_name, :last_name, on: :create
   has_and_belongs_to_many  :exchanges
-  # mount_uploader :profile_photo, ProfilePhotoUploader
+  before_create :assign_default_profile_photo_id
+  mount_uploader :profile_photo, ProfilePhotoUploader
   # mount_uploader :cover_photo, CoverPhotoUploader
 
   def self.is_username_available?(username)
     !self.find_by(username: username).present?
+  end
+
+  def assign_default_profile_photo_id
+    self.default_profile_photo_id = rand(1..10)
   end
 
   def default_display_name

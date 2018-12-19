@@ -2,7 +2,6 @@
 	min-height: 60vh;
 
 	#cover_photo {
-		width: 100%;
 		background-color: $green;
 		height: 18%;
 		height: 18vh;
@@ -19,54 +18,50 @@
 	}
 
 	#basic_info {
-		margin-bottom: -2.4em;
-		padding-top: 1em;
-
-		h5 {
-			line-height: 0.6em;
-	    font-size: 1.3em;
-		}
-
 		img {
-			width: 7em;
-			height: 7em;
+			width: 9em;
+			height: 9em;
 	    border: 4px solid #fff;
 	    position: relative;
-	    top: -3.5em;
+	    top: -6.5em;
+	    left: 1em;
+      margin-bottom: -5em;
 		}
-	}
-
-	#stats_info {
-		label {
-			text-align: center;
-			font-weight: bold;
-			display: block;
-		}
-
-		span {
-			text-align: center;
-			width: 100%;
-			display: inline-block;
-		}
-	}
-
-	#more_info {
-		color: inherit;
 
 		a {
 			color: inherit;
 		}
 	}
 
-	#public_activity {
+	#top_bar {
+		button {
+			// position: relative;
+			// left: -10px;
+		}
+
 		ul.nav {
 			border-bottom: none !important;
 
 			li {
 				a {
+					background-color: transparent;
 					border: none;
 					color: inherit !important;
 					font-weight: normal;
+					height: 63px;
+
+					label {
+						text-align: center;
+						font-weight: bold;
+						display: block;
+						margin-bottom: -4px;
+					}
+
+					span {
+						text-align: center;
+						width: 100%;
+						display: inline-block;
+					}
 
 					&.active {
 						color: inherit !important;
@@ -76,9 +71,11 @@
 				}
 			}
 		}
+	}
 
-		.tab-content {
-			min-height: 160px;
+	#callouts {
+		.callout {
+			min-height: 300px;
 		}
 	}
 }

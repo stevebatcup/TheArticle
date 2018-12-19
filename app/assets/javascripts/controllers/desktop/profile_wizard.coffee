@@ -6,7 +6,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
-	  'Profile'
+	  'MyProfile'
 	]
 
 	init: ->
@@ -67,7 +67,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
 	finishedWizard: =>
-		new @Profile(@scope.user).create().then (response) =>
+		new @MyProfile(@scope.user).create().then (response) =>
 			if response.status is 'error'
 				@finishedWizardError(response.error)
 			else

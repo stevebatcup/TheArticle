@@ -12,7 +12,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 	init: ->
 		@scope.profile =
-			isMe: @scope.root.myProfile
+			isMe: if 'root' of @scope then true else false
 			loaded: false
 			loadError: false
 			data:
@@ -26,12 +26,15 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 				location: ""
 				bio: ""
 				isNew: true
-
+		@bindEvents()
 		if @scope.profile.isMe is true
 			@getMyProfile()
 		else
 			id = @rootElement.data('id')
 			@getProfile(id)
+
+	bindEvents: =>
+		super unless @scope.profile.isMe
 
 	getMyProfile: =>
 		@MyProfile.get().then (profile) =>
@@ -44,6 +47,13 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	getProfile:(id) =>
-		@Profile.get()
+		@Profile.get({id: @rootElement.data('user-id')}).then (profile) =>
+			@timeout =>
+				@scope.profile.data = profile
+				@scope.profile.loaded = true
+			, 750
+		, (error) =>
+			@scope.profile.loaded = true
+			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

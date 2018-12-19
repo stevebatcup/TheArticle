@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_17_163252) do
+ActiveRecord::Schema.define(version: 2018_12_18_160728) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 2018_12_17_163252) do
     t.string "display_name", default: ""
     t.string "location", default: ""
     t.string "profile_photo"
+    t.integer "default_profile_photo_id"
     t.string "cover_photo"
     t.text "bio"
     t.string "email", default: "", null: false
