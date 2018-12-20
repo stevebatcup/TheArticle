@@ -118,6 +118,18 @@
 
 #editprofilePhotoModal,
 #editcoverPhotoModal {
+	.modal-header {
+		button {
+			line-height: 1em;
+			padding-right: 6px !important;
+
+			&:hover,
+			&:active {
+				color: inherit;
+			}
+		}
+	}
+
 	.modal-content {
 
 		form .inner {

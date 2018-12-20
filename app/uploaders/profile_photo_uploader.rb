@@ -11,7 +11,7 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
   end
 
   version :square do
-    process resize_to_fill: [120, 120]
+    process resize_to_fill: [150, 150]
 
     def store_dir
       "app/#{Rails.env}/users/profile-photo/square/#{model.id}"

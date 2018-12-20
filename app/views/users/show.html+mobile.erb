@@ -7,16 +7,20 @@
 	</div>
 	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
-	<section class="cover_photo justify-content-center" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+	<section class="cover_photo justify-content-center"
+					ng-show="profile.loaded && !profile.loadError && mode == 'view'"
+					ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
+					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
 		<div class="col-12">
-			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe">
+			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && profile.data.coverPhoto.image.length == 0">
 				<i class="fas fa-image"></i>
 			</a>
 		</div>
 	</section>
 
 	<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
-		<div style="background-image: url({{ profile.data.profilePhoto }})" class="profile_circle_image rounded-circle" ng-click="editProfilePhoto()"></div>
+		<div ng-style="{'background-image':'url('+profile.data.profilePhoto.image+')'}"
+				 class="profile_circle_image rounded-circle" ng-click="editProfilePhoto()"></div>
 		<div class="pl-3">
 			<h5>{{ profile.data.displayName }}</h5>
 			<h6 class="text-muted">{{ profile.data.username }}</h6>
@@ -114,13 +118,16 @@
 
 	<!-- Edit profile fields -->
 	<section id="edit_profile_form_box" ng-if="mode == 'edit'">
-		<div class="cover_photo" class="justify-content-center">
+		<div class="cover_photo" class="justify-content-center"
+					ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
+					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle">
 				<i class="fas fa-image"></i>
 			</a>
 		</div>
 
-		<div style="background-image: url({{ profile.data.profilePhoto }})" class="profile_circle_image rounded-circle" id="edit_profile_photo_inside">
+		<div ng-style="{'background-image':'url('+profile.data.profilePhoto.image+')'}"
+				class="profile_circle_image rounded-circle" id="edit_profile_photo_inside">
 			<a ng-click="editProfilePhoto()" href='#' class="align-middle" ng-if="mode == 'edit'">
 				<i class="fas fa-image"></i>
 			</a>
@@ -155,7 +162,7 @@
 	  	  <div class="form-group">
 	  	    <%= f.label :bio %><br />
 	      	<p ng-show="profile.errors.bio" class="alert alert-danger">{{profile.errors.bio}}</p>
-	  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio" %>
+	  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio", rows: 6 %>
 	  	  </div>
 
 	  	  <div class="buttons d-flex justify-content-between pt-3">
@@ -166,12 +173,12 @@
 		</div>
 	</section>
 
-	<!-- Edit profile photo -->
-	<section id="edit_profile_photo_box" ng-if="mode == 'edit-profile-photo'">
-		<form>
-			<input type="file" fileread="profile.profilePhoto.source" />
-			<img id="profile_photo_holder" ng-src="{{trustSrc(profile.profilePhoto.source)}}" ng-model="profile.profilePhoto.image" />
-		</form>
-	</section>
+	<script id="editProfilePhoto" type="script/x-mustache">
+		<%= render partial: 'edit_photo_modal', locals: { type: "profile" } %>
+	</script>
+
+	<script id="editCoverPhoto" type="script/x-mustache">
+		<%= render partial: 'edit_photo_modal', locals: { type: "cover" } %>
+	</script>
 
 </section>

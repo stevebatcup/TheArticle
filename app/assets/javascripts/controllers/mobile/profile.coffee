@@ -8,6 +8,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	  '$rootElement'
 	  '$timeout'
 	  '$sce'
+	  '$compile'
 	  'Profile'
 	  'MyProfile'
 	]
@@ -47,11 +48,19 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	bindEvents: =>
 		super
 
-		@scope.$watch 'profile.profilePhoto.source', (newVal, oldVal) =>
+		$(document).on 'click', "#upload_profilePhoto_btn", (e) =>
+			$("#profilePhoto_uploader").focus().trigger('click')
+
+		$(document).on 'click', "#upload_coverPhoto_btn", (e) =>
+			$("#coverPhoto_uploader").focus().trigger('click')
+
+		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				# console.log newVal
-				# @scope.profilePhotoReadyForCrop = true
-				@showProfilePhotoCropper document.getElementById('profile_photo_holder')
+				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), 275, 275, 'circle'
+
+		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
+			if (oldVal isnt newVal) and newVal.length > 0
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 300, 100, 'square'
 
 		# Broadcast from HeaderBarController
 		@scope.$on 'edit_profile', =>
@@ -64,15 +73,17 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	trustSrc: (src) =>
 		@sce.trustAsResourceUrl(src)
 
-	showProfilePhotoCropper: (element) =>
+	showProfilePhotoCropper: (element, width, height, shape) =>
+		type = $(element).data('type')
 		c = new Croppie element,
 			viewport:
-				width: 400
-				height: 400
+				width: width
+				height: height
+				type: shape
 			update: =>
 				c.result('canvas').then (img) =>
 					@scope.$apply =>
-						@scope.profile.profilePhoto.image = img
+						@scope.profile.data[type].image = img
 
 	getMyProfile: =>
 		@MyProfile.get().then (profile) =>
@@ -96,14 +107,6 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 	editProfile: =>
 		@scope.mode = 'edit'
-
-	editProfilePhoto: =>
-		@scope.mode = 'edit-profile-photo'
-		console.log 'editProfilePhoto'
-
-	editCoverPhoto: =>
-		@scope.mode = 'edit-cover-photo'
-		console.log 'editCoverPhoto'
 
 	saveProfile: ($event) =>
 		$event.preventDefault()
@@ -160,5 +163,33 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 	cancelEditProfile: =>
 		@scope.mode = 'view'
+
+	editProfilePhoto: =>
+		tpl = $("#editProfilePhoto").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#editprofilePhotoModal").modal()
+
+	editCoverPhoto: =>
+		tpl = $("#editCoverPhoto").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#editcoverPhotoModal").modal()
+
+	saveCroppedPhoto: ($event, type) =>
+		$event.preventDefault()
+		profile = new @MyProfile({id: @scope.profile.data.id, photo: @scope.profile.data[type].image, mode: type })
+		profile.update().then (response) =>
+			if response.status is 'error'
+				@savePhotoError response.message
+			else
+				@timeout =>
+					$('button[data-dismiss=modal]', "#edit#{type}Modal").click()
+				, 750
+		, (error) =>
+			@savePhotoError error.statusText
+
+	savePhotoError: (msg) =>
+		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

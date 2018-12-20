@@ -28,7 +28,10 @@
 	.cover_photo {
 		width: 100%;
 		background-color: $green;
-		height: 110px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		height: 125px;
 		line-height: 7.1em;
 		color: #fff;
 
@@ -137,8 +140,46 @@
 	}
 }
 
-.editing_photo_holder {
-	width: 70vw;
-	display: block;
-	margin: 20px auto;
+
+#editprofilePhotoModal {
+	form .inner {
+		height: 350px;
+	}
+}
+
+#editcoverPhotoModal {
+	form .inner {
+		height: 190px;
+	}
+}
+
+#editprofilePhotoModal,
+#editcoverPhotoModal {
+	height: 98vh;
+
+	.modal-dialog {
+		height: 99%;
+    width: 97vw;
+    margin: 1.5vw;
+
+		.modal-content {
+			height: 100%;
+
+			.modal-body {
+				padding: 0.3rem 0.3rem;
+
+				form .inner {
+					input.replace_file_input {
+					  position: absolute;
+					  left: -9999px;
+					}
+
+					.editing_photo_holder {
+						width: 70vw;
+						margin: 20px auto;
+					}
+				}
+			}
+		}
+	}
 }
