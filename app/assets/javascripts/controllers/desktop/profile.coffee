@@ -7,6 +7,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	  '$rootElement'
 	  '$timeout'
 	  '$compile'
+	  '$sce'
 	  'Profile'
 	  'MyProfile'
 	]
@@ -29,16 +30,66 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				location: ""
 				bio: ""
 				isNew: true
+				profilePhoto:
+					image: ""
+					source: ""
 			errors:
 				main: false
 				displayName: false
 				username: false
-
+				photo: false
+		@bindEvents()
 		if @scope.profile.isMe is true
 			@getMyProfile()
 		else
 			id = @rootElement.data('id')
 			@getProfile(id)
+
+	bindEvents: =>
+		$(document).on 'click', "#upload_profilePhoto_btn", (e) =>
+			$("#profilePhoto_uploader").focus().trigger('click')
+
+		$(document).on 'click', "#upload_coverPhoto_btn", (e) =>
+			$("#coverPhoto_uploader").focus().trigger('click')
+
+		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
+			if (oldVal isnt newVal) and newVal.length > 0
+				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), 300, 300, 'circle'
+
+		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
+			if (oldVal isnt newVal) and newVal.length > 0
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
+
+	trustSrc: (src) =>
+		@sce.trustAsResourceUrl(src)
+
+	showProfilePhotoCropper: (element, width, height, shape) =>
+		type = $(element).data('type')
+		c = new Croppie element,
+			viewport:
+				width: width
+				height: height
+				type: shape
+			update: =>
+				c.result('canvas').then (img) =>
+					@scope.$apply =>
+						@scope.profile.data[type].image = img
+
+	saveCroppedPhoto: ($event, type) =>
+		$event.preventDefault()
+		profile = new @MyProfile({id: @scope.profile.data.id, photo: @scope.profile.data[type].image, mode: type })
+		profile.update().then (response) =>
+			if response.status is 'error'
+				@savePhotoError response.message
+			else
+				@timeout =>
+					$('button[data-dismiss=modal]', "#edit#{type}Modal").click()
+				, 750
+		, (error) =>
+			@savePhotoError error.statusText
+
+	savePhotoError: (msg) =>
+		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
 	getMyProfile: =>
 		@MyProfile.get().then (profile) =>
@@ -126,9 +177,15 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		}
 
 	editProfilePhoto: =>
-		console.log 'editProfilePhoto'
+		tpl = $("#editProfilePhoto").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#editprofilePhotoModal").modal()
 
 	editCoverPhoto: =>
-		console.log 'editCoverPhoto'
+		tpl = $("#editCoverPhoto").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#editcoverPhotoModal").modal()
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

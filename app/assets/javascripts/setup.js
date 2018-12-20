@@ -17,6 +17,8 @@
 //= require angular-wizard
 //= require hammerjs
 //= require ryanmullins-angular-hammer
+//= require croppie
+//= require angular-sanitize
 TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
 TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);
 TheArticle.FilterModule = angular.module('TheArticle.filters', []);

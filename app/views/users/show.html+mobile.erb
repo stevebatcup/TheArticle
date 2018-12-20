@@ -165,4 +165,13 @@
 			<% end %>
 		</div>
 	</section>
+
+	<!-- Edit profile photo -->
+	<section id="edit_profile_photo_box" ng-if="mode == 'edit-profile-photo'">
+		<form>
+			<input type="file" fileread="profile.profilePhoto.source" />
+			<img id="profile_photo_holder" ng-src="{{trustSrc(profile.profilePhoto.source)}}" ng-model="profile.profilePhoto.image" />
+		</form>
+	</section>
+
 </section>

@@ -9,8 +9,12 @@ class User < ApplicationRecord
   # validates_presence_of :bio
   has_and_belongs_to_many  :exchanges
   before_create :assign_default_profile_photo_id
-  mount_uploader :profile_photo, ProfilePhotoUploader
-  # mount_uploader :cover_photo, CoverPhotoUploader
+  mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
+  mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
+
+  def photo_filename(type)
+    "#{type}_photo_#{self.id}_#{Time.now.to_i}"
+  end
 
   def self.is_username_available?(username)
     !self.find_by(username: username).present?

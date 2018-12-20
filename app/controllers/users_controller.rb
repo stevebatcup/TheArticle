@@ -20,16 +20,29 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		if params[:cover_photo]
-
-		elsif params[:profile_photo]
-
+		profile_params = params[:profile]
+		if profile_params[:mode] == 'coverPhoto'
+			current_user.cover_photo = profile_params[:photo]
+			if current_user.save
+				@status = :success
+			else
+				@status = :error
+				@message = current_user.errors.full_messages.first
+			end
+		elsif profile_params[:mode] == 'profilePhoto'
+			current_user.profile_photo = profile_params[:photo]
+			if current_user.save
+				@status = :success
+			else
+				@status = :error
+				@message = current_user.errors.full_messages.first
+			end
 		else
 			if current_user.update_attributes({
-					display_name: params[:profile][:display_name],
-					username: params[:profile][:username],
-					location: params[:profile][:location],
-					bio: params[:profile][:bio]
+					display_name: profile_params[:display_name],
+					username: profile_params[:username],
+					location: profile_params[:location],
+					bio: profile_params[:bio]
 				})
 				@status = :success
 			else

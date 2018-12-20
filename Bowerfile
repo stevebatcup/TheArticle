@@ -11,8 +11,8 @@ asset 'mustache'
 asset 'slideout', 'https://github.com/mango/slideout.git'
 asset 'angular-wizard'
 asset 'ryanmullins-angular-hammer'
+asset 'croppie'
+asset 'angular-sanitize'
 
 # asset 'angular-utils-pagination'
 # asset 'angular-animate', "1.6.6"
-# asset 'angular-ui-router', "0.2.13"
-# asset 'angular-sanitize'

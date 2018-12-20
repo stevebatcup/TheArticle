@@ -54,6 +54,7 @@ gem 'thinking-sphinx', '~> 4.0'
 # Upload images
 gem "mini_magick"
 gem "carrierwave"
+gem "carrierwave-base64"
 gem "fog-aws"
 
 gem 'redis-rails'

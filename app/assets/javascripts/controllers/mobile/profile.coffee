@@ -7,16 +7,21 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  '$sce'
 	  'Profile'
 	  'MyProfile'
 	]
 
 	init: ->
+		@scope.profilePhotoReadyForCrop = false
 		@scope.mode = 'view'
 		@scope.profile =
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
+			profilePhoto:
+				image: ""
+				source: ""
 			data:
 				displayName: ""
 				username: ""
@@ -42,6 +47,12 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	bindEvents: =>
 		super
 
+		@scope.$watch 'profile.profilePhoto.source', (newVal, oldVal) =>
+			if (oldVal isnt newVal) and newVal.length > 0
+				# console.log newVal
+				# @scope.profilePhotoReadyForCrop = true
+				@showProfilePhotoCropper document.getElementById('profile_photo_holder')
+
 		# Broadcast from HeaderBarController
 		@scope.$on 'edit_profile', =>
 			@editProfile()
@@ -49,6 +60,19 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 			@editProfilePhoto()
 		@scope.$on 'edit_cover_photo', =>
 			@editCoverPhoto()
+
+	trustSrc: (src) =>
+		@sce.trustAsResourceUrl(src)
+
+	showProfilePhotoCropper: (element) =>
+		c = new Croppie element,
+			viewport:
+				width: 400
+				height: 400
+			update: =>
+				c.result('canvas').then (img) =>
+					@scope.$apply =>
+						@scope.profile.profilePhoto.image = img
 
 	getMyProfile: =>
 		@MyProfile.get().then (profile) =>

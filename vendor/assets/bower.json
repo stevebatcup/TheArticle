@@ -11,6 +11,7 @@
     "slideout": "https://github.com/mango/slideout.git",
     "angular-wizard": "latest",
     "ryanmullins-angular-hammer": "latest",
-    "popper.js": "latest"
+    "croppie": "latest",
+    "angular-sanitize": "latest"
   }
 }

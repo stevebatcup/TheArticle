@@ -1,0 +1,36 @@
+<div class="modal fade update_card_cetails" id="edit<%= type %>PhotoModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+				<section class="edit_photo_box">
+
+					<div ng-show="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">
+						<h5 class="mb-5">Upload your <%= type %> photo</h5>
+						<button id="upload_<%= type %>Photo_btn" class="btn btn-success add_photo btn-block mt-4">Choose a photo</button>
+					</div>
+
+					<div ng-show="profile.data.<%= type %>Photo.source.length > 0">
+						<h5 class="mb-4">Position and size <%= type %> photo</h5>
+					</div>
+
+					<form ng-show="profile.data.<%= type %>Photo.source.length > 0">
+			    	<p ng-show="profile.errors.photo" class="alert alert-danger">{{profile.errors.photo}}</p>
+						<div class="inner">
+							<input type="file" id="<%= type %>Photo_uploader" fileread="profile.data.<%= type %>Photo.source" class="replace_file_input" ng-show="profile.data.<%= type %>Photo.source.length == 0" />
+
+							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(profile.data.<%= type %>Photo.source)}}" ng-model="profile.data.<%= type %>Photo.image" />
+						</div>
+
+						<div class="buttons d-flex justify-content-between pt-4 mt-5" ng-show="profile.data.<%= type %>Photo.source.length > 0">
+							<button data-dismiss="modal" class="btn btn-outline-success w-50 mr-3">Cancel</button>
+							<button ng-click="saveCroppedPhoto($event, '<%= type %>Photo')" class="btn btn-success w-50 ml-3">Upload</button>
+						</div>
+
+					</form>
+				</section>
+			</div>
+
+		</div>
+	</div>
+</div>

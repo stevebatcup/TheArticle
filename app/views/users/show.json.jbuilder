@@ -10,7 +10,14 @@ json.set! :profile do
 	json.exchanges 67
 	json.location @user.location
 	json.bio @user.bio
-	json.profilePhoto @user.profile_photo.url(:square)
+	json.profilePhoto do
+		json.image @user.profile_photo.url(:square)
+		json.source ""
+	end
+	json.coverPhoto do
+		json.image @user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
+		json.source ""
+	end
 	json.isNew true
 	json.joinedAt	@user.created_at.strftime("%B %Y")
 end
