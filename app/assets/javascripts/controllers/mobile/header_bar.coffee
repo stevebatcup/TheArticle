@@ -1,9 +1,10 @@
 class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	@register window.App
-	@$inject: ['$scope', '$timeout']
+	@$inject: ['$scope', '$rootScope', '$timeout']
 
 	init: ->
+		@scope.myProfile = window.location.pathname is "/my-profile"
 		if @isDevelopment()
 			@timeout =>
 				@bindFixedNavScrolling()
@@ -48,5 +49,14 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 					$('body').removeClass('fixed-nav')
 			else
 				$('body').removeClass('fixed-header').removeClass('fixed-nav')
+
+	editProfile: =>
+		@rootScope.$broadcast('edit_profile')
+
+	editProfilePhoto: =>
+		@rootScope.$broadcast('edit_profile_photo')
+
+	editCoverPhoto: =>
+		@rootScope.$broadcast('edit_cover_photo')
 
 TheArticle.ControllerModule.controller('HeaderBarController', TheArticle.HeaderBar)

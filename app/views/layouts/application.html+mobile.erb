@@ -55,10 +55,22 @@
         </div>
 
         <div class="col-3 align-items-center">
-          <% unless user_signed_in? %>
-          <a class="text-black search_trigger" href="#">
-            <i class="fas fa-search" aria-hidden="true"></i>
-          </a>
+          <% if user_signed_in? %>
+            <div ng-show="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+                <i class="fas fa-cogs" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+                <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+                <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+              </div>
+            </div>
+          <% else %>
+            <a class="text-black search_trigger" href="#">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </a>
           <% end %>
         </div>
 

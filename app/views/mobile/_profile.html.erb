@@ -10,21 +10,22 @@
 		</div>
 		<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
-		<section id="cover_photo" class="justify-content-center" ng-show="profile.loaded && !profile.loadError">
+		<section class="cover_photo" class="justify-content-center" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle">
 				<i class="fas fa-image"></i>
 			</a>
 		</section>
 
-		<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError">
-			<img ng-src="{{ profile.data.profilePhoto }}" class="rounded-circle" alt="<%= current_user.display_name %>"ng-click="editProfilePhoto()" />
-			<div class="pl-3">
+		<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+			<div style="background-image: url({{ profile.data.profilePhoto }})" class="profile_circle_image rounded-circle" ng-click="editProfilePhoto()" />
+			</div>
+			<div class="pl-2">
 				<h5>{{ profile.data.displayName }}</h5>
 				<h6 class="text-muted">{{ profile.data.username }}</h6>
 			</div>
 		</section>
 
-		<section class="container d-flex" class="d-flex" id="stats_info" ng-show="profile.loaded && !profile.loadError">
+		<section class="container d-flex" class="d-flex" id="stats_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
 			<div class="stats p-2 flex-fill">
 				<label>Ratings</label>
 				<span>{{ profile.data.ratings }}</span>
@@ -39,11 +40,11 @@
 			</div>
 		</section>
 
-		<section class="container" ng-show="profile.loaded && profile.isMe && !profile.loadError">
+		<section class="container" ng-show="profile.loaded && profile.isMe && !profile.loadError && mode == 'view'">
 			<button class="btn btn-outline-success btn-block mt-3 mb-4" ng-click="editProfile()">Edit Profile</button>
 		</section>
 
-		<section class="container" id="more_info" ng-show="profile.loaded && !profile.loadError">
+		<section class="container" id="more_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
 			<p>
 				<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 			</p>
@@ -70,7 +71,7 @@
 			</p>
 		</section>
 
-		<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError">
+		<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
 			<ul class="nav nav-tabs nav-fill d-flex">
 			  <li class="nav-item">
 			    <a class="nav-link active" id="activity-all-tab" data-toggle="tab" href="#activity-all">
@@ -117,6 +118,62 @@
 				<div class="tab-pane fade pt-4" id="activity-exchanges" role="tabpanel" aria-labelledby="activity-exchanges-tab">
 					Exchanges
 				</div>
+			</div>
+		</section>
+
+
+		<div class="overlay edit_profile" ng-show="mode == 'edit'"></div>
+
+		<!-- Edit profile fields -->
+		<section id="edit_profile_form_box" ng-if="mode == 'edit'">
+			<div class="cover_photo" class="justify-content-center">
+				<a ng-click="editCoverPhoto()" href='#' class="align-middle">
+					<i class="fas fa-image"></i>
+				</a>
+			</div>
+
+			<div style="background-image: url({{ profile.data.profilePhoto }})" class="profile_circle_image rounded-circle" id="edit_profile_photo_inside">
+				<a ng-click="editProfilePhoto()" href='#' class="align-middle" ng-if="mode == 'edit'">
+					<i class="fas fa-image"></i>
+				</a>
+			</div>
+
+			<div class="container py-4">
+				<%= form_for(current_user, url: "/users") do |f| %>
+				  <div class="form-group">
+				    <%= f.label :display_name %><br />
+			    	<p ng-show="profile.errors.displayName" class="alert alert-danger">{{profile.errors.displayName}}</p>
+				    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.displayName" %>
+				  </div>
+
+				  <div class="form-group">
+				    <%= f.label :username %><br />
+			    	<p ng-show="profile.errors.username" class="alert alert-danger">{{profile.errors.username}}</p>
+			    	<div class="input-group mb-2">
+	  	        <div class="input-group-prepend">
+	  	          <div class="input-group-text">@</div>
+	  	        </div>
+					    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.username" %>
+					  </div>
+					</div>
+
+				  <div class="form-group">
+				    <%= f.label :location %><br />
+			    	<p ng-show="profile.errors.location" class="alert alert-danger">{{profile.errors.location}}</p>
+				    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.location" %>
+				  </div>
+
+		  	  <div class="form-group">
+		  	    <%= f.label :bio %><br />
+		      	<p ng-show="profile.errors.bio" class="alert alert-danger">{{profile.errors.bio}}</p>
+		  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio" %>
+		  	  </div>
+
+		  	  <div class="buttons d-flex justify-content-between pt-3">
+		  	  	<button ng-click="cancelEditProfile($event)" class="btn btn-outline-success">Cancel</button>
+		  	  	<button ng-click="saveProfile($event)" class="btn btn-success">Save</button>
+		  	  </div>
+				<% end %>
 			</div>
 		</section>
 </div>

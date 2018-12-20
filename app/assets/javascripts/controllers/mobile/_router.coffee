@@ -84,14 +84,4 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			$('#search-tab').click()
 		, 100
 
-	editProfile: =>
-		@scope.$broadcast('edit_profile')
-
-	editProfilePhoto: =>
-		@scope.$broadcast('edit_profile_photo')
-
-	editCoverPhoto: =>
-		@scope.$broadcast('edit_cover_photo')
-
-
 TheArticle.ControllerModule.controller('RouterController', TheArticle.Router)

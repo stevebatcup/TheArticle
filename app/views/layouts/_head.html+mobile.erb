@@ -95,7 +95,7 @@
     <%= stylesheet_link_tag  'mobile', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= body_classes %>">
+  <body class="<%= body_classes %>" ng-app="TheArticleNG">
   <% if show_ads? %>
    <div id="ads_top" class="bg-light py-3 mx-auto my-0" ng-app="TheArticleNG">
       <!-- /21757645549/thearticle_<%= ad_page_type %>/skin -->

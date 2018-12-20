@@ -78,7 +78,7 @@
 
 			<div class="pl-2">
 				<h5>{{ profile.data.displayName }}</h5>
-				<h6 class="text-muted mb-4">{{ profile.data.username }}</h6>
+				<h6 class="text-muted mb-4">{{ profile.data.originalUsername }}</h6>
 				<p>
 					<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 				</p>
@@ -148,3 +148,8 @@
 		</section>
 	</div>
 </section>
+
+
+<script id="editProfileForm" type="script/x-mustache">
+	<%= render partial: 'edit_profile_modal', locals: {} %>
+</script>

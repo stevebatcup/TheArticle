@@ -1,0 +1,46 @@
+<div class="modal fade update_card_cetails" id="editProfileFormModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+	    	<p ng-show="profile.errors.main" class="alert alert-danger">{{profile.errors.main}}</p>
+
+				<%= form_for(current_user, url: "/update-profile", html: {}) do |f| %>
+				  <div class="form-group">
+				    <%= f.label :display_name %><br />
+			    	<p ng-show="profile.errors.displayName" class="alert alert-danger">{{profile.errors.displayName}}</p>
+				    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.displayName" %>
+				  </div>
+
+				  <div class="form-group">
+				    <%= f.label :username %><br />
+			    	<p ng-show="profile.errors.username" class="alert alert-danger">{{profile.errors.username}}</p>
+			    	<div class="input-group mb-2">
+	  	        <div class="input-group-prepend">
+	  	          <div class="input-group-text">@</div>
+	  	        </div>
+					    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.username" %>
+					  </div>
+					</div>
+
+				  <div class="form-group">
+				    <%= f.label :location %><br />
+				    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.data.location" %>
+				  </div>
+
+		  	  <div class="form-group">
+		  	    <%= f.label :bio %><br />
+		  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio" %>
+		  	  </div>
+
+		  	  <div class="buttons d-flex justify-content-between pt-3">
+		  	  	<button data-dismiss="modal" class="btn btn-outline-success">Cancel</button>
+		  	  	<button ng-click="saveProfile($event)" class="btn btn-success">Save</button>
+		  	  </div>
+				<% end %>
+			</div>
+
+      </div>
+    </div>
+  </div>
+</div>

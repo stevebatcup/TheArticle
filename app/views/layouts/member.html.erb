@@ -10,24 +10,11 @@
 
           <!-- Non tabbed app page header -->
           <div class="row" ng-show="appPage">
-            <div class="col-12 d-flex justify-content-between">
+            <div class="col-12">
               <a ng-click="openFrontPage()" href='#' class="d-block py-2 text-black" id="close_app_page">
                 <i class="fas fa-arrow-left text-black mr-2"></i>
                 {{appPage}}
               </a>
-
-              <div ng-show="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
-                <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                  <i class="fas fa-cogs" aria-hidden="true"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
-                  <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
-                  <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
-                </div>
-              </div>
-
             </div>
           </div>
 
@@ -90,7 +77,6 @@
           <%= render 'mobile/notifications' %>
         </div>
 
-        <%= render 'mobile/profile' %>
         <%= render 'mobile/account_settings' %>
       </main>
 

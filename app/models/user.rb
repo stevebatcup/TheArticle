@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates_presence_of	:first_name, :last_name, on: :create
+  # validates_presence_of :bio
   has_and_belongs_to_many  :exchanges
   before_create :assign_default_profile_photo_id
   mount_uploader :profile_photo, ProfilePhotoUploader

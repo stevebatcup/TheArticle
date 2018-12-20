@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
+  put 'my-profile/:id',                        to: 'users#update'
   get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following
   get 'followers',                             to: 'follows#index', mode: :followers

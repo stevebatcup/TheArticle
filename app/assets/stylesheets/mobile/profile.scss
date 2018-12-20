@@ -1,12 +1,35 @@
 .show-profile {
 	min-height: 60vh;
 
-	#cover_photo {
+	.profile_circle_image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+		width: 6.1em;
+		height: 6.1em;
+    border: 4px solid #fff;
+    position: relative;
+    top: -3.5em;
+
+    a {
+    	color: #fff;
+    	font-size: 32px;
+	    position: absolute;
+	    left: 35%;
+	    top: 32%;
+
+    	&:hover,
+    	&:active {
+    		color: #fff !important;
+    	}
+    }
+	}
+
+	.cover_photo {
 		width: 100%;
 		background-color: $green;
-		height: 18%;
-		height: 18vh;
-		line-height: 8em;
+		height: 110px;
+		line-height: 7.1em;
 		color: #fff;
 
 		a {
@@ -29,14 +52,6 @@
 
 		h6 {
 			font-size: 0.9em;
-		}
-
-		img {
-			width: 7em;
-			height: 7em;
-	    border: 4px solid #fff;
-	    position: relative;
-	    top: -3.5em;
 		}
 	}
 
@@ -83,6 +98,41 @@
 
 		.tab-content {
 			min-height: 160px;
+		}
+	}
+
+	.overlay {
+		opacity: 0.7;
+		display: block;
+		// top: 158px;
+	}
+}
+
+
+#edit_profile_form_box {
+	z-index: 999;
+  background: #fff;
+  position: absolute;
+  min-height: 100vh;
+  width: 100%;
+  overflow: auto;
+  top: 48px;
+
+  #edit_profile_photo_inside {
+    top: -2.5em;
+    left: 15px;
+    margin-bottom: -3em;
+  }
+
+	label {
+		margin-bottom: 0;
+		font-weight: bold;
+		font-size: 0.9em;
+	}
+
+	.buttons {
+		button {
+			width: 45%;
 		}
 	}
 }
