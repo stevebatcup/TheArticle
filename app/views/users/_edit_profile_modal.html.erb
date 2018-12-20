@@ -30,7 +30,11 @@
 
 		  	  <div class="form-group">
 		  	    <%= f.label :bio %><br />
-		  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio", rows: 6 %>
+		  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio", rows: 6, maxlength: bio_max_length %>
+		  	    <p class="hint text-right pr-1">
+		  	    	<small ng-if="!profile.data.bio.length"><%= bio_max_length %> character maximum</small>
+		  	    	<small ng-if="profile.data.bio.length">{{profile.data.bio.length}} / <%= bio_max_length %> characters</small>
+		  	    </p>
 		  	  </div>
 
 		  	  <div class="buttons d-flex justify-content-between pt-3">

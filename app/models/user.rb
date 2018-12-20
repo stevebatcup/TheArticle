@@ -12,6 +12,10 @@ class User < ApplicationRecord
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
+  def self.bio_max_length
+    180
+  end
+
   def photo_filename(type)
     "#{type}_photo_#{self.id}_#{Time.now.to_i}"
   end
