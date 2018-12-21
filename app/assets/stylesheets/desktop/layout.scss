@@ -1151,3 +1151,35 @@ div.new_article {
 select.short {
 	width: 150px;
 }
+
+button.follow {
+	color: #fff;
+	font-size: 0.9em;
+	border: 2px solid #fff;
+	text-align: left;
+	padding: 11px 15px 9px 12px !important;
+	font-weight: 500;
+	line-height: 1.5em;
+
+	&:hover {
+		color: #ededed;
+	}
+
+
+	&:active,
+	&:focus {
+		border: 2px solid #ffffff !important;
+		text-decoration: none !important;
+	}
+
+	&.in_header {
+		margin-top: 60px;
+	}
+
+	svg {
+		margin-right: 6px;
+		font-size: 1.2em;
+		position: relative;
+		top: 1px;
+	}
+}

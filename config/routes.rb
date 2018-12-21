@@ -11,6 +11,9 @@ Rails.application.routes.draw do
 
   get 'exchanges',				 					           to: 'exchanges#index'
   get 'exchange/:slug',				 			           to: 'exchanges#show', as: :exchange
+  get 'user_exchanges',                        to: 'user_exchanges#index'
+  post 'user_exchanges',                       to: 'user_exchanges#create'
+  delete 'user_exchanges/:id',                 to: 'user_exchanges#destroy'
 
   get 'contributors',                          to: 'contributors#index'
   get 'contributor/:slug',                     to: 'contributors#show', as: :contributor

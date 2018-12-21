@@ -1,0 +1,16 @@
+.feed-listing {
+	img.feed_image {
+		width: 25%;
+		margin-right: 10px;
+	}
+
+	&.feed-exchange {
+		.feed_text {
+			p {
+				font-size: 0.85em;
+			}
+		}
+
+		border-bottom: 1px solid #ddd;
+	}
+}

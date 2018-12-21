@@ -1027,3 +1027,35 @@ div.new_article {
   margin: 30px auto;
   background: asset_url('ajax-loader.gif') no-repeat left center;
 }
+
+
+button.follow {
+	color: #fff;
+	font-size: 0.9em;
+	border: 2px solid #fff;
+	text-align: left;
+	padding: 11px 15px 9px 12px !important;
+	font-weight: 500;
+	line-height: 1.5em;
+
+	&:hover {
+		color: #ededed;
+	}
+
+	&:active,
+	&:focus {
+		border: 2px solid #ffffff !important;
+		text-decoration: none !important;
+	}
+
+	&.in_header {
+		margin-top: 20px;
+	}
+
+	svg {
+		margin-right: 6px;
+		font-size: 1.2em;
+		position: relative;
+		top: 1px;
+	}
+}

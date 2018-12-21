@@ -32,6 +32,9 @@ class TheArticle.PageController extends TheArticle.NGController
 			error: (response) =>
 				errorCallback.call(@, response) if errorCallback?
 
+	trustSrc: (src) =>
+		@sce.trustAsResourceUrl(src)
+
 	bindCookieAcceptance: =>
 		$('#cn-accept-cookie').on 'click', (e) =>
 			$.getJSON '/cookie-acceptance', (response) =>
@@ -180,3 +183,12 @@ class TheArticle.PageController extends TheArticle.NGController
 		parts = window.location.href.replace /[?&]+([^=&]+)=([^&]*)/gi, (m,key,value) ->
 			vars[key] = value
 		return vars
+
+	setDefaultHttpHeaders: ->
+		@http.defaults.headers.common['Accept'] = 'application/json'
+		@http.defaults.headers.common['Content-Type'] = 'application/json'
+
+	setCsrfTokenHeaders: ->
+		@http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
+
+

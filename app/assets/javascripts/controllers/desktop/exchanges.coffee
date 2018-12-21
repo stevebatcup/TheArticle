@@ -19,11 +19,42 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 			loading: false
 			moreToLoad: true
 		@scope.exchange = @rootElement.data('exchange')
+		@signedIn = !!@rootElement.data('signedIn')
+		console.log @rootElement
+		if @signedIn
+			@setDefaultHttpHeaders()
+			@getUserExchanges()
+			@scope.userExchangesLoaded = false
 
 	bindEvents: ->
 		super
 		$('.slick-carousel.articles').first().on 'init', (e) =>
 			@getArticles() if @scope.exchange
+
+	getUserExchanges: =>
+		@userExchanges = []
+		@http.get("/user_exchanges").then (exchanges) =>
+			@userExchanges = _.map exchanges.data.exchanges, (e) =>
+				e.id
+			@scope.userExchangesLoaded = true
+
+	toggleFollowExchange: (exchangeId) =>
+		if @inFollwedExchanges(exchangeId)
+			@unfollow(exchangeId)
+		else
+			@follow(exchangeId)
+
+	inFollwedExchanges: (exchangeId) =>
+		_.contains @userExchanges, exchangeId
+
+	follow: (exchangeId) =>
+		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
+			@userExchanges.push exchangeId
+
+	unfollow: (exchangeId) =>
+		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
+			@userExchanges = _.filter @userExchanges, (item) =>
+				 item isnt exchangeId
 
 	loadMore: =>
 		@getArticles()

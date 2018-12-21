@@ -2,7 +2,10 @@
 <% meta_tag :description, truncate(@exchange.description, length: 120) %>
 <% meta_tag :image, @exchange.image.url(:detail) %>
 
-<section ng-controller="ExchangesController" data-exchange="<%= @exchange.slug %>" data-per-page="<%= articles_per_page %>">
+<section ng-controller="ExchangesController"
+		data-exchange="<%= @exchange.slug %>"
+		data-per-page="<%= articles_per_page %>"
+		data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
 	<header class="black_heading py-4 py-md-5">
 		<div class="container">
 			<div class="row">
@@ -11,7 +14,7 @@
 						<img src="<%= @exchange.image.url(:detail) %>" alt="<%=  @exchange.name %>" class="mt-1 mt-md-1 mt-xl-2" />
 					<% end %>
 				</div>
-				<div class="col-9 col-md-10 pl-0 pl-md-2 pl-lg-3 pt-0">
+				<div class="col-8 col-md-9 pl-0 pl-md-2 pl-lg-3 pt-0">
 					<h1 class="mb-0 text-white">
 						<% if @exchange.is_editor_item? %>
 							<%= @exchange.name %>
@@ -23,13 +26,39 @@
 						<p class="h6 w-md-90 mb-0 text-white"><%=  @exchange.description %></p>
 					<% end %>
 				</div>
+				<div class="col-0 col-md-1">
+					<% if user_signed_in? && !browser.device.mobile? %>
+						<button class="follow in_header btn btn-link"
+											ng-click="toggleFollowExchange(<%= @exchange.id %>)"
+											ng-class="{ 'selected': inFollwedExchanges(<%= @exchange.id %>) }"
+											ng-show="userExchangesLoaded">
+							<i class="fas fa-plus-square"></i>
+							<span ng-if="!inFollwedExchanges(<%= @exchange.id %>)">Follow</span>
+							<span ng-if="inFollwedExchanges(<%= @exchange.id %>)">Unfollow</span>
+						</button>
+					<% end %>
+				</div>
 			</div>
 			<% if browser.device.mobile? %>
 				<div class="row">
-					<div class="col-12 pt-3">
+					<div class="col-11 pt-3">
 						<p class="h6 w-100 pr-2 mb-0 text-white l-height-1">
 							<small><%=  @exchange.description %></small>
 						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<% if user_signed_in? %>
+							<button class="follow in_header btn btn-link"
+												ng-click="toggleFollowExchange(<%= @exchange.id %>)"
+												ng-class="{ 'selected': inFollwedExchanges(<%= @exchange.id %>) }"
+												ng-show="userExchangesLoaded">
+								<i class="fas fa-plus-square"></i>
+								<span ng-if="!inFollwedExchanges(<%= @exchange.id %>)">Follow</span>
+								<span ng-if="inFollwedExchanges(<%= @exchange.id %>)">Unfollow</span>
+							</button>
+						<% end %>
 					</div>
 				</div>
 			<% end %>

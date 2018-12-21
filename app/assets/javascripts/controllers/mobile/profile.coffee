@@ -14,8 +14,10 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false
 		@scope.mode = 'view'
+		@scope.userExchanges = []
 		@scope.profile =
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
@@ -44,6 +46,8 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		else
 			id = @rootElement.data('id')
 			@getProfile(id)
+		@scope.userExchanges = []
+		@getUserExchanges()
 
 	bindEvents: =>
 		super
@@ -70,8 +74,9 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.$on 'edit_cover_photo', =>
 			@editCoverPhoto()
 
-	trustSrc: (src) =>
-		@sce.trustAsResourceUrl(src)
+	getUserExchanges: =>
+		@http.get("/user_exchanges").then (exchanges) =>
+			@scope.userExchanges = exchanges.data.exchanges
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')

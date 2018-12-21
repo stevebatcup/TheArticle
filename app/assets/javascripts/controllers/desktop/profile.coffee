@@ -13,6 +13,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
 		@scope.profile =
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
@@ -30,6 +31,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				location: ""
 				bio: ""
 				isNew: true
+				exchangesCount: 0
 				profilePhoto:
 					image: ""
 					source: ""
@@ -44,6 +46,8 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		else
 			id = @rootElement.data('id')
 			@getProfile(id)
+		@scope.userExchanges = []
+		@getUserExchanges()
 
 	bindEvents: =>
 		$(document).on 'click', "#upload_profilePhoto_btn", (e) =>
@@ -60,8 +64,9 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
 
-	trustSrc: (src) =>
-		@sce.trustAsResourceUrl(src)
+	getUserExchanges: =>
+		@http.get("/user_exchanges").then (exchanges) =>
+			@scope.userExchanges = exchanges.data.exchanges
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')

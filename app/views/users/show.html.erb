@@ -51,7 +51,7 @@
 		  <li class="nav-item">
 		    <a class="nav-link" id="activity-exchanges-tab" data-toggle="tab" href="#activity-exchanges">
 					<label>Exchanges</label>
-					<span>{{ profile.data.exchanges }}</span>
+					<span>{{ profile.data.exchangesCount }}</span>
 		    </a>
 		  </li>
 		</ul>
@@ -135,7 +135,14 @@
 					Shares
 				</div>
 				<div class="tab-pane fade pt-4" id="activity-exchanges" role="tabpanel" aria-labelledby="activity-exchanges-tab">
-					Exchanges
+					<p class="empty_resource" ng-show="userExchanges.length == 0">You have no Exchanges</p>
+					<div ng-repeat="exchange in userExchanges" class="feed-listing feed-exchange d-flex align-items-start pt-2 py-2">
+						<img ng-src="{{exchange.img}}" class="rounded feed_image" alt="{{exchange.name}}" />
+						<div class="feed_text">
+							<h5>{{ exchange.name }}</h5>
+							<p>{{ exchange.excerpt }}</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>

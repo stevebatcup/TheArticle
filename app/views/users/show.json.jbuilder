@@ -7,7 +7,7 @@ json.set! :profile do
 	json.followers 6
 	json.following 98
 	json.shares 191
-	json.exchanges 67
+	json.exchangesCount @user.exchanges.size
 	json.location @user.location
 	json.bio @user.bio
 	json.profilePhoto do
