@@ -10,6 +10,9 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	]
 
 	init: ->
-		# console.log "Follows yay!"
+		@signedIn = !!@element.data('signed-in')
+		if @signedIn
+			@setDefaultHttpHeaders()
+			@getMyFollows()
 
 TheArticle.ControllerModule.controller('FollowsController', TheArticle.Follows)

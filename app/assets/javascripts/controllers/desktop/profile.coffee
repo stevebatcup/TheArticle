@@ -24,15 +24,21 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				username: ""
 				orginalUsername: ""
 				ratings: 0
-				followers: 0
-				following: 0
+				followers: []
+				followings: []
+				exchanges: []
+				shares: []
+				ratings: []
 				joined: ""
 				joinedAt: ""
 				location: ""
 				bio: ""
 				isNew: true
-				exchangesCount: 0
+				imFollowing: false
 				profilePhoto:
+					image: ""
+					source: ""
+				coverPhoto:
 					image: ""
 					source: ""
 			errors:
@@ -42,12 +48,10 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				photo: false
 		@bindEvents()
 		if @scope.profile.isMe is true
-			@getMyProfile()
+			@getMyProfile @getUserExchanges
 		else
 			id = @rootElement.data('id')
-			@getProfile(id)
-		@scope.userExchanges = []
-		@getUserExchanges()
+			@getProfile id, @getUserExchanges
 
 	bindEvents: =>
 		$(document).on 'click', "#upload_profilePhoto_btn", (e) =>
@@ -65,8 +69,9 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
 
 	getUserExchanges: =>
-		@http.get("/user_exchanges").then (exchanges) =>
-			@scope.userExchanges = exchanges.data.exchanges
+		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
+		@http.get(url).then (exchanges) =>
+			@scope.profile.data.exchanges = exchanges.data.exchanges
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
@@ -96,27 +101,30 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	savePhotoError: (msg) =>
 		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
-	getMyProfile: =>
+	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
+				callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
-	getProfile:(id) =>
+	getProfile: (id, callback=null) =>
 		@Profile.get({id: @rootElement.data('user-id')}).then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
+				callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	editProfile: (section=null) =>
+		return false unless @scope.profile.isMe
 		tpl = $("#editProfileForm").html().trim()
 		$formContent = @compile(tpl)(@scope)
 		$('body').append $formContent
@@ -182,15 +190,48 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		}
 
 	editProfilePhoto: =>
+		return false unless @scope.profile.isMe
 		tpl = $("#editProfilePhoto").html().trim()
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
 		$("#editprofilePhotoModal").modal()
 
 	editCoverPhoto: =>
+		return false unless @scope.profile.isMe
 		tpl = $("#editCoverPhoto").html().trim()
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
 		$("#editcoverPhotoModal").modal()
+
+	toggleFollowUser: =>
+		userId = @scope.profile.data.id
+		if @scope.profile.data.imFollowing
+			@unfollowUser userId, =>
+				@scope.profile.data.imFollowing = false
+		else
+			@followUser userId, =>
+				@scope.profile.data.imFollowing = true
+
+	toggleFollowUserFromCard: (member) =>
+		if member.imFollowing
+			@unfollowUser member.id ,=>
+				@scope.profile.data.followings = _.filter @scope.profile.data.followings, (item) =>
+					item.id isnt member.id
+				if followerItem = _.findWhere @scope.profile.data.followers, { id: member.id }
+					followerItem.imFollowing = false
+				member.imFollowing = false
+		else
+			@followUser member.id, =>
+				member.imFollowing = true
+				@scope.profile.data.followings.push member
+
+	followUser: (userId, callback) =>
+		@http.post("/user_followings", {id: userId}).then (response) =>
+			callback.call(@)
+
+	unfollowUser: (userId, callback) =>
+		@http.delete("/user_followings/#{userId}").then (response) =>
+			callback.call(@)
+
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

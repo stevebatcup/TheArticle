@@ -1,5 +1,9 @@
 module ExchangeHelper
 	def exchange_excerpt(exchange, cutoff)
-		exchange.description.truncate_words(cutoff)
+		if exchange.description
+			exchange.description.truncate_words(cutoff)
+		else
+			''
+		end
 	end
 end

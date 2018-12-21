@@ -1,0 +1,24 @@
+<div class="card pb-2">
+	<div class="card-img-top cover_photo">
+		<img class="w-100" ng-src="{{member.coverPhoto}}" alt="{{member.displayName}}" ng-if="member.coverPhoto" />
+	</div>
+
+	<div class="card-body py-2 w-100">
+		<div class="d-flex align-items-start justify-content-between mb-2">
+			<img ng-src="{{member.profilePhoto}}" class="rounded-circle feed_image" alt="{{member.displayName}}" />
+			<button class="btn btn-sm follow_btn"
+							ng-class="{ 'btn-outline-success': !member.imFollowing, 'btn-success': member.imFollowing }"
+							ng-click="toggleFollowUserFromCard(member)">
+				<i class="fas fa-users mr-2"></i>
+				<span ng-show="member.imFollowing">Following</span>
+				<span ng-show="!member.imFollowing">Follow</span>
+			</button>
+		</div>
+		<h5 class="card-title d-flex justify-content-between mb-0">
+			<span>{{ member.displayName }}</span>
+			<span ng-show="member.isFollowingMe" class="badge follower-badge">Following you</span>
+		</h5>
+		<h6 class="text-muted"><small>{{ member.username }}</small></h6>
+		<p class="card-text"><small>{{ member.bio }}</small></p>
+	</div>
+</div>

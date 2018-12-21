@@ -5,7 +5,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	  '$scope'
 	  '$rootScope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$timeout'
 	  '$sce'
 	  '$compile'
@@ -22,32 +22,41 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
-			profilePhoto:
-				image: ""
-				source: ""
 			data:
+				id: null
 				displayName: ""
 				username: ""
+				orginalUsername: ""
 				ratings: 0
-				followers: 0
-				following: 0
+				followers: []
+				followings: []
+				exchanges: []
+				shares: []
+				ratings: []
 				joined: ""
 				joinedAt: ""
 				location: ""
 				bio: ""
 				isNew: true
+				imFollowing: false
+				profilePhoto:
+					image: ""
+					source: ""
+				coverPhoto:
+					image: ""
+					source: ""
 			errors:
+				main: false
 				displayName: false
 				username: false
+				photo: false
 
 		@bindEvents()
 		if @scope.profile.isMe is true
-			@getMyProfile()
+			@getMyProfile @getUserExchanges
 		else
-			id = @rootElement.data('id')
-			@getProfile(id)
-		@scope.userExchanges = []
-		@getUserExchanges()
+			id = @element.data('id')
+			@getProfile id, @getUserExchanges
 
 	bindEvents: =>
 		super
@@ -90,27 +99,30 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 					@scope.$apply =>
 						@scope.profile.data[type].image = img
 
-	getMyProfile: =>
+	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
+				callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
-	getProfile:(id) =>
-		@Profile.get({id: @rootElement.data('user-id')}).then (profile) =>
+	getProfile:(id, callback=null) =>
+		@Profile.get({id: @element.data('user-id')}).then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
+				callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	editProfile: =>
+		return false unless @scope.profile.isMe
 		@scope.mode = 'edit'
 
 	saveProfile: ($event) =>
@@ -170,12 +182,14 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.mode = 'view'
 
 	editProfilePhoto: =>
+		return false unless @scope.profile.isMe
 		tpl = $("#editProfilePhoto").html().trim()
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
 		$("#editprofilePhotoModal").modal()
 
 	editCoverPhoto: =>
+		return false unless @scope.profile.isMe
 		tpl = $("#editCoverPhoto").html().trim()
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
@@ -196,5 +210,21 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 	savePhotoError: (msg) =>
 		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
+
+	toggleFollowUser: =>
+		if @scope.profile.data.imFollowing
+			@unfollowUser()
+		else
+			@followUser()
+
+	followUser: =>
+		userId = @scope.profile.data.id
+		@http.post("/user_followings", {id: userId}).then (response) =>
+			@scope.profile.data.imFollowing = true
+
+	unfollowUser: =>
+		userId = @scope.profile.data.id
+		@http.delete("/user_followings/#{userId}").then (response) =>
+			@scope.profile.data.imFollowing = false
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

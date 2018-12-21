@@ -1,13 +1,16 @@
 .show-profile {
 	min-height: 60vh;
 
-	#cover_photo {
+	.cover_photo {
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center center;
 		background-color: $green;
+	}
+
+	#cover_photo {
 		height: 220px;
-		line-height: 8em;
+		line-height: 13em;
 		color: #fff;
 
 		&.editable {
@@ -16,7 +19,7 @@
 
 		a {
 			color: #fff;
-			font-size: 35px;
+			font-size: 52px;
 			width: fit-content;
 			display: block;
 			margin: 0 auto;

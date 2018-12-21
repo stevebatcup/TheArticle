@@ -6,11 +6,11 @@
 	</div>
 	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
-	<section id="cover_photo" class="row" ng-show="profile.loaded && !profile.loadError"
+	<section id="cover_photo" class="cover_photo row" ng-show="profile.loaded && !profile.loadError"
 						ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
 						ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
 		<div class="col-12">
-			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && profile.data.coverPhoto.image.length == 0">
+			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && !profile.data.coverPhoto.image">
 				<i class="fas fa-image"></i>
 			</a>
 		</div>
@@ -27,36 +27,48 @@
 		  <li class="nav-item">
 		  	<a class="nav-link" id="activity-following-tab" data-toggle="tab" href="#activity-following">
 			  	<label>Following</label>
-			  	<span>{{ profile.data.following }}</span>
+			  	<span>{{ profile.data.followings.length }}</span>
 			  </a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" id="activity-followers-tab" data-toggle="tab" href="#activity-followers">
 					<label>Followers</label>
-					<span>{{ profile.data.followers }}</span>
+					<span>{{ profile.data.followers.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" id="activity-ratings-tab" data-toggle="tab" href="#activity-ratings">
 		    	<label>Ratings</label>
-		    	<span>{{ profile.data.ratings }}</span>
+		    	<span>{{ profile.data.ratings.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" id="activity-shares-tab" data-toggle="tab" href="#activity-shares">
 					<label>Shares</label>
-					<span>{{ profile.data.shares }}</span>
+					<span>{{ profile.data.shares.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" id="activity-exchanges-tab" data-toggle="tab" href="#activity-exchanges">
 					<label>Exchanges</label>
-					<span>{{ profile.data.exchangesCount }}</span>
+					<span>{{ profile.data.exchanges.length }}</span>
 		    </a>
 		  </li>
 		</ul>
-		<div class="col-2 px-0 navbar mt-2">
-			<div class="btn-group" ng-show="profile.loaded && profile.isMe && !profile.loadError">
+		<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
+
+			<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+							ng-show="!profile.isMe && !profile.data.imFollowing">
+				<i class="fas fa-users mr-2"></i>
+				Follow
+			</button>
+			<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+								ng-show="!profile.isMe && profile.data.imFollowing">
+				<i class="fas fa-users mr-2"></i>
+				Following
+			</button>
+
+			<div class="btn-group" class="mt-2" ng-show="profile.isMe">
 			  <button class="btn btn-outline-success btn-sm" type="button" ng-click="editProfile()">
 			    Edit profile
 			  </button>
@@ -122,21 +134,47 @@
 				<div class="tab-pane fade pt-4 show active" id="activity-all" role="tabpanel" aria-labelledby="activity-all-tab">
 					All
 				</div>
+
 				<div class="tab-pane fade pt-4" id="activity-following" role="tabpanel" aria-labelledby="activity-following-tab">
-					Following
+					<div class="row">
+						<p class="empty_resource" ng-show="profile.data.followings.length == 0">
+							<span ng-if="profile.data.isMe">You are not following any other members</span>
+							<span ng-if="!profile.data.isMe">Not following anyone</span>
+						</p>
+
+						<div ng-repeat="member in profile.data.followings" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+							<%= render 'member_card' %>
+						</div>
+					</div>
 				</div>
+
 				<div class="tab-pane fade pt-4" id="activity-followers" role="tabpanel" aria-labelledby="activity-followers-tab">
-					Followers
+					<div class="row">
+						<p class="col-12 empty_resource" ng-show="profile.data.followers.length == 0">
+							<span ng-if="profile.data.isMe">You are currently not being followed by any other members</span>
+							<span ng-if="!profile.data.isMe">Not being followed by anyone</span>
+						</p>
+
+						<div ng-repeat="member in profile.data.followers" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+							<%= render 'member_card' %>
+						</div>
+					</div>
 				</div>
+
 				<div class="tab-pane fade pt-4" id="activity-ratings" role="tabpanel" aria-labelledby="activity-ratings-tab">
 					Ratings
 				</div>
+
 				<div class="tab-pane fade pt-4" id="activity-shares" role="tabpanel" aria-labelledby="activity-shares-tab">
 					Shares
 				</div>
+
 				<div class="tab-pane fade pt-4" id="activity-exchanges" role="tabpanel" aria-labelledby="activity-exchanges-tab">
-					<p class="empty_resource" ng-show="userExchanges.length == 0">You have no Exchanges</p>
-					<div ng-repeat="exchange in userExchanges" class="feed-listing feed-exchange d-flex align-items-start pt-2 py-2">
+					<p class="empty_resource" ng-show="profile.data.exchanges.length == 0">
+						<span ng-if="profile.data.isMe">You are not following any exchanges</span>
+						<span ng-if="!profile.data.isMe">Not following any exchanges</span>
+					</p>
+					<div ng-repeat="exchange in profile.data.exchanges" class="feed-listing feed-exchange d-flex align-items-start pt-2 py-2">
 						<img ng-src="{{exchange.img}}" class="rounded feed_image" alt="{{exchange.name}}" />
 						<div class="feed_text">
 							<h5>{{ exchange.name }}</h5>
@@ -147,7 +185,7 @@
 			</div>
 		</section>
 
-		<section class="col-3 pr-0" id="callouts" ng-show="profile.loaded && !profile.loadError">
+		<section class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError">
 			<div id="who_to_follow" class="callout my-2 bg-grey px-3 py-3">
 				<h5>Who to follow on TheArticle</h5>
 			</div>

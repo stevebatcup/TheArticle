@@ -12,6 +12,18 @@ class User < ApplicationRecord
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
+  # people I follow
+  has_many :followings, class_name: "Follow"
+  # has_many :followings, through: :followisings
+
+  # people who follow me
+  has_many :fandoms, class_name: "Follow", foreign_key: :followed_id
+  has_many :followers, through: :fandoms, source: :user
+
+  def is_followed_by(user)
+    self.followers.map(&:id).include?(user.id)
+  end
+
   def self.bio_max_length
     180
   end

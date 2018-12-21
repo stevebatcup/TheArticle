@@ -2,7 +2,12 @@ class UserExchangesController < ApplicationController
 	before_action :authenticate_user!
 
 	def index
-		@userExchanges = current_user.exchanges
+		if params[:id]
+			user = User.find(params[:id])
+			@userExchanges = user.exchanges
+		else
+			@userExchanges = current_user.exchanges
+		end
 	end
 
 	def create

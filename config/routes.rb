@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'exchanges',				 					           to: 'exchanges#index'
   get 'exchange/:slug',				 			           to: 'exchanges#show', as: :exchange
   get 'user_exchanges',                        to: 'user_exchanges#index'
+  get 'user_exchanges/:id',                    to: 'user_exchanges#index'
   post 'user_exchanges',                       to: 'user_exchanges#create'
   delete 'user_exchanges/:id',                 to: 'user_exchanges#destroy'
 
@@ -35,6 +36,11 @@ Rails.application.routes.draw do
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile/:id',                        to: 'users#update'
+
+  get 'user_followings',                        to: 'user_followings#index'
+  post 'user_followings',                       to: 'user_followings#create'
+  delete 'user_followings/:id',                 to: 'user_followings#destroy'
+
   get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following
   get 'followers',                             to: 'follows#index', mode: :followers

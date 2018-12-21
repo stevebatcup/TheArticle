@@ -20,7 +20,6 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 			moreToLoad: true
 		@scope.exchange = @element.data('exchange')
 		@signedIn = !!@element.data('signed-in')
-		console.log @element
 		if @signedIn
 			@setDefaultHttpHeaders()
 			@getUserExchanges()
