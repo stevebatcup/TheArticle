@@ -1,9 +1,16 @@
 class UserFollowingsController < ApplicationController
 	before_action :authenticate_user!
 
-	# def index
-	# 	@userFollowings = current_user.followings
-	# end
+	def index
+		if params[:id]
+			user = User.find(params[:id])
+			@userFollowings = user.followings.map(&:followed)
+			@userFollowers = user.followers
+		else
+			@userFollowings = current_user.followings.map(&:followed)
+			@userFollowers = current_user.followers
+		end
+	end
 
 	def create
 		current_user.followings << Follow.new({followed_id: params[:id]})

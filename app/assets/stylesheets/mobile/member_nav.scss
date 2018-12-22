@@ -107,7 +107,7 @@ div#follows_info {
 
 body.fixed-nav {
   main#main_content {
-    padding-top: 3.2rem;
+    padding-top: 2.6rem;
 
     &.app_page {
       padding-top: 0;
@@ -120,6 +120,7 @@ body.fixed-nav {
   width: 100vw;
   left: 0;
   background-color: #fff;
+  z-index: 100;
 
   body.fixed-header & {
     position: fixed;

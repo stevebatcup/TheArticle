@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   put 'my-profile/:id',                        to: 'users#update'
 
   get 'user_followings',                        to: 'user_followings#index'
+  get 'user_followings/:id',                    to: 'user_followings#index'
   post 'user_followings',                       to: 'user_followings#create'
   delete 'user_followings/:id',                 to: 'user_followings#destroy'
 

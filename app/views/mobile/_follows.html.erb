@@ -16,51 +16,41 @@
 						  </a>
 						</li>
 						<li class="nav-item">
-						  <a class="nav-link" id="follows-sub-tab-suggestions" data-toggle="tab" href="#follows_suggestions">
-						    Suggestions
+						  <a class="nav-link" id="follows-sub-tab-connections" data-toggle="tab" href="#follows_connections">
+						    Connected
 						  </a>
 						</li>
 					</ul>
 				</nav>
 
-				<div class="tab-content container pt-4">
+				<div class="tab-content container pt-2 px-1">
 					<div class="tab-pane fade show active"
 						id="follows_following"
 						role="tabpanel"
 						aria-labelledby="follows-sub-tab-following">
-						<h2>Following</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<div ng-repeat="member in follows.followings" class="feed-listing">
+							<%= render 'users/member_card' %>
+						</div>
 					</div>
 
 					<div class="tab-pane fade"
 						id="follows_followers"
 						role="tabpanel"
 						aria-labelledby="follows-sub-tab-followers">
-						<h2>Followers</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						<div ng-repeat="member in follows.followers" class="feed-listing">
+							<%= render 'users/member_card' %>
+						</div>
 					</div>
 
 					<div class="tab-pane fade"
-						id="follows_suggestions"
+						id="follows_connections"
 						role="tabpanel"
-						aria-labelledby="follows-sub-tab-suggestions">
-						<h2>Suggestions</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						aria-labelledby="follows-sub-tab-connections">
+						<div ng-repeat="member in follows.followings" class="feed-listing">
+							<div ng-if="inFollowers(member)">
+								<%= render 'users/member_card' %>
+							</div>
+						</div>
 					</div>
 		</div>
 </div>

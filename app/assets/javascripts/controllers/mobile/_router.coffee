@@ -35,6 +35,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 	resetAppTabs: =>
 		@scope.appPage = false
+		@scope.accountSettings = false
 		@scope.front_page = false
 		@scope.showProfile = false
 		@scope.myProfile = false

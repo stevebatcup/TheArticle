@@ -6,7 +6,6 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates_presence_of	:first_name, :last_name, on: :create
-  # validates_presence_of :bio
   has_and_belongs_to_many  :exchanges
   before_create :assign_default_profile_photo_id
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
@@ -14,7 +13,6 @@ class User < ApplicationRecord
 
   # people I follow
   has_many :followings, class_name: "Follow"
-  # has_many :followings, through: :followisings
 
   # people who follow me
   has_many :fandoms, class_name: "Follow", foreign_key: :followed_id

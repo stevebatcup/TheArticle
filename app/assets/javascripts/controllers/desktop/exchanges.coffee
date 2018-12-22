@@ -20,7 +20,6 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 			moreToLoad: true
 		@scope.exchange = @rootElement.data('exchange')
 		@signedIn = !!@rootElement.data('signedIn')
-		console.log @rootElement
 		if @signedIn
 			@setDefaultHttpHeaders()
 			@getUserExchanges()
