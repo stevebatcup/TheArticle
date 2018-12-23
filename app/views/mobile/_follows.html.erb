@@ -1,56 +1,58 @@
 <div class="tab-pane fade" id="content-follows"
 			role="tabpanel"
 			aria-labelledby="follows-tab"
-			ng-controller="FollowsController">
+			ng-controller="FollowsController"
+			 data-user-id="<%= current_user.id %>"
+			 data-current-user-id="<%= current_user.id %>">
 
-				<nav id="follows_options" class="sub_tabs">
-					<ul class="nav nav-pills nav-fill d-flex">
-						<li class="nav-item">
-						  <a class="nav-link active" id="follows-sub-tab-following" data-toggle="tab" href="#follows_following">
-						    Following
-						  </a>
-						</li>
-						<li class="nav-item">
-						  <a class="nav-link" id="follows-sub-tab-followers" data-toggle="tab" href="#follows_followers">
-						    Followers
-						  </a>
-						</li>
-						<li class="nav-item">
-						  <a class="nav-link" id="follows-sub-tab-connections" data-toggle="tab" href="#follows_connections">
-						    Connected
-						  </a>
-						</li>
-					</ul>
-				</nav>
+		<nav id="follows_options" class="sub_tabs">
+			<ul class="nav nav-pills nav-fill d-flex">
+				<li class="nav-item">
+				  <a class="nav-link active" id="follows-sub-tab-following" data-toggle="tab" href="#follows_following">
+				    Following
+				  </a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" id="follows-sub-tab-followers" data-toggle="tab" href="#follows_followers">
+				    Followers
+				  </a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" id="follows-sub-tab-connections" data-toggle="tab" href="#follows_connections">
+				    Connected
+				  </a>
+				</li>
+			</ul>
+		</nav>
 
-				<div class="tab-content container pt-2 px-1">
-					<div class="tab-pane fade show active"
-						id="follows_following"
-						role="tabpanel"
-						aria-labelledby="follows-sub-tab-following">
-						<div ng-repeat="member in follows.followings" class="feed-listing">
-							<%= render 'users/member_card' %>
-						</div>
+		<div class="tab-content container pt-2 px-1">
+			<div class="tab-pane fade show active"
+				id="follows_following"
+				role="tabpanel"
+				aria-labelledby="follows-sub-tab-following">
+				<div ng-repeat="member in follows.followings" class="feed-listing">
+					<%= render 'users/member_card' %>
+				</div>
+			</div>
+
+			<div class="tab-pane fade"
+				id="follows_followers"
+				role="tabpanel"
+				aria-labelledby="follows-sub-tab-followers">
+				<div ng-repeat="member in follows.followers" class="feed-listing">
+					<%= render 'users/member_card' %>
+				</div>
+			</div>
+
+			<div class="tab-pane fade"
+				id="follows_connections"
+				role="tabpanel"
+				aria-labelledby="follows-sub-tab-connections">
+				<div ng-repeat="member in follows.followings" class="feed-listing">
+					<div ng-if="inFollowers(member)">
+						<%= render 'users/member_card' %>
 					</div>
-
-					<div class="tab-pane fade"
-						id="follows_followers"
-						role="tabpanel"
-						aria-labelledby="follows-sub-tab-followers">
-						<div ng-repeat="member in follows.followers" class="feed-listing">
-							<%= render 'users/member_card' %>
-						</div>
-					</div>
-
-					<div class="tab-pane fade"
-						id="follows_connections"
-						role="tabpanel"
-						aria-labelledby="follows-sub-tab-connections">
-						<div ng-repeat="member in follows.followings" class="feed-listing">
-							<div ng-if="inFollowers(member)">
-								<%= render 'users/member_card' %>
-							</div>
-						</div>
-					</div>
+				</div>
+			</div>
 		</div>
 </div>

@@ -83,6 +83,10 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.$on 'edit_cover_photo', =>
 			@editCoverPhoto()
 
+		# Broadcast from FollowsController
+		@scope.$on 'follows_panel_close', =>
+			@scope.mode = 'view'
+
 	getUserExchanges: =>
 		@http.get("/user_exchanges").then (exchanges) =>
 			@scope.userExchanges = exchanges.data.exchanges
@@ -226,5 +230,12 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		userId = @scope.profile.data.id
 		@http.delete("/user_followings/#{userId}").then (response) =>
 			@scope.profile.data.imFollowing = false
+
+	openFollowsPanel: (tab='following') =>
+		@scope.mode = 'follows'
+		@timeout =>
+			$("#follows-sub-tab-#{tab}").click()
+			@rootScope.$broadcast('follows_panel_open', tab)
+		, 300
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

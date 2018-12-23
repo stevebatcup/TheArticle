@@ -3,6 +3,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
 	  '$timeout'
@@ -11,35 +12,62 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 
 	init: ->
 		@setDefaultHttpHeaders()
-		@isMe = !@element.data('user-id')
-		console.log @isMe
+		@scope.userId = @element.data('user-id')
+		@scope.isMe = @scope.userId is @element.data('current-user-id')
+		console.log @scope.isMe
 		@scope.follows =
 			followings: []
 			followers: []
-		@getFollows()
+		@scope.myFollows =
+			followings: []
+			followers: []
+		@scope.panelTab = 'following'
+		@bindEvents()
+		@getFollows(false)
+		@getFollows(true) if !@scope.isMe
 
-	getFollows: =>
-		url = if @isMe then "/user_followings" else "/user_followings/#{@element.data('user-id')}"
+	bindEvents: =>
+		@scope.$on 'follows_panel_open', (data, tab) =>
+			@scope.panelTab = tab
+
+	getFollows: (isMe) =>
+		url = if isMe then "/user_followings" else "/user_followings/#{@scope.userId}"
 		@http.get(url).then (response) =>
-			@scope.follows = response.data
+			if isMe
+				@scope.myFollows = response.data
+			else
+				@scope.follows = response.data
 
 	inFollowers: (member) =>
 		ids = _.map @scope.follows.followers, (item) =>
 			item.id
 		ids.indexOf(member.id) isnt -1
 
+	inMyFollowers: (member) =>
+		ids = _.map @scope.myFollows.followers, (item) =>
+			item.id
+		ids.indexOf(member.id) isnt -1
+
 	toggleFollowUserFromCard: (member) =>
 		if member.imFollowing
-			@unfollowUser member.id ,=>
-				@scope.follows.followings = _.filter @scope.follows.followings, (item) =>
-					item.id isnt member.id
+			@unfollowUser member.id, =>
+				if @scope.isMe
+					@scope.follows.followings = _.filter @scope.follows.followings, (item) =>
+						item.id isnt member.id
+				if followingItem = _.findWhere @scope.follows.followings, { id: member.id }
+					followingItem.imFollowing = false
 				if followerItem = _.findWhere @scope.follows.followers, { id: member.id }
 					followerItem.imFollowing = false
-				member.imFollowing = false
 		else
 			@followUser member.id, =>
-				member.imFollowing = true
-				@scope.follows.followings.push member
+				if @scope.isMe
+					@scope.follows.followings.push member
+				if followingItem = _.findWhere @scope.follows.followings, { id: member.id }
+					followingItem.imFollowing = true
+				if followerItem = _.findWhere @scope.follows.followers, { id: member.id }
+					followerItem.imFollowing = true
+
+
 
 	followUser: (userId, callback) =>
 		@http.post("/user_followings", {id: userId}).then (response) =>
@@ -48,5 +76,11 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	unfollowUser: (userId, callback) =>
 		@http.delete("/user_followings/#{userId}").then (response) =>
 			callback.call(@)
+
+	setPanelTab: (tab) =>
+		@scope.panelTab = tab
+
+	closeFollowsPanel: =>
+		@rootScope.$broadcast('follows_panel_close')
 
 TheArticle.ControllerModule.controller('FollowsController', TheArticle.Follows)

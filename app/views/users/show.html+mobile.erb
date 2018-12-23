@@ -32,11 +32,11 @@
 			<label>Ratings</label>
 			<span>{{ profile.data.ratings }}</span>
 		</div>
-		<div class="stats p-2 flex-fill">
+		<div class="stats p-2 flex-fill" ng-click="openFollowsPanel('followers')">
 			<label>Followers</label>
 			<span>{{ profile.data.followers.length }}</span>
 		</div>
-		<div class="stats p-2 flex-fill">
+		<div class="stats p-2 flex-fill" ng-click="openFollowsPanel('following')">
 			<label>Following</label>
 			<span>{{ profile.data.followings.length }}</span>
 		</div>
@@ -196,6 +196,109 @@
 			<% end %>
 		</div>
 	</section>
+
+		<!-- Follows panel -->
+		<section id="follows_box" ng-if="mode == 'follows'" ng-controller="FollowsController" data-user-id="<%= @user.id %>" data-current-user-id="<%= current_user.id %>">
+			<div class="header_bar_overlay d-flex justify-content-between">
+				<div>
+					<h3 ng-if="panelTab == 'following'" class="mb-0 mt-0">
+						<span ng-if="!isMe">Followed by</span>
+						<span ng-if="isMe">Following</span>
+					</h3>
+					<h3 ng-if="panelTab == 'followers'" class="mb-0 mt-0">
+						<span ng-if="!isMe">Followers of</span>
+						<span ng-if="isMe">Followers</span>
+					</h3>
+					<h3 ng-if="panelTab == 'you_know' && !isMe" class="mb-0 mt-0">Known followers of</h3>
+					<h3 ng-if="panelTab == 'connected' && isMe" class="mb-0 mt-0">You follow each other</h3>
+					<h5 class="text-muted mb-1"><%= @user.username %></h5>
+				</div>
+
+				<a href='#' ng-click="closeFollowsPanel()" class="closer mt-1">
+					<i class="fas fa-times"></i>
+				</a>
+			</div>
+			<nav id="follows_options" class="sub_tabs">
+				<ul class="nav nav-pills nav-fill d-flex">
+					<li class="nav-item">
+					  <a class="nav-link active" id="follows-sub-tab-following"
+					  			data-toggle="tab" href="#follows_following"
+					  			ng-click="setPanelTab('following')">
+					    Following
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link" id="follows-sub-tab-followers"
+					  			data-toggle="tab" href="#follows_followers"
+					  			ng-click="setPanelTab('followers')">
+					    Followers
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link" id="follows-sub-tab-you_know"
+					  			data-toggle="tab" href="#follows_you_know"
+					  			ng-click="setPanelTab('you_know')"
+					  			ng-if="!isMe">
+					    Followers you know
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a class="nav-link" id="follows-sub-tab-connected"
+					  			data-toggle="tab" href="#follows_connected"
+					  			ng-click="setPanelTab('connected')"
+					  			ng-if="isMe">
+					    Connected
+					  </a>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="tab-content container pt-2 px-1">
+				<div class="tab-pane fade show active"
+					id="follows_following"
+					role="tabpanel"
+					aria-labelledby="follows-sub-tab-following">
+					<div ng-repeat="member in follows.followings" class="feed-listing">
+						<%= render 'users/member_card' %>
+					</div>
+				</div>
+
+				<div class="tab-pane fade"
+					id="follows_followers"
+					role="tabpanel"
+					aria-labelledby="follows-sub-tab-followers">
+					<div ng-repeat="member in follows.followers" class="feed-listing">
+						<%= render 'users/member_card' %>
+					</div>
+				</div>
+
+				<div class="tab-pane fade"
+					id="follows_you_know"
+					role="tabpanel"
+					aria-labelledby="follows-sub-tab-you_know"
+					ng-if="!isMe">
+					<div ng-repeat="member in follows.followers" class="feed-listing">
+						<div ng-if="inMyFollowers(member)">
+							<%= render 'users/member_card' %>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane fade"
+					id="follows_connected"
+					role="tabpanel"
+					aria-labelledby="follows-sub-tab-connected"
+					ng-if="isMe">
+					<div ng-repeat="member in follows.followings" class="feed-listing">
+						<div ng-if="inFollowers(member)">
+							<%= render 'users/member_card' %>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</section>
+
 
 	<script id="editProfilePhoto" type="script/x-mustache">
 		<%= render partial: 'edit_photo_modal', locals: { type: "profile" } %>
