@@ -12,7 +12,6 @@
     "angular-wizard": "latest",
     "ryanmullins-angular-hammer": "latest",
     "croppie": "latest",
-    "angular-sanitize": "latest",
-    "algolia-autocomplete.js": "latest"
+    "angular-sanitize": "latest"
   }
 }
