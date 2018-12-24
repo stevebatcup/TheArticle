@@ -13,6 +13,7 @@ asset 'angular-wizard'
 asset 'ryanmullins-angular-hammer'
 asset 'croppie'
 asset 'angular-sanitize'
+asset 'algolia-autocomplete.js'
 
 # asset 'angular-utils-pagination'
 # asset 'angular-animate', "1.6.6"

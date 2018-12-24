@@ -4,23 +4,23 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$timeout'
-	  'Profile'
+	  'MyProfile'
 	]
 
 	init: ->
 		@scope.user =
-			id: @rootElement.data('user-id')
+			id: @element.data('user-id')
 			location:
 				value: ''
 				error: null
 			names:
 				displayName:
-					value: @rootElement.data('default-display_name')
+					value: @element.data('default-display_name')
 					error: null
 				username:
-					value: @rootElement.data('default-username')
+					value: @element.data('default-username')
 					error: null
 			selectedExchanges: []
 
@@ -28,8 +28,32 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@bindEvents()
 
 	bindEvents: =>
+		$(document).on 'keyup', 'input#user_location', (e) =>
+			$input = $('input#user_location')
+			value = $input.val()
+			if value.length > 2
+				@autocompleteLocations $input
+
 		# @scope.$on 'wizard:stepChanged', (event, args) =>
 		# 	console.log(args)
+
+	autocompleteLocations: ($input) =>
+		options =
+			types: ['geocode']
+			input: $input.val()
+			componentRestrictions:
+				country: 'gb'
+		acService = new google.maps.places.AutocompleteService()
+		@scope.autocompleteItems = []
+		acService.getPlacePredictions options, (predictions) =>
+			predictions.forEach (prediction) =>
+				if !_.contains(prediction.types, 'route') and !_.contains(prediction.types, "transit_station") and !_.contains(prediction.types, "point_of_interest")
+					@scope.$apply =>
+						@scope.autocompleteItems.push(prediction)
+
+	populateLocation: (event) =>
+		@scope.user.location.value = event.target.innerHTML
+		@scope.autocompleteItems = []
 
 	validateNames: (context) =>
 		@scope.user.names.displayName.error = @scope.user.names.username.error = false
@@ -66,7 +90,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
 	finishedWizard: =>
-		new @Profile(@scope.user).create().then (response) =>
+		new @MyProfile(@scope.user).create().then (response) =>
 			if response.status is 'error'
 				@finishedWizardError(response.error)
 			else

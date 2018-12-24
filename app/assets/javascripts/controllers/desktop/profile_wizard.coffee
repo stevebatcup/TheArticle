@@ -5,6 +5,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$http'
 	  '$rootElement'
+	  '$element'
 	  '$timeout'
 	  'MyProfile'
 	]
@@ -29,8 +30,32 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 
 	bindEvents: =>
 		@bindListingHovers() unless @isTablet()
+
+		$(document).on 'keyup', 'input#user_location', (e) =>
+			$input = $('input#user_location')
+			value = $input.val()
+			if value.length > 2
+				@autocompleteLocations $input
 		# @scope.$on 'wizard:stepChanged', (event, args) =>
 		# 	console.log(args)
+
+	autocompleteLocations: ($input) =>
+		options =
+			types: ['geocode']
+			input: $input.val()
+			componentRestrictions:
+				country: 'gb'
+		acService = new google.maps.places.AutocompleteService()
+		@scope.autocompleteItems = []
+		acService.getPlacePredictions options, (predictions) =>
+			predictions.forEach (prediction) =>
+				if !_.contains(prediction.types, 'route') and !_.contains(prediction.types, "transit_station") and !_.contains(prediction.types, "point_of_interest")
+					@scope.$apply =>
+						@scope.autocompleteItems.push(prediction)
+
+	populateLocation: (event) =>
+		@scope.user.location.value = event.target.innerHTML
+		@scope.autocompleteItems = []
 
 	validateNames: (context) =>
 		@scope.user.names.displayName.error = @scope.user.names.username.error = false

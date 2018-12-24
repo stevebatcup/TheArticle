@@ -87,10 +87,15 @@
 					<div class="col col-md-1"></div>
 					<div class="col-12 col-md-10">
 		        <h4>Tell us where you live to help us serve articles that are relevant to you.</h4>
-					  <div class="form-group">
+					  <div class="form-group autocompleter">
 					    <%= f.label :location %><br />
 				    	<p ng-show="user.location.error" class="alert alert-danger">{{user.location.error}}</p>
-					    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.value" %>
+					    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.value", "autocomplete": "on" %>
+					    <ul ng-if="autocompleteItems.length > 0">
+					    	<li ng-repeat="item in autocompleteItems">
+					    		<a href='#' ng-click="populateLocation($event)">{{ item.structured_formatting.main_text }}</a>
+					    	</li>
+					    </ul>
 					  </div>
 		        <input type="submit" wz-next ng-value="user.location.value.length > 0 ? 'Finish' : 'Skip for now'" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
 					 </div>

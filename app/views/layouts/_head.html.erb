@@ -92,6 +92,9 @@
       </script>
     <% end %>
 
+    <% maps_api_key = Rails.application.credentials.google_maps_api_key[Rails.env.to_sym] %>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= maps_api_key %>" type="text/javascript"></script>
+
     <%= stylesheet_link_tag  'desktop', media: 'all', 'data-turbolinks-track': 'reload' %>
     <% if is_tablet? %>
       <%= stylesheet_link_tag  'tablet', media: 'all', 'data-turbolinks-track': 'reload' %>
