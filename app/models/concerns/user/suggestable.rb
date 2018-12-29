@@ -3,7 +3,7 @@ module User::Suggestable
     self.profile_suggestions.where(status: :pending)
   end
 
-  def generate_suggestions(limit=25, is_new=false)
+  def generate_suggestions(is_new=false, limit=25)
     results = []
     existing_ids = self.profile_suggestions.where(status: :pending).map(&:suggested_id)
     existing_ids << self.id
