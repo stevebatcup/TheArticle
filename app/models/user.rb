@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  POPULAR_FOLLOW_COUNT = 5
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -17,6 +18,10 @@ class User < ApplicationRecord
   # people who follow me
   has_many :fandoms, class_name: "Follow", foreign_key: :followed_id
   has_many :followers, through: :fandoms, source: :user
+
+  has_many :profile_suggestions
+
+  include Suggestable
 
   def is_followed_by(user)
     self.followers.map(&:id).include?(user.id)
@@ -66,5 +71,12 @@ class User < ApplicationRecord
     end
     self.has_completed_wizard = 1
     self.save
+  end
+
+  def self.popular_users(excludes)
+    self.joins(:followers)
+          .where.not(id: excludes)
+          .group("users.id")
+          .having("count(follows.user_id) >= #{POPULAR_FOLLOW_COUNT}")
   end
 end

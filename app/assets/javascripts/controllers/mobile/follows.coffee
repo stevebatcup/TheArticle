@@ -67,8 +67,6 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 				if followerItem = _.findWhere @scope.follows.followers, { id: member.id }
 					followerItem.imFollowing = true
 
-
-
 	followUser: (userId, callback) =>
 		@http.post("/user_followings", {id: userId}).then (response) =>
 			callback.call(@)

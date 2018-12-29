@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'user_followings/:id',                    to: 'user_followings#index'
   post 'user_followings',                       to: 'user_followings#create'
   delete 'user_followings/:id',                 to: 'user_followings#destroy'
+  get 'follow-suggestions',                     to: 'profile_suggestions#index'
 
   get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following

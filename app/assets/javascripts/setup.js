@@ -19,7 +19,6 @@
 //= require ryanmullins-angular-hammer
 //= require croppie
 //= require angular-sanitize
-//= require algolia-autocomplete.js/dist/autocomplete.angular.min
 TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
 TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);
 TheArticle.FilterModule = angular.module('TheArticle.filters', []);

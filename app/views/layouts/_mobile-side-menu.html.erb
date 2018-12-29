@@ -59,12 +59,7 @@
         Search</a>
       </li>
       <li>
-        <% if use_app_links %>
-          <a href='#suggestions' ng-click="openFollows('suggestions')">
-        <% else %>
-          <a href="<%= front_page_path(route: 'suggestions') %>">
-        <% end %>
-        Follow suggestions</a>
+        <a href="/follow-suggestions">Follow suggestions</a>
       </li>
       <li>
         <% if use_app_links %>

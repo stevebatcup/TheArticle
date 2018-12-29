@@ -93,7 +93,50 @@
 
 	#callouts {
 		.callout {
-			min-height: 300px;
+
+			&#who_to_follow {
+				height: 600px;
+
+				nav#suggestions_options {
+					font-size: 0.75em;
+
+					.nav-link {
+						color: $grey !important;
+
+						&.active {
+							color: #fff !important;
+							background-color: #575757 !important;
+						}
+					}
+				}
+
+				.tab-content {
+					// height: 300px;
+					overflow: auto;
+				}
+
+				h5 {
+					font-size: 1em;
+				}
+
+				.feed-listing {
+					height: 170px;
+
+
+					.card-body {
+						padding-left: 0.5em;
+						padding-right: 0.5em;
+					}
+
+					p.card-text {
+						display: none;
+					}
+				}
+			}
+
+			&#trending_articles {
+				height: 200px;
+			}
 		}
 	}
 }

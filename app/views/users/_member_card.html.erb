@@ -1,3 +1,4 @@
+<% suggestions = false if local_assigns[:suggestions].nil? %>
 <div class="card pb-2">
 	<div class="card-img-top cover_photo">
 		<img class="w-100" ng-src="{{member.coverPhoto}}" alt="{{member.displayName}}" ng-if="member.coverPhoto" />
@@ -8,7 +9,7 @@
 			<img ng-src="{{member.profilePhoto}}" class="rounded-circle feed_image" alt="{{member.displayName}}" />
 			<button class="btn btn-sm follow_btn"
 							ng-class="{ 'btn-outline-success': !member.imFollowing, 'btn-success': member.imFollowing }"
-							ng-click="toggleFollowUserFromCard(member)">
+							ng-click="<%= suggestions ? 'toggleFollowSuggestion(member)' : 'toggleFollowUserFromCard(member)' %>">
 				<i class="fas fa-users mr-2"></i>
 				<span ng-show="member.imFollowing">Following</span>
 				<span ng-show="!member.imFollowing">Follow</span>

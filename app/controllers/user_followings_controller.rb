@@ -16,6 +16,7 @@ class UserFollowingsController < ApplicationController
 		current_user.followings << Follow.new({followed_id: params[:id]})
 		if current_user.save
 			@status = :success
+			current_user.accept_suggestion_of_user_id(params[:id]) if params[:from_suggestion]
 		else
 			@status = :error
 		end

@@ -1,0 +1,62 @@
+module User::Suggestable
+  def pending_suggestions
+    self.profile_suggestions.where(status: :pending)
+  end
+
+  def generate_suggestions(limit=25, is_new=false)
+    results = []
+    existing_ids = self.profile_suggestions.where(status: :pending).map(&:suggested_id)
+    existing_ids << self.id
+
+    # People already following
+    self.followings.each do |following|
+      existing_ids << following.followed_id
+    end
+
+    # Following same exchanges
+    self.exchanges.each do |exchange|
+      exchange.users.where.not(id: existing_ids).limit(10).each do |exchange_user|
+        results << { user_id: exchange_user.id, reason: "exchange_#{exchange.id} "}
+        existing_ids << exchange_user.id
+      end
+    end
+
+    if is_new
+      # Generally Popular profiles
+      self.class.popular_users(existing_ids).limit(10).each do |user|
+        results << { user_id: user.id, reason: "popular_profile "}
+        existing_ids << user.id
+      end
+    else
+      # Popular with people you follow
+      self.followings.limit(10).each do |following|
+        following_user = following.followed
+        following_user.followings.where.not(followed_id: existing_ids).limit(2).each do |their_following|
+          results << { user_id: their_following.followed.id, reason: "popular_with_following_#{following_user.id} "}
+          existing_ids << their_following.followed.id
+        end
+      end
+    end
+
+    # TODO: Same articles rated highly
+
+    # TODO: Same location
+
+    save_suggestions results.shuffle.slice(0..limit)
+  end
+
+  def save_suggestions(results)
+    results.each do |result|
+      self.profile_suggestions.build({
+        suggested_id: result[:user_id],
+        reason: result[:reason],
+        status: :pending
+      })
+    end
+    self.save
+  end
+
+  def accept_suggestion_of_user_id(user_id)
+    self.profile_suggestions.find_by(suggested_id: user_id).update_attribute(:status, :accepted)
+  end
+end
