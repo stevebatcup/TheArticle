@@ -17,7 +17,7 @@
 
 				<button class="btn btn-sm follow_btn"
 								ng-class="{ 'btn-outline-success': !member.imFollowing, 'btn-success': member.imFollowing }"
-								ng-click="toggleFollowUserFromCard(member)">
+								ng-click="toggleFollowUserFromCard(member, $event)">
 					<i class="fas fa-users mr-2"></i>
 					<span ng-show="member.imFollowing">Following</span>
 					<span ng-show="!member.imFollowing">Follow</span>

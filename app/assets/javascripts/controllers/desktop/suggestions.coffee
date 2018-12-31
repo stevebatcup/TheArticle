@@ -18,10 +18,6 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	getSuggestions: (isMe) =>
 		@http.get('/follow-suggestions').then (response) =>
 			@scope.suggestions = response.data.suggestions
-			inFollowers: (member) =>
-				ids = _.map @scope.follows.followers, (item) =>
-					item.id
-				ids.indexOf(member.id) isnt -1
 
 	toggleFollowSuggestion: (member) =>
 		console.log 'toggleFollowSuggestion'

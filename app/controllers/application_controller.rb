@@ -95,6 +95,8 @@ private
 
 	def authenticate_user!
 		super
-		redirect_to profile_wizard_path unless current_user.has_completed_wizard? || self.class == ProfileWizardController
+		if !current_user.has_completed_wizard? && request.format != 'application/json'
+			redirect_to profile_wizard_path unless self.class == ProfileWizardController
+		end
 	end
 end

@@ -1,4 +1,8 @@
 module User::Suggestable
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
   def pending_suggestions
     self.profile_suggestions.where(status: :pending)
   end
@@ -57,6 +61,15 @@ module User::Suggestable
   end
 
   def accept_suggestion_of_user_id(user_id)
-    self.profile_suggestions.find_by(suggested_id: user_id).update_attribute(:status, :accepted)
+    if suggestion = self.profile_suggestions.find_by(suggested_id: user_id)
+      suggestion.update_attribute(:status, :accepted)
+    end
+    true
+  end
+
+  module ClassMethods
+    def search_for_suggestions(current_user, query)
+      User.where('username LIKE :query or location LIKE :query', :query => "%#{query}%").to_a
+    end
   end
 end

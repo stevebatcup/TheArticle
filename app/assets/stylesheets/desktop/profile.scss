@@ -1,12 +1,13 @@
+.cover_photo {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	background-color: $green;
+	overflow: hidden;
+}
+
 .show-profile {
 	min-height: 60vh;
-
-	.cover_photo {
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: center center;
-		background-color: $green;
-	}
 
 	#cover_photo {
 		height: 220px;

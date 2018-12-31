@@ -10,10 +10,14 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
 		@scope.user =
 			id: @element.data('user-id')
 			location:
+				lat: ''
+				lng: ''
 				value: ''
+				countryCode: ''
 				error: null
 			names:
 				displayName:
@@ -27,6 +31,12 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@scope.exchangesOk = false
 		@bindEvents()
 
+		@scope.suggestionSearch =
+			value: ''
+			error: null
+		@scope.followSuggestions = []
+		@getFollowSuggestions()
+
 	bindEvents: =>
 		$(document).on 'keyup', 'input#user_location', (e) =>
 			$input = $('input#user_location')
@@ -34,8 +44,35 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 			if value.length > 2
 				@autocompleteLocations $input
 
+		@scope.$watch 'suggestionSearch.value', (newVal, oldVal) =>
+			if newVal isnt oldVal
+				@searchForSuggestions newVal
+
 		# @scope.$on 'wizard:stepChanged', (event, args) =>
 		# 	console.log(args)
+
+	searchForSuggestions: (query)=>
+		if query.length > 0
+			@scope.suggestionSearch.error = ""
+			@http.get("/suggestion-search?query=#{query}").then (response) =>
+				@scope.followSuggestions = []
+				if _.some(response.data.suggestions.searchResults)
+					response.data.suggestions.searchResults.forEach (suggestion) =>
+						@scope.followSuggestions.push suggestion
+				else
+					@scope.suggestionSearch.error = "No results found for your search"
+		else
+			@getFollowSuggestions()
+
+	getFollowSuggestions: =>
+		@http.get('/follow-suggestions?show_accepted=true').then (response) =>
+			@scope.followSuggestions = []
+			if _.some(response.data.suggestions.forYous)
+				response.data.suggestions.forYous.forEach (suggestion) =>
+					@scope.followSuggestions.push suggestion
+			if _.some(response.data.suggestions.populars)
+				response.data.suggestions.populars.forEach (suggestion) =>
+					@scope.followSuggestions.push suggestion
 
 	autocompleteLocations: ($input) =>
 		options =
@@ -45,14 +82,27 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 				country: 'gb'
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
+		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
 		acService.getPlacePredictions options, (predictions) =>
-			predictions.forEach (prediction) =>
-				if !_.contains(prediction.types, 'route') and !_.contains(prediction.types, "transit_station") and !_.contains(prediction.types, "point_of_interest")
-					@scope.$apply =>
-						@scope.autocompleteItems.push(prediction)
+			if _.some(predictions)
+				predictions.forEach (prediction) =>
+					if _.intersection(prediction.types, excludeTypes).length < 1
+						@scope.$apply =>
+							@scope.autocompleteItems.push(prediction)
 
-	populateLocation: (event) =>
-		@scope.user.location.value = event.target.innerHTML
+	populateLocation: (event, prediction) =>
+		# console.log event.target.innerHTML
+		address = prediction.description
+		geocoder = new google.maps.Geocoder()
+		geocoder.geocode { 'address': address }, (results, status) =>
+			if status is google.maps.GeocoderStatus.OK
+				@scope.$apply =>
+					@scope.user.location.lat = results[0].geometry.location.lat()
+					@scope.user.location.lng = results[0].geometry.location.lng()
+					@scope.user.location.value = event.target.innerHTML
+					results[0].address_components.forEach (component) =>
+						if _.contains(component.types, 'country')
+							@scope.user.location.countryCode = component.short_name
 		@scope.autocompleteItems = []
 
 	validateNames: (context) =>
@@ -88,6 +138,23 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 
 	validateExchanges: =>
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
+
+	toggleFollowUserFromCard: (member, $event) =>
+		$event.preventDefault()
+		if member.imFollowing
+			@unfollowUser member.id ,=>
+				member.imFollowing = false
+		else
+			@followUser member.id, =>
+				member.imFollowing = true
+
+	followUser: (userId, callback) =>
+		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
+			callback.call(@)
+
+	unfollowUser: (userId, callback) =>
+		@http.delete("/user_followings/#{userId}").then (response) =>
+			callback.call(@)
 
 	finishedWizard: =>
 		new @MyProfile(@scope.user).create().then (response) =>

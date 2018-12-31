@@ -47,4 +47,10 @@
 			}
 		}
 	}
+
+	&.wide {
+		max-height: 230px;
+		height: fit-content;
+		margin-bottom: 12px;
+	}
 }

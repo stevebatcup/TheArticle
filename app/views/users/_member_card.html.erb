@@ -9,7 +9,7 @@
 			<img ng-src="{{member.profilePhoto}}" class="rounded-circle feed_image" alt="{{member.displayName}}" />
 			<button class="btn btn-sm follow_btn"
 							ng-class="{ 'btn-outline-success': !member.imFollowing, 'btn-success': member.imFollowing }"
-							ng-click="<%= suggestions ? 'toggleFollowSuggestion(member)' : 'toggleFollowUserFromCard(member)' %>">
+							ng-click="<%= suggestions ? 'toggleFollowSuggestion(member)' : 'toggleFollowUserFromCard(member, $event)' %>">
 				<i class="fas fa-users mr-2"></i>
 				<span ng-show="member.imFollowing">Following</span>
 				<span ng-show="!member.imFollowing">Follow</span>

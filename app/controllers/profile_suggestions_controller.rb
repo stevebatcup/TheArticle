@@ -4,9 +4,17 @@ class ProfileSuggestionsController < ApplicationController
 	def index
 		respond_to do |format|
 			format.json do
-				suggestions = current_user.pending_suggestions
-				@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%')
-				@populars = suggestions.where("reason LIKE ?", 'popular_with_%')
+				if params[:query]
+					@search_results = User.search_for_suggestions(current_user, params[:query])
+				else
+					if params[:show_accepted]
+						suggestions = current_user.profile_suggestions
+					else
+						suggestions = current_user.pending_suggestions
+					end
+					@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%')
+					@populars = suggestions.where("reason LIKE ?", 'popular_with_%')
+				end
 			end
 			format.html
 		end
