@@ -66,6 +66,9 @@ class User < ApplicationRecord
     self.username = "@#{params[:names][:username][:value]}"
     self.slug = self.username.downcase
     self.location = params[:location][:value]
+    self.lat = params[:location][:lat]
+    self.lng = params[:location][:lng]
+    self.country_code = params[:location][:country_code]
     params[:selected_exchanges].each do |eid|
       self.exchanges << Exchange.find(eid)
     end

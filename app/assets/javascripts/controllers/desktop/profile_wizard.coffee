@@ -14,7 +14,10 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		@scope.user =
 			id: @rootElement.data('user-id')
 			location:
+				lat: ''
+				lng: ''
 				value: ''
+				countryCode: ''
 				error: null
 			names:
 				displayName:
@@ -47,14 +50,33 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 				country: 'gb'
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
+		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
 		acService.getPlacePredictions options, (predictions) =>
-			predictions.forEach (prediction) =>
-				if !_.contains(prediction.types, 'route') and !_.contains(prediction.types, "transit_station") and !_.contains(prediction.types, "point_of_interest")
-					@scope.$apply =>
-						@scope.autocompleteItems.push(prediction)
+			if _.some(predictions)
+				predictions.forEach (prediction) =>
+					if _.intersection(prediction.types, excludeTypes).length < 1
+						@scope.$apply =>
+							@scope.autocompleteItems.push(prediction)
 
-	populateLocation: (event) =>
-		@scope.user.location.value = event.target.innerHTML
+	populateLocation: (event, prediction) =>
+		console.log event.target.innerHTML
+		address = prediction.description
+		geocoder = new google.maps.Geocoder()
+		geocoder.geocode { 'address': address }, (results, status) =>
+			if status is google.maps.GeocoderStatus.OK
+				@scope.$apply =>
+					# console.log prediction
+					# console.log results
+					# console.log event.target.innerHTML
+					@scope.user.location.lat = results[0].geometry.location.lat()
+					console.log @scope.user.location.lat
+					@scope.user.location.lng = results[0].geometry.location.lng()
+					console.log @scope.user.location.lng
+					@scope.user.location.value = event.target.innerHTML
+					results[0].address_components.forEach (component) =>
+						if _.contains(component.types, 'country')
+							@scope.user.location.countryCode = component.short_name
+					# console.log @scope.user.location
 		@scope.autocompleteItems = []
 
 	validateNames: (context) =>
@@ -92,6 +114,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
 	finishedWizard: =>
+		# console.log @scope.user
 		new @MyProfile(@scope.user).create().then (response) =>
 			if response.status is 'error'
 				@finishedWizardError(response.error)

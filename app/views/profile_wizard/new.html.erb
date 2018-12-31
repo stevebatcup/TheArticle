@@ -93,7 +93,7 @@
 					    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.value", "autocomplete": "on" %>
 					    <ul ng-if="autocompleteItems.length > 0">
 					    	<li ng-repeat="item in autocompleteItems">
-					    		<a href='#' ng-click="populateLocation($event)">{{ item.structured_formatting.main_text }}</a>
+					    		<a href='#' ng-click="populateLocation($event, item)">{{ item.structured_formatting.main_text }}</a>
 					    	</li>
 					    </ul>
 					  </div>
