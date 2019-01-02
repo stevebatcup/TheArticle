@@ -55,6 +55,8 @@
 		    </a>
 		  </li>
 		</ul>
+
+		<% if user_signed_in? %>
 		<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
 
 			<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
@@ -83,6 +85,8 @@
 			  </div>
 			</div>
 		</div>
+		<% end %>
+
 	</section>
 
 	<div class="row">
@@ -186,6 +190,7 @@
 		</section>
 
 		<div class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError">
+			<% if user_signed_in? %>
 			<section ng-if="profile.isMe">
 				<div id="who_to_follow" class="callout my-2 bg-grey px-3 py-3" ng-controller="SuggestionsController">
 					<h5 class="mb-3">Who to follow on TheArticle</h5>
@@ -225,6 +230,7 @@
 					</div>
 				</div>
 			</section>
+			<% end %>
 
 			<section id="trending_articles" class="callout my-2 bg-grey px-3 py-3">
 				<h5>Trending Articles</h5>
@@ -233,7 +239,7 @@
 	</div>
 </section>
 
-
+<% if user_signed_in? %>
 <script id="editProfileForm" type="script/x-mustache">
 	<%= render partial: 'edit_profile_modal', locals: {} %>
 </script>
@@ -245,3 +251,4 @@
 <script id="editCoverPhoto" type="script/x-mustache">
 	<%= render partial: 'edit_photo_modal', locals: { type: "cover" } %>
 </script>
+<% end %>

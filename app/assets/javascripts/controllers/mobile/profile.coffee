@@ -88,7 +88,8 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 			@scope.mode = 'view'
 
 	getUserExchanges: =>
-		@http.get("/user_exchanges").then (exchanges) =>
+		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
+		@http.get(url).then (exchanges) =>
 			@scope.userExchanges = exchanges.data.exchanges
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
