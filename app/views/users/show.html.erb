@@ -88,7 +88,7 @@
 	<div class="row">
 		<section class="col-3" id="basic_info" ng-show="profile.loaded && !profile.loadError">
 
-			<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="<%= current_user.display_name %>"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
+			<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
 
 			<div class="pl-2">
 				<h5>{{ profile.data.displayName }}</h5>

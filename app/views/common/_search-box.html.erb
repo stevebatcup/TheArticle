@@ -1,16 +1,176 @@
-<nav id="search_box" class="collapse hide" aria-expanded="true" style="">
+<nav id="search_box" class="collapse hide" aria-expanded="true" style="" ng-controller="SearchController">
   <div class="row" id="search_box_row">
     <div class="justify-content-center" id="search_inner">
       <form method="get" id="search_form" class="search_form" action="<%= search_path %>" role="search" >
         <div class="input-group">
-          <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query">
+          <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query" ng-model="search.query" id="search_query">
           <span class="input-group-btn">
-            <button class="btn-link btn-sm btn bg-colour-1 text-white gabriela" type="submit">
+            <button class="btn-link btn-sm btn bg-colour-1 text-white gabriela" type="submit" id="search_submitter">
               GO <i class="fas fa-angle-right"></i>
             </button>
           </span>
         </div>
       </form>
+
+      <section id="search_suggestions">
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.recentSearches.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Recent searches</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.recentSearches" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify">
+                <i class="fas fa-search text-green mr-2"></i>
+              </a>
+              <a href='{{item.path}}' class="searcher">
+                {{ item.term }}
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'recentSearches')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.whoToFollow.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">
+            <span ng-if="search.suggestions.data.profileMode == 'who_to_follow'">Who to follow</span>
+            <span ng-if="search.suggestions.data.profileMode == 'people_might_know'">People you might know</span>
+          </h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.whoToFollow" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify">
+                <i class="fas fa-search text-green mr-2"></i>
+              </a>
+               <a href='{{item.path}}' class="searcher">
+                {{ item.term }}
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'whoToFollow')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.trendingArticles.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Trending articles</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.trendingArticles" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify">
+                <i class="fas fa-search text-green mr-2"></i>
+              </a>
+               <a href='{{item.path}}' class="searcher">
+                {{ item.term }}
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'trendingArticles')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.trendingExchanges.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Trending exchanges</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.trendingExchanges" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify">
+                <i class="fas fa-search text-green mr-2"></i>
+              </a>
+               <a href='{{item.path}}' class="searcher">
+                {{ item.term }}
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'trendingExchanges')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.topics.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Topics</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.topics" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify d-flex align-items-center">
+                <i class="fas fa-search larger text-green mr-3"></i>
+              </a>
+              <a href="{{item.path}}" class="searcher multiline d-flex align-items-center">
+                <span>
+                  <b>{{ item.term }}</b>
+                  <br /><small>{{ item.articleCount }}</small>
+                </small>
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'topics')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.exchanges.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Exchanges</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.exchanges" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify d-flex align-items-center">
+                <i class="fas fa-search larger text-green mr-2"></i>
+              </a>
+               <a href='{{item.path}}'  class="searcher d-flex align-items-center mb-2">
+                <img ng-src="{{ item.image }}" alt="{{ item.term }}" class="ml-md-1 mr-2 mr-md-3" />
+                <span class="sinner">
+                  Exchange on<br />
+                  <b>{{ item.term }}</b>
+                </span>
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'exchanges')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.contributors.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Contributors</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.contributors" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify d-flex align-items-center">
+                <i class="fas fa-search larger text-green mr-2"></i>
+              </a>
+               <a href='{{item.path}}' class="searcher d-flex align-items-center mb-2">
+                <img ng-src="{{ item.image }}" alt="{{ item.term }}" class="ml-1 ml-md-2 mr-2 mr-md-4 rounded-circle" />
+                <span class="sinner">
+                  {{ item.articleCount }} by<br />
+                  <b>{{ item.term }}</b>
+                </span>
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'contributors')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div ng-show="search.suggestions.loaded && search.suggestions.data.profiles.length > 0" class="search_section">
+          <h5 class="mb-0 mt-1 text-white">Profiles</h5>
+          <ul>
+            <li ng-repeat="item in search.suggestions.data.profiles" class="d-flex justify-items-between">
+              <a href='#' ng-click="chooseSearchTerm(item.term)" class="magnify d-flex align-items-center">
+                <i class="fas fa-search larger text-green mr-2"></i>
+              </a>
+               <a href='{{item.path}}' class="searcher d-flex align-items-center mb-2">
+                <img ng-src="{{ item.image }}" alt="{{ item.term }}" class="ml-1 ml-md-2 mr-2 mr-md-4 rounded-circle" />
+                <span class="sinner">
+                  <b>{{ item.term }}</b><br />
+                  <small>
+                    <span class="text-muted">{{ item.username }}</span>&nbsp;&nbsp;{{ item.followingSentence }}
+                  </small>
+                </span>
+              </a>
+              <a href='#' ng-click="removeSeachItem(item, 'profiles')" class="closer">
+                <i class="fas fa-times text-green"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
     </div>
   </div>
 </nav>

@@ -14,7 +14,6 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 		@setDefaultHttpHeaders()
 		@scope.userId = @element.data('user-id')
 		@scope.isMe = @scope.userId is @element.data('current-user-id')
-		console.log @scope.isMe
 		@scope.follows =
 			followings: []
 			followers: []

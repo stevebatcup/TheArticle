@@ -8,7 +8,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		@bindJoinForm()
 		@bindContactForm()
 		@bindBlockClicks()
-		@bindSearch()
 		setTimeout @bindCarousels, 800
 		@bindSearchFilters()
 
@@ -59,23 +58,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 		@scope.slideout.on 'beforeclose', (e, l) =>
 			$('.overlay').removeClass('show_menu').removeClass('active')
-
-	bindSearch: =>
-		$('.search_trigger').on 'click', (e) =>
-			e.preventDefault()
-			@toggleSearch()
-
-	toggleSearch: =>
-		$box = $('#search_box')
-		if $box.is(':hidden')
-			$box.slideDown(200)
-			$box.find('input[name=query]').focus()
-			$('#ads_top').hide()
-			$('.wrapper').addClass('no-scroll')
-		else
-			$box.slideUp(200)
-			$('#ads_top').show()
-			$('.wrapper').removeClass('no-scroll')
 
 	bindCarousels: =>
 		$('.slick-carousel').on 'init', (e) =>

@@ -6,7 +6,6 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 	bindEvents: =>
 		@bindCookieAcceptance()
 		setTimeout @bindCarousels, 700
-		@bindSearch()
 		@bindJoinForm()
 		@bindContactForm()
 		@bindListingHovers() unless @isTablet()
@@ -46,21 +45,6 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 
 	isTablet: =>
 		$('body').hasClass('tablet')
-
-	bindSearch: =>
-		$('.search_trigger').on 'click', (e) =>
-			e.preventDefault()
-			$box = $('#search_box')
-			if $box.is(':hidden')
-				$('#ads_top').slideUp(200)
-				$box.slideDown(200)
-				$('body, html').scrollTop(0)
-				$box.find('input[name=query]').focus()
-				$('main#main_content').hide()
-			else
-				$box.slideUp(200)
-				$('#ads_top').slideDown(200)
-				$('main#main_content').show()
 
 	bindListingHovers: =>
 		$(document).on 'mouseover', '.hoveraction', (e) =>

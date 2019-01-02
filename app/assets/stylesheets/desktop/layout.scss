@@ -306,6 +306,88 @@ section.no-results {
 			}
 		}
 	}
+
+
+	#search_suggestions {
+		height: 70vh;
+		overflow-y: auto !important;
+		width: 100%;
+		padding-bottom: 20px;
+
+		.search_section {
+			padding-top: 5px;
+			border-bottom: 1px solid #ccc;
+
+			h5 {
+				padding-bottom: 5px;
+			}
+
+			ul {
+				padding: 5px 3px;
+				margin-bottom: 8px;
+
+				li {
+					font-size: 0.9em;
+					list-style: none;
+					line-height: 1.6em;
+
+					a {
+						display: inline-block;
+						color: #fff;
+
+						&.searcher {
+							width: 90%;
+
+							span.inner {
+								width: 120px;
+							}
+
+							img {
+								width: 55px;
+
+								&.rounded-circle {
+									width: 45px;
+								}
+							}
+
+							br {
+								line-height: 1;
+							}
+
+							&:hover,
+							&:active,
+							&:focus {
+								color: #aaa !important;
+							}
+
+							small {
+								display: block;
+								position: relative;
+								top: -5px;
+								left: 0;
+							}
+						}
+
+						&.magnify.d-flex {
+							svg {
+								position: relative;
+								top: -3px;
+								left: 1px;
+
+								&.larger {
+									font-size: 1.1em;
+								}
+							}
+						}
+
+						&.closer {
+							width: 10%;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 /* SVG Overrides */

@@ -76,7 +76,7 @@ class User < ApplicationRecord
     self.save
   end
 
-  def self.popular_users(excludes)
+  def self.popular_users(excludes=[])
     self.joins(:followers)
           .where.not(id: excludes)
           .group("users.id")

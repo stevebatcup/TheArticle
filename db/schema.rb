@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_31_115733) do
+ActiveRecord::Schema.define(version: 2019_01_02_114241) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -130,6 +130,21 @@ ActiveRecord::Schema.define(version: 2018_12_31_115733) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "search_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "term"
+    t.integer "all_results_count", default: 0
+    t.integer "articles_results_count", default: 0
+    t.integer "contributors_results_count", default: 0
+    t.integer "profiles_results_count", default: 0
+    t.integer "exchanges_results_count", default: 0
+    t.integer "posts_results_count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["term"], name: "index_search_logs_on_term"
+    t.index ["user_id"], name: "index_search_logs_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

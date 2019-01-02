@@ -2,12 +2,7 @@ class ArticlesController < ApplicationController
 	def index
 		params[:page] ||= 1
 		params[:per_page] ||= articles_per_page
-		if params[:query] # search
-			@query = params[:query]
-			@articles = Article.search(params[:query], match_mode: :boolean)
-			@contributors_for_spotlight = Author.contributors_for_spotlight
-			@recent_articles = Article.recent
-		elsif params[:tagged]
+		if params[:tagged]
 			if params[:tagged] == 'editors-picks'
 				@articles = Article.editors_picks.page(params[:page]).per(params[:per_page].to_i)
 				if params[:page].to_i == 1
