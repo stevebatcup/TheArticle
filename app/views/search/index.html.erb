@@ -1,0 +1,40 @@
+<section ng-controller="SearchResultsController" class="container search-results">
+	<div id="top_bar" class="bg-grey">
+		<ul class="nav nav-tabs nav-fill d-flex">
+		  <li class="nav-item">
+		    <a class="nav-link active" href="#" ng-click="selectTab('all')">
+		      <label>All</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		  	<a class="nav-link" href="#" ng-click="selectTab('articles')">
+			  	<label>Articles</label>
+			  </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('contributors')">
+					<label>Contributors</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('profiles')">
+		    	<label>Profiles</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('exchanges')">
+					<label>Exchanges</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('posts')">
+					<label>Posts</label>
+		    </a>
+		  </li>
+		</ul>
+	</div>
+
+	<div id="results_pane">
+		RESULTS HERE
+	</div>
+</section>
