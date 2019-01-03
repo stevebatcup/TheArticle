@@ -35,6 +35,7 @@ class TheArticle.SearchResults extends TheArticle.DesktopPageController
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab
+		$('#feed').scrollTop(0)
 
 	filterListForTab: (list) =>
 		if @scope.selectedTab == 'all'

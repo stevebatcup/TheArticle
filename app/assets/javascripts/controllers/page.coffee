@@ -163,7 +163,7 @@ class TheArticle.PageController extends TheArticle.NGController
 	blockClick: ($clicked, e) =>
 		if $clicked.prop('tagName') isnt "A" and $clicked.parent().prop('tagName') isnt "A"
 			e.preventDefault()
-			if $clicked.prop('tagName') isnt "BUTTON"
+			if $clicked.prop('tagName') isnt "BUTTON" and $clicked.parent().prop('tagName') isnt "BUTTON"
 				if $clicked.prop('tagName') is "DIV" and $clicked.data('href')
 					link = $clicked.data('href')
 				else

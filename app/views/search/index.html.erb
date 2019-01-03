@@ -1,0 +1,141 @@
+<section ng-controller="SearchResultsController" id="search-results" class="container" data-query="<%= @query %>">
+	<section id="top_bar" class="row bg-grey pt-2">
+		<div class="col-2"></div>
+		<ul class="col-8 nav nav-tabs nav-fill d-flex">
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
+		      <label>All</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		  	<a class="nav-link" href="#" ng-click="selectTab('articles')"
+		  			ng-class="{'active': selectedTab == 'articles'}"
+		  			ng-show="search.results.data.articles.length > 0">
+			  	<label>Articles</label>
+			  </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('contributors')"
+		    		ng-class="{'active': selectedTab == 'contributors'}"
+		    		ng-show="search.results.data.contributors.length > 0">
+					<label>Contributors</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('profiles')"
+		    		ng-class="{'active': selectedTab == 'profiles'}"
+		    		ng-show="search.results.data.profiles.length > 0">
+		    	<label>Profiles</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('exchanges')"
+		    		ng-class="{'active': selectedTab == 'exchanges'}"
+		    		ng-show="search.results.data.exchanges.length > 0">
+					<label>Exchanges</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" href="#" ng-click="selectTab('posts')"
+		    		ng-class="{'active': selectedTab == 'posts'}"
+		    		ng-show="search.results.data.posts.length > 0">
+					<label>Posts</label>
+		    </a>
+		  </li>
+		</ul>
+		<div class="col-2"></div>
+	</section>
+
+
+	<div class="row pt-3">
+		<section class="col-3 pl-0" id="callouts_left">
+			<div class="card w-100 mb-3">
+				<div class="card-header">
+					<h5 class="card-title">New to TheArticle?</h5>
+				</div>
+				<div class="card-body">
+					<p class="card-text">Register now to follow people and get your own personalised feed.</p>
+			    <a href="<%= new_user_registration_path %>" class="btn btn-success btn-block">Register</a>
+				</div>
+			</div>
+
+			<div class="card w-100">
+				<div class="card-header">
+					<h5 class="card-title">Trending exchanges</h5>
+				</div>
+				<div class="card-body">
+				</div>
+			</div>
+		</section>
+
+		<section class="col-6 pb-5" id="feed" >
+			<div class="inner">
+				<div class="results_block row"
+							ng-show="(selectedTab == 'all' || selectedTab == 'articles') && search.results.data.articles.length > 0">
+					<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Article results for "{{search.query}}"</h6>
+					<div ng-repeat="article in filterListForTab(search.results.data.articles)" class="col-6 feed-listing feed-article mb-1 pb-2 px-1">
+						<%= render 'articles/card' %>
+					</div>
+					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
+						<a href='#' ng-click="selectTab('articles')">View all articles</a>
+					</div>
+				</div>
+
+				<div class="results_block row"
+							ng-show="(selectedTab == 'all' || selectedTab == 'contributors') && search.results.data.contributors.length > 0">
+					<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Contributor results for "{{search.query}}"</h6>
+					<div ng-repeat="contributor in filterListForTab(search.results.data.contributors)" class="col-6 feed-listing feed-contributor mb-1 pb-2 px-1">
+						<%= render 'contributors/card' %>
+					</div>
+					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
+						<a href='#' ng-click="selectTab('contributors')">View all contributors</a>
+					</div>
+				</div>
+
+				<div class="results_block row"
+							ng-show="(selectedTab == 'all' || selectedTab == 'profiles') && search.results.data.profiles.length > 0">
+					<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Profile results for "{{search.query}}"</h6>
+					<div ng-repeat="member in filterListForTab(search.results.data.profiles)" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+						<%= render 'users/member_card' %>
+					</div>
+					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
+						<a href='#' ng-click="selectTab('profiles')">View all profiles</a>
+					</div>
+				</div>
+
+				<div class="results_block row"
+							ng-show="(selectedTab == 'all' || selectedTab == 'exchanges') && search.results.data.exchanges.length > 0">
+					<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Exchange results for "{{search.query}}"</h6>
+					<div ng-repeat="exchange in filterListForTab(search.results.data.exchanges)" class="col-6 feed-listing feed-exchange mb-1 pb-2 px-1">
+						<%= render 'exchanges/card' %>
+					</div>
+					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
+						<a href='#' ng-click="selectTab('exchanges')">View all exchanges</a>
+					</div>
+				</div>
+
+				<div class="results_block row"
+							ng-show="(selectedTab == 'all' || selectedTab == 'posts') && search.results.data.posts.length > 0">
+					<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Post results for "{{search.query}}"</h6>
+					<div ng-repeat="result in filterListForTab(search.results.data.posts)" class="col-6 feed-listing feed-post mb-1 pb-2 px-1">
+						<p><a href="{{result.path}}">{{result.name}}</a></p>
+					</div>
+					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">
+						<a href='#' ng-click="selectTab('posts')">View all posts</a>
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<section class="col-3 pr-0" id="callouts_right">
+			<div class="card w-100 mb-3">
+				<div class="card-header">
+					<h5 class="card-title">Trending articles</h5>
+				</div>
+				<div class="card-body">
+				</div>
+			</div>
+		</section>
+	</div>
+</section>

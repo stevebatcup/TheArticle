@@ -1,15 +1,52 @@
 .feed-listing {
-	height: 270px;
+	&.feed-follow {
+		height: 270px;
+	}
+
+	&.feed-exchange {
+		height: 140px;
+
+		.card {
+			height: 100%;
+
+			.card-body {
+				position: relative;
+
+				button {
+					position: absolute;
+			    bottom: 0px;
+			    left: 0;
+			    border-top-left-radius: 0;
+			    border-top-right-radius: 0;
+				}
+			}
+		}
+	}
+
+	&.feed-article {
+		height: 210px;
+
+		.card {
+			height: 100%;
+
+			h6 {
+				color: $grey;
+			}
+		}
+	}
 
 	img.feed_image {
 		width: 3.7em;
 		height: 3.7em;
 		margin-right: 10px;
 		border: 3px solid #fff;
-		position: relative;
-		top: -2.2em;
-		left: 0;
-		margin-bottom: -1.8em;
+
+		&.with_cover_image {
+			position: relative;
+			top: -2.2em;
+			left: 0;
+			margin-bottom: -1.8em;
+		}
 	}
 
 	.follow_btn {
@@ -18,14 +55,54 @@
 
 	.card-text {
 		line-height: 1.1em;
+
+		a {
+			color: inherit;
+
+			&:hover {
+				color: inherit !important;
+			}
+		}
 	}
 
 	.cover_photo {
 		height: 50px;
 	}
 
+	h4 {
+		font-size: 1em;
+
+		a {
+			color: inherit;
+
+			&:hover {
+				color: inherit !important;
+			}
+		}
+	}
+
 	h5 {
 		font-size: 0.9em;
+
+		a {
+			color: inherit;
+
+			&:hover {
+				color: inherit !important;
+			}
+		}
+	}
+
+	h6 {
+		font-size: 0.85em;
+
+		a {
+			color: inherit;
+
+			&:hover {
+				color: inherit !important;
+			}
+		}
 	}
 
 	.follower-badge {
@@ -38,19 +115,23 @@
 		height: fit-content;
 	}
 
-	&.feed-exchange {
-		border-bottom: 1px solid #ddd;
+	// &.feed-exchange {
+	// 	border-bottom: 1px solid #ddd;
 
-		.feed_text {
-			p {
-				font-size: 0.85em;
-			}
-		}
-	}
+	// 	.feed_text {
+	// 		p {
+	// 			font-size: 0.85em;
+	// 		}
+	// 	}
+	// }
 
 	&.wide {
 		max-height: 230px;
 		height: fit-content;
 		margin-bottom: 12px;
+	}
+
+	.article_card {
+		height: 190px;
 	}
 }

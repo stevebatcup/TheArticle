@@ -6,9 +6,9 @@ if @results.any?
 				json.type :articles
 				json.id result.id
 				json.author result.author.display_name
-				json.snippet article_excerpt_for_listing(result)
+				json.snippet article_excerpt_for_listing(result, 120)
 				json.image result.image.url(:listing_mobile)
-				json.title result.title.html_safe
+				json.title strip_tags(result.title)
 				json.path article_path(result)
 			elsif result.class == Author
 				json.type :contributors

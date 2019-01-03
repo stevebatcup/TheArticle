@@ -1,12 +1,14 @@
 <% suggestions = false if local_assigns[:suggestions].nil? %>
-<div class="card pb-2">
+<div class="card pb-2 block_click" data-href="{{ member.path }}">
 	<div class="card-img-top cover_photo">
 		<img class="w-100" ng-src="{{member.coverPhoto}}" alt="{{member.displayName}}" ng-if="member.coverPhoto" />
 	</div>
 
 	<div class="card-body py-2 w-100">
 		<div class="d-flex align-items-start justify-content-between mb-2">
-			<img ng-src="{{member.profilePhoto}}" class="rounded-circle feed_image" alt="{{member.displayName}}" />
+			<a href="{{ member.path }}">
+				<img ng-src="{{member.profilePhoto}}" class="rounded-circle feed_image with_cover_image" alt="{{member.displayName}}" />
+			</a>
 			<button class="btn btn-sm follow_btn"
 							ng-class="{ 'btn-outline-success': !member.imFollowing, 'btn-success': member.imFollowing }"
 							ng-click="<%= suggestions ? 'toggleFollowSuggestion(member)' : 'toggleFollowUserFromCard(member, $event)' %>">
@@ -16,10 +18,24 @@
 			</button>
 		</div>
 		<h5 class="card-title d-flex justify-content-between mb-0">
-			<span>{{ member.displayName }}</span>
+			<a href="{{ member.path }}"><span>{{ member.displayName }}</span></a>
 			<span ng-show="member.isFollowingMe" class="badge follower-badge">Follows you</span>
 		</h5>
-		<h6 class="text-muted"><small>{{ member.username }}</small></h6>
-		<p class="card-text"><small>{{ member.bio }}</small></p>
+
+		<h6 class="text-muted">
+			<small>
+				<a href="{{ member.path }}">
+					{{ member.username }}
+				</a>
+			</small>
+		</h6>
+
+		<p class="card-text">
+			<small>
+				<a href="{{ member.path }}">
+					{{ member.bio }}
+				</a>
+			</small>
+		</p>
 	</div>
 </div>

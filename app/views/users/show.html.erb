@@ -20,7 +20,7 @@
 		<div class="col-2"></div>
 		<ul class="col-8 nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item">
-		    <a class="nav-link active" id="activity-all-tab" data-toggle="tab" href="#activity-all">
+		    <a class="with_badge nav-link active" id="activity-all-tab" data-toggle="tab" href="#activity-all">
 		      <label>All</label>
 		    </a>
 		  </li>
@@ -31,25 +31,25 @@
 			  </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" id="activity-followers-tab" data-toggle="tab" href="#activity-followers">
+		    <a class="with_badge nav-link" id="activity-followers-tab" data-toggle="tab" href="#activity-followers">
 					<label>Followers</label>
 					<span>{{ profile.data.followers.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" id="activity-ratings-tab" data-toggle="tab" href="#activity-ratings">
+		    <a class="with_badge nav-link" id="activity-ratings-tab" data-toggle="tab" href="#activity-ratings">
 		    	<label>Ratings</label>
 		    	<span>{{ profile.data.ratings.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" id="activity-shares-tab" data-toggle="tab" href="#activity-shares">
+		    <a class="with_badge nav-link" id="activity-shares-tab" data-toggle="tab" href="#activity-shares">
 					<label>Shares</label>
 					<span>{{ profile.data.shares.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" id="activity-exchanges-tab" data-toggle="tab" href="#activity-exchanges">
+		    <a class="with_badge nav-link" id="activity-exchanges-tab" data-toggle="tab" href="#activity-exchanges">
 					<label>Exchanges</label>
 					<span>{{ profile.data.exchanges.length }}</span>
 		    </a>
@@ -90,47 +90,52 @@
 	</section>
 
 	<div class="row">
-		<section class="col-3" id="basic_info" ng-show="profile.loaded && !profile.loadError">
+		<section class="col-3" ng-show="profile.loaded && !profile.loadError">
+			<div id="basic_info">
 
-			<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
+				<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
 
-			<div class="pl-2">
-				<h5>{{ profile.data.displayName }}</h5>
-				<h6 class="text-muted mb-4">{{ profile.data.originalUsername }}</h6>
-				<p>
-					<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
-				</p>
+				<div class="pl-2">
+					<h5>{{ profile.data.displayName }}</h5>
+					<h6 class="text-muted mb-4">{{ profile.data.originalUsername }}</h6>
+					<p>
+						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
+					</p>
 
-				<p ng-if="profile.data.location.length > 0">
-					<i class="fas fa-map-marker-alt"></i>
-					<span class="pl-3">{{ profile.data.location }}</span>
-				</p>
-				<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
-					<a href='#' ng-click="editProfile('location')">
+					<p ng-if="profile.data.location.length > 0">
 						<i class="fas fa-map-marker-alt"></i>
-						<span class="pl-3">Add Location</span>
-					</a>
-				</p>
+						<span class="pl-3">{{ profile.data.location }}</span>
+					</p>
+					<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
+						<a href='#' ng-click="editProfile('location')">
+							<i class="fas fa-map-marker-alt"></i>
+							<span class="pl-3">Add Location</span>
+						</a>
+					</p>
 
-				<p ng-if="profile.data.bio.length > 0">
-					{{ profile.data.bio }}
-				</p>
-				<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
-					<a href='#' ng-click="editProfile('bio')">
-						<i class="far fa-plus-square"></i>
-						<span class="pl-3">Add Bio</span>
-					</a>
-				</p>
-
-				<div class="call-to-action-card card" ng-show="profile.data.isNew && profile.isMe">
-					<div class="card-header">
-						Fill out your profile
-					</div>
-					<div class="card-body">
-						<p class="card-text">Add information and photos to your profile to help people find you</p>
-					</div>
+					<p ng-if="profile.data.bio.length > 0">
+						{{ profile.data.bio }}
+					</p>
+					<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
+						<a href='#' ng-click="editProfile('bio')">
+							<i class="far fa-plus-square"></i>
+							<span class="pl-3">Add Bio</span>
+						</a>
+					</p>
 				</div>
 			</div>
+
+			<% if user_signed_in? %>
+			<div class="call-to-action-card card" ng-show="profile.data.isNew && profile.isMe">
+				<div class="card-header">
+					<h5 class="card-title">Fill out your profile</h5>
+				</div>
+				<div class="card-body">
+					<p class="card-text">Add information and photos to your profile to help people find you</p>
+					<a href="<%= my_profile_path %>" class="btn btn-success btn-block">My Profile</a>
+				</div>
+			</div>
+			<% end %>
 		</section>
 
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
@@ -191,40 +196,44 @@
 
 		<div class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError">
 			<% if user_signed_in? %>
-			<section ng-if="profile.isMe">
-				<div id="who_to_follow" class="callout my-2 bg-grey px-3 py-3" ng-controller="SuggestionsController">
-					<h5 class="mb-3">Who to follow on TheArticle</h5>
-					<nav id="suggestions_options" class="sub_tabs">
-						<ul class="nav nav-pills nav-fill d-flex align-items-end">
-							<li class="nav-item w-50">
-							  <a class="nav-link active" id="suggestions-sub-tab-for_you" data-toggle="tab" href="#suggestions_for_you">
-							    Suggested for you
-							  </a>
-							</li>
-							<li class="nav-item w-50">
-							  <a class="nav-link" id="suggestions-sub-tab-popular" data-toggle="tab" href="#suggestions_popular">
-							    Popular with people you follow
-							  </a>
-							</li>
-						</ul>
-					</nav>
+			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3">
+				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
+					<div class="card-header">
+						<h5 class="card-title">Who to follow on TheArticle</h5>
+					</div>
+					<div class="card-body pt-2 px-2">
+						<nav id="suggestions_options" class="sub_tabs">
+							<ul class="nav nav-pills nav-fill d-flex align-items-end">
+								<li class="nav-item w-50">
+								  <a class="nav-link active" id="suggestions-sub-tab-for_you" data-toggle="tab" href="#suggestions_for_you">
+								    Suggested for you
+								  </a>
+								</li>
+								<li class="nav-item w-50">
+								  <a class="nav-link" id="suggestions-sub-tab-popular" data-toggle="tab" href="#suggestions_popular">
+								    Popular with people you follow
+								  </a>
+								</li>
+							</ul>
+						</nav>
 
-					<div class="tab-content container pt-2 px-1">
-						<div class="tab-pane fade show active"
-							id="suggestions_for_you"
-							role="tabpanel"
-							aria-labelledby="suggestions-sub-tab-for_you">
-							<div ng-repeat="member in suggestions.forYous" class="feed-listing">
-								<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+						<div class="tab-content container pt-2 px-1">
+							<div class="tab-pane fade show active"
+								id="suggestions_for_you"
+								role="tabpanel"
+								aria-labelledby="suggestions-sub-tab-for_you">
+								<div ng-repeat="member in suggestions.forYous" class="feed-listing">
+									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+								</div>
 							</div>
-						</div>
 
-						<div class="tab-pane fade"
-							id="suggestions_popular"
-							role="tabpanel"
-							aria-labelledby="suggestions-sub-tab-popular">
-							<div ng-repeat="member in suggestions.populars" class="feed-listing">
-								<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+							<div class="tab-pane fade"
+								id="suggestions_popular"
+								role="tabpanel"
+								aria-labelledby="suggestions-sub-tab-popular">
+								<div ng-repeat="member in suggestions.populars" class="feed-listing">
+									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -232,8 +241,12 @@
 			</section>
 			<% end %>
 
-			<section id="trending_articles" class="callout my-2 bg-grey px-3 py-3">
-				<h5>Trending Articles</h5>
+			<section id="trending_articles" class="callout card w-100">
+				<div class="card-header">
+					<h5 class="card-title">Trending articles</h5>
+				</div>
+				<div class="card-body">
+				</div>
 			</section>
 		</div>
 	</div>

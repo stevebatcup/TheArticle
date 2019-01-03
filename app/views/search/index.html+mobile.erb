@@ -63,7 +63,7 @@
 				<div ng-repeat="contributor in filterListForTab(search.results.data.contributors)" class="feed-listing">
 					<%= render 'contributors/card' %>
 				</div>
-				<div class="view_all" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
+				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
 					<a href='#' ng-click="selectTab('contributors')">View all contributors</a>
 				</div>
 			</div>
@@ -74,7 +74,7 @@
 				<div ng-repeat="member in filterListForTab(search.results.data.profiles)" class="feed-listing">
 					<%= render 'users/member_card' %>
 				</div>
-				<div class="view_all" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
+				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
 					<a href='#' ng-click="selectTab('profiles')">View all profiles</a>
 				</div>
 			</div>
@@ -85,7 +85,7 @@
 				<div ng-repeat="exchange in filterListForTab(search.results.data.exchanges)" class="feed-listing">
 					<%= render 'exchanges/card' %>
 				</div>
-				<div class="view_all" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
+				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
 					<a href='#' ng-click="selectTab('exchanges')">View all exchanges</a>
 				</div>
 			</div>
@@ -96,7 +96,7 @@
 				<div ng-repeat="result in filterListForTab(search.results.data.posts)">
 					<p><a href="{{result.path}}">{{result.name}}</a></p>
 				</div>
-				<div class="view_all" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">
+				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">
 					<a href='#' ng-click="selectTab('posts')">View all posts</a>
 				</div>
 			</div>

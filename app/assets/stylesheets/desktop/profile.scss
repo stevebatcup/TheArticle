@@ -52,51 +52,12 @@
 		}
 	}
 
-	#top_bar {
-		button {
-			position: relative;
-			left: -10px;
-		}
-
-		ul.nav {
-			border-bottom: none !important;
-
-			li {
-				a {
-					background-color: transparent;
-					border: none;
-					color: inherit !important;
-					font-weight: normal;
-					height: 63px;
-
-					label {
-						text-align: center;
-						font-weight: bold;
-						display: block;
-						margin-bottom: -4px;
-					}
-
-					span {
-						text-align: center;
-						width: 100%;
-						display: inline-block;
-					}
-
-					&.active {
-						color: inherit !important;
-						font-weight: bold;
-						border-bottom: 3px solid $green;
-					}
-				}
-			}
-		}
-	}
-
 	#callouts {
 		.callout {
 
-			&#who_to_follow {
+			#who_to_follow {
 				height: 600px;
+				overflow-y: auto;
 
 				nav#suggestions_options {
 					font-size: 0.75em;
@@ -112,8 +73,6 @@
 				}
 
 				.tab-content {
-					// height: 300px;
-					overflow: auto;
 				}
 
 				h5 {
@@ -123,6 +82,9 @@
 				.feed-listing {
 					height: 170px;
 
+					.cover_photo {
+						height: 44px;
+					}
 
 					.card-body {
 						padding-left: 0.5em;
@@ -135,7 +97,7 @@
 				}
 			}
 
-			&#trending_articles {
+			#trending_articles {
 				height: 200px;
 			}
 		}

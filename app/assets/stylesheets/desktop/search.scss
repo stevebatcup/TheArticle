@@ -1,0 +1,164 @@
+/***** SEARCH BOX ******/
+section.no-results {
+	min-height: 280px;
+}
+
+#search_box {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #303030;
+  z-index: 9999;
+	clear: both;
+
+ #search_box_row {
+		padding: 3.5rem 0;
+	  width: 72%;
+	  clear: both;
+	  display: block;
+	  margin: 0 auto 2rem;
+
+	 #search_inner {
+	  	width: 100%;
+
+			#search_form {
+		  	border-bottom: 1px solid #fff;
+		  	position: relative;
+
+				input {
+				  display: inline;
+				  width: auto;
+				  background: none;
+				  border: none;
+				  font-size: 37px;
+				  padding-left: 0;
+				  @extend .gabriela;
+				}
+
+				input,
+				input:focus {
+				border-width: 0px;
+				outline:0;
+				-webkit-appearance:none;
+				box-shadow: none;
+				-moz-box-shadow: none;
+				-webkit-box-shadow: none;
+				}
+
+				button.btn {
+					position: relative;
+					top: 17px;
+				}
+			}
+		}
+	}
+
+
+	#search_suggestions {
+		height: 70vh;
+		overflow-y: auto !important;
+		width: 100%;
+		padding-bottom: 20px;
+
+		.search_section {
+			padding-top: 5px;
+			border-bottom: 1px solid #ccc;
+
+			h5 {
+				padding-bottom: 5px;
+			}
+
+			ul {
+				padding: 5px 3px;
+				margin-bottom: 8px;
+
+				li {
+					font-size: 0.9em;
+					list-style: none;
+					line-height: 1.6em;
+
+					a {
+						display: inline-block;
+						color: #fff;
+
+						&.searcher {
+							width: 90%;
+
+							span.inner {
+								width: 120px;
+							}
+
+							img {
+								width: 55px;
+
+								&.rounded-circle {
+									width: 45px;
+								}
+							}
+
+							br {
+								line-height: 1;
+							}
+
+							&:hover,
+							&:active,
+							&:focus {
+								color: #aaa !important;
+							}
+
+							small {
+								display: block;
+								position: relative;
+								top: -5px;
+								left: 0;
+							}
+						}
+
+						&.magnify.d-flex {
+							svg {
+								position: relative;
+								top: -3px;
+								left: 1px;
+
+								&.larger {
+									font-size: 1.1em;
+								}
+							}
+						}
+
+						&.closer {
+							width: 10%;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+/***** SEARCH RESULTS ******/
+section#search-results {
+	#feed {
+		overflow-y: auto;
+		height: 80vh;
+
+		.results_block {
+			h6.block_heading {
+				display: block;
+				background: $grey_light;
+				color: #444;
+				font-weight: 600;
+			}
+
+			.view_all {
+				display: block;
+				font-size: 0.85em;
+
+				a {
+					color: $green;
+				}
+			}
+		}
+	}
+}
