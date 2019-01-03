@@ -39,21 +39,15 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 
 	toggleFollowExchange: (exchangeId) =>
 		if @inFollwedExchanges(exchangeId)
-			@unfollow(exchangeId)
+			@unfollowExchange exchangeId, =>
+				@userExchanges = _.filter @userExchanges, (item) =>
+					 item isnt exchangeId
 		else
-			@follow(exchangeId)
+			@followExchange exchangeId, =>
+				@userExchanges.push exchangeId
 
 	inFollwedExchanges: (exchangeId) =>
 		_.contains @userExchanges, exchangeId
-
-	follow: (exchangeId) =>
-		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
-			@userExchanges.push exchangeId
-
-	unfollow: (exchangeId) =>
-		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
-			@userExchanges = _.filter @userExchanges, (item) =>
-				 item isnt exchangeId
 
 	loadMore: =>
 		@getArticles()

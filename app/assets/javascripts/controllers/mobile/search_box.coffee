@@ -1,4 +1,4 @@
-class TheArticle.Search extends TheArticle.DesktopPageController
+class TheArticle.SearchBox extends TheArticle.MobilePageController
 
 	@register window.App
 	@$inject: [
@@ -6,7 +6,6 @@ class TheArticle.Search extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
-	  'EditorsPick'
 	]
 
 	init: ->
@@ -38,16 +37,15 @@ class TheArticle.Search extends TheArticle.DesktopPageController
 	toggleSearch: =>
 		$box = $('#search_box')
 		if $box.is(':hidden')
-			$('#ads_top').slideUp(200)
 			$box.slideDown(200)
-			$('body, html').scrollTop(0)
 			$box.find('input[name=query]').focus()
-			$('main#main_content').hide()
+			$('#ads_top').hide()
+			$('.wrapper').addClass('no-scroll')
 			@getSearchSuggestions() unless @scope.search.suggestions.loaded
 		else
 			$box.slideUp(200)
-			$('#ads_top').slideDown(200)
-			$('main#main_content').show()
+			$('#ads_top').show()
+			$('.wrapper').removeClass('no-scroll')
 
 	getSearchSuggestions: =>
 		if @scope.search.query.length > 1
@@ -71,4 +69,4 @@ class TheArticle.Search extends TheArticle.DesktopPageController
 		@scope.search.suggestions.data[list] = _.filter @scope.search.suggestions.data[list], (item) =>
 			item.term isnt searchItem.term
 
-TheArticle.ControllerModule.controller('SearchController', TheArticle.Search)
+TheArticle.ControllerModule.controller('SearchBoxController', TheArticle.SearchBox)

@@ -4,6 +4,10 @@ class Exchange < ApplicationRecord
   mount_uploader :image, ExchangeImageUploader
   has_and_belongs_to_many  :users
 
+  def is_followed_by(user)
+    self.users.map(&:id).include?(user.id)
+  end
+
   def self.sponsored_exchange
     find_by(slug: 'sponsored')
   end

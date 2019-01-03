@@ -7,8 +7,8 @@ ThinkingSphinx::Index.define :article, :with => :real_time do
   indexes exchange_names, as: :exchange_name
   indexes keyword_tags_names,  as: :tag_name
 
-  # # attributes
+  # attributes
+  has published_at, type: :timestamp
   # has author_id,  :type => :integer
-  # has created_at, :type => :timestamp
   # has updated_at, :type => :timestamp
 end

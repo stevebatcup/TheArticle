@@ -1,0 +1,39 @@
+<div class="card py-2 px-2 mb-2">
+	<div class="align-items-start d-flex">
+
+		<a href="{{ exchange.path }}">
+			<img ng-src="{{exchange.image}}" class="rounded-circle feed_image" alt="{{exchange.name}}" />
+		</a>
+
+		<div class="w-100">
+			<div class="d-flex align-items-start justify-content-between">
+				<div class="pr-2">
+					<h5 class="card-title d-flex justify-content-between mb-1">
+						<a href="{{ exchange.path }}">
+							<span>{{ exchange.name }}</span>
+						</a>
+					</h5>
+
+					<p class="card-text">
+						<a href="{{ exchange.path }}">
+							<small>{{ exchange.blurb }}</small>
+						</a>
+					</p>
+
+				</div>
+
+				<% if user_signed_in? %>
+				<button class="mt-1 btn follow_btn follow_exchange"
+								ng-class="{ 'btn-outline-dark': !exchange.imFollowing, 'btn-dark': exchange.imFollowing }"
+								ng-click="toggleFollowExchangeFromCard(exchange, $event)">
+					<i class="fas fa-plus-square mr-1"></i>
+					<span ng-show="exchange.imFollowing">Following</span>
+					<span ng-show="!exchange.imFollowing">Follow</span>
+				</button>
+				<% end %>
+			</div>
+
+		</div>
+
+	</div>
+</div>

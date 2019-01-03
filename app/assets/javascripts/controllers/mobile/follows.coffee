@@ -65,14 +65,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 					followingItem.imFollowing = true
 				if followerItem = _.findWhere @scope.follows.followers, { id: member.id }
 					followerItem.imFollowing = true
-
-	followUser: (userId, callback) =>
-		@http.post("/user_followings", {id: userId}).then (response) =>
-			callback.call(@)
-
-	unfollowUser: (userId, callback) =>
-		@http.delete("/user_followings/#{userId}").then (response) =>
-			callback.call(@)
+			, false
 
 	setPanelTab: (tab) =>
 		@scope.panelTab = tab

@@ -28,9 +28,6 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 				@scope.suggestions.populars = _.filter @scope.suggestions.populars, (item) =>
 					item.id isnt member.id
 			, 750
-
-	followUser: (userId, callback) =>
-		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
-			callback.call(@)
+		, true
 
 TheArticle.ControllerModule.controller('SuggestionsController', TheArticle.Suggestions)

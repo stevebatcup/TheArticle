@@ -1,4 +1,4 @@
-class TheArticle.Search extends TheArticle.MobilePageController
+class TheArticle.SearchBox extends TheArticle.DesktopPageController
 
 	@register window.App
 	@$inject: [
@@ -38,15 +38,16 @@ class TheArticle.Search extends TheArticle.MobilePageController
 	toggleSearch: =>
 		$box = $('#search_box')
 		if $box.is(':hidden')
+			$('#ads_top').slideUp(200)
 			$box.slideDown(200)
+			$('body, html').scrollTop(0)
 			$box.find('input[name=query]').focus()
-			$('#ads_top').hide()
-			$('.wrapper').addClass('no-scroll')
+			$('main#main_content').hide()
 			@getSearchSuggestions() unless @scope.search.suggestions.loaded
 		else
 			$box.slideUp(200)
-			$('#ads_top').show()
-			$('.wrapper').removeClass('no-scroll')
+			$('#ads_top').slideDown(200)
+			$('main#main_content').show()
 
 	getSearchSuggestions: =>
 		if @scope.search.query.length > 1
@@ -70,4 +71,4 @@ class TheArticle.Search extends TheArticle.MobilePageController
 		@scope.search.suggestions.data[list] = _.filter @scope.search.suggestions.data[list], (item) =>
 			item.term isnt searchItem.term
 
-TheArticle.ControllerModule.controller('SearchController', TheArticle.Search)
+TheArticle.ControllerModule.controller('SearchBoxController', TheArticle.SearchBox)

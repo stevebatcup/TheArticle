@@ -150,14 +150,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		else
 			@followUser member.id, =>
 				member.imFollowing = true
-
-	followUser: (userId, callback) =>
-		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
-			callback.call(@)
-
-	unfollowUser: (userId, callback) =>
-		@http.delete("/user_followings/#{userId}").then (response) =>
-			callback.call(@)
+			, true
 
 	finishedWizard: =>
 		new @MyProfile(@scope.user).create().then (response) =>

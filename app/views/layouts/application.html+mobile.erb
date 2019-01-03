@@ -55,7 +55,7 @@
         </div>
 
         <div class="col-3 align-items-center">
-          <% if user_signed_in? %>
+          <% if user_signed_in? && params[:controller] != 'search' %>
             <div ng-show="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
               <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>

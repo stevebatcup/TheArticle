@@ -35,6 +35,9 @@ class TheArticle.PageController extends TheArticle.NGController
 	trustSrc: (src) =>
 		@sce.trustAsResourceUrl(src)
 
+	trustHtml: (html) =>
+		@sce.getTrustedHtml(html)
+
 	bindCookieAcceptance: =>
 		$('#cn-accept-cookie').on 'click', (e) =>
 			$.getJSON '/cookie-acceptance', (response) =>
@@ -191,4 +194,18 @@ class TheArticle.PageController extends TheArticle.NGController
 	setCsrfTokenHeaders: ->
 		@http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
 
+	followUser: (userId, callback, from_suggestion=false) =>
+		@http.post("/user_followings", {id: userId, from_suggestion: from_suggestion}).then (response) =>
+			callback.call(@)
 
+	unfollowUser: (userId, callback) =>
+		@http.delete("/user_followings/#{userId}").then (response) =>
+			callback.call(@)
+
+	followExchange: (exchangeId, callback) =>
+		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
+			callback.call(@)
+
+	unfollowExchange: (exchangeId, callback) =>
+		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
+			callback.call(@)

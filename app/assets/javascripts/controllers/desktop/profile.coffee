@@ -211,6 +211,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		else
 			@followUser userId, =>
 				@scope.profile.data.imFollowing = true
+			, false
 
 	toggleFollowUserFromCard: (member) =>
 		if member.imFollowing
@@ -224,14 +225,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 			@followUser member.id, =>
 				member.imFollowing = true
 				@scope.profile.data.followings.push member
-
-	followUser: (userId, callback) =>
-		@http.post("/user_followings", {id: userId}).then (response) =>
-			callback.call(@)
-
-	unfollowUser: (userId, callback) =>
-		@http.delete("/user_followings/#{userId}").then (response) =>
-			callback.call(@)
+			, false
 
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

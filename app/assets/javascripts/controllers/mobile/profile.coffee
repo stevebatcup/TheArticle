@@ -218,19 +218,12 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 	toggleFollowUser: =>
 		if @scope.profile.data.imFollowing
-			@unfollowUser()
+			@unfollowUser @scope.profile.data.id, =>
+				@scope.profile.data.imFollowing = false
 		else
-			@followUser()
-
-	followUser: =>
-		userId = @scope.profile.data.id
-		@http.post("/user_followings", {id: userId}).then (response) =>
-			@scope.profile.data.imFollowing = true
-
-	unfollowUser: =>
-		userId = @scope.profile.data.id
-		@http.delete("/user_followings/#{userId}").then (response) =>
-			@scope.profile.data.imFollowing = false
+			@followUser @scope.profile.data.id, =>
+				@scope.profile.data.imFollowing = true
+			, false
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'
