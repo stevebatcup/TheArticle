@@ -154,3 +154,9 @@
 		}
 	}
 }
+
+#feed {
+	.tab-content > .active {
+    display: flex;
+  }
+}

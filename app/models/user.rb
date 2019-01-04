@@ -92,4 +92,8 @@ class User < ApplicationRecord
       nil
     end
   end
+
+  def highly_rated_articles
+    self.shares.where("rating_well_written > 6 AND rating_valid_points > 6 AND rating_agree > 6 ")
+  end
 end

@@ -13,6 +13,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	]
 
 	init: ->
+		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
 		@scope.profile =
 			isMe: window.location.pathname is "/my-profile"
@@ -47,6 +48,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				username: false
 				photo: false
 		@bindEvents()
+		@detectPanelOpeners() if 'panel' of @getVars
 		if @scope.profile.isMe is true
 			@getMyProfile @getUserExchanges
 		else
@@ -67,6 +69,17 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
+
+	detectPanelOpeners: =>
+		if @getVars['panel'] is 'following'
+			@timeout =>
+				$('#activity-following-tab').click()
+			, 750
+		else if @getVars['panel'] is 'followers'
+			@timeout =>
+				$('#activity-followers-tab').click()
+			, 750
+
 
 	getUserExchanges: =>
 		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"

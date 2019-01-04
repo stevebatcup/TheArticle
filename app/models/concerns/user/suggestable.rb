@@ -20,7 +20,7 @@ module User::Suggestable
     # Following same exchanges
     self.exchanges.each do |exchange|
       exchange.users.where.not(id: existing_ids).limit(10).each do |exchange_user|
-        results << { user_id: exchange_user.id, reason: "exchange_#{exchange.id} "}
+        results << { user_id: exchange_user.id, reason: "exchange_#{exchange.id}" }
         existing_ids << exchange_user.id
       end
     end
@@ -36,13 +36,23 @@ module User::Suggestable
       self.followings.limit(10).each do |following|
         following_user = following.followed
         following_user.followings.where.not(followed_id: existing_ids).limit(2).each do |their_following|
-          results << { user_id: their_following.followed.id, reason: "popular_with_following_#{following_user.id} "}
+          results << { user_id: their_following.followed.id, reason: "popular_with_following_#{following_user.id}" }
           existing_ids << their_following.followed.id
         end
       end
-    end
 
-    # TODO: Same articles rated highly
+      # Same articles rated highly
+      self.highly_rated_articles.each do |share|
+        other_sharers = share.article.shares
+                          .where.not(user_id: existing_ids)
+                          .where("rating_well_written > 6 AND rating_valid_points > 6 AND rating_agree > 6 ")
+                          .map(&:user)
+        other_sharers.each do |os|
+          results << { user_id: os.id, reason: "also_highly_rated_article_#{share.article.id}" }
+          existing_ids << os.id
+        end
+      end
+    end
 
     # TODO: Same location
 
