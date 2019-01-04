@@ -52,6 +52,7 @@
 
 	<div class="row pt-3">
 		<section class="col-3 pl-0" id="callouts_left">
+			<% unless user_signed_in? %>
 			<div class="card w-100 mb-3">
 				<div class="card-header">
 					<h5 class="card-title">New to TheArticle?</h5>
@@ -61,12 +62,28 @@
 			    <a href="<%= new_user_registration_path %>" class="btn btn-success btn-block">Register</a>
 				</div>
 			</div>
+			<% end %>
 
 			<div class="card w-100">
 				<div class="card-header">
 					<h5 class="card-title">Trending exchanges</h5>
 				</div>
 				<div class="card-body">
+					<% @trending_exchanges.each do |exchange| %>
+						<div class="d-flex align-items-center justify-content-start mb-2 feed-listing">
+								<a href="<%= exchange_path(slug: exchange.slug) %>">
+									<img ng-src="<%= exchange.image %>" class="rounded feed_image" alt="<%=exchange.name%>" />
+								</a>
+
+								<div class="inner">
+									<h4 class="card-title mb-0">
+										<a href="<%= exchange_path(slug: exchange.slug) %>">
+											<span><%= exchange.name %></span>
+										</a>
+									</h4>
+								</div>
+							</div>
+					<% end %>
 				</div>
 			</div>
 		</section>
@@ -131,12 +148,40 @@
 			</div>
 		</section>
 
-		<section class="col-3 pr-0" id="callouts_right">
+		<section class="col-3 pr-0" id="trending_articles">
 			<div class="card w-100 mb-3">
 				<div class="card-header">
 					<h5 class="card-title">Trending articles</h5>
 				</div>
 				<div class="card-body">
+					<% @trending_articles.each do |ta| %>
+						<article class="row mt-3 px-0<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+							<div class="col-12">
+								<% if(ta.is_sponsored?) %>
+									<a href='/sponsors' class="sponsored">
+										<i class="fas fa-star"></i>
+										SPONSORED
+									</a>
+								<% end %>
+								<h5 class="">
+									<a href="<%= article_path(ta) %>">
+										<%= ta.title.html_safe %>
+									</a>
+								</h5>
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+									<p class="author_link">
+										<a href="<%= contributor_path(slug: ta.author.slug) %>">
+											by <span><%= ta.author.display_name %></span>
+										</a>&nbsp;
+										<span class="entry-date">
+											<%= article_date(ta) %>
+										</span>
+									</p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
 				</div>
 			</div>
 		</section>

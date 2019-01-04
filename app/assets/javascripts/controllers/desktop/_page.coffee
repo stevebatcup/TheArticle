@@ -98,16 +98,17 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 	bindFixedNavScrolling: =>
 		$win = $(window)
 		$header = $('header#main_header')
-		$headerPosition = Math.round $header.position().top
-		offset = 20
-		$win.on 'scroll', =>
-			scrollTop = document.scrollingElement.scrollTop
-			if scrollTop  >= $headerPosition
-				$('body').addClass('fixed-header')
-			else
-				$('body').removeClass('fixed-header')
+		if $header.length
+			$headerPosition = Math.round $header.position().top
+			offset = 20
+			$win.on 'scroll', =>
+				scrollTop = document.scrollingElement.scrollTop
+				if scrollTop  >= $headerPosition
+					$('body').addClass('fixed-header')
+				else
+					$('body').removeClass('fixed-header')
 
-			if scrollTop >= $headerPosition + offset
-				$header.addClass('short') unless $header.hasClass('short')
-			else
-				$header.removeClass('short')
+				if scrollTop >= $headerPosition + offset
+					$header.addClass('short') unless $header.hasClass('short')
+				else
+					$header.removeClass('short')

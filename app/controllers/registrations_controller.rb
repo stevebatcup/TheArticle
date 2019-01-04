@@ -1,9 +1,12 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, :only => [:create]
   after_action  :generate_profile_suggestions, :only => [:create]
+  layout	'profile-wizard'
 
   def generate_profile_suggestions
-  	ProfileSuggestionsGeneratorJob.perform_later(resource, true, 10)
+  	unless resource.id.nil?
+	  	ProfileSuggestionsGeneratorJob.perform_later(resource, true, 10)
+	  end
   end
 
   protected

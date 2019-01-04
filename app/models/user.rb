@@ -1,9 +1,9 @@
 class User < ApplicationRecord
   POPULAR_FOLLOW_COUNT = 5
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable and :omniauthable
+  # :lockable, :timeoutable and :omniauthable, :rememberable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+         :recoverable, :validatable,
          :confirmable, :trackable
 
   validates_presence_of	:first_name, :last_name, on: :create

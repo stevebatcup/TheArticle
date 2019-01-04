@@ -1,17 +1,13 @@
 <% page_title "Register" %>
 
-<section ng-controller="AuthController">
-  <div id="content-page">
-    <header class="entry-header">
-      <h1 class="mb-0">
-        <div class="container">
-          Register
-        </div>
-      </h1>
-    </header>
-  </div>
+<section ng-controller="AuthController" class="auth">
+  <div class="container pt-4 pt-lg-4 pb-4">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="mb-3 text-center">Join now – it's free</h2>
+      </div>
+    </div>
 
-  <div class="container pt-4 pt-lg-5 pb-4">
     <div class="row">
       <div class="col-0 col-md-3"></div>
       <div class="col-0 col-md-6">
@@ -51,12 +47,19 @@
           <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: '' %>
         </div>
 
+        <div class="form-group checker">
+          <label>
+            <input type="checkbox" name="tandc" id="tandc" required='true' />
+            <small>I am over 16 and agree to TheArticle Terms & Conditions and Privacy Policy</small>
+          </label>
+        </div>
+
         <div class="actions">
-          <%= f.submit "Register now", class: "btn text-white bg-blue my-3" %>
+          <%= f.submit "Join", class: "btn btn-success btn-block text-white my-3" %>
         </div>
       <% end %>
 
-      <%= render "devise/shared/links" %>
+      <p>Already have an account with <b>TheArticle</b>?  <a href="<%= new_user_session_path %>">Sign in here</a>.</p>
       </div>
       <div class="col-0 col-md-3"></div>
     </div>

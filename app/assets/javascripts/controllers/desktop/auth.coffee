@@ -4,9 +4,6 @@ class TheArticle.Auth extends TheArticle.DesktopPageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
-	  '$timeout'
-	  'EditorsPick'
 	]
 
 	init: ->

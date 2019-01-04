@@ -183,12 +183,8 @@
 						<span ng-if="profile.data.isMe">You are not following any exchanges</span>
 						<span ng-if="!profile.data.isMe">Not following any exchanges</span>
 					</p>
-					<div ng-repeat="exchange in profile.data.exchanges" class="feed-listing feed-exchange d-flex align-items-start pt-2 py-2">
-						<img ng-src="{{exchange.img}}" class="rounded feed_image" alt="{{exchange.name}}" />
-						<div class="feed_text">
-							<h5>{{ exchange.name }}</h5>
-							<p>{{ exchange.excerpt }}</p>
-						</div>
+					<div ng-repeat="exchange in profile.data.exchanges" class="col-6 feed-listing feed-exchange d-flex align-items-start mb-1 pb-2 px-1">
+						<%= render 'exchanges/card' %>
 					</div>
 				</div>
 			</div>
@@ -245,7 +241,35 @@
 				<div class="card-header">
 					<h5 class="card-title">Trending articles</h5>
 				</div>
-				<div class="card-body">
+				<div class="card-body pt-1">
+					<% @trending_articles.each do |ta| %>
+						<article class="row mt-3 px-0<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+							<div class="col-12">
+								<% if(ta.is_sponsored?) %>
+									<a href='/sponsors' class="sponsored">
+										<i class="fas fa-star"></i>
+										SPONSORED
+									</a>
+								<% end %>
+								<h5 class="">
+									<a href="<%= article_path(ta) %>">
+										<%= ta.title.html_safe %>
+									</a>
+								</h5>
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+									<p class="author_link">
+										<a href="<%= contributor_path(slug: ta.author.slug) %>">
+											by <span><%= ta.author.display_name %></span>
+										</a>&nbsp;
+										<span class="entry-date">
+											<%= article_date(ta) %>
+										</span>
+									</p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
 				</div>
 			</section>
 		</div>
