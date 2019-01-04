@@ -38,18 +38,20 @@ Rails.application.routes.draw do
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile/:id',                        to: 'users#update'
 
-  get 'user_followings',                        to: 'user_followings#index'
-  get 'user_followings/:id',                    to: 'user_followings#index'
-  post 'user_followings',                       to: 'user_followings#create'
-  delete 'user_followings/:id',                 to: 'user_followings#destroy'
-  get 'follow-suggestions',                     to: 'profile_suggestions#index'
-  get 'suggestion-search',                      to: 'profile_suggestions#index'
+  get 'user_followings',                       to: 'user_followings#index'
+  get 'user_followings/:id',                   to: 'user_followings#index'
+  post 'user_followings',                      to: 'user_followings#create'
+  delete 'user_followings/:id',                to: 'user_followings#destroy'
+  get 'follow-suggestions',                    to: 'profile_suggestions#index'
+  get 'suggestion-search',                     to: 'profile_suggestions#index'
 
   get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following
   get 'followers',                             to: 'follows#index', mode: :followers
   get 'follow-suggestions',                    to: 'follows#index', mode: :suggestions
   get 'account-settings',                      to: 'account_settings#edit'
+
+  post 'share',                                to: 'shares#create', as: :share
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

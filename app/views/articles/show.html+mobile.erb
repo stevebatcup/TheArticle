@@ -33,13 +33,24 @@
 						<span class="entry-date"><%= @article.author.twitter_handle %></span>
 					</div>
 				</div>
+
+				<% if @article.ratings %>
+				<div class="member_ratings">
+					<h5>Member ratings</h5>
+					<ul class="d-flex">
+						<li>Well written: <span class="rating"><%= @article.ratings[:well_written] %></span></li>
+						<li>Valid points: <span class="rating"><%= @article.ratings[:valid_points] %></span></li>
+						<li>Agree with arguments: <span class="rating"><%= @article.ratings[:agree] %></span></li>
+					</ul>
+				</div>
+				<% end %>
 			</header>
 
-			<div class="row">
-				<div class="col-12 mt-0 d-flex share_links">
-					<%= render 'common/share-buttons' %>
-				</div>
+			<div class="mt-0 mb-3 d-flex share_links">
+				<%= render 'common/share-buttons' %>
+			</div>
 
+			<div class="row">
 				<div class="col-12 pb-3 mb-2">
 					<div id="img_box" class="mb-4">
 						<% if @article.image? %>
@@ -60,7 +71,7 @@
 
 					<footer class="row pl-0 mt-3 mb-4">
 						<div class="col-12 c" id="twitter_follow_col">
-							<a class="btn btn-primary text-white text-case-inherit w-75 d-block mx-auto mt-2"
+							<a class="btn btn-primary btn-block text-white text-case-inherit mx-auto mt-2"
 									href="https://twitter.com/TweetTheArticle">
 									<i class="fab fa-twitter"></i>
 									<span class="ml-2">Follow TheArticle</span>
@@ -143,3 +154,9 @@
 		<% end %>
 	</div>
 </section>
+
+<% if user_signed_in? %>
+<script id="sharingPanel" type="script/x-mustache">
+	<%= render partial: 'articles/sharing-panel_modal', locals: { article: @article, article_share: @article_share } %>
+</script>
+<% end %>

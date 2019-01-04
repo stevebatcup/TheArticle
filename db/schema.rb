@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_02_114241) do
+ActiveRecord::Schema.define(version: 2019_01_04_121302) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -145,6 +145,19 @@ ActiveRecord::Schema.define(version: 2019_01_02_114241) do
     t.datetime "updated_at", null: false
     t.index ["term"], name: "index_search_logs_on_term"
     t.index ["user_id"], name: "index_search_logs_on_user_id"
+  end
+
+  create_table "shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "article_id"
+    t.integer "rating_well_written"
+    t.integer "rating_valid_points"
+    t.integer "rating_agree"
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_shares_on_article_id"
+    t.index ["user_id"], name: "index_shares_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

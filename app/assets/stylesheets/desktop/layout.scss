@@ -576,6 +576,9 @@ footer.entry-footer {
 	font-size: 0.7em;
 	font-weight: 600;
 	color: $grey;
+	position: relative;
+	top: 9px;
+
 
 	a {
 		color: $grey;
@@ -673,123 +676,6 @@ footer.entry-footer {
 		.inner, footer {
 			background: #fff;
 		}
-	}
-}
-
-.article_detail {
-	.entry-header  {
-		.share_links {
-			position: relative;
-			left: 64px;
-		}
-	}
-
-	#content_box {
-		& > p {
-			line-height: 1.5em;
-		}
-
-		// & > p:first-child {
-  //   	font-size: 1.15em;
-  //   	font-weight: 500;
-  //   	line-height: 1.6em;
-  //   	margin-bottom: 1.8em;
-		// }
-
-		.wp-caption-text {
-			font-size: 0.9em;
-	    font-weight: 500;
-	    position: relative;
-	    top: -1em;
-	    font-style: italic;
-		}
-
-		blockquote {
-			font-size: 1.25em;
-			font-weight: 500;
-			line-height: 1.9em;
-			margin: 2.7em 0;
-			font-style: italic;
-			color: #000;
-		}
-
-		.wp-caption {
-			max-width: 100%;
-
-			&.aligncenter {
-				margin: 30px auto 0;
-				clear: both;
-			}
-		}
-
-		img {
-			max-width: 100%;
-			display: block;
-			margin: 18px 0;
-			// height: auto;
-		}
-	}
-
-	.share_links {
-		& > div {
-			position: relative;
-			top: -10px;
-			left: 10px;
-
-			p {
-				font-size: 0.7em;
-		    font-weight: 600;
-		    color: $grey_dark;
-		    text-align: right;
-		    line-height: 2.4em;
-		    position: relative;
-        top: 4px;
-			}
-
-			a {
-				padding: 4px 1em 5px !important;
-				width: 100%;
-				font-size: 1em;
-
-				svg {
-					position: relative;
-					left: -2px;
-				}
-			}
-		}
-	}
-
-	p#article_exchanges {
-		margin-botom: 5px;
-
-		.exchange-badge {
-			margin-right: 12px;
-		}
-	}
-
-	h1.entry-title {
-		font-size: 3.3em;
-	}
-
-	#img_box {
-		position: relative;
-
-		p.caption {
-			margin: 0;
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			background: rgba(0,0,0,0.25);
-			padding: 3px 8px;
-			color: #bcbcbc;
-			font-size: 0.7em;
-			text-align: right;
-		}
-	}
-
-	.sidebar_inner {
-		width: 300px;
-		margin: 36px auto;
 	}
 }
 

@@ -52,47 +52,47 @@ class TheArticle.PageController extends TheArticle.NGController
 	cookieAcceptanceError: =>
 		@alert "Sorry there has been an error. Please try again.", "Error"
 
-	bindJoinForm: =>
-		$("#join_form_modal").on 'shown.bs.modal', =>
-			$('.wrapper, #ads_top').hide()
+	# bindJoinForm: =>
+	# 	$("#join_form_modal").on 'shown.bs.modal', =>
+	# 		$('.wrapper, #ads_top').hide()
 
-		$("#join_form_modal").on 'hide.bs.modal', =>
-			$('.wrapper, #ads_top').show()
+	# 	$("#join_form_modal").on 'hide.bs.modal', =>
+	# 		$('.wrapper, #ads_top').show()
 
-		$form = $('#join_form')
-		$('#join_button', $form).on 'click', (e) =>
-			e.preventDefault()
-			$('p#form_error', $form).text('').hide()
-			error = false
-			$('.has_error', $form).removeClass('has_error')
-			if $form.find('input[name=first_name]').val().length is 0
-				$form.find('input[name=first_name]').addClass('has_error')
-				error = "Please fill in your first name"
-			if $form.find('input[name=last_name]').val().length is 0
-				$form.find('input[name=last_name]').addClass('has_error')
-				error = "Please fill in your last name" unless error
-			if !@isValidEmailAddress $form.find('input[name=email]').val()
-				$form.find('input[name=email]').addClass('has_error')
-				error = "Please fill in a valid email address" unless error
-			if !$form.find('input[name=tandcs]').is(':checked')
-				$form.find('input[name=tandcs]').parent().addClass('has_error')
-				error = "Please agree to our terms and conditions before proceeding" unless error
+	# 	$form = $('#join_form')
+	# 	$('#join_button', $form).on 'click', (e) =>
+	# 		e.preventDefault()
+	# 		$('p#form_error', $form).text('').hide()
+	# 		error = false
+	# 		$('.has_error', $form).removeClass('has_error')
+	# 		if $form.find('input[name=first_name]').val().length is 0
+	# 			$form.find('input[name=first_name]').addClass('has_error')
+	# 			error = "Please fill in your first name"
+	# 		if $form.find('input[name=last_name]').val().length is 0
+	# 			$form.find('input[name=last_name]').addClass('has_error')
+	# 			error = "Please fill in your last name" unless error
+	# 		if !@isValidEmailAddress $form.find('input[name=email]').val()
+	# 			$form.find('input[name=email]').addClass('has_error')
+	# 			error = "Please fill in a valid email address" unless error
+	# 		if !$form.find('input[name=tandcs]').is(':checked')
+	# 			$form.find('input[name=tandcs]').parent().addClass('has_error')
+	# 			error = "Please agree to our terms and conditions before proceeding" unless error
 
-			if error
-				$('p#form_error', $form).text(error).show()
-			else
-				@postJSON "/register",
-					first_name: $form.find('input[name=first_name]').val()
-					last_name: $form.find('input[name=last_name]').val()
-					email: $form.find('input[name=email]').val()
-				, (response) =>
-					gtag('event', 'Join', { event_category: 'Join', event_action: 'JoinRequest', event_label: 'form'}) if typeof gtag is 'function'
-					msg = "Thanks for registering your details with TheArticle."
-					$('.form_ready').hide()
-					$('#form_success').text(msg).show()
-					$('#form_close').show()
-				, (response) =>
-					$('p#form_error', $form).text(response.message).show()
+	# 		if error
+	# 			$('p#form_error', $form).text(error).show()
+	# 		else
+	# 			@postJSON "/register",
+	# 				first_name: $form.find('input[name=first_name]').val()
+	# 				last_name: $form.find('input[name=last_name]').val()
+	# 				email: $form.find('input[name=email]').val()
+	# 			, (response) =>
+	# 				gtag('event', 'Join', { event_category: 'Join', event_action: 'JoinRequest', event_label: 'form'}) if typeof gtag is 'function'
+	# 				msg = "Thanks for registering your details with TheArticle."
+	# 				$('.form_ready').hide()
+	# 				$('#form_success').text(msg).show()
+	# 				$('#form_close').show()
+	# 			, (response) =>
+	# 				$('p#form_error', $form).text(response.message).show()
 
 	bindContactForm: =>
 		$form = $('#contact_form')

@@ -6,7 +6,7 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
-	  'EditorsPick'
+	  '$compile'
 	]
 
 	init: ->

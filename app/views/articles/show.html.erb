@@ -13,8 +13,8 @@
 				</p>
 				<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
 
-				<div id="article_meta" class="mt-0 mt-lg-2 mb-md-3 row px-3">
-					<div class="col-12 col-lg-6 pr-0 pr-md-0 pr-lg-3 author_link row">
+				<div id="article_meta" class="mt-0 mt-lg-2 mb-md-3 px-3 d-flex justify-content-between">
+					<div class="pr-0 pr-md-0 pr-lg-3 author_link row">
 						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
 							<% if @article.author.image? %>
 								<img src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name %>" />
@@ -34,15 +34,26 @@
 						<span class="mx-1 mx-md-2 mx-xl-3">|</span>
 						<span class="entry-date"><%= article_date(@article) %></span>
 					</div>
-					<div class="d-none d-xl-flex col-xl-1">&nbsp;</div>
-					<div class="d-none d-lg-flex col-lg-6 col-xl-5 share_links">
+
+					<div class="d-none d-lg-flex share_links">
 						<%= render 'common/share-buttons' %>
 					</div>
 				</div>
+
+				<% if @article.ratings %>
+				<div class="member_ratings">
+					<h5>Member ratings</h5>
+					<ul class="d-flex">
+						<li>Well written: <span class="rating"><%= @article.ratings[:well_written] %></span></li>
+						<li>Valid points: <span class="rating"><%= @article.ratings[:valid_points] %></span></li>
+						<li>Agree with arguments: <span class="rating"><%= @article.ratings[:agree] %></span></li>
+					</ul>
+				</div>
+				<% end %>
 			</header>
 
 			<div class="row">
-				<div class="col-12 col-md-7 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
+				<div class="col-12 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
 					<div id="img_box" class="mb-4">
 						<% if @article.image? %>
 							<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
@@ -60,15 +71,15 @@
 						<% end %>
 					</div>
 
-					<footer class="entry-footer row pl-0 mt-5">
-						<div class="col-12 col-md-5" id="twitter_follow_col">
+					<footer class="entry-footer pl-0 mt-5 d-flex justify-content-between">
+						<div class="" id="twitter_follow_col">
 							<a class="btn btn-primary text-white text-case-inherit"
 									href="https://twitter.com/TweetTheArticle">
 									<i class="fab fa-twitter"></i>
 									<span class="ml-2">Follow TheArticle</span>
 							</a>
 						</div>
-						<div class="col-12 col-md-0 col-lg-7 pl-lg-5 d-flex share_links">
+						<div class="pl-lg-5 d-flex share_links">
 							<%= render 'common/share-buttons' %>
 						</div>
 					</footer>
@@ -88,7 +99,7 @@
 
 				</div>
 
-				<div class="col-12 col-md-5 col-lg-4" id="sidebar">
+				<div class="col-12 col-md-0 col-lg-4" id="sidebar">
 					<div class="sidebar_inner mt-0">
 						<div class="ads_box mx-auto align-middle">
 							<% if show_ads? %>
@@ -173,6 +184,14 @@
 		</article>
 	</div>
 
+	<header id="rate_this" class="black_heading pt-3 pb-2">
+		<div class="container text-center d-flex justify-content-center">
+			<h1 class="double-bullet text-white py-3">
+				<a href='#' class="text-white py-3" ng-click="openSharingPanel($event, 'ratings')">Rate this article</a>
+			</h1>
+		</div>
+	</header>
+
 	<% if @articles_in_same_exchange.any? %>
 		<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
 		<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
@@ -186,3 +205,9 @@
 
 	<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>
 </section>
+
+<% if user_signed_in? %>
+<script id="sharingPanel" type="script/x-mustache">
+	<%= render partial: 'articles/sharing-panel_modal', locals: { article: @article, article_share: @article_share } %>
+</script>
+<% end %>

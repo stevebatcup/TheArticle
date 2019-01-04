@@ -1,0 +1,136 @@
+.article_detail {
+
+	#content_box {
+		& > p {
+			line-height: 1.5em;
+		}
+
+		.wp-caption-text {
+			font-size: 0.9em;
+	    font-weight: 500;
+	    position: relative;
+	    top: -1em;
+	    font-style: italic;
+		}
+
+		blockquote {
+			font-size: 1.25em;
+			font-weight: 500;
+			line-height: 1.9em;
+			margin: 2.7em 0;
+			font-style: italic;
+			color: #000;
+		}
+
+		.wp-caption {
+			max-width: 100%;
+
+			&.aligncenter {
+				margin: 30px auto 0;
+				clear: both;
+			}
+		}
+
+		img {
+			max-width: 100%;
+			display: block;
+			margin: 18px 0;
+			// height: auto;
+		}
+	}
+
+	.share_links {
+		& > div {
+			p {
+				font-size: 0.7em;
+		    font-weight: 600;
+		    color: $grey;
+		    text-align: right;
+		    line-height: 2.4em;
+		    position: relative;
+        top: 4px;
+			}
+
+			a {
+				padding: 6px 0.5em 3px !important;
+				width: 50px;
+				font-size: 1em;
+				height: 35px;
+
+				&.thearticle_share {
+					background-image: asset_url('capital-a-bg-black.png');
+					background-repeat: no-repeat;
+					background-size: 36.5%;
+					background-position: center center;
+
+					&:hover {
+						background-image: asset_url('capital-a-bg-white.png');
+					}
+				}
+
+				svg {
+					position: relative;
+					left: -2px;
+				}
+			}
+		}
+	}
+
+	p#article_exchanges {
+		margin-botom: 5px;
+
+		.exchange-badge {
+			margin-right: 12px;
+		}
+	}
+
+	h1.entry-title {
+		font-size: 3.3em;
+	}
+
+	#img_box {
+		position: relative;
+
+		p.caption {
+			margin: 0;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			background: rgba(0,0,0,0.25);
+			padding: 3px 8px;
+			color: #bcbcbc;
+			font-size: 0.7em;
+			text-align: right;
+		}
+	}
+
+	.sidebar_inner {
+		width: 300px;
+		margin: 36px auto;
+	}
+
+	.member_ratings {
+		margin: 15px 0 22px;
+		width: 100%;
+		color: #000;
+
+		ul {
+			padding: 0;
+			margin: 0;
+
+			li {
+				font-weight: 500;
+				list-style: none;
+				margin-right: 18px;
+
+				span.rating {
+					background: #000;
+					font-size: 0.9em;
+					color: #fff;
+					padding: 1px 5px;
+					font-weight: normal;
+				}
+			}
+		}
+	}
+}

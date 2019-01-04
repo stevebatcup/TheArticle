@@ -4,9 +4,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
-	  '$timeout'
-	  'EditorsPick'
+	  '$compile'
 	]
 
 	init: ->

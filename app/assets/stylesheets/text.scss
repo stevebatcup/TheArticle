@@ -20,6 +20,25 @@ h2.bullet {
 	background-size: 0.7em;
 }
 
+h1.double-bullet {
+	background-image: url('heading-bg-large.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	padding-left: 95px;
+	background-size: 75px;
+	width: fit-content;
+
+	a {
+		background-image: url('heading-bg-large-reversed.png');
+		background-repeat: no-repeat;
+		background-position: right center;
+		padding-right: 95px;
+		background-size: 75px;
+	}
+}
+
+
+
 h2.underline {
 	padding-bottom: 6px;
 	border-bottom: 1px solid $grey;

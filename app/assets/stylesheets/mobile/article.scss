@@ -1,0 +1,138 @@
+.article_detail {
+	margin-top: 20px;
+
+	#twitter_follow_col {
+		margin-bottom: 15px;
+	}
+
+	#content_box {
+		& > p {
+			line-height: 1.5em;
+		}
+
+		blockquote {
+    	font-size: 1.15em;
+    	font-weight: 500;
+    	line-height: 1.8em;
+    	margin: 1.8em 0;
+			font-style: italic;
+		}
+
+		.wp-caption-text {
+			font-size: 0.9em;
+	    font-weight: 500;
+	    position: relative;
+	    top: -1em;
+	    font-style: italic;
+		}
+
+		.wp-caption {
+			max-width: 100%;
+
+			&.aligncenter {
+				margin: 20px auto 0;
+				clear: both;
+			}
+		}
+
+		img {
+			max-width: 100%;
+			display: block;
+			margin: 18px 0;
+			height: auto;
+		}
+	}
+
+	.share_links {
+		padding-top: 18px;
+
+		& > div {
+			p {
+				font-size: 0.7em;
+		    font-weight: 600;
+		    color: $grey;
+		    text-align: right;
+		    line-height: 2.4em;
+		    position: relative;
+        top: 4px;
+			}
+
+			a {
+				padding: 6px 0.5em 3px !important;
+				width: 40px;
+				font-size: 1em;
+				height: 35px;
+
+				&.thearticle_share {
+					background-image: asset_url('capital-a-bg-black.png');
+					background-repeat: no-repeat;
+					background-size: 40%;
+					background-position: center center;
+				}
+
+				svg {
+					position: relative;
+					left: -2px;
+				}
+			}
+		}
+	}
+
+	p#article_exchanges {
+		margin-bottom: 0;
+
+		.exchange-badge {
+			margin-right: 5px;
+		}
+	}
+
+	h1.entry-title {
+		font-size: 2em;
+	}
+
+	#img_box {
+		position: relative;
+
+		p.caption {
+			margin: 0;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			background: rgba(0,0,0,0.25);
+			padding: 3px 8px;
+			color: #bcbcbc;
+			font-size: 0.55em;
+			text-align: right;
+		}
+	}
+
+	.sidebar_inner {
+		width: 300px;
+		margin: 20px auto;
+	}
+
+	.member_ratings {
+		margin: 0 0 5px;
+		width: 100%;
+		color: #000;
+
+		ul {
+			padding: 0;
+			margin: 0;
+
+			li {
+				font-weight: 500;
+				list-style: none;
+				margin-right: 18px;
+
+				span.rating {
+					background: #000;
+					font-size: 0.9em;
+					color: #fff;
+					padding: 1px 5px;
+					font-weight: normal;
+				}
+			}
+		}
+	}
+}

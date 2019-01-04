@@ -5,7 +5,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 	bindEvents: =>
 		@bindCookieAcceptance()
 		@bindSideMenu()
-		@bindJoinForm()
+		# @bindJoinForm()
 		@bindContactForm()
 		@bindBlockClicks()
 		setTimeout @bindCarousels, 800
@@ -95,3 +95,14 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			dots: if $(window).width() <= 320 then true else false
 			arrows: false
 			centerMode: true
+
+	openSharingPanel: ($event, mode=null) =>
+		$event.preventDefault()
+		tpl = $("#sharingPanel").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#sharingPanelModal").modal()
+		if mode
+			@timeout =>
+				$("##{mode}_toggler").click()
+			, 500

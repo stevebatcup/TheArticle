@@ -3,8 +3,27 @@ class Article < ApplicationRecord
 	has_and_belongs_to_many	:exchanges
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
+	has_many :shares
 	after_destroy :update_all_article_counts
 	mount_uploader :image, ArticleImageUploader
+
+	def ratings
+		@ratings ||= begin
+			if self.shares.any?
+				{
+					well_written: format_rating_percentage(self.shares.average(:rating_well_written)),
+					valid_points: format_rating_percentage(self.shares.average(:rating_valid_points)),
+					agree: format_rating_percentage(self.shares.average(:rating_agree))
+				}
+			else
+				nil
+			end
+		end
+	end
+
+	def format_rating_percentage(avg)
+		(BigDecimal(avg * 10).to_i).to_s + "%"
+	end
 
 	def exchange_names
 		exchanges.collect(&:name).join(" ")

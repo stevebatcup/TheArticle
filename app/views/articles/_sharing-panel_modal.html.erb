@@ -1,0 +1,81 @@
+<div class="modal fade update_card_cetails" id="sharingPanelModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog medium" role="document">
+    <div class="modal-content"
+          ng-controller="SharingPanelController"
+          data-article-id="<%= article.id %>"
+          data-share-comments="<%= article_share['comments'] %>"
+          data-share-well_written="<%= article_share['rating_well_written'] %>"
+          data-share-valid_points="<%= article_share['rating_valid_points'] %>"
+          data-share-agree="<%= article_share['rating_agree'] %>">
+
+    	<div class="modal-header d-flex justify-content-between bg-grey">
+  			<h6 class="mb-2 mt-1">
+  				This will be posted on your public feed
+  			</h6>
+
+				<button data-dismiss="modal" class="btn btn-link close_share_modal">
+					<i class="fas fa-times"></i>
+				</button>
+
+    	</div>
+
+      <div class="modal-body px-4">
+
+        <p ng-show="formError" class="alert alert-danger">{{ formError }}</p>
+
+      	<h2 class="bullet">
+      		<a data-toggle="collapse" href="#comments_box" role="button" id="comments_toggler">Add comment</a>
+      	</h2>
+      	<div id="comments_box" class="collapse">
+      		<textarea name="comments" id="comments" placeholder="Add a comment..." ng-model="share.comments"></textarea>
+      	</div>
+
+      	<h2 class="bullet">
+      		<a data-toggle="collapse" href="#ratings_box" role="button" id="ratings_toggler">Rate article</a>
+      	</h2>
+      	<div id="ratings_box" class="collapse">
+      		<div class="inner">
+      			<div class="rating_section" id="well_written">
+      				<label for="well_written">Well written?</label>
+      				<input type="range" class="custom-range"
+                      ng-model="share.rating_well_written"
+                       min="1" max="10" />
+      				<div class="range_key d-flex justify-content-between">
+      					<small>Bad</small>
+      					<small>Great</small>
+      				</div>
+      			</div>
+
+      			<div class="rating_section" id="valid_points">
+      				<label for="valid_points">Valid points?</label>
+      				<input type="range" class="custom-range"
+                      ng-model="share.rating_valid_points"
+                      min="1" max="10" />
+      				<div class="range_key d-flex justify-content-between">
+      					<small>None</small>
+      					<small>Loads</small>
+      				</div>
+      			</div>
+
+      			<div class="rating_section" id="agree">
+      				<label for="agree">Agree with article?</label>
+      				<input type="range" class="custom-range"
+                      ng-model="share.rating_agree"
+                      min="1" max="10" />
+      				<div class="range_key d-flex justify-content-between">
+      					<small>No</small>
+      					<small>Yes</small>
+      				</div>
+      			</div>
+      		</div>
+      	</div>
+
+      	<div class="button_box justify-content-end d-flex py-3">
+      		<button class="btn btn-success px-4" ng-click="submitShare()">Submit</button>
+      	</div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

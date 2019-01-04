@@ -62,5 +62,12 @@ class ArticlesController < ApplicationController
 																										.where.not(id: @article.id)
 																										.limit(6)
 		end
+		@article_share = {
+			'comments' => '',
+			'rating_well_written' => 0,
+			'rating_valid_points' => 0,
+			'rating_agree' => 0
+		}
+		@article_share = current_user.article_share(@article).as_json if current_user.article_share(@article)
 	end
 end

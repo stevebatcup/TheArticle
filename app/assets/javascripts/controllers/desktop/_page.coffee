@@ -6,15 +6,15 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 	bindEvents: =>
 		@bindCookieAcceptance()
 		setTimeout @bindCarousels, 700
-		@bindJoinForm()
+		# @bindJoinForm()
 		@bindContactForm()
 		@bindListingHovers() unless @isTablet()
 		@bindBlockClicks()
 		@bindSearchFilters()
 		@bindFixedNavScrolling() if @isDevelopment()
 
-		$('#join_form_modal').on 'show.bs.modal', (e) =>
-			$('#search_box').slideUp(200) if $('#search_box').is(':visible')
+		# $('#join_form_modal').on 'show.bs.modal', (e) =>
+		# 	$('#search_box').slideUp(200) if $('#search_box').is(':visible')
 
 		$('#hidden_editors_picks').on 'shown.bs.collapse', (e) =>
 			@reLinePosts() unless @isTablet()
@@ -112,3 +112,14 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 					$header.addClass('short') unless $header.hasClass('short')
 				else
 					$header.removeClass('short')
+
+	openSharingPanel: ($event, mode=null) =>
+		$event.preventDefault()
+		tpl = $("#sharingPanel").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#sharingPanelModal").modal()
+		if mode
+			@timeout =>
+				$("##{mode}_toggler").click()
+			, 500

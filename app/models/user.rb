@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :followers, through: :fandoms, source: :user
 
   has_many :profile_suggestions
+  has_many :shares
 
   include Suggestable
 
@@ -81,5 +82,14 @@ class User < ApplicationRecord
           .where.not(id: excludes)
           .group("users.id")
           .having("count(follows.user_id) >= #{POPULAR_FOLLOW_COUNT}")
+  end
+
+  def article_share(article)
+    share = self.shares.where(article_id: article.id)
+    if share.any?
+      share.first
+    else
+      nil
+    end
   end
 end
