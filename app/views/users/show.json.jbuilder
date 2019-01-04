@@ -40,8 +40,30 @@ json.set! :profile do
 	end
 
 	# other resource data
-	json.shares 191
-	json.ratings 3
+	json.set! :shares do
+		json.array! @user.shares do |share|
+			json.id share.article.id
+			json.author share.article.author.display_name
+			json.snippet article_excerpt_for_listing(share.article, 120)
+			json.image share.article.image.url(:listing_mobile)
+			json.title strip_tags(share.article.title)
+			json.path article_path(share.article)
+		end
+	end
+
+	json.set! :ratings do
+		json.array! @user.shares do |share|
+			json.id share.article.id
+			json.isRatings true
+			json.author share.article.author.display_name
+			json.image share.article.image.url(:listing_mobile)
+			json.title strip_tags(share.article.title)
+			json.path article_path(share.article)
+			json.ratingWellWritten share.rating_well_written
+			json.ratingValidPoints share.rating_valid_points
+			json.ratingAgree share.rating_agree
+		end
+	end
 
 	# photos
 	json.profilePhoto do

@@ -24,7 +24,6 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				displayName: ""
 				username: ""
 				orginalUsername: ""
-				ratings: 0
 				followers: []
 				followings: []
 				exchanges: []
@@ -71,15 +70,9 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
 
 	detectPanelOpeners: =>
-		if @getVars['panel'] is 'following'
-			@timeout =>
-				$('#activity-following-tab').click()
-			, 750
-		else if @getVars['panel'] is 'followers'
-			@timeout =>
-				$('#activity-followers-tab').click()
-			, 750
-
+		@timeout =>
+			$("#activity-#{@getVars['panel']}-tab").click()
+		, 750
 
 	getUserExchanges: =>
 		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"

@@ -27,7 +27,6 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 				displayName: ""
 				username: ""
 				orginalUsername: ""
-				ratings: 0
 				followers: []
 				followings: []
 				exchanges: []
@@ -108,6 +107,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@MyProfile.get().then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
+				console.log @scope.profile.data
 				@scope.profile.loaded = true
 				callback.call(@) if callback?
 			, 750

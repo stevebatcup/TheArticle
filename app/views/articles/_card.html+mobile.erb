@@ -22,10 +22,21 @@
 			</div>
 
 			<div class="py-0 w-100">
-				<p class="card-text">
+				<p class="card-text" ng-if="article.snippet">
 					<a href="{{ article.path }}">
-						<small>{{ article.snippet }}</small></p>
+						<small>{{ article.snippet }}</small>
 					</a>
+				</p>
+
+				<div ng-if="article.isRatings" class="ratings mt-3">
+					<h5 class="mb-1 text-black">Your ratings:</h5>
+					<ul>
+						<li>- Well written: <b>{{ article.ratingWellWritten }}</b></li>
+						<li>- Valid points: <b>{{ article.ratingValidPoints }}</b></li>
+						<li>- Agree with arguments: <b>{{ article.ratingAgree }}</b></li>
+					</ul>
+				</div>
+
 			</div>
 		</div>
 

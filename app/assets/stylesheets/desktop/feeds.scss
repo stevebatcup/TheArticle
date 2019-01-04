@@ -26,6 +26,39 @@
 	&.feed-article {
 		height: 210px;
 
+		&.feed-ratings {
+			height: 220px;
+
+			.card {
+				position: relative;
+
+				.ratings {
+					font-size: 0.9em;
+					background: $grey_light;
+					padding: 12px;
+					overflow: hidden;
+					position: absolute;
+			    bottom: 0px;
+			    width: 100%;
+			    left: 0;
+
+					h5 {
+						font-size: 1em;
+					}
+
+					ul {
+						padding: 0;
+						margin: 0;
+
+						li {
+							list-style: none;
+							font-weight: 500;
+						}
+					}
+				}
+			}
+		}
+
 		.card {
 			height: 100%;
 
