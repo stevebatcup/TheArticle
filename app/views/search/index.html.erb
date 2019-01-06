@@ -96,7 +96,7 @@
 					<div ng-repeat="article in filterListForTab(search.results.data.articles)" class="col-6 feed-listing feed-article mb-1 pb-2 px-1">
 						<%= render 'articles/card' %>
 					</div>
-					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
+					<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
 						<a href='#' ng-click="selectTab('articles')">View all articles</a>
 					</div>
 				</div>
@@ -107,7 +107,7 @@
 					<div ng-repeat="contributor in filterListForTab(search.results.data.contributors)" class="col-6 feed-listing feed-contributor mb-1 pb-2 px-1">
 						<%= render 'contributors/card' %>
 					</div>
-					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
+					<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
 						<a href='#' ng-click="selectTab('contributors')">View all contributors</a>
 					</div>
 				</div>
@@ -118,7 +118,7 @@
 					<div ng-repeat="member in filterListForTab(search.results.data.profiles)" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
 						<%= render 'users/member_card' %>
 					</div>
-					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
+					<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
 						<a href='#' ng-click="selectTab('profiles')">View all profiles</a>
 					</div>
 				</div>
@@ -129,7 +129,7 @@
 					<div ng-repeat="exchange in filterListForTab(search.results.data.exchanges)" class="col-6 feed-listing feed-exchange mb-1 pb-2 px-1">
 						<%= render 'exchanges/card' %>
 					</div>
-					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
+					<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
 						<a href='#' ng-click="selectTab('exchanges')">View all exchanges</a>
 					</div>
 				</div>
@@ -140,7 +140,7 @@
 					<div ng-repeat="result in filterListForTab(search.results.data.posts)" class="col-6 feed-listing feed-post mb-1 pb-2 px-1">
 						<p><a href="{{result.path}}">{{result.name}}</a></p>
 					</div>
-					<div class="view_all pb-3 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">
+					<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">
 						<a href='#' ng-click="selectTab('posts')">View all posts</a>
 					</div>
 				</div>

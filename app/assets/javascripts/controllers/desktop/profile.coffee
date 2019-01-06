@@ -15,7 +15,9 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	init: ->
 		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
+		@scope.selectedTab = 'all'
 		@scope.profile =
+			allLimit: 6
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
@@ -24,11 +26,11 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				displayName: ""
 				username: ""
 				orginalUsername: ""
-				followers: []
 				followings: []
-				exchanges: []
+				followers: []
 				shares: []
 				ratings: []
+				exchanges: []
 				joined: ""
 				joinedAt: ""
 				location: ""
@@ -68,6 +70,16 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
+
+	selectTab: (tab='all') =>
+		@scope.selectedTab = tab
+		$('#feed').scrollTop(0)
+
+	filterListForTab: (list) =>
+		if @scope.selectedTab == 'all'
+			list.slice(0, @scope.profile.allLimit)
+		else
+			list
 
 	detectPanelOpeners: =>
 		@timeout =>

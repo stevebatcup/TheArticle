@@ -141,3 +141,21 @@ input#suggestion_search {
   	font-size: 0.7em
   }
 }
+
+#feed {
+	.results_block {
+		h6.block_heading {
+			display: block;
+			background: $grey_light;
+		}
+
+		.view_all {
+			display: block;
+			font-size: 0.85em;
+
+			a {
+				color: $green;
+			}
+		}
+	}
+}

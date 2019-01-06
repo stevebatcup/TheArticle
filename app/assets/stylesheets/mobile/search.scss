@@ -163,21 +163,5 @@ section#search-results {
 
 	#results_pane {
 		min-height: 50vh;
-
-		.results_block {
-			h6.block_heading {
-				display: block;
-				background: $grey_light;
-			}
-
-			.view_all {
-				display: block;
-				font-size: 0.85em;
-
-				a {
-					color: $green;
-				}
-			}
-		}
 	}
 }

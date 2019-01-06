@@ -20,36 +20,36 @@
 		<div class="col-2"></div>
 		<ul class="col-8 nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item">
-		    <a class="with_badge nav-link active" id="activity-all-tab" data-toggle="tab" href="#activity-all">
+		    <a class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
 		      <label>All</label>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		  	<a class="nav-link" id="activity-following-tab" data-toggle="tab" href="#activity-following">
+		  	<a class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
 			  	<label>Following</label>
 			  	<span>{{ profile.data.followings.length }}</span>
 			  </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" id="activity-followers-tab" data-toggle="tab" href="#activity-followers">
+		    <a class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
 					<label>Followers</label>
 					<span>{{ profile.data.followers.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" id="activity-ratings-tab" data-toggle="tab" href="#activity-ratings">
+		    <a class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
 		    	<label>Ratings</label>
 		    	<span>{{ profile.data.ratings.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" id="activity-shares-tab" data-toggle="tab" href="#activity-shares">
+		    <a class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
 					<label>Shares</label>
 					<span>{{ profile.data.shares.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" id="activity-exchanges-tab" data-toggle="tab" href="#activity-exchanges">
+		    <a class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
 					<label>Exchanges</label>
 					<span>{{ profile.data.exchanges.length }}</span>
 		    </a>
@@ -139,70 +139,97 @@
 		</section>
 
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
-			<div class="tab-content container" id="activity-tabs">
-				<div class="tab-pane fade pt-4 show active" id="activity-all" role="tabpanel" aria-labelledby="activity-all-tab">
-					All
-				</div>
+			<div class="container" id="activity-tabs">
 
-				<div class="tab-pane fade pt-4" id="activity-following" role="tabpanel" aria-labelledby="activity-following-tab">
-					<div class="row">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'following') && profile.data.followings.length > 0">
+					<div class="results_block row">
+						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Following</h6>
+
 						<p class="empty_resource" ng-show="profile.data.followings.length == 0">
 							<span ng-if="profile.data.isMe">You are not following any other members</span>
 							<span ng-if="!profile.data.isMe">Not following anyone</span>
 						</p>
 
-						<div ng-repeat="member in profile.data.followings" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+						<div ng-repeat="member in filterListForTab(profile.data.followings)" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
 							<%= render 'member_card' %>
+						</div>
+
+						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.followings.length > profile.allLimit">
+							<a href='#' ng-click="selectTab('following')">View all</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="tab-pane fade pt-4" id="activity-followers" role="tabpanel" aria-labelledby="activity-followers-tab">
-					<div class="row">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'followers') && profile.data.followers.length > 0"">
+					<div class="results_block row">
+						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Followers</h6>
+
 						<p class="col-12 empty_resource" ng-show="profile.data.followers.length == 0">
 							<span ng-if="profile.data.isMe">You are currently not being followed by any other members</span>
 							<span ng-if="!profile.data.isMe">Not being followed by anyone</span>
 						</p>
 
-						<div ng-repeat="member in profile.data.followers" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+						<div ng-repeat="member in filterListForTab(profile.data.followers)" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
 							<%= render 'member_card' %>
+						</div>
+
+						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.followers.length > profile.allLimit">
+							<a href='#' ng-click="selectTab('followers')">View all</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="tab-pane fade pt-4" id="activity-ratings" role="tabpanel" aria-labelledby="activity-ratings-tab">
-					<div class="row">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'ratings') && profile.data.ratings.length > 0">
+					<div class="results_block row">
+						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Ratings</h6>
+
 						<p class="col-12 empty_resource" ng-show="profile.data.ratings.length == 0">
 							<span>You have not yet rated any articles</span>
 						</p>
 
-						<div ng-repeat="article in profile.data.ratings" class="col-6 feed-listing feed-article feed-ratings mb-1 pb-2 px-1">
+						<div ng-repeat="article in filterListForTab(profile.data.ratings)" class="col-6 feed-listing feed-article feed-ratings mb-1 pb-2 px-1">
 							<%= render 'articles/card' %>
+						</div>
+
+						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.ratings.length > profile.allLimit">
+							<a href='#' ng-click="selectTab('ratings')">View all</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="tab-pane fade pt-4" id="activity-shares" role="tabpanel" aria-labelledby="activity-shares-tab">
-					<div class="row">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'shares') && profile.data.shares.length > 0">
+					<div class="results_block row">
+						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Shares</h6>
+
 						<p class="col-12 empty_resource" ng-show="profile.data.shares.length == 0">
 							<span>You have not yet shared any articles</span>
 						</p>
 
-						<div ng-repeat="article in profile.data.shares" class="col-6 feed-listing feed-article mb-1 pb-2 px-1">
+						<div ng-repeat="article in filterListForTab(profile.data.shares)" class="col-6 feed-listing feed-article mb-1 pb-2 px-1">
 							<%= render 'articles/card' %>
+						</div>
+
+						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.shares.length > profile.allLimit">
+							<a href='#' ng-click="selectTab('shares')">View all</a>
 						</div>
 					</div>
 				</div>
 
-				<div class="tab-pane fade pt-4" id="activity-exchanges" role="tabpanel" aria-labelledby="activity-exchanges-tab">
-					<div class="row">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'exchanges') && profile.data.exchanges.length > 0">
+					<div class="results_block row">
+						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Exchanges</h6>
+
 						<p class="empty_resource" ng-show="profile.data.exchanges.length == 0">
 							<span ng-if="profile.data.isMe">You are not following any exchanges</span>
 							<span ng-if="!profile.data.isMe">Not following any exchanges</span>
 						</p>
 
-						<div ng-repeat="exchange in profile.data.exchanges" class="col-6 feed-listing feed-exchange align-items-start mb-1 pb-2 px-1">
+						<div ng-repeat="exchange in filterListForTab(profile.data.exchanges)" class="col-6 feed-listing feed-exchange align-items-start mb-1 pb-2 px-1">
 							<%= render 'exchanges/card' %>
+						</div>
+
+						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.exchanges.length > profile.allLimit">
+							<a href='#' ng-click="selectTab('exchanges')">View all articles</a>
 						</div>
 					</div>
 				</div>
@@ -233,7 +260,7 @@
 						</nav>
 
 						<div class="tab-content container pt-2 px-1">
-							<div class="tab-pane fade show active"
+							<div class="show active"
 								id="suggestions_for_you"
 								role="tabpanel"
 								aria-labelledby="suggestions-sub-tab-for_you">

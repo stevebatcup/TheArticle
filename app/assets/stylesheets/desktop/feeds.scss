@@ -148,16 +148,6 @@
 		height: fit-content;
 	}
 
-	// &.feed-exchange {
-	// 	border-bottom: 1px solid #ddd;
-
-	// 	.feed_text {
-	// 		p {
-	// 			font-size: 0.85em;
-	// 		}
-	// 	}
-	// }
-
 	&.wide {
 		max-height: 230px;
 		height: fit-content;
@@ -166,5 +156,30 @@
 
 	.article_card {
 		height: 190px;
+	}
+}
+
+
+#feed {
+	overflow-y: auto;
+	height: 80vh;
+
+	.results_block {
+		h6.block_heading {
+			display: block;
+			background: $grey_light;
+			color: #444;
+			font-weight: 600;
+		}
+
+		.view_all {
+			display: block;
+			font-size: 0.85em;
+			padding-left: 10px;
+
+			a {
+				color: $green;
+			}
+		}
 	}
 }

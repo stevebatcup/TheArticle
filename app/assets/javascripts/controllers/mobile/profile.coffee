@@ -17,8 +17,10 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false
 		@scope.mode = 'view'
-		@scope.userExchanges = []
+		# @scope.userExchanges = []
+		@scope.selectedTab = 'all'
 		@scope.profile =
+			allLimit: 2
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
@@ -86,10 +88,24 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.$on 'follows_panel_close', =>
 			@scope.mode = 'view'
 
+	selectTab: (tab='all', $event) =>
+		$event.preventDefault()
+		@scope.selectedTab = tab
+		console.log @scope.selectedTab
+		$('#feed').scrollTop(0)
+		pos = $('#public_activity').position().top - 50
+		$(window).scrollTop(pos)
+
+	filterListForTab: (list) =>
+		if @scope.selectedTab == 'all'
+			list.slice(0, @scope.profile.allLimit)
+		else
+			list
+
 	getUserExchanges: =>
 		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
 		@http.get(url).then (exchanges) =>
-			@scope.userExchanges = exchanges.data.exchanges
+			@scope.profile.data.exchanges = exchanges.data.exchanges
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
