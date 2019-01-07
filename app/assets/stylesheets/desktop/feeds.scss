@@ -1,24 +1,112 @@
 .feed-listing {
-	&.feed-follow {
-		height: 270px;
+
+	&:last-child {
+		padding-bottom: 0 !important;
 	}
 
+	.card {
+		border-radius: 0;
+	}
+
+	&.feed-share,
 	&.feed-exchange {
-		height: 140px;
+		height: initial;
 
 		.card {
-			height: 100%;
+			padding: 16px;
 
-			.card-body {
+			.share_menu_btn {
+				font-size: 1.4em;
 				position: relative;
+				top: 0px;
+				right: 0px;
 
-				button {
-					position: absolute;
-			    bottom: 0px;
-			    left: 0;
-			    border-top-left-radius: 0;
-			    border-top-right-radius: 0;
+				a {
+					color: inherit;
 				}
+			}
+
+			.ratings {
+				background: #222;
+				border-radius: 2px;
+		    color: #fff;
+		    padding: 18px 20px 12px;
+		    margin-bottom: 12px;
+
+		    label {
+		    	font-weight: bold;
+		    }
+
+		    .star {
+		    	border: 1px solid #747474;
+					margin-right: 5px;
+					padding: 1px 3px;
+					font-size: 0.85em;
+					position: relative;
+					top: 1px;
+		    }
+			}
+
+			button {
+		    border-top-left-radius: 0;
+		    border-top-right-radius: 0;
+
+		    &.follow_btn {
+		    	font-size: 0.85em;
+		    }
+			}
+
+			.user_info {
+				h4 {
+					margin-bottom: 3px;
+					span {
+						font-weight: normal;
+					}
+				}
+
+				img {
+					width: 10.5%;
+					margin-right: 8px;
+				}
+			}
+
+			.share_meta {
+				font-size: 0.85em;
+				padding: 0 4px;
+
+				svg {
+					// color: $blue_dark;
+			    margin-right: 3px;
+				}
+			}
+
+			.share_actions {
+				border-top: 1px solid #ccc;
+				margin-top: 16px;
+
+				a {
+					svg {
+						margin-right: 4px;
+					}
+				}
+			}
+
+			.article_box {
+				width: 100%;
+		    border-radius: 5px;
+		    border: 1px solid #efefef;
+		    overflow: hidden;
+		    margin-bottom: 11px;
+		    box-shadow: 2px 2px 3px #aaa;
+
+		    .img_mask {
+		    	margin-bottom: -11px;
+		    }
+
+		    img {
+		    	width: 100%;
+		    	margin-bottom: 12px
+		    }
 			}
 		}
 	}
@@ -162,9 +250,43 @@
 
 #feed {
 	overflow-y: auto;
-	height: 80vh;
+	min-height: 80vh;
+
+	.ratings_summary {
+		.inner {
+			background: #222;
+	    color: #fff;
+	    padding: 18px 20px 12px;
+	    // margin-bottom: 12px;
+
+	    h4 {
+	    	color: #fff;
+	    }
+
+	    p {
+				color: #fff;
+				margin-bottom: 6px;
+				font-size: 0.8em;
+	    }
+
+	    label {
+	    	font-weight: bold;
+	    }
+
+	    .star {
+	    	border: 1px solid #747474;
+				margin-right: 5px;
+				padding: 1px 3px;
+				font-size: 0.85em;
+				position: relative;
+				top: 1px;
+	    }
+		}
+	}
 
 	.results_block {
+		// background: #dedede;
+
 		h6.block_heading {
 			display: block;
 			background: $grey_light;

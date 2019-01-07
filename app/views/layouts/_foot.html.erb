@@ -12,6 +12,7 @@
       'TheArticle.filters',
       'TheArticle.controllers'
     ]);
+    window.App.run(function ($rootScope) { $rootScope._ = _; });
     $(document).ready(function() {
       $('[ng-controller]').each(function(index, root) {
         if (!$(root).hasClass('ng-scope')) {

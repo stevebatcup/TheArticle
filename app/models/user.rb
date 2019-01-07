@@ -7,7 +7,10 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates_presence_of	:first_name, :last_name, on: :create
-  has_and_belongs_to_many  :exchanges
+
+  has_many  :subscriptions
+  has_many  :exchanges, through: :subscriptions
+
   before_create :assign_default_profile_photo_id
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
@@ -23,6 +26,7 @@ class User < ApplicationRecord
   has_many :shares
 
   include Suggestable
+  include Shareable
 
   def is_followed_by(user)
     self.followers.map(&:id).include?(user.id)
@@ -82,18 +86,5 @@ class User < ApplicationRecord
           .where.not(id: excludes)
           .group("users.id")
           .having("count(follows.user_id) >= #{POPULAR_FOLLOW_COUNT}")
-  end
-
-  def article_share(article)
-    share = self.shares.where(article_id: article.id)
-    if share.any?
-      share.first
-    else
-      nil
-    end
-  end
-
-  def highly_rated_articles
-    self.shares.where("rating_well_written > 6 AND rating_valid_points > 6 AND rating_agree > 6 ")
   end
 end

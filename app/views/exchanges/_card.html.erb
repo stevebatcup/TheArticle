@@ -1,33 +1,55 @@
-<div class="card block_click" data-href="{{ exchange.path }}">
-	<div class="card-body py-2 px-2 w-100">
-		<div class="d-flex align-items-start justify-content-start mb-2">
-			<a href="{{ exchange.path }}">
-				<img ng-src="{{exchange.image}}" class="rounded feed_image" alt="{{exchange.name}}" />
-			</a>
+<div class="card">
+	<div class="user_info d-flex justify-content-between align-items-start">
 
-			<div class="inner">
-				<h5 class="card-title d-flex justify-content-between mb-0">
-					<a href="{{ exchange.path }}">
-						<span>{{ exchange.name }}</span>
-					</a>
-				</h5>
-
-				<p class="card-text">
-					<a href="{{ exchange.path }}">
-						<small>{{ exchange.blurb }}</small>
-					</a>
-				</p>
+		<div class="user_info_inner d-flex align-items-start">
+			<img ng-src="{{exchange.user.image}}" alt="{{exchange.user.displayName}}" />
+			<div>
+				<h4>{{exchange.user.displayName}} <span class="text-muted">{{exchange.user.username}}</span></h4>
+				<p><b>Followed an exchange</b> &bullet; {{exchange.followedDate}}</p>
 			</div>
 		</div>
 
-		<% if user_signed_in? %>
-		<button class="mt-1 btn btn-block follow_btn follow_exchange"
-						ng-class="{ 'btn-outline-dark': !exchange.imFollowing, 'btn-dark': exchange.imFollowing }"
-						ng-click="toggleFollowExchangeFromCard(exchange, $event)">
-			<i class="fas fa-plus-square mr-1"></i>
-			<span ng-show="exchange.imFollowing">Following</span>
-			<span ng-show="!exchange.imFollowing">Follow</span>
-		</button>
-		<% end %>
+		<nav class="navbar share_menu_btn d-inline-block">
+			<a href='#' data-toggle="dropdown">
+				<i class="fas fa-chevron-circle-down"></i>
+			</a>
+		  <div class="dropdown-menu dropdown-menu-right">
+		    <a class="dropdown-item" href="#" ng-click="report()">Report</a>
+	      <a class="dropdown-item" href="#" ng-click="block()">Block</a>
+	      <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
+		  </div>
+		</nav>
+	</div>
+
+	<div class="exchange_box">
+		<div class="inner justify-content-start d-flex align-items-start">
+			<div class="img_mask">
+				<a ng-if="exchange.image" href="{{ exchange.path }}">
+					<img ng-src="{{ exchange.image }}" alt="{{ exchange.title }}" />
+				</a>
+			</div>
+
+			<div class="pl-3">
+				<h4 class="entry-title mb-2" id="article-post-title-{{ exchange.id }}">
+					<a href="{{ exchange.path }}">{{exchange.name}}</a>
+				</h4>
+
+				<div class="">
+					{{ exchange.excerpt }}
+				</div>
+
+				<% if user_signed_in? %>
+				<button class="mt-1 btn follow_btn follow_exchange"
+								ng-class="{ 'btn-outline-dark': !exchange.imFollowing, 'btn-dark': exchange.imFollowing }"
+								ng-click="toggleFollowExchangeFromCard(exchange, $event)">
+					<i class="fas fa-plus-square mr-1"></i>
+					<span ng-show="exchange.imFollowing">Following</span>
+					<span ng-show="!exchange.imFollowing">Follow</span>
+				</button>
+				<% end %>
+
+			</div>
+		</div>
+
 	</div>
 </div>

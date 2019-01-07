@@ -5,11 +5,27 @@ json.set! :profile do
 	json.joinedAt	@user.created_at.strftime("%B %Y")
 
 	# text
-	json.displayName @user.display_name
-	json.username @user.username[1..-1]
-	json.originalUsername @user.username
+	displayName = @user.display_name
+	json.displayName displayName
+
+	fullUsername = @user.username
+	json.username fullUsername[1..-1]
+	json.originalUsername fullUsername
+
 	json.location @user.location
 	json.bio @user.bio
+
+	# photos
+	profileImage = @user.profile_photo.url(:square)
+	json.profilePhoto do
+		json.image profileImage
+		json.source ""
+	end
+	json.coverPhoto do
+		json.image @user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
+		json.source ""
+	end
+
 
 	# follows
 	json.imFollowing user_signed_in? ? @user.is_followed_by(current_user) : false
@@ -39,39 +55,90 @@ json.set! :profile do
 		end
 	end
 
-	# other resource data
 	json.set! :shares do
-		json.array! @user.shares do |share|
-			json.id share.article.id
-			json.author share.article.author.display_name
-			json.snippet article_excerpt_for_listing(share.article, 120)
-			json.image share.article.image.url(:listing_mobile)
-			json.title strip_tags(share.article.title)
-			json.path article_path(share.article)
+		json.array! @user.share_onlys do |share|
+			json.set! :share do
+				json.date share.created_at.strftime("%e %b")
+				json.commentCount pluralize(share.commentCount, 'comment')
+				json.agreeCount "#{pluralize(share.agreeCount, 'person')} agree"
+				json.disagreeCount "#{pluralize(share.disagreeCount, 'person')} disagree"
+				json.comments share.comments
+			end
+			json.set! :user do
+				json.displayName displayName
+				json.username fullUsername
+				json.image profileImage
+			end
+			json.set! :article do
+				json.id share.article.id
+				json.snippet article_excerpt_for_listing(share.article, 160)
+				json.image share.article.image.url(:cover_mobile)
+				json.title strip_tags(share.article.title)
+				json.publishedAt article_date(share.article)
+				json.path article_path(share.article)
+				json.set! :author do
+					author = share.article.author
+				  json.name author.display_name
+				  json.path contributor_path(slug: author.slug)
+				end
+				exchange = share.article.exchanges.first
+				json.set! :exchange do
+					json.name exchange.name
+					json.path exchange_path(slug: exchange.slug)
+					json.isSponsored exchange.slug == 'sponsored'
+					json.slug exchange.slug
+				end
+			end
 		end
+	end
+
+	json.set! :ratingsSummary do
+		json.articleCount "#{pluralize(@user.ratingsSummary[:article_count], 'article')} rated"
+		json.wellWritten @user.ratingsSummary[:well_written]
+		json.validPoints @user.ratingsSummary[:valid_points]
+		json.agree @user.ratingsSummary[:agree]
 	end
 
 	json.set! :ratings do
-		json.array! @user.shares do |share|
-			json.id share.article.id
-			json.isRatings true
-			json.author share.article.author.display_name
-			json.image share.article.image.url(:listing_mobile)
-			json.title strip_tags(share.article.title)
-			json.path article_path(share.article)
-			json.ratingWellWritten share.rating_well_written
-			json.ratingValidPoints share.rating_valid_points
-			json.ratingAgree share.rating_agree
+		json.array! @user.ratings do |share|
+			json.set! :share do
+				json.isRatings true
+				json.date share.created_at.strftime("%e %b")
+				json.commentCount pluralize(share.commentCount, 'comment')
+				json.agreeCount "#{pluralize(share.agreeCount, 'person')} agree"
+				json.disagreeCount "#{pluralize(share.disagreeCount, 'person')} disagree"
+				json.comments share.comments
+			end
+			json.set! :ratings do
+				json.wellWritten share.rating_well_written
+				json.validPoints share.rating_valid_points
+				json.agree share.rating_agree
+			end
+			json.set! :user do
+				json.displayName displayName
+				json.username fullUsername
+				json.image profileImage
+			end
+			json.set! :article do
+				json.id share.article.id
+				json.snippet article_excerpt_for_listing(share.article, 160)
+				json.image share.article.image.url(:cover_mobile)
+				json.title strip_tags(share.article.title)
+				json.publishedAt article_date(share.article)
+				json.path article_path(share.article)
+				json.set! :author do
+					author = share.article.author
+				  json.name author.display_name
+				  json.path contributor_path(slug: author.slug)
+				end
+				exchange = share.article.exchanges.first
+				json.set! :exchange do
+					json.name exchange.name
+					json.path exchange_path(slug: exchange.slug)
+					json.isSponsored exchange.slug == 'sponsored'
+					json.slug exchange.slug
+				end
+			end
 		end
-	end
-
-	# photos
-	json.profilePhoto do
-		json.image @user.profile_photo.url(:square)
-		json.source ""
-	end
-	json.coverPhoto do
-		json.image @user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
-		json.source ""
 	end
 end

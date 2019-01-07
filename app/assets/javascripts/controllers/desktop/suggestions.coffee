@@ -10,23 +10,21 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@bindEvents()
-		@scope.suggestions =
-			forYous: []
-			populars: []
+		@scope.suggestions = []
 		@getSuggestions()
 
 	getSuggestions: (isMe) =>
 		@http.get('/follow-suggestions').then (response) =>
-			@scope.suggestions = response.data.suggestions
+			angular.forEach response.data.suggestions.forYous, (suggestion) =>
+				@scope.suggestions.push suggestion
+			angular.forEach response.data.suggestions.populars, (suggestion) =>
+				@scope.suggestions.push suggestion
 
 	toggleFollowSuggestion: (member) =>
-		console.log 'toggleFollowSuggestion'
 		@followSuggestion member.id, =>
 			member.imFollowing = true
 			@timeout =>
-				@scope.suggestions.forYous = _.filter @scope.suggestions.forYous, (item) =>
-					item.id isnt member.id
-				@scope.suggestions.populars = _.filter @scope.suggestions.populars, (item) =>
+				@scope.suggestions = _.filter @scope.suggestions, (item) =>
 					item.id isnt member.id
 			, 750
 

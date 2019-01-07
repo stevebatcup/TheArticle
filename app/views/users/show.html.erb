@@ -20,36 +20,36 @@
 		<div class="col-2"></div>
 		<ul class="col-8 nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item">
-		    <a class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
+		    <a id="activity-all-tab" class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
 		      <label>All</label>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		  	<a class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
+		  	<a id="activity-following-tab" class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
 			  	<label>Following</label>
 			  	<span>{{ profile.data.followings.length }}</span>
 			  </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
+		    <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
 					<label>Followers</label>
 					<span>{{ profile.data.followers.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
+		    <a id="activity-ratings-tab" class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
 		    	<label>Ratings</label>
 		    	<span>{{ profile.data.ratings.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
+		    <a id="activity-shares-tab" class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
 					<label>Shares</label>
 					<span>{{ profile.data.shares.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
+		    <a id="activity-exchanges-tab" class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
 					<label>Exchanges</label>
 					<span>{{ profile.data.exchanges.length }}</span>
 		    </a>
@@ -141,16 +141,16 @@
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
 			<div class="container" id="activity-tabs">
 
-				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'following') && profile.data.followings.length > 0">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'following')">
 					<div class="results_block row">
 						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Following</h6>
 
 						<p class="empty_resource" ng-show="profile.data.followings.length == 0">
-							<span ng-if="profile.data.isMe">You are not following any other members</span>
-							<span ng-if="!profile.data.isMe">Not following anyone</span>
+							<span ng-if="profile.isMe">You are not following any other members</span>
+							<span ng-if="!profile.isMe">Not following anyone</span>
 						</p>
 
-						<div ng-repeat="member in filterListForTab(profile.data.followings)" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+						<div ng-repeat="member in filterListForTab(profile.data.followings)" class="col-12 feed-listing feed-follow pb-3 px-0">
 							<%= render 'member_card' %>
 						</div>
 
@@ -160,16 +160,16 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'followers') && profile.data.followers.length > 0"">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'followers')"">
 					<div class="results_block row">
 						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Followers</h6>
 
 						<p class="col-12 empty_resource" ng-show="profile.data.followers.length == 0">
-							<span ng-if="profile.data.isMe">You are currently not being followed by any other members</span>
-							<span ng-if="!profile.data.isMe">Not being followed by anyone</span>
+							<span ng-if="profile.isMe">You are currently not being followed by any other members</span>
+							<span ng-if="!profile.isMe">Not being followed by anyone</span>
 						</p>
 
-						<div ng-repeat="member in filterListForTab(profile.data.followers)" class="col-6 feed-listing feed-follow mb-1 pb-2 px-1">
+						<div ng-repeat="member in filterListForTab(profile.data.followers)" class="col-12 feed-listing feed-follow pb-3 px-0">
 							<%= render 'member_card' %>
 						</div>
 
@@ -179,16 +179,59 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'ratings') && profile.data.ratings.length > 0">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'ratings')">
 					<div class="results_block row">
 						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Ratings</h6>
 
-						<p class="col-12 empty_resource" ng-show="profile.data.ratings.length == 0">
-							<span>You have not yet rated any articles</span>
+						<p class="col-12 empty_resource" ng-if="profile.data.ratings.length == 0">
+							<span ng-if="profile.isMe">You have not rated an article yet</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
 						</p>
 
-						<div ng-repeat="article in filterListForTab(profile.data.ratings)" class="col-6 feed-listing feed-article feed-ratings mb-1 pb-2 px-1">
-							<%= render 'articles/card' %>
+						<div class="ratings_summary col-12 mb-3 px-0" ng-if="profile.data.ratings.length > 0">
+							<div class="inner">
+								<h4>{{ profile.data.ratingsSummary.articleCount }}</h4>
+								<p>Average ratings: </p>
+								<div class="rating d-flex justify-content-between align-items-start" ng-if="profile.data.ratingsSummary.wellWritten > 0">
+									<label>Well written</label>
+									<div class="d-flex">
+										<div class="star" ng-repeat="i in _.range(0, profile.data.ratingsSummary.wellWritten)">
+											<i class="fas fa-star"></i>
+										</div>
+										<div class="star" ng-repeat="i in _.range(0, 10 - profile.data.ratingsSummary.wellWritten)">
+											<i class="far fa-star"></i>
+										</div>
+									</div>
+								</div>
+
+								<div class="rating d-flex justify-content-between align-items-start" ng-if="profile.data.ratingsSummary.validPoints > 0">
+									<label>Valid points</label>
+									<div class="d-flex">
+										<div class="star" ng-repeat="i in _.range(0, profile.data.ratingsSummary.validPoints)">
+											<i class="fas fa-star"></i>
+										</div>
+										<div class="star" ng-repeat="i in _.range(0, 10 - profile.data.ratingsSummary.validPoints)">
+											<i class="far fa-star"></i>
+										</div>
+									</div>
+								</div>
+
+								<div class="rating d-flex justify-content-between align-items-start" ng-if="profile.data.ratingsSummary.agree > 0">
+									<label>Agree</label>
+									<div class="d-flex">
+										<div class="star" ng-repeat="i in _.range(0, profile.data.ratingsSummary.agree)">
+											<i class="fas fa-star"></i>
+										</div>
+										<div class="star" ng-repeat="i in _.range(0, 10 - profile.data.ratingsSummary.agree)">
+											<i class="far fa-star"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div ng-repeat="share in filterListForTab(profile.data.ratings)" class="col-12 feed-listing feed-share feed-ratings pb-3 px-0">
+							<%= render 'shares/card' %>
 						</div>
 
 						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.ratings.length > profile.allLimit">
@@ -197,16 +240,17 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'shares') && profile.data.shares.length > 0">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'shares')">
 					<div class="results_block row">
 						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Shares</h6>
 
 						<p class="col-12 empty_resource" ng-show="profile.data.shares.length == 0">
-							<span>You have not yet shared any articles</span>
+							<span ng-if="profile.isMe">You have not shared an article yet</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not shared an article yet</span>
 						</p>
 
-						<div ng-repeat="article in filterListForTab(profile.data.shares)" class="col-6 feed-listing feed-article mb-1 pb-2 px-1">
-							<%= render 'articles/card' %>
+						<div ng-repeat="share in filterListForTab(profile.data.shares)" class="col-12 feed-listing feed-share pb-3 px-0">
+							<%= render 'shares/card' %>
 						</div>
 
 						<div class="view_all pb-3 mb-2" ng-if="selectedTab == 'all' && profile.data.shares.length > profile.allLimit">
@@ -215,16 +259,16 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'exchanges') && profile.data.exchanges.length > 0">
+				<div class="pt-4" ng-if="(selectedTab == 'all' || selectedTab == 'exchanges')">
 					<div class="results_block row">
 						<h6 class="col-12 px-4 py-3 block_heading" ng-if="selectedTab == 'all'">Exchanges</h6>
 
 						<p class="empty_resource" ng-show="profile.data.exchanges.length == 0">
-							<span ng-if="profile.data.isMe">You are not following any exchanges</span>
-							<span ng-if="!profile.data.isMe">Not following any exchanges</span>
+							<span ng-if="profile.isMe">You are not following an exchange yet</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not followed an exchange yet</span>
 						</p>
 
-						<div ng-repeat="exchange in filterListForTab(profile.data.exchanges)" class="col-6 feed-listing feed-exchange align-items-start mb-1 pb-2 px-1">
+						<div ng-repeat="exchange in filterListForTab(profile.data.exchanges)" class="col-12 feed-listing feed-exchange align-items-start pb-3 px-0">
 							<%= render 'exchanges/card' %>
 						</div>
 
@@ -244,36 +288,13 @@
 						<h5 class="card-title">Who to follow on TheArticle</h5>
 					</div>
 					<div class="card-body pt-2 px-2">
-						<nav id="suggestions_options" class="sub_tabs">
-							<ul class="nav nav-pills nav-fill d-flex align-items-end">
-								<li class="nav-item w-50">
-								  <a class="nav-link active" id="suggestions-sub-tab-for_you" data-toggle="tab" href="#suggestions_for_you">
-								    Suggested for you
-								  </a>
-								</li>
-								<li class="nav-item w-50">
-								  <a class="nav-link" id="suggestions-sub-tab-popular" data-toggle="tab" href="#suggestions_popular">
-								    Popular with people you follow
-								  </a>
-								</li>
-							</ul>
-						</nav>
 
-						<div class="tab-content container pt-2 px-1">
+						<div class="container pt-2 px-1">
 							<div class="show active"
 								id="suggestions_for_you"
 								role="tabpanel"
 								aria-labelledby="suggestions-sub-tab-for_you">
-								<div ng-repeat="member in suggestions.forYous" class="feed-listing">
-									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
-								</div>
-							</div>
-
-							<div class="tab-pane fade"
-								id="suggestions_popular"
-								role="tabpanel"
-								aria-labelledby="suggestions-sub-tab-popular">
-								<div ng-repeat="member in suggestions.populars" class="feed-listing">
+								<div ng-repeat="member in suggestions" class="feed-listing">
 									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
 								</div>
 							</div>

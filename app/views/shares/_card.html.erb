@@ -1,0 +1,128 @@
+<div class="card">
+	<div class="user_info d-flex justify-content-between align-items-start">
+
+		<div class="user_info_inner d-flex align-items-start">
+			<img ng-src="{{share.user.image}}" alt="{{share.user.displayName}}" />
+			<div>
+				<h4>{{share.user.displayName}} <span class="text-muted">{{share.user.username}}</span></h4>
+				<p><b>Shared an article</b> &bullet; {{share.share.date}}</p>
+			</div>
+		</div>
+
+		<nav class="navbar share_menu_btn d-inline-block">
+			<a href='#' data-toggle="dropdown">
+				<i class="fas fa-chevron-circle-down"></i>
+			</a>
+		  <div class="dropdown-menu dropdown-menu-right">
+		    <a class="dropdown-item" href="#" ng-click="report()">Report</a>
+	      <a class="dropdown-item" href="#" ng-click="block()">Block</a>
+	      <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
+		  </div>
+		</nav>
+	</div>
+
+
+	<p class="comments" ng-if="share.share.comments.length > 0">
+		{{share.share.comments}}
+	</p>
+
+	<div class="ratings" ng-if="share.ratings">
+		<div class="rating d-flex justify-content-between align-items-start" ng-if="share.ratings.wellWritten > 0">
+			<label>Well written</label>
+			<div class="d-flex">
+				<div class="star" ng-repeat="i in _.range(0, share.ratings.wellWritten)">
+					<i class="fas fa-star"></i>
+				</div>
+				<div class="star" ng-repeat="i in _.range(0, 10 - share.ratings.wellWritten)">
+					<i class="far fa-star"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="rating d-flex justify-content-between align-items-start" ng-if="share.ratings.validPoints > 0">
+			<label>Valid points</label>
+			<div class="d-flex">
+				<div class="star" ng-repeat="i in _.range(0, share.ratings.validPoints)">
+					<i class="fas fa-star"></i>
+				</div>
+				<div class="star" ng-repeat="i in _.range(0, 10 - share.ratings.validPoints)">
+					<i class="far fa-star"></i>
+				</div>
+			</div>
+		</div>
+
+		<div class="rating d-flex justify-content-between align-items-start" ng-if="share.ratings.agree > 0">
+			<label>Agree</label>
+			<div class="d-flex">
+				<div class="star" ng-repeat="i in _.range(0, share.ratings.agree)">
+					<i class="fas fa-star"></i>
+				</div>
+				<div class="star" ng-repeat="i in _.range(0, 10 - share.ratings.agree)">
+					<i class="far fa-star"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="article_box">
+		<div class="inner">
+			<div class="img_mask">
+				<a ng-if="share.article.image" href="{{ share.article.path }}">
+					<img ng-src="{{ share.article.image }}" alt="{{ share.article.title }}" />
+				</a>
+			</div>
+
+			<a href="{{ share.article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ share.article.exchange.slug }}">
+		    <i ng-if="share.article.exchange.isSponsored" class="fas fa-star"></i>
+			  {{ share.article.exchange.name }}
+			</a>
+
+			<header class="entry-header pt-3 px-3">
+				<h4 class="entry-title mb-0" id="article-post-title-{{ share.article.id }}">
+					<a href="{{ share.article.path }}" ng-bind="share.article.title"></a>
+				</h4>
+			</header>
+
+			<div class="entry-content py-0 px-3">
+				{{ share.article.snippet }}
+			</div>
+
+			<footer class="entry-footer pt-1 px-3 pb-2">
+				<p class="author_link d-flex justify-content-between align-items-start">
+					<a href="{{ share.article.author.path }}">by <span>{{ share.article.author.name }}</span></a>
+					<span class="entry-date">{{ share.article.publishedAt }}</span></p>
+			</footer>
+		</div>
+	</div>
+
+	<div class="share_meta d-flex justify-content-between">
+		<div class="comment_count">
+			<i class="fas fa-comment-alt"></i>
+			{{ share.share.commentCount }}
+		</div>
+		<div class="agree_count">
+			<i class="fas fa-thumbs-up"></i>
+			{{ share.share.agreeCount }}
+		</div>
+		<div class="disagree_count">
+			<i class="fas fa-thumbs-down"></i>
+			{{ share.share.disagreeCount }}
+		</div>
+	</div>
+
+	<div class="share_actions d-flex justify-content-between px-5 pt-3">
+		<a href='#' ng-click="interact()" class="comment_action">
+			<i class="fas fa-comment-alt"></i>
+			Comment
+		</a>
+		<a href='#' ng-click="interact()" class="agree_action">
+			<i class="fas fa-thumbs-up"></i>
+			Agree
+		</a>
+		<a href='#' ng-click="interact()" class="disagree_action">
+			<i class="fas fa-thumbs-down"></i>
+			Disagree
+		</a>
+	</div>
+
+</div>

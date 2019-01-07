@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_04_121302) do
+ActiveRecord::Schema.define(version: 2019_01_07_140908) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2019_01_04_121302) do
   create_table "exchanges_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "exchange_id"
     t.bigint "user_id"
+    t.datetime "created_at"
     t.index ["exchange_id"], name: "index_exchanges_users_on_exchange_id"
     t.index ["user_id"], name: "index_exchanges_users_on_user_id"
   end

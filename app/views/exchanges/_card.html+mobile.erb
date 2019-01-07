@@ -1,25 +1,41 @@
-<div class="card py-2 px-2 mb-2">
-	<div class="align-items-start d-flex">
+<div class="card">
+	<div class="user_info d-flex justify-content-between align-items-start">
 
-		<a href="{{ exchange.path }}">
-			<img ng-src="{{exchange.image}}" class="rounded-circle feed_image" alt="{{exchange.name}}" />
-		</a>
+		<div class="user_info_inner d-flex align-items-start">
+			<img ng-src="{{exchange.user.image}}" alt="{{exchange.user.displayName}}" />
+			<div>
+				<h4>{{exchange.user.displayName}} <span class="text-muted">{{exchange.user.username}}</span></h4>
+				<p><b>Followed an exchange</b> &bullet; {{exchange.followedDate}}</p>
+			</div>
+		</div>
 
-		<div class="w-100">
-			<div class="d-flex align-items-start justify-content-between">
-				<div class="pr-2">
-					<h5 class="card-title d-flex justify-content-between mb-1">
-						<a href="{{ exchange.path }}">
-							<span>{{ exchange.name }}</span>
-						</a>
-					</h5>
+		<nav class="navbar share_menu_btn d-inline-block">
+			<a href='#' data-toggle="dropdown">
+				<i class="fas fa-chevron-circle-down"></i>
+			</a>
+		  <div class="dropdown-menu dropdown-menu-right">
+		    <a class="dropdown-item" href="#" ng-click="report()">Report</a>
+	      <a class="dropdown-item" href="#" ng-click="block()">Block</a>
+	      <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
+		  </div>
+		</nav>
+	</div>
 
-					<p class="card-text">
-						<a href="{{ exchange.path }}">
-							<small>{{ exchange.blurb }}</small>
-						</a>
-					</p>
+	<div class="exchange_box">
+		<div class="inner d-flex align-items-start w-100">
+			<div class="img_mask">
+				<a ng-if="exchange.image" href="{{ exchange.path }}">
+					<img ng-src="{{ exchange.image }}" alt="{{ exchange.title }}" />
+				</a>
+			</div>
 
+			<div class="pl-3 detail">
+				<h4 class="entry-title mb-2" id="article-post-title-{{ exchange.id }}">
+					<a href="{{ exchange.path }}">{{exchange.name}}</a>
+				</h4>
+
+				<div class="">
+					{{ exchange.excerpt }}
 				</div>
 
 				<% if user_signed_in? %>
@@ -31,8 +47,8 @@
 					<span ng-show="!exchange.imFollowing">Follow</span>
 				</button>
 				<% end %>
-			</div>
 
+			</div>
 		</div>
 
 	</div>

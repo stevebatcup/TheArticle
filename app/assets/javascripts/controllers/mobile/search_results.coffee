@@ -52,14 +52,4 @@ class TheArticle.SearchResults extends TheArticle.MobilePageController
 				member.imFollowing = true
 			, false
 
-	toggleFollowExchangeFromCard: (exchange, $event) =>
-		$event.preventDefault()
-		if exchange.imFollowing
-			@unfollowExchange exchange.id, =>
-				exchange.imFollowing = false
-		else
-			@followExchange exchange.id, =>
-				exchange.imFollowing = true
-
-
 TheArticle.ControllerModule.controller('SearchResultsController', TheArticle.SearchResults)

@@ -2,11 +2,12 @@ class UserExchangesController < ApplicationController
 	before_action :authenticate_user!, except: [:index]
 
 	def index
+		@user = current_user
 		if params[:id]
 			user = User.find(params[:id])
-			@userExchanges = user.exchanges
+			@userExchanges = user.subscriptions
 		else
-			@userExchanges = current_user.exchanges
+			@userExchanges = current_user.subscriptions
 		end
 	end
 

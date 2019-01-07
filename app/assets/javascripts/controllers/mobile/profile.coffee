@@ -17,7 +17,6 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false
 		@scope.mode = 'view'
-		# @scope.userExchanges = []
 		@scope.selectedTab = 'all'
 		@scope.profile =
 			allLimit: 2
@@ -33,6 +32,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 				followings: []
 				exchanges: []
 				shares: []
+				ratingsSummary: []
 				ratings: []
 				joined: ""
 				joinedAt: ""

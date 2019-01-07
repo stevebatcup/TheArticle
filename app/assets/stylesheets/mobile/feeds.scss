@@ -2,14 +2,131 @@ input#suggestion_search {
 	font-size: 0.9em;
 }
 
-.feed-listing {
-	img.feed_image {
-		width: 25%;
-		margin-right: 10px;
+#public_activity {
+	ul.nav-tabs {
+		font-size: 0.85em;
 	}
 }
 
 .feed-listing {
+	&.feed-share,
+	&.feed-exchange {
+		height: initial;
+
+		.card {
+			padding: 16px;
+			border-radius: 0;
+
+			.share_menu_btn {
+				font-size: 1.4em;
+				position: relative;
+				top: 0px;
+				right: 0px;
+
+				a {
+					color: inherit;
+				}
+			}
+
+			.ratings {
+				font-size: 0.8em;
+				background: #222;
+				border-radius: 2px;
+		    color: #fff;
+		    padding: 14px 9px 7px;
+		    margin-bottom: 12px;
+
+		    label {
+		    	font-weight: bold;
+		    	font-size: 0.9em;
+		    }
+
+		    .star {
+		    	border: 1px solid #747474;
+					margin-right: 3px;
+					padding: 1px 3px;
+					font-size: 0.85em;
+					position: relative;
+					top: 1px;
+		    }
+			}
+
+			button {
+		    border-top-left-radius: 0;
+		    border-top-right-radius: 0;
+
+		    &.follow_btn {
+		    	font-size: 0.85em;
+		    }
+			}
+
+			.user_info {
+				h4 {
+					margin-bottom: 3px;
+					span {
+						font-weight: normal;
+						font-size: 0.8em;
+					}
+				}
+
+				img {
+					width: 10.5%;
+					margin-right: 8px;
+				}
+			}
+
+			.share_meta {
+				font-size: 0.7em;
+				padding: 0 0px;
+
+				svg {
+					// color: $blue_dark;
+			    margin-right: 3px;
+				}
+			}
+
+			.share_actions {
+				border-top: 1px solid #efefef;
+				margin-top: 16px;
+
+				a {
+					svg {
+						margin-right: 4px;
+					}
+				}
+			}
+
+			.article_box,
+			.exchange_box {
+				width: 100%;
+		    overflow: hidden;
+		    margin-bottom: 11px;
+
+		    .img_mask {
+		    	width: 25%;
+
+			    img {
+			    	width: 100%;
+			    }
+			  }
+
+			  .detail {
+			  	width: 75%;
+			  }
+			}
+
+			.article_box {
+				border-radius: 5px;
+				border: 1px solid #efefef;
+				box-shadow: 2px 2px 3px #aaa;
+
+				.img_mask {
+					margin-bottom: -11px;
+				}
+			}
+		}
+	}
+
 	.card {
 		font-size: 0.9em;
 		border-top: none;
@@ -68,7 +185,6 @@ input#suggestion_search {
     		left: 1px;
     	}
     }
-
 	}
 
 	.card-text {
@@ -143,6 +259,41 @@ input#suggestion_search {
 }
 
 #feed {
+	.ratings_summary {
+		font-size: 0.8em;
+
+		.inner {
+			background: #222;
+	    color: #fff;
+	    padding: 18px 12px 12px;
+	    // margin-bottom: 12px;
+
+	    h4 {
+	    	color: #fff;
+	    }
+
+	    p {
+				color: #fff;
+				margin-bottom: 6px;
+				font-size: 0.8em;
+	    }
+
+	    label {
+	    	font-weight: bold;
+	    	font-size: 0.9em;
+	    }
+
+	    .star {
+	    	border: 1px solid #747474;
+				margin-right: 2px;
+				padding: 1px 3px;
+				font-size: 0.8em;
+				position: relative;
+				top: 1px;
+	    }
+		}
+	}
+
 	.results_block {
 		h6.block_heading {
 			display: block;

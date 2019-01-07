@@ -29,6 +29,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 				followings: []
 				followers: []
 				shares: []
+				ratingsSummary: []
 				ratings: []
 				exchanges: []
 				joined: ""
