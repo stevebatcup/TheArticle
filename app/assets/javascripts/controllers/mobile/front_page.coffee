@@ -3,6 +3,7 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
 	  '$timeout'
@@ -29,7 +30,7 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 			$hiding = $(e.relatedTarget)
 
 			if $hiding.attr('id') is 'search-tab' or $showing.attr('id') is 'search-tab'
-				@toggleSearch()
+				@rootScope.$broadcast('search-tab-clicked')
 
 			if $showing.attr('id') is 'notifications-tab'
 				@scope.$apply =>

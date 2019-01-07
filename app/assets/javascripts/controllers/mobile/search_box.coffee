@@ -9,6 +9,7 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		console.log 'SearchBox'
 		@setDefaultHttpHeaders()
 		@scope.search =
 			query: ''
@@ -27,8 +28,10 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 		@bindEvents()
 
 	bindEvents: ->
+		@scope.$on 'search-tab-clicked', =>
+			@toggleSearch()
+
 		$('.search_trigger').on 'click', (e) =>
-			e.preventDefault()
 			@toggleSearch()
 
 		@scope.$watch 'search.query', (newVal, oldVal) =>

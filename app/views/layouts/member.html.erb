@@ -65,6 +65,11 @@
               <i class="fas fa-bell"></i>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="messaging-tab" data-toggle="tab" href="#content-messaging">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -75,6 +80,7 @@
           <%= render 'mobile/front_page' %>
           <%= render 'mobile/follows' %>
           <%= render 'mobile/notifications' %>
+          <%= render 'mobile/messaging' %>
         </div>
 
         <%= render 'mobile/account_settings' %>
