@@ -2,7 +2,7 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
-	background-color: $green;
+	background-color: #a9c0ab;
 	overflow: hidden;
 }
 
@@ -49,57 +49,6 @@
 
 		a {
 			color: inherit;
-		}
-	}
-
-	#callouts {
-		.callout {
-
-			#who_to_follow {
-				height: 600px;
-				overflow-y: auto;
-
-				nav#suggestions_options {
-					font-size: 0.75em;
-
-					.nav-link {
-						color: $grey !important;
-
-						&.active {
-							color: #fff !important;
-							background-color: #575757 !important;
-						}
-					}
-				}
-
-				.tab-content {
-				}
-
-				h5 {
-					font-size: 1em;
-				}
-
-				.feed-listing {
-					height: 170px;
-
-					.cover_photo {
-						height: 44px;
-					}
-
-					.card-body {
-						padding-left: 0.5em;
-						padding-right: 0.5em;
-					}
-
-					p.card-text {
-						display: none;
-					}
-				}
-			}
-
-			#trending_articles {
-				height: 200px;
-			}
 		}
 	}
 }

@@ -1,10 +1,122 @@
-<section ng-controller="FrontPageController" class="pt-4">
-	<div class="container">
-		<div class="alert alert-success mb-3" ng-show="showWelcome">
-			<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
-			<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
-		</div>
+<section ng-controller="FrontPageController" class="container front-page" data-user-id="<%= current_user.id %>">
+	<div class="alert alert-success mb-3" ng-show="showWelcome">
+		<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
+		<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
+	</div>
 
-		<h2>FRONT PAGE HERE</h2>
+
+	<div class="row">
+		<section class="col-3">
+			<div id="front_page_profile_card" class="mt-3 pb-5">
+
+				<div id="cover_photo"
+						class="cover_photo"
+						style="background-image: url('<%= current_user.cover_photo.url(:desktop) %>')">
+				</div>
+
+				<div class="d-flex">
+					<img src="<%= current_user.profile_photo.url(:square) %>" class="profile_image rounded-circle"
+								alt="<%= current_user.display_name %>" />
+
+					<div class="pl-2">
+						<h5 class="mb-0 mt-2"><%= current_user.display_name %></h5>
+						<h6 class="text-muted mb-2"><small><%= current_user.username %></small></h6>
+					</div>
+				</div>
+			</div>
+
+			<div class="card w-100">
+				<div class="card-header">
+					<h5 class="card-title">Trending exchanges</h5>
+				</div>
+				<div class="card-body">
+					<% @trending_exchanges.each do |exchange| %>
+						<div class="d-flex align-items-center justify-content-start mb-2 feed-listing">
+								<a href="<%= exchange_path(slug: exchange.slug) %>">
+									<img ng-src="<%= exchange.image %>" class="rounded feed_image" alt="<%=exchange.name%>" />
+								</a>
+
+								<div class="inner">
+									<h4 class="card-title mb-0">
+										<a href="<%= exchange_path(slug: exchange.slug) %>">
+											<span><%= exchange.name %></span>
+										</a>
+									</h4>
+								</div>
+							</div>
+					<% end %>
+				</div>
+			</div>
+		</section>
+
+		<section class="col-6" id="feed">
+			<div class="container" id="activity-tabs">
+				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
+				<div ng-if="feeds.loaded">
+					Feeds have loaded!
+				</div>
+			</div>
+		</section>
+
+		<div class="col-3 pr-0 mt-3" id="callouts">
+			<% if user_signed_in? %>
+			<section class="pb-3 card w-100 callout mb-3">
+				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
+					<div class="card-header">
+						<h5 class="card-title">Who to follow on TheArticle</h5>
+					</div>
+					<div class="card-body pt-2 px-2">
+
+						<div class="container pt-2 px-1">
+							<div class="show active"
+								id="suggestions_for_you"
+								role="tabpanel"
+								aria-labelledby="suggestions-sub-tab-for_you">
+								<div ng-repeat="member in suggestions" class="feed-listing">
+									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<% end %>
+
+			<section id="trending_articles" class="callout card w-100">
+				<div class="card-header">
+					<h5 class="card-title">Trending articles</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @trending_articles.each do |ta| %>
+						<article class="row mt-3 px-0<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+							<div class="col-12">
+								<% if(ta.is_sponsored?) %>
+									<a href='/sponsors' class="sponsored">
+										<i class="fas fa-star"></i>
+										SPONSORED
+									</a>
+								<% end %>
+								<h5 class="">
+									<a href="<%= article_path(ta) %>">
+										<%= ta.title.html_safe %>
+									</a>
+								</h5>
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+									<p class="author_link">
+										<a href="<%= contributor_path(slug: ta.author.slug) %>">
+											by <span><%= ta.author.display_name %></span>
+										</a>&nbsp;
+										<span class="entry-date">
+											<%= article_date(ta) %>
+										</span>
+									</p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
+				</div>
+			</section>
+		</div>
 	</div>
 </section>

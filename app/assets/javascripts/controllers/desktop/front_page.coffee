@@ -4,9 +4,9 @@ class TheArticle.FrontPage extends TheArticle.DesktopPageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$timeout'
-	  'EditorsPick'
+	  'Feed'
 	]
 
 	init: ->
@@ -18,12 +18,23 @@ class TheArticle.FrontPage extends TheArticle.DesktopPageController
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
 		, 500
 
+		@scope.feeds =
+			data: []
+			loaded: false
+		@getFeeds()
+
 	bindEvents: =>
 		super
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$hiding = $(e.relatedTarget)
 			if $hiding.hasClass('search_trigger')
 				@toggleSearch()
+
+	getFeeds: =>
+		@Feed.query().then (response) =>
+			console.log response
+			@scope.feeds.data = response
+			@scope.feeds.loaded = true
 
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

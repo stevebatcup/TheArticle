@@ -4,9 +4,9 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$timeout'
-	  'EditorsPick'
+	  'Feed'
 	]
 
 	init: ->
@@ -17,6 +17,11 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
 		, 500
+
+		@scope.feeds =
+			data: []
+			loaded: false
+		@getFeeds()
 
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
@@ -33,5 +38,12 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 				@scope.$apply =>
 					@scope.root.notifications = false
 				true
+
+	getFeeds: =>
+		@Feed.query().then (response) =>
+			console.log response
+			@scope.feeds.data = response
+			@scope.feeds.loaded = true
+
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

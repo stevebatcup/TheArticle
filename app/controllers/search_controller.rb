@@ -37,7 +37,8 @@ class SearchController < ApplicationController
 					contributors = Author.search("*#{@query}*", order: 'article_count DESC').to_a
 					profiles = User.search("*#{@query}*").to_a
 					exchanges = Exchange.search("*#{@query}*").to_a
-					@results = (articles + contributors + profiles + exchanges)
+					posts = Share.search("*#{@query}*").to_a
+					@results = (articles + contributors + profiles + exchanges + posts)
 					render :index_results
 				end
 			end

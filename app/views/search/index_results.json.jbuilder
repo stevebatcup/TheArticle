@@ -35,6 +35,46 @@ if @results.any?
 				json.blurb exchange_excerpt(result, 10)
 				json.imFollowing user_signed_in? ? result.is_followed_by(current_user) : false
 				json.path exchange_path(slug: result.slug)
+			elsif result.class == Share
+				json.type :posts
+				json.set! :share do
+					json.isRatings true
+					json.date result.created_at.strftime("%e %b")
+					json.commentCount pluralize(result.commentCount, 'comment')
+					json.agreeCount "#{pluralize(result.agreeCount, 'person')} agree"
+					json.disagreeCount "#{pluralize(result.disagreeCount, 'person')} disagree"
+					json.comments result.comments
+				end
+				json.set! :ratings do
+					json.wellWritten result.rating_well_written
+					json.validPoints result.rating_valid_points
+					json.agree result.rating_agree
+				end
+				json.set! :user do
+					json.displayName result.user.display_name
+					json.username result.user.username
+					json.image result.user.profile_photo.url(:square)
+				end
+				json.set! :article do
+					json.id result.article.id
+					json.snippet article_excerpt_for_listing(result.article, 160)
+					json.image result.article.image.url(:cover_mobile)
+					json.title strip_tags(result.article.title)
+					json.publishedAt article_date(result.article)
+					json.path article_path(result.article)
+					json.set! :author do
+						author = result.article.author
+					  json.name author.display_name
+					  json.path contributor_path(slug: author.slug)
+					end
+					exchange = result.article.exchanges.first
+					json.set! :exchange do
+						json.name exchange.name
+						json.path exchange_path(slug: exchange.slug)
+						json.isSponsored exchange.slug == 'sponsored'
+						json.slug exchange.slug
+					end
+				end
 			end
 		end
 	end

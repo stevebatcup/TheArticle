@@ -26,7 +26,7 @@
 		{{share.share.comments}}
 	</p>
 
-	<div class="ratings" ng-if="share.ratings">
+	<div class="ratings" ng-if="share.ratings.wellWritten > 0 || share.ratings.validPoints > 0 || share.ratings.agree > 0">
 		<div class="rating d-flex justify-content-between align-items-start" ng-if="share.ratings.wellWritten > 0">
 			<label>Well written</label>
 			<div class="d-flex">

@@ -1,0 +1,20 @@
+#front_page_profile_card {
+	// border-bottom: 2px solid $grey;
+
+	img.profile_image {
+		width: 3.7em;
+		height: 3.7em;
+		margin-right: 10px;
+		border: 3px solid #fff;
+    position: relative;
+    top: -1.8em;
+		left: 0;
+		margin-bottom: -1.8em;
+	}
+
+	.cover_photo {
+		height: 50px;
+		width: 100%;
+	}
+
+}
