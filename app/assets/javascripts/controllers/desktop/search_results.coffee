@@ -7,6 +7,7 @@ class TheArticle.SearchResults extends TheArticle.DesktopPageController
 	  '$element'
 	  '$timeout'
 	  '$sce'
+	  '$compile'
 	]
 
 	init: ->

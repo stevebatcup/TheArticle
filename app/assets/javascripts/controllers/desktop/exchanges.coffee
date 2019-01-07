@@ -5,6 +5,7 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$http'
 	  '$rootElement'
+	  '$compile'
 	  '$timeout'
 	  'ExchangeArticle'
 	]

@@ -1,7 +1,7 @@
 class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 
 	@register window.App
-	@$inject: ['$scope', '$timeout']
+	@$inject: ['$scope', '$timeout', '$compile']
 
 	init: ->
 		if @isDevelopment()

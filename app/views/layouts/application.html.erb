@@ -102,10 +102,10 @@
               </a>
             </li>
             <li class="nav-item mr-1">
-              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0 pr-0" href="<%= new_user_registration_path %>" id="nav_link_join">Register</a>
+              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0 pr-0" href="#" ng-click="openRegisterForm($event)" id="nav_link_join">Register</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0" href="<%= new_user_session_path %>" id="nav_link_sign_in">
+              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0" href="#" id="nav_link_sign_in" ng-click="openSigninForm($event)">
                 <i class="fas fa-sign-in-alt"></i>
                 Sign in
               </a>
@@ -126,7 +126,7 @@
 </main>
 
 <%# unless user_signed_in? %>
-<footer id="main_footer_top" class="main_footer bg-black text-white border-light border-bottom">
+<footer id="main_footer_top" class="main_footer bg-black text-white border-light border-bottom" ng-controller="FooterController">
   <div class="container">
     <div class="row py-2">
       <nav class="navbar navbar-expand-md col-12 col-lg-10 d-flex" id="footer_nav">
@@ -157,7 +157,7 @@
 
       <% unless user_signed_in? %>
       <div class="col-md-0 col-lg-2 d-flex align-items-center justify-content-end"">
-        <a class="join_button btn btn-sm bg-grass text-white" href="<%= new_user_registration_path %>">Register now</a>
+        <a class="join_button btn btn-sm bg-grass text-white" href="#" ng-click="openRegisterForm($event)">Register now</a>
       </div>
       <% end %>
     </div>

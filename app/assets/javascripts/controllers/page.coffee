@@ -218,3 +218,36 @@ class TheArticle.PageController extends TheArticle.NGController
 		else
 			@followExchange exchange.id, =>
 				exchange.imFollowing = true
+
+	openRegisterForm: ($event) =>
+		$event.preventDefault()
+		$('[data-dismiss=modal]', '#signinBoxModal').click()
+		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+		@timeout =>
+			tpl = $("#registerBox").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#registerBoxModal").modal()
+		, 350
+
+	openSigninForm: ($event) =>
+		$event.preventDefault()
+		$('[data-dismiss=modal]', '#registerBoxModal').click()
+		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+		@timeout =>
+			tpl = $("#signinBox").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#signinBoxModal").modal()
+		, 350
+
+	openForgottenPasswordForm: ($event) =>
+		$event.preventDefault()
+		$('[data-dismiss=modal]', '#signinBoxModal').click()
+		$('[data-dismiss=modal]', '#registerBoxModal').click()
+		@timeout =>
+			tpl = $("#forgottenPasswordBox").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#forgottenPasswordBoxModal").modal()
+		, 350

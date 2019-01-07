@@ -1,0 +1,64 @@
+<div class="modal fade update_card_cetails" id="signinBoxModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+    	<div class="modal-header d-flex justify-content-between bg-grey">
+  			<h6 class="mb-2 mt-1 pt-1">
+  				Sign in to TheArticle
+  			</h6>
+
+				<button data-dismiss="modal" class="btn btn-link close_modal">
+					<i class="fas fa-times"></i>
+				</button>
+    	</div>
+
+      <div class="modal-body px-1 px-md-4">
+      	<header class="pt-2 container">
+      		<div class="row">
+      			<div class="col col-md-12">
+      				<div id="logo" class="py-3 mt-2">
+      			    <span class="text-hide">TheArticle</span>
+      				</div>
+      			</div>
+      		</div>
+      	</header>
+
+				<section ng-controller="AuthController" class="auth">
+				  <div class="container pt-4 pb-4">
+				    <div class="row">
+				      <div class="col-0 col-md-12">
+				        <% if notice %><div class="alert alert-success" role="alert"><%= notice %></div><% end %>
+				        <% if alert %><div class="alert alert-danger" role="alert"><%= alert %></div><% end %>
+				        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+				          <div class="form-group">
+				            <%= f.label :email %><br />
+				            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: '' %>
+				          </div>
+
+				          <div class="form-group">
+				            <%= f.label :password %><br />
+				            <%= f.password_field :password, autocomplete: "current-password", class: "form-control", required: '' %>
+				            <a href="#" ng-click="openForgottenPasswordForm($event)"><small>Forgot your password?</small></a>
+				          </div>
+
+				          <% if devise_mapping.rememberable? -%>
+				            <div class="form-group">
+				              <%= f.check_box :remember_me %>
+				              <%= f.label :remember_me %>
+				            </div>
+				          <% end -%>
+
+				          <div class="actions">
+				            <%= f.submit "Sign in", class: "btn btn-success btn-block text-white my-3" %>
+				          </div>
+				        <% end %>
+
+				        <p>Don't have an account with <b>TheArticle</b>? <a href="#" ng-click="openRegisterForm($event)">Register here</a>.</p>
+				      </div>
+				    </div>
+				  </div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

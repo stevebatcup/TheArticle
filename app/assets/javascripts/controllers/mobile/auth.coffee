@@ -10,9 +10,5 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 	]
 
 	init: ->
-		@bindEvents()
-
-	bindEvents: ->
-		super
 
 TheArticle.ControllerModule.controller('AuthController', TheArticle.Auth)

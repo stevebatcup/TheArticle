@@ -6,15 +6,11 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 	bindEvents: =>
 		@bindCookieAcceptance()
 		setTimeout @bindCarousels, 700
-		# @bindJoinForm()
 		@bindContactForm()
 		@bindListingHovers() unless @isTablet()
 		@bindBlockClicks()
 		@bindSearchFilters()
 		@bindFixedNavScrolling() if @isDevelopment()
-
-		# $('#join_form_modal').on 'show.bs.modal', (e) =>
-		# 	$('#search_box').slideUp(200) if $('#search_box').is(':visible')
 
 		$('#hidden_editors_picks').on 'shown.bs.collapse', (e) =>
 			@reLinePosts() unless @isTablet()

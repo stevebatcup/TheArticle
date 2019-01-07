@@ -1,4 +1,4 @@
-class TheArticle.Auth extends TheArticle.DesktopPageController
+class TheArticle.Auth extends TheArticle.PageController
 
 	@register window.App
 	@$inject: [
@@ -7,9 +7,7 @@ class TheArticle.Auth extends TheArticle.DesktopPageController
 	]
 
 	init: ->
-		@bindEvents()
 
 	bindEvents: ->
-		super
 
 TheArticle.ControllerModule.controller('AuthController', TheArticle.Auth)

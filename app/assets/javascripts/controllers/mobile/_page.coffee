@@ -5,7 +5,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 	bindEvents: =>
 		@bindCookieAcceptance()
 		@bindSideMenu()
-		# @bindJoinForm()
 		@bindContactForm()
 		@bindBlockClicks()
 		setTimeout @bindCarousels, 800

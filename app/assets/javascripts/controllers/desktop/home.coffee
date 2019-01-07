@@ -6,6 +6,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  '$compile'
 	  'EditorsPick'
 	  'SponsoredPick'
 	]

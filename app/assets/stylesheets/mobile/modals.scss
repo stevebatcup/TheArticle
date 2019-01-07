@@ -4,6 +4,13 @@
   	height: 100vh;
   }
 
+  .modal-header {
+  	button.close_modal {
+  		position: relative;
+  		top: -4px;
+  	}
+  }
+
 	.modal-header {
 		padding: 10px 1rem 0;
 

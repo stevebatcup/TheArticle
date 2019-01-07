@@ -28,6 +28,18 @@ class User < ApplicationRecord
   include Suggestable
   include Shareable
 
+  def set_ip_data(request)
+    ip = request.remote_ip
+    # ip = '86.150.196.99'
+    self.update_attribute(:signup_ip_address, ip)
+    if geo_info = Geocoder.search(ip).first
+      self.update_attributes({
+        signup_ip_city: geo_info.city,
+        signup_ip_region: geo_info.region,
+        signup_ip_country: geo_info.country
+      })
+    end
+  end
   def is_followed_by(user)
     self.followers.map(&:id).include?(user.id)
   end

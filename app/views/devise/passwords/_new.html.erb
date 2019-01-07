@@ -1,0 +1,53 @@
+<div class="modal fade update_card_cetails" id="forgottenPasswordBoxModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header d-flex justify-content-between bg-grey">
+        <h6 class="mb-2 mt-1 pt-1">
+         Forgot your password?
+        </h6>
+
+        <button data-dismiss="modal" class="btn btn-link close_modal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body px-1 px-md-4">
+
+        <header class="pt-2 container">
+          <div class="row">
+            <div class="col col-md-12">
+              <div id="logo" class="py-3 mt-2">
+                <span class="text-hide">TheArticle</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section ng-controller="AuthController" class="auth">
+
+					<div class="container pt-4 pt-lg-5 pb-4">
+					  <div class="row">
+					    <div class="col-0 col-md-12">
+								<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+								  <%= devise_error_messages! %>
+
+								  <div class="form-group">
+								    <%= f.label :email %><br />
+								    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: '' %>
+				            <a href="#" ng-click="openSigninForm($event)"><small>&lt; Back to sign in</small></a>
+								  </div>
+
+								  <div class="actions">
+								    <%= f.submit "Send me reset password instructions", class: "btn btn-success btn-block text-white my-3", style: "white-space: normal;" %>
+								  </div>
+								<% end %>
+
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</div>

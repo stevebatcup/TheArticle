@@ -1,5 +1,17 @@
     <%= render 'common/cookie-notice' %>
 
+    <% unless user_signed_in? %>
+      <script id="registerBox" type="script/x-mustache">
+        <%= render 'devise/registrations/new' %>
+      </script>
+      <script id="signinBox" type="script/x-mustache">
+        <%= render 'devise/sessions/new' %>
+      </script>
+      <script id="forgottenPasswordBox" type="script/x-mustache">
+        <%= render 'devise/passwords/new' %>
+      </script>
+    <% end %>
+
     <script type="text/javascript">
       // Bootstrap the app
       var moduleName = "TheArticleNG"

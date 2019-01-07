@@ -6,6 +6,7 @@ class TheArticle.Contributors extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  '$compile'
 	  'ContributorArticle'
 	]
 

@@ -1,4 +1,10 @@
 .modal {
+	.modal-header {
+		button.close_modal {
+			position: relative;
+			top: -4px;
+		}
+	}
 	.modal-dialog.wide {
 		max-width: 900px;
 		width: 900px;

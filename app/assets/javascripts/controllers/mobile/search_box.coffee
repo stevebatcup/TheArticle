@@ -9,7 +9,6 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 	]
 
 	init: ->
-		console.log 'SearchBox'
 		@setDefaultHttpHeaders()
 		@scope.search =
 			query: ''
