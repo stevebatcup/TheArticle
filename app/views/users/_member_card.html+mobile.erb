@@ -1,41 +1,41 @@
 <div class="card py-2 px-2 mb-2">
 	<div class="align-items-start d-flex">
 
-		<a href="{{ member.path }}">
-			<img ng-src="{{member.profilePhoto}}" class="rounded-circle feed_image mr-2" alt="{{member.displayName}}" />
+		<a href="{{ item.path }}">
+			<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image mr-2" alt="{{item.displayName}}" />
 		</a>
 
 		<div class="w-100">
 			<div class="d-flex align-items-start justify-content-between">
 				<div>
 					<h5 class="card-title d-flex justify-content-between mb-1">
-						<a href="{{ member.path }}">
-							<span>{{ member.displayName }}</span>
+						<a href="{{ item.path }}">
+							<span>{{ item.displayName }}</span>
 						</a>
 					</h5>
 					<h6 class="text-muted mb-1">
-						<a href="{{ member.path }}">
-							<span>{{ member.username }}</span>
+						<a href="{{ item.path }}">
+							<span>{{ item.username }}</span>
 						</a>
-						<span ng-show="member.isFollowingMe" class="badge follower-badge">Follows you</span>
+						<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
 					</h6>
 				</div>
 
 				<% if user_signed_in? %>
 				<button class="btn btn-sm follow_btn"
-								ng-class="{ 'btn-outline-success': !member.imFollowing, 'btn-success': member.imFollowing }"
-								ng-click="toggleFollowUserFromCard(member, $event)">
+								ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
+								ng-click="toggleFollowUserFromCard(item, $event)">
 					<i class="fas fa-users mr-2"></i>
-					<span ng-show="member.imFollowing">Following</span>
-					<span ng-show="!member.imFollowing">Follow</span>
+					<span ng-show="item.imFollowing">Following</span>
+					<span ng-show="!item.imFollowing">Follow</span>
 				</button>
 				<% end %>
 			</div>
 
 			<div class="py-0 w-100">
 				<p class="card-text">
-					<a href="{{ member.path }}">
-						<small>{{ member.bio }}</small></p>
+					<a href="{{ item.path }}">
+						<small>{{ item.bio }}</small></p>
 					</a>
 			</div>
 		</div>

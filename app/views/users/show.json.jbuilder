@@ -26,6 +26,29 @@ json.set! :profile do
 		json.source ""
 	end
 
+	recentFollowingSummary = following_summary(@user.recent_followings(48))
+	json.recentFollowingSummary do
+		json.stamp recentFollowingSummary[:stamp]
+		json.date recentFollowingSummary[:date]
+		json.sentence recentFollowingSummary[:sentence].html_safe
+		json.user do
+			json.image profileImage
+			json.displayName displayName
+			json.username fullUsername
+		end
+	end
+
+	recentFollowedSummary  = following_summary(@user.recent_followeds(48), "followed")
+	json.recentFollowedSummary do
+		json.stamp recentFollowedSummary[:stamp]
+		json.date recentFollowedSummary[:date]
+		json.sentence recentFollowedSummary[:sentence].html_safe
+		json.user do
+			json.image profileImage
+			json.displayName displayName
+			json.username fullUsername
+		end
+	end
 
 	# follows
 	json.imFollowing user_signed_in? ? @user.is_followed_by(current_user) : false
@@ -57,6 +80,7 @@ json.set! :profile do
 
 	json.set! :shares do
 		json.array! @user.share_onlys do |share|
+			json.stamp share.created_at.to_i
 			json.set! :share do
 				json.date share.created_at.strftime("%e %b")
 				json.commentCount pluralize(share.commentCount, 'comment')
@@ -101,6 +125,7 @@ json.set! :profile do
 
 	json.set! :ratings do
 		json.array! @user.ratings do |share|
+			json.stamp share.created_at.to_i
 			json.set! :share do
 				json.isRatings true
 				json.date share.created_at.strftime("%e %b")

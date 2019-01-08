@@ -24,9 +24,11 @@ class User < ApplicationRecord
 
   has_many :profile_suggestions
   has_many :shares
+  has_many :search_logs
 
   include Suggestable
   include Shareable
+  include Followable
 
   def set_ip_data(request)
     ip = request.remote_ip
@@ -40,20 +42,9 @@ class User < ApplicationRecord
       })
     end
   end
-  def is_followed_by(user)
-    self.followers.map(&:id).include?(user.id)
-  end
-
-  def self.bio_max_length
-    180
-  end
 
   def photo_filename(type)
     "#{type}_photo_#{self.id}_#{Time.now.to_i}"
-  end
-
-  def self.is_username_available?(username)
-    !self.find_by(username: username).present?
   end
 
   def assign_default_profile_photo_id
@@ -98,5 +89,13 @@ class User < ApplicationRecord
           .where.not(id: excludes)
           .group("users.id")
           .having("count(follows.user_id) >= #{POPULAR_FOLLOW_COUNT}")
+  end
+
+  def self.bio_max_length
+    180
+  end
+
+  def self.is_username_available?(username)
+    !self.find_by(username: username).present?
   end
 end

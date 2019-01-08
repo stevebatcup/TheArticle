@@ -1,0 +1,21 @@
+<div class="modal fade all_profile_suggestions" id="allProfileSuggestionsModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog scrollable thin" role="document">
+    <div class="modal-content">
+
+    	<div class="modal-header">
+    		<h5 class="pt-2">Who to follow on TheArticle</h5>
+
+
+        <button data-dismiss="modal" class="btn btn-link close_modal">
+          <i class="fas fa-times"></i>
+        </button>
+    	</div>
+
+      <div class="modal-body">
+      	<div ng-repeat="item in suggestions" class="feed-listing mb-3">
+      		<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>

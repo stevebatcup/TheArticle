@@ -39,6 +39,17 @@ class SearchController < ApplicationController
 					exchanges = Exchange.search("*#{@query}*").to_a
 					posts = Share.search("*#{@query}*").to_a
 					@results = (articles + contributors + profiles + exchanges + posts)
+					search_log = SearchLog.new({
+						term: @query,
+						all_results_count: @results.size,
+						articles_results_count: articles.size,
+						contributors_results_count: contributors.size,
+						profiles_results_count: profiles.size,
+						exchanges_results_count: exchanges.size,
+						posts_results_count: posts.size
+					})
+					search_log.user_id = current_user.id if user_signed_in?
+					search_log.save
 					render :index_results
 				end
 			end

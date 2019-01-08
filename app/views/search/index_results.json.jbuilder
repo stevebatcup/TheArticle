@@ -32,7 +32,7 @@ if @results.any?
 				json.id result.id
 				json.name result.name.html_safe
 				json.image result.image.url(:detail)
-				json.blurb exchange_excerpt(result, 10)
+				json.excerpt exchange_excerpt(result, 10)
 				json.imFollowing user_signed_in? ? result.is_followed_by(current_user) : false
 				json.path exchange_path(slug: result.slug)
 			elsif result.class == Share

@@ -1,21 +1,21 @@
-<div class="card py-2 px-2 mb-2 block_click" data-href="{{ article.path }}">
+<div class="card py-2 px-2 mb-2 block_click" data-href="{{ item.path }}">
 	<div class="align-items-start d-flex">
 
-		<a href="{{ article.path }}">
-			<img ng-src="{{article.image}}" class="rounded feed_image" alt="{{article.title}}" />
+		<a href="{{ item.path }}">
+			<img ng-src="{{item.image}}" class="rounded feed_image" alt="{{item.title}}" />
 		</a>
 
 		<div class="w-100">
 			<div class="d-flex align-items-start justify-content-between">
 				<div>
 					<h5 class="card-title d-flex justify-content-between mb-1">
-						<a href="{{ article.path }}">
-							<span>{{ article.title }}</span>
+						<a href="{{ item.path }}">
+							<span>{{ item.title }}</span>
 						</a>
 					</h5>
 					<h6 class="mb-1">
-						<a href="{{ article.path }}">
-							<span>{{ article.author }}</span>
+						<a href="{{ item.path }}">
+							<span>{{ item.author }}</span>
 						</a>
 					</h6>
 				</div>
@@ -23,8 +23,8 @@
 
 			<div class="pb-0 pt-1">
 				<p class="card-text">
-					<a href="{{ article.path }}">
-						<small>{{ article.snippet }}</small>
+					<a href="{{ item.path }}">
+						<small>{{ item.snippet }}</small>
 					</a>
 				</p>
 			</div>
@@ -32,12 +32,12 @@
 
 	</div>
 
-	<div ng-if="article.isRatings" class="ratings mt-3">
+	<div ng-if="item.isRatings" class="ratings mt-3">
 		<h5 class="mb-1 text-black">Your ratings:</h5>
 		<ul>
-			<li>- Well written: <b>{{ article.ratingWellWritten }}</b></li>
-			<li>- Valid points: <b>{{ article.ratingValidPoints }}</b></li>
-			<li>- Agree with arguments: <b>{{ article.ratingAgree }}</b></li>
+			<li>- Well written: <b>{{ item.ratingWellWritten }}</b></li>
+			<li>- Valid points: <b>{{ item.ratingValidPoints }}</b></li>
+			<li>- Agree with arguments: <b>{{ item.ratingAgree }}</b></li>
 		</ul>
 	</div>
 

@@ -1,0 +1,12 @@
+<div class="card py-md-2">
+	<div class="user_info d-flex justify-content-between align-items-start">
+
+		<div class="user_info_inner d-flex align-items-start">
+			<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" class="mr-3" />
+			<div>
+				<h4>{{item.user.displayName}} <span class="text-muted">{{item.user.username}}</span> &bullet; <span>{{item.date}}</span></h4>
+				<p class="follow_summary mb-0" ng-bind-html="item.sentence"></p>
+			</div>
+		</div>
+	</div>
+</div>

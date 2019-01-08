@@ -48,7 +48,7 @@
 					Sorry no article results for "{{search.query}}"
 				</p>
 
-				<div ng-repeat="article in filterListForTab(search.results.data.articles)" class="feed-listing">
+				<div ng-repeat="item in filterListForTab(search.results.data.articles)" class="feed-listing">
 					<%= render 'articles/card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
@@ -62,7 +62,7 @@
 				<p ng-if="(search.results.data.contributors.length == 0)" class="no_results">
 					Sorry no contributor results for "{{search.query}}"
 				</p>
-				<div ng-repeat="contributor in filterListForTab(search.results.data.contributors)" class="feed-listing">
+				<div ng-repeat="item in filterListForTab(search.results.data.contributors)" class="feed-listing">
 					<%= render 'contributors/card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
@@ -76,7 +76,7 @@
 				<p ng-if="(search.results.data.profiles.length == 0)" class="no_results">
 					Sorry no profile results for "{{search.query}}"
 				</p>
-				<div ng-repeat="member in filterListForTab(search.results.data.profiles)" class="feed-listing">
+				<div ng-repeat="item in filterListForTab(search.results.data.profiles)" class="feed-listing">
 					<%= render 'users/member_card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
@@ -90,7 +90,7 @@
 				<p ng-if="(search.results.data.exchanges.length == 0)" class="no_results">
 					Sorry no exchange results for "{{search.query}}"
 				</p>
-				<div ng-repeat="exchange in filterListForTab(search.results.data.exchanges)" class="feed-listing">
+				<div ng-repeat="item in filterListForTab(search.results.data.exchanges)" class="feed-listing feed-exchange">
 					<%= render 'exchanges/card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
@@ -104,7 +104,7 @@
 				<p ng-if="(search.results.data.posts.length == 0)" class="no_results">
 					Sorry no post results for "{{search.query}}"
 				</p>
-				<div ng-repeat="share in filterListForTab(search.results.data.posts)" class="feed-listing feed-share">
+				<div ng-repeat="item in filterListForTab(search.results.data.posts)" class="feed-listing feed-share">
 					<%= render 'shares/card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">

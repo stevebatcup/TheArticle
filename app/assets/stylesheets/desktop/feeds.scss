@@ -15,6 +15,14 @@
 		.card {
 			padding: 16px;
 
+			.follow_summary {
+				font-size: 0.95em;
+				max-width: 90%;
+				a {
+					text-decoration: underline;
+				}
+			}
+
 			.share_menu_btn {
 				font-size: 1.4em;
 				position: relative;
@@ -311,8 +319,8 @@
 	.callout {
 
 		#who_to_follow {
-			height: 600px;
-			overflow-y: auto;
+			height: 610px;
+			// overflow-y: auto;
 
 			nav#suggestions_options {
 				font-size: 0.75em;

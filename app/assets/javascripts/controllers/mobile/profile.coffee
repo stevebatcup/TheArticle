@@ -18,11 +18,13 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.profilePhotoReadyForCrop = false
 		@scope.mode = 'view'
 		@scope.selectedTab = 'all'
+		@scope.allExchanges = []
 		@scope.profile =
 			allLimit: 2
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
+			digest: []
 			data:
 				id: null
 				displayName: ""
@@ -106,6 +108,19 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
 		@http.get(url).then (exchanges) =>
 			@scope.profile.data.exchanges = exchanges.data.exchanges
+			@scope.allExchanges = @sortExchangesByName(exchanges.data.exchanges)
+			angular.forEach @scope.profile.data.exchanges, (item) =>
+				item.type = 'exchange'
+				@scope.profile.digest.push item
+			@reorderDigest()
+
+	sortExchangesByName: (list) =>
+		list.sort (a,b) =>
+			a[0]-b[0]
+
+	reorderDigest: =>
+		@scope.profile.digest.sort (a,b) =>
+			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
@@ -125,6 +140,8 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 				@scope.profile.data = profile
 				console.log @scope.profile.data
 				@scope.profile.loaded = true
+				@buildDigestFromProfileData(@scope.profile.data)
+				@reorderDigest()
 				callback.call(@) if callback?
 			, 750
 		, (error) =>
@@ -136,11 +153,29 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
+				@buildDigestFromProfileData(@scope.profile.data)
+				@reorderDigest()
 				callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
+
+	buildDigestFromProfileData: (data) =>
+		angular.forEach data.shares, (item) =>
+			item.type = 'share'
+			@scope.profile.digest.push item
+		angular.forEach data.ratings, (item) =>
+			item.type = 'rating'
+			@scope.profile.digest.push item
+
+		item = data.recentFollowingSummary
+		item.type = 'recentFollowingSummary'
+		@scope.profile.digest.push item
+
+		item = data.recentFollowedSummary
+		item.type = 'recentFollowedSummary'
+		@scope.profile.digest.push item
 
 	editProfile: =>
 		return false unless @scope.profile.isMe
@@ -247,5 +282,14 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 			$("#follows-sub-tab-#{tab}").click()
 			@rootScope.$broadcast('follows_panel_open', tab)
 		, 300
+
+	openExchangesModal: ($event) =>
+		$event.preventDefault()
+		@timeout =>
+			tpl = $("#allUserExchanges").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#allUserExchangesModal").modal()
+		, 350
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

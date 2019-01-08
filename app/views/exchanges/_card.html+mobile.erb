@@ -1,11 +1,11 @@
 <div class="card">
-	<div class="user_info d-flex justify-content-between align-items-start">
+	<div class="user_info d-flex justify-content-between align-items-start" ng-if="item.user">
 
 		<div class="user_info_inner d-flex align-items-start">
-			<img ng-src="{{exchange.user.image}}" alt="{{exchange.user.displayName}}" />
+			<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" />
 			<div>
-				<h4>{{exchange.user.displayName}} <span class="text-muted">{{exchange.user.username}}</span></h4>
-				<p><b>Followed an exchange</b> &bullet; {{exchange.followedDate}}</p>
+				<h4>{{item.user.displayName}} <span class="text-muted">{{item.user.username}}</span></h4>
+				<p><b>Followed an exchange</b> &bullet; {{item.followedDate}}</p>
 			</div>
 		</div>
 
@@ -24,27 +24,27 @@
 	<div class="exchange_box">
 		<div class="inner d-flex align-items-start w-100">
 			<div class="img_mask">
-				<a ng-if="exchange.image" href="{{ exchange.path }}">
-					<img ng-src="{{ exchange.image }}" alt="{{ exchange.title }}" />
+				<a ng-if="item.image" href="{{ item.path }}">
+					<img ng-src="{{ item.image }}" alt="{{ item.title }}" />
 				</a>
 			</div>
 
 			<div class="pl-3 detail">
-				<h4 class="entry-title mb-2" id="article-post-title-{{ exchange.id }}">
-					<a href="{{ exchange.path }}">{{exchange.name}}</a>
+				<h4 class="entry-title mb-2" id="article-post-title-{{ item.id }}">
+					<a href="{{ item.path }}">{{item.name}}</a>
 				</h4>
 
 				<div class="">
-					{{ exchange.excerpt }}
+					{{ item.excerpt }}
 				</div>
 
 				<% if user_signed_in? %>
 				<button class="mt-1 btn follow_btn follow_exchange"
-								ng-class="{ 'btn-outline-dark': !exchange.imFollowing, 'btn-dark': exchange.imFollowing }"
+								ng-class="{ 'btn-outline-dark': !item.imFollowing, 'btn-dark': item.imFollowing }"
 								ng-click="toggleFollowExchangeFromCard(exchange, $event)">
 					<i class="fas fa-plus-square mr-1"></i>
-					<span ng-show="exchange.imFollowing">Following</span>
-					<span ng-show="!exchange.imFollowing">Follow</span>
+					<span ng-show="item.imFollowing">Following</span>
+					<span ng-show="!item.imFollowing">Follow</span>
 				</button>
 				<% end %>
 

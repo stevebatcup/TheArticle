@@ -4,11 +4,11 @@ module User::Shareable
   end
 
   def share_onlys
-  	self.shares.share_onlys
+  	self.shares.share_onlys.order(created_at: :desc)
   end
 
   def ratings
-  	self.shares.ratings
+  	self.shares.ratings.order(created_at: :desc)
   end
 
   def article_share(article)
@@ -27,10 +27,14 @@ module User::Shareable
   def ratingsSummary
     @ratingsSumary ||= {
       article_count: self.shares.size,
-      well_written: BigDecimal(self.shares.average(:rating_well_written)).to_i,
-      valid_points: BigDecimal(self.shares.average(:rating_valid_points)).to_i,
-      agree: BigDecimal(self.shares.average(:rating_agree)).to_i
+      well_written: summarise_rating_item(self.shares.average(:rating_well_written)),
+      valid_points: summarise_rating_item(self.shares.average(:rating_valid_points)),
+      agree: summarise_rating_item(self.shares.average(:rating_agree))
     }
+  end
+
+  def summarise_rating_item(item)
+    item.nil? ? 0 : BigDecimal(item).to_i
   end
 
   module ClassMethods

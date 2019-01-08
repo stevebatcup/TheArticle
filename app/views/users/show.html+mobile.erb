@@ -113,8 +113,26 @@
 		</ul>
 
 		<div class="" id="feed">
-			<div class="pt-4 results_block" ng-if="(selectedTab == 'all' || selectedTab == 'ratings')">
-				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Ratings</h6>
+
+			<div class="pt-4 results_block" ng-if="selectedTab == 'all'">
+				<div ng-repeat="item in profile.digest" class="col-12 feed-listing pb-3 px-0"
+							ng-class="{
+								'feed-share': item.type == 'share' || item.type == 'rating' || item.type == 'recentFollowingSummary' || item.type == 'recentFollowedSummary',
+								'feed-exchange': item.type == 'exchange'
+							}">
+						<div ng-if="item.type == 'recentFollowingSummary'">
+							<%= render 'follows/summary_card' %>
+						</div>
+						<div ng-if="item.type == 'recentFollowedSummary'">
+							<%= render 'follows/summary_card' %>
+						</div>
+						<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
+						<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
+						<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
+				</div>
+			</div>
+
+			<div class="pt-4 results_block" ng-if="selectedTab == 'ratings'">
 				<p class="empty_resource" ng-show="profile.data.ratings.length == 0">
 					<span ng-if="profile.isMe">You have not rated an article yet</span>
 					<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
@@ -162,36 +180,30 @@
 					</div>
 				</div>
 
-				<div ng-repeat="share in profile.data.ratings" class="feed-listing feed-share">
+				<div ng-repeat="item in profile.data.ratings" class="feed-listing feed-share">
 					<%= render 'shares/card' %>
-				</div>
-				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && profile.data.ratings.length > profile.allLimit">
-					<a href='#' ng-click="selectTab('ratings', $event)">View all</a>
 				</div>
 			</div>
 
-			<div class="pt-4 results_block" ng-if="(selectedTab == 'all' || selectedTab == 'shares')">
-				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Shares</h6>
+			<div class="pt-4 results_block" ng-if="selectedTab == 'shares'">
 				<p class="empty_resource" ng-show="profile.data.shares.length == 0">
 					<span ng-if="profile.isMe">You have not shared an article yet</span>
 					<span ng-if="!profile.isMe">{{profile.data.displayName}} has not shared an article yet</span>
 				</p>
-				<div ng-repeat="share in profile.data.shares" class="feed-listing feed-share">
+				<div ng-repeat="item in profile.data.shares" class="feed-listing feed-share">
 					<%= render 'shares/card' %>
-				</div>
-				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && profile.data.shares.length > profile.allLimit">
-					<a href='#' ng-click="selectTab('shares', $event)">View all</a>
 				</div>
 			</div>
 
-			<div class="pt-4 results_block" ng-if="(selectedTab == 'all' || selectedTab == 'exchanges')">
-				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Exchanges</h6>
+			<div class="pt-4 results_block" ng-if="selectedTab == 'exchanges'">
 				<p class="empty_resource" ng-show="profile.data.exchanges.length == 0">Not following any Exchanges</p>
-				<div ng-repeat="exchange in profile.data.exchanges" class="feed-listing feed-exchange">
+				<div ng-repeat="item in profile.data.exchanges" class="feed-listing feed-exchange">
 					<%= render 'exchanges/card' %>
 				</div>
-				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && profile.data.exchanges.length > profile.allLimit">
-					<a href='#' ng-click="selectTab('exchanges', $event)">View all</a>
+
+
+				<div ng-if="profile.data.exchanges.length > 3" class="px-2 py-2">
+					<a href="#" ng-click="openExchangesModal($event)">See all exchanges</a>
 				</div>
 			</div>
 		</div>
@@ -375,3 +387,7 @@
 	</script>
 
 </section>
+
+<script id="allUserExchanges" type="script/x-mustache">
+	<%= render partial: 'user_exchanges/all_modal' %>
+</script>

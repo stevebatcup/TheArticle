@@ -1,6 +1,7 @@
 json.set! :exchanges do
 	json.array! @userExchanges do |subscription|
 		exchange = subscription.exchange
+		json.stamp subscription.created_at.to_i
 		json.id exchange.id
 		json.img exchange.image.url(:detail)
 		json.image exchange.image.url(:detail)

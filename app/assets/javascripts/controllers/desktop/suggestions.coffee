@@ -5,6 +5,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$http'
 	  '$timeout'
+	  '$compile'
 	]
 
 	init: ->
@@ -31,5 +32,17 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	followSuggestion: (userId, callback) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
 			callback.call(@)
+
+	openSuggestionsModal: ($event) =>
+		$event.preventDefault()
+		@timeout =>
+			tpl = $("#allProfileSuggestions").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#allProfileSuggestionsModal").modal()
+		, 350
+
+	filterSuggestionListForBox: (list) =>
+		list.slice(0, 3)
 
 TheArticle.ControllerModule.controller('SuggestionsController', TheArticle.Suggestions)

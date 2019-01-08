@@ -17,6 +17,14 @@ input#suggestion_search {
 			padding: 16px;
 			border-radius: 0;
 
+			.follow_summary {
+				font-size: 0.95em;
+				max-width: 90%;
+				a {
+					text-decoration: underline;
+				}
+			}
+
 			.share_menu_btn {
 				font-size: 1.4em;
 				position: relative;
@@ -103,8 +111,6 @@ input#suggestion_search {
 		    margin-bottom: 11px;
 
 		    .img_mask {
-		    	width: 25%;
-
 			    img {
 			    	width: 100%;
 			    }
@@ -113,6 +119,12 @@ input#suggestion_search {
 			  .detail {
 			  	width: 75%;
 			  }
+			}
+
+			.exchange_box {
+				.img_mask {
+					width: 25%;
+				}
 			}
 
 			.article_box {

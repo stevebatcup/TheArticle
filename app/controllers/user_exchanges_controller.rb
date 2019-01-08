@@ -5,9 +5,9 @@ class UserExchangesController < ApplicationController
 		@user = current_user
 		if params[:id]
 			user = User.find(params[:id])
-			@userExchanges = user.subscriptions
+			@userExchanges = user.subscriptions.order(created_at: :desc)
 		else
-			@userExchanges = current_user.subscriptions
+			@userExchanges = current_user.subscriptions.order(created_at: :desc)
 		end
 	end
 

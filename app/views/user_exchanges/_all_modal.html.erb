@@ -1,0 +1,51 @@
+<div class="modal fade all_user_exchanges" id="allUserExchangesModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog scrollable medium" role="document">
+    <div class="modal-content">
+
+    	<div class="modal-header">
+    		<h5 class="pt-2">All exchanges for {{ profile.data.displayName }}</h5>
+
+
+        <button data-dismiss="modal" class="btn btn-link close_modal">
+          <i class="fas fa-times"></i>
+        </button>
+    	</div>
+
+      <div class="modal-body">
+      	<div ng-repeat="item in allExchanges" class="mb-2">
+      		<div class="exchange_box">
+            <div class="inner justify-content-start d-flex align-items-start">
+              <div class="img_mask">
+                <a ng-if="item.image" href="{{ item.path }}">
+                  <img ng-src="{{ item.image }}" alt="{{ item.title }}" class="w-100" />
+                </a>
+              </div>
+
+              <div class="pl-3">
+                <h5 class="entry-title mb-1" id="article-post-title-{{ item.id }}">
+                  <a href="{{ item.path }}">{{item.name}}</a>
+                </h5>
+
+                <div class="">
+                  <small>{{ item.excerpt }}</small>
+                </div>
+
+                <% if user_signed_in? %>
+                <button class="mt-1 btn follow_btn btn-sm follow_exchange"
+                        ng-class="{ 'btn-outline-dark': !item.imFollowing, 'btn-dark': item.imFollowing }"
+                        ng-click="toggleFollowExchangeFromCard(exchange, $event)">
+                  <i class="fas fa-plus-square mr-1"></i>
+                  <span ng-show="item.imFollowing">Following</span>
+                  <span ng-show="!item.imFollowing">Follow</span>
+                </button>
+                <% end %>
+
+              </div>
+            </div>
+
+          </div>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
