@@ -38,7 +38,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@scope.formError = false
 		data =
 			article_id: @element.data('article-id')
-			comments: @scope.share.comments
+			post: @scope.share.comments
 			rating_well_written: @scope.share.rating_well_written
 			rating_valid_points: @scope.share.rating_valid_points
 			rating_agree: @scope.share.rating_agree

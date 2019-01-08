@@ -1,0 +1,15 @@
+<div class="card py-md-2 comment-item" data-comment-id="{{comment.data.id}}">
+  <div class="user_info d-flex justify-content-between align-items-start">
+
+  <div class="user_info_inner d-flex align-items-start">
+    <img ng-src="{{comment.data.photo}}" alt="Image of {{comment.data.firstName}}" class="mr-3" />
+    <div>
+      <h4>{{comment.data.displayName}} <span class="text-muted">{{comment.data.username}}</span> &bullet; <span>  <time datetime="{{comment.data.timeActual}}">
+          {{comment.data.timeHuman}}
+        </time>
+        </span></h4>
+      <p class="follow_summary mb-0" ng-bind-html="comment.data.body"></p>
+    </div>
+    </div>
+  </div>
+</div>

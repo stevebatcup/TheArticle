@@ -27,6 +27,6 @@ private
 	end
 
 	def share_params
-		params.require(:share).permit(:article_id, :rating_well_written, :rating_valid_points, :rating_agree, :comments)
+		params.require(:share).permit(:article_id, :rating_well_written, :rating_valid_points, :rating_agree, :post)
 	end
 end

@@ -68,6 +68,10 @@ gem 'angularjs-rails-resource', '~> 2.0.0'
 gem 'kaminari'
 gem 'geocoder'
 
+gem "acts_as_commentable_with_threading"
+gem 'mustache'
+
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

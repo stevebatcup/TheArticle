@@ -21,9 +21,8 @@
 		</nav>
 	</div>
 
-
-	<p class="comments" ng-if="item.share.comments.length > 0">
-		{{item.share.comments}}
+	<p class="post" ng-if="item.share.post.length > 0">
+		{{item.share.post}}
 	</p>
 
 	<div class="ratings" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
@@ -96,18 +95,18 @@
 	</div>
 
 	<div class="share_meta d-flex justify-content-between">
-		<div class="comment_count">
+		<a href='#' ng-click="showComments($event, item)" class="comment_count">
 			<i class="fas fa-comment-alt"></i>
 			{{ item.share.commentCount }}
-		</div>
-		<div class="agree_count">
+		</a>
+		<a href='#' ng-click="" class="agree_count">
 			<i class="fas fa-thumbs-up"></i>
 			{{ item.share.agreeCount }}
-		</div>
-		<div class="disagree_count">
+		</a>
+		<a href='#' ng-click="" class="disagree_count">
 			<i class="fas fa-thumbs-down"></i>
 			{{ item.share.disagreeCount }}
-		</div>
+		</a>
 	</div>
 
 	<div class="share_actions d-flex justify-content-between px-5 pt-3">
@@ -123,6 +122,38 @@
 			<i class="fas fa-thumbs-down"></i>
 			Disagree
 		</a>
+	</div>
+
+	<!-- Comments -->
+	<div class="comments_pane" ng-if="item.showComments">
+	  <div class="col-md-8">
+	    <div class="comments">
+	      <script type="text/html" id="comment_template">
+	        <%= render 'shares/comment' %>
+	      </script>
+
+	      <ol class="comment-list">
+	      	<li ng-repeat="comment in item.comments" class="comment parent feed-listing">
+            <%= render 'shares/comment' %>
+            <ol class="children" ng-if="comment.children.length > 0">
+              <li class="comment feed-listing" ng-repeat="child in comment.children">
+                <%= render 'shares/comment_child' %>
+              </li>
+            </ol>
+          </li>
+	      </ol>
+
+	      <div class="respond" id="respond">
+          <h2 class="title">Leave a new Comment</h2>
+
+	        <a id="cancel_reply" href='#' style="display: none;">Cancel reply</a>
+	        <form class="comment-form">
+	          <textarea id="comment" class="form-control" name="comment" placeholder="Comment..." rows="4"></textarea>
+	          <input class="btn" id="post_comment" type="submit" value="Post Comment" />
+	        </form>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 
 </div>

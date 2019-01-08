@@ -86,7 +86,20 @@ json.set! :profile do
 				json.commentCount pluralize(share.commentCount, 'comment')
 				json.agreeCount "#{pluralize(share.agreeCount, 'person')} agree"
 				json.disagreeCount "#{pluralize(share.disagreeCount, 'person')} disagree"
-				json.comments share.comments
+				json.post share.post
+				json.showComments false
+			end
+			json.set! :comments do
+				json.array! share.root_comments do |root_comment|
+					json.data comment_for_tpl(root_comment, true)
+					json.set! :children do
+						if root_comment.has_children?
+							json.array! root_comment.children do |child_comment|
+								json.data comment_for_tpl(child_comment, true)
+							end
+						end
+					end
+				end
 			end
 			json.set! :user do
 				json.displayName displayName
@@ -132,7 +145,8 @@ json.set! :profile do
 				json.commentCount pluralize(share.commentCount, 'comment')
 				json.agreeCount "#{pluralize(share.agreeCount, 'person')} agree"
 				json.disagreeCount "#{pluralize(share.disagreeCount, 'person')} disagree"
-				json.comments share.comments
+				json.post share.post
+				json.showComments false
 			end
 			json.set! :ratings do
 				json.wellWritten share.rating_well_written

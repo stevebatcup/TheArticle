@@ -251,3 +251,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			$('body').append $content
 			$("#forgottenPasswordBoxModal").modal()
 		, 350
+
+	showComments: ($event, item) =>
+		$event.preventDefault()
+		item.showComments = true
