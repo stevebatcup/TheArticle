@@ -26,15 +26,45 @@ module User::Shareable
 
   def ratingsSummary
     @ratingsSumary ||= {
-      article_count: self.shares.size,
-      well_written: summarise_rating_item(self.shares.average(:rating_well_written)),
-      valid_points: summarise_rating_item(self.shares.average(:rating_valid_points)),
-      agree: summarise_rating_item(self.shares.average(:rating_agree))
+      article_count: self.ratings.size,
+      well_written: summarise_rating_item(self.ratings.average(:rating_well_written)),
+      valid_points: summarise_rating_item(self.ratings.average(:rating_valid_points)),
+      agree: summarise_rating_item(self.ratings.average(:rating_agree))
     }
   end
 
   def summarise_rating_item(item)
     item.nil? ? 0 : BigDecimal(item).to_i
+  end
+
+  def agree_with_post(share)
+    Opinion.create({
+      user_id: self.id,
+      share_id: share.id,
+      decision: 'agree'
+    })
+    undisagree_with_post(share)
+  end
+
+  def unagree_with_post(share)
+    if opinion = Opinion.find_by(user_id: self.id, share_id: share.id, decision: 'agree')
+      opinion.destroy
+    end
+  end
+
+  def disagree_with_post(share)
+    Opinion.create({
+      user_id: self.id,
+      share_id: share.id,
+      decision: 'disagree'
+    })
+    unagree_with_post(share)
+  end
+
+  def undisagree_with_post(share)
+    if opinion = Opinion.find_by(user_id: self.id, share_id: share.id, decision: 'disagree')
+      opinion.destroy
+    end
   end
 
   module ClassMethods

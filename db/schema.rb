@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_08_162232) do
+ActiveRecord::Schema.define(version: 2019_01_09_160913) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 2019_01_08_162232) do
     t.string "youtube_url"
   end
 
-  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "commentable_id"
     t.string "commentable_type"
     t.string "title"
@@ -130,6 +130,14 @@ ActiveRecord::Schema.define(version: 2019_01_08_162232) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "opinions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "share_id"
+    t.string "decision"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
     t.string "title"
@@ -164,7 +172,7 @@ ActiveRecord::Schema.define(version: 2019_01_08_162232) do
     t.index ["user_id"], name: "index_search_logs_on_user_id"
   end
 
-  create_table "shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "article_id"
     t.text "post"

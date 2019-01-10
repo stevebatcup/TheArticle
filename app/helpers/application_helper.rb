@@ -30,16 +30,17 @@ module ApplicationHelper
 		@devise_mapping ||= Devise.mappings[:user]
   end
 
-  def comment_for_tpl(comment, can_reply=false)
+  def comment_for_tpl(comment)
   	{
   		id: comment.id,
-  		displayName: comment.user.display_name,
+      path: profile_path(slug: comment.user.slug),
+      displayName: comment.user.display_name,
   		username: comment.user.username,
   		photo: comment.user.profile_photo.url(:square),
   		body: simple_format(comment.body),
   		timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
   		timeHuman: comment.created_at.strftime("%e %b"),
-  		canReply: can_reply
+      replyShowLimit: Comment.show_reply_limit
   	}
   end
 end

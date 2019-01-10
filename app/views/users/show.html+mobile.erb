@@ -9,7 +9,7 @@
 
 	<section class="cover_photo justify-content-center"
 					ng-show="profile.loaded && !profile.loadError && mode == 'view'"
-					ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
+					ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
 					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
 		<div class="col-12">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && profile.data.coverPhoto.image.length == 0">
@@ -43,22 +43,29 @@
 	</section>
 
 	<% if user_signed_in? %>
-	<section class="container" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
-		<button class="btn btn-outline-success btn-block mt-3 mb-4"
-							ng-click="editProfile()"
-							ng-show="profile.isMe">Edit Profile</button>
+		<section class="container" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+			<button class="btn btn-outline-success btn-block mt-3 mb-4"
+								ng-click="editProfile()"
+								ng-show="profile.isMe">Edit Profile</button>
 
-		<button class="btn btn-outline-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
-						ng-show="!profile.isMe && !profile.data.imFollowing">
-			<i class="fas fa-users mr-2"></i>
-			Follow
-		</button>
-		<button class="btn btn-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
-							ng-show="!profile.isMe && profile.data.imFollowing">
-			<i class="fas fa-users mr-2"></i>
-			Following
-		</button>
-	</section>
+			<button class="btn btn-outline-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
+							ng-show="!profile.isMe && !profile.data.imFollowing">
+				<i class="fas fa-users mr-2"></i>
+				Follow
+			</button>
+			<button class="btn btn-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
+								ng-show="!profile.isMe && profile.data.imFollowing">
+				<i class="fas fa-users mr-2"></i>
+				Following
+			</button>
+		</section>
+	<% else %>
+		<section class="container" ng-show="mode == 'view'">
+			<button class="btn btn-outline-success btn-block mt-3 mb-4" ng-click="actionRequiresSignIn($event, 'follow ' + profile.data.displayName)">
+				<i class="fas fa-users mr-2"></i>
+				Follow
+			</button>
+		</section>
 	<% end %>
 
 	<section class="container" id="more_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
@@ -312,19 +319,17 @@
 					    Followers
 					  </a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item" ng-if="isSignedIn && !isMe">
 					  <a class="nav-link" id="follows-sub-tab-you_know"
 					  			data-toggle="tab" href="#follows_you_know"
-					  			ng-click="setPanelTab('you_know')"
-					  			ng-if="!isMe">
+					  			ng-click="setPanelTab('you_know')">
 					    Followers you know
 					  </a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item" ng-if="isSignedIn && isMe">
 					  <a class="nav-link" id="follows-sub-tab-connected"
 					  			data-toggle="tab" href="#follows_connected"
-					  			ng-click="setPanelTab('connected')"
-					  			ng-if="isMe">
+					  			ng-click="setPanelTab('connected')">
 					    Connected
 					  </a>
 					</li>
@@ -336,7 +341,7 @@
 					id="follows_following"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-following">
-					<div ng-repeat="member in follows.followings" class="feed-listing">
+					<div ng-repeat="item in follows.followings" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -345,7 +350,7 @@
 					id="follows_followers"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-followers">
-					<div ng-repeat="member in follows.followers" class="feed-listing">
+					<div ng-repeat="item in follows.followers" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -354,8 +359,8 @@
 					id="follows_you_know"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-you_know"
-					ng-if="!isMe">
-					<div ng-repeat="member in follows.followers" class="feed-listing">
+					ng-if="isSignedIn && !isMe">
+					<div ng-repeat="item in follows.followers" class="feed-listing">
 						<div ng-if="inMyFollowers(member)">
 							<%= render 'users/member_card' %>
 						</div>
@@ -366,8 +371,8 @@
 					id="follows_connected"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-connected"
-					ng-if="isMe">
-					<div ng-repeat="member in follows.followings" class="feed-listing">
+					ng-if="isSignedIn && isMe">
+					<div ng-repeat="item in follows.followings" class="feed-listing">
 						<div ng-if="inFollowers(member)">
 							<%= render 'users/member_card' %>
 						</div>

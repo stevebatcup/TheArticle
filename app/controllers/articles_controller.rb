@@ -68,6 +68,6 @@ class ArticlesController < ApplicationController
 			'rating_valid_points' => 0,
 			'rating_agree' => 0
 		}
-		@article_share = current_user.article_share(@article).as_json if current_user.article_share(@article)
+		@article_share = current_user.article_share(@article).as_json if user_signed_in? && current_user.article_share(@article)
 	end
 end

@@ -16,6 +16,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false
+		@rootScope.isSignedIn = false
 		@scope.mode = 'view'
 		@scope.selectedTab = 'all'
 		@scope.allExchanges = []
@@ -56,6 +57,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 		@bindEvents()
 		if @scope.profile.isMe is true
+			@rootScope.isSignedIn = true
 			@getMyProfile @getUserExchanges
 		else
 			id = @element.data('id')
@@ -89,6 +91,10 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		# Broadcast from FollowsController
 		@scope.$on 'follows_panel_close', =>
 			@scope.mode = 'view'
+
+	actionRequiresSignIn: ($event, action) =>
+		$event.preventDefault()
+		@requiresSignIn(action)
 
 	selectTab: (tab='all', $event) =>
 		$event.preventDefault()
@@ -151,6 +157,7 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	getProfile:(id, callback=null) =>
 		@Profile.get({id: @element.data('user-id')}).then (profile) =>
 			@timeout =>
+				@rootScope.isSignedIn = profile.isSignedIn
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
@@ -268,13 +275,16 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
 	toggleFollowUser: =>
-		if @scope.profile.data.imFollowing
-			@unfollowUser @scope.profile.data.id, =>
-				@scope.profile.data.imFollowing = false
+		if @scope.isSignedIn
+			if @scope.profile.data.imFollowing
+				@unfollowUser @scope.profile.data.id, =>
+					@scope.profile.data.imFollowing = false
+			else
+				@followUser @scope.profile.data.id, =>
+					@scope.profile.data.imFollowing = true
+				, false
 		else
-			@followUser @scope.profile.data.id, =>
-				@scope.profile.data.imFollowing = true
-			, false
+			@requiresSignIn("follow #{member.displayName}")
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'

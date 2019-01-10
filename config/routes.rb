@@ -52,6 +52,10 @@ Rails.application.routes.draw do
   get 'account-settings',                      to: 'account_settings#edit'
 
   post 'share',                                to: 'shares#create', as: :share
+  get 'comments',                              to: 'comments#index', as: :comments
+  post 'comments',                             to: 'comments#create'
+  get 'opinions',                              to: 'opinions#index', as: :opinions
+  post 'opinions',                             to: 'opinions#create'
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

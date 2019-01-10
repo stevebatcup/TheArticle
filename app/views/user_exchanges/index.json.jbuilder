@@ -3,6 +3,7 @@ json.set! :exchanges do
 		exchange = subscription.exchange
 		json.stamp subscription.created_at.to_i
 		json.id exchange.id
+		json.path exchange_path(slug: exchange.slug)
 		json.img exchange.image.url(:detail)
 		json.image exchange.image.url(:detail)
 		json.name exchange.name
@@ -12,6 +13,7 @@ json.set! :exchanges do
 		json.imFollowing user_signed_in? ? exchange.is_followed_by(@user) : false
 		json.followedDate subscription.created_at.strftime("%e %b")
 		json.set! :user do
+			json.path profile_path(slug: @user.slug)
 			json.displayName @user.display_name
 			json.username @user.username
 			json.image @user.profile_photo.url(:square)

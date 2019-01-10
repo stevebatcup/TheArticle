@@ -7,7 +7,7 @@
 	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
 	<section id="cover_photo" class="cover_photo row" ng-show="profile.loaded && !profile.loadError"
-						ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
+						ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
 						ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
 		<div class="col-12">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && !profile.data.coverPhoto.image">
@@ -57,34 +57,41 @@
 		</ul>
 
 		<% if user_signed_in? %>
-		<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
+			<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
 
-			<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-							ng-show="!profile.isMe && !profile.data.imFollowing">
-				<i class="fas fa-users mr-2"></i>
-				Follow
-			</button>
-			<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-								ng-show="!profile.isMe && profile.data.imFollowing">
-				<i class="fas fa-users mr-2"></i>
-				Following
-			</button>
+				<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+								ng-show="!profile.isMe && !profile.data.imFollowing">
+					<i class="fas fa-users mr-2"></i>
+					Follow
+				</button>
+				<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+									ng-show="!profile.isMe && profile.data.imFollowing">
+					<i class="fas fa-users mr-2"></i>
+					Following
+				</button>
 
-			<div class="btn-group" class="mt-2" ng-show="profile.isMe">
-			  <button class="btn btn-outline-success btn-sm" type="button" ng-click="editProfile()">
-			    Edit profile
-			  </button>
-			  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			  	<span class="sr-only">Toggle Dropdown</span>
-			    <i class="fas fa-cog" aria-hidden="true"></i>
-			  </button>
-			  <div class="dropdown-menu">
-			    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
-	        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
-	        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
-			  </div>
+				<div class="btn-group" class="mt-2" ng-show="profile.isMe">
+				  <button class="btn btn-outline-success btn-sm" type="button" ng-click="editProfile()">
+				    Edit profile
+				  </button>
+				  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  	<span class="sr-only">Toggle Dropdown</span>
+				    <i class="fas fa-cog" aria-hidden="true"></i>
+				  </button>
+				  <div class="dropdown-menu">
+				    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+		        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+		        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+				  </div>
+				</div>
 			</div>
-		</div>
+		<% else %>
+			<div class="col-2 px-0 navbar">
+				<button class="btn btn-outline-success" ng-click="actionRequiresSignIn($event, 'follow ' + profile.data.displayName)">
+					<i class="fas fa-users mr-2"></i>
+					Follow
+				</button>
+			</div>
 		<% end %>
 
 	</section>
@@ -141,18 +148,23 @@
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
 			<div class="container" id="activity-tabs">
 
-				<div class="pt-4" ng-if="selectedTab == 'all'">
-					<div class="results_block row">
+				<div class="" ng-if="selectedTab == 'all'">
+					<div class="results_block row" ng-class="{'empty': profile.digest.length == 0}">
+
+						<p class="col-12 empty_resource" ng-if="profile.digest.length == 0">
+							<span ng-if="profile.isMe">You have no recent activity</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has no recent activity</span>
+						</p>
 
 						<div ng-repeat="item in profile.digest" class="col-12 feed-listing pb-3 px-0"
 									ng-class="{
 										'feed-share': item.type == 'share' || item.type == 'rating' || item.type == 'recentFollowingSummary' || item.type == 'recentFollowedSummary',
 										'feed-exchange': item.type == 'exchange'
 									}">
-								<div ng-if="item.type == 'recentFollowingSummary'">
+								<div ng-if="item.type == 'recentFollowingSummary' && item.sentence.length > 0">
 									<%= render 'follows/summary_card' %>
 								</div>
-								<div ng-if="item.type == 'recentFollowedSummary'">
+								<div ng-if="item.type == 'recentFollowedSummary' && item.sentence.length > 0">
 									<%= render 'follows/summary_card' %>
 								</div>
 								<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
@@ -163,11 +175,11 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'following')">
-					<div class="results_block row">
-						<p class="empty_resource" ng-show="profile.data.followings.length == 0">
+				<div class="" ng-if="(selectedTab == 'following')">
+					<div class="results_block row" ng-class="{'empty': profile.data.followings.length == 0}">
+						<p class="col-12 empty_resource" ng-show="profile.data.followings.length == 0">
 							<span ng-if="profile.isMe">You are not following any other members</span>
-							<span ng-if="!profile.isMe">Not following anyone</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not following anyone</span>
 						</p>
 
 						<div ng-repeat="item in profile.data.followings" class="col-12 feed-listing feed-follow pb-3 px-0">
@@ -177,12 +189,12 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'followers')"">
-					<div class="results_block row">
+				<div class="" ng-if="(selectedTab == 'followers')"">
+					<div class="results_block row" ng-class="{'empty': profile.data.followers.length == 0}">
 
 						<p class="col-12 empty_resource" ng-show="profile.data.followers.length == 0">
 							<span ng-if="profile.isMe">You are currently not being followed by any other members</span>
-							<span ng-if="!profile.isMe">Not being followed by anyone</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not being followed by anyone</span>
 						</p>
 
 						<div ng-repeat="item in profile.data.followers" class="col-12 feed-listing feed-follow pb-3 px-0">
@@ -192,8 +204,8 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="selectedTab == 'ratings'">
-					<div class="results_block row">
+				<div class="" ng-if="selectedTab == 'ratings'">
+					<div class="results_block row" ng-class="{'empty': profile.data.ratings.length == 0}">
 
 						<p class="col-12 empty_resource" ng-if="profile.data.ratings.length == 0">
 							<span ng-if="profile.isMe">You have not rated an article yet</span>
@@ -249,8 +261,8 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'shares')">
-					<div class="results_block row">
+				<div class="" ng-if="(selectedTab == 'shares')">
+					<div class="results_block row" ng-class="{'empty': profile.data.shares.length == 0}">
 
 						<p class="col-12 empty_resource" ng-show="profile.data.shares.length == 0">
 							<span ng-if="profile.isMe">You have not shared an article yet</span>
@@ -264,10 +276,10 @@
 					</div>
 				</div>
 
-				<div class="pt-4" ng-if="(selectedTab == 'exchanges')">
-					<div class="results_block row">
+				<div class="" ng-if="(selectedTab == 'exchanges')">
+					<div class="results_block row" ng-class="{'empty': profile.data.exchanges.length == 0}">
 
-						<p class="empty_resource" ng-show="profile.data.exchanges.length == 0">
+						<p class="col-12 empty_resource" ng-show="profile.data.exchanges.length == 0">
 							<span ng-if="profile.isMe">You are not following an exchange yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not followed an exchange yet</span>
 						</p>

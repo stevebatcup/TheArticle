@@ -1,15 +1,30 @@
-<div class="card py-md-2 comment-item" data-comment-id="{{comment.data.id}}">
+<div class="pt-md-2 comment-item comment-item-parent px-2" data-comment-id="{{comment.data.id}}">
   <div class="user_info d-flex justify-content-between align-items-start">
 
-  <div class="user_info_inner d-flex align-items-start">
-    <img ng-src="{{comment.data.photo}}" alt="Image of {{comment.data.firstName}}" class="mr-3" />
-    <div>
-      <h4>{{comment.data.displayName}} <span class="text-muted">{{comment.data.username}}</span> &bullet; <span>  <time datetime="{{comment.data.timeActual}}">
-          {{comment.data.timeHuman}}
-        </time>
-        </span></h4>
-      <p class="follow_summary mb-0" ng-bind-html="comment.data.body"></p>
+    <div class="user_info_inner d-flex align-items-start">
+      <a href="{{comment.data.path}}">
+        <img ng-src="{{comment.data.photo}}" alt="Image of {{comment.data.firstName}}" class="rounded-circle mr-3" />
+      </a>
+      <div class="comment_text">
+        <h4>
+          <a href="{{comment.data.path}}">
+            {{comment.data.displayName}}
+            <span class="text-muted">{{comment.data.username}}</span> &bullet;
+            <span>
+              <time datetime="{{comment.data.timeActual}}">
+            {{comment.data.timeHuman}}
+              </time>
+            </span>
+          </a>
+        </h4>
+        <p class="follow_summary mb-0" ng-bind-html="comment.data.body"></p>
+      </div>
     </div>
-    </div>
+
+    <%= render 'common/options_menu' %>
+  </div>
+
+  <div class="reply_area d-flex pl-5 align-items-start" ng-if="item.canComment"">
+    <a href='#' class="reply text-green" ng-click="replyToComment($event, comment, comment, false)">Reply</a>
   </div>
 </div>

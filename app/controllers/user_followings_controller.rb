@@ -1,6 +1,4 @@
 class UserFollowingsController < ApplicationController
-	before_action :authenticate_user!
-
 	def index
 		if params[:id]
 			user = User.find(params[:id])

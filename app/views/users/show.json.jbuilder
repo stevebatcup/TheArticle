@@ -1,4 +1,6 @@
 json.set! :profile do
+	json.isSignedIn user_signed_in?
+
 	# basics
 	json.id @user.id
 	json.isNew true
@@ -14,6 +16,7 @@ json.set! :profile do
 
 	json.location @user.location
 	json.bio @user.bio
+	userPath = profile_path(slug: @user.slug)
 
 	# photos
 	profileImage = @user.profile_photo.url(:square)
@@ -30,8 +33,9 @@ json.set! :profile do
 	json.recentFollowingSummary do
 		json.stamp recentFollowingSummary[:stamp]
 		json.date recentFollowingSummary[:date]
-		json.sentence recentFollowingSummary[:sentence].html_safe
+		json.sentence recentFollowingSummary[:sentence].present? ? recentFollowingSummary[:sentence].html_safe : ''
 		json.user do
+			json.path userPath
 			json.image profileImage
 			json.displayName displayName
 			json.username fullUsername
@@ -42,8 +46,9 @@ json.set! :profile do
 	json.recentFollowedSummary do
 		json.stamp recentFollowedSummary[:stamp]
 		json.date recentFollowedSummary[:date]
-		json.sentence recentFollowedSummary[:sentence].html_safe
+		json.sentence recentFollowedSummary[:sentence].present? ? recentFollowedSummary[:sentence].html_safe : ''
 		json.user do
+			json.path userPath
 			json.image profileImage
 			json.displayName displayName
 			json.username fullUsername
@@ -55,6 +60,7 @@ json.set! :profile do
 	json.set! :followers do
 		json.array! @user.followers do |follower|
 			json.id follower.id
+			json.path profile_path(slug: follower.slug)
 			json.displayName follower.display_name
 			json.username follower.username
 			json.bio bio_excerpt(follower, browser.device.mobile? ? 9 : 28)
@@ -68,6 +74,7 @@ json.set! :profile do
 	json.set! :followings do
 		json.array! @user.followings do |following|
 			json.id following.followed_id
+			json.path profile_path(slug: following.followed.slug)
 			json.displayName following.followed.display_name
 			json.username following.followed.username
 			json.bio bio_excerpt(following.followed, browser.device.mobile? ? 9 : 28)
@@ -81,26 +88,10 @@ json.set! :profile do
 	json.set! :shares do
 		json.array! @user.share_onlys do |share|
 			json.stamp share.created_at.to_i
-			json.set! :share do
-				json.date share.created_at.strftime("%e %b")
-				json.commentCount pluralize(share.commentCount, 'comment')
-				json.agreeCount "#{pluralize(share.agreeCount, 'person')} agree"
-				json.disagreeCount "#{pluralize(share.disagreeCount, 'person')} disagree"
-				json.post share.post
-				json.showComments false
-			end
-			json.set! :comments do
-				json.array! share.root_comments do |root_comment|
-					json.data comment_for_tpl(root_comment, true)
-					json.set! :children do
-						if root_comment.has_children?
-							json.array! root_comment.children do |child_comment|
-								json.data comment_for_tpl(child_comment, true)
-							end
-						end
-					end
-				end
-			end
+			json.share share.json_data(false)
+			json.canInteract user_signed_in? && share.current_user_can_interact(current_user)
+			json.iAgreeWithPost user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false
+			json.iDisagreeWithPost user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false
 			json.set! :user do
 				json.displayName displayName
 				json.username fullUsername
@@ -139,15 +130,10 @@ json.set! :profile do
 	json.set! :ratings do
 		json.array! @user.ratings do |share|
 			json.stamp share.created_at.to_i
-			json.set! :share do
-				json.isRatings true
-				json.date share.created_at.strftime("%e %b")
-				json.commentCount pluralize(share.commentCount, 'comment')
-				json.agreeCount "#{pluralize(share.agreeCount, 'person')} agree"
-				json.disagreeCount "#{pluralize(share.disagreeCount, 'person')} disagree"
-				json.post share.post
-				json.showComments false
-			end
+			json.share share.json_data(true)
+			json.canInteract user_signed_in? && share.current_user_can_interact(current_user)
+			json.iAgreeWithPost user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false
+			json.iDisagreeWithPost user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false
 			json.set! :ratings do
 				json.wellWritten share.rating_well_written
 				json.validPoints share.rating_valid_points

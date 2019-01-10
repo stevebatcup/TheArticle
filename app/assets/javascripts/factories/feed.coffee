@@ -6,3 +6,19 @@ TheArticle.FactoryModule.factory("Feed", ['RailsResource',
         name: 'feed'
         interceptAuth: true
 ])
+.factory("Comment", ['RailsResource',
+  (RailsResource) ->
+    class Comment extends RailsResource
+      @configure
+        url: '/comments'
+        name: 'comment'
+        interceptAuth: true
+])
+.factory("Opinion", ['RailsResource',
+  (RailsResource) ->
+    class Opinion extends RailsResource
+      @configure
+        url: '/opinions'
+        name: 'opinion'
+        interceptAuth: true
+])

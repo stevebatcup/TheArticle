@@ -13,6 +13,14 @@ class Comment < ActiveRecord::Base
   # NOTE: Comments belong to a user
   belongs_to :user
 
+  def self.show_limit
+    5
+  end
+
+  def self.show_reply_limit
+    4
+  end
+
   # Helper class method that allows you to build a comment
   # by passing a commentable object, a user_id, and comment text
   # example in readme
@@ -45,4 +53,5 @@ class Comment < ActiveRecord::Base
   def self.find_commentable(commentable_str, commentable_id)
     commentable_str.constantize.find(commentable_id)
   end
+
 end

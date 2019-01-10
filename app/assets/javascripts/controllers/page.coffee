@@ -230,8 +230,13 @@ class TheArticle.PageController extends TheArticle.NGController
 			$("#registerBoxModal").modal()
 		, 350
 
-	openSigninForm: ($event) =>
-		$event.preventDefault()
+	requiresSignIn: (action) =>
+		@openSigninForm()
+		@scope.authMessage = "You must be signed in to #{action}"
+
+	openSigninForm: ($event=null) =>
+		$event.preventDefault() if $event
+		@scope.authMessage = ""
 		$('[data-dismiss=modal]', '#registerBoxModal').click()
 		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 		@timeout =>
@@ -251,7 +256,3 @@ class TheArticle.PageController extends TheArticle.NGController
 			$('body').append $content
 			$("#forgottenPasswordBoxModal").modal()
 		, 350
-
-	showComments: ($event, item) =>
-		$event.preventDefault()
-		item.showComments = true

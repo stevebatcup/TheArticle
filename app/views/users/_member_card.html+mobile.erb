@@ -22,13 +22,19 @@
 				</div>
 
 				<% if user_signed_in? %>
-				<button class="btn btn-sm follow_btn"
-								ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
-								ng-click="toggleFollowUserFromCard(item, $event)">
-					<i class="fas fa-users mr-2"></i>
-					<span ng-show="item.imFollowing">Following</span>
-					<span ng-show="!item.imFollowing">Follow</span>
-				</button>
+					<button class="btn btn-sm follow_btn"
+									ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
+									ng-click="toggleFollowUserFromCard(item, $event)">
+						<i class="fas fa-users mr-2"></i>
+						<span ng-show="item.imFollowing">Following</span>
+						<span ng-show="!item.imFollowing">Follow</span>
+					</button>
+				<% else %>
+					<button class="btn btn-sm follow_btn btn-outline-success"
+									 ng-click="actionRequiresSignIn($event, 'follow ' + item.displayName)">
+						<i class="fas fa-users mr-2"></i>
+						Follow
+					</button>
 				<% end %>
 			</div>
 

@@ -26,6 +26,7 @@ class User < ApplicationRecord
   has_many :shares
   has_many :search_logs
   has_many :comments
+  has_many :opinions
 
   include Suggestable
   include Shareable

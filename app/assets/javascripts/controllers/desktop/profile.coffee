@@ -1,8 +1,9 @@
-class TheArticle.Profile extends TheArticle.DesktopPageController
+class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageController, TheArticle.Feeds
 
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
@@ -10,13 +11,23 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	  '$sce'
 	  'Profile'
 	  'MyProfile'
+	  'Comment'
+	  'Opinion'
 	]
 
 	init: ->
 		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
+		@rootScope.isSignedIn = false
 		@scope.selectedTab = 'all'
 		@scope.allExchanges = []
+		@scope.replyingToComment =
+			comment: {}
+			parentComment: {}
+			replyingToReply: false
+		@scope.commentForSubmission =
+			value: ''
+		@scope.commentChildLimit = false
 		@scope.profile =
 			allLimit: 6
 			isMe: window.location.pathname is "/my-profile"
@@ -56,6 +67,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		@bindEvents()
 		@detectPanelOpeners() if 'panel' of @getVars
 		if @scope.profile.isMe is true
+			@rootScope.isSignedIn = true
 			@getMyProfile @getUserExchanges
 		else
 			id = @rootElement.data('id')
@@ -75,6 +87,10 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
+
+	actionRequiresSignIn: ($event, action) =>
+		$event.preventDefault()
+		@requiresSignIn(action)
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab
@@ -147,6 +163,7 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 	getProfile: (id, callback=null) =>
 		@Profile.get({id: @rootElement.data('user-id')}).then (profile) =>
 			@timeout =>
+				@rootScope.isSignedIn = profile.isSignedIn
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
@@ -167,11 +184,11 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 
 		item = data.recentFollowingSummary
 		item.type = 'recentFollowingSummary'
-		@scope.profile.digest.push item
+		@scope.profile.digest.push item unless item.sentence.length == 0
 
 		item = data.recentFollowedSummary
 		item.type = 'recentFollowedSummary'
-		@scope.profile.digest.push item
+		@scope.profile.digest.push item unless item.sentence.length == 0
 
 	editProfile: (section=null) =>
 		return false unless @scope.profile.isMe
@@ -254,28 +271,35 @@ class TheArticle.Profile extends TheArticle.DesktopPageController
 		$("#editcoverPhotoModal").modal()
 
 	toggleFollowUser: =>
-		userId = @scope.profile.data.id
-		if @scope.profile.data.imFollowing
-			@unfollowUser userId, =>
-				@scope.profile.data.imFollowing = false
+		if @rootScope.isSignedIn
+			userId = @scope.profile.data.id
+			if @scope.profile.data.imFollowing
+				@unfollowUser userId, =>
+					@scope.profile.data.imFollowing = false
+			else
+				@followUser userId, =>
+					@scope.profile.data.imFollowing = true
+				, false
 		else
-			@followUser userId, =>
-				@scope.profile.data.imFollowing = true
-			, false
+			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 
 	toggleFollowUserFromCard: (member) =>
-		if member.imFollowing
-			@unfollowUser member.id ,=>
-				@scope.profile.data.followings = _.filter @scope.profile.data.followings, (item) =>
-					item.id isnt member.id
-				if followerItem = _.findWhere @scope.profile.data.followers, { id: member.id }
-					followerItem.imFollowing = false
-				member.imFollowing = false
+		if @rootScope.isSignedIn
+			if member.imFollowing
+				@unfollowUser member.id ,=>
+					@scope.profile.data.followings = _.filter @scope.profile.data.followings, (item) =>
+						item.id isnt member.id
+					if followerItem = _.findWhere @scope.profile.data.followers, { id: member.id }
+						followerItem.imFollowing = false
+					member.imFollowing = false
+			else
+				@followUser member.id, =>
+					member.imFollowing = true
+					@scope.profile.data.followings.push member
+				, false
 		else
-			@followUser member.id, =>
-				member.imFollowing = true
-				@scope.profile.data.followings.push member
-			, false
+			@requiresSignIn("follow #{member.displayName}")
+
 
 	openExchangesModal: ($event) =>
 		$event.preventDefault()

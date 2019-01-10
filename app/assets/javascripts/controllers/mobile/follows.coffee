@@ -23,7 +23,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 		@scope.panelTab = 'following'
 		@bindEvents()
 		@getFollows(false)
-		@getFollows(true) if !@scope.isMe
+		@getFollows(true) if (!@scope.isMe) and (@rootScope.isSignedIn is true)
 
 	bindEvents: =>
 		@scope.$on 'follows_panel_open', (data, tab) =>
