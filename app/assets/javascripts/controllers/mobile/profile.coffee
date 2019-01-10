@@ -1,4 +1,4 @@
-class TheArticle.Profile extends TheArticle.MobilePageController
+class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageController, TheArticle.Feeds
 
 	@register window.App
 	@$inject: [
@@ -7,10 +7,12 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	  '$http'
 	  '$element'
 	  '$timeout'
-	  '$sce'
 	  '$compile'
+	  '$sce'
 	  'Profile'
 	  'MyProfile'
+	  'Comment'
+	  'Opinion'
 	]
 
 	init: ->
@@ -20,8 +22,17 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 		@scope.mode = 'view'
 		@scope.selectedTab = 'all'
 		@scope.allExchanges = []
+		@scope.replyingToComment =
+			comment: {}
+			parentComment: {}
+			replyingToReply: false
+		@scope.commentForSubmission =
+			value: ''
+		@scope.commentChildLimit = false
+		@scope.authActionMessage =
+			heading: ''
+			msg: ''
 		@scope.profile =
-			allLimit: 2
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
@@ -99,16 +110,9 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 	selectTab: (tab='all', $event) =>
 		$event.preventDefault()
 		@scope.selectedTab = tab
-		console.log @scope.selectedTab
 		$('#feed').scrollTop(0)
 		pos = $('#public_activity').position().top - 50
 		$(window).scrollTop(pos)
-
-	filterListForTab: (list) =>
-		if @scope.selectedTab == 'all'
-			list.slice(0, @scope.profile.allLimit)
-		else
-			list
 
 	getUserExchanges: =>
 		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
@@ -178,11 +182,11 @@ class TheArticle.Profile extends TheArticle.MobilePageController
 
 		item = data.recentFollowingSummary
 		item.type = 'recentFollowingSummary'
-		@scope.profile.digest.push item
+		@scope.profile.digest.push item unless item.sentence.length == 0
 
 		item = data.recentFollowedSummary
 		item.type = 'recentFollowedSummary'
-		@scope.profile.digest.push item
+		@scope.profile.digest.push item unless item.sentence.length == 0
 
 	editProfile: =>
 		return false unless @scope.profile.isMe

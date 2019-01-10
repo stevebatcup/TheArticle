@@ -14,8 +14,16 @@ class TheArticle.Feeds extends TheArticle.NGController
 
 	showRequiresConnectionInfo: ($event, item) =>
 		$event.preventDefault()
-		item.actionAuthInfo = true
 		item.actionAuthError = false
+		@scope.itemForConnectionMessage = item
+		console.log @scope.itemForConnectionMessage.canInteract
+		@timeout =>
+			tpl = $("#requiresConnectionInfoBox").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#requiresConnectionInfoBoxModal").modal()
+		, 350
+
 
 	pluralize: (count, single, multipleOrZero) =>
 		if count is 1
@@ -64,8 +72,7 @@ class TheArticle.Feeds extends TheArticle.NGController
 		$event.preventDefault()
 		if @scope.isSignedIn is false
 			@requiresSignIn('view comments')
-		else if (!item.canInteract) and (startWriting is true)
-			item.actionAuthInfo = false
+		else if (item.canInteract != 'yes') and (startWriting is true)
 			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
 		else
 			if !item.share.commentsLoaded
@@ -150,7 +157,6 @@ class TheArticle.Feeds extends TheArticle.NGController
 	showAgrees: ($event, item) =>
 		$event.preventDefault()
 		if @scope.isSignedIn is true
-			item.actionAuthInfo = false
 			item.actionAuthError = false
 			if !item.share.opinionsLoaded
 				@loadOpinions item, =>
@@ -180,8 +186,7 @@ class TheArticle.Feeds extends TheArticle.NGController
 		$event.preventDefault()
 		if @scope.isSignedIn is false
 			@requiresSignIn('interact with this post')
-		else if !item.canInteract
-			item.actionAuthInfo = false
+		else if item.canInteract != 'yes'
 			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
 		else
 			if !item.share.opinionsLoaded
@@ -228,7 +233,6 @@ class TheArticle.Feeds extends TheArticle.NGController
 	showDisagrees: ($event, item) =>
 		$event.preventDefault()
 		if @scope.isSignedIn is true
-			item.actionAuthInfo = false
 			item.actionAuthError = false
 			if !item.share.opinionsLoaded
 				@loadOpinions item, =>
@@ -257,8 +261,7 @@ class TheArticle.Feeds extends TheArticle.NGController
 		$event.preventDefault()
 		if @scope.isSignedIn is false
 			@requiresSignIn('interact with this post')
-		else if !item.canInteract
-			item.actionAuthInfo = false
+		else if item.canInteract != 'yes'
 			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
 		else
 			if !item.share.opinionsLoaded

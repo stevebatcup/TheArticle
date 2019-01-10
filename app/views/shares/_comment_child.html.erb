@@ -24,7 +24,7 @@
     <%= render 'common/options_menu' %>
   </div>
 
-  <div class="reply_area d-flex pl-5 align-items-start" ng-if="item.canComment">
+  <div class="reply_area pl-5" ng-if="item.canInteract == 'yes'">
     <a href='#' class="reply text-green" ng-click="replyToComment($event, child, comment, true)">Reply</a>
   </div>
 </div>

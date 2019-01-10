@@ -1,0 +1,35 @@
+<div class="modal fade no_connection" id="requiresConnectionInfoBoxModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog scrollable medium" role="document">
+    <div class="modal-content">
+
+    	<div class="modal-header">
+    		<h5 class="pt-2">You are not connected with {{itemForConnectionMessage.user.displayName}}</h5>
+
+
+        <button data-dismiss="modal" class="btn btn-link close_modal">
+          <i class="fas fa-times"></i>
+        </button>
+    	</div>
+
+      <div class="modal-body" id="requires_connection_modal">
+      	<div class="text-center icon_center text-green">
+      		<i class="far fa-thumbs-up"></i>
+      	</div>
+
+      	<section class="auth_action_message" ng-if="!itemForConnectionMessage.canInteract">
+      		<p>You do not follow each other so you cannot contribute to their post.
+      						Make the first move by following <a href="{{itemForConnectionMessage.user.path}}">{{itemForConnectionMessage.user.displayName}}</a></p>
+      	</section>
+
+      	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_following'">
+      		<p><b>{{itemForConnectionMessage.user.displayName}}</b> follows you but you do not follow him so you cannot contribute to his post. <a href="{{itemForConnectionMessage.user.path}}">Follow {{itemForConnectionMessage.user.displayName}}</a></p>
+      	</section>
+
+      	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_followed'">
+      		<p>You follow <b>{{itemForConnectionMessage.user.displayName}}</b> but he does not follow you so you cannot contribute to his post.<p>
+					<p>Start a discussion on your own profile by <a href="{{itemForConnectionMessage.article.path}}">visiting the article</a> and sharing your own thoughts and rating.</p>
+      	</section>
+      </div>
+    </div>
+  </div>
+</div>

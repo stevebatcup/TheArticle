@@ -6,7 +6,23 @@ class Share < ApplicationRecord
 	belongs_to	:article
 
 	def current_user_can_interact(current_user)
-		Follow.users_are_connected(current_user, self.user)
+		if current_user == self.user
+			'yes'
+		else
+			if current_user.is_followed_by(self.user)
+				if Follow.users_are_connected(current_user, self.user)
+					'yes'
+				else
+					'not_following'
+				end
+			else
+				if self.user.is_followed_by(current_user)
+					'not_followed'
+				else
+					false
+				end
+			end
+		end
 	end
 
 	def agrees

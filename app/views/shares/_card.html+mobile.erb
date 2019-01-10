@@ -16,21 +16,11 @@
 			</div>
 		</div>
 
-		<nav class="navbar share_menu_btn d-inline-block">
-			<a href='#' data-toggle="dropdown">
-				<i class="fas fa-chevron-circle-down"></i>
-			</a>
-		  <div class="dropdown-menu dropdown-menu-right">
-		    <a class="dropdown-item" href="#" ng-click="report()">Report</a>
-	      <a class="dropdown-item" href="#" ng-click="block()">Block</a>
-	      <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
-		  </div>
-		</nav>
+		<%= render 'common/options_menu' %>
 	</div>
 
-
-	<p class="comments" ng-if="item.share.comments.length > 0">
-		{{item.share.comments}}
+	<p class="post" ng-if="item.share.post.length > 0">
+		{{item.share.post}}
 	</p>
 
 	<div class="ratings" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
@@ -102,34 +92,145 @@
 		</div>
 	</div>
 
-	<div class="share_meta d-flex justify-content-between">
-		<div class="comment_count">
-			<i class="fas fa-comment-alt"></i>
-			{{ item.share.commentCount }}
+	<section ng-if="item.share.post.length > 0">
+		<div class="share_meta d-flex justify-content-start">
+			<div class="count_box comment_count flex-fill" ng-if="commentCount(item, false) > 0">
+				<a href='#' ng-click="showComments($event, item)">
+					<i class="far fa-comment-alt"></i>
+					{{ commentCount(item) }}
+				</a>
+			</div>
+			<div class="count_box agree_count flex-fill" ng-if="agreeCount(item, false) > 0">
+				<a href='#' ng-click="showAgrees($event, item)">
+					<i class="far fa-thumbs-up"></i>
+					{{ agreeCount(item, false) }} agree
+				</a>
+			</div>
+			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0">
+				<a href='#' ng-click="showDisagrees($event, item)"
+						>
+					<i class="far fa-thumbs-down"></i>
+					{{ disagreeCount(item, false) }} disagree
+				</a>
+			</div>
 		</div>
-		<div class="agree_count">
-			<i class="fas fa-thumbs-up"></i>
-			{{ item.share.agreeCount }}
-		</div>
-		<div class="disagree_count">
-			<i class="fas fa-thumbs-down"></i>
-			{{ item.share.disagreeCount }}
-		</div>
-	</div>
 
-	<div class="share_actions d-flex justify-content-between px-1 pt-3">
-		<a href='#' ng-click="interact()" class="comment_action">
-			<i class="fas fa-comment-alt"></i>
-			Comment
-		</a>
-		<a href='#' ng-click="interact()" class="agree_action">
-			<i class="fas fa-thumbs-up"></i>
-			Agree
-		</a>
-		<a href='#' ng-click="interact()" class="disagree_action">
-			<i class="fas fa-thumbs-down"></i>
-			Disagree
-		</a>
-	</div>
+		<div class="share_actions px-1 pt-3"
+					ng-class="{'ghosted': !isSignedIn || item.canInteract != 'yes'}">
+			<div class="d-flex justify-content-between">
+				<a href='#' ng-click="showComments($event, item, true)" class="comment_action action">
+					<i class="fas fa-comment-alt"></i>
+					Comment
+				</a>
+				<a href='#' ng-click="agreeWithPost($event, item)" class="agree_action action"
+						ng-class="{'selected': item.iAgreeWithPost}">
+					<i class="fas fa-thumbs-up"></i>
+					Agree
+				</a>
+				<a href='#' ng-click="disagreeWithPost($event, item)" class="disagree_action action"
+						ng-class="{'selected': item.iDisagreeWithPost}">
+					<i class="fas fa-thumbs-down"></i>
+					Disagree
+				</a>
+			</div>
+			<a href='#' class="helper" ng-if="!isSignedIn" ng-click="feedActionRequiresSignIn($event, 'interact with this post')">
+				<i class="far fa-question-circle"></i>
+			</a>
+			<a href='#' class="helper" ng-if="item.canInteract != 'yes'" ng-click="showRequiresConnectionInfo($event, item)">
+				<i class="far fa-question-circle"></i>
+			</a>
 
+			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError">{{item.actionAuthError}}</p>
+		</div>
+	</section>
 </div>
+
+<section ng-if="item.share.post.length > 0">
+	<!-- Comments -->
+	<div class="comments_pane" ng-if="item.share.showComments">
+			<div class="ajax_loading" ng-if="!item.share.commentsLoaded">Loading...</div>
+
+		<div ng-if="item.share.commentsLoaded">
+		  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
+		    <form class="comment-form">
+		    	<div class="d-flex w-100">
+						<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" />
+		        <textarea class="comment_textarea ml-3 form-control" name="comment" rows="4" placeholder="Add your Comment" ng-model="commentForSubmission.value"></textarea>
+		      </div>
+		      <div class="d-flex justify-content-end">
+				    <a class="cancel_reply text-green mr-4 mt-4" href='#' style="display: none;" ng-click="cancelReply($event, item.share.id)">Cancel reply</a>
+			      <input class="btn px-5 btn-success mt-3" class="post_comment" type="submit" value="Post Comment" ng-click="postComment($event, item)" />
+			    </div>
+		    </form>
+		  </div>
+
+		  <div class="comments px-3">
+		    <script type="text/html" id="comment_template">
+		      <%= render 'shares/comment' %>
+		    </script>
+
+		    <ol class="comment-list">
+		    	<li ng-repeat="comment in filterCommentsByLimit(item)"
+		    				class="comment parent feed-listing"
+		    				ng-class="{'with_children': comment.children.length > 0}">
+		        <%= render 'shares/comment' %>
+		        <ol class="children" ng-if="comment.children.length > 0">
+		          <li class="comment feed-listing" ng-repeat="child in filterRepliesByLimit(comment, item)">
+		            <%= render 'shares/comment_child' %>
+		          </li>
+		        </ol>
+		        <a href='#' ng-click="showAllReplies($event, comment)"
+		        						ng-if="(comment.data.replyShowLimit > 0) && (comment.children.length > comment.data.replyShowLimit)"
+		        						class="show_more text-green pt-2 pb-3 px-2 mb-3">
+		        						<i class="fas fa-chevron-down mr-1"></i>
+		        					View all {{comment.children.length}} replies
+		        					</a>
+		      </li>
+		    </ol>
+		    <a href='#' ng-click="showAllComments($event, item)" ng-if="(item.share.commentShowLimit > 0) && (item.comments.length > item.share.commentShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
+		    	<i class="fas fa-chevron-down mr-1"></i>
+		    View all {{item.comments.length}} comments
+		  	</a>
+		  </div>
+	  </div>
+	</div>
+
+
+	<!-- Agrees -->
+	<div class="opinions_pane agrees" ng-if="item.share.showAgrees">
+		<div class="ajax_loading" ng-if="!item.share.opinionsLoaded">Loading...</div>
+
+		<div ng-if="item.share.opinionsLoaded">
+			<h5 class="pt-2 pl-4">People who agree with this post</h5>
+			<ol class="comment-list">
+				<li ng-repeat="opinion in filterAgreesByLimit(item)" class="opinion feed-listing feed-opinion">
+			    <%= render 'shares/opinion' %>
+			  </li>
+			</ol>
+			<a href='#' ng-click="showAllAgrees($event, item)"
+						ng-if="(item.share.agreeShowLimit > 0) && (item.opinions.agrees.length > item.share.agreeShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
+				<i class="fas fa-chevron-down mr-1"></i>
+				View all {{item.opinions.agrees.length}}
+			</a>
+		</div>
+	</div>
+
+	<!-- Disgrees -->
+	<div class="opinions_pane agrees" ng-if="item.share.showDisagrees">
+		<div class="ajax_loading" ng-if="!item.share.opinionsLoaded">Loading...</div>
+
+		<div ng-if="item.share.opinionsLoaded">
+			<h5 class="pt-2 pl-4">People who disagree with this post</h5>
+			<ol class="comment-list">
+				<li ng-repeat="opinion in filterDisagreesByLimit(item)" class="opinion feed-listing feed-opinion">
+			    <%= render 'shares/opinion' %>
+			  </li>
+			</ol>
+		  <a href='#' ng-click="showAllDisagrees($event, item)"
+		  			ng-if="(item.share.disagreeShowLimit > 0) && (item.opinions.disagrees.length > item.share.disagreeShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
+		  	<i class="fas fa-chevron-down mr-1"></i>
+		  	View all {{item.opinions.disagrees.length}}
+			</a>
+		</div>
+	</div>
+</section>

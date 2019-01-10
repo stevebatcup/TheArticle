@@ -121,7 +121,13 @@
 
 		<div class="" id="feed">
 
-			<div class="pt-4 results_block" ng-if="selectedTab == 'all'">
+			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
+
+				<p class="col-12 empty_resource" ng-if="profile.digest.length == 0">
+					<span ng-if="profile.isMe">You have no recent activity</span>
+					<span ng-if="!profile.isMe">{{profile.data.displayName}} has no recent activity</span>
+				</p>
+
 				<div ng-repeat="item in profile.digest" class="col-12 feed-listing pb-3 px-0"
 							ng-class="{
 								'feed-share': item.type == 'share' || item.type == 'rating' || item.type == 'recentFollowingSummary' || item.type == 'recentFollowedSummary',
@@ -139,7 +145,7 @@
 				</div>
 			</div>
 
-			<div class="pt-4 results_block" ng-if="selectedTab == 'ratings'">
+			<div class="pt-4 results_block" ng-if="selectedTab == 'ratings'" ng-class="{'empty': profile.data.ratings.length == 0}">
 				<p class="empty_resource" ng-show="profile.data.ratings.length == 0">
 					<span ng-if="profile.isMe">You have not rated an article yet</span>
 					<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
@@ -192,7 +198,7 @@
 				</div>
 			</div>
 
-			<div class="pt-4 results_block" ng-if="selectedTab == 'shares'">
+			<div class="pt-4 results_block" ng-if="selectedTab == 'shares'" ng-class="{'empty': profile.data.shares.length == 0}">
 				<p class="empty_resource" ng-show="profile.data.shares.length == 0">
 					<span ng-if="profile.isMe">You have not shared an article yet</span>
 					<span ng-if="!profile.isMe">{{profile.data.displayName}} has not shared an article yet</span>
@@ -202,7 +208,7 @@
 				</div>
 			</div>
 
-			<div class="pt-4 results_block" ng-if="selectedTab == 'exchanges'">
+			<div class="pt-4 results_block" ng-if="selectedTab == 'exchanges'" ng-class="{'empty': profile.data.exchanges.length == 0}">
 				<p class="empty_resource" ng-show="profile.data.exchanges.length == 0">Not following any Exchanges</p>
 				<div ng-repeat="item in profile.data.exchanges" class="feed-listing feed-exchange">
 					<%= render 'exchanges/card' %>
@@ -395,4 +401,8 @@
 
 <script id="allUserExchanges" type="script/x-mustache">
 	<%= render partial: 'user_exchanges/all_modal' %>
+</script>
+
+<script id="requiresConnectionInfoBox" type="script/x-mustache">
+	<%= render partial: 'follows/no_connection_modal' %>
 </script>

@@ -379,8 +379,12 @@
 	<script id="allProfileSuggestions" type="script/x-mustache">
 		<%= render partial: 'profile_suggestions/all_modal' %>
 	</script>
+
+	<script id="allUserExchanges" type="script/x-mustache">
+		<%= render partial: 'user_exchanges/all_modal' %>
+	</script>
 <% end %>
 
-<script id="allUserExchanges" type="script/x-mustache">
-	<%= render partial: 'user_exchanges/all_modal' %>
+<script id="requiresConnectionInfoBox" type="script/x-mustache">
+	<%= render partial: 'follows/no_connection_modal' %>
 </script>

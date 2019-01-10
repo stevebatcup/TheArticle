@@ -116,7 +116,7 @@
 		</div>
 
 		<div class="share_actions px-5 pt-3"
-					ng-class="{'ghosted': !isSignedIn || !item.canInteract}">
+					ng-class="{'ghosted': !isSignedIn || item.canInteract != 'yes'}">
 			<div class="d-flex justify-content-between">
 				<a href='#' ng-click="showComments($event, item, true)" class="comment_action action">
 					<i class="fas fa-comment-alt"></i>
@@ -136,15 +136,11 @@
 			<a href='#' class="helper" ng-if="!isSignedIn" ng-click="feedActionRequiresSignIn($event, 'interact with this post')">
 				<i class="far fa-question-circle"></i>
 			</a>
-			<a href='#' class="helper" ng-if="!item.canInteract" ng-click="showRequiresConnectionInfo($event, item)">
+			<a href='#' class="helper" ng-if="item.canInteract != 'yes'" ng-click="showRequiresConnectionInfo($event, item)">
 				<i class="far fa-question-circle"></i>
 			</a>
 
 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError">{{item.actionAuthError}}</p>
-			<div class="mb-0 mt-4 alert alert-info" ng-if="item.actionAuthInfo">
-				<h5>Interaction rules</h5>
-				<p>Enter text here for how people can interact with other's posts</p>
-			</div>
 		</div>
 	</section>
 </div>
@@ -155,7 +151,7 @@
 			<div class="ajax_loading" ng-if="!item.share.commentsLoaded">Loading...</div>
 
 		<div ng-if="item.share.commentsLoaded">
-		  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract">
+		  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
 		    <form class="comment-form">
 		    	<div class="d-flex w-100">
 						<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" />

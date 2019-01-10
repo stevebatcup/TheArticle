@@ -28,8 +28,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.commentForSubmission =
 			value: ''
 		@scope.commentChildLimit = false
+		@scope.authActionMessage =
+			heading: ''
+			msg: ''
 		@scope.profile =
-			allLimit: 6
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
 			loadError: false
@@ -299,7 +301,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				, false
 		else
 			@requiresSignIn("follow #{member.displayName}")
-
 
 	openExchangesModal: ($event) =>
 		$event.preventDefault()
