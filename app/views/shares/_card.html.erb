@@ -14,10 +14,11 @@
 				</h4>
 				<p>
 					<b>
-						<span ng-if="item.ratings">Rated</span>
-						<span ng-if="!item.ratings">Shared</span>
+						<span ng-if="item.type == 'rating'">Rated</span>
+						<span ng-if="item.type != 'rating'">Shared</span>
 						 an article
-					</b> &bullet; {{item.share.date}}</p>
+					</b> &bullet; {{item.share.date}}
+				</p>
 			</div>
 		</div>
 

@@ -1,5 +1,5 @@
 <% suggestions = false if local_assigns[:suggestions].nil? %>
-<div class="card pb-2 block_click" data-href="{{ item.path }}">
+<div class="pb-2 block_click" data-href="{{ item.path }}">
 	<div class="card-img-top cover_photo">
 		<a href="{{item.path}}">
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />

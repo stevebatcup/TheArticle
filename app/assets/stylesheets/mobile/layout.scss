@@ -840,7 +840,7 @@ div.new_article {
 .ajax_loading {
 	display: block;
 	text-align: left;
-  width: fit-content;
+  width: -moz-fit-content;
   font-size: 1.4em;
   padding: 50px 0 50px 45px;
   margin: 30px auto;

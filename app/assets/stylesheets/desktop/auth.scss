@@ -1,7 +1,15 @@
 section.auth {
-	.form-group.checker {
-		input[type=checkbox] {
-	    margin-right: 3px;
+	.form-group {
+		margin-bottom: 0.45rem;
+
+		&.checker {
+			input[type=checkbox] {
+		    margin-right: 3px;
+			}
+		}
+
+		& > label {
+			margin-bottom: 1px;
 		}
 	}
 }

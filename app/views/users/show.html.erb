@@ -131,18 +131,6 @@
 					</p>
 				</div>
 			</div>
-
-			<% if user_signed_in? %>
-			<div class="call-to-action-card card" ng-show="profile.data.isNew && profile.isMe">
-				<div class="card-header">
-					<h5 class="card-title">Fill out your profile</h5>
-				</div>
-				<div class="card-body">
-					<p class="card-text">Add information and photos to your profile to help people find you</p>
-					<a href="<%= my_profile_path %>" class="btn btn-success btn-block">My Profile</a>
-				</div>
-			</div>
-			<% end %>
 		</section>
 
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">

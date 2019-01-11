@@ -13,11 +13,12 @@ class FrontPageController < ApplicationController
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			end
 			format.json do
-				page = params[:page].to_i || 1
-				per_page = 3
+				page = params[:page] || 1
+				page = page.to_i
+				per_page = 5
+				@feeds = Feed.fetch_for_followings_of_user(current_user, page, per_page)
+				@suggestions = current_user.paginated_pending_suggestions(page, 2)
 				@total_feeds = Feed.fetch_for_followings_of_user(current_user, 1, 0).size if page == 1
-				@feeds = Feed.fetch_for_followings_of_user(current_user, 1, per_page)
-				@suggestions = current_user.pending_suggestions
 			end
 		end
 	end

@@ -47,6 +47,16 @@
 					<% end %>
 				</div>
 			</div>
+
+			<div class="call-to-action-card card">
+				<div class="card-header">
+					<h5 class="card-title">Fill out your profile</h5>
+				</div>
+				<div class="card-body">
+					<p class="card-text">Add information and photos to your profile to help people find you</p>
+					<a href="<%= my_profile_path %>" class="btn btn-success btn-block">My Profile</a>
+				</div>
+			</div>
 		</section>
 
 		<section class="col-6" id="feed">
@@ -62,7 +72,8 @@
 								ng-class="{
 									'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary', 'categorisation'], item.type),
 									'feed-exchange': item.type == 'exchange',
-									'feed-follow': item.type == 'follow'
+									'feed-follow': item.type == 'follow',
+									'feed-suggestion': item.type == 'suggestion'
 								}">
 							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
 							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
@@ -71,6 +82,7 @@
 							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
 							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
 							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
+							<div ng-if="item.type == 'suggestion'"><%= render 'profile_suggestions/card' %></div>
 					</div>
 				</div>
 			</div>
@@ -146,3 +158,7 @@
 		</div>
 	</div>
 </section>
+
+<script id="requiresConnectionInfoBox" type="script/x-mustache">
+	<%= render partial: 'follows/no_connection_modal' %>
+</script>

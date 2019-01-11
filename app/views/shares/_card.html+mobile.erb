@@ -12,7 +12,13 @@
 						<span class="text-muted">{{item.user.username}}</span>
 					</a>
 				</h4>
-				<p><b>Shared an article</b> &bullet; {{item.share.date}}</p>
+				<p>
+					<b>
+						<span ng-if="item.type == 'rating'">Rated</span>
+						<span ng-if="item.type != 'rating'">Shared</span>
+						 an article
+					</b> &bullet; {{item.share.date}}
+				</p>
 			</div>
 		</div>
 

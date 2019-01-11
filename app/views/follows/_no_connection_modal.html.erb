@@ -22,11 +22,11 @@
       	</section>
 
       	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_following'">
-      		<p><b>{{itemForConnectionMessage.user.displayName}}</b> follows you but you do not follow him so you cannot contribute to his post. <a href="{{itemForConnectionMessage.user.path}}">Follow {{itemForConnectionMessage.user.displayName}}</a></p>
+      		<p><b>{{itemForConnectionMessage.user.displayName}}</b> follows you but you do not follow them so you cannot contribute to their post. <a href="{{itemForConnectionMessage.user.path}}">Follow {{itemForConnectionMessage.user.displayName}}</a></p>
       	</section>
 
       	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_followed'">
-      		<p>You follow <b>{{itemForConnectionMessage.user.displayName}}</b> but he does not follow you so you cannot contribute to his post.<p>
+      		<p>You follow <b>{{itemForConnectionMessage.user.displayName}}</b> but they do not follow you so you cannot contribute to their post.<p>
 					<p>Start a discussion on your own profile by <a href="{{itemForConnectionMessage.article.path}}">visiting the article</a> and sharing your own thoughts and rating.</p>
       	</section>
       </div>

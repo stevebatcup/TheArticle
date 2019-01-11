@@ -10,11 +10,11 @@ class Feed < ApplicationRecord
 		['Categorisation']
 	end
 
-	def self.fetch_for_followings_of_user(user, page=1, per=25)
+	def self.fetch_for_followings_of_user(user, page=1, per_page=25)
 		feed = self.where(user_id: user.followings.map(&:followed_id), actionable_type: self.types_for_followings)
 					.or(self.where(user_id: user.id, actionable_type: self.types_for_user))
 					.order(created_at: :desc)
-		feed = feed.page(page).per(per) if per > 0
+		feed = feed.page(page).per(per_page) if per_page > 0
 		feed
 	end
 end

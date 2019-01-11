@@ -7,9 +7,9 @@ body {
 [data-href] {
 	cursor: pointer;
 
-	&:hover {
-		background: $grey_light;
-	}
+	// &:hover {
+	// 	background: $grey_light;
+	// }
 }
 
 .cloak {
@@ -984,6 +984,7 @@ div.new_article {
 	display: block;
 	text-align: left;
   width: fit-content;
+  width: -moz-fit-content;
   font-size: 1.7em;
   padding: 50px 0 50px 45px;
   margin: 30px auto;

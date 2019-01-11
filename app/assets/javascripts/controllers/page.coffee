@@ -33,10 +33,10 @@ class TheArticle.PageController extends TheArticle.NGController
 				errorCallback.call(@, response) if errorCallback?
 
 	trustSrc: (src) =>
-		@sce.trustAsResourceUrl(src)
+		src
 
 	trustHtml: (html) =>
-		@sce.getTrustedHtml(html)
+		html
 
 	bindCookieAcceptance: =>
 		$('#cn-accept-cookie').on 'click', (e) =>

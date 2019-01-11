@@ -7,6 +7,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	  '$http'
 	  '$element'
 	  '$timeout'
+	  '$compile'
 	  'Feed'
 		'Comment'
 		'Opinion'
@@ -66,14 +67,20 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	getFeeds: =>
 		@Feed.query({page: @scope.feeds.page}).then (response) =>
-			angular.forEach response.feedItems, (feed) =>
+			angular.forEach response.feedItems, (feed, index) =>
 				@scope.feeds.data.push feed
+				if response.suggestions.length > 0
+					if (index is 1)
+						@scope.feeds.data.push response.suggestions[0]
+					else if (index is 4)
+						@scope.feeds.data.push response.suggestions[1]
 			# console.log @scope.feeds.data
 			@scope.feeds.totalItems = response.total if @scope.feeds.page is 1
 			# console.log @scope.feeds.totalItems
 			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
 			# console.log @scope.feeds.moreToLoad
 			@scope.feeds.loaded = true
+
 
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

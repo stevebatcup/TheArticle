@@ -138,7 +138,8 @@
 	&.feed-share,
 	&.feed-exchange,
 	&.feed-follow,
-	&.feed-categorisation {
+	&.feed-categorisation,
+	&.feed-suggestion {
 		height: initial;
 
 		.card {
@@ -295,6 +296,39 @@
 		}
 	}
 
+	&.feed-suggestion {
+		.card {
+			background-color: $gold;
+			border-color: $gold_dark;
+
+			h3 {
+				text-align: center;
+				margin: 20px 0;
+				color: #fff;
+			}
+
+			p, h4 {
+				color: #fff;
+			}
+
+			p {
+				a {
+					color: #fff;
+					text-decoration: underline;
+				}
+			}
+
+			h4 {
+				font-size: 1.2em;
+				margin-bottom: 7px !important;
+
+				span {
+					font-size: 0.8em;
+				}
+			}
+		}
+	}
+
 	&.feed-article {
 		height: 210px;
 
@@ -418,11 +452,13 @@
 		font-weight: normal;
 		font-size: 0.6em;
 		height: fit-content;
+		height: -moz-fit-content;
 	}
 
 	&.wide {
 		max-height: 230px;
 		height: fit-content;
+		height: -moz-fit-content;
 		margin-bottom: 12px;
 	}
 
@@ -557,6 +593,7 @@
 		font-size: 52px;
 		display: block;
 		width: fit-content;
+		width: -moz-fit-content;
 		margin: 30px auto 10px;
 	}
 

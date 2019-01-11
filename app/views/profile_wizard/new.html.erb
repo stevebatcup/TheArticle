@@ -104,17 +104,17 @@
 	    </wz-step>
 
       <wz-step wz-title="Suggestions">
-  			<div class="row">
+  			<div class="row pb-4">
   				<div class="col col-md-2"></div>
 
-  				<div class="col-12 col-md-8">
+  				<div class="col-12 col-md-8 pb-5">
   					<h4>Make your first connections by following other members</h4>
   					<div class="form-group">
   						 <input type="text" class="form-control my-3" id="suggestion_search" ng-model="suggestionSearch.value" placeholder="Search by username/location" />
 					    	<p ng-show="suggestionSearch.error" class="pt-3 px-1">{{suggestionSearch.error}}</p>
   					</div>
 
-  					<div ng-repeat="member in followSuggestions" class="feed-listing wide">
+  					<div ng-repeat="item in followSuggestions" class="feed-listing wide">
   						<%= render 'users/member_card' %>
   					</div>
 

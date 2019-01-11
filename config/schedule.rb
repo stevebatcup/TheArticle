@@ -22,3 +22,7 @@
 every :reboot do
 	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} /home/ubuntu/.rbenv/bin/rbenv exec bundle exec rake ts:restart"
 end
+
+every	2.minutes do
+	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake ts:index"
+end

@@ -1,4 +1,4 @@
-class TheArticle.FrontPage extends TheArticle.MobilePageController
+class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageController, TheArticle.Feeds
 
 	@register window.App
 	@$inject: [
@@ -7,10 +7,12 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 	  '$http'
 	  '$element'
 	  '$timeout'
+	  '$compile'
 	  'Feed'
 	]
 
 	init: ->
+		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
 		@scope.showWelcome = if 'from_wizard' of vars then true else false
@@ -73,8 +75,13 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 
 	getFeeds: =>
 		@Feed.query({page: @scope.feeds.page}).then (response) =>
-			angular.forEach response.feedItems, (feed) =>
+			angular.forEach response.feedItems, (feed, index) =>
 				@scope.feeds.data.push feed
+				if response.suggestions.length > 0
+					if (index is 1)
+						@scope.feeds.data.push response.suggestions[0]
+					else if (index is 4)
+						@scope.feeds.data.push response.suggestions[1]
 			# console.log @scope.feeds.data
 			@scope.feeds.totalItems = response.total if @scope.feeds.page is 1
 			# console.log @scope.feeds.totalItems

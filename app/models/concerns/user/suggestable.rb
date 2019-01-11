@@ -7,6 +7,10 @@ module User::Suggestable
     self.profile_suggestions.where(status: :pending)
   end
 
+  def paginated_pending_suggestions(page, per_page)
+    self.profile_suggestions.where(status: :pending).page(page).per(per_page)
+  end
+
   def generate_suggestions(is_new=false, limit=25)
     results = []
     existing_ids = self.profile_suggestions.where(status: :pending).map(&:suggested_id)
@@ -79,7 +83,7 @@ module User::Suggestable
 
   module ClassMethods
     def search_for_suggestions(current_user, query)
-      User.where('username LIKE :query or location LIKE :query', :query => "%#{query}%").to_a
+      User.where('username LIKE :query or location LIKE :query', :query => "%#{query}%").where.not(id: current_user.id).to_a
     end
   end
 end

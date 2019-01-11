@@ -1,0 +1,21 @@
+<div class="card">
+	<h3>Who to Follow on The Article</h3>
+	<div class="user_info d-flex justify-content-between align-items-start">
+		<div class="user_info_inner d-flex align-items-start">
+			<a href="{{item.user.path}}">
+				<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" class="mr-3 rounded-circle" />
+			</a>
+			<div>
+				<h4>
+					<a href="{{item.user.path}}">
+						{{item.user.displayName}}
+						<span class="username">{{item.user.username}}</span>
+					</a>
+				</h4>
+				<p>{{item.user.bio}}</p>
+				<p><b>Why?</b> <span ng-bind-html="item.reason"></p>
+				<a class="btn btn-block btn-outline-light w-75 mb-2" href="{{item.user.path}}">View Profile</a>
+			</div>
+		</div>
+	</div>
+</div>

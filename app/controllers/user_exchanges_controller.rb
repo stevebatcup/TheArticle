@@ -2,12 +2,12 @@ class UserExchangesController < ApplicationController
 	before_action :authenticate_user!, except: [:index]
 
 	def index
-		@user = current_user
 		if params[:id]
-			user = User.find(params[:id])
-			@subscriptions = user.subscriptions.order(created_at: :desc)
+			@user = User.find(params[:id])
+			@subscriptions = @user.subscriptions.order(created_at: :desc)
 		else
-			@subscriptions = current_user.subscriptions.order(created_at: :desc)
+			@user = current_user
+			@subscriptions = @user.subscriptions.order(created_at: :desc)
 		end
 	end
 
