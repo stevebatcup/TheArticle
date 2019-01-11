@@ -103,14 +103,14 @@
 										SPONSORED
 									</a>
 								<% end %>
-								<h5 class="pb-0 mb-0 confused">
+								<h5 class="pb-0 mb-0">
 									<a href="<%= article_path(ta) %>">
 										<%= ta.title.html_safe %>
 									</a>
 								</h5>
 								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-4' : 'pb-0' %>
 								<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
-									<p class="author_link" style="top: 3px;">
+									<p class="author_link">
 										<a href="<%= contributor_path(slug: ta.author.slug) %>">
 											by <span><%= ta.author.display_name %></span>
 										</a>
