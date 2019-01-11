@@ -20,9 +20,9 @@
 # Learn more: http://github.com/javan/whenever
 
 every :reboot do
-	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} /home/ubuntu/.rbenv/bin/rbenv exec bundle exec rake ts:restart"
+	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} /home/ubuntu/.rbenv/bin/rbenv exec bundle exec rake ts:restart >> /var/www/thearticle/rails/shared/log/thinking_sphinx.log 2>&1"
 end
 
 every	2.minutes do
-	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake ts:index"
+	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake ts:index >> /var/www/thearticle/rails/shared/log/thinking_sphinx.log 2>&1"
 end
