@@ -29,7 +29,13 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_staging?
 
 	def show_ads?
-		!is_development?
+		if is_development?
+			false
+		elsif self.class == ProfileWizardController
+			false
+		else
+			true
+		end
 	end
 	helper_method	:show_ads?
 
