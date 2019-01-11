@@ -148,7 +148,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@MyProfile.get().then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
-				console.log @scope.profile.data
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
 				@reorderDigest()

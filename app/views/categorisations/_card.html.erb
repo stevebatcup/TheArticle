@@ -1,0 +1,43 @@
+<div class="card">
+	<div class="user_info d-flex">
+		<div class="user_info_inner d-flex align-items-start">
+			<p>
+				<b>
+					New article added to exchange <a href="{{item.article.exchange.path}}">{{item.article.exchange.name}}</a>
+				</b> &bullet; {{item.date}}
+			</p>
+		</div>
+	</div>
+
+
+	<div class="article_box">
+		<div class="inner">
+			<div class="img_mask">
+				<a ng-if="item.article.image" href="{{ item.article.path }}">
+					<img ng-src="{{ item.article.image }}" alt="{{ item.article.title }}" />
+				</a>
+			</div>
+
+			<a href="{{ item.article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ item.article.exchange.slug }}">
+		    <i ng-if="item.article.exchange.isSponsored" class="fas fa-star"></i>
+			  {{ item.article.exchange.name }}
+			</a>
+
+			<header class="entry-header pt-3 px-3">
+				<h4 class="entry-title mb-0" id="article-post-title-{{ item.article.id }}">
+					<a href="{{ item.article.path }}" ng-bind="item.article.title"></a>
+				</h4>
+			</header>
+
+			<div class="entry-content py-0 px-3">
+				{{ item.article.snippet }}
+			</div>
+
+			<footer class="entry-footer pt-1 px-3 pb-2">
+				<p class="author_link d-flex justify-content-between align-items-start">
+					<a href="{{ item.article.author.path }}">by <span>{{ item.article.author.name }}</span></a>
+					<span class="entry-date">{{ item.article.publishedAt }}</span></p>
+			</footer>
+		</div>
+	</div>
+</div>

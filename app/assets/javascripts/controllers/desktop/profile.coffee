@@ -49,6 +49,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				ratingsSummary: []
 				ratings: []
 				exchanges: []
+				commentActions: []
 				joined: ""
 				joinedAt: ""
 				location: ""
@@ -182,6 +183,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.digest.push item
 		angular.forEach data.ratings, (item) =>
 			item.type = 'rating'
+			@scope.profile.digest.push item
+		angular.forEach data.commentActions, (item) =>
+			item.type = 'commentAction'
+			@scope.profile.digest.push item
+		angular.forEach data.opinionActions, (item) =>
+			item.type = 'opinionAction'
 			@scope.profile.digest.push item
 
 		item = data.recentFollowingSummary

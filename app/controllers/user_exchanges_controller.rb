@@ -5,9 +5,9 @@ class UserExchangesController < ApplicationController
 		@user = current_user
 		if params[:id]
 			user = User.find(params[:id])
-			@userExchanges = user.subscriptions.order(created_at: :desc)
+			@subscriptions = user.subscriptions.order(created_at: :desc)
 		else
-			@userExchanges = current_user.subscriptions.order(created_at: :desc)
+			@subscriptions = current_user.subscriptions.order(created_at: :desc)
 		end
 	end
 
@@ -22,8 +22,8 @@ class UserExchangesController < ApplicationController
 	end
 
 	def destroy
-		exchange = Exchange.find(params[:id])
-		if current_user.exchanges.delete(exchange)
+		subscription = current_user.subscriptions.find_by(exchange_id: params[:id])
+		if subscription.destroy
 			@status = :success
 		else
 			@status = :error

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_09_160913) do
+ActiveRecord::Schema.define(version: 2019_01_11_135442) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -34,9 +34,10 @@ ActiveRecord::Schema.define(version: 2019_01_09_160913) do
     t.boolean "is_sponsored", default: false
   end
 
-  create_table "articles_exchanges", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "articles_exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "article_id"
     t.bigint "exchange_id"
+    t.datetime "created_at"
     t.index ["article_id"], name: "index_articles_exchanges_on_article_id"
     t.index ["exchange_id"], name: "index_articles_exchanges_on_exchange_id"
   end
@@ -106,12 +107,23 @@ ActiveRecord::Schema.define(version: 2019_01_09_160913) do
     t.integer "article_count", default: 0
   end
 
-  create_table "exchanges_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "exchanges_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "exchange_id"
     t.bigint "user_id"
     t.datetime "created_at"
     t.index ["exchange_id"], name: "index_exchanges_users_on_exchange_id"
     t.index ["user_id"], name: "index_exchanges_users_on_user_id"
+  end
+
+  create_table "feeds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "user_id"
+    t.integer "actionable_id"
+    t.string "actionable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actionable_type", "actionable_id"], name: "index_feeds_on_actionable_type_and_actionable_id"
+    t.index ["user_id", "actionable_type", "actionable_id"], name: "index_feeds_on_user_id_and_actionable_type_and_actionable_id"
+    t.index ["user_id"], name: "index_feeds_on_user_id"
   end
 
   create_table "follows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -19,12 +19,27 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
 		, 500
 
+		@scope.replyingToComment =
+			comment: {}
+			parentComment: {}
+			replyingToReply: false
+		@scope.commentForSubmission =
+			value: ''
+		@scope.commentChildLimit = false
+		@scope.authActionMessage =
+			heading: ''
+			msg: ''
+
 		@scope.feeds =
 			data: []
+			page: 1
 			loaded: false
+			totalItems: 0
+			moreToLoad: true
 		@getFeeds()
 
 	bindEvents: =>
+		@bindScrollEvent()
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$showing = $(e.target)
 			$hiding = $(e.relatedTarget)
@@ -40,11 +55,31 @@ class TheArticle.FrontPage extends TheArticle.MobilePageController
 					@scope.root.notifications = false
 				true
 
-	getFeeds: =>
-		@Feed.query().then (response) =>
-			console.log response
-			@scope.feeds.data = response
-			@scope.feeds.loaded = true
+	bindScrollEvent: =>
+		$win = $(window)
+		pageScrollOffset = Math.round(@getDocumentHeight() * 0.2)
+		$win.on 'scroll', =>
+			if @scope.feeds.moreToLoad is true
+				scrollTop = $win.scrollTop()
+				docHeight = @getDocumentHeight()
+				if (scrollTop + $win.height()) >= (docHeight - pageScrollOffset)
+					@scope.feeds.moreToLoad = false
+					@loadMore()
 
+	loadMore: ($event) =>
+		$event.preventDefault() if $event
+		@scope.feeds.page += 1
+		@getFeeds()
+
+	getFeeds: =>
+		@Feed.query({page: @scope.feeds.page}).then (response) =>
+			angular.forEach response.feedItems, (feed) =>
+				@scope.feeds.data.push feed
+			# console.log @scope.feeds.data
+			@scope.feeds.totalItems = response.total if @scope.feeds.page is 1
+			# console.log @scope.feeds.totalItems
+			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
+			# console.log @scope.feeds.moreToLoad
+			@scope.feeds.loaded = true
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

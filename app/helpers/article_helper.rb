@@ -26,4 +26,32 @@ module ArticleHelper
 		end
 		content_html.to_s.html_safe
 	end
+
+	def categorisation_as_json_data(user, categorisation)
+		exchange = categorisation.exchange
+		article = categorisation.article
+		author = article.author
+		{
+			type: 'categorisation',
+			stamp: categorisation.created_at.to_i,
+			date: categorisation.created_at.strftime("%e %b"),
+			article: {
+				id: article.id,
+				snippet: article_excerpt_for_listing(article, 160),
+				image: article.image.url(:cover_mobile),
+				title: strip_tags(article.title),
+				publishedAt: article_date(article),
+				path: article_path(article),
+				author: {
+				  name: author.display_name,
+				  path: contributor_path(slug: author.slug)
+				},
+				exchange: {
+					name: exchange.name,
+					path: exchange_path(slug: exchange.slug),
+					isSponsored: exchange.slug == 'sponsored',
+				}
+			}
+		}
+	end
 end

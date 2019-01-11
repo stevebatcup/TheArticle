@@ -1,9 +1,15 @@
 class Share < ApplicationRecord
+  has_many :feeds, as: :actionable
 	acts_as_commentable
 	validates_presence_of	:article_id, :user_id
 	has_many	:opinions
 	belongs_to	:user
 	belongs_to	:article
+	before_create	:update_feed
+
+	def update_feed
+		self.feeds.build({user_id: self.user_id})
+	end
 
 	def current_user_can_interact(current_user)
 		if current_user == self.user
@@ -71,5 +77,9 @@ class Share < ApplicationRecord
 			agreeShowLimit: Opinion.show_limit,
 			disagreeShowLimit: Opinion.show_limit
 		}
+	end
+
+	def has_ratings?
+		(self.rating_well_written > 0) || (self.rating_valid_points > 0) || (self.rating_agree > 0)
 	end
 end

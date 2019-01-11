@@ -1,0 +1,24 @@
+<div class="card">
+	<div class="user_info d-flex justify-content-between align-items-start">
+
+		<div class="user_info_inner d-flex align-items-start">
+			<a href="{{item.commentAction.user.path}}">
+				<img ng-src="{{item.commentAction.user.image}}" alt="{{item.commentAction.user.displayName}}" class="mr-3 rounded-circle" />
+			</a>
+			<div>
+				<h4>
+					<a href="{{item.commentAction.user.path}}">
+						{{item.commentAction.user.displayName}}
+						<span class="text-muted">{{item.commentAction.user.username}}</span> &bullet; <span><time>{{item.commentAction.date}}</time></span>
+					</a>
+				</h4>
+				<p><b>{{item.commentAction.action}}</b></p>
+				<p>{{item.commentAction.comment}}</p>
+			</div>
+		</div>
+
+		<%= render 'common/options_menu' %>
+	</div>
+
+	<%= render 'shares/card' %>
+</div>

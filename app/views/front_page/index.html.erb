@@ -7,7 +7,7 @@
 
 	<div class="row">
 		<section class="col-3">
-			<div id="front_page_profile_card" class="mt-3 pb-5">
+			<div id="front_page_profile_card" class="mt-3 pb-5 mb-4">
 
 				<div id="cover_photo"
 						class="cover_photo"
@@ -52,36 +52,31 @@
 		<section class="col-6" id="feed">
 			<div class="container" id="activity-tabs">
 				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
-				<div ng-if="feeds.loaded">
-					Feeds have loaded!
+				<div ng-if="feeds.loaded" class="results_block row"
+						ng-class="{'empty': feeds.data.length == 0}">
+					<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
+						<span>There is no activity to show here</span>
+					</p>
+
+					<div ng-repeat="item in feeds.data" class="col-12 feed-listing pb-3 px-0"
+								ng-class="{
+									'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary', 'categorisation'], item.type),
+									'feed-exchange': item.type == 'exchange',
+									'feed-follow': item.type == 'follow'
+								}">
+							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
+							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
+							<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
+							<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
+							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
+							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
+							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
+					</div>
 				</div>
 			</div>
 		</section>
 
 		<div class="col-3 pr-0 mt-3" id="callouts">
-			<% if user_signed_in? %>
-			<section class="pb-3 card w-100 callout mb-3">
-				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
-					<div class="card-header">
-						<h5 class="card-title">Who to follow on TheArticle</h5>
-					</div>
-					<div class="card-body pt-2 px-2">
-
-						<div class="container pt-2 px-1">
-							<div class="show active"
-								id="suggestions_for_you"
-								role="tabpanel"
-								aria-labelledby="suggestions-sub-tab-for_you">
-								<div ng-repeat="member in suggestions" class="feed-listing">
-									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<% end %>
-
 			<section id="trending_articles" class="callout card w-100">
 				<div class="card-header">
 					<h5 class="card-title">Trending articles</h5>
@@ -96,17 +91,17 @@
 										SPONSORED
 									</a>
 								<% end %>
-								<h5 class="">
+								<h5 class="pb-0 mb-0">
 									<a href="<%= article_path(ta) %>">
 										<%= ta.title.html_safe %>
 									</a>
 								</h5>
-								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
-								<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-4' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
 									<p class="author_link">
 										<a href="<%= contributor_path(slug: ta.author.slug) %>">
 											by <span><%= ta.author.display_name %></span>
-										</a>&nbsp;
+										</a>
 										<span class="entry-date">
 											<%= article_date(ta) %>
 										</span>
@@ -115,6 +110,37 @@
 							</div>
 						</article>
 					<% end %>
+				</div>
+			</section>
+
+			<section id="feed_journalist_spotlight" class="callout card w-100 mt-4">
+				<div class="card-header">
+					<h5 class="card-title">Contributor spotlight</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @contributors_for_spotlight.each do |contributor| %>
+						<article class="row my-4">
+							<div class="col-5">
+								<a href="<%= contributor_path(slug: contributor.slug) %>">
+									<% if contributor.image? %>
+										<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
+									<% end %>
+								</a>
+							</div>
+							<div class="col-7 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
+								<h5 class="mb-1">
+									<a href="<%= contributor_path(slug: contributor.slug) %>">
+										<%= contributor.display_name %></a>
+								</h5>
+								<% if contributor.title %>
+									<p class="mb-0">
+										<%= contributor.title %>
+									</p>
+								<% end %>
+							</div>
+						</article>
+					<% end %>
+					<a class="btn btn-block btn-standard mt-2 mb-2" href="/contributors">See More</a>
 				</div>
 			</section>
 		</div>

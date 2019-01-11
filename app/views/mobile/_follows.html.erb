@@ -30,7 +30,7 @@
 				id="follows_following"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-following">
-				<div ng-repeat="member in follows.followings" class="feed-listing">
+				<div ng-repeat="item in follows.followings" class="feed-listing">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
@@ -39,7 +39,7 @@
 				id="follows_followers"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-followers">
-				<div ng-repeat="member in follows.followers" class="feed-listing">
+				<div ng-repeat="item in follows.followers" class="feed-listing">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
@@ -48,8 +48,8 @@
 				id="follows_connections"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-connections">
-				<div ng-repeat="member in follows.followings" class="feed-listing">
-					<div ng-if="inFollowers(member)">
+				<div ng-repeat="item in follows.followings" class="feed-listing">
+					<div ng-if="inFollowers(item)">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>

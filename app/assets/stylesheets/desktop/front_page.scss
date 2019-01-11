@@ -1,5 +1,7 @@
 #front_page_profile_card {
-	// border-bottom: 2px solid $grey;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	border-radius: 0.25rem;
+	overflow: hidden;
 
 	img.profile_image {
 		width: 3.7em;
@@ -8,7 +10,7 @@
 		border: 3px solid #fff;
     position: relative;
     top: -1.8em;
-		left: 0;
+		left: 9px;
 		margin-bottom: -1.8em;
 	}
 
@@ -16,5 +18,4 @@
 		height: 50px;
 		width: 100%;
 	}
-
 }

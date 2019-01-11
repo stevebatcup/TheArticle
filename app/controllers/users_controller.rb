@@ -20,6 +20,9 @@ class UsersController < ApplicationController
 		if (@user == current_user) && !params[:me]
 			redirect_to_my_profile
 		end
+
+		@comment_actions = @user.feeds.where(actionable_type: 'Comment').order(created_at: :desc).limit(20)
+		@opinion_actions = @user.feeds.where(actionable_type: 'Opinion').order(created_at: :desc).limit(20)
 	end
 
 	def update

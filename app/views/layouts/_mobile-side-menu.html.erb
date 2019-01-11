@@ -8,7 +8,7 @@
 
     <div id="sidebar_me" class="d-flex">
         <a href='/my-profile'>
-          <img src="<%= asset_url('nav/lions.jpeg') %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
+          <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
         </a>
       <p>
         <a href='/my-profile'>

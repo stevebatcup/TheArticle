@@ -8,10 +8,29 @@
 				<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
 			</div>
 
-			<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
-			<div ng-if="feeds.loaded">
-				Feeds have loaded!
-			</div>
+			<section  id="feed">
+				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
+				<div ng-if="feeds.loaded" class="results_block row"
+							ng-class="{'empty': feeds.data.length == 0}">
+					<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
+						<span>There is no activity to show here</span>
+					</p>
 
-		</div>
+					<div ng-repeat="item in feeds.data" class="col-12 feed-listing pb-3 px-0"
+								ng-class="{
+									'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary', 'categorisation'], item.type),
+									'feed-exchange': item.type == 'exchange',
+									'feed-follow': item.type == 'follow'
+								}">
+							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
+							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
+							<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
+							<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
+							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
+							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
+							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
+					</div>
+				</div>
+			</section>
+	</div>
 </div>

@@ -27,13 +27,17 @@
 
 	.cover_photo {
 		width: 100%;
-		background-color: $green;
+		background-color: #aeaeae;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center center;
 		height: 125px;
 		line-height: 7.1em;
 		color: #fff;
+
+		&.editable {
+			background-color: $green;
+		}
 
 		a {
 			color: #fff;

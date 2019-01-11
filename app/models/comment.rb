@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  has_many :feeds, as: :actionable
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
 
   validates :body, :presence => true
@@ -12,6 +13,11 @@ class Comment < ActiveRecord::Base
 
   # NOTE: Comments belong to a user
   belongs_to :user
+  before_create :update_feed
+
+  def update_feed
+    self.feeds.build({user_id: self.user_id})
+  end
 
   def self.show_limit
     5

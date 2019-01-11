@@ -2,8 +2,8 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
-	background-color: #a9c0ab;
 	overflow: hidden;
+	background-color: #aeaeae;
 }
 
 .show-profile {
@@ -16,6 +16,7 @@
 
 		&.editable {
 			cursor: pointer;
+			background-color: $green;
 		}
 
 		a {

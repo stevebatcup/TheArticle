@@ -256,3 +256,9 @@ class TheArticle.PageController extends TheArticle.NGController
 			$('body').append $content
 			$("#forgottenPasswordBoxModal").modal()
 		, 350
+
+	getDocumentHeight: ->
+		scroll = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+		offset = Math.max(document.body.offsetHeight, document.documentElement.offsetHeight)
+		client = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
+		Math.max(scroll, offset, client)

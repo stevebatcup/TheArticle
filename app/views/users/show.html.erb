@@ -158,7 +158,7 @@
 
 						<div ng-repeat="item in profile.digest" class="col-12 feed-listing pb-3 px-0"
 									ng-class="{
-										'feed-share': item.type == 'share' || item.type == 'rating' || item.type == 'recentFollowingSummary' || item.type == 'recentFollowedSummary',
+										'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary'], item.type),
 										'feed-exchange': item.type == 'exchange'
 									}">
 								<div ng-if="item.type == 'recentFollowingSummary' && item.sentence.length > 0">
@@ -170,6 +170,8 @@
 								<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
 								<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
 								<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
+								<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
+								<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
 						</div>
 
 					</div>

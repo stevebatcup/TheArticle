@@ -1,9 +1,13 @@
 class Article < ApplicationRecord
 	include WpCache
-	has_and_belongs_to_many	:exchanges
+	# has_and_belongs_to_many	:exchanges
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author
 	has_many :shares
+
+  has_many  :categorisations
+  has_many  :exchanges, through: :categorisations
+
 	after_destroy :update_all_article_counts
 	mount_uploader :image, ArticleImageUploader
 
@@ -250,7 +254,7 @@ class Article < ApplicationRecord
 
 	def update_exchanges(json)
 		if json["exchanges"].any?
-			self.exchanges.clear
+			self.categorisations.destroy_all
 			json["exchanges"].each do |exchange_wp_id|
 				exchange = Exchange.find_or_create_by(wp_id: exchange_wp_id)
 				exchange_json = self.class.get_from_wp_api("exchanges/#{exchange_wp_id}")

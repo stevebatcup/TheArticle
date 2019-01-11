@@ -1,3 +1,9 @@
+// #activity-tabs {
+// 	height: 90%;
+// 	height: 90vh;
+// 	overflow-y: auto;
+// }
+
 .feed-listing {
 	margin-bottom: 10px;
 
@@ -130,7 +136,9 @@
 	}
 
 	&.feed-share,
-	&.feed-exchange {
+	&.feed-exchange,
+	&.feed-follow,
+	&.feed-categorisation {
 		height: initial;
 
 		.card {
@@ -462,6 +470,7 @@
 
 	.results_block {
 		background: $grey_light;
+		margin-top: 17px;
 
 		&.empty {
 			background: transparent;

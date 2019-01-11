@@ -30,12 +30,12 @@ class Author < ApplicationRecord
 		end
 	end
 
-	def self.contributors_for_spotlight
+	def self.contributors_for_spotlight(limit=6)
 		self.joins(:articles)
 				.where(author_role: contributor_role)
 				.where("email NOT LIKE ?", '@thearticle.com')
 				.distinct
-				.limit(6)
+				.limit(limit)
 	end
 
 	def self.prioritise_editors_in_list(list)

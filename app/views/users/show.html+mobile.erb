@@ -367,7 +367,7 @@
 					aria-labelledby="follows-sub-tab-you_know"
 					ng-if="isSignedIn && !isMe">
 					<div ng-repeat="item in follows.followers" class="feed-listing">
-						<div ng-if="inMyFollowers(member)">
+						<div ng-if="inMyFollowers(item)">
 							<%= render 'users/member_card' %>
 						</div>
 					</div>
@@ -379,7 +379,7 @@
 					aria-labelledby="follows-sub-tab-connected"
 					ng-if="isSignedIn && isMe">
 					<div ng-repeat="item in follows.followings" class="feed-listing">
-						<div ng-if="inFollowers(member)">
+						<div ng-if="inFollowers(item)">
 							<%= render 'users/member_card' %>
 						</div>
 					</div>
