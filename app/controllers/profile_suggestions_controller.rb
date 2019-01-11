@@ -12,6 +12,7 @@ class ProfileSuggestionsController < ApplicationController
 					else
 						suggestions = current_user.pending_suggestions
 					end
+					current_user.generate_suggestions(false, 10) if suggestions.empty?
 					@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%')
 					@populars = suggestions.where("reason LIKE ?", 'popular_with_%')
 				end
