@@ -1,6 +1,7 @@
 class ProfilePhotoUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  storage :file
+
+  storage :fog
 
   def default_url(*args)
      ActionController::Base.helpers.asset_path("default-profile-set/" + [model.default_profile_photo_id, ".jpg"].compact.join)
