@@ -6,9 +6,6 @@ class UsersController < ApplicationController
 	end
 
 	def show
-		@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
-		@trending_articles = Article.trending.limit(Author.sponsors.any? ? 4 : 5).all.to_a
-		@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 		if params[:me]
 			@user = current_user
 		elsif params[:identifier] == :slug
@@ -21,8 +18,17 @@ class UsersController < ApplicationController
 			redirect_to_my_profile
 		end
 
-		@comment_actions = @user.feeds.where(actionable_type: 'Comment').order(created_at: :desc).limit(20)
-		@opinion_actions = @user.feeds.where(actionable_type: 'Opinion').order(created_at: :desc).limit(20)
+		respond_to do |format|
+			format.html do
+				@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
+				@trending_articles = Article.trending.limit(Author.sponsors.any? ? 4 : 5).all.to_a
+				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+			end
+			format.json do
+				@comment_actions = @user.feeds.where(actionable_type: 'Comment').order(created_at: :desc).limit(20)
+				@opinion_actions = @user.feeds.where(actionable_type: 'Opinion').order(created_at: :desc).limit(20)
+			end
+		end
 	end
 
 	def update

@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   skip_before_action :verify_authenticity_token, if: :json_request?
+  before_action :set_vary_header
+
+  def set_vary_header
+  	response.headers["Vary"] = "Accept"
+  end
 
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
