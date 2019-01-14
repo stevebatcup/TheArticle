@@ -29,4 +29,21 @@ module ApplicationHelper
   def devise_mapping
 		@devise_mapping ||= Devise.mappings[:user]
   end
+
+  def happened_at(date)
+  	val = (Time.now.to_i - date.to_i)
+    if date > 1.minute.ago
+      "less than a minute ago"
+  	elsif date > 1.hour.ago
+  		"#{val/60}m ago"
+  	elsif date > 1.day.ago
+  		"#{pluralize(val/60/60, 'hour')} ago"
+  	elsif date > 1.week.ago
+  		"#{pluralize(val/60/60/24, 'day')} ago"
+  	elsif date > 4.weeks.ago
+  		"#{pluralize(val/60/60/24/7, 'week')} ago"
+  	else
+  		"a while ago"
+  	end
+  end
 end

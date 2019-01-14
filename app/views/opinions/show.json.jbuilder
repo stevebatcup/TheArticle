@@ -1,0 +1,1 @@
+json.opinion opinion_as_json_data(@opinion)

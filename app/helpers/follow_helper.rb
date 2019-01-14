@@ -1,5 +1,5 @@
 module FollowHelper
-	def follow_as_json_data(user, follow, current_user)
+	def follow_as_json_data(follow, current_user)
 		{
 			type: 'follow',
 			stamp: follow.created_at.to_i,

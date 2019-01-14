@@ -2,14 +2,14 @@
 	<div class="user_info d-flex justify-content-between align-items-start">
 
 		<div class="user_info_inner d-flex align-items-start">
-			<a href="{{item.user.path}}">
-				<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" class="mr-3 rounded-circle" />
+			<a href="{{item.share.user.path}}">
+				<img ng-src="{{item.share.user.image}}" alt="{{item.share.user.displayName}}" class="mr-3 rounded-circle" />
 			</a>
 			<div>
 				<h4>
-					<a href="{{item.user.path}}">
-						{{item.user.displayName}}
-						<span class="text-muted">{{item.user.username}}</span>
+					<a href="{{item.share.user.path}}">
+						{{item.share.user.displayName}}
+						<span class="text-muted">{{item.share.user.username}}</span> &bullet; <time><span>{{item.share.date}}</span></time>
 					</a>
 				</h4>
 				<p>
@@ -17,7 +17,7 @@
 						<span ng-if="item.type == 'rating'">Rated</span>
 						<span ng-if="item.type != 'rating'">Shared</span>
 						 an article
-					</b> &bullet; {{item.share.date}}
+					</b>
 				</p>
 			</div>
 		</div>
@@ -160,7 +160,7 @@
 		  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
 		    <form class="comment-form">
 		    	<div class="d-flex w-100">
-						<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" />
+						<img src="<%= current_user.profile_photo.url(:square) %>" alt="<%= current_user.display_name %>" />
 		        <textarea class="comment_textarea ml-3 form-control" name="comment" rows="4" placeholder="Add your Comment" ng-model="commentForSubmission.value"></textarea>
 		      </div>
 		      <div class="d-flex justify-content-end">

@@ -12,8 +12,8 @@
 						<span class="text-muted">{{item.commentAction.user.username}}</span> &bullet; <span><time>{{item.commentAction.date}}</time></span>
 					</a>
 				</h4>
-				<p><b>{{item.commentAction.action}}</b></p>
-				<p>{{item.commentAction.comment}}</p>
+				<p><b ng-bind-html="item.commentAction.action"></b></p>
+				<p ng-bind-html="item.commentAction.comment"></p>
 			</div>
 		</div>
 

@@ -40,24 +40,33 @@
                 <i class="fas fa-search"></i>
               </a>
             </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link nav-icon py-2 text-black pl-md-5" href="#" id="nav_link_notifications" data-toggle="dropdown">
                 <i class="fas fa-bell"></i>
               </a>
                <div class="dropdown-menu dropdown-menu-right bg-light" id="notifications_menu">
-                <h6 class="dropdown-header">Notifications</h6>
-                <% for i in 1..12 %>
-                  <div class="dropdown-item notification-item border-bottom d-flex bg-white">
-                    <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" style="width:45px; height: 45px;">
-                    <p class="ml-4 notification-item-detail"><b>Lorem ipsum</b> dolor sit amet, consectetur <b>adipisicing elit</b>, sed do eiusmod tempor.<br />
-                    <span class="notification-item-time">1 hour ago</span></p>
-                  </div>
-                 <% end %>
+                  <h6 class="dropdown-header">Notifications</h6>
+                  <div ng-repeat="item in notifications.data" class="dropdown-item notification border-bottom d-flex justify-content-start align-items-start bg-white">
+                    <i ng-class="{
+                      'fas fa-thumbs-up': item.type=='opinion' && item.specificType=='agree',
+                      'fas fa-thumbs-down': item.type=='opinion' && item.specificType=='disagree',
+                      'far fa-comment-alt': item.type=='comment',
+                      'fas fa-users': item.type=='follow'
+                    }"></i>
+                    <div class="inner">
+                      <p class="notification-item-detail">
+                        <span ng-bind-html="item.body"></span><br />
+                        <time class="notification-item-time happened_at"><b>{{item.happenedAt}}</b></time>
+                      </p>
+                    </div>
+                </div>
                  <p class="dropdown-see-all text-center pt-2 my-0">
                   <a href="/notifications"><small>See all notifications</small></a>
                  </p>
               </div>
             </li>
+
             <li class="nav-item dropdown" >
               <a class="nav-link nav-icon py-0 text-black pl-md-5" href="#" id="nav_link_my_profile" data-toggle="dropdown">
                 <i class="fas fa-user-circle"></i>

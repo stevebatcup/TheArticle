@@ -3,7 +3,7 @@
     <div class="modal-content">
 
     	<div class="modal-header">
-    		<h5 class="pt-2">You are not connected with {{itemForConnectionMessage.user.displayName}}</h5>
+    		<h5 class="pt-2">You are not connected with {{itemForConnectionMessage.share.user.displayName}}</h5>
 
 
         <button data-dismiss="modal" class="btn btn-link close_modal">
@@ -18,15 +18,15 @@
 
       	<section class="auth_action_message" ng-if="!itemForConnectionMessage.canInteract">
       		<p>You do not follow each other so you cannot contribute to their post.
-      						Make the first move by following <a href="{{itemForConnectionMessage.user.path}}">{{itemForConnectionMessage.user.displayName}}</a></p>
+      						Make the first move by following <a href="{{itemForConnectionMessage.share.user.path}}">{{itemForConnectionMessage.share.user.displayName}}</a></p>
       	</section>
 
       	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_following'">
-      		<p><b>{{itemForConnectionMessage.user.displayName}}</b> follows you but you do not follow them so you cannot contribute to their post. <a href="{{itemForConnectionMessage.user.path}}">Follow {{itemForConnectionMessage.user.displayName}}</a></p>
+      		<p><b>{{itemForConnectionMessage.share.user.displayName}}</b> follows you but you do not follow them so you cannot contribute to their post. <a href="{{itemForConnectionMessage.share.user.path}}">Follow {{itemForConnectionMessage.share.user.displayName}}</a></p>
       	</section>
 
       	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_followed'">
-      		<p>You follow <b>{{itemForConnectionMessage.user.displayName}}</b> but they do not follow you so you cannot contribute to their post.<p>
+      		<p>You follow <b>{{itemForConnectionMessage.share.user.displayName}}</b> but they do not follow you so you cannot contribute to their post.<p>
 					<p>Start a discussion on your own profile by <a href="{{itemForConnectionMessage.article.path}}">visiting the article</a> and sharing your own thoughts and rating.</p>
       	</section>
       </div>

@@ -75,7 +75,12 @@ class Share < ApplicationRecord
 			showDisagrees: false,
 			commentShowLimit: Comment.show_limit,
 			agreeShowLimit: Opinion.show_limit,
-			disagreeShowLimit: Opinion.show_limit
+			disagreeShowLimit: Opinion.show_limit,
+			user: {
+				displayName: self.user.display_name,
+				username: self.user.username,
+				image: self.user.profile_photo.url(:square)
+			}
 		}
 	end
 

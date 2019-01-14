@@ -1,8 +1,4 @@
-<section ng-controller="FrontPageController" class="container front-page" data-user-id="<%= current_user.id %>">
-	<div class="alert alert-success mb-3" ng-show="showWelcome">
-		<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
-		<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
-	</div>
+<section ng-controller="NotificationsController" class="container notifications_page" data-user-id="<%= current_user.id %>">
 
 
 	<div class="row">
@@ -70,28 +66,16 @@
 
 		<section class="col-6" id="feed">
 			<div class="container" id="activity-tabs">
-				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
-				<div ng-if="feeds.loaded" class="results_block row"
-						ng-class="{'empty': feeds.data.length == 0}">
-					<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
-						<span>There is no activity to show here</span>
+				<div class="ajax_loading loading_notifications" ng-if="!notifications.loaded">Loading notifications...</div>
+				<div ng-if="notifications.loaded" class="results_block row notifications"
+						ng-class="{'empty': notifications.data.length == 0}">
+
+					<p class="col-12 empty_resource" ng-if="notifications.data.length == 0">
+						<span>There are no notifications to see just now</span>
 					</p>
 
-					<div ng-repeat="item in feeds.data" class="col-12 feed-listing pb-3 px-0"
-								ng-class="{
-									'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary', 'categorisation'], item.type),
-									'feed-exchange': item.type == 'exchange',
-									'feed-follow': item.type == 'follow',
-									'feed-suggestion': item.type == 'suggestion'
-								}">
-							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
-							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
-							<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
-							<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
-							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
-							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
-							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
-							<div ng-if="item.type == 'suggestion'"><%= render 'profile_suggestions/card' %></div>
+					<div ng-repeat="item in notifications.data" class="col-12 notification px-0">
+							<%= render 'notifications/card' %>
 					</div>
 				</div>
 			</div>
@@ -170,4 +154,16 @@
 
 <script id="requiresConnectionInfoBox" type="script/x-mustache">
 	<%= render partial: 'follows/no_connection_modal' %>
+</script>
+
+<script id="commentPost" type="script/x-mustache">
+	<%= render partial: 'shares/comment_post_modal' %>
+</script>
+
+<script id="opinionPost" type="script/x-mustache">
+	<%= render partial: 'shares/opinion_post_modal' %>
+</script>
+
+<script id="followsList" type="script/x-mustache">
+	<%= render partial: 'follows/list_modal' %>
 </script>

@@ -53,9 +53,12 @@ Rails.application.routes.draw do
 
   post 'share',                                to: 'shares#create', as: :share
   get 'comments',                              to: 'comments#index', as: :comments
+  get 'comments/:id',                           to: 'comments#show', as: :comment
   post 'comments',                             to: 'comments#create'
   get 'opinions',                              to: 'opinions#index', as: :opinions
+  get 'opinions/:id',                          to: 'opinions#show', as: :opinion
   post 'opinions',                             to: 'opinions#create'
+  get 'notifications',                         to: 'notifications#index', as: :notifications
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

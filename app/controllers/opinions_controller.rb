@@ -19,4 +19,8 @@ class OpinionsController < ApplicationController
 		@status = :success
 		@user = current_user
 	end
+
+	def show
+		@opinion = Opinion.find(params[:id])
+	end
 end

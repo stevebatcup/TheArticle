@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_11_135442) do
+ActiveRecord::Schema.define(version: 2019_01_14_100850) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -140,6 +140,20 @@ ActiveRecord::Schema.define(version: 2019_01_11_135442) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "title"
+    t.integer "eventable_id"
+    t.string "eventable_type"
+    t.string "specific_type"
+    t.integer "feed_id"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["eventable_type", "eventable_id"], name: "index_notifications_on_eventable_type_and_eventable_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "opinions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

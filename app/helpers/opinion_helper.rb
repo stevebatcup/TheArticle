@@ -1,11 +1,12 @@
 module OpinionHelper
-	def opinion_as_json_data(user, opinion)
+	def opinion_as_json_data(opinion)
 		share = opinion.share
 		author = share.article.author
 		exchange = share.article.exchanges.first
 		{
 			type: 'opinionAction',
 			stamp: opinion.created_at.to_i,
+			date: opinion.created_at.strftime("%e %b"),
 			share: share.json_data(true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,

@@ -1,0 +1,17 @@
+<div class="card inner">
+	<div class="d-flex justify-content-start align-items-start" ng-click="callNotificationAction(item, $event)">
+		<img ng-if="item.type=='categorisation'" ng-src="{{item.exchange.image}}" alt="{{item.exchange.name}}" class="exchange_image" />
+
+		<p>
+			<i ng-class="{
+				'fas fa-thumbs-up': item.type=='opinion' && item.specificType=='agree',
+				'fas fa-thumbs-down': item.type=='opinion' && item.specificType=='disagree',
+				'far fa-comment-alt': item.type=='comment',
+				'fas fa-users': item.type=='follow'
+			}"></i>
+			<span ng-bind-html="item.body"></span>
+		</p>
+	</div>
+
+	<time class="happened_at">{{item.happenedAt}}</time>
+</div>

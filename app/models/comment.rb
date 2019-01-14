@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
   has_many :feeds, as: :actionable
+  has_many :notifications, as: :eventable
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
 
   validates :body, :presence => true
@@ -13,10 +14,20 @@ class Comment < ActiveRecord::Base
 
   # NOTE: Comments belong to a user
   belongs_to :user
-  before_create :update_feed
+  before_create :create_feed
 
-  def update_feed
+  def create_feed
     self.feeds.build({user_id: self.user_id})
+  end
+
+  def create_notification
+    is_reply = !self.parent.nil?
+    self.notifications.create({
+      user_id: is_reply ? self.parent.user_id : self.commentable.user_id,
+      specific_type: is_reply ? "reply" : "comment",
+      body: is_reply ? "<b>#{self.user.display_name}</b> replied to a comment on your post" : "#{self.user.display_name} commented on your post",
+      feed_id: self.feeds.first.id
+    })
   end
 
   def self.show_limit

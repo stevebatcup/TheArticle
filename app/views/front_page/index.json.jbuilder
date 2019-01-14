@@ -8,11 +8,11 @@ items = []
 	when 'Share'
 		items << share_as_json_data(feed_item.user, feed_item.actionable)
 	when 'Comment'
-		items << comment_as_json_data(feed_item.user, feed_item.actionable)
+		items << comment_as_json_data(feed_item.actionable)
 	when 'Opinion'
-		items << opinion_as_json_data(feed_item.user, feed_item.actionable)
+		items << opinion_as_json_data(feed_item.actionable)
 	when 'Follow'
-		items << follow_as_json_data(feed_item.user, feed_item.actionable, current_user)
+		items << follow_as_json_data(feed_item.actionable, current_user)
 	when 'Categorisation'
 		items << categorisation_as_json_data(feed_item.user, feed_item.actionable)
 	end

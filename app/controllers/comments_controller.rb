@@ -15,9 +15,14 @@ class CommentsController < ApplicationController
 		if comment.save
 			@comment = view_context.comment_for_tpl(comment)
 			comment.move_to_child_of Comment.find(parent_id) if parent_id > 0
+			comment.create_notification
 			@comment[:status] = :success
 		else
 			@comment = { status: :error, message: "Could not create comment" }
 		end
+	end
+
+	def show
+		@comment = Comment.find(params[:id])
 	end
 end

@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :comments
   has_many :opinions
   has_many :feeds
+  has_many :notifications
 
   include Suggestable
   include Shareable

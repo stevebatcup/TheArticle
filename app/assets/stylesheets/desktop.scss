@@ -1,5 +1,6 @@
 @import "_variables";
 @import "_functions";
+@import "_mixins";
 @import "bootstrap.css";
 @import "colours";
 @import "text";
@@ -20,6 +21,7 @@
 @import "desktop/sharing";
 @import "desktop/article";
 @import "desktop/front_page";
+@import "desktop/notifications";
 
 
 @import "vendor/input-range";

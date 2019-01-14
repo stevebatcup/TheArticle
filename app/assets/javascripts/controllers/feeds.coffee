@@ -16,7 +16,7 @@ class TheArticle.Feeds extends TheArticle.NGController
 		$event.preventDefault()
 		item.actionAuthError = false
 		@scope.itemForConnectionMessage = item
-		console.log @scope.itemForConnectionMessage.canInteract
+		# console.log @scope.itemForConnectionMessage.canInteract
 		@timeout =>
 			tpl = $("#requiresConnectionInfoBox").html().trim()
 			$content = @compile(tpl)(@scope)
