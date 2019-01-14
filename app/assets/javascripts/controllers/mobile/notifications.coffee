@@ -71,7 +71,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	openCommentModal: (notification) =>
 		@Comment.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
-			console.log @scope.item
 			tpl = $("#commentPost").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -80,24 +79,16 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	openOpinionModal: (notification) =>
 		@Opinion.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
-			console.log @scope.item
 			tpl = $("#opinionPost").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
 			$("#opinionPostModal").modal()
 
-	openFollowsModal: (notification) =>
-		# @Opinion.get({id: notification.itemId}).then (item) =>
-		# 	@scope.item = item
-		# 	console.log @scope.item
-		tpl = $("#followsList").html().trim()
-		$content = @compile(tpl)(@scope)
-		$('body').append $content
-		$("#followsListModal").modal()
+	openFollowsTab: (notification) =>
+		@rootScope.$broadcast 'open_followers_tab'
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
-		console.log notification.type
 		@scope.item = {}
 		switch notification.type
 			when 'comment'
@@ -105,7 +96,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			when 'opinion'
 				@openOpinionModal notification
 			when 'follow'
-				@openFollowsModal notification
+				@openFollowsTab notification
 			when 'categorisation'
 				path = notification.exchange.path
 				window.location.href = path

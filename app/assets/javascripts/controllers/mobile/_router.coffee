@@ -3,6 +3,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
@@ -20,6 +21,10 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 	bindEvents: ->
 		super
+
+		@scope.$on 'open_followers_tab', =>
+			$(window).scrollTop(0)
+			@openRoute 'followers'
 
 	openRoute: (route) =>
 		switch route
