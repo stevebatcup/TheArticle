@@ -1,15 +1,21 @@
 .show-profile {
 	min-height: 60vh;
 
+	.ajax_loading.profile {
+		text-align: center;
+		width: fit-content;
+		width: -moz-fit-content;
+	}
+
 	.profile_circle_image {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-		width: 6.1em;
-		height: 6.1em;
+		width: 4.5em;
+		height: 4.5em;
     border: 4px solid #fff;
     position: relative;
-    top: -3.5em;
+    top: -2.9em;
 
     a {
     	color: #fff;
@@ -27,11 +33,13 @@
 
 	.cover_photo {
 		width: 100%;
+		width: 100vw;
 		background-color: #aeaeae;
 		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center center;
-		height: 125px;
+		height: 75px;
+		height: 20vw;
 		line-height: 7.1em;
 		color: #fff;
 

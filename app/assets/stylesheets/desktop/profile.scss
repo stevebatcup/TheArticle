@@ -10,7 +10,7 @@
 	min-height: 60vh;
 
 	#cover_photo {
-		height: 220px;
+		height: 228px;
 		line-height: 13em;
 		color: #fff;
 
@@ -36,11 +36,11 @@
 
 	#basic_info {
 		img {
-			width: 9em;
-			height: 9em;
+			width: 7.5em;
+			height: 7.5em;
 	    border: 4px solid #fff;
 	    position: relative;
-	    top: -6.5em;
+	    top: -6em;
 	    left: 1em;
       margin-bottom: -5em;
 
@@ -71,8 +71,12 @@
 }
 
 #editcoverPhotoModal {
-	form .inner {
-		height: 190px;
+	.modal-dialog {
+		max-width: 660px;
+
+		form .inner {
+			height: 190px;
+		}
 	}
 }
 

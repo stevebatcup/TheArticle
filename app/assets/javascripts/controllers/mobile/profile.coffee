@@ -89,7 +89,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 300, 100, 'square'
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 330, 55, 'square'
 
 		# Broadcast from HeaderBarController
 		@scope.$on 'edit_profile', =>
@@ -140,7 +140,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				height: height
 				type: shape
 			update: =>
-				c.result('canvas').then (img) =>
+				c.result({type: 'canvas', size: {'1140', '228'}}).then (img) =>
 					@scope.$apply =>
 						@scope.profile.data[type].image = img
 

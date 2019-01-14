@@ -12,7 +12,7 @@ class CoverPhotoUploader < CarrierWave::Uploader::Base
   end
 
   version :desktop do
-    process resize_to_fill: [1140, 220]
+    process resize_to_fill: [1140, 228]
 
     def store_dir
       "app/#{Rails.env}/users/cover-photo/desktop/#{model.id}"
@@ -20,7 +20,7 @@ class CoverPhotoUploader < CarrierWave::Uploader::Base
   end
 
   version :mobile do
-    process resize_to_fill: [750, 250]
+    process resize_to_fill: [750, 150]
 
     def store_dir
       "app/#{Rails.env}/users/cover-photo/mobile/#{model.id}"

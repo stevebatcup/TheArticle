@@ -89,7 +89,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 425, 82, 'square'
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 570, 114, 'square'
 
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
@@ -130,7 +130,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				height: height
 				type: shape
 			update: =>
-				c.result('canvas').then (img) =>
+				c.result({type: 'canvas', size: {'1140', '228'}}).then (img) =>
 					@scope.$apply =>
 						@scope.profile.data[type].image = img
 
