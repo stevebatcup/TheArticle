@@ -303,5 +303,15 @@ class TheArticle.Feeds extends TheArticle.NGController
 				item.share.opinionsLoaded = true
 			, 750
 
+	followUserFromNoConnectionModal: (item, $event, canThenInteract=true) =>
+		$event.preventDefault()
+		@followUser item.share.user.id, =>
+			$('button[data-dismiss=modal]', "#requiresConnectionInfoBoxModal").click()
+			@timeout =>
+				if canThenInteract
+					item.canInteract = 'yes'
+				else
+					item.canInteract = 'not_followed'
+			, 750
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

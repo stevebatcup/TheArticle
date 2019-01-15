@@ -4,7 +4,7 @@ class Categorisation < ApplicationRecord
 	belongs_to	:article
 	belongs_to	:exchange
 	before_create	:update_feeds
-	after_destroy	:delete_feeds
+	after_destroy	:delete_feed_and_notification
 	after_create	:create_notification
 
 	def update_feeds
@@ -24,8 +24,9 @@ class Categorisation < ApplicationRecord
 	  end
   end
 
-	def delete_feeds
+	def delete_feed_and_notification
 		self.feeds.destroy_all
+		self.notifications.destroy_all
 	end
 
 	def self.table_name

@@ -269,6 +269,9 @@ class TheArticle.PageController extends TheArticle.NGController
 		countSentence = if count is 1 then "#{count} other" else "#{count} others"
 		body = if count > 0 then "<b>#{person}</b> and #{countSentence} followed you" else "<b>#{person}</b> followed you"
 		new @Notification
+			id: notifications[0].id
+			itemId: notifications[0].itemId
+			isSeen: notifications[0].isSeen
 			happenedAt: notifications[0].happenedAt
 			date: notifications[0].date
 			body: body
@@ -282,6 +285,9 @@ class TheArticle.PageController extends TheArticle.NGController
 		countSentence = if count is 1 then "#{count} other" else "#{count} others"
 		body = if count > 0 then "<b>#{person}</b> and #{countSentence} #{agreeDisagree}d with your post" else "<b>#{person}</b> #{agreeDisagree}d with your post"
 		new @Notification
+			id: notifications[0].id
+			itemId: notifications[0].itemId
+			isSeen: notifications[0].isSeen
 			happenedAt: notifications[0].happenedAt
 			date: notifications[0].date
 			body: body

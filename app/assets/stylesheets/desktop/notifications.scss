@@ -8,6 +8,10 @@
 			border-radius: 2px;
 			position: relative;
 
+			&.seen {
+				background: $grey_light;
+			}
+
 			.happened_at {
 				position: absolute;
 				right: 9px;

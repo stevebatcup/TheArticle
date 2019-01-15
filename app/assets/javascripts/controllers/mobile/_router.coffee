@@ -14,7 +14,9 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.notificationBadgeCount = 0
 		@bindEvents()
 		@scope.root = @scope
-		@getNotificationsBadgeUpdate()
+		@timeout =>
+			@getNotificationsBadgeUpdate()
+		, 2000
 
 		urlVars = @getUrlVars()
 		if route = urlVars['route']
@@ -29,7 +31,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 		@interval =>
 			@getNotificationsBadgeUpdate()
-		, 10000
+		, 7500
 
 	getNotificationsBadgeUpdate: =>
 		@http.get("/notification-count").then (response) =>
@@ -45,6 +47,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			when 'suggestions' then @openFollows('suggestions')
 			when 'search' then @openSearch()
 			when 'notifications' then @openNotifications()
+			when 'messaging' then @openMessaging()
 			else @openFrontPage()
 
 	resetAppTabs: =>
@@ -55,6 +58,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.myProfile = false
 		@scope.follows = false
 		@scope.notifications = false
+		@scope.messaging = false
 		@scope.slideout.close()
 
 	openFrontPage: =>
@@ -90,6 +94,13 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.notifications = true
 		@timeout =>
 			$('#notifications-tab').click()
+		, 100
+
+	openMessaging: =>
+		@resetAppTabs()
+		@scope.messaging = true
+		@timeout =>
+			$('#messaging-tab').click()
 		, 100
 
 	openSearch: =>

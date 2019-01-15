@@ -23,8 +23,20 @@ class NotificationsController < ApplicationController
 																				.order(created_at: :desc)
 																				.page(page)
 																				.per(per_page)
+					unless params[:panel].present?
+						@notifications.each do |notification|
+							notification.update_attribute(:is_new, false)
+						end
+						current_user.update_notification_counter_cache
+					end
 				end
 			end
 		end
+	end
+
+	def update
+		@notification = Notification.find(params[:id])
+		@notification.update_attribute(:is_seen, true)
+		render json: { status: :success }
 	end
 end

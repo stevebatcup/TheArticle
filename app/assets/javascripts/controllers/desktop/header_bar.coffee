@@ -15,12 +15,13 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 		@scope.notificationBadgeCount = 0
 		@scope.notifications =
 			data: []
-			page: 1
 			loaded: false
 			totalItems: 0
 			moreToLoad: true
 		@getNotifications()
-		@getNotificationsBadgeUpdate()
+		@timeout =>
+			@getNotificationsBadgeUpdate()
+		, 2000
 		@bindEvents()
 
 	bindEvents: =>
@@ -31,11 +32,10 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 
 		@interval =>
 			@getNotificationsBadgeUpdate()
-		, 10000
+		, 7500
 
 		@scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
 			if oldVal isnt newVal
-				console.log 'grabbing'
 				@getNotifications()
 
 	getNotificationsBadgeUpdate: =>
@@ -43,9 +43,8 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 			@scope.notificationBadgeCount = response.data.count
 
 	getNotifications: =>
-		@Notification.query({page: 1, perPage: 12}).then (response) =>
-			angular.forEach response.notificationItems, (notification, index) =>
-				@scope.notifications.data.push notification
+		@Notification.query({page: 1, per_page: 12, panel: true}).then (response) =>
+			@scope.notifications.data = response.notificationItems
 			# console.log @scope.notifications.data
 			@scope.notifications.totalItems = response.total if @scope.notifications.page is 1
 			# console.log @scope.notifications.totalItems

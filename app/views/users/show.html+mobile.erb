@@ -1,16 +1,17 @@
-<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>">
+<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>" ng-cloak>
 
-	<div ng-show="profile.loaded && profile.loadError" class="container mt-4">
+	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>
 		</div>
 	</div>
+
 	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
 	<section class="cover_photo justify-content-center"
 					ng-show="profile.loaded && !profile.loadError && mode == 'view'"
 					ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
-					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
+					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}" ng-cloak>
 		<div class="col-12">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && profile.data.coverPhoto.image.length == 0">
 				<i class="fas fa-image"></i>
@@ -18,7 +19,7 @@
 		</div>
 	</section>
 
-	<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+	<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 		<div ng-style="{'background-image':'url('+profile.data.profilePhoto.image+')'}"
 				 class="profile_circle_image rounded-circle" ng-click="editProfilePhoto()"></div>
 		<div class="pl-3">
@@ -27,7 +28,7 @@
 		</div>
 	</section>
 
-	<section class="container d-flex" class="d-flex" id="stats_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+	<section class="container d-flex" class="d-flex" id="stats_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 		<div class="stats p-2 flex-fill">
 			<label>Ratings</label>
 			<span>{{ profile.data.ratings.length }}</span>
@@ -43,7 +44,7 @@
 	</section>
 
 	<% if user_signed_in? %>
-		<section class="container" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+		<section class="container" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 			<button class="btn btn-outline-success btn-block mt-3 mb-4"
 								ng-click="editProfile()"
 								ng-show="profile.isMe">Edit Profile</button>
@@ -68,7 +69,7 @@
 		</section>
 	<% end %>
 
-	<section class="container" id="more_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+	<section class="container" id="more_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 		<p>
 			<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 		</p>
@@ -95,7 +96,7 @@
 		</p>
 	</section>
 
-	<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError && mode == 'view'">
+	<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 		<ul class="nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item">
 		    <a class="nav-link active" href="#" ng-click="selectTab('all', $event)" ng-class="{'active': selectedTab == 'all'}">
@@ -119,7 +120,7 @@
 		  </li>
 		</ul>
 
-		<div class="" id="feed">
+		<div class="" id="feed" ng-cloak>
 
 			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
 
@@ -223,10 +224,10 @@
 	</section>
 
 
-	<div class="overlay edit_profile" ng-show="mode == 'edit'"></div>
+	<div class="overlay edit_profile" ng-show="mode == 'edit'" ng-cloak></div>
 
 	<!-- Edit profile fields -->
-	<section id="edit_profile_form_box" ng-if="mode == 'edit'">
+	<section id="edit_profile_form_box" ng-if="mode == 'edit'" ng-cloak>
 		<div class="cover_photo" class="justify-content-center"
 					ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
 					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
@@ -289,7 +290,7 @@
 	</section>
 
 		<!-- Follows panel -->
-		<section id="follows_box" ng-if="mode == 'follows'" ng-controller="FollowsController" data-user-id="<%= @user.id %>" data-current-user-id="<%= user_signed_in? ? current_user.id : nil %>">
+		<section id="follows_box" ng-if="mode == 'follows'" ng-controller="FollowsController" data-user-id="<%= @user.id %>" data-current-user-id="<%= user_signed_in? ? current_user.id : nil %>" ng-cloak>
 			<div class="header_bar_overlay d-flex justify-content-between">
 				<div>
 					<h3 ng-if="panelTab == 'following'" class="mb-0 mt-0">

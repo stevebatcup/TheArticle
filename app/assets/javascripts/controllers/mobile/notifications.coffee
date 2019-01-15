@@ -122,5 +122,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			when 'categorisation'
 				path = notification.exchange.path
 				window.location.href = path
+		@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
+			notification.isSeen = true
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

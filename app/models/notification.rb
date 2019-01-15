@@ -6,7 +6,7 @@ class Notification < ApplicationRecord
 
 	def set_is_new_and_is_seen
 		self.is_new = true
-		self.is_seen = true
+		self.is_seen = false
 	end
 
 	def update_user_counter_cache

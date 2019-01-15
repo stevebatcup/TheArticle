@@ -1,4 +1,4 @@
-<div class="card inner">
+<div class="card inner" ng-class="{'seen': item.isSeen}">
 	<div class="d-flex justify-content-start align-items-start" ng-click="callNotificationAction(item, $event)">
 		<img ng-if="item.type=='categorisation'" ng-src="{{item.exchange.image}}" alt="{{item.exchange.name}}" class="exchange_image" />
 

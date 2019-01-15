@@ -4,7 +4,7 @@ class Opinion < ApplicationRecord
 	belongs_to	:user
 	belongs_to	:share
 	before_create	:update_feed
-	after_destroy	:delete_feed
+	after_destroy	:delete_feed_and_notification
 	after_create :create_notification
 
 	def update_feed
@@ -20,8 +20,9 @@ class Opinion < ApplicationRecord
     })
   end
 
-	def delete_feed
+	def delete_feed_and_notification
 		self.feeds.destroy_all
+		self.notifications.destroy_all
 	end
 
 	def self.show_limit

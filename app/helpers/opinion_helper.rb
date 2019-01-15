@@ -7,7 +7,7 @@ module OpinionHelper
 			type: 'opinionAction',
 			stamp: opinion.created_at.to_i,
 			date: opinion.created_at.strftime("%e %b"),
-			share: share.json_data(true),
+			share: share_info_as_json(share, true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,
 			iDisagreeWithPost: user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false,
@@ -45,7 +45,8 @@ module OpinionHelper
 				user: {
 					displayName: opinion.user.display_name,
 					username: opinion.user.username,
-					image: opinion.user.profile_photo.url(:square)
+					image: opinion.user.profile_photo.url(:square),
+					path: profile_path(slug: opinion.user.slug)
 				}
 			}
 		}

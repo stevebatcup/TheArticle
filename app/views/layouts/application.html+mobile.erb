@@ -4,7 +4,7 @@
   <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
       <main id="panel_for_side_menu">
 <% else %>
-  <nav id="sidebar" ng-controller="SidebarController">
+  <nav id="sidebar" ng-controller="SidebarController" ng-cloak>
     <div id="dismiss"><i class="fas fa-times"></i></div>
 
     <ul class="list-unstyled">
@@ -77,6 +77,41 @@
       </div>
     </div>
   </header>
+
+  <% if user_signed_in? %>
+  <nav id="member_options" ng-show="!appPage">
+    <ul class="nav nav-pills nav-fill d-flex">
+      <li class="nav-item">
+        <a class="nav-link" id="front-page-tab" href="/front-page">
+          <i class="fas fa-home"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="follows-tab" href="/front-page?route=following">
+          <i class="fas fa-users"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="search-tab" href="/front-page?route=search">
+          <i class="fas fa-search"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="notifications-tab" href="/front-page?route=notifications">
+          <i class="fas fa-bell"></i>
+          <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
+            {{notificationBadgeCount}}
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="messaging-tab" href="/front-page?route=messaging">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <% end %>
 
   <%= render 'common/search-box' %>
 

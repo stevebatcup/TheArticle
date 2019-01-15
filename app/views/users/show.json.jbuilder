@@ -88,7 +88,7 @@ json.set! :profile do
 	json.set! :shares do
 		json.array! @user.share_onlys do |share|
 			json.stamp share.created_at.to_i
-			json.share share.json_data(false)
+			json.share share_info_as_json(share, false)
 			json.canInteract user_signed_in? && share.current_user_can_interact(current_user)
 			json.iAgreeWithPost user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false
 			json.iDisagreeWithPost user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false
@@ -130,7 +130,7 @@ json.set! :profile do
 	json.set! :ratings do
 		json.array! @user.ratings do |share|
 			json.stamp share.created_at.to_i
-			json.share share.json_data(true)
+			json.share share_info_as_json(share, true)
 			json.canInteract user_signed_in? && share.current_user_can_interact(current_user)
 			json.iAgreeWithPost user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false
 			json.iDisagreeWithPost user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false
@@ -172,7 +172,7 @@ json.set! :profile do
 			comment = comment_feed_item.actionable
 			share = comment.commentable
 			json.stamp comment.created_at.to_i
-			json.share share.json_data(true)
+			json.share share_info_as_json(share, true)
 			json.canInteract user_signed_in? && share.current_user_can_interact(current_user)
 			json.iAgreeWithPost user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false
 			json.iDisagreeWithPost user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false
@@ -224,7 +224,7 @@ json.set! :profile do
 			opinion = opinion_feed_item.actionable
 			share = opinion.share
 			json.stamp opinion.created_at.to_i
-			json.share share.json_data(true)
+			json.share share_info_as_json(share, true)
 			json.canInteract user_signed_in? && share.current_user_can_interact(current_user)
 			json.iAgreeWithPost user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false
 			json.iDisagreeWithPost user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false

@@ -1,5 +1,5 @@
 <section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>">
-	<div ng-show="profile.loaded && profile.loadError" class="container mt-4">
+	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>
 		</div>
@@ -8,7 +8,7 @@
 
 	<section id="cover_photo" class="cover_photo row" ng-show="profile.loaded && !profile.loadError"
 						ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
-						ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
+						ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}" ng-cloak>
 		<div class="col-12">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && !profile.data.coverPhoto.image">
 				<i class="fas fa-image"></i>
@@ -16,7 +16,7 @@
 		</div>
 	</section>
 
-	<section id="top_bar" class="row bg-grey">
+	<section id="top_bar" class="row bg-grey" ng-cloak>
 		<div class="col-2"></div>
 		<ul class="col-8 nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item">
@@ -97,7 +97,7 @@
 	</section>
 
 	<div class="row">
-		<section class="col-3" ng-show="profile.loaded && !profile.loadError">
+		<section class="col-3" ng-show="profile.loaded && !profile.loadError" ng-cloak>
 			<div id="basic_info">
 
 				<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
@@ -134,7 +134,7 @@
 		</section>
 
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
-			<div class="container" id="activity-tabs">
+			<div class="container" id="activity-tabs" ng-cloak>
 
 				<div class="" ng-if="selectedTab == 'all'">
 					<div class="results_block row" ng-class="{'empty': profile.digest.length == 0}">
@@ -172,7 +172,7 @@
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not following anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.data.followings" class="col-12 feed-listing feed-follow pb-3 px-0">
+						<div ng-repeat="item in profile.data.followings" class="col-12 feed-listing feed-follow pb-3 px-0 mb-3">
 							<%= render 'member_card' %>
 						</div>
 
@@ -286,7 +286,7 @@
 			</div>
 		</section>
 
-		<div class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError">
+		<div class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
 			<% if user_signed_in? %>
 			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3">
 				<div id="who_to_follow" class="" ng-controller="SuggestionsController">

@@ -93,7 +93,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	openCommentModal: (notification) =>
 		@Comment.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
-			console.log @scope.item
 			tpl = $("#commentPost").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -102,7 +101,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	openOpinionModal: (notification) =>
 		@Opinion.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
-			console.log @scope.item
 			tpl = $("#opinionPost").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -119,7 +117,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
-		console.log notification.type
 		@scope.item = {}
 		switch notification.type
 			when 'comment'
@@ -131,5 +128,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			when 'categorisation'
 				path = notification.exchange.path
 				window.location.href = path
+		@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
+			notification.isSeen = true
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

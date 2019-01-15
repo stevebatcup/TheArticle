@@ -1,11 +1,38 @@
 module ShareHelper
+	def share_info_as_json(share, has_ratings=true)
+		{
+			id: share.id,
+			isRatings: has_ratings,
+			date: share.created_at.strftime("%e %b"),
+			commentsLoaded: false,
+			opinionsLoaded: false,
+			commentCount: share.comment_count,
+			agreeCount: share.agree_count,
+			disagreeCount: share.disagree_count,
+			post: share.post,
+			showComments: false,
+			showAgrees: false,
+			showDisagrees: false,
+			commentShowLimit: Comment.show_limit,
+			agreeShowLimit: Opinion.show_limit,
+			disagreeShowLimit: Opinion.show_limit,
+			user: {
+				id: share.user.id,
+				displayName: share.user.display_name,
+				username: share.user.username,
+				image: share.user.profile_photo.url(:square),
+				path: profile_path(slug: share.user.slug)
+			}
+		}
+	end
+
 	def share_as_json_data(user, share)
 		has_ratings = share.has_ratings?
 		author = share.article.author
 		exchange = share.article.exchanges.first
 		{
 			type: has_ratings ? 'rating' : 'share',
-			share: share.json_data(has_ratings),
+			share: share_info_as_json(share),
 			stamp: share.created_at.to_i,
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,

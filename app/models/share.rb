@@ -59,31 +59,6 @@ class Share < ApplicationRecord
 		self.disagrees.size
 	end
 
-	def json_data(is_ratings=true)
-		{
-			id: self.id,
-			isRatings: is_ratings,
-			date: self.created_at.strftime("%e %b"),
-			commentsLoaded: false,
-			opinionsLoaded: false,
-			commentCount: self.comment_count,
-			agreeCount: self.agree_count,
-			disagreeCount: self.disagree_count,
-			post: self.post,
-			showComments: false,
-			showAgrees: false,
-			showDisagrees: false,
-			commentShowLimit: Comment.show_limit,
-			agreeShowLimit: Opinion.show_limit,
-			disagreeShowLimit: Opinion.show_limit,
-			user: {
-				displayName: self.user.display_name,
-				username: self.user.username,
-				image: self.user.profile_photo.url(:square)
-			}
-		}
-	end
-
 	def has_ratings?
 		(self.rating_well_written > 0) || (self.rating_valid_points > 0) || (self.rating_agree > 0)
 	end

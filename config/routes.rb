@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   get 'opinions/:id',                          to: 'opinions#show', as: :opinion
   post 'opinions',                             to: 'opinions#create'
   get 'notifications',                         to: 'notifications#index', as: :notifications
+  put 'notification/:id',                      to: 'notifications#update'
   get 'notification-count',                    to: 'notifications#index', as: :notification_count, count: true
 
   PageRouter.load

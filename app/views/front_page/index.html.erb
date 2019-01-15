@@ -1,11 +1,11 @@
 <section ng-controller="FrontPageController" class="container front-page" data-user-id="<%= current_user.id %>">
-	<div class="alert alert-success mb-3" ng-show="showWelcome">
+	<div class="alert alert-success mb-3" ng-show="showWelcome" ng-cloak>
 		<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
 		<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
 	</div>
 
 
-	<div class="row">
+	<div class="row" ng-cloak>
 		<section class="col-3">
 			<div id="front_page_profile_card" class="mt-3 pb-5 mb-4">
 
