@@ -33,6 +33,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@scope.notifications =
 			data: []
 			page: 1
+			perPage: 12
 			loaded: false
 			totalItems: 0
 			moreToLoad: true
@@ -58,13 +59,34 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@getNotifications()
 
 	getNotifications: =>
-		@Notification.query({page: @scope.notifications.page, per_page: 5}).then (response) =>
+		@Notification.query({page: @scope.notifications.page, per_page: @scope.notifications.perPage}).then (response) =>
+			notificationSet = []
+			follows = []
+			agrees = []
+			disagrees = []
 			angular.forEach response.notificationItems, (notification, index) =>
+				if notification.type is 'follow'
+					follows.push notification
+				else if notification.type is 'opinion'
+					if notification.specificType is 'agree'
+						agrees.push notification
+					else if notification.specificType is 'disagree'
+						disagrees.push notification
+				else
+					 notificationSet.push notification
+
+			notificationSet.push(@groupFollowNotifications(follows)) if follows.length > 0
+			notificationSet.push(@groupOpinionNotifications(agrees, 'agree')) if agrees.length > 0
+			notificationSet.push(@groupOpinionNotifications(disagrees, 'disagree')) if disagrees.length > 0
+			notificationSet = @reorderNotificationSet(notificationSet)
+
+			angular.forEach notificationSet, (notification) =>
 				@scope.notifications.data.push notification
+
 			# console.log @scope.notifications.data
 			@scope.notifications.totalItems = response.total if @scope.notifications.page is 1
 			# console.log @scope.notifications.totalItems
-			@scope.notifications.moreToLoad = @scope.notifications.totalItems > @scope.notifications.data.length
+			@scope.notifications.moreToLoad = @scope.notifications.totalItems > (@scope.notifications.page * @scope.notifications.perPage)
 			# console.log @scope.notifications.moreToLoad
 			@scope.notifications.loaded = true
 

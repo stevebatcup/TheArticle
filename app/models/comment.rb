@@ -25,7 +25,7 @@ class Comment < ActiveRecord::Base
     self.notifications.create({
       user_id: is_reply ? self.parent.user_id : self.commentable.user_id,
       specific_type: is_reply ? "reply" : "comment",
-      body: is_reply ? "<b>#{self.user.display_name}</b> replied to a comment on your post" : "#{self.user.display_name} commented on your post",
+      body: is_reply ? "<b>#{self.user.display_name}</b> replied to a comment on your post" : "<b>#{self.user.display_name}</b> commented on your post",
       feed_id: self.feeds.first.id
     })
   end

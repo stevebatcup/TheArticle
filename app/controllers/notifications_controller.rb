@@ -12,13 +12,18 @@ class NotificationsController < ApplicationController
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			end
 			format.json do
-				page = (params[:page] || 1).to_i
-				per_page = (params[:per_page] || 20).to_i
-				@total_notifications = Notification.last_weeks_for_user(current_user, 4).size if page == 1
-				@notifications = Notification.last_weeks_for_user(current_user, 4)
-																			.order(created_at: :desc)
-																			.page(page)
-																			.per(per_page)
+				if params[:count]
+					@count = current_user.notification_counter_cache
+					render 'count'
+				else
+					page = (params[:page] || 1).to_i
+					per_page = (params[:per_page] || 20).to_i
+					@total_notifications = Notification.last_weeks_for_user(current_user, 4).size if page == 1
+					@notifications = Notification.last_weeks_for_user(current_user, 4)
+																				.order(created_at: :desc)
+																				.page(page)
+																				.per(per_page)
+				end
 			end
 		end
 	end

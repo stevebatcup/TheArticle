@@ -63,6 +63,9 @@
           <li class="nav-item">
             <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#content-notifications">
               <i class="fas fa-bell"></i>
+              <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
+                {{notificationBadgeCount}}
+              </span>
             </a>
           </li>
           <li class="nav-item">

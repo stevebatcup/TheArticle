@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_100850) do
+ActiveRecord::Schema.define(version: 2019_01_15_133100) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -144,7 +144,6 @@ ActiveRecord::Schema.define(version: 2019_01_14_100850) do
 
   create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
-    t.string "title"
     t.integer "eventable_id"
     t.string "eventable_type"
     t.string "specific_type"
@@ -152,7 +151,10 @@ ActiveRecord::Schema.define(version: 2019_01_14_100850) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_new"
+    t.boolean "is_seen"
     t.index ["eventable_type", "eventable_id"], name: "index_notifications_on_eventable_type_and_eventable_id"
+    t.index ["is_new"], name: "index_notifications_on_is_new"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -247,6 +249,7 @@ ActiveRecord::Schema.define(version: 2019_01_14_100850) do
     t.string "signup_ip_city"
     t.string "signup_ip_region"
     t.string "signup_ip_country"
+    t.integer "notification_counter_cache"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

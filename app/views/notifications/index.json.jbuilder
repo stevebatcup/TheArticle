@@ -5,11 +5,14 @@ json.set! :notificationItems do
 		json.stamp notification.created_at.to_i
 		json.happenedAt happened_at(notification.created_at)
 		json.date notification.created_at.strftime("%e %b")
-		json.title notification.title
 		json.body notification.body
 		json.type notification.eventable_type.downcase
 		json.specificType notification.specific_type
-		if notification.eventable_type.downcase == 'categorisation'
+		if notification.eventable_type.downcase == 'opinion'
+			json.opinionatorName notification.eventable.user.display_name
+		elsif notification.eventable_type.downcase == 'follow'
+			json.followerName notification.eventable.user.display_name
+		elsif notification.eventable_type.downcase == 'categorisation'
 			exchange = notification.eventable.exchange
 			json.set! :exchange do
 				json.image exchange.image.url(:detail)

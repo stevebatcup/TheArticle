@@ -5,14 +5,16 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	  '$scope'
 	  '$rootScope'
 	  '$http'
-	  '$rootElement'
 	  '$timeout'
-	  'EditorsPick'
+	  '$interval'
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
+		@scope.notificationBadgeCount = 0
 		@bindEvents()
 		@scope.root = @scope
+		@getNotificationsBadgeUpdate()
 
 		urlVars = @getUrlVars()
 		if route = urlVars['route']
@@ -21,10 +23,17 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 	bindEvents: ->
 		super
-
 		@scope.$on 'open_followers_tab', =>
 			$(window).scrollTop(0)
 			@openRoute 'followers'
+
+		@interval =>
+			@getNotificationsBadgeUpdate()
+		, 10000
+
+	getNotificationsBadgeUpdate: =>
+		@http.get("/notification-count").then (response) =>
+			@scope.notificationBadgeCount = response.data.count
 
 	openRoute: (route) =>
 		switch route

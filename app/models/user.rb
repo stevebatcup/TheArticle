@@ -102,4 +102,10 @@ class User < ApplicationRecord
   def self.is_username_available?(username)
     !self.find_by(username: username).present?
   end
+
+  def update_notification_counter_cache
+    # count = Notification.get_new_count_for_user(self, true)
+    count = self.notifications.where(is_new: true)
+    self.update_attribute(:notification_counter_cache, count)
+  end
 end

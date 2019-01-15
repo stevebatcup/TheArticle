@@ -1,7 +1,14 @@
 class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	@register window.App
-	@$inject: ['$scope', '$rootScope', '$timeout', '$compile']
+	@$inject: [
+		'$scope'
+		'$http'
+		'$rootScope'
+		'$timeout'
+		'$interval'
+		'$compile'
+	]
 
 	init: ->
 		@scope.myProfile = window.location.pathname is "/my-profile"

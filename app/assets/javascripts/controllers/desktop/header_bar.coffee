@@ -1,9 +1,18 @@
 class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 
 	@register window.App
-	@$inject: ['$scope', '$timeout', '$compile', 'Notification']
+	@$inject: [
+		'$scope'
+		'$http'
+		'$timeout'
+		'$compile'
+		'$interval'
+		'Notification'
+	]
 
 	init: ->
+		@setDefaultHttpHeaders()
+		@scope.notificationBadgeCount = 0
 		@scope.notifications =
 			data: []
 			page: 1
@@ -11,11 +20,27 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 			totalItems: 0
 			moreToLoad: true
 		@getNotifications()
+		@getNotificationsBadgeUpdate()
+		@bindEvents()
 
+	bindEvents: =>
 		if @isDevelopment()
 			@timeout =>
 				@bindFixedNavScrolling()
 			, 1000
+
+		@interval =>
+			@getNotificationsBadgeUpdate()
+		, 10000
+
+		@scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
+			if oldVal isnt newVal
+				console.log 'grabbing'
+				@getNotifications()
+
+	getNotificationsBadgeUpdate: =>
+		@http.get("/notification-count").then (response) =>
+			@scope.notificationBadgeCount = response.data.count
 
 	getNotifications: =>
 		@Notification.query({page: 1, perPage: 12}).then (response) =>

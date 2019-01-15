@@ -44,6 +44,9 @@
             <li class="nav-item dropdown">
               <a class="nav-link nav-icon py-2 text-black pl-md-5" href="#" id="nav_link_notifications" data-toggle="dropdown">
                 <i class="fas fa-bell"></i>
+                <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
+                  {{notificationBadgeCount}}
+                </span>
               </a>
                <div class="dropdown-menu dropdown-menu-right bg-light" id="notifications_menu">
                   <h6 class="dropdown-header">Notifications</h6>
