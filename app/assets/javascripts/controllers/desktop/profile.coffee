@@ -40,37 +40,37 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				followings: []
 				followers: []
 				page: 1
-				perPage: 5
+				perPage: 10
 				moreToLoad: false
 				totalItems: 0
 			shares:
 				data: []
 				page: 1
-				perPage: 5
+				perPage: 10
 				moreToLoad: false
 				totalItems: 0
 			ratings:
 				data: []
 				page: 1
-				perPage: 5
+				perPage: 10
 				moreToLoad: false
 				totalItems: 0
 			exchanges:
 				data: []
 				page: 1
-				perPage: 5
+				perPage: 10
 				moreToLoad: false
 				totalItems: 0
 			opinionActions:
 				data: []
 				page: 1
-				perPage: 5
+				perPage: 10
 				moreToLoad: false
 				totalItems: 0
 			commentActions:
 				data: []
 				page: 1
-				perPage: 5
+				perPage: 10
 				moreToLoad: false
 				totalItems: 0
 			data:
