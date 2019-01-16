@@ -1,10 +1,6 @@
 class UsersController < ApplicationController
 	before_action :authenticate_user!, except: [:show]
 
-	def index
-		@users = User.all
-	end
-
 	def show
 		if params[:me]
 			@user = current_user
@@ -24,10 +20,7 @@ class UsersController < ApplicationController
 				@trending_articles = Article.trending.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 			end
-			format.json do
-				@comment_actions = @user.feeds.where(actionable_type: 'Comment').order(created_at: :desc).limit(20)
-				@opinion_actions = @user.feeds.where(actionable_type: 'Opinion').order(created_at: :desc).limit(20)
-			end
+			format.json
 		end
 	end
 

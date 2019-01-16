@@ -32,7 +32,6 @@ Rails.application.routes.draw do
   get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
   post 'my-profile',                           to: 'profile_wizard#create', as: :save_profile_wizard
 
-  get 'debug-users',                           to: 'users#index'
   get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
@@ -51,14 +50,25 @@ Rails.application.routes.draw do
   get 'follow-suggestions',                    to: 'follows#index', mode: :suggestions
   get 'account-settings',                      to: 'account_settings#edit'
 
+  get 'user_shares',                           to: 'user_shares#index'
+  get 'user_shares/:id',                       to: 'user_shares#index'
+  get 'user_ratings',                          to: 'user_ratings#index'
+  get 'user_ratings/:id',                      to: 'user_ratings#index'
   get 'share/:id',                             to: 'shares#show'
   post 'share',                                to: 'shares#create', as: :share
+
   get 'comments',                              to: 'comments#index', as: :comments
   get 'comments/:id',                          to: 'comments#show', as: :comment
   post 'comments',                             to: 'comments#create'
+  get 'user_comments',                         to: 'user_comments#index'
+  get 'user_comments/:id',                     to: 'user_comments#index'
+
   get 'opinions',                              to: 'opinions#index', as: :opinions
   get 'opinions/:id',                          to: 'opinions#show', as: :opinion
   post 'opinions',                             to: 'opinions#create'
+  get 'user_opinions',                         to: 'user_opinions#index'
+  get 'user_opinions/:id',                     to: 'user_opinions#index'
+
   get 'notifications',                         to: 'notifications#index', as: :notifications
   put 'notification/:id',                      to: 'notifications#update'
   get 'notification-count',                    to: 'notifications#index', as: :notification_count, count: true

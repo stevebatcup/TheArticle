@@ -1,7 +1,0 @@
-<div class="container px-5 py-5">
-	<ul>
-		<% @users.each do |user| %>
-			<li><%= link_to	user.display_name, profile_path(slug: user.slug), target: :blank %></li>
-		<% end %>
-	</ul>
-</div>

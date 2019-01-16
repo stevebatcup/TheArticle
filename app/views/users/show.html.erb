@@ -27,31 +27,31 @@
 		  <li class="nav-item">
 		  	<a id="activity-following-tab" class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
 			  	<label>Following</label>
-			  	<span>{{ profile.data.followings.length }}</span>
+			  	<span>{{ profile.follows.followings.length }}</span>
 			  </a>
 		  </li>
 		  <li class="nav-item">
 		    <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
 					<label>Followers</label>
-					<span>{{ profile.data.followers.length }}</span>
+					<span>{{ profile.follows.followers.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a id="activity-ratings-tab" class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
 		    	<label>Ratings</label>
-		    	<span>{{ profile.data.ratings.length }}</span>
+		    	<span>{{ profile.ratings.data.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a id="activity-shares-tab" class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
 					<label>Shares</label>
-					<span>{{ profile.data.shares.length }}</span>
+					<span>{{ profile.shares.data.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a id="activity-exchanges-tab" class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
 					<label>Exchanges</label>
-					<span>{{ profile.data.exchanges.length }}</span>
+					<span>{{ profile.exchanges.data.length }}</span>
 		    </a>
 		  </li>
 		</ul>
@@ -166,13 +166,13 @@
 				</div>
 
 				<div class="" ng-if="(selectedTab == 'following')">
-					<div class="results_block row" ng-class="{'empty': profile.data.followings.length == 0}">
-						<p class="col-12 empty_resource" ng-show="profile.data.followings.length == 0">
+					<div class="results_block row" ng-class="{'empty': profile.follows.followings.length == 0}">
+						<p class="col-12 empty_resource" ng-show="profile.follows.followings.length == 0">
 							<span ng-if="profile.isMe">You are not following any other members</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not following anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.data.followings" class="col-12 feed-listing feed-follow pb-3 px-0 mb-3">
+						<div ng-repeat="item in profile.follows.followings" class="col-12 feed-listing feed-follow pb-3 px-0 mb-3">
 							<%= render 'member_card' %>
 						</div>
 
@@ -180,14 +180,14 @@
 				</div>
 
 				<div class="" ng-if="(selectedTab == 'followers')"">
-					<div class="results_block row" ng-class="{'empty': profile.data.followers.length == 0}">
+					<div class="results_block row" ng-class="{'empty': profile.follows.followers.length == 0}">
 
-						<p class="col-12 empty_resource" ng-show="profile.data.followers.length == 0">
+						<p class="col-12 empty_resource" ng-show="profile.follows.followers.length == 0">
 							<span ng-if="profile.isMe">You are currently not being followed by any other members</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not being followed by anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.data.followers" class="col-12 feed-listing feed-follow pb-3 px-0">
+						<div ng-repeat="item in profile.follows.followers" class="col-12 feed-listing feed-follow pb-3 px-0">
 							<%= render 'member_card' %>
 						</div>
 
@@ -195,14 +195,14 @@
 				</div>
 
 				<div class="" ng-if="selectedTab == 'ratings'">
-					<div class="results_block row" ng-class="{'empty': profile.data.ratings.length == 0}">
+					<div class="results_block row" ng-class="{'empty': profile.ratings.data.length == 0}">
 
-						<p class="col-12 empty_resource" ng-if="profile.data.ratings.length == 0">
+						<p class="col-12 empty_resource" ng-if="profile.ratings.data.length == 0">
 							<span ng-if="profile.isMe">You have not rated an article yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
 						</p>
 
-						<div class="ratings_summary col-12 mb-3 px-0" ng-if="profile.data.ratings.length > 0">
+						<div class="ratings_summary col-12 mb-3 px-0" ng-if="profile.ratings.data.length > 0">
 							<div class="inner">
 								<h4>{{ profile.data.ratingsSummary.articleCount }}</h4>
 								<p>Average ratings: </p>
@@ -244,7 +244,7 @@
 							</div>
 						</div>
 
-						<div ng-repeat="item in profile.data.ratings" class="col-12 feed-listing feed-share feed-ratings pb-3 px-0">
+						<div ng-repeat="item in profile.ratings.data" class="col-12 feed-listing feed-share feed-ratings pb-3 px-0">
 							<%= render 'shares/card' %>
 						</div>
 
@@ -252,14 +252,14 @@
 				</div>
 
 				<div class="" ng-if="(selectedTab == 'shares')">
-					<div class="results_block row" ng-class="{'empty': profile.data.shares.length == 0}">
+					<div class="results_block row" ng-class="{'empty': profile.shares.data.length == 0}">
 
-						<p class="col-12 empty_resource" ng-show="profile.data.shares.length == 0">
+						<p class="col-12 empty_resource" ng-show="profile.shares.data.length == 0">
 							<span ng-if="profile.isMe">You have not shared an article yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not shared an article yet</span>
 						</p>
 
-						<div ng-repeat="item in profile.data.shares" class="col-12 feed-listing feed-share pb-3 px-0">
+						<div ng-repeat="item in profile.shares.data" class="col-12 feed-listing feed-share pb-3 px-0">
 							<%= render 'shares/card' %>
 						</div>
 
@@ -267,18 +267,18 @@
 				</div>
 
 				<div class="" ng-if="(selectedTab == 'exchanges')">
-					<div class="results_block row" ng-class="{'empty': profile.data.exchanges.length == 0}">
+					<div class="results_block row" ng-class="{'empty': profile.exchanges.data.length == 0}">
 
-						<p class="col-12 empty_resource" ng-show="profile.data.exchanges.length == 0">
+						<p class="col-12 empty_resource" ng-show="profile.exchanges.data.length == 0">
 							<span ng-if="profile.isMe">You are not following an exchange yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not followed an exchange yet</span>
 						</p>
 
-						<div ng-repeat="item in profile.data.exchanges" class="col-12 feed-listing feed-exchange align-items-start pb-3 px-0">
+						<div ng-repeat="item in profile.exchanges.data" class="col-12 feed-listing feed-exchange align-items-start pb-3 px-0">
 							<%= render 'exchanges/card' %>
 						</div>
 
-						<div ng-if="profile.data.exchanges.length > 3">
+						<div ng-if="profile.exchanges.data.length > 3">
 							<a href="#" ng-click="openExchangesModal($event)">See all exchanges</a>
 						</div>
 					</div>
