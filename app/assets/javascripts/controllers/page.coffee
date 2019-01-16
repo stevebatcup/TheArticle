@@ -263,38 +263,38 @@ class TheArticle.PageController extends TheArticle.NGController
 		client = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
 		Math.max(scroll, offset, client)
 
-	groupFollowNotifications: (notifications) =>
-		person = notifications[0].followerName
-		count = notifications.length - 1
-		countSentence = if count is 1 then "#{count} other" else "#{count} others"
-		body = if count > 0 then "<b>#{person}</b> and #{countSentence} followed you" else "<b>#{person}</b> followed you"
-		new @Notification
-			id: notifications[0].id
-			itemId: notifications[0].itemId
-			isSeen: notifications[0].isSeen
-			happenedAt: notifications[0].happenedAt
-			date: notifications[0].date
-			body: body
-			type: 'follow'
-			specificType: ''
-			stamp: notifications[0].stamp
+	# groupFollowNotifications: (notifications) =>
+	# 	person = notifications[0].followerName
+	# 	count = notifications.length - 1
+	# 	countSentence = if count is 1 then "#{count} other" else "#{count} others"
+	# 	body = if count > 0 then "<b>#{person}</b> and #{countSentence} followed you" else "<b>#{person}</b> followed you"
+	# 	new @Notification
+	# 		id: notifications[0].id
+	# 		itemId: notifications[0].itemId
+	# 		isSeen: notifications[0].isSeen
+	# 		happenedAt: notifications[0].happenedAt
+	# 		date: notifications[0].date
+	# 		body: body
+	# 		type: 'follow'
+	# 		specificType: ''
+	# 		stamp: notifications[0].stamp
 
-	groupOpinionNotifications: (notifications, agreeDisagree='agree') =>
-		person = notifications[0].opinionatorName
-		count = notifications.length - 1
-		countSentence = if count is 1 then "#{count} other" else "#{count} others"
-		body = if count > 0 then "<b>#{person}</b> and #{countSentence} #{agreeDisagree}d with your post" else "<b>#{person}</b> #{agreeDisagree}d with your post"
-		new @Notification
-			id: notifications[0].id
-			itemId: notifications[0].itemId
-			isSeen: notifications[0].isSeen
-			happenedAt: notifications[0].happenedAt
-			date: notifications[0].date
-			body: body
-			type: 'opinion'
-			specificType: agreeDisagree
-			stamp: notifications[0].stamp
+	# groupOpinionNotifications: (notifications, agreeDisagree='agree') =>
+	# 	person = notifications[0].opinionatorName
+	# 	count = notifications.length - 1
+	# 	countSentence = if count is 1 then "#{count} other" else "#{count} others"
+	# 	body = if count > 0 then "<b>#{person}</b> and #{countSentence} #{agreeDisagree}d with your post" else "<b>#{person}</b> #{agreeDisagree}d with your post"
+	# 	new @Notification
+	# 		id: notifications[0].id
+	# 		itemId: notifications[0].itemId
+	# 		isSeen: notifications[0].isSeen
+	# 		happenedAt: notifications[0].happenedAt
+	# 		date: notifications[0].date
+	# 		body: body
+	# 		type: 'opinion'
+	# 		specificType: agreeDisagree
+	# 		stamp: notifications[0].stamp
 
-	reorderNotificationSet: (set) =>
-		set.sort (a,b) =>
-			new Date(b.stamp*1000) - new Date(a.stamp*1000)
+	# reorderNotificationSet: (set) =>
+	# 	set.sort (a,b) =>
+	# 		new Date(b.stamp*1000) - new Date(a.stamp*1000)

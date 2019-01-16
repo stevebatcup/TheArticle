@@ -9,6 +9,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  '$timeout'
 	  '$compile'
 	  'Notification'
+	  'Share'
 	  'Comment'
 	  'Opinion'
 	]
@@ -60,29 +61,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 
 	getNotifications: =>
 		@Notification.query({page: @scope.notifications.page, per_page: @scope.notifications.perPage}).then (response) =>
-			notificationSet = []
-			follows = []
-			agrees = []
-			disagrees = []
 			angular.forEach response.notificationItems, (notification, index) =>
-				if notification.type is 'follow'
-					follows.push notification
-				else if notification.type is 'opinion'
-					if notification.specificType is 'agree'
-						agrees.push notification
-					else if notification.specificType is 'disagree'
-						disagrees.push notification
-				else
-					 notificationSet.push notification
-
-			notificationSet.push(@groupFollowNotifications(follows)) if follows.length > 0
-			notificationSet.push(@groupOpinionNotifications(agrees, 'agree')) if agrees.length > 0
-			notificationSet.push(@groupOpinionNotifications(disagrees, 'disagree')) if disagrees.length > 0
-			notificationSet = @reorderNotificationSet(notificationSet)
-
-			angular.forEach notificationSet, (notification) =>
-				@scope.notifications.data.push notification
-
+			 @scope.notifications.data.push notification
 			# console.log @scope.notifications.data
 			@scope.notifications.totalItems = response.total if @scope.notifications.page is 1
 			# console.log @scope.notifications.totalItems
@@ -99,7 +79,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$("#commentPostModal").modal()
 
 	openOpinionModal: (notification) =>
-		@Opinion.get({id: notification.itemId}).then (item) =>
+		@Share.get({id: notification.shareId}).then (item) =>
 			@scope.item = item
 			tpl = $("#opinionPost").html().trim()
 			$content = @compile(tpl)(@scope)

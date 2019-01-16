@@ -12,6 +12,7 @@ json.set! :notificationItems do
 		json.isSeen notification.is_seen
 		if notification.eventable_type.downcase == 'opinion'
 			json.opinionatorName notification.eventable.user.display_name
+			json.shareId notification.eventable.share.id
 		elsif notification.eventable_type.downcase == 'follow'
 			json.followerName notification.eventable.user.display_name
 		elsif notification.eventable_type.downcase == 'categorisation'

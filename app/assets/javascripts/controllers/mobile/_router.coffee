@@ -29,9 +29,9 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			$(window).scrollTop(0)
 			@openRoute 'followers'
 
-		@interval =>
-			@getNotificationsBadgeUpdate()
-		, 7500
+		# @interval =>
+		# 	@getNotificationsBadgeUpdate()
+		# , 7500
 
 	getNotificationsBadgeUpdate: =>
 		@http.get("/notification-count").then (response) =>

@@ -22,3 +22,11 @@ TheArticle.FactoryModule.factory("Feed", ['RailsResource',
         name: 'opinion'
         interceptAuth: true
 ])
+.factory("Share", ['RailsResource',
+  (RailsResource) ->
+    class Share extends RailsResource
+      @configure
+        url: '/share'
+        name: 'share'
+        interceptAuth: true
+])

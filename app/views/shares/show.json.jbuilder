@@ -1,0 +1,1 @@
+json.share share_as_json_data(@share.user, @share)

@@ -13,7 +13,11 @@ class SearchController < ApplicationController
 						# contributors
 						@contributors = Author.search("*#{@query}*")
 						# profiles
-						@profiles = User.search("*#{@query}*")
+						if user_signed_in?
+							@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id })
+						else
+							@profiles = User.search("*#{@query}*")
+						end
 					else
 						@topics = @exchanges = @contributors = @profiles = []
 						# recent
@@ -35,9 +39,13 @@ class SearchController < ApplicationController
 				elsif params[:mode] == :full
 					articles = Article.search("*#{@query}*", order: 'published_at DESC').to_a
 					contributors = Author.search("*#{@query}*", order: 'article_count DESC').to_a
-					profiles = User.search("*#{@query}*").to_a
 					exchanges = Exchange.search("*#{@query}*").to_a
 					posts = Share.search("*#{@query}*").to_a
+					if user_signed_in?
+						profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id }).to_a
+					else
+						profiles = User.search("*#{@query}*").to_a
+					end
 					@results = (articles + contributors + profiles + exchanges + posts)
 					search_log = SearchLog.new({
 						term: @query,

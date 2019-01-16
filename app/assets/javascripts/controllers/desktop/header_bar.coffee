@@ -18,10 +18,10 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 			loaded: false
 			totalItems: 0
 			moreToLoad: true
-		@getNotifications()
-		@timeout =>
-			@getNotificationsBadgeUpdate()
-		, 2000
+		# @getNotifications()
+		# @timeout =>
+		# 	@getNotificationsBadgeUpdate()
+		# , 2000
 		@bindEvents()
 
 	bindEvents: =>
@@ -30,17 +30,17 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 				@bindFixedNavScrolling()
 			, 1000
 
-		@interval =>
-			@getNotificationsBadgeUpdate()
-		, 7500
+		# @interval =>
+		# 	@getNotificationsBadgeUpdate()
+		# , 7500
 
-		@scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
-			if oldVal isnt newVal
-				@getNotifications()
+		# @scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
+		# 	if oldVal isnt newVal
+		# 		@getNotifications()
 
-	getNotificationsBadgeUpdate: =>
-		@http.get("/notification-count").then (response) =>
-			@scope.notificationBadgeCount = response.data.count
+	# getNotificationsBadgeUpdate: =>
+	# 	@http.get("/notification-count").then (response) =>
+	# 		@scope.notificationBadgeCount = response.data.count
 
 	getNotifications: =>
 		@Notification.query({page: 1, per_page: 12, panel: true}).then (response) =>

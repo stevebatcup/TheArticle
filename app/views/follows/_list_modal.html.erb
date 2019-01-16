@@ -3,7 +3,7 @@
     <div class="modal-content">
 
     	<div class="modal-header">
-    		<h5 class="pt-2">List of followers</h5>
+    		<h5 class="pt-2">Recent followers</h5>
 
         <button data-dismiss="modal" class="btn btn-link close_modal">
           <i class="fas fa-times"></i>
@@ -11,7 +11,9 @@
     	</div>
 
       <div class="modal-body" id="requires_connection_modal">
-
+        <div ng-repeat="item in followers" class="feed-listing">
+          <%= render 'users/member_card' %>
+        </div>
       </div>
     </div>
   </div>
