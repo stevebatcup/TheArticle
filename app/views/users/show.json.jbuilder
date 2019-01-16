@@ -67,7 +67,7 @@ json.set! :profile do
 			json.profilePhoto follower.profile_photo.url(:square)
 			json.coverPhoto follower.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 			json.imFollowing user_signed_in? ? follower.is_followed_by(current_user) : false
-			json.isFollowingMe user_signed_in? ? current_user.is_followed_by(@user) : false
+			json.isFollowingMe user_signed_in? ? current_user.is_followed_by(follower) : false
 		end
 	end
 
@@ -81,7 +81,7 @@ json.set! :profile do
 			json.profilePhoto following.followed.profile_photo.url(:square)
 			json.coverPhoto following.followed.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 			json.imFollowing user_signed_in? ? following.followed.is_followed_by(current_user) : false
-			json.isFollowingMe user_signed_in? ? current_user.is_followed_by(@user) : false
+			json.isFollowingMe user_signed_in? ? current_user.is_followed_by(following.followed) : false
 		end
 	end
 

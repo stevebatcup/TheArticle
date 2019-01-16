@@ -14,3 +14,11 @@ TheArticle.FactoryModule.factory("Profile", ['RailsResource',
         name: 'profile'
         interceptAuth: true
 ])
+.factory("FollowGroup", ['RailsResource',
+  (RailsResource) ->
+    class FollowGroup extends RailsResource
+      @configure
+        url: '/follow-groups'
+        name: 'follow_group'
+        interceptAuth: true
+])

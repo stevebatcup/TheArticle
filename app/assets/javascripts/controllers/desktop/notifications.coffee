@@ -1,3 +1,4 @@
+
 class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageController, TheArticle.Feeds
 
 	@register window.App
@@ -12,13 +13,16 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  'Share'
 	  'Comment'
 	  'Opinion'
+	  'FollowGroup'
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
 
+		@scope.followGroupForModal = {}
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
@@ -87,13 +91,21 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$("#opinionPostModal").modal()
 
 	openFollowsModal: (notification) =>
-		# @Opinion.get({id: notification.itemId}).then (item) =>
-		# 	@scope.item = item
-		# 	console.log @scope.item
-		tpl = $("#followsList").html().trim()
-		$content = @compile(tpl)(@scope)
-		$('body').append $content
-		$("#followsListModal").modal()
+		@FollowGroup.get({id: notification.itemId}).then (followGroup) =>
+			@scope.followGroupForModal = followGroup
+			tpl = $("#followsList").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#followsListModal").modal()
+
+	toggleFollowUserFromCard: (member) =>
+		if member.imFollowing
+			@unfollowUser member.id , =>
+				member.imFollowing = false
+		else
+			@followUser member.id, =>
+				member.imFollowing = true
+			, false
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
@@ -101,14 +113,15 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 		switch notification.type
 			when 'comment'
 				@openCommentModal notification
-			when 'opinion'
+			when 'opiniongroup'
 				@openOpinionModal notification
-			when 'follow'
+			when 'followgroup'
 				@openFollowsModal notification
 			when 'categorisation'
 				path = notification.exchange.path
 				window.location.href = path
-		@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
-			notification.isSeen = true
+		if notification.isSeen is false
+			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
+				notification.isSeen = true
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

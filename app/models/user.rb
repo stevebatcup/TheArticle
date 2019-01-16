@@ -33,6 +33,7 @@ class User < ApplicationRecord
   include Suggestable
   include Shareable
   include Followable
+  include Opinionable
 
   def set_ip_data(request)
     ip = request.remote_ip

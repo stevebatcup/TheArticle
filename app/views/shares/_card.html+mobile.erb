@@ -31,7 +31,7 @@
 
 	<div class="ratings" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
 		<div class="rating d-flex justify-content-between align-items-start" ng-if="item.ratings.wellWritten > 0">
-			<label>Well written</label>
+			<label class="text-white">Well written</label>
 			<div class="d-flex">
 				<div class="star" ng-repeat="i in _.range(0, item.ratings.wellWritten)">
 					<i class="fas fa-star"></i>
@@ -43,7 +43,7 @@
 		</div>
 
 		<div class="rating d-flex justify-content-between align-items-start" ng-if="item.ratings.validPoints > 0">
-			<label>Valid points</label>
+			<label class="text-white">Valid points</label>
 			<div class="d-flex">
 				<div class="star" ng-repeat="i in _.range(0, item.ratings.validPoints)">
 					<i class="fas fa-star"></i>
@@ -55,7 +55,7 @@
 		</div>
 
 		<div class="rating d-flex justify-content-between align-items-start" ng-if="item.ratings.agree > 0">
-			<label>Agree</label>
+			<label class="text-white">Agree</label>
 			<div class="d-flex">
 				<div class="star" ng-repeat="i in _.range(0, item.ratings.agree)">
 					<i class="fas fa-star"></i>

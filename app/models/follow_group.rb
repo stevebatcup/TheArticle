@@ -2,6 +2,7 @@ class FollowGroup < ApplicationRecord
 	has_many	:follows
   has_many :notifications, as: :eventable
 	after_create	:create_notification
+	belongs_to	:user
 
 	def create_notification
 		self.notifications.create({

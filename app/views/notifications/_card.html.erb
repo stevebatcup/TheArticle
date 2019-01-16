@@ -4,8 +4,8 @@
 
 		<p>
 			<i ng-if="item.type!='categorisation'" ng-class="{
-				'fas fa-thumbs-up': item.type=='agreegroup',
-				'fas fa-thumbs-down': item.type=='disagreegroup',
+				'fas fa-thumbs-up': item.type=='opiniongroup' && item.specificType=='agree',
+				'fas fa-thumbs-down': item.type=='opiniongroup' && item.specificType=='disagree',
 				'far fa-comment-alt': item.type=='comment',
 				'fas fa-users': item.type=='followgroup'
 			}"></i>

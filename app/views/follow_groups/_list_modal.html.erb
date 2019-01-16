@@ -1,5 +1,5 @@
 <div class="modal fade no_connection mobile_full" id="followsListModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog scrollable medium" role="document">
+  <div class="modal-dialog scrollable thin" role="document">
     <div class="modal-content">
 
     	<div class="modal-header">
@@ -11,8 +11,12 @@
     	</div>
 
       <div class="modal-body" id="requires_connection_modal">
-        <div ng-repeat="item in followers" class="feed-listing">
+        <div ng-repeat="item in followGroupForModal.followers" class="feed-listing">
           <%= render 'users/member_card' %>
+        </div>
+
+        <div class="view_all">
+          <a class="btn btn-primary btn-block" href="/my-profile?panel=followers">View all</a>
         </div>
       </div>
     </div>
