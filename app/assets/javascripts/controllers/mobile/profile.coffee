@@ -37,6 +37,43 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			loaded: false
 			loadError: false
 			digest: []
+			follows:
+				followings: []
+				followers: []
+				page: 1
+				perPage: 10
+				moreToLoad: false
+				totalItems: 0
+			shares:
+				data: []
+				page: 1
+				perPage: 10
+				moreToLoad: false
+				totalItems: 0
+			ratings:
+				data: []
+				page: 1
+				perPage: 10
+				moreToLoad: false
+				totalItems: 0
+			exchanges:
+				data: []
+				page: 1
+				perPage: 10
+				moreToLoad: false
+				totalItems: 0
+			opinionActions:
+				data: []
+				page: 1
+				perPage: 10
+				moreToLoad: false
+				totalItems: 0
+			commentActions:
+				data: []
+				page: 1
+				perPage: 10
+				moreToLoad: false
+				totalItems: 0
 			data:
 				id: null
 				displayName: ""
@@ -44,10 +81,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				orginalUsername: ""
 				followers: []
 				followings: []
-				exchanges: []
-				shares: []
 				ratingsSummary: []
-				ratings: []
 				joined: ""
 				joinedAt: ""
 				location: ""
@@ -69,10 +103,18 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@bindEvents()
 		if @scope.profile.isMe is true
 			@rootScope.isSignedIn = true
-			@getMyProfile @getUserExchanges
+			@getMyProfile @getProfileCallback
 		else
 			id = @element.data('id')
-			@getProfile id, @getUserExchanges
+			@getProfile id, @getProfileCallback
+
+	getProfileCallback: =>
+		@getUserExchanges()
+		@getFollows()
+		@getShares()
+		@getRatings()
+		@getCommentActions()
+		@getOpinionActions()
 
 	bindEvents: =>
 		super
@@ -114,24 +156,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		pos = $('#public_activity').position().top - 50
 		$(window).scrollTop(pos)
 
-	getUserExchanges: =>
-		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
-		@http.get(url).then (exchanges) =>
-			@scope.profile.data.exchanges = exchanges.data.exchanges
-			@scope.allExchanges = @sortExchangesByName(exchanges.data.exchanges)
-			angular.forEach @scope.profile.data.exchanges, (item) =>
-				item.type = 'exchange'
-				@scope.profile.digest.push item
-			@reorderDigest()
-
-	sortExchangesByName: (list) =>
-		list.sort (a,b) =>
-			a[0]-b[0]
-
-	reorderDigest: =>
-		@scope.profile.digest.sort (a,b) =>
-			new Date(b.stamp*1000) - new Date(a.stamp*1000)
-
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
 		c = new Croppie element,
@@ -172,13 +196,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	buildDigestFromProfileData: (data) =>
-		angular.forEach data.shares, (item) =>
-			item.type = 'share'
-			@scope.profile.digest.push item
-		angular.forEach data.ratings, (item) =>
-			item.type = 'rating'
-			@scope.profile.digest.push item
-
 		item = data.recentFollowingSummary
 		item.type = 'recentFollowingSummary'
 		@scope.profile.digest.push item unless item.sentence.length == 0
@@ -186,6 +203,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		item = data.recentFollowedSummary
 		item.type = 'recentFollowedSummary'
 		@scope.profile.digest.push item unless item.sentence.length == 0
+
+	reorderDigest: =>
+		@scope.profile.digest.sort (a,b) =>
+			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
 	editProfile: =>
 		return false unless @scope.profile.isMe
@@ -304,5 +325,142 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			$('body').append $content
 			$("#allUserExchangesModal").modal()
 		, 350
+
+	loadMoreRatings: =>
+		@scope.profile.ratings.page += 1
+		@getRatings()
+
+	getRatings: =>
+		url = "/user_ratings/#{@scope.profile.data.id}?page=#{@scope.profile.ratings.page}&per_page=#{@scope.profile.ratings.perPage}"
+		@http.get(url).then (response) =>
+			angular.forEach response.data.ratings, (item) =>
+				@scope.profile.ratings.data.push item
+			@scope.profile.ratings.totalItems = response.data.total if @scope.profile.ratings.page is 1
+			@scope.profile.ratings.moreToLoad = @scope.profile.ratings.totalItems > (@scope.profile.ratings.page * @scope.profile.ratings.perPage)
+			@scope.profile.ratings.loaded = true
+		 if @scope.profile.ratings.moreToLoad is true
+				@timeout =>
+					@loadMoreRatings()
+				, 500
+			# for the 'All' tab
+			angular.forEach response.data.ratings, (item) =>
+				item.type = 'rating'
+				@scope.profile.digest.push item
+			@reorderDigest()
+
+	loadMoreShares: =>
+		@scope.profile.shares.page += 1
+		@getShares()
+
+	getShares: =>
+		url = "/user_shares/#{@scope.profile.data.id}?page=#{@scope.profile.shares.page}&per_page=#{@scope.profile.shares.perPage}"
+		@http.get(url).then (response) =>
+			angular.forEach response.data.shares, (item) =>
+				@scope.profile.shares.data.push item
+			@scope.profile.shares.totalItems = response.data.total if @scope.profile.shares.page is 1
+			@scope.profile.shares.moreToLoad = @scope.profile.shares.totalItems > (@scope.profile.shares.page * @scope.profile.shares.perPage)
+			@scope.profile.shares.loaded = true
+		 if @scope.profile.shares.moreToLoad is true
+				@timeout =>
+					@loadMoreShares()
+				, 500
+			# for the 'All' tab
+			angular.forEach response.data.shares, (item) =>
+				item.type = 'share'
+				@scope.profile.digest.push item
+			@reorderDigest()
+
+	loadMoreCommentActions: =>
+		@scope.profile.commentActions.page += 1
+		@getCommentActions()
+
+	getCommentActions: =>
+		url = "/user_comments/#{@scope.profile.data.id}?page=#{@scope.profile.commentActions.page}&per_page=#{@scope.profile.commentActions.perPage}"
+		@http.get(url).then (response) =>
+			angular.forEach response.data.comments, (item) =>
+				@scope.profile.commentActions.data.push item
+			@scope.profile.commentActions.totalItems = response.data.total if @scope.profile.commentActions.page is 1
+			@scope.profile.commentActions.moreToLoad = @scope.profile.commentActions.totalItems > (@scope.profile.commentActions.page * @scope.profile.commentActions.perPage)
+			@scope.profile.commentActions.loaded = true
+		 if @scope.profile.commentActions.moreToLoad is true
+				@timeout =>
+					@loadMoreCommentActions()
+				, 500
+			# for the 'All' tab
+			angular.forEach response.data.comments, (item) =>
+				item.type = 'commentAction'
+				@scope.profile.digest.push item
+			@reorderDigest()
+
+
+	loadMoreOpinionActions: =>
+		@scope.profile.opinionActions.page += 1
+		@getOpinionActions()
+
+	getOpinionActions: =>
+		url = "/user_opinions/#{@scope.profile.data.id}?page=#{@scope.profile.opinionActions.page}&per_page=#{@scope.profile.opinionActions.perPage}"
+		@http.get(url).then (response) =>
+			angular.forEach response.data.opinions, (item) =>
+				@scope.profile.opinionActions.data.push item
+			@scope.profile.opinionActions.totalItems = response.data.total if @scope.profile.opinionActions.page is 1
+			@scope.profile.opinionActions.moreToLoad = @scope.profile.opinionActions.totalItems > (@scope.profile.opinionActions.page * @scope.profile.opinionActions.perPage)
+			@scope.profile.opinionActions.loaded = true
+		 if @scope.profile.opinionActions.moreToLoad is true
+				@timeout =>
+					@loadMoreOpinionActions()
+				, 500
+			# for the 'All' tab
+			angular.forEach response.data.opinions, (item) =>
+				item.type = 'opinionAction'
+				@scope.profile.digest.push item
+			@reorderDigest()
+
+	loadMoreFollows: =>
+		@scope.profile.follows.page += 1
+		@getFollows()
+
+	getFollows: =>
+		url = "/user_followings/#{@scope.profile.data.id}?page=#{@scope.profile.follows.page}&per_page=#{@scope.profile.follows.perPage}"
+		@http.get(url).then (response) =>
+			angular.forEach response.data.list.followings, (item) =>
+				@scope.profile.follows.followings.push item
+			angular.forEach response.data.list.followers, (item) =>
+				@scope.profile.follows.followers.push item
+			@scope.profile.follows.totalItems = response.data.total if @scope.profile.follows.page is 1
+			@scope.profile.follows.moreToLoad = @scope.profile.follows.totalItems > (@scope.profile.follows.page * @scope.profile.follows.perPage)
+			@scope.profile.follows.loaded = true
+		 if @scope.profile.follows.moreToLoad is true
+				@timeout =>
+					@loadMoreFollows()
+				, 500
+
+	loadMoreExchanges: =>
+		@scope.profile.exchanges.page += 1
+		@getUserExchanges()
+
+	getUserExchanges: =>
+		url = if @scope.profile.isMe then "/user_exchanges" else "/user_exchanges/#{@scope.profile.data.id}"
+		url += "?page=#{@scope.profile.exchanges.page}&per_page=#{@scope.profile.exchanges.perPage}"
+		@http.get(url).then (response) =>
+			angular.forEach response.data.exchanges, (item) =>
+				@scope.profile.exchanges.data.push item
+			@scope.profile.exchanges.totalItems = response.data.total if @scope.profile.exchanges.page is 1
+			@scope.profile.exchanges.moreToLoad = @scope.profile.exchanges.totalItems > (@scope.profile.exchanges.page * @scope.profile.exchanges.perPage)
+			@scope.profile.exchanges.loaded = true
+			if @scope.profile.exchanges.moreToLoad is true
+				@timeout =>
+					@loadMoreExchanges()
+				, 500
+			# for the 'view all' modal
+			@scope.allExchanges = @sortExchangesByName(@scope.profile.exchanges.data)
+			# for the 'All' tab
+			angular.forEach response.data.exchanges, (item) =>
+				item.type = 'exchange'
+				@scope.profile.digest.push item
+			@reorderDigest()
+
+	sortExchangesByName: (list) =>
+		list.sort (a,b) =>
+			a[0]-b[0]
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

@@ -341,13 +341,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	buildDigestFromProfileData: (data) =>
-		# angular.forEach data.commentActions, (item) =>
-		# 	item.type = 'commentAction'
-		# 	@scope.profile.digest.push item
-		# angular.forEach data.opinionActions, (item) =>
-		# 	item.type = 'opinionAction'
-		# 	@scope.profile.digest.push item
-
 		item = data.recentFollowingSummary
 		item.type = 'recentFollowingSummary'
 		@scope.profile.digest.push item unless item.sentence.length == 0
@@ -453,15 +446,15 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		if @rootScope.isSignedIn
 			if member.imFollowing
 				@unfollowUser member.id ,=>
-					@scope.profile.data.followings = _.filter @scope.profile.data.followings, (item) =>
+					@scope.profile.follows.followings = _.filter @scope.profile.follows.followings, (item) =>
 						item.id isnt member.id
-					if followerItem = _.findWhere @scope.profile.data.followers, { id: member.id }
+					if followerItem = _.findWhere @scope.profile.follows.followers, { id: member.id }
 						followerItem.imFollowing = false
 					member.imFollowing = false
 			else
 				@followUser member.id, =>
 					member.imFollowing = true
-					@scope.profile.data.followings.push member
+					@scope.profile.follows.followings.push member
 				, false
 		else
 			@requiresSignIn("follow #{member.displayName}")
