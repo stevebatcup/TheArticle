@@ -17,6 +17,7 @@ class UserFollowingsController < ApplicationController
 			current_user.accept_suggestion_of_user_id(params[:id]) if params[:from_suggestion]
 		else
 			@status = :error
+			@message = current_user.errors.full_messages
 		end
 	end
 

@@ -10,11 +10,11 @@ json.set! :notificationItems do
 		json.type notification.eventable_type.downcase
 		json.specificType notification.specific_type
 		json.isSeen notification.is_seen
-		if notification.eventable_type.downcase == 'opinion'
-			json.opinionatorName notification.eventable.user.display_name
-			json.shareId notification.eventable.share.id
-		elsif notification.eventable_type.downcase == 'follow'
-			json.followerName notification.eventable.user.display_name
+		if notification.eventable_type.downcase == 'opiniongroup'
+			# json.opinionatorName notification.eventable.user.display_name
+			# json.shareId notification.eventable.share.id
+		elsif notification.eventable_type.downcase == 'followgroup'
+			# json.followerName notification.eventable.user.display_name
 		elsif notification.eventable_type.downcase == 'categorisation'
 			exchange = notification.eventable.exchange
 			json.set! :exchange do
