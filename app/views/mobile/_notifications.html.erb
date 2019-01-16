@@ -1,8 +1,8 @@
 <div class="tab-pane fade" id="content-notifications"
 				role="tabpanel"
 				aria-labelledby="notifications-tab"
-				ng-controller="NotificationsController">
-		<section ng-controller="NotificationsController" class="container notifications_page" id="feed">
+				ng-controller="NotificationsController" ng-cloak>
+		<section class="container notifications_page" id="feed">
 			<div class="row">
 				<div class="ajax_loading loading_notifications" ng-if="!notifications.loaded">Loading notifications...</div>
 				<div ng-if="notifications.loaded" class="results_block row notifications"

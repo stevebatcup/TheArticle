@@ -343,12 +343,16 @@
 				</ul>
 			</nav>
 
-			<div class="tab-content container pt-2 px-1">
+			<div class="tab-content container pt-2 px-1" ng-cloak>
 				<div class="tab-pane fade show active"
 					id="follows_following"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-following">
-					<div ng-repeat="item in follows.followings" class="feed-listing">
+					<p class="empty" ng-if="follows.data.followings.length == 0">
+						<span ng-if="!isMe">{{ profile.data.displayName }} is currently not following anyone</span>
+						<span ng-if="isMe">You are currently not following anyone</span>
+					</p>
+					<div ng-repeat="item in follows.data.followings" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -357,7 +361,11 @@
 					id="follows_followers"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-followers">
-					<div ng-repeat="item in follows.followers" class="feed-listing">
+					<p class="empty" ng-if="follows.data.followers.length == 0">
+						<span ng-if="!isMe">{{ profile.data.displayName }} is currently not being followed by anyone</span>
+						<span ng-if="isMe">You are currently not being followed by anyone</span>
+					</p>
+					<div ng-repeat="item in follows.data.followers" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -367,10 +375,11 @@
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-you_know"
 					ng-if="isSignedIn && !isMe">
-					<div ng-repeat="item in follows.followers" class="feed-listing">
-						<div ng-if="inMyFollowers(item)">
-							<%= render 'users/member_card' %>
-						</div>
+					<p class="empty" ng-if="follows.data.alsoKnowsMes.length == 0">
+						No followers you know
+					</p>
+					<div ng-repeat="item in follows.data.alsoKnowsMes" class="feed-listing">
+						<%= render 'users/member_card' %>
 					</div>
 				</div>
 
@@ -379,10 +388,11 @@
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-connected"
 					ng-if="isSignedIn && isMe">
-					<div ng-repeat="item in follows.followings" class="feed-listing">
-						<div ng-if="inFollowers(item)">
-							<%= render 'users/member_card' %>
-						</div>
+					<p class="empty" ng-if="follows.data.connections.length == 0">
+						You currently have no connections
+					</p>
+					<div ng-repeat="item in follows.data.connections" class="feed-listing">
+						<%= render 'users/member_card' %>
 					</div>
 				</div>
 

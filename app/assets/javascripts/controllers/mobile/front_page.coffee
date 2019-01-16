@@ -12,6 +12,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	]
 
 	init: ->
+		# console.log 'init frontpage'
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
@@ -41,10 +42,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@getFeeds()
 
 	bindEvents: =>
-		@bindScrollEvent()
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
+			$(window).scrollTop(0)
 			$showing = $(e.target)
 			$hiding = $(e.relatedTarget)
+			@rootScope.selectedAppTab = $showing.attr('id')
 
 			if $hiding.attr('id') is 'search-tab' or $showing.attr('id') is 'search-tab'
 				@rootScope.$broadcast('search-tab-clicked')
@@ -57,19 +59,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					@scope.root.notifications = false
 				true
 
-	bindScrollEvent: =>
-		$win = $(window)
-		pageScrollOffset = Math.round(@getDocumentHeight() * 0.2)
-		$win.on 'scroll', =>
+		@scope.$on 'load_more_feeds', =>
 			if @scope.feeds.moreToLoad is true
-				scrollTop = $win.scrollTop()
-				docHeight = @getDocumentHeight()
-				if (scrollTop + $win.height()) >= (docHeight - pageScrollOffset)
-					@scope.feeds.moreToLoad = false
-					@loadMore()
+				@scope.feeds.moreToLoad = false
+				@loadMore()
 
-	loadMore: ($event) =>
-		$event.preventDefault() if $event
+	loadMore: =>
+		console.log 'loading more feeds'
 		@scope.feeds.page += 1
 		@getFeeds()
 

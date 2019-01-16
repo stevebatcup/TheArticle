@@ -3,7 +3,7 @@
 			aria-labelledby="follows-tab"
 			ng-controller="FollowsController"
 			 data-user-id="<%= current_user.id %>"
-			 data-current-user-id="<%= current_user.id %>">
+			 data-current-user-id="<%= current_user.id %>" ng-cloak>
 
 		<nav id="follows_options" class="sub_tabs">
 			<ul class="nav nav-pills nav-fill d-flex">
@@ -30,7 +30,10 @@
 				id="follows_following"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-following">
-				<div ng-repeat="item in follows.followings" class="feed-listing">
+				<p class="empty" ng-if="follows.data.followings.length == 0">
+					You are currently not following anyone
+				</p>
+				<div ng-repeat="item in follows.data.followings" class="feed-listing">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
@@ -39,7 +42,10 @@
 				id="follows_followers"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-followers">
-				<div ng-repeat="item in follows.followers" class="feed-listing">
+				<p class="empty" ng-if="follows.data.followers.length == 0">
+					You are currently not being followed by anyone
+				</p>
+				<div ng-repeat="item in follows.data.followers" class="feed-listing">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
@@ -48,10 +54,11 @@
 				id="follows_connections"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-connections">
-				<div ng-repeat="item in follows.followings" class="feed-listing">
-					<div ng-if="inFollowers(item)">
-						<%= render 'users/member_card' %>
-					</div>
+				<p class="empty" ng-if="follows.data.connections.length == 0">
+					You currently have no connections
+				</p>
+				<div ng-repeat="item in follows.data.connections" class="feed-listing">
+					<%= render 'users/member_card' %>
 				</div>
 			</div>
 		</div>

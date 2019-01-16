@@ -22,16 +22,31 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		if route = urlVars['route']
 			route = route.substring(0, route.indexOf("#")) if route.indexOf("#") > -1
 			@openRoute(route) if 'route' of urlVars
+		else
+			@rootScope.selectedAppTab = 'front-page-tab'
 
 	bindEvents: ->
 		super
+		@bindScrollEvent()
+
 		@scope.$on 'open_followers_tab', =>
 			$(window).scrollTop(0)
 			@openRoute 'followers'
 
-		# @interval =>
-		# 	@getNotificationsBadgeUpdate()
-		# , 7500
+		@interval =>
+			@getNotificationsBadgeUpdate()
+		, 7500
+
+	bindScrollEvent: =>
+		$win = $(window)
+		$win.on 'scroll', =>
+			scrollTop = $win.scrollTop()
+			docHeight = @getDocumentHeight()
+			if (scrollTop + $win.height()) >= (docHeight - 300)
+				if @scope.selectedAppTab is 'front-page-tab'
+					@rootScope.$broadcast 'load_more_feeds'
+				else if @scope.selectedAppTab is 'notifications-tab'
+					@rootScope.$broadcast 'load_more_notifications'
 
 	getNotificationsBadgeUpdate: =>
 		@http.get("/notification-count").then (response) =>
@@ -64,6 +79,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	openFrontPage: =>
 		@resetAppTabs()
 		@scope.front_page = true
+		@rootScope.selectedAppTab = 'front-page-tab'
 		@timeout =>
 			$('#front-page-tab').click()
 		, 100
@@ -84,6 +100,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	openFollows: (subTab) =>
 		@resetAppTabs()
 		@scope.follows = true
+		@rootScope.selectedAppTab = 'follows-tab'
 		@timeout =>
 			$('#follows-tab').click()
 			$("#follows-sub-tab-#{subTab}").click()
@@ -92,6 +109,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	openNotifications: =>
 		@resetAppTabs()
 		@scope.notifications = true
+		@rootScope.selectedAppTab = 'notifications-tab'
 		@timeout =>
 			$('#notifications-tab').click()
 		, 100
@@ -99,6 +117,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	openMessaging: =>
 		@resetAppTabs()
 		@scope.messaging = true
+		@rootScope.selectedAppTab = 'messaging-tab'
 		@timeout =>
 			$('#messaging-tab').click()
 		, 100

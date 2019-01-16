@@ -16,4 +16,8 @@ class Follow < ApplicationRecord
 			current_user.is_followed_by(other_user) && other_user.is_followed_by(current_user)
 		end
 	end
+
+	def self.both_directions_for_user(user)
+		where(user_id: user.id).or(where(followed_id: user.id))
+	end
 end

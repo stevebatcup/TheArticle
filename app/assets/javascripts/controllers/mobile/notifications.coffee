@@ -15,8 +15,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	]
 
 	init: ->
+		# console.log 'init notifications'
 		@rootScope.isSignedIn = true
-		@bindEvents()
 		vars = @getUrlVars()
 
 		@scope.replyingToComment =
@@ -34,35 +34,30 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@scope.notifications =
 			data: []
 			page: 1
-			perPage: 12
+			perPage: 8
 			loaded: false
 			totalItems: 0
-			moreToLoad: true
+			moreToLoad: false
+
+		@bindEvents()
 		@getNotifications()
 
 	bindEvents: =>
 		super
-		@bindScrollEvent() if @element.hasClass('notifications_page')
-
-	bindScrollEvent: =>
-		$win = $(window)
-		$win.on 'scroll', =>
+		@scope.$on 'load_more_notifications', =>
 			if @scope.notifications.moreToLoad is true
-				scrollTop = $win.scrollTop()
-				docHeight = @getDocumentHeight()
-				if (scrollTop + $win.height()) >= (docHeight - 600)
-					@scope.notifications.moreToLoad = false
-					@loadMore()
+				@scope.notifications.moreToLoad = false
+				@loadMore()
 
-	loadMore: ($event=null) =>
-		$event.preventDefault() if $event
+	loadMore: =>
+		console.log 'loading more notifications'
 		@scope.notifications.page += 1
 		@getNotifications()
 
 	getNotifications: =>
 		@Notification.query({page: @scope.notifications.page, per_page: @scope.notifications.perPage}).then (response) =>
 			angular.forEach response.notificationItems, (notification, index) =>
-			 @scope.notifications.data.push notification
+				@scope.notifications.data.push notification
 			# console.log @scope.notifications.data
 			@scope.notifications.totalItems = response.total if @scope.notifications.page is 1
 			# console.log @scope.notifications.totalItems

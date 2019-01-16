@@ -1,12 +1,20 @@
 class UserFollowingsController < ApplicationController
 	def index
-		if params[:id]
-			user = User.find(params[:id])
-			@userFollowings = user.followings.map(&:followed)
-			@userFollowers = user.followers
-		else
-			@userFollowings = current_user.followings.map(&:followed)
-			@userFollowers = current_user.followers
+		respond_to do |format|
+			format.json do
+				page = (params[:page] || 1).to_i
+				per_page = (params[:per_page] || 6).to_i
+				if params[:id]
+					user = User.find(params[:id])
+				else
+					user = current_user
+				end
+				if page == 1
+					@total = Follow.both_directions_for_user(user).size
+				end
+				@userFollowings = user.followings.page(page).per(per_page).map(&:followed)
+				@userFollowers = user.followers.page(page).per(per_page)
+			end
 		end
 	end
 
