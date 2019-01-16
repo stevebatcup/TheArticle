@@ -1,6 +1,6 @@
  <%= render 'layouts/head' %>
 
-<header id="main_header" ng-controller="HeaderBarController">
+<header id="main_header" ng-controller="HeaderBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
   <div class="container">
     <div class="row">
       <nav id="main_nav_left" class="navbar navbar-expand-md col-4 px-md-0 px-lg-1 pb-0 pt-3">

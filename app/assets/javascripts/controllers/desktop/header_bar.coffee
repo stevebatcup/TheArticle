@@ -4,6 +4,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 	@$inject: [
 		'$scope'
 		'$http'
+		'$element'
 		'$timeout'
 		'$compile'
 		'$interval'
@@ -12,17 +13,19 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 
 	init: ->
 		@setDefaultHttpHeaders()
-		@scope.notificationBadgeCount = 0
-		@scope.notifications =
-			data: []
-			loaded: false
-			totalItems: 0
-			moreToLoad: true
-		# @getNotifications()
-		# @timeout =>
-		# 	@getNotificationsBadgeUpdate()
-		# , 2000
+		@scope.signedIn = !!@element.data('signed-in')
 		@bindEvents()
+		if @scope.signedIn
+			@scope.notificationBadgeCount = 0
+			@scope.notifications =
+				data: []
+				loaded: false
+				totalItems: 0
+				moreToLoad: true
+			@getNotifications()
+			@timeout =>
+				@getNotificationsBadgeUpdate()
+			, 2000
 
 	bindEvents: =>
 		if @isDevelopment()
@@ -30,17 +33,17 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 				@bindFixedNavScrolling()
 			, 1000
 
-		# @interval =>
-		# 	@getNotificationsBadgeUpdate()
-		# , 7500
+		if @scope.signedIn
+			@interval =>
+				@getNotificationsBadgeUpdate()
+			, 7500
+			@scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
+				if oldVal isnt newVal
+					@getNotifications()
 
-		# @scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
-		# 	if oldVal isnt newVal
-		# 		@getNotifications()
-
-	# getNotificationsBadgeUpdate: =>
-	# 	@http.get("/notification-count").then (response) =>
-	# 		@scope.notificationBadgeCount = response.data.count
+	getNotificationsBadgeUpdate: =>
+		@http.get("/notification-count").then (response) =>
+			@scope.notificationBadgeCount = response.data.count
 
 	getNotifications: =>
 		@Notification.query({page: 1, per_page: 12, panel: true}).then (response) =>
