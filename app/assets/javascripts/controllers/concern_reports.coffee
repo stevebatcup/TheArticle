@@ -76,7 +76,7 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		@scope.reason.success = false
 		@scope.reason.error = ''
 		if @scope.reason.primary.length > 0
-			if _.contains(['not_interested', 'dont_agree_views', 'hacked', 'offensive_content', 'offensive_photo'], @scope.reason.primary)
+			if _.contains(['not_interested_account', 'dont_agree_views', 'hacked', 'offensive_content', 'offensive_photo'], @scope.reason.primary)
 				@success()
 			else if @scope.reason.primary is 'something_else'
 				if @scope.reason.moreInfo.length is 0
@@ -101,7 +101,7 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		@scope.reason.success = false
 		@scope.reason.error = ''
 		if @scope.reason.primary.length > 0
-			if _.contains(['not_interested', 'dont_agree_post'], @scope.reason.primary)
+			if _.contains(['not_interested_post', 'dont_agree_post'], @scope.reason.primary)
 				@success()
 			else if @scope.reason.primary is 'something_else'
 				if @scope.reason.moreInfo.length is 0
@@ -126,9 +126,7 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		@scope.reason.success = false
 		@scope.reason.error = ''
 		if @scope.reason.primary.length > 0
-			if _.contains(['not_interested', 'dont_agree_post'], @scope.reason.primary)
-				@success()
-			else if @scope.reason.primary is 'something_else'
+			if @scope.reason.primary is 'something_else'
 				if @scope.reason.moreInfo.length is 0
 					@scope.reason.error = 'Please tell us more about your concern'
 				else

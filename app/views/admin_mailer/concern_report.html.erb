@@ -1,0 +1,33 @@
+<p>Hi Administrator,</p>
+
+<p>A concerned citizen <b><%= @concern.reporter.display_name %></b> has submitted a concern about <b><%= @concern.reported.display_name %></b></p>
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Email</th>
+		<th>User ID</th>
+	</tr>
+	<tr>
+		<td><%= @concern.reporter.display_name %></td>
+		<td><%= @concern.reporter.email %></td>
+		<td><%= @concern.reporter.id %></td>
+	</tr>
+	<tr>
+		<td><%= @concern.reported.display_name %></td>
+		<td><%= @concern.reported.email %></td>
+		<td><%= @concern.reported.id %></td>
+	</tr>
+</table>
+
+<p>Reason for report: <b><%= @concern.build_reason_sentence %></b></p>
+
+<p>
+	This report was sent via a <%= @concern.sourceable_type_for_email %> with an ID of <%= @concern.sourceable_id %>
+</p>
+
+<% if @concern.more_info && @concern.more_info.length %>
+	<p>More Information: <%= @concern.more_info %></p>
+<% end %>
+
+<p>All the best</p>
