@@ -18,7 +18,17 @@
 
 	<section id="top_bar" class="row bg-grey" ng-cloak>
 		<div class="col-2"></div>
-		<ul class="col-8 nav nav-tabs nav-fill d-flex">
+		<!-- Tabs when blocked (either way) -->
+		<ul class="col-8 nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
+		  <li class="nav-item">
+		    <a id="activity-all-tab" class="with_badge nav-link active">
+		      <label>All</label>
+		    </a>
+		  </li>
+		</ul>
+
+		<!-- Tabs when not blocked -->
+		<ul class="col-8 nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 		  <li class="nav-item">
 		    <a id="activity-all-tab" class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
 		      <label>All</label>
@@ -77,20 +87,41 @@
 
 				<div class="btn-group" class="mt-2" ng-show="!profile.isMe">
 					<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-									ng-show="!profile.data.imFollowing">
+									ng-if="!profile.data.isBlocked && !profile.data.iAmBlocked && !profile.data.imFollowing">
 						<i class="fas fa-users mr-2"></i>
 						Follow
 					</button>
 					<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-										ng-show="profile.data.imFollowing">
+										ng-if="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.data.imFollowing)">
 						<i class="fas fa-users mr-2"></i>
 						Following
 					</button>
-				  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+					<button class="btn btn-danger btn-disabled blocked-btn" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked">
+						<i class="fas fa-ban"></i>
+						Blocked
+					</button>
+
+					<button class="btn btn-danger blocked-btn"
+										ng-if="profile.data.isBlocked"
+										ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">
+						<i class="fas fa-ban"></i>
+						<span class="shown">Blocked</span>
+						<span class="hidden">Unblock</span>
+					</button>
+				  <button type="button" class="btn btn-sm"
+				  				data-toggle="dropdown"
+				  				aria-haspopup="true"
+				  				aria-expanded="false"
+				  				ng-class="{
+				  					'btn-outline-success': !profile.data.isBlocked && !profile.data.iAmBlocked,
+				  					'btn-outline-danger': profile.data.isBlocked,
+				  					'btn-outline-danger': profile.data.iAmBlocked
+				  				}">
 				  	<span class="sr-only">Toggle Dropdown</span>
 				    <i class="fas fa-cog" aria-hidden="true"></i>
 				  </button>
-				  <div class="dropdown-menu">
+				  <div class="dropdown-menu dropdown-menu-right">
 				  	<a class="dropdown-item" href="#" ng-click="mute($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isMuted">Mute</a>
 				  	<a class="dropdown-item" href="#" ng-click="unmute($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isMuted">Unmute</a>
 
@@ -121,11 +152,11 @@
 				<div class="pl-2">
 					<h5>{{ profile.data.displayName }}</h5>
 					<h6 class="text-muted mb-4">{{ profile.data.originalUsername }}</h6>
-					<p>
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 					</p>
 
-					<p ng-if="profile.data.location.length > 0">
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
 						<i class="fas fa-map-marker-alt"></i>
 						<span class="pl-3">{{ profile.data.location }}</span>
 					</p>
@@ -136,7 +167,7 @@
 						</a>
 					</p>
 
-					<p ng-if="profile.data.bio.length > 0">
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
 						{{ profile.data.bio }}
 					</p>
 					<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
@@ -150,7 +181,32 @@
 		</section>
 
 		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
-			<div class="container" id="activity-tabs" ng-cloak>
+			<!-- Feed when blocking them -->
+			<div class="container" id="activity-tabs" ng-if="profile.data.isBlocked" ng-cloak>
+				<div class="results_block row">
+					<div class="col-12 feed-listing feed-blocked">
+						<div class="inner">
+							<h4 class="mb-3">You blocked <b>{{profile.data.username}}</b></h4>
+							<p><a class="text-green" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">Unblock</a> {{profile.data.username}} if you wish to see their posts</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Feed when i am blocked -->
+			<div class="container" id="activity-tabs" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked" ng-cloak>
+				<div class="results_block row">
+					<div class="col-12 feed-listing feed-blocked">
+						<div class="inner">
+							<h4 class="mb-3">You have been blocked</h4>
+							<p>You cannot follow {{profile.data.username}} or see their posts.  If you have commented on any of their posts, these comments will have been deleted.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Feed when not blocked either way -->
+			<div class="container" id="activity-tabs" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 
 				<div class="" ng-if="selectedTab == 'all'">
 					<div class="results_block row" ng-class="{'empty': profile.digest.length == 0}">

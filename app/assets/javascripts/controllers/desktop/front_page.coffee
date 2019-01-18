@@ -8,6 +8,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	  '$element'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	  'Feed'
 		'Comment'
 		'Opinion'

@@ -1097,3 +1097,27 @@ button.follow {
 	padding-top: 1.3em;
 	padding-bottom: 1.3em;
 }
+
+.ng-confirm .ng-confirm-box div.ng-confirm-title-c {
+	font-size: 1.2em;
+}
+
+.btn-disabled {
+	cursor: default !important;
+}
+
+.blocked-btn {
+	span.hidden {
+		display: none;
+	}
+
+	&:hover {
+		span.hidden {
+			display: inline-block;
+		}
+
+		span.shown {
+			display: none;
+		}
+	}
+}

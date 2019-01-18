@@ -375,13 +375,19 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	block: ($event, userId, username) =>
 		$event.preventDefault()
-		@http.post("/blocks", {id: userId}).then (response) =>
-			@reloadPageWithFlash("You have blocked <b>#{username}</b>", 'unblock')
+		confirmMsg = "#{username} will no longer be able to follow you or message you, and you will not receive notifications for #{username}.  <a href='/help?section=blocking'>Read more</a> about what it means to block someone."
+		@confirm confirmMsg, =>
+			@http.post("/blocks", {id: userId}).then (response) =>
+				@reloadPageWithFlash("You have Blocked <b>#{username}</b>", 'unblock')
+		, null, "Block #{username}?", ["Cancel", "Block"]
 
 	unblock: ($event, userId, username) =>
 		$event.preventDefault()
-		@http.delete("/blocks/#{userId}").then (response) =>
-			@reloadPageWithFlash("You have unblocked <b>#{username}</b>", 'block')
+		confirmMsg = "#{username} will be able to follow you and message you.  <a href='/help?section=blocking'>Read more</a> about what it means to block and unblock someone."
+		@confirm confirmMsg, =>
+			@http.delete("/blocks/#{userId}").then (response) =>
+				@reloadPageWithFlash("You have unblocked <b>#{username}</b>", 'block')
+		, null, "Unblock #{username}?", ["Cancel", "Unblock"]
 
 	unfollow: ($event, userId, username) =>
 		$event.preventDefault()

@@ -28,7 +28,7 @@
 		</div>
 	</section>
 
-	<section class="container d-flex" class="d-flex" id="stats_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
+	<section class="container d-flex" class="d-flex" id="stats_info" ng-show="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.loaded) && (!profile.loadError) && (mode == 'view')" ng-cloak>
 		<div class="stats p-2 flex-fill">
 			<label>Ratings</label>
 			<span>{{ profile.ratings.data.length }}</span>
@@ -47,17 +47,29 @@
 		<section class="container" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 			<button class="btn btn-outline-success btn-block mt-3 mb-4"
 								ng-click="editProfile()"
-								ng-show="profile.isMe">Edit Profile</button>
+								ng-if="profile.isMe">Edit Profile</button>
 
 			<button class="btn btn-outline-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
-							ng-show="!profile.isMe && !profile.data.imFollowing">
+							ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (!profile.isMe) && (!profile.data.imFollowing)">
 				<i class="fas fa-users mr-2"></i>
 				Follow
 			</button>
 			<button class="btn btn-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
-								ng-show="!profile.isMe && profile.data.imFollowing">
+								ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (!profile.isMe) && (profile.data.imFollowing)">
 				<i class="fas fa-users mr-2"></i>
 				Following
+			</button>
+
+			<button class="btn btn-danger btn-disabled blocked-btn btn-block mt-3 mb-4" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked">
+				<i class="fas fa-ban"></i>
+				Blocked
+			</button>
+
+			<button class="btn btn-danger btn-block mt-3 mb-4"
+							ng-if="profile.data.isBlocked && !profile.isMe"
+							ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">
+				<i class="fas fa-ban"></i>
+				Blocked
 			</button>
 		</section>
 	<% else %>
@@ -70,11 +82,11 @@
 	<% end %>
 
 	<section class="container" id="more_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
-		<p>
+		<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 			<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 		</p>
 
-		<p ng-if="profile.data.location.length > 0">
+		<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
 			<i class="fas fa-map-marker-alt"></i>
 			<span class="pl-3">{{ profile.data.location }}</span>
 		</p>
@@ -85,10 +97,10 @@
 			</a>
 		</p>
 
-		<p ng-if="profile.data.bio.length > 0">
+		<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
 			{{ profile.data.bio }}
 		</p>
-		<p ng-if="!profile.data.bio || profile.data.bio.length == 0">
+		<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
 			<a href='#' ng-click="editProfile()">
 				<i class="far fa-plus-square"></i>
 				<span class="pl-3">Add Bio</span>
@@ -97,7 +109,17 @@
 	</section>
 
 	<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
-		<ul class="nav nav-tabs nav-fill d-flex">
+		<!-- Tabs when blocked (either way) -->
+		<ul class="nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
+		  <li class="nav-item">
+		    <a class="nav-link active">
+		      <label>All</label>
+		    </a>
+		  </li>
+		</ul>
+
+		<!-- Tabs when not blocked -->
+		<ul class="nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 		  <li class="nav-item">
 		    <a class="nav-link active" href="#" ng-click="selectTab('all', $event)" ng-class="{'active': selectedTab == 'all'}">
 		      All
@@ -120,8 +142,33 @@
 		  </li>
 		</ul>
 
-		<div class="" id="feed" ng-cloak>
 
+		<!-- Feed when blocking them -->
+		<div class="" id="feed" ng-if="profile.data.isBlocked" ng-cloak>
+			<div class="pt-4 results_block">
+				<div class="col-12 feed-listing feed-blocked">
+					<div class="inner">
+						<h4 class="mb-3">You blocked <b>{{profile.data.username}}</b></h4>
+						<p><a class="text-green" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">Unblock</a> {{profile.data.username}} if you wish to see their posts</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Feed when i am blocked -->
+		<div class="" id="feed" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked" ng-cloak>
+			<div class="pt-4 results_block">
+				<div class="col-12 feed-listing feed-blocked">
+					<div class="inner">
+						<h4 class="mb-3">You have been blocked</h4>
+						<p>You cannot follow {{profile.data.username}} or see their posts.  If you have commented on any of their posts, these comments will have been deleted.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Feed when not blocked either way -->
+		<div class="" id="feed" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
 
 				<p class="col-12 empty_resource" ng-if="profile.digest.length == 0">

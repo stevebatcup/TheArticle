@@ -64,8 +64,35 @@ class TheArticle.PageController extends TheArticle.NGController
 	isProduction: =>
 		$('body').hasClass('production')
 
-	alert: (msg, title, callback=null) =>
-		alert msg, title, callback
+	alert: (msg, title='Error', callback=null, buttonText='OK') ->
+		aler = @ngConfirm
+			title: title
+			content: msg
+			scope: @scope
+			buttons:
+				successBtn:
+					text: buttonText
+					btnClass: 'btn-info'
+					action: callback
+
+	confirm: (msg, success, cancel=null, title='Are you sure?', buttons=null) ->
+		conf = @ngConfirm
+			title: title
+			content: msg
+			scope: @scope
+			closeIcon: true,
+			closeIconClass: 'fas fa-times'
+			buttons:
+				successBtn:
+					text: buttons[1]
+					btnClass: 'btn-success'
+					action: success
+				cancelBtn:
+					text: buttons[0]
+					btnClass: 'btn-danger'
+					action: =>
+						cancel.call(@) if cancel?
+						conf.close()
 
 	postJSON: (url, data, successCallback=null, errorCallback=null) =>
 		$.ajax
@@ -203,7 +230,10 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	followUser: (userId, callback, from_suggestion=false) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: from_suggestion}).then (response) =>
-			callback.call(@)
+			if response.data.status is 'success'
+				callback.call(@)
+			else
+				@alert response.data.message, "Error following user"
 
 	unfollowUser: (userId, callback) =>
 		@http.delete("/user_followings/#{userId}").then (response) =>

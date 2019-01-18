@@ -9,6 +9,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	  '$timeout'
 	  '$compile'
 	  '$sce'
+	  '$ngConfirm'
 	  'Profile'
 	  'MyProfile'
 	  'Comment'

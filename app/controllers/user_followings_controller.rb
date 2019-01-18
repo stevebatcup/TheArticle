@@ -19,13 +19,25 @@ class UserFollowingsController < ApplicationController
 	end
 
 	def create
-		current_user.followings << Follow.new({followed_id: params[:id]})
-		if current_user.save
-			@status = :success
-			current_user.accept_suggestion_of_user_id(params[:id]) if params[:from_suggestion]
-		else
+		@status = ''
+		other_user = User.find(params[:id])
+		if current_user.has_blocked(other_user)
 			@status = :error
-			@message = current_user.errors.full_messages
+			@message = "You are blocking this user so you cannot follow them"
+		elsif other_user.has_blocked(current_user)
+			@status = :error
+			@message = "You are currently blocked by this user so you cannot follow them"
+		end
+
+		if @status != :error
+			current_user.followings << Follow.new({followed_id: params[:id]})
+			if current_user.save
+				@status = :success
+				current_user.accept_suggestion_of_user_id(params[:id]) if params[:from_suggestion]
+			else
+				@status = :error
+				@message = current_user.errors.full_messages
+			end
 		end
 	end
 

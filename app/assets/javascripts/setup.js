@@ -20,6 +20,7 @@
 //= require croppie
 //= require angular-sanitize
 //= require remarkable-bootstrap-notify
+//= require angular1-confirm
 angular.$$lowercase = angular.lowercase;
 TheArticle = (typeof exports !== "undefined" && exports !== null) && exports || (this.TheArticle = {});
 TheArticle.ControllerModule = angular.module('TheArticle.controllers', []);

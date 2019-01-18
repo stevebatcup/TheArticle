@@ -16,6 +16,12 @@
 		border-radius: 0;
 	}
 
+	&.feed-blocked {
+		.inner {
+			padding: 30px;
+		}
+	}
+
 	&.feed-share {
 		.comments_pane {
 			border-left: 1px dashed $grey;

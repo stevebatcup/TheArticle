@@ -8,6 +8,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	  '$element'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	  'Notification'
 	  'Share'
 	  'Comment'

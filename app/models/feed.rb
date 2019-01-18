@@ -11,7 +11,10 @@ class Feed < ApplicationRecord
 	end
 
 	def self.fetch_for_followings_of_user(user, page=1, per_page=25)
-		feed = self.where(user_id: user.followings.map(&:followed_id), actionable_type: self.types_for_followings)
+		muted_list = user.mutes.where(status: :active).map(&:muted_id)
+		blocked_list = user.blocks.where(status: :active).map(&:blocked_id)
+		followings_map = user.followings.where.not(followed_id: muted_list).where.not(followed_id: blocked_list).map(&:followed_id)
+		feed = self.where(user_id: followings_map, actionable_type: self.types_for_followings)
 					.or(self.where(user_id: user.id, actionable_type: self.types_for_user))
 					.order(created_at: :desc)
 		feed = feed.page(page).per(per_page) if per_page > 0

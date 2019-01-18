@@ -8,6 +8,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	  '$element'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	  'Feed'
 	]
 

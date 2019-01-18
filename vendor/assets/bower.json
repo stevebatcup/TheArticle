@@ -13,6 +13,7 @@
     "ryanmullins-angular-hammer": "latest",
     "croppie": "latest",
     "angular-sanitize": "latest",
-    "remarkable-bootstrap-notify": "latest"
+    "remarkable-bootstrap-notify": "latest",
+    "angular1-confirm": "latest"
   }
 }
