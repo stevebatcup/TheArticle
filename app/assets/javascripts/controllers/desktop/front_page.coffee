@@ -14,6 +14,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	]
 
 	init: ->
+		@detectFlashFromGet()
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
@@ -41,6 +42,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			totalItems: 0
 			moreToLoad: true
 		@getFeeds()
+		@listenForActions()
 
 	bindEvents: =>
 		super

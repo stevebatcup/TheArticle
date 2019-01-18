@@ -1,4 +1,4 @@
-class TheArticle.Feeds extends TheArticle.NGController
+class TheArticle.Feeds extends TheArticle.PageController
 
 	@register window.App
 	@$inject: [
@@ -7,6 +7,25 @@ class TheArticle.Feeds extends TheArticle.NGController
 	  'Comment'
 	  'Opinion'
 	]
+
+	listenForActions: =>
+		@scope.$on 'report_profile', ($event, data) =>
+			@reportProfile($event, data.profile)
+
+		@scope.$on 'mute', ($event, data) =>
+			@mute($event, data.userId, data.username)
+
+		@scope.$on 'unmute', ($event, data) =>
+			@unmute($event, data.userId, data.username)
+
+		@scope.$on 'block', ($event, data) =>
+			@block($event, data.userId, data.username)
+
+		@scope.$on 'unblock', ($event, data) =>
+			@unblock($event, data.userId, data.username)
+
+		@scope.$on 'unfollow', ($event, data) =>
+			@unfollow($event, data.userId, data.username)
 
 	feedActionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
@@ -314,6 +333,23 @@ class TheArticle.Feeds extends TheArticle.NGController
 					item.canInteract = 'not_followed'
 			, 750
 
+	reportProfile: ($event, profile) =>
+		$event.preventDefault()
+		@openConcernReportModal('profile', profile)
+
+	reportPost: ($event, item) =>
+		$event.preventDefault()
+		item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
+		@openConcernReportModal('post', item)
+
+	reportCommentAction: ($event, item) =>
+		$event.preventDefault()
+		@openConcernReportModal('commentAction', item)
+
+	reportComment: ($event, item) =>
+		$event.preventDefault()
+		@openConcernReportModal('comment', item)
+
 	openConcernReportModal: (type='post', resource) =>
 		# console.log resource
 		if @rootScope.concernReportModal
@@ -326,5 +362,30 @@ class TheArticle.Feeds extends TheArticle.NGController
 		@timeout =>
 			@rootScope.$broadcast 'init_concern_report', { type: type, resource: resource }
 		, 250
+
+	mute: ($event, userId, username) =>
+		$event.preventDefault()
+		@http.post("/mutes", {id: userId}).then (response) =>
+			@reloadPageWithFlash("You have muted <b>#{username}</b>", 'unmute')
+
+	unmute: ($event, userId, username) =>
+		$event.preventDefault()
+		@http.delete("/mutes/#{userId}").then (response) =>
+			@reloadPageWithFlash("You have unmuted <b>#{username}</b>", 'mute')
+
+	block: ($event, userId, username) =>
+		$event.preventDefault()
+		@http.post("/blocks", {id: userId}).then (response) =>
+			@reloadPageWithFlash("You have blocked <b>#{username}</b>", 'unblock')
+
+	unblock: ($event, userId, username) =>
+		$event.preventDefault()
+		@http.delete("/blocks/#{userId}").then (response) =>
+			@reloadPageWithFlash("You have unblocked <b>#{username}</b>", 'block')
+
+	unfollow: ($event, userId, username) =>
+		$event.preventDefault()
+		@http.delete("/user_followings/#{userId}").then (response) =>
+			@reloadPageWithFlash("You have unfollowed <b>#{username}</b>", 'block')
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

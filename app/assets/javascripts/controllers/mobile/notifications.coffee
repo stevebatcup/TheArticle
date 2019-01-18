@@ -16,6 +16,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 
 	init: ->
 		# console.log 'init notifications'
+		@detectFlashFromGet()
 		@rootScope.isSignedIn = true
 		vars = @getUrlVars()
 
@@ -41,6 +42,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 
 		@bindEvents()
 		@getNotifications()
+		@listenForActions()
 
 	bindEvents: =>
 		super

@@ -6,7 +6,6 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		'$rootScope'
 		'$http'
 		'$timeout'
-		'$interval'
 		'$compile'
 	]
 
@@ -66,5 +65,27 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	editCoverPhoto: =>
 		@rootScope.$broadcast('edit_cover_photo')
+
+	reportProfile: ($event, profile) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'report_profile', { profile: profile }
+
+	mute: ($event, userId, username) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'mute', { userId: userId, username: username }
+
+	unmute: ($event, userId, username) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'unmute', { userId: userId, username: username }
+
+	block: ($event, userId, username) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'block', { userId: userId, username: username }
+
+	unblock: ($event, userId, username) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'unblock', { userId: userId, username: username }
+
+
 
 TheArticle.ControllerModule.controller('HeaderBarController', TheArticle.HeaderBar)

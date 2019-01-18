@@ -13,6 +13,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	init: ->
 		# console.log 'init frontpage'
+		@detectFlashFromGet()
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
@@ -40,6 +41,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			totalItems: 0
 			moreToLoad: true
 		@getFeeds()
+		@listenForActions()
 
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>

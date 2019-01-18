@@ -1,10 +1,56 @@
 class TheArticle.PageController extends TheArticle.NGController
-	@register window.App
-	@$inject: ['$compile']
-
 	constructor: ->
 		super
 		@showCookieNotice() if $('body').hasClass('show_cookie_notice')
+
+	reloadPageWithFlash: (flashMsg='', flashAction='') =>
+		url = "#{window.location.protocol}//#{window.location.host}#{window.location.pathname}"
+		url += "?flash_msg=#{flashMsg}" if flashMsg.length
+		url += "&flash_action=#{flashAction}" if flashAction.length
+		# console.log url
+		window.location.href = url
+
+	detectFlashFromGet: =>
+		vars = @getUrlVars()
+		if 'flash_msg' of vars
+			setTimeout =>
+				@flash( decodeURIComponent(vars['flash_msg'].split('#')[0]), decodeURIComponent(vars['flash_action'].split('#')[0]) )
+			, 900
+
+	flash: (msg, action) =>
+		$.notify({
+			message: msg
+		},
+		{
+			element: 'body',
+			allow_dismiss: false,
+			newest_on_top: true,
+			placement: {
+				from: "bottom",
+				align: "center"
+			},
+			offset: 0,
+			spacing: 20,
+			delay: 8000,
+			timer: 1000,
+			animate: {
+				enter: 'animated fadeInUp',
+				exit: 'animated fadeOutDown'
+			},
+			template: '<div data-notify="container" class="col-xs-11 col-sm-3 col-md-5 col-lg-6 alert bg-dark text-white" role="alert">' +
+					'<div class="d-flex justify-content-between">' +
+					'<div>' +
+					'<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+					'<span data-notify="icon"></span> ' +
+					'<span data-notify="title">{1}</span> ' +
+					'<span data-notify="message">{2}</span>' +
+					'<div class="progress" data-notify="progressbar">' +
+						'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+					'</div>' +
+					'</div>' +
+					'</div>' +
+				'</div>'
+		})
 
 	showCookieNotice: =>
 		$('#cookie-notice').show()
@@ -223,34 +269,3 @@ class TheArticle.PageController extends TheArticle.NGController
 		offset = Math.max(document.body.offsetHeight, document.documentElement.offsetHeight)
 		client = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
 		Math.max(scroll, offset, client)
-
-	reportProfile: ($event, profile) =>
-		$event.preventDefault()
-		@openConcernReportModal('profile', profile)
-
-	reportPost: ($event, item) =>
-		$event.preventDefault()
-		item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
-		@openConcernReportModal('post', item)
-
-	reportCommentAction: ($event, item) =>
-		$event.preventDefault()
-		@openConcernReportModal('commentAction', item)
-
-	reportComment: ($event, item) =>
-		$event.preventDefault()
-		@openConcernReportModal('comment', item)
-
-	openConcernReportModal: (type='post', resource) =>
-		# console.log resource
-		if @rootScope.concernReportModal
-			@rootScope.concernReportModal.modal('show')
-		else
-			tpl = $("#concernReport").html().trim()
-			$content = @compile(tpl)(@scope)
-			$('body').append $content
-			@rootScope.concernReportModal = $("#concernReportModal").modal()
-		@timeout =>
-			@rootScope.$broadcast 'init_concern_report', { type: type, resource: resource }
-		, 250
-

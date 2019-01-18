@@ -7,4 +7,5 @@
 //= require controllers/page
 //= require controllers/feeds
 //= require controllers/concern_reports
+//= require controllers/flash_notice
 //= require_tree ./controllers/mobile

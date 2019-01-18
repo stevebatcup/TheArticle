@@ -33,6 +33,8 @@ module ExchangeHelper
 			user: {
 			  path: profile_path(slug: user.slug),
 			  id: user.id,
+				isMuted: current_user.has_muted(user),
+				isBlocked: current_user.has_blocked(user),
 			  displayName: user.display_name,
 			  username: user.username,
 			  image: user.profile_photo.url(:square),

@@ -36,7 +36,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 		if @scope.signedIn
 			@interval =>
 				@getNotificationsBadgeUpdate()
-			, 7500
+			, 30000
 			@scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
 				if oldVal isnt newVal
 					@getNotifications()

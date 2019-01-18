@@ -12,6 +12,7 @@
     "angular-wizard": "latest",
     "ryanmullins-angular-hammer": "latest",
     "croppie": "latest",
-    "angular-sanitize": "latest"
+    "angular-sanitize": "latest",
+    "remarkable-bootstrap-notify": "latest"
   }
 }

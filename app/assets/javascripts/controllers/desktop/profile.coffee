@@ -16,6 +16,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	]
 
 	init: ->
+		@detectFlashFromGet()
 		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = false
@@ -117,6 +118,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@getOpinionActions()
 
 	bindEvents: =>
+		@listenForActions()
+
 		$(document).on 'click', "#upload_profilePhoto_btn", (e) =>
 			$("#profilePhoto_uploader").focus().trigger('click')
 

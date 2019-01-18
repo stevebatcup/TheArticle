@@ -1047,8 +1047,12 @@ button.follow {
 	button {
 		position: relative;
 		left: -12px;
-		font-size: 0.9em;
+		font-size: 0.75em;
 		top: 2px;
+	}
+
+	a.dropdown-item {
+		font-size: 0.75em;
 	}
 
 	ul.nav {
@@ -1087,4 +1091,9 @@ button.follow {
 			}
 		}
 	}
+}
+
+[data-notify=container].alert {
+	padding-top: 1.3em;
+	padding-bottom: 1.3em;
 }

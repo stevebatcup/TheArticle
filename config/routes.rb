@@ -76,6 +76,11 @@ Rails.application.routes.draw do
 
   post 'concern-reports',                      to: 'concern_reports#create'
 
+  post 'mutes',                                to: 'mutes#create'
+  delete 'mutes/:id',                          to: 'mutes#destroy'
+  post 'blocks',                               to: 'blocks#create'
+  delete 'blocks/:id',                         to: 'blocks#destroy'
+
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|

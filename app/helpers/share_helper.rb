@@ -18,6 +18,8 @@ module ShareHelper
 			disagreeShowLimit: Opinion.show_limit,
 			user: {
 				id: share.user.id,
+				isMuted: current_user.has_muted(share.user),
+				isBlocked: current_user.has_blocked(share.user),
 				displayName: share.user.display_name,
 				username: share.user.username,
 				image: share.user.profile_photo.url(:square),

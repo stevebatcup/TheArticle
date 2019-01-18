@@ -161,6 +161,11 @@
 
 				a {
 					color: inherit;
+
+					&.dropdown-item {
+						font-size: 0.85em;
+						padding: 2px 10px;
+					}
 				}
 			}
 

@@ -35,7 +35,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 		@interval =>
 			@getNotificationsBadgeUpdate()
-		, 7500
+		, 30000
 
 	bindScrollEvent: =>
 		$win = $(window)

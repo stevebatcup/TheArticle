@@ -31,6 +31,9 @@ class User < ApplicationRecord
   has_many :notifications
   has_many :concern_reports, as: :sourceable
 
+  has_many  :mutes
+  has_many  :blocks
+
   include Suggestable
   include Shareable
   include Followable
@@ -109,5 +112,13 @@ class User < ApplicationRecord
     # count = Notification.get_new_count_for_user(self, true)
     count = self.notifications.where(is_new: true).size
     self.update_attribute(:notification_counter_cache, count)
+  end
+
+  def has_muted(user)
+    self.mutes.where(status: :active).map(&:muted_id).include?(user.id)
+  end
+
+  def has_blocked(user)
+    self.blocks.where(status: :active).map(&:blocked_id).include?(user.id)
   end
 end

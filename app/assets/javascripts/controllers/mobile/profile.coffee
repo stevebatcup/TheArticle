@@ -16,6 +16,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	]
 
 	init: ->
+		@detectFlashFromGet()
 		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false
 		@rootScope.isSignedIn = false
@@ -108,6 +109,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback
 
+
 	getProfileCallback: =>
 		@getUserExchanges()
 		@getFollows()
@@ -118,6 +120,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 	bindEvents: =>
 		super
+		@listenForActions()
 
 		$(document).on 'click', "#upload_profilePhoto_btn", (e) =>
 			$("#profilePhoto_uploader").focus().trigger('click')

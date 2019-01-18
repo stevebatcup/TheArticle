@@ -74,8 +74,12 @@
                 <i class="fas fa-cogs" aria-hidden="true"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
-                <a class="dropdown-item" href="#" ng-click="block()">Block</a>
+                <a class="dropdown-item" href="#" ng-click="mute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="!profileDataForHeader.isMuted">Mute</a>
+                <a class="dropdown-item" href="#" ng-click="unmute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isMuted">Unmute</a>
+
+                <a class="dropdown-item" href="#" ng-click="block($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="!profileDataForHeader.isBlocked">Block</a>
+                <a class="dropdown-item" href="#" ng-click="unblock($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isBlocked">Unblock</a>
+
                 <a class="dropdown-item" href="#" ng-click="reportProfile($event, profileDataForHeader)">Report {{profileDataForHeader.originalUsername}}</a>
               </div>
             </div>

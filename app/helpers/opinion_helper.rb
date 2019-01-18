@@ -43,7 +43,10 @@ module OpinionHelper
 				date: opinion.created_at.strftime("%e %b"),
 				action: "#{opinion.decision.capitalize}d with a post by #{share.user.display_name}",
 				user: {
+					id: opinion.user.id,
 					displayName: opinion.user.display_name,
+					isMuted: current_user.has_muted(opinion.user),
+					isBlocked: current_user.has_blocked(opinion.user),
 					username: opinion.user.username,
 					image: opinion.user.profile_photo.url(:square),
 					path: profile_path(slug: opinion.user.slug)

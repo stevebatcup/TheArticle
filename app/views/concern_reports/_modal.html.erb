@@ -31,9 +31,25 @@
             <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.imFollowing == true">
               <h5 class="col-12">Unfollow <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
 
-              <p class="col-12 col-md-9">Unfollowing <b>{{profileForConcernReport.username}}</b> will stop you receiving notifications about their posts. It also means that they cannot contribute to one of your posts, even if they follow you. <a href="/terms-and-conditions">Read more</a> about what it means to unfollow someone.
+              <p class="col-12 col-md-9">Unfollowing <b>{{profileForConcernReport.username}}</b> will stop you receiving notifications about their posts. It also means that they cannot contribute to one of your posts, even if they follow you. <a href="/terms-and-conditions?section=unfollowing">Read more</a> about what it means to unfollow someone.
               </p>
-              <button class="col-12 col-md-3 btn btn-sm btn-success" ng-click="unfollow($event)">Unfollow</button>
+              <button class="col-12 col-md-3 btn btn-sm btn-success" ng-click="unfollow($event, profileForConcernReport.id, profileForConcernReport.username)">Unfollow</button>
+            </div>
+
+            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.isMuted != true">
+              <h5 class="col-12">Mute <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
+
+              <p class="col-12 col-md-9">Muting <b>{{profileForConcernReport.username}}</b> will stop you receiving notifications about their posts. <a href="/terms-and-conditions?section=muting">Read more</a> about what it means to mute someone.
+              </p>
+              <button class="col-12 col-md-3 btn btn-sm btn-danger" ng-click="mute($event, profileForConcernReport.id, profileForConcernReport.username)">Mute</button>
+            </div>
+
+            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.isBlocked != true">
+              <h5 class="col-12">Block <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
+
+              <p class="col-12 col-md-9">Blocking <b>{{profileForConcernReport.username}}</b> will mean that they cannot follow you, view your posts or send you a direct message. It also means that you cannot follow them, view their posts or send them a direct message. <a href="/terms-and-conditions?section=blocking">Read more</a> about what it means to block someone.
+              </p>
+              <button class="col-12 col-md-3 btn btn-sm btn-danger" ng-click="block($event, profileForConcernReport.id, profileForConcernReport.username)">Block</button>
             </div>
           </section>
 

@@ -46,6 +46,8 @@ module CommentHelper
 				action: (comment.parent_id.nil? ? "Commented on a post by #{share.user.display_name}" : "Replied to a comment by #{comment.parent.user.display_name}"),
 				user: {
 					id: comment.user.id,
+					isMuted: current_user.has_muted(comment.user),
+					isBlocked: current_user.has_blocked(comment.user),
 					displayName: comment.user.display_name,
 					username: comment.user.username,
 					image: comment.user.profile_photo.url(:square),
@@ -60,6 +62,8 @@ module CommentHelper
 			id: comment.id,
 			userId: comment.user.id,
 	    path: profile_path(slug: comment.user.slug),
+	    isMuted: current_user.has_muted(comment.user),
+	    isBlocked: current_user.has_blocked(comment.user),
 	    displayName: comment.user.display_name,
 			username: comment.user.username,
 			photo: comment.user.profile_photo.url(:square),

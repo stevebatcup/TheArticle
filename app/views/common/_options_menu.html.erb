@@ -3,28 +3,64 @@
 		<i class="fas fa-chevron-circle-down"></i>
 	</a>
   <div class="dropdown-menu dropdown-menu-right">
-    <a class="dropdown-item" href="#" ng-click="block()">Block</a>
-    <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
     <% if from == :share %>
-    <a class="dropdown-item" href="#" ng-click="reportPost($event, item)">
+      <a class="dropdown-item" href="#" ng-click="mute($event, item.share.user.id, item.share.user.username)" ng-if="!item.share.user.isMuted">Mute</a>
+      <a class="dropdown-item" href="#" ng-click="unmute($event, item.share.user.id, item.share.user.username)" ng-if="item.share.user.isMuted">Unmute</a>
+
+      <a class="dropdown-item" href="#" ng-click="block($event, item.share.user.id, item.share.user.username)" ng-if="!item.share.user.isBlocked">Block</a>
+      <a class="dropdown-item" href="#" ng-click="unblock($event, item.share.user.id, item.share.user.username)" ng-if="item.share.user.isBlocked">Unblock</a>
+
+      <a class="dropdown-item" href="#" ng-click="reportPost($event, item)">
         <span>Report post</span>
-    </a>
+      </a>
+
     <% elsif from == :commentAction %>
-    <a class="dropdown-item" href="#" ng-click="reportCommentAction($event, item)">
+      <a class="dropdown-item" href="#" ng-click="mute($event, item.commentAction.user.id, item.commentAction.user.username)" ng-if="!item.commentAction.user.isMuted">Mute</a>
+      <a class="dropdown-item" href="#" ng-click="unmute($event, item.commentAction.user.id, item.commentAction.user.username)" ng-if="item.commentAction.user.isMuted">Unmute</a>
+
+      <a class="dropdown-item" href="#" ng-click="block($event, item.commentAction.user.id, item.commentAction.user.username)" ng-if="!item.commentAction.user.isBlocked">Block</a>
+      <a class="dropdown-item" href="#" ng-click="unblock($event, item.commentAction.user.id, item.commentAction.user.username)" ng-if="item.commentAction.user.isBlocked">Unblock</a>
+
+     <a class="dropdown-item" href="#" ng-click="reportCommentAction($event, item)">
         <span>Report comment</span>
-    </a>
+      </a>
+
     <% elsif from == :opinionAction %>
-    <a class="dropdown-item" href="#" ng-click="reportPost($event, item)">
-        <span>Report comment</span>
-    </a>
+      <a class="dropdown-item" href="#" ng-click="mute($event, item.opinionAction.user.id, item.opinionAction.user.username)" ng-if="!item.opinionAction.user.isMuted">Mute</a>
+      <a class="dropdown-item" href="#" ng-click="unmute($event, item.opinionAction.user.id, item.opinionAction.user.username)" ng-if="item.opinionAction.user.isMuted">Unmute</a>
+
+      <a class="dropdown-item" href="#" ng-click="block($event, item.opinionAction.user.id, item.opinionAction.user.username)" ng-if="!item.opinionAction.user.isBlocked">Block</a>
+      <a class="dropdown-item" href="#" ng-click="unblock($event, item.opinionAction.user.id, item.opinionAction.user.username)" ng-if="item.opinionAction.user.isBlocked">Unblock</a>
+
     <% elsif from == :comment %>
-    <a class="dropdown-item" href="#" ng-click="reportComment($event, comment.data)">
+      <a class="dropdown-item" href="#" ng-click="mute($event, comment.data.userId, comment.data.username)" ng-if="!comment.data.isMuted">Mute</a>
+      <a class="dropdown-item" href="#" ng-click="unmute($event, comment.data.userId, comment.data.username)" ng-if="comment.data.isMuted">Unmute</a>
+
+      <a class="dropdown-item" href="#" ng-click="block($event, comment.data.userId, comment.data.username)" ng-if="!comment.data.isBlocked">Block</a>
+      <a class="dropdown-item" href="#" ng-click="unblock($event, comment.data.userId, comment.data.username)" ng-if="comment.data.isBlocked">Unblock</a>
+
+      <a class="dropdown-item" href="#" ng-click="reportComment($event, comment.data)">
         <span>Report comment</span>
-    </a>
+      </a>
+
     <% elsif from == :childComment %>
-    <a class="dropdown-item" href="#" ng-click="reportComment($event, child.data)">
+      <a class="dropdown-item" href="#" ng-click="mute($event, child.data.userId, child.data.username)" ng-if="!child.data.isMuted">Mute</a>
+      <a class="dropdown-item" href="#" ng-click="unmute($event, child.data.userId, child.data.username)" ng-if="child.data.isMuted">Unmute</a>
+
+      <a class="dropdown-item" href="#" ng-click="block($event, child.data.userId, child.data.username)" ng-if="!child.data.isBlocked">Block</a>
+      <a class="dropdown-item" href="#" ng-click="unblock($event, child.data.userId, child.data.username)" ng-if="child.data.isBlocked">Unblock</a>
+
+      <a class="dropdown-item" href="#" ng-click="reportComment($event, child.data)">
         <span>Report comment</span>
-    </a>
+      </a>
+
+    <% elsif from == :exchange %>
+      <a class="dropdown-item" href="#" ng-click="mute($event, item.user.id, item.user.username)" ng-if="!item.user.isMuted">Mute</a>
+      <a class="dropdown-item" href="#" ng-click="unmute($event, item.user.id, item.user.username)" ng-if="item.user.isMuted">Unmute</a>
+
+      <a class="dropdown-item" href="#" ng-click="block($event, item.user.id, item.user.username)" ng-if="!item.user.isBlocked">Block</a>
+      <a class="dropdown-item" href="#" ng-click="unblock($event, item.user.id, item.user.username)" ng-if="item.user.isBlocked">Unblock</a>
+
     <% end %>
   </div>
 </nav>

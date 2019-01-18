@@ -54,6 +54,8 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 	getProfileData: (id) =>
 		@Profile.get({id: id}).then (profile) =>
 			@rootScope.profileForConcernReport.imFollowing = profile.imFollowing
+			@rootScope.profileForConcernReport.isMuted = profile.isMuted
+			@rootScope.profileForConcernReport.isBlocked = profile.isBlocked
 
 	resetReason: ($event=null) =>
 		$event.preventDefault() if $event
@@ -144,12 +146,25 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		else
 			@success()
 
-	unfollow: ($event) =>
+	unfollow: ($event, id, username) =>
 		$event.preventDefault()
-		@http.delete("/user_followings/#{@scope.profileForConcernReport.id}").then (response) =>
-			@timeout =>
-				$('.close_modal', '#concernReportModal').click()
-			, 350
+		$('.close_modal', '#concernReportModal').click()
+		@timeout =>
+			@rootScope.$broadcast 'unfollow', { userId: userId, username: username }
+		, 350
+
+	mute: ($event, userId, username) =>
+		$event.preventDefault()
+		$('.close_modal', '#concernReportModal').click()
+		@timeout =>
+			@rootScope.$broadcast 'mute', { userId: userId, username: username }
+		, 750
+
+	block: ($event, userId, username) =>
+		$event.preventDefault()
+		@timeout =>
+			@rootScope.$broadcast 'block', { userId: userId, username: username }
+		, 750
 
 	success: =>
 		@scope.reason.success = true
