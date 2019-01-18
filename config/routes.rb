@@ -74,6 +74,8 @@ Rails.application.routes.draw do
   get 'notification-count',                    to: 'notifications#index', as: :notification_count, count: true
   get 'follow-groups/:id',                     to: 'follow_groups#show', as: :follow_group
 
+  post 'concern-reports',                      to: 'concern_reports#create'
+
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|

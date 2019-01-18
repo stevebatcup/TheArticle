@@ -59,17 +59,6 @@
 		<% if user_signed_in? %>
 			<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
 
-				<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-								ng-show="!profile.isMe && !profile.data.imFollowing">
-					<i class="fas fa-users mr-2"></i>
-					Follow
-				</button>
-				<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-									ng-show="!profile.isMe && profile.data.imFollowing">
-					<i class="fas fa-users mr-2"></i>
-					Following
-				</button>
-
 				<div class="btn-group" class="mt-2" ng-show="profile.isMe">
 				  <button class="btn btn-outline-success btn-sm" type="button" ng-click="editProfile()">
 				    Edit profile
@@ -82,6 +71,29 @@
 				    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
 		        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
 		        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+				  </div>
+				</div>
+
+
+				<div class="btn-group" class="mt-2" ng-show="!profile.isMe">
+					<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+									ng-show="!profile.data.imFollowing">
+						<i class="fas fa-users mr-2"></i>
+						Follow
+					</button>
+					<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+										ng-show="profile.data.imFollowing">
+						<i class="fas fa-users mr-2"></i>
+						Following
+					</button>
+				  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  	<span class="sr-only">Toggle Dropdown</span>
+				    <i class="fas fa-cog" aria-hidden="true"></i>
+				  </button>
+				  <div class="dropdown-menu">
+				    <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
+		        <a class="dropdown-item" href="#" ng-click="block()">Block</a>
+		        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report {{profile.data.originalUsername}}</a>
 				  </div>
 				</div>
 			</div>

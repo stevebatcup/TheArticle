@@ -185,12 +185,13 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@Profile.get({id: @element.data('user-id')}).then (profile) =>
 			@timeout =>
 				@rootScope.isSignedIn = profile.isSignedIn
+				@rootScope.profileDataForHeader = profile
 				@scope.profile.data = profile
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
 				@reorderDigest()
 				callback.call(@) if callback?
-			, 750
+			, 2000
 		, (error) =>
 			@scope.profile.loaded = true
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"

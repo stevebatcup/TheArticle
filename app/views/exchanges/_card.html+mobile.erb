@@ -15,17 +15,11 @@
 				<p><b>Followed an exchange</b> &bullet; {{item.followedDate}}</p>
 			</div>
 		</div>
-
-		<nav class="navbar share_menu_btn d-inline-block">
-			<a href='#' data-toggle="dropdown">
-				<i class="fas fa-chevron-circle-down"></i>
-			</a>
-		  <div class="dropdown-menu dropdown-menu-right">
-		    <a class="dropdown-item" href="#" ng-click="report()">Report</a>
-	      <a class="dropdown-item" href="#" ng-click="block()">Block</a>
-	      <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
-		  </div>
-		</nav>
+		<% if user_signed_in? %>
+			<div ng-if="item.user.id != <%= current_user.id %>">
+				<%= render partial: 'common/options_menu', locals: { from: :exchange } %>
+			</div>
+		<% end %>
 	</div>
 
 	<div class="exchange_box">

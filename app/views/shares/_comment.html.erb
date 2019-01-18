@@ -20,8 +20,11 @@
         <p class="follow_summary mb-0" ng-bind-html="comment.data.body"></p>
       </div>
     </div>
-
-    <%= render 'common/options_menu' %>
+    <% if user_signed_in? %>
+      <div ng-if="comment.data.userId != <%= current_user.id %>">
+        <%= render partial: 'common/options_menu', locals: { from: :comment } %>
+      </div>
+    <% end %>
   </div>
 
   <div class="reply_area pl-5" ng-if="item.canInteract == 'yes'">

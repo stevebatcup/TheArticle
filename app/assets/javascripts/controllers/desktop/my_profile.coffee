@@ -6,6 +6,7 @@ class TheArticle.MyProfile extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  '$compile'
 	  'EditorsPick'
 	]
 

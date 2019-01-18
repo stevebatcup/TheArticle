@@ -1,0 +1,588 @@
+<div class="modal fade no_connection" id="concernReportModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog medium" role="document">
+    <div class="modal-content" ng-controller="ConcernReportsController">
+
+    	<div class="modal-header">
+    		<h5 class="pt-2" ng-if="reason.success != true">
+          Report&nbsp;
+          <span ng-if="concernReportType == 'profile'"> {{profileForConcernReport.username}}</span>
+          <span ng-if="concernReportType == 'post'"> a post</span>
+          <span ng-if="_.contains(['comment', 'commentAction'], concernReportType)"> a comment</span>
+        </h5>
+
+        <h5 class="pt-2" ng-if="reason.success == true">
+          Concern reported
+        </h5>
+
+        <button data-dismiss="modal" class="btn btn-link close_modal" ng-click="resetReason($event)">
+          <i class="fas fa-times"></i>
+        </button>
+    	</div>
+
+      <div class="modal-body pb-3" id="concern_report_modal">
+          <!-- Success, thanks -->
+          <section ng-if="reason.success == true" class="container my-4 px-4">
+            <p class="heading_thanks">Thank you for reporting your concern about
+              <span ng-if="concernReportType=='profile'"><b>{{profileForConcernReport.username}}</b></span>
+              <span ng-if="concernReportType=='post'"><b>{{profileForConcernReport.username}}'s</b> post</span>
+              <span ng-if="_.contains(['comment', 'commentAction'], concernReportType)"><b>{{profileForConcernReport.username}}'s</b> comment</span>
+            </p>
+
+            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.imFollowing == true">
+              <h5 class="col-12">Unfollow <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
+
+              <p class="col-12 col-md-9">Unfollowing <b>{{profileForConcernReport.username}}</b> will stop you receiving notifications about their posts. It also means that they cannot contribute to one of your posts, even if they follow you. <a href="/terms-and-conditions">Read more</a> about what it means to unfollow someone.
+              </p>
+              <button class="col-12 col-md-3 btn btn-sm btn-success" ng-click="unfollow($event)">Unfollow</button>
+            </div>
+          </section>
+
+
+          <!-- PROFILES -->
+          <section ng-if="concernReportType == 'profile'">
+            <p class="alert alert-danger my-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
+
+            <div class="options primary_reason" ng-if="!reason.primarySubmitted && !reason.success">
+              <p class="heading_question">
+                How is <b>{{profileForConcernReport.username}}'s</b> activity suspicious or spreading spam?
+              </p>
+
+              <div class="container">
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="not_interested" />
+                    <span class="checkmark"></span>
+                    <span class="text">I'm not interested in this account</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="dont_agree_views" />
+                    <span class="checkmark"></span>
+                    <span class="text">I do not agree with this user's views</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="suspicious_or_spam" />
+                    <span class="checkmark"></span>
+                    <span class="text">It's suspicious or spam</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="pretending" />
+                    <span class="checkmark"></span>
+                    <span class="text">They're pretending to be me or someone else</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="offensive" />
+                    <span class="checkmark"></span>
+                    <span class="text">Their posts are offensive or abusive</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="hacked" />
+                    <span class="checkmark"></span>
+                    <span class="text">It appears their account is hacked</span>
+
+                    <textarea class="form-control"
+                      name="moreInfo"
+                      placeholder="Can you tell us anything else to help us understand your concern?"
+                      ng-model="reason.moreInfo"
+                      ng-if="reason.primary=='hacked'"></textarea>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="offensive_content" />
+                    <span class="checkmark"></span>
+                    <span class="text">Their profile info includes offensive or abusive content</span>
+
+                    <textarea class="form-control"
+                      name="moreInfo"
+                      placeholder="Can you tell us anything else to help us understand your concern?"
+                      ng-model="reason.moreInfo"
+                      ng-if="reason.primary=='offensive_content'"></textarea>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="offensive_photo" />
+                    <span class="checkmark"></span>
+                    <span class="text">Their profile photos include offensive or abusive content</span>
+
+                    <textarea class="form-control"
+                      name="moreInfo"
+                      placeholder="Can you tell us anything else to help us understand your concern?"
+                      ng-model="reason.moreInfo"
+                      ng-if="reason.primary=='offensive_photo'"></textarea>
+
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="something_else" />
+                    <span class="checkmark"></span>
+                    <span class="text">I want to report something else</span>
+
+                    <textarea class="form-control"
+                      name="moreInfo"
+                      placeholder="Can you tell us anything else to help us understand your concern?"
+                      ng-model="reason.moreInfo"
+                      ng-if="reason.primary=='something_else'"></textarea>
+
+                  </label>
+                </div>
+
+                <div class="buttons">
+                  <button class="btn btn-block btn-success mt-4" ng-click="submitProfilePrimary($event)"
+                          ng-class="{'disabled': reason.primary.length == 0}">Submit</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="secondary_reason" ng-if="reason.primarySubmitted && (reason.primary.length > 0) && (reason.success != true)">
+              <!-- Suspicious or spam -->
+              <div ng-if="reason.primary=='suspicious_or_spam'">
+                <div class="options">
+                  <p class="heading_question">How is {{profileForConcernReport.username}} acting suspiciously or generating spam?</p>
+
+                  <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="fake_account" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's a fake account</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="harmful_site_link" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's sharing links to potentially harmful, malicious or phishing sites</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="posting_spam" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's posting spam</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="suspicious_something_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's something else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pretending -->
+              <div ng-if="reason.primary=='pretending'">
+                <div class="options">
+                  <p class="heading_question">Who is {{profileForConcernReport.username}} impersonating?</p>
+
+                  <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="me" />
+                        <span class="checkmark"></span>
+                        <span class="text">Me</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="someone_represent" />
+                        <span class="checkmark"></span>
+                        <span class="text">Someone I represent</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="pretending_someone_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">Someone else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Offensive -->
+              <div ng-if="reason.primary=='offensive'">
+                <div class="options">
+                  <p class="heading_question">How are {{profileForConcernReport.username}}'s posts offensive or abusive?</p>
+
+                  <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="disrespectful" />
+                        <span class="checkmark"></span>
+                        <span class="text">They are disrespectful or offensive</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="harassment_or_threats" />
+                        <span class="checkmark"></span>
+                        <span class="text">They include targeted harassment or threats</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="category_hate" />
+                        <span class="checkmark"></span>
+                        <span class="text">They direct hate against a protected category (e.g. race, religion, gender, orientation, disability)</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="threat_of_violence" />
+                        <span class="checkmark"></span>
+                        <span class="text">They threaten violence or physical harm</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="offensive_something_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's something else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container buttons mt-4 d-flex justify-content-between">
+                <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Cancel</button>
+                <button class="btn btn-success w-40" ng-click="submitProfileSecondary($event)"
+                        ng-class="{'disabled': reason.primary=='something_else' && reason.secondary.length==0}">Submit</button>
+              </div>
+            </div>
+          </section>
+
+
+
+          <!-- POSTS -->
+          <section ng-if="concernReportType == 'post'">
+            <p class="alert alert-danger my-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
+
+            <div class="options primary_reason" ng-if="!reason.primarySubmitted && !reason.success">
+              <p class="heading_question">
+                Help us understand the problem. Why are you reporting <b>{{profileForConcernReport.username}}'s</b> post?
+              </p>
+
+              <div class="container">
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="not_interested" />
+                    <span class="checkmark"></span>
+                    <span class="text">I'm not interested in this post</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="dont_agree_post" />
+                    <span class="checkmark"></span>
+                    <span class="text">I do not agree with this post</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="suspicious_or_spam" />
+                    <span class="checkmark"></span>
+                    <span class="text">It's suspicious or spam</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="abusive" />
+                    <span class="checkmark"></span>
+                    <span class="text">It's abusive or harmful </span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="something_else" />
+                    <span class="checkmark"></span>
+                    <span class="text">I want to report something else</span>
+
+                    <textarea class="form-control"
+                      name="moreInfo"
+                      placeholder="Can you tell us anything else to help us understand your concern?"
+                      ng-model="reason.moreInfo"
+                      ng-if="reason.primary=='something_else'"></textarea>
+
+                  </label>
+                </div>
+
+                <div class="buttons">
+                  <button class="btn btn-block btn-success" ng-click="submitPostPrimary($event)"
+                          ng-class="{'disabled': reason.primary.length == 0}">Submit</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="secondary_reason" ng-if="reason.primarySubmitted && (reason.primary.length > 0) && (reason.success != true)">
+
+              <!-- Suspicious or spam -->
+              <div ng-if="reason.primary=='suspicious_or_spam'">
+                <div class="options">
+                  <p class="heading_question">How is <b>{{profileForConcernReport.username}}'s</b> post suspicious or generating spam?</p>
+
+                   <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="fake_account" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's from a fake account</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="harmful_site_link" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's sharing links to potentially harmful, malicious or phishing sites</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="posting_spam" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's posting spam</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="suspicious_something_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's something else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Abusive -->
+              <div ng-if="reason.primary=='abusive'">
+                <div class="options">
+
+                  <p class="heading_question">How is <b>{{profileForConcernReport.username}}'s</b> post offensive or abusive?</p>
+
+                   <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="disrespectful" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's disrespectful or offensive</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="harassment_or_threats" />
+                        <span class="checkmark"></span>
+                        <span class="text">It includes targeted harassment or threats</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="category_hate" />
+                        <span class="checkmark"></span>
+                        <span class="text">It directs hate against a protected category (e.g. race, religion, gender, orientation, disability)</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="threat_of_violence" />
+                        <span class="checkmark"></span>
+                        <span class="text">It threatens violence or physical harm</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="offensive_something_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's something else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container buttons d-flex justify-content-between">
+                <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Cancel</button>
+                <button class="btn btn-success w-40" ng-click="submitPostSecondary($event)"
+                        ng-class="{'disabled': reason.primary=='something_else' && reason.secondary.length==0}">Submit</button>
+              </div>
+            </div>
+          </section>
+
+
+
+          <!-- COMMENTS -->
+          <section ng-if="_.contains(['comment', 'commentAction'], concernReportType)">
+            <p class="alert alert-danger my-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
+
+            <div class="options primary_reason" ng-if="!reason.primarySubmitted && !reason.success">
+              <p class="heading_question">
+                Help us understand the problem. Why are you reporting <b>{{profileForConcernReport.username}}'s</b> comment?
+              </p>
+
+              <div class="container">
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="suspicious_or_spam" />
+                    <span class="checkmark"></span>
+                    <span class="text">It's suspicious or spam</span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="abusive" />
+                    <span class="checkmark"></span>
+                    <span class="text">It's abusive or harmful </span>
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="option">
+                    <input type="radio" name="reason_primary" ng-model="reason.primary" value="something_else" />
+                    <span class="checkmark"></span>
+                    <span class="text">I want to report something else</span>
+
+                    <textarea class="form-control"
+                      name="moreInfo"
+                      placeholder="Can you tell us anything else to help us understand your concern?"
+                      ng-model="reason.moreInfo"
+                      ng-if="reason.primary=='something_else'"></textarea>
+                  </label>
+                </div>
+
+                <div class="buttons">
+                  <button class="btn btn-block btn-success" ng-click="submitCommentPrimary($event)"
+                          ng-class="{'disabled': reason.primary.length == 0}">Submit</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="secondary_reason" ng-if="reason.primarySubmitted && (reason.primary.length > 0) && (reason.success != true)">
+
+              <!-- Suspicious or spam -->
+              <div ng-if="reason.primary=='suspicious_or_spam'">
+                <div class="options">
+                  <p class="heading_question">How is <b>{{profileForConcernReport.username}}'s</b> comment suspicious or generating spam?</p>
+
+                  <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="fake_account" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's from a fake account</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="harmful_site_link" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's sharing links to potentially harmful, malicious or phishing sites</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="posting_spam" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's posting spam</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="suspicious_something_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's something else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- Abusive -->
+              <div ng-if="reason.primary=='abusive'">
+                <div class="options">
+                  <p class="heading_question">How is <b>{{profileForConcernReport.username}}'s</b> comment offensive or abusive?</p>
+
+                  <div class="container">
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="disrespectful" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's disrespectful or offensive</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="harassment_or_threats" />
+                        <span class="checkmark"></span>
+                        <span class="text">It includes targeted harassment or threats</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="category_hate" />
+                        <span class="checkmark"></span>
+                        <span class="text">It directs hate against a protected category (e.g. race, religion, gender, orientation, disability)</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="threat_of_violence" />
+                        <span class="checkmark"></span>
+                        <span class="text">It threatens violence or physical harm</span>
+                      </label>
+                    </div>
+                    <div class="form-group">
+                      <label class="option">
+                        <input type="radio" name="reason_secondary" ng-model="reason.secondary" value="offensive_something_else" />
+                        <span class="checkmark"></span>
+                        <span class="text">It's something else</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="container buttons d-flex justify-content-between">
+                <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Cancel</button>
+                <button class="btn btn-success w-40" ng-click="submitCommentSecondary($event)"
+                        ng-class="{'disabled': reason.primary=='something_else' && reason.secondary.length==0}">Submit</button>
+              </div>
+            </div>
+          </section>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

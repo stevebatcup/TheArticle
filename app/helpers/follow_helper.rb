@@ -5,6 +5,7 @@ module FollowHelper
 			stamp: follow.created_at.to_i,
 			date: follow.created_at.strftime("%e %b"),
 			follower: {
+				id: follow.user.id,
 				displayName: follow.user.display_name,
 				username: follow.user.username,
 				image: follow.user.profile_photo.url(:square)

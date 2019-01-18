@@ -4,9 +4,8 @@ class TheArticle.SearchBox extends TheArticle.DesktopPageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
 	  '$timeout'
-	  'EditorsPick'
+	  '$compile'
 	]
 
 	init: ->

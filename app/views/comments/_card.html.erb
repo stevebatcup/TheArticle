@@ -16,8 +16,11 @@
 				<p ng-bind-html="item.commentAction.comment"></p>
 			</div>
 		</div>
-
-		<%= render 'common/options_menu' %>
+		<% if user_signed_in? %>
+			<div ng-if="item.commentAction.user.id != <%= current_user.id %>">
+				<%= render partial: 'common/options_menu', locals: { from: :commentAction } %>
+			</div>
+		<% end %>
 	</div>
 
 	<%= render 'shares/card' %>

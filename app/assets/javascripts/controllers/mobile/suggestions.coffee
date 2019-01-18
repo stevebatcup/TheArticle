@@ -3,8 +3,10 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$timeout'
+	  '$compile'
 	]
 
 	init: ->

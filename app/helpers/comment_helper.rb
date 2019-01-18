@@ -5,6 +5,7 @@ module CommentHelper
 		exchange = share.article.exchanges.first
 		{
 			type: 'commentAction',
+			id: comment.id,
 			stamp: comment.created_at.to_i,
 			date: comment.created_at.strftime("%e %b"),
 			share: share_info_as_json(share, true),
@@ -44,6 +45,7 @@ module CommentHelper
 				date: comment.created_at.strftime("%e %b"),
 				action: (comment.parent_id.nil? ? "Commented on a post by #{share.user.display_name}" : "Replied to a comment by #{comment.parent.user.display_name}"),
 				user: {
+					id: comment.user.id,
 					displayName: comment.user.display_name,
 					username: comment.user.username,
 					image: comment.user.profile_photo.url(:square),
@@ -56,6 +58,7 @@ module CommentHelper
 	def comment_for_tpl(comment)
 		{
 			id: comment.id,
+			userId: comment.user.id,
 	    path: profile_path(slug: comment.user.slug),
 	    displayName: comment.user.display_name,
 			username: comment.user.username,

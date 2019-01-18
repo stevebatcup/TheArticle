@@ -1,4 +1,7 @@
 class TheArticle.PageController extends TheArticle.NGController
+	@register window.App
+	@$inject: ['$compile']
+
 	constructor: ->
 		super
 		@showCookieNotice() if $('body').hasClass('show_cookie_notice')
@@ -51,48 +54,6 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	cookieAcceptanceError: =>
 		@alert "Sorry there has been an error. Please try again.", "Error"
-
-	# bindJoinForm: =>
-	# 	$("#join_form_modal").on 'shown.bs.modal', =>
-	# 		$('.wrapper, #ads_top').hide()
-
-	# 	$("#join_form_modal").on 'hide.bs.modal', =>
-	# 		$('.wrapper, #ads_top').show()
-
-	# 	$form = $('#join_form')
-	# 	$('#join_button', $form).on 'click', (e) =>
-	# 		e.preventDefault()
-	# 		$('p#form_error', $form).text('').hide()
-	# 		error = false
-	# 		$('.has_error', $form).removeClass('has_error')
-	# 		if $form.find('input[name=first_name]').val().length is 0
-	# 			$form.find('input[name=first_name]').addClass('has_error')
-	# 			error = "Please fill in your first name"
-	# 		if $form.find('input[name=last_name]').val().length is 0
-	# 			$form.find('input[name=last_name]').addClass('has_error')
-	# 			error = "Please fill in your last name" unless error
-	# 		if !@isValidEmailAddress $form.find('input[name=email]').val()
-	# 			$form.find('input[name=email]').addClass('has_error')
-	# 			error = "Please fill in a valid email address" unless error
-	# 		if !$form.find('input[name=tandcs]').is(':checked')
-	# 			$form.find('input[name=tandcs]').parent().addClass('has_error')
-	# 			error = "Please agree to our terms and conditions before proceeding" unless error
-
-	# 		if error
-	# 			$('p#form_error', $form).text(error).show()
-	# 		else
-	# 			@postJSON "/register",
-	# 				first_name: $form.find('input[name=first_name]').val()
-	# 				last_name: $form.find('input[name=last_name]').val()
-	# 				email: $form.find('input[name=email]').val()
-	# 			, (response) =>
-	# 				gtag('event', 'Join', { event_category: 'Join', event_action: 'JoinRequest', event_label: 'form'}) if typeof gtag is 'function'
-	# 				msg = "Thanks for registering your details with TheArticle."
-	# 				$('.form_ready').hide()
-	# 				$('#form_success').text(msg).show()
-	# 				$('#form_close').show()
-	# 			, (response) =>
-	# 				$('p#form_error', $form).text(response.message).show()
 
 	bindContactForm: =>
 		$form = $('#contact_form')
@@ -263,38 +224,33 @@ class TheArticle.PageController extends TheArticle.NGController
 		client = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
 		Math.max(scroll, offset, client)
 
-	# groupFollowNotifications: (notifications) =>
-	# 	person = notifications[0].followerName
-	# 	count = notifications.length - 1
-	# 	countSentence = if count is 1 then "#{count} other" else "#{count} others"
-	# 	body = if count > 0 then "<b>#{person}</b> and #{countSentence} followed you" else "<b>#{person}</b> followed you"
-	# 	new @Notification
-	# 		id: notifications[0].id
-	# 		itemId: notifications[0].itemId
-	# 		isSeen: notifications[0].isSeen
-	# 		happenedAt: notifications[0].happenedAt
-	# 		date: notifications[0].date
-	# 		body: body
-	# 		type: 'follow'
-	# 		specificType: ''
-	# 		stamp: notifications[0].stamp
+	reportProfile: ($event, profile) =>
+		$event.preventDefault()
+		@openConcernReportModal('profile', profile)
 
-	# groupOpinionNotifications: (notifications, agreeDisagree='agree') =>
-	# 	person = notifications[0].opinionatorName
-	# 	count = notifications.length - 1
-	# 	countSentence = if count is 1 then "#{count} other" else "#{count} others"
-	# 	body = if count > 0 then "<b>#{person}</b> and #{countSentence} #{agreeDisagree}d with your post" else "<b>#{person}</b> #{agreeDisagree}d with your post"
-	# 	new @Notification
-	# 		id: notifications[0].id
-	# 		itemId: notifications[0].itemId
-	# 		isSeen: notifications[0].isSeen
-	# 		happenedAt: notifications[0].happenedAt
-	# 		date: notifications[0].date
-	# 		body: body
-	# 		type: 'opinion'
-	# 		specificType: agreeDisagree
-	# 		stamp: notifications[0].stamp
+	reportPost: ($event, item) =>
+		$event.preventDefault()
+		item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
+		@openConcernReportModal('post', item)
 
-	# reorderNotificationSet: (set) =>
-	# 	set.sort (a,b) =>
-	# 		new Date(b.stamp*1000) - new Date(a.stamp*1000)
+	reportCommentAction: ($event, item) =>
+		$event.preventDefault()
+		@openConcernReportModal('commentAction', item)
+
+	reportComment: ($event, item) =>
+		$event.preventDefault()
+		@openConcernReportModal('comment', item)
+
+	openConcernReportModal: (type='post', resource) =>
+		# console.log resource
+		if @rootScope.concernReportModal
+			@rootScope.concernReportModal.modal('show')
+		else
+			tpl = $("#concernReport").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			@rootScope.concernReportModal = $("#concernReportModal").modal()
+		@timeout =>
+			@rootScope.$broadcast 'init_concern_report', { type: type, resource: resource }
+		, 250
+

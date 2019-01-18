@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_085837) do
+ActiveRecord::Schema.define(version: 2019_01_17_194722) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -92,6 +92,21 @@ ActiveRecord::Schema.define(version: 2019_01_16_085837) do
     t.datetime "updated_at", null: false
     t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "concern_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "reporter_id"
+    t.integer "reported_id"
+    t.string "primary_reason"
+    t.string "secondary_reason"
+    t.text "more_info"
+    t.integer "sourceable_id"
+    t.string "sourceable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reported_id"], name: "index_concern_reports_on_reported_id"
+    t.index ["reporter_id"], name: "index_concern_reports_on_reporter_id"
+    t.index ["sourceable_type", "sourceable_id"], name: "index_concern_reports_on_sourceable_type_and_sourceable_id"
   end
 
   create_table "exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

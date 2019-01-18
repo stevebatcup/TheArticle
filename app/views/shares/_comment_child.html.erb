@@ -2,17 +2,17 @@
   <div class="user_info d-flex justify-content-between align-items-start">
 
     <div class="user_info_inner d-flex align-items-start">
-      <a href="{{comment.data.path}}">
+      <a href="{{child.data.path}}">
         <img ng-src="{{child.data.photo}}" alt="Image of {{child.data.firstName}}" class="rounded-circle mr-3" />
       </a>
       <div class="comment_text">
         <h4>
-          <a href="{{comment.data.path}}">
-            {{comment.data.displayName}}
-            <span class="text-muted">{{comment.data.username}}</span> &bullet;
+          <a href="{{child.data.path}}">
+            {{child.data.displayName}}
+            <span class="text-muted">{{child.data.username}}</span> &bullet;
             <span>
-              <time datetime="{{comment.data.timeActual}}">
-            {{comment.data.timeHuman}}
+              <time datetime="{{child.data.timeActual}}">
+            {{child.data.timeHuman}}
               </time>
             </span>
           </a>
@@ -20,8 +20,11 @@
         <p class="follow_summary mb-0" ng-bind-html="child.data.body"></p>
       </div>
     </div>
-
-    <%= render 'common/options_menu' %>
+    <% if user_signed_in? %>
+      <div ng-if="child.data.userId != <%= current_user.id %>">
+        <%= render partial: 'common/options_menu', locals: { from: :childComment } %>
+      </div>
+    <% end %>
   </div>
 
   <div class="reply_area pl-5" ng-if="item.canInteract == 'yes'">

@@ -1,6 +1,7 @@
 class Comment < ActiveRecord::Base
   has_many :feeds, as: :actionable
   has_many :notifications, as: :eventable
+  has_many :concern_reports, as: :sourceable
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
 
   validates :body, :presence => true

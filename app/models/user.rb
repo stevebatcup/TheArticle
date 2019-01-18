@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :opinions
   has_many :feeds
   has_many :notifications
+  has_many :concern_reports, as: :sourceable
 
   include Suggestable
   include Shareable

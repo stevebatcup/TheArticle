@@ -3,10 +3,12 @@ class TheArticle.SearchResults extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
 	  '$timeout'
 	  '$sce'
+	  '$compile'
 	]
 
 	init: ->

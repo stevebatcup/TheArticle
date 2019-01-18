@@ -1,5 +1,6 @@
 class Share < ApplicationRecord
   has_many :feeds, as: :actionable
+	has_many :concern_reports, as: :sourceable
 	acts_as_commentable
 	validates_presence_of	:article_id, :user_id
 	has_many	:opinions

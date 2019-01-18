@@ -3,9 +3,11 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  '$compile'
 	]
 
 	init: ->

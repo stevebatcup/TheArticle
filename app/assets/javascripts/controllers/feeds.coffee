@@ -314,4 +314,17 @@ class TheArticle.Feeds extends TheArticle.NGController
 					item.canInteract = 'not_followed'
 			, 750
 
+	openConcernReportModal: (type='post', resource) =>
+		# console.log resource
+		if @rootScope.concernReportModal
+			@rootScope.concernReportModal.modal('show')
+		else
+			tpl = $("#concernReport").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			@rootScope.concernReportModal = $("#concernReportModal").modal()
+		@timeout =>
+			@rootScope.$broadcast 'init_concern_report', { type: type, resource: resource }
+		, 250
+
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

@@ -6,6 +6,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	  '$http'
 	  '$timeout'
 	  '$element'
+	  '$compile'
 	]
 
 	init: ->

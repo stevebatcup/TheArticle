@@ -5,7 +5,7 @@
 		<section class="container notifications_page" id="feed">
 			<div class="row">
 				<div class="ajax_loading loading_notifications" ng-if="!notifications.loaded">Loading notifications...</div>
-				<div ng-if="notifications.loaded" class="results_block row notifications"
+				<div ng-if="notifications.loaded" class="results_block pt-3 notifications"
 						ng-class="{'empty': notifications.data.length == 0}">
 
 					<p class="col-12 empty_resource" ng-if="notifications.data.length == 0">

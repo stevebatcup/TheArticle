@@ -6,6 +6,7 @@ class TheArticle.Follows extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$timeout'
+	  '$compile'
 	  'EditorsPick'
 	]
 

@@ -6,6 +6,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 	  '$http'
 	  '$timeout'
 	  '$element'
+	  '$compile'
 	]
 
 	init: ->

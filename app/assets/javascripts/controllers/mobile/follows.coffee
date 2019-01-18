@@ -7,7 +7,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	  '$http'
 	  '$element'
 	  '$timeout'
-	  'EditorsPick'
+	  '$compile'
 	]
 
 	init: ->

@@ -4,6 +4,7 @@ class TheArticle.Auth extends TheArticle.PageController
 	@$inject: [
 	  '$scope'
 	  '$http'
+	  '$compile'
 	]
 
 	init: ->

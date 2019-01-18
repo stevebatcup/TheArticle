@@ -222,4 +222,11 @@
     </div>
   </div>
 </footer>
+
+<% if user_signed_in? %>
+  <script id="concernReport" type="script/x-mustache">
+    <%= render partial: 'concern_reports/modal' %>
+  </script>
+<% end %>
+
 <%= render 'layouts/foot' %>

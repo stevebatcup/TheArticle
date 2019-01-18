@@ -3,8 +3,28 @@
 		<i class="fas fa-chevron-circle-down"></i>
 	</a>
   <div class="dropdown-menu dropdown-menu-right">
-    <a class="dropdown-item" href="#" ng-click="report()">Report</a>
     <a class="dropdown-item" href="#" ng-click="block()">Block</a>
     <a class="dropdown-item" href="#" ng-click="mute()">Mute</a>
+    <% if from == :share %>
+    <a class="dropdown-item" href="#" ng-click="reportPost($event, item)">
+        <span>Report post</span>
+    </a>
+    <% elsif from == :commentAction %>
+    <a class="dropdown-item" href="#" ng-click="reportCommentAction($event, item)">
+        <span>Report comment</span>
+    </a>
+    <% elsif from == :opinionAction %>
+    <a class="dropdown-item" href="#" ng-click="reportPost($event, item)">
+        <span>Report comment</span>
+    </a>
+    <% elsif from == :comment %>
+    <a class="dropdown-item" href="#" ng-click="reportComment($event, comment.data)">
+        <span>Report comment</span>
+    </a>
+    <% elsif from == :childComment %>
+    <a class="dropdown-item" href="#" ng-click="reportComment($event, child.data)">
+        <span>Report comment</span>
+    </a>
+    <% end %>
   </div>
 </nav>

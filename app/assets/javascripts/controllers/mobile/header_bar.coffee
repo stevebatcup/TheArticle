@@ -3,8 +3,8 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 		'$scope'
-		'$http'
 		'$rootScope'
+		'$http'
 		'$timeout'
 		'$interval'
 		'$compile'
@@ -12,6 +12,10 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	init: ->
 		@scope.myProfile = window.location.pathname is "/my-profile"
+		@scope.userProfile = false
+		if !@scope.myProfile
+			@scope.userProfile = window.location.pathname.indexOf("profile/") > 0
+
 		if @isDevelopment()
 			@timeout =>
 				@bindFixedNavScrolling()
@@ -24,7 +28,6 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 			$win = $(window)
 			$header = $('header#main_header')
 			$headerPosition = Math.round $header.offset().top
-			# console.log $headerPosition
 			$win.on 'scroll', =>
 				scrollTop = document.scrollingElement.scrollTop
 				if scrollTop >= $headerPosition
@@ -33,11 +36,9 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 					$('body').removeClass('fixed-header')
 
 	bindAppHeaderFixedScrolling: =>
-		# console.log 'bindAppHeaderFixedScrolling'
 		$win = $(window)
 		$nav = $('nav#member_options')
 		$navPosition = Math.round $nav.offset().top
-		# console.log $navPosition
 		scrollPosition = 0
 		scrollingDirection = 'down'
 		$win.on 'scroll', =>

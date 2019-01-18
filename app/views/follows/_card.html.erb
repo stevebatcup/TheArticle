@@ -15,7 +15,10 @@
 				<p><b>followed {{item.followed.displayName}}</b></p>
 			</div>
 		</div>
-
-		<%= render 'common/options_menu' %>
+		<% if user_signed_in? %>
+			<div ng-if="item.follower.id != <%= current_user.id %>">
+				<%= render partial: 'common/options_menu', locals: { from: :follow } %>
+			</div>
+		<% end %>
 	</div>
 </div>

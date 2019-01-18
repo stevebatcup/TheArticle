@@ -61,4 +61,6 @@ json.set! :profile do
 		json.validPoints @user.ratingsSummary[:valid_points]
 		json.agree @user.ratingsSummary[:agree]
 	end
+
+	json.imFollowing user_signed_in? && (current_user != @user) ? @user.is_followed_by(current_user) : false
 end
