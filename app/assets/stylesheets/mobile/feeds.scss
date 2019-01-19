@@ -10,6 +10,7 @@ input#suggestion_search {
 
 .feed-listing {
 	margin-bottom: 10px;
+	border-bottom: 1px solid $grey;
 
 	&:last-child {
 		padding-bottom: 0 !important;
@@ -432,6 +433,59 @@ input#suggestion_search {
 			p {
 				font-size: 0.85em;
 			}
+		}
+	}
+
+	.shared_followers {
+		font-size: 0.68em;
+		margin-top: 8px;
+		position: relative;
+		overflow: hidden;
+
+		div {
+			float: left;
+
+			&.single {
+				width: 25px;
+
+				img {
+					top: 2px;
+				}
+			}
+
+			&.double {
+				width: 49px;
+
+				img {
+					top: 4px;
+				}
+			}
+
+			img {
+				width: 23px;
+				height: 23px;
+				position: relative;
+
+				&.over {
+					z-index: 2;
+					right: -5px;
+				}
+
+				&.under {
+					z-index: 1;
+					left: -7px;
+				}
+			}
+		}
+
+		p {
+			line-height: 1.3em;
+			float: left;
+			width: 75%;
+			margin-left: 7px;
+			margin-bottom: 5px;
+			position: relative;
+			top: 5px;
 		}
 	}
 }

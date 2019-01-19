@@ -13,6 +13,7 @@ json.set! :suggestions do
 				json.coverPhoto user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 				json.imFollowing user.is_followed_by(current_user)
 				json.isFollowingMe current_user.is_followed_by(user)
+				json.sharedFollowers generate_shared_followers_sentence(current_user, user)
 			end
 		end
 	end
@@ -31,6 +32,7 @@ json.set! :suggestions do
 				json.coverPhoto user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 				json.imFollowing user.is_followed_by(current_user)
 				json.isFollowingMe current_user.is_followed_by(user)
+				json.sharedFollowers generate_shared_followers_sentence(current_user, user)
 			end
 		end
 	end
@@ -46,6 +48,7 @@ json.set! :suggestions do
 				json.coverPhoto user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 				json.imFollowing user.is_followed_by(current_user)
 				json.isFollowingMe current_user.is_followed_by(user)
+				json.sharedFollowers generate_shared_followers_sentence(current_user, user)
 			end
 		end
 	end

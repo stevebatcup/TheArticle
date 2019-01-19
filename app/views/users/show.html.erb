@@ -365,20 +365,20 @@
 					<div class="card-header">
 						<h5 class="card-title">Who to follow on TheArticle</h5>
 					</div>
-					<div class="card-body pt-2 px-2">
+					<div class="card-body pt-0 px-0">
 
-						<div class="container pt-2 px-1">
+						<div class="">
 							<div class="show active"
 								id="suggestions_for_you"
 								role="tabpanel"
 								aria-labelledby="suggestions-sub-tab-for_you">
-								<div ng-repeat="item in filterSuggestionListForBox(suggestions)" class="feed-listing">
+								<div ng-repeat="item in filterSuggestionListForBox(suggestions)" class="feed-listing mb-3">
 									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
 								</div>
 							</div>
 
-							<div ng-if="suggestions.length > 3">
-								<a href="#" ng-click="openSuggestionsModal($event)">See all suggestions</a>
+							<div ng-if="suggestions.length > 3" class="px-3">
+								<a href="#" ng-click="openSuggestionsModal($event)" class="text-green">See all suggestions</a>
 							</div>
 						</div>
 					</div>

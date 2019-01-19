@@ -87,4 +87,37 @@ module ProfileHelper
 			"Also highly rated <a href='#{article_path(article)}'>#{article.title}</a>"
 		end
 	end
+
+	def generate_shared_followers_sentence(current_user, user)
+		members = []
+		sentence = ""
+		current_user.followings.each do |following|
+			followee = following.followed
+			members << followee if followee.followings.map(&:followed_id).include?(user.id)
+		end
+
+	  if members.any?
+	  	if members.length == 1
+	  		sentence << "<div class='single'>
+	  									<img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' />
+	  								</div>
+  									<p>Followed by <b>#{members[0].display_name}</b></p>"
+	  	elsif members.length == 2
+	  		sentence << "<div class='double'>
+		  									<img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' />
+			  								<img src='#{members[1].profile_photo.url(:square)}'' class='rounded-circle under' />
+			  							</div>
+		  								<p>Followed by <b>#{members[0].display_name}</b> and <b>#{members[1].display_name}</b></p>"
+	  	else
+	  		other_count = members.size - 2
+	  		sentence << "<div class='double'>
+		  									<img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' />
+			  								<img src='#{members[1].profile_photo.url(:square)}'' class='rounded-circle under' />
+			  							</div>
+			  							<p>Followed by <b>#{members[0].display_name}</b>, <b>#{members[1].display_name}</b> and #{other_count} other #{pluralize(other_count, 'person')} you know</p>"
+			end
+		end
+
+		sentence
+	end
 end

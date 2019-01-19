@@ -41,11 +41,13 @@
 			<div class="py-0 w-100">
 				<p class="card-text">
 					<a href="{{ item.path }}">
-						<small>{{ item.bio }}</small></p>
+						<small>{{ item.bio }}</small>
 					</a>
+				</p>
 			</div>
+
 		</div>
-
-
 	</div>
+
+	<div class="shared_followers w-100" ng-if="item.sharedFollowers.length > 0" ng-bind-html="item.sharedFollowers"></div>
 </div>
