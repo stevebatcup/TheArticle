@@ -6,7 +6,7 @@ module ShareHelper
 			date: share.created_at.strftime("%e %b"),
 			commentsLoaded: false,
 			opinionsLoaded: false,
-			commentCount: share.comment_count,
+			commentCount: user_signed_in? ? share.comment_count(current_user) : share.comment_count(nil),
 			agreeCount: share.agree_count,
 			disagreeCount: share.disagree_count,
 			post: share.post,

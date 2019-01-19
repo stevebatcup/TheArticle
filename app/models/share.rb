@@ -48,8 +48,18 @@ class Share < ApplicationRecord
 		where('rating_well_written > 0 OR rating_valid_points > 0 OR rating_agree > 0')
 	end
 
-	def comment_count
-		self.root_comments.size
+	def comment_count(current_user=nil)
+		if current_user
+			commentsOk = []
+			self.root_comments.each do |root_comment|
+				unless  current_user.is_comment_disallowed?(root_comment)
+					commentsOk << root_comment
+				end
+			end
+			commentsOk.size
+		else
+			self.root_comments.size
+		end
 	end
 
 	def agree_count

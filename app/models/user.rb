@@ -122,11 +122,25 @@ class User < ApplicationRecord
     self.blocks.where(status: :active).map(&:blocked_id).include?(user.id)
   end
 
+  def blocked_list
+    self.blocks.where(status: :active)
+  end
+
   def blocked_id_list
-    self.blocks.where(status: :active).map(&:blocked_id)
+    blocked_list.map(&:blocked_id)
   end
 
   def muted_id_list
     self.mutes.where(status: :active).map(&:blocked_id)
+  end
+
+  def is_comment_disallowed?(comment)
+    # false
+    if self.has_blocked(comment.user)
+      true
+    else
+      blocked_usernames = self.blocked_list.map(&:blocked).map(&:username)
+      blocked_usernames.any? {|username| comment.body.include?(username)}
+    end
   end
 end
