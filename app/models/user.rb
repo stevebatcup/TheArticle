@@ -121,4 +121,12 @@ class User < ApplicationRecord
   def has_blocked(user)
     self.blocks.where(status: :active).map(&:blocked_id).include?(user.id)
   end
+
+  def blocked_id_list
+    self.blocks.where(status: :active).map(&:blocked_id)
+  end
+
+  def muted_id_list
+    self.mutes.where(status: :active).map(&:blocked_id)
+  end
 end

@@ -15,7 +15,7 @@ class FrontPageController < ApplicationController
 			format.json do
 				page = params[:page] || 1
 				page = page.to_i
-				per_page = 5
+				per_page = 10
 				@feeds = Feed.fetch_for_followings_of_user(current_user, page, per_page)
 				@suggestions = current_user.paginated_pending_suggestions(page, 2)
 				@total_feeds = Feed.fetch_for_followings_of_user(current_user, 1, 0).size if page == 1
