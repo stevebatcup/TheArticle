@@ -10,7 +10,7 @@
               <a class="nav-link nav-icon-text text-black pl-0" href="/front-page" id="nav_link_front_page">
                 <span class="pr-1 pt-1">
                   <i class="far fa-newspaper"></i>
-                </span> Front Page
+                </span> My Home
               </a>
             </li>
           <% else %>
@@ -85,23 +85,23 @@
                     <span class="link">View profile</span></a>
                   </h6>
                 </h6>
-                <a class="dropdown-item py-2 bg-white notification-item" href="<%= front_page_path %>">
+                <a class="dropdown-item py-2 bg-white" href="<%= front_page_path %>">
                   <i class="far fa-newspaper mr-2"></i>
-                  Front page
+                 My Home
                 </a>
-                <a class="dropdown-item py-2 bg-white notification-item" href="<%= my_profile_path %>?panel=following">
+                <a class="dropdown-item py-2 bg-white" href="<%= my_profile_path %>?panel=following">
                   <i class="fas fa-angle-double-right mr-2"></i>
-                  Following (4)
+                  Following
                 </a>
-                <a class="dropdown-item py-2 bg-white notification-item" href="<%= my_profile_path %>?panel=followers">
+                <a class="dropdown-item py-2 bg-white" href="<%= my_profile_path %>?panel=followers">
                   <i class="fas fa-angle-double-left mr-2"></i>
-                  Followers (12)
+                  Followers
                 </a>
-                <a class="dropdown-item py-2 bg-white notification-item" href="/account-settings">
+                <a class="dropdown-item py-2 bg-white" href="/account-settings">
                   <i class="fas fa-cogs mr-2"></i>
                   Account settings
                 </a>
-                <a class="dropdown-item py-2 bg-white notification-item" href="<%= destroy_user_session_path %>" data-method="delete">
+                <a class="dropdown-item py-2 bg-white" href="<%= destroy_user_session_path %>" data-method="delete">
                   <i class="fas fa-sign-out-alt mr-2"></i>
                   Sign out
                 </a>
