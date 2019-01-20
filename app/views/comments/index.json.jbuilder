@@ -1,5 +1,5 @@
 comments = []
-@share.root_comments.each do |root_comment|
+@comments.each do |root_comment|
 	unless user_signed_in? && current_user.is_comment_disallowed?(root_comment)
 		# main comment
 		item = { data: comment_for_tpl(root_comment) }

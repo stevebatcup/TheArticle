@@ -173,7 +173,30 @@
 		    </form>
 		  </div>
 
-		  <div class="comments px-3">
+		  <div class="comments px-3 navbar">
+		  	<div class="order_by_dropdown dropdown">
+		  	  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		  	    {{commentOrderText(item.orderBy)}} <i class="fas fa-chevron-down"></i>
+		  	  </a>
+		  	  <div class="dropdown-menu">
+		  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_relevant')">
+		  				<i class="fas fa-check tick" ng-if="item.orderBy == 'most_relevant'"></i>
+		  				<h6>Most relevant</h6>
+		  				<p>Shows people you follow’s comments and the most engaging comments first</p>
+		  	    </div>
+		  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_recent')">
+		  				<i class="fas fa-check tick" ng-if="item.orderBy == 'most_recent'"></i>
+		  				<h6>Most recent</h6>
+		  				<p>Shows all comments, with the oldest first</p>
+		  	    </div>
+		  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'oldest')">
+		  				<i class="fas fa-check tick" ng-if="item.orderBy == 'oldest'"></i>
+		  				<h6>Oldest</h6>
+		  				<p>Shows all comments, with the oldest first</p>
+		  	    </div>
+		  	  </div>
+		  	</div>
+
 		    <ol class="comment-list">
 		    	<li ng-repeat="comment in filterCommentsByLimit(item)"
 		    				class="comment parent feed-listing"

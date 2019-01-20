@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
 	def index
-		@share = Share.find(params[:share_id])
+		@orderBy = params[:order_by] ||= :most_relevant
+		share = Share.find(params[:share_id])
+		@comments = Comment.order_list_by(share.root_comments, @orderBy.to_sym, user_signed_in? ? current_user : nil)
 	end
 
 	def create

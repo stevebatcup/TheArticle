@@ -8,6 +8,7 @@ module CommentHelper
 			id: comment.id,
 			stamp: comment.created_at.to_i,
 			date: comment.created_at.strftime("%e %b"),
+			orderBy: :most_relevant,
 			share: share_info_as_json(share, true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,

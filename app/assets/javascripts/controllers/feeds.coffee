@@ -87,15 +87,15 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			count
 
-	showComments: ($event, item, startWriting=false) =>
-		$event.preventDefault()
+	showComments: ($event=null, item, startWriting=false) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('view comments')
 		else if (item.canInteract != 'yes') and (startWriting is true)
 			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
 		else
 			if !item.share.commentsLoaded
-				@Comment.query({share_id: item.share.id}).then (comments) =>
+				@Comment.query({share_id: item.share.id, order_by: item.orderBy}).then (comments) =>
 						item.comments = comments
 						@showCommentsSuccess(item, startWriting, $event)
 						@timeout =>
@@ -103,6 +103,22 @@ class TheArticle.Feeds extends TheArticle.PageController
 						, 750
 			else
 				@showCommentsSuccess(item, startWriting, $event)
+
+	commentOrderText: (orderBy) =>
+		switch orderBy
+			when 'most_relevant' then 'Most relevant'
+			when 'most_recent' then 'Most recent'
+			when 'oldest' then 'Oldest'
+
+	reorderComments: ($event, item, orderBy) =>
+		$event.preventDefault() if $event?
+		item.orderBy = orderBy
+		@resetComments(item)
+
+	resetComments: (item) =>
+		console.log item.orderBy
+		item.share.commentsLoaded = false
+		@showComments(null, item)
 
 	showCommentsSuccess: (item, focusTextBox, $event) =>
 		item.share.showComments = true

@@ -10,6 +10,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	  '$compile'
 	  '$ngConfirm'
 	  'Feed'
+		'Comment'
+		'Opinion'
 	]
 
 	init: ->

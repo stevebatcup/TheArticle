@@ -72,4 +72,24 @@ class Comment < ActiveRecord::Base
     commentable_str.constantize.find(commentable_id)
   end
 
+  def self.order_list_by(comments, order_by=:most_relevant, current_user=nil)
+    if order_by == :most_relevant
+      unless current_user.nil?
+        following_ids = current_user.followings.map(&:followed_id)
+        fol_comments = comments.select { |c| following_ids.include?(c.user_id) }
+        fol_comments.sort_by! { |c| [-c.children.size, -(c.created_at.to_i)] }.to_a
+        non_fol_comments = comments.reject { |c| following_ids.include?(c.user_id) }
+        non_fol_comments.sort_by! { |c| [-c.children.size, -(c.created_at.to_i)] }.to_a
+        list = fol_comments + non_fol_comments
+      else
+        list = comments.sort_by { |c| -c.children.size }.to_a
+      end
+    elsif order_by == :most_recent
+      list = comments.order(created_at: :desc).to_a
+    elsif order_by == :oldest
+      list = comments.order(created_at: :asc).to_a
+    end
+    list
+  end
+
 end
