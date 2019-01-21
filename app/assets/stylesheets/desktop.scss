@@ -11,6 +11,8 @@
 @import "croppie";
 @import "angular1-confirm/css/angular-confirm.css";
 @import "angular-wizard";
+@import "desktop/page_transitions";
+@import "desktop/nav_menus";
 @import "desktop/auth";
 @import "desktop/layout";
 @import "desktop/modals";
@@ -25,6 +27,5 @@
 @import "desktop/front_page";
 @import "desktop/notifications";
 @import "desktop/concern_reports";
-
 
 @import "vendor/input-range";

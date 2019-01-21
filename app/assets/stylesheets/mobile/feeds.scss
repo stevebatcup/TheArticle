@@ -397,6 +397,25 @@ input#suggestion_search {
 		height: 10vw;
 	}
 
+	&.account-settings-feed {
+		border-bottom: none;
+
+		.card {
+			border-top: 1px solid rgba(0, 0, 0, 0.125);
+			border-left: 1px solid rgba(0, 0, 0, 0.125);
+			border-right: 1px solid rgba(0, 0, 0, 0.125);
+			padding: 0 !important;
+
+			img.feed_image {
+				position: relative;
+				top: -0.9em;
+				left: 5px;
+				width: 13vw;
+				height: 13vw;
+			}
+		}
+	}
+
 	.follow_btn {
 		outline: none;
     font-size: 0.6em;

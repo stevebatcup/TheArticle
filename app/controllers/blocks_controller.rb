@@ -1,4 +1,10 @@
 class BlocksController < ApplicationController
+	before_action :authenticate_user!
+
+	def index
+		@blocks = current_user.blocked_list
+	end
+
 	def create
 		current_user.blocks << Block.new({blocked_id: params[:id], status: :active})
 		if current_user.save

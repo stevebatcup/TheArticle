@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   post 'my-profile',                           to: 'profile_wizard#create', as: :save_profile_wizard
 
   get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
+  get 'account-settings',                      to: 'account_settings#edit'
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile/:id',                        to: 'users#update'
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
   delete 'user_followings/:id',                to: 'user_followings#destroy'
   get 'follow-suggestions',                    to: 'profile_suggestions#index'
   get 'suggestion-search',                     to: 'profile_suggestions#index'
+  get 'connects',                              to: 'connects#index'
 
   get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following
@@ -76,10 +78,14 @@ Rails.application.routes.draw do
 
   post 'concern-reports',                      to: 'concern_reports#create'
 
+  get 'mutes',                                 to: 'mutes#index'
   post 'mutes',                                to: 'mutes#create'
   delete 'mutes/:id',                          to: 'mutes#destroy'
+  get 'blocks',                                to: 'blocks#index'
   post 'blocks',                               to: 'blocks#create'
   delete 'blocks/:id',                         to: 'blocks#destroy'
+
+  put 'update_user',                           to: 'users#update', as: :user
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

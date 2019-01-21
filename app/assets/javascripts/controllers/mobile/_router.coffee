@@ -14,6 +14,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.notificationBadgeCount = 0
 		@bindEvents()
 		@scope.root = @scope
+		@scope.showBackPage = false
 		@timeout =>
 			@getNotificationsBadgeUpdate()
 		, 2000
@@ -33,9 +34,21 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			$(window).scrollTop(0)
 			@openRoute 'followers'
 
+		@scope.$on 'page_moved_forward', ($event, data) =>
+			@scope.showBackPage = true
+			@scope.appPageTitle = data.title
+
+		@scope.$on 'page_moved_back', ($event, data) =>
+			@scope.showBackPage = data.showBack
+			@scope.appPageTitle = data.title
+
 		@interval =>
 			@getNotificationsBadgeUpdate()
 		, 30000
+
+	backPage: ($event) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'page_moving_back'
 
 	bindScrollEvent: =>
 		$win = $(window)
@@ -89,13 +102,17 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.showProfile = true
 		@scope.myProfile = true
 		@scope.appPage = "My Profile"
+		@scope.appPageTitle = "My Profile"
 		@scope.slideout.close()
 
-	openAccountSettings: =>
+	openAccountSettings: (subPage=null) =>
 		@resetAppTabs()
 		@scope.accountSettings = true
 		@scope.appPage = "Account settings"
+		@scope.appPageTitle = "Account settings"
 		@scope.slideout.close()
+		if subPage?
+			@rootScope.$broadcast 'account_subpage_selected', { page: subPage }
 
 	openFollows: (subTab) =>
 		@resetAppTabs()

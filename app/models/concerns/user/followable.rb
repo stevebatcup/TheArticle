@@ -3,6 +3,16 @@ module User::Followable
     base.extend ClassMethods
   end
 
+  def connects
+    @connects ||= begin
+      list = []
+      self.followers.each do |follower|
+        list << follower if follower.is_followed_by(self)
+      end
+      list
+    end
+  end
+
   def is_followed_by(user)
     self.followers.map(&:id).include?(user.id)
   end

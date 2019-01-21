@@ -1,44 +1,598 @@
 <div id="content-account-settings"
-		class="app_page pt-4"
-		ng-controller="AccountSettingsController"
-		ng-show="accountSettings">
-	<div class="container">
-		<h5>Account Settings</h5>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	class="app_page pt-4 slidepage-container"
+	ng-controller="AccountSettingsController"
+	ng-show="accountSettings" ng-cloak>
+
+	<!-- MAIN MENU -->
+	<div class="slidepage-page center current" data-page="main" data-title="Settings" data-level="1">
+		<div class="">
+			<div class="nav_menu">
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'account', 'main')">
+					<h5>Account</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'manage_profile', 'main')">
+					<h5>Manage profile</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'notifications', 'main')">
+					<h5>Notifications</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'communication_preferences', 'main')">
+					<h5>Communication preferences</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'privacy', 'main')">
+					<h5>Privacy &amp; safety</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'find_people', 'main')">
+					<h5>Find people you know</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+			</div>
+		</div>
 	</div>
+
+		<!-- ACCOUNT MENU -->
+		<div class="slidepage-page right" data-page="account" data-title="Account settings" data-level="2">
+			<div class="">
+				<div class="nav_menu">
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'name', 'account')">
+						<div>
+							<h5>Name</h5>
+							<h6>{{ user.fullName }}</h6>
+						</div>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'username', 'account')">
+						<div>
+							<h5>Username</h5>
+							<h6>{{ user.username }}</h6>
+						</div>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'email', 'account')">
+						<div>
+							<h5>Email</h5>
+							<h6>{{ user.email }}</h6>
+						</div>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'password', 'account')">
+						<h5>Password</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_spacer"></div>
+
+					<div class="nav_menu_item danger d-flex justify-content-between" ng-click="forwardToPage($event, 'delete_account', 'account')">
+						<h5>Delete your account</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+		<!-- MANAGE PROFILE -->
+		<div class="slidepage-page right" data-page="manage_profile" data-title="Manage profile" data-level="2">
+			<div class="container pt-3">
+				<p>Manage what information you display to other users</p>
+
+				<!-- Profile card -->
+				<div class="feed-listing account-settings-feed">
+					<div class="py-2 px-2 mb-2 card">
+						<div class="card-img-top cover_photo" ng-if="profile.coverPhoto.image">
+							<img class="w-100" ng-src="{{profile.coverPhoto.image}}" alt="{{profile.displayName}}" />
+						</div>
+
+						<div class="align-items-start d-flex px-2 pt-2">
+							<img ng-src="{{profile.profilePhoto.image}}" class="rounded-circle feed_image mr-2" alt="{{profile.displayName}}" />
+
+							<div class="w-100 pl-2 pb-2 pt-4">
+								<div class="d-flex align-items-start justify-content-between">
+									<div>
+										<h5 class="card-title d-flex justify-content-between mb-1">
+											<span>{{ profile.displayName }}</span>
+										</h5>
+										<h6 class="text-muted mb-1">
+											<span>{{ profile.username }}</span>
+										</h6>
+									</div>
+								</div>
+
+								<div class="py-0 w-100">
+									<p class="card-text">
+										<a href="{{ profile.path }}">
+											<small>{{ profile.bio }}</small>
+										</a>
+									</p>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<p ng-if="user.profileDeactivated"><small>Your profile was deactivated so it is currently hidden</small></p>
+			</div>
+
+			<div class="nav_menu">
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="editProfile($event)">
+					<h5>Edit your profile</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div class="nav_menu_spacer"></div>
+
+				<div ng-if="!user.profileDeactivated" class="nav_menu_item danger d-flex justify-content-between" ng-click="forwardToPage($event, 'deactivate_profile')">
+					<h5>Deactivate your profile</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
+				<div ng-if="user.profileDeactivated" class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'reactivate_profile')">
+					<h5>Reactivate your profile</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- NOTIFICATIONS MENU -->
+		<div class="slidepage-page right" data-page="notifications" data-title="Notifications" data-level="2">
+			<div class="">
+				<div class="nav_menu">
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'notifications_article', 'account')">
+						<h5>On TheArticle</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'notifications_email', 'account')">
+						<h5>Email</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- COMM PREFS MENU -->
+		<div class="slidepage-page right" data-page="communication_preferences" data-title="Communication preferences" data-level="2">
+			<div class="">
+				<div class="nav_menu">
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'communication_preferences_email', 'account')">
+						<h5>Email</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- PRIVACY -->
+		<div class="slidepage-page right" data-page="privacy" data-title="Privacy settings" data-level="2">
+			<div class="">
+				<div class="nav_menu">
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="getConnects(); forwardToPage($event, 'privacy_connected', 'account')">
+						<h5>Connected profiles</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="getMutes(); forwardToPage($event, 'privacy_muted', 'account');">
+						<h5>Muted profiles</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="getBlocks(); forwardToPage($event, 'privacy_blocked', 'account')">
+						<h5>Blocked profiles</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FIND PEOPLE -->
+		<div class="slidepage-page right" data-page="find_people" data-title="Find people you know" data-level="2">
+			<div class="container pt-2">
+				<p>Find people you know</p>
+			</div>
+		</div>
+
+
+			<!-- ACCOUNT NAME -->
+			<div class="slidepage-page right" data-page="name" data-title="Edit name" data-level="3">
+				<div class="nav_menu_form container pt-3">
+					<p class="sidenote">This will not be displayed on your public profile</p>
+					<div class="form-group">
+						<label for="title">Title</label><br />
+					  <%= select :user, :title, options_for_select([ "Mrs", "Mr", "Dr", "Rt. Hon", "Rev" ], current_user.title), {}, { class: "form-control short", required: '', 'ng-model': 'user.title' } %>
+					</div>
+
+					<div class="form-group">
+						<label for="first_name">First name</label>
+					  <%= text_field :user, :first_name, class: "form-control", required: '', 'ng-model':  'user.firstName' %>
+					</div>
+
+					<div class="form-group">
+						<label for="last_name">Last name</label>
+					  <%= text_field :user, :last_name, class: "form-control", required: '', 'ng-model':  'user.lastName' %>
+					</div>
+
+
+					<div class="actions d-flex justify-content-between align-items-start">
+						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+						<button class="btn btn-success w-40" ng-click="saveNames($event)">Save</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- USERNAME -->
+			<div class="slidepage-page right" data-page="username" data-title="Edit username" data-level="3">
+				<div class="nav_menu_form container pt-3">
+					<p class="sidenote">This will be displayed on your public profile</p>
+					<div class="form-group">
+						<label for="username">Username</label><br />
+						<p ng-show="user.error" class="alert alert-danger">{{user.error}}</p>
+						<div class="input-group mb-2">
+						  <div class="input-group-prepend">
+						    <div class="input-group-text">@</div>
+							  <%= text_field :user, :username, class: "form-control", required: '', 'ng-model':  'user.username' %>
+						  </div>
+						</div>
+						<p><small class="form-text text-muted">
+							<%= profile_url(slug: '') %>/{{user.username.toLowerCase()}}
+						</small></p>
+					</div>
+
+					<div class="actions d-flex justify-content-between align-items-start">
+						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+						<button class="btn btn-success w-40" ng-click="saveUsername($event)">Save</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- EMAIL -->
+			<div class="slidepage-page right" data-page="email" data-title="Edit email" data-level="3">
+				<div class="nav_menu_form container pt-3">
+					<p class="sidenote">This will not be displayed on your public profile</p>
+					<div class="form-group">
+						<label for="email">Email</label>
+					  <%= email_field :user, :email, class: "form-control", required: '', 'ng-model':  'user.email' %>
+					</div>
+
+					<div class="actions d-flex justify-content-between align-items-start">
+						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+						<button class="btn btn-success w-40" ng-click="saveEmail($event)">Save</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Password -->
+			<div class="slidepage-page right" data-page="password" data-title="Edit password" data-level="3">
+				<div class="nav_menu_form container pt-3">
+					<div class="form-group">
+						<label for="password">Password</label>
+					  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password' %>
+					</div>
+
+					<div class="actions d-flex justify-content-between align-items-start">
+						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+						<button class="btn btn-success w-40" ng-click="savePassword($event)">Save</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Delete Account -->
+			<div class="slidepage-page right" data-page="delete_account" data-title="Delete your account" data-level="3">
+				<div class="nav_menu_form container pt-3 pb-4">
+					<p>You are about to start the process of permanently deleting your account.  By continuing, you are asking for all your data to be deleted in line with our Terms and Conditions.  This means that:</p>
+
+					<ul>
+						<li>you will no longer be able to sign in to TheArticle</li>
+						<li>you will no longer have a public profile</li>
+						<li>your posts and comments will be deleted</li>
+						<li>you will no longer be able to read comments on other people's profiles</li>
+						<li>you will no longer be able to follow an exchange</li>
+						<li>we will no longer contact you with newsletters, notifications etc.</li>
+					</ul>
+
+					<p>If you delete your account, it cannot be reinstated at a later date.</p>
+
+					<p>You may wish to consider deactivating your profile instead</p>
+
+					<h4>Deactivate your profile</h4>
+
+					<p>Instead of permanently deleting your account, you could deactivate your profile. This would mean that:</p>
+
+					<ul>
+						<li>your public profile will removed from the site</li>
+						<li>your posts and comments will be deleted</li>
+						<li>However, you would still be able to:</li>
+						<li>sign in to TheArticle</li>
+						<li>read comments on other people's profiles</li>
+						<li>follow exchanges</li>
+						<li>receive our newsletters, notifications etc. (and manage how and when we contact you)</li>
+					</ul>
+
+					<button class="btn btn-success btn-block" ng-click="forwardToPage($event, 'deactivate_profile')" ng-if="!user.profileDeactivated">Learn more about profile deactivation</button>
+
+					<button class="btn btn-danger btn-block" ng-click="forwardToPage($event, 'delete_account_continue')">Continue account deletion process</button>
+
+				</div>
+			</div>
+
+
+			<!-- Delete Account - continue -->
+			<div class="slidepage-page right" data-page="delete_account_continue" data-title="Delete your account" data-level="3">
+				<div class="nav_menu_form container pt-3 pb-4">
+					<p>Please enter your password to permanently delete your account:</p>
+
+					<div class="form-group">
+						<label for="confirming_password_delete">Password</label><br />
+						<input type="password" name="confirming_password_delete" id="confirming_password_delete" ng-model="user.confirmingPassword" class="form-control" required />
+					</div>
+
+					<p>Once you have deleted your account, it cannot be reinstated</p>
+
+					<button class="btn btn-success btn-block"
+									ng-click="deleteAccount($event)"
+									ng-class="{'disabled': user.confirmingPassword.length == 0}"
+									ng-disabled="user.confirmingPassword.length == 0">Delete</button>
+
+				</div>
+			</div>
+
+
+
+			<!-- Deactivate profile -->
+			<div class="slidepage-page right" data-page="deactivate_profile" data-title="Deactivate your profile" data-level="3">
+				<div class="nav_menu_form container pt-3 pb-4">
+					<p>You are about to start the process of deactivating your profile.  If you choose to continue, your public profile will be hidden which means that:</p>
+
+					<ul>
+						<li>any reference to your public profile will be removed from the site</li>
+						<li>all your current posts and comments will be permanently deleted</li>
+						<li>your following and followers lists will be permanently deleted</li>
+						<li>you cannot engage with other users on the TheArticle</li>
+					</ul>
+
+					<p>However, you will still be able to:</p>
+
+					<ul>
+						<li>sign in to TheArticle</li>
+						<li>read comments on other people's profiles</li>
+						<li>follow exchanges</li>
+						<li>receive our newsletters, notifications etc. (and manage how and when we contact you)</li>
+						<li>reactivate your profile if you wish to engage with other users in the future</li>
+					</ul>
+
+					<button class="btn btn-danger btn-block" ng-click="forwardToPage($event, 'deactivate_profile_continue')">Continue profile deactivation process</button>
+
+				</div>
+			</div>
+
+			<!-- Deactivate profile - continue -->
+			<div class="slidepage-page right" data-page="deactivate_profile_continue" data-title="Deactivate your profile" data-level="3">
+				<div class="nav_menu_form container pt-3 pb-4">
+					<p>Please enter your password to deactivate your profile:</p>
+
+					<div class="form-group">
+						<label for="confirming_password_deactivate">Password</label><br />
+						<input type="password" name="confirming_password_deactivate" id="confirming_password_deactivate" ng-model="user.confirmingPassword" class="form-control" required />
+					</div>
+
+					<p>Once you have deactivated your profile, all your current posts and comments will be permanently deleted.  However, you can reinstate your profile if you wish to engage with other users in the future.</p>
+
+					<button class="btn btn-success btn-block"
+									ng-click="deactivateProfile($event)"
+									ng-class="{'disabled': user.confirmingPassword.length == 0}"
+									ng-disabled="user.confirmingPassword.length == 0">Deactivate profile</button>
+
+				</div>
+			</div>
+
+
+			<!-- Reactivate profile -->
+			<div class="slidepage-page right" data-page="reactivate_profile" data-title="Reactivate your profile" data-level="3">
+				<div class="nav_menu_form container pt-3 pb-4">
+					<p>Reactivating your profile means that:</p>
+
+					<ul>
+						<li>your public profile will be made visible to other users again</li>
+						<li>you can follow other users and they can follow you</li>
+					</ul>
+
+					<p>However, all your previous posts and comments were deleted at the point you deactivated your profile so you will not be able to see that content again.  Your following and followers lists were also deleted at the same time, so you will need to re-follow people to start receiving updates on their posts.</p>
+
+					<p>Please enter your password to reactivate your profile:</p>
+
+					<div class="form-group">
+						<label for="confirming_password_reactivate">Password</label><br />
+						<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="user.confirmingPassword" class="form-control" required />
+					</div>
+
+					<button class="btn btn-success btn-block"
+										ng-click="reactivateProfile($event)"
+										ng-class="{'disabled': user.confirmingPassword.length == 0}"
+										ng-disabled="user.confirmingPassword.length == 0">Reactivate profile</button>
+
+				</div>
+			</div>
+
+			<!-- Notifications : TheArticle -->
+			<div class="slidepage-page right" data-page="notifications_article" data-title="Online notification settings" data-level="3">
+				<div class="container">
+					<p>You will see every notification on TheArticle, but you can turn off notifications about specific posts as you view them. <a class="text-green" href="/help?section=notifications">Learn more.</a></p>
+					<button class="btn btn-info btn-block w-40" ng-click="backToPage('notifications', $event)">Done</button>
+				</div>
+			</div>
+
+			<!-- Notifications : Email -->
+			<div class="slidepage-page right" data-page="notifications_email" data-title="Email notification settings" data-level="3">
+				<div class="nav_menu nav_menu_checkboxes">
+					<div class="nav_menu_item">
+						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_followers">
+							<h5>Followers</h5>
+							<select name="notifications_email_followers" id="notifications_email_followers">
+								<option value="as_it_happens">As it happens</option>
+								<option value="daily">Daily</option>
+								<option value="weekly">Weekly</option>
+								<option value="never">Never</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="nav_menu_item">
+						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_exchanges">
+							<h5>Exchanges</h5>
+							<select name="notifications_email_exchanges" id="notifications_email_exchanges">
+								<option value="as_it_happens">As it happens</option>
+								<option value="daily">Daily</option>
+								<option value="weekly">Weekly</option>
+								<option value="never">Never</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="nav_menu_item">
+						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_responses">
+							<h5>Responses to your posts</h5>
+							<select name="notifications_email_responses" id="notifications_email_responses">
+								<option value="daily">Daily</option>
+								<option value="weekly">Weekly</option>
+								<option value="never">Never</option>
+							</select>
+						</label>
+					</div>
+
+					<div class="nav_menu_item">
+						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_replies">
+							<h5>Replies to your comments</h5>
+							<select name="notifications_email_replies" id="notifications_email_replies">
+								<option value="daily">Daily</option>
+								<option value="weekly">Weekly</option>
+								<option value="never">Never</option>
+							</select>
+						</label>
+					</div>
+				</div>
+
+				<div class="container">
+					<button class="btn btn-success btn-block mt-3" ng-click="backToPage('notifications', $event)">Done</button>
+				</div>
+			</div>
+
+
+			<!-- Communication Preferences : Email -->
+			<div class="slidepage-page right" data-page="communication_preferences_email" data-title="Email preferences" data-level="3">
+
+				<div class="nav_menu nav_menu_checkboxes">
+					<div class="nav_menu_item">
+						<label class="nav_menu_checkbox d-flex justify-content-between" for="communication_preferences_email_notifications">
+							<input type="checkbox" name="communication_preferences_email_notifications" id="communication_preferences_email_notifications" />
+							<span class="checkmark"></span>
+							<h5>Notifications</h5>
+						</label>
+						<p class="mb-0 mt-0"><small>
+							<a href="#" ng-click="forwardToPage($event, 'notifications_email')">Manage notifications</a>
+						</small></p>
+					</div>
+					<div class="nav_menu_spacer"></div>
+				</div>
+
+				<div class="container mt-5">
+					<h4>Newsletters</h4>
+				</div>
+				<div class="nav_menu nav_menu_checkboxes">
+					<div class="nav_menu_item">
+						<label class="nav_menu_checkbox" for="communication_preferences_newsletters_weekly">
+							<div class="d-flex justify-content-between">
+								<input type="checkbox" name="communication_preferences_newsletters_weekly" id="communication_preferences_newsletters_weekly" />
+								<span class="checkmark"></span>
+								<h5>TheArticle Weekly roundup</h5>
+							</div>
+							<p class="mb-0 mt-0"><small>The latest from our editorial team</small></p>
+						</label>
+					</div>
+
+					<div class="nav_menu_item">
+						<label class="nav_menu_checkbox" for="communication_preferences_newsletters_offers">
+							<div class="d-flex justify-content-between">
+								<input type="checkbox" name="communication_preferences_newsletters_offers" id="communication_preferences_newsletters_offers" />
+								<span class="checkmark"></span>
+								<h5>TheArticle Offers and Promotions</h5>
+							</div>
+							<p class="mb-0 mt-0"><small>Occasional emails about new service offerings, promotions, offers or events</small></p>
+						</label>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Privacy : Connected -->
+			<div class="slidepage-page right" data-page="privacy_connected" data-title="Connected profiles" data-level="3">
+				<div class="ajax_loading" ng-show="!connects.loaded">Loading your <br />Connected profiles</div>
+
+				<div ng-if="connects.loaded" class="pt-2">
+					<p class="empty px-2 py-3 text-center" ng-if="!connects.data.length">You have no connected profiles</p>
+
+					<p class="container" ng-if="connects.data.length">
+						You are mutually connected as you follow each other and can, therefore, comment on each other's posts and agree or disagree with what each other have said.  <a class="text-green" href="/help?section=connects">Learn more</a>
+					</p>
+
+					<div ng-repeat="item in connects.data" ng-if="connects.data.length" class="feed-listing">
+						<%= render 'users/member_card' %>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Privacy : Muted -->
+			<div class="slidepage-page right" data-page="privacy_muted" data-title="Muted profiles" data-level="3">
+				<div class="ajax_loading" ng-show="!mutes.loaded">Loading your <br />muted profiles</div>
+
+				<div ng-if="mutes.loaded" class="pt-2">
+					<p class="empty px-2 py-3 text-center" ng-if="!mutes.data.length">You have no muted profiles</p>
+
+					<p class="container" ng-if="mutes.data.length">
+						You follow these profiles, but have muted them so their posts no longer appear in your newsfeeds.  <a class="text-green" href="/help?section=mutes">Learn more</a>
+					</p>
+
+					<div ng-repeat="item in mutes.data" ng-if="mutes.data.length" class="feed-listing">
+						<%= render 'users/member_card' %>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Privacy : Blocked -->
+			<div class="slidepage-page right" data-page="privacy_blocked" data-title="Blocked profiles" data-level="3">
+				<div class="ajax_loading" ng-show="!blocks.loaded">Loading your <br />blocked profiles</div>
+
+				<div ng-if="blocks.loaded" class="pt-2">
+					<p class="empty px-2 py-3 text-center" ng-if="!blocks.data.length">You have no blocked profiles</p>
+
+					<p class="container" ng-if="blocks.data.length">
+						You have blocked these profiles, meaning you cannot find or contact each other. <a class="text-green" href="/help?section=blocks">Learn more</a>
+					</p>
+
+					<div ng-repeat="item in blocks.data" ng-if="blocks.data.length" class="feed-listing">
+						<%= render 'users/member_card' %>
+					</div>
+				</div>
+			</div>
+
 </div>

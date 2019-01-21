@@ -1,0 +1,120 @@
+.nav_menu {
+	background: #fff;
+	width: 100%;
+
+	.nav_menu_item {
+		padding: 15px 16px 7px;
+		border-bottom: 1px solid $grey;
+
+		h5 {
+			font-size: 1.2em;
+			max-width: 88%;
+		}
+
+		h6 {
+			font-size: 0.82em;
+			margin: -6px 0 2px;
+		}
+
+		p {
+			line-height: 1em;
+			small {
+			}
+		}
+
+		svg {
+			font-size: 1.3em;
+			color: #111;
+		}
+
+		&.danger {
+			h5, svg {
+				color: $red
+			}
+		}
+
+		label.nav_menu_checkbox {
+			font-weight: normal;
+		  display: block;
+		  position: relative;
+		  // padding-left: 35px;
+		  // margin-bottom: 12px;
+		  // cursor: pointer;
+		  // font-size: 1.05em;
+		  -webkit-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+
+		  h5 {
+		  	margin-bottom: 0;
+		  }
+
+		  input {
+			  position: absolute;
+			  opacity: 0;
+			  cursor: pointer;
+			  height: 0;
+			  width: 0;
+
+			  &:checked ~ .checkmark {
+				  background-color: $green;
+				}
+
+				&:checked ~ .checkmark:after {
+				  display: block;
+				}
+			}
+
+			.checkmark {
+			  position: absolute;
+			  top: 0px;
+			  right: 3px;
+			  height: 25px;
+			  width: 25px;
+			  background-color: #eee;
+			  border-radius: 4px;
+
+			  &:after {
+				  content: "";
+				  position: absolute;
+				  display: none;
+				  top: 9px;
+				  left: 9px;
+				  width: 8px;
+				  height: 8px;
+				  border-radius: 50%;
+				  background: white;
+				}
+			}
+		}
+
+		.nav_menu_select {
+			h5 {
+				margin-bottom: 0;
+			}
+
+			select {
+				direction: rtl;
+				outline: none;
+
+				option {
+					direction: ltr;
+				}
+			}
+		}
+
+		/* On mouse-over, add a grey background color */
+		// label.nav_menu_checkbox:hover input ~ .checkmark {
+		//   background-color: #ccc;
+		// }
+	}
+
+	.nav_menu_spacer {
+		background: $grey_light;
+		height: 32px;
+		width: 100%;
+		clear: both;
+		border-bottom: 1px solid $grey;
+	}
+}

@@ -16,6 +16,8 @@
 @import 'slideout';
 @import 'croppie';
 @import 'angular-wizard';
+@import "mobile/page_transitions";
+@import "mobile/nav_menus";
 @import "mobile/profile_wizard";
 @import "mobile/member_nav";
 @import "mobile/profile";
@@ -25,5 +27,6 @@
 @import "mobile/sharing";
 @import "mobile/notifications";
 @import "mobile/concern_reports";
+@import "mobile/account_settings";
 
 @import "vendor/input-range";

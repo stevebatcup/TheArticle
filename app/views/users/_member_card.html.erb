@@ -11,13 +11,29 @@
 			<a href="{{ item.path }}">
 				<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image with_cover_image" alt="{{item.displayName}}" />
 			</a>
-			<button class="btn btn-sm follow_btn"
-							ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
-							ng-click="<%= suggestions ? 'toggleFollowSuggestion(item)' : 'toggleFollowUserFromCard(item, $event)' %>">
-				<i class="fas fa-users mr-2"></i>
-				<span ng-show="item.imFollowing">Following</span>
-				<span ng-show="!item.imFollowing">Follow</span>
-			</button>
+
+			<% if user_signed_in? %>
+				<button class="btn btn-sm follow_btn"
+								ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
+								ng-click="<%= suggestions ? 'toggleFollowSuggestion(item)' : 'toggleFollowUserFromCard(item, $event)' %>"
+								ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock)">
+					<i class="fas fa-users mr-2"></i>
+					<span ng-show="item.imFollowing">Following</span>
+					<span ng-show="!item.imFollowing">Follow</span>
+				</button>
+
+				<button class="btn btn-sm mt-2 btn-info"
+								ng-click="unmute(item, $event)"
+								ng-if="item.isMute">
+					Unmute
+				</button>
+
+				<button class="btn btn-sm mt-2 btn-info"
+								ng-click="unblock(item, $event)"
+								ng-if="item.isBlock">
+					Unblock
+				</button>
+			<% end %>
 		</div>
 		<h5 class="card-title d-flex justify-content-between mb-0">
 			<a href="{{ item.path }}"><span>{{ item.displayName }}</span></a>

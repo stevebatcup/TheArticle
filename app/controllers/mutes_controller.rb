@@ -1,4 +1,10 @@
 class MutesController < ApplicationController
+	before_action :authenticate_user!
+
+	def index
+		@mutes = current_user.muted_list
+	end
+
 	def create
 		current_user.mutes << Mute.new({muted_id: params[:id], status: :active})
 		if current_user.save

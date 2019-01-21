@@ -39,6 +39,10 @@ class User < ApplicationRecord
   include Followable
   include Opinionable
 
+  def full_name
+    "#{self.title}. #{self.first_name} #{self.last_name}"
+  end
+
   def set_ip_data(request)
     ip = request.remote_ip
     # ip = '86.150.196.99'
@@ -130,8 +134,12 @@ class User < ApplicationRecord
     blocked_list.map(&:blocked_id)
   end
 
+  def muted_list
+    self.mutes.where(status: :active)
+  end
+
   def muted_id_list
-    self.mutes.where(status: :active).map(&:blocked_id)
+    muted_list.map(&:muted_id)
   end
 
   def is_comment_disallowed?(comment)
@@ -142,5 +150,9 @@ class User < ApplicationRecord
       blocked_usernames = self.blocked_list.map(&:blocked).map(&:username)
       blocked_usernames.any? {|username| comment.body.include?(username)}
     end
+  end
+
+  def profile_is_deactivated?
+    false
   end
 end
