@@ -18,11 +18,11 @@
 
       	<section class="auth_action_message" ng-if="!itemForConnectionMessage.canInteract">
       		<p>You do not follow each other so you cannot contribute to their post.
-      						Make the first move by <a href="#" ng-click="followUserFromNoConnectionModal(itemForConnectionMessage, $event, true)">following {{itemForConnectionMessage.share.user.displayName}}</a></p>
+      						Make the first move by <a href="#" ng-click="followUserFromNoConnectionModal(itemForConnectionMessage, $event, false)">following {{itemForConnectionMessage.share.user.displayName}}</a></p>
       	</section>
 
       	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_following'">
-      		<p><b>{{itemForConnectionMessage.share.user.displayName}}</b> follows you but you do not follow them so you cannot contribute to their post. <a href="#" ng-click="followUserFromNoConnectionModal(itemForConnectionMessage, $event, false)">Follow {{itemForConnectionMessage.share.user.displayName}}</a></p>
+      		<p><b>{{itemForConnectionMessage.share.user.displayName}}</b> follows you but you do not follow them so you cannot contribute to their post. <a href="#" ng-click="followUserFromNoConnectionModal(itemForConnectionMessage, $event, true)">Follow {{itemForConnectionMessage.share.user.displayName}}</a></p>
       	</section>
 
       	<section class="auth_action_message" ng-if="itemForConnectionMessage.canInteract == 'not_followed'">
