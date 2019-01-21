@@ -38,7 +38,7 @@
 					<% @trending_exchanges.each do |exchange| %>
 						<div class="d-flex align-items-center justify-content-start mb-2 feed-listing">
 								<a href="<%= exchange_path(slug: exchange.slug) %>">
-									<img ng-src="<%= exchange.image %>" class="rounded feed_image" alt="<%=exchange.name%>" />
+									<img src="<%= exchange.image %>" class="rounded feed_image" alt="<%=exchange.name%>" />
 								</a>
 
 								<div class="inner">
@@ -64,13 +64,13 @@
 			</div>
 		</section>
 
-		<section class="col-6" id="feed">
+		<section class="col-6" id="feed" ng-cloak>
 			<div class="container" id="activity-tabs">
 				<div class="ajax_loading loading_notifications" ng-if="!notifications.loaded">Loading notifications...</div>
 				<div ng-if="notifications.loaded" class="results_block row notifications"
 						ng-class="{'empty': notifications.data.length == 0}">
 
-					<p class="col-12 empty_resource" ng-if="notifications.data.length == 0">
+					<p class="col-12 empty_resource" ng-if="notifications.data.length == 0" ng-cloak>
 						<span>There are no notifications to see just now</span>
 					</p>
 
