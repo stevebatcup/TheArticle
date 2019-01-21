@@ -19,7 +19,7 @@ class Feed < ApplicationRecord
 						feeds.actionable_type IN (\"#{self.types_for_followings.join('", "')}\") AND
 						followed_id NOT IN ('#{current_user.muted_id_list.join('\', \'')}') AND
 						followed_id NOT IN ('#{current_user.blocked_id_list.join('\', \'')}') AND
-						feeds.created_at > follows.created_at
+						feeds.created_at > DATE_SUB(follows.created_at, INTERVAL 1 DAY)
 					) UNION ALL (
 						SELECT * FROM feeds WHERE feeds.user_id = #{current_user.id} AND actionable_type IN (\"#{self.types_for_user.join('", "')}\")
 					) ORDER BY created_at DESC
