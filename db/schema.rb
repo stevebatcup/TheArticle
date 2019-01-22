@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_18_104241) do
+ActiveRecord::Schema.define(version: 2019_01_22_160806) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -102,6 +102,14 @@ ActiveRecord::Schema.define(version: 2019_01_18_104241) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "communication_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "preference"
+    t.boolean "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "concern_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "reporter_id"
     t.integer "reported_id"
@@ -177,6 +185,14 @@ ActiveRecord::Schema.define(version: 2019_01_18_104241) do
     t.integer "user_id"
     t.integer "muted_id"
     t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notification_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "key"
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -263,6 +279,7 @@ ActiveRecord::Schema.define(version: 2019_01_18_104241) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "status", default: 0
     t.string "title"
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false

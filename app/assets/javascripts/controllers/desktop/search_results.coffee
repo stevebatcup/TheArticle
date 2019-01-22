@@ -8,6 +8,7 @@ class TheArticle.SearchResults extends TheArticle.DesktopPageController
 	  '$timeout'
 	  '$sce'
 	  '$compile'
+	  '$ngConfirm'
 	]
 
 	init: ->

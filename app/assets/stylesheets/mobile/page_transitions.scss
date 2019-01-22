@@ -25,19 +25,19 @@
 }
 
 .slidepage-container {
-  min-height: 80vh;
+  height: 70vh;
   position: relative;
   overflow-y: auto;
   // background: #cecece;
 
   .slidepage-page {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 
   .slidepage-page.left {

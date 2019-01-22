@@ -55,7 +55,7 @@
 					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'username', 'account')">
 						<div>
 							<h5>Username</h5>
-							<h6>{{ user.username }}</h6>
+							<h6>{{ user.originalUsername }}</h6>
 						</div>
 						<i class="fas fa-chevron-right"></i>
 					</div>
@@ -228,6 +228,7 @@
 					  <%= text_field :user, :last_name, class: "form-control", required: '', 'ng-model':  'user.lastName' %>
 					</div>
 
+					<p class="alert alert-danger" ng-if="errors.names">{{errors.names}}</p>
 
 					<div class="actions d-flex justify-content-between align-items-start">
 						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
@@ -251,9 +252,11 @@
 						  </div>
 						</div>
 						<p><small class="form-text text-muted">
-							<%= profile_url(slug: '') %>/{{user.username.toLowerCase()}}
+							<%= profile_url(slug: '') %>{{user.username.toLowerCase()}}
 						</small></p>
 					</div>
+
+					<p class="alert alert-danger" ng-if="errors.username">{{errors.username}}</p>
 
 					<div class="actions d-flex justify-content-between align-items-start">
 						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
@@ -272,6 +275,8 @@
 					  <%= email_field :user, :email, class: "form-control", required: '', 'ng-model':  'user.email' %>
 					</div>
 
+					<p class="alert alert-danger" ng-if="errors.email">{{errors.email}}</p>
+
 					<div class="actions d-flex justify-content-between align-items-start">
 						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
 						<button class="btn btn-success w-40" ng-click="saveEmail($event)">Save</button>
@@ -283,10 +288,14 @@
 			<!-- Password -->
 			<div class="slidepage-page right" data-page="password" data-title="Edit password" data-level="3">
 				<div class="nav_menu_form container pt-3">
+					<p class="sidenote">Change your password</p>
 					<div class="form-group">
 						<label for="password">Password</label>
+						<em>(6 characters minimum)</em>
 					  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password' %>
 					</div>
+
+					<p class="alert alert-danger" ng-if="errors.password">{{errors.password}}</p>
 
 					<div class="actions d-flex justify-content-between align-items-start">
 						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
@@ -345,6 +354,8 @@
 						<input type="password" name="confirming_password_delete" id="confirming_password_delete" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
+					<p class="alert alert-danger" ng-if="errors.deleteAccount">{{errors.deleteAccount}}</p>
+
 					<p>Once you have deleted your account, it cannot be reinstated</p>
 
 					<button class="btn btn-success btn-block"
@@ -394,6 +405,8 @@
 						<input type="password" name="confirming_password_deactivate" id="confirming_password_deactivate" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
+					<p class="alert alert-danger" ng-if="errors.deactivate">{{errors.deactivate}}</p>
+
 					<p>Once you have deactivated your profile, all your current posts and comments will be permanently deleted.  However, you can reinstate your profile if you wish to engage with other users in the future.</p>
 
 					<button class="btn btn-success btn-block"
@@ -424,6 +437,8 @@
 						<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
+					<p class="alert alert-danger" ng-if="errors.reactivate">{{errors.reactivate}}</p>
+
 					<button class="btn btn-success btn-block"
 										ng-click="reactivateProfile($event)"
 										ng-class="{'disabled': user.confirmingPassword.length == 0}"
@@ -446,7 +461,9 @@
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_followers">
 							<h5>Followers</h5>
-							<select name="notifications_email_followers" id="notifications_email_followers">
+							<select ng-model="user.notificationSettings.emailFollowers"
+										name="notifications_email_followers"
+										id="notifications_email_followers">
 								<option value="as_it_happens">As it happens</option>
 								<option value="daily">Daily</option>
 								<option value="weekly">Weekly</option>
@@ -458,7 +475,9 @@
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_exchanges">
 							<h5>Exchanges</h5>
-							<select name="notifications_email_exchanges" id="notifications_email_exchanges">
+							<select ng-model="user.notificationSettings.emailExchanges"
+										name="notifications_email_exchanges"
+										id="notifications_email_exchanges">
 								<option value="as_it_happens">As it happens</option>
 								<option value="daily">Daily</option>
 								<option value="weekly">Weekly</option>
@@ -470,7 +489,9 @@
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_responses">
 							<h5>Responses to your posts</h5>
-							<select name="notifications_email_responses" id="notifications_email_responses">
+							<select ng-model="user.notificationSettings.emailResponses"
+										name="notifications_email_responses"
+										id="notifications_email_responses">
 								<option value="daily">Daily</option>
 								<option value="weekly">Weekly</option>
 								<option value="never">Never</option>
@@ -481,7 +502,9 @@
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_replies">
 							<h5>Replies to your comments</h5>
-							<select name="notifications_email_replies" id="notifications_email_replies">
+							<select ng-model="user.notificationSettings.emailReplies"
+										name="notifications_email_replies"
+										id="notifications_email_replies">
 								<option value="daily">Daily</option>
 								<option value="weekly">Weekly</option>
 								<option value="never">Never</option>
@@ -500,16 +523,13 @@
 			<div class="slidepage-page right" data-page="communication_preferences_email" data-title="Email preferences" data-level="3">
 
 				<div class="nav_menu nav_menu_checkboxes">
-					<div class="nav_menu_item">
-						<label class="nav_menu_checkbox d-flex justify-content-between" for="communication_preferences_email_notifications">
-							<input type="checkbox" name="communication_preferences_email_notifications" id="communication_preferences_email_notifications" />
-							<span class="checkmark"></span>
-							<h5>Notifications</h5>
-						</label>
+					<div class="nav_menu_item d-flex justify-content-between"  ng-click="forwardToPage($event, 'notifications_email')">
+						<h5>Notifications: {{user.emailNotificationStatus}}</h5>
 						<p class="mb-0 mt-0"><small>
-							<a href="#" ng-click="forwardToPage($event, 'notifications_email')">Manage notifications</a>
+							<a href="#">Manage notifications</a>
 						</small></p>
 					</div>
+
 					<div class="nav_menu_spacer"></div>
 				</div>
 
@@ -520,7 +540,8 @@
 					<div class="nav_menu_item">
 						<label class="nav_menu_checkbox" for="communication_preferences_newsletters_weekly">
 							<div class="d-flex justify-content-between">
-								<input type="checkbox" name="communication_preferences_newsletters_weekly" id="communication_preferences_newsletters_weekly" />
+								<input type="checkbox" name="communication_preferences_newsletters_weekly" id="communication_preferences_newsletters_weekly"
+								ng-model="user.communicationPreferences.newslettersWeekly" />
 								<span class="checkmark"></span>
 								<h5>TheArticle Weekly roundup</h5>
 							</div>
@@ -531,7 +552,8 @@
 					<div class="nav_menu_item">
 						<label class="nav_menu_checkbox" for="communication_preferences_newsletters_offers">
 							<div class="d-flex justify-content-between">
-								<input type="checkbox" name="communication_preferences_newsletters_offers" id="communication_preferences_newsletters_offers" />
+								<input type="checkbox" name="communication_preferences_newsletters_offers" id="communication_preferences_newsletters_offers"
+								ng-model="user.communicationPreferences.newslettersOffers" />
 								<span class="checkmark"></span>
 								<h5>TheArticle Offers and Promotions</h5>
 							</div>

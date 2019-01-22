@@ -83,7 +83,7 @@ module User::Suggestable
 
   module ClassMethods
     def search_for_suggestions(current_user, query)
-      User.where('username LIKE :query or location LIKE :query', :query => "%#{query}%").where.not(id: current_user.id).to_a
+      User.where('username LIKE :query or location LIKE :query', :query => "%#{query}%").where.not(id: current_user.id).where(status: :active).to_a
     end
   end
 end

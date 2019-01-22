@@ -17,7 +17,7 @@ class TheArticle.PageController extends TheArticle.NGController
 				@flash( decodeURIComponent(vars['flash_msg'].split('#')[0]), decodeURIComponent(vars['flash_action'].split('#')[0]) )
 			, 900
 
-	flash: (msg, action) =>
+	flash: (msg, action=null) =>
 		$.notify({
 			message: msg
 		},
@@ -64,8 +64,8 @@ class TheArticle.PageController extends TheArticle.NGController
 	isProduction: =>
 		$('body').hasClass('production')
 
-	alert: (msg, title='Error', callback=null, buttonText='OK') ->
-		aler = @ngConfirm
+	alert: (msg, title='Error', callback=null, buttonText='OK') =>
+		alertBox = @ngConfirm
 			title: title
 			content: msg
 			scope: @scope
@@ -73,10 +73,13 @@ class TheArticle.PageController extends TheArticle.NGController
 				successBtn:
 					text: buttonText
 					btnClass: 'btn-info'
-					action: callback
+					action: =>
+						setTimeout =>
+							callback.call(@) if callback?
+						, 150
 
-	confirm: (msg, success, cancel=null, title='Are you sure?', buttons=null) ->
-		conf = @ngConfirm
+	confirm: (msg, success, cancel=null, title='Are you sure?', buttons=null) =>
+		confirmBox = @ngConfirm
 			title: title
 			content: msg
 			scope: @scope
@@ -92,7 +95,7 @@ class TheArticle.PageController extends TheArticle.NGController
 					btnClass: 'btn-danger'
 					action: =>
 						cancel.call(@) if cancel?
-						conf.close()
+						confirmBox.close()
 
 	postJSON: (url, data, successCallback=null, errorCallback=null) =>
 		$.ajax
@@ -232,7 +235,7 @@ class TheArticle.PageController extends TheArticle.NGController
 		@http.post("/user_followings", {id: userId, from_suggestion: from_suggestion}).then (response) =>
 			if response.data.status is 'success'
 				callback.call(@)
-			else
+			else if response.data.status is 'error'
 				@alert response.data.message, "Error following user"
 
 	unfollowUser: (userId, callback) =>

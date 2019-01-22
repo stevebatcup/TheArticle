@@ -9,6 +9,7 @@ class TheArticle.SearchResults extends TheArticle.MobilePageController
 	  '$timeout'
 	  '$sce'
 	  '$compile'
+	  '$ngConfirm'
 	]
 
 	init: ->

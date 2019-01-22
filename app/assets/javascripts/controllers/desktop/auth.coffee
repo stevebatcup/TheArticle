@@ -5,6 +5,7 @@ class TheArticle.Auth extends TheArticle.PageController
 	  '$scope'
 	  '$http'
 	  '$compile'
+	  '$timeout'
 	]
 
 	init: ->

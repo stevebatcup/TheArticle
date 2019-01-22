@@ -7,11 +7,13 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates_presence_of	:first_name, :last_name, on: :create
+  enum  status: [:active, :deactivated, :deleted]
 
   has_many  :subscriptions
   has_many  :exchanges, through: :subscriptions
 
   before_create :assign_default_profile_photo_id
+  after_create :assign_default_settings
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
@@ -34,10 +36,42 @@ class User < ApplicationRecord
   has_many  :mutes
   has_many  :blocks
 
+  has_many  :notification_settings
+  has_many  :communication_preferences
+
   include Suggestable
   include Shareable
   include Followable
   include Opinionable
+
+  def assign_default_settings
+    self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
+    self.notification_settings.build({ key: 'email_exchanges', value: 'as_it_happens' })
+    self.notification_settings.build({ key: 'email_responses', value: 'daily' })
+    self.notification_settings.build({ key: 'email_replies', value: 'daily' })
+
+    self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
+    self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
+
+    self.save
+  end
+
+  def self.active
+    where(status: :active)
+  end
+
+  def has_active_status?
+    [:active, :deactivated].include?(self.status.to_sym)
+  end
+
+  def active_for_authentication?
+    logger.debug self.to_yaml
+    super && has_active_status?
+  end
+
+  def inactive_message
+    has_active_status? ? super : :account_deleted
+  end
 
   def full_name
     "#{self.title}. #{self.first_name} #{self.last_name}"
@@ -153,6 +187,46 @@ class User < ApplicationRecord
   end
 
   def profile_is_deactivated?
-    false
+    self.status.to_sym == :deactivated
+  end
+
+  def clear_user_data(deleting_account=false)
+    self.notifications.destroy_all
+    self.followings.destroy_all
+    self.fandoms.destroy_all
+    self.shares.destroy_all
+    self.comments.destroy_all
+    self.feeds.destroy_all
+    self.opinions.destroy_all
+    ProfileSuggestion.delete_suggested(self)
+    if deleting_account
+      self.profile_suggestions.destroy_all
+      self.subscriptions.destroy_all
+      self.mutes.destroy_all
+      self.blocks.destroy_all
+      self.search_logs.destroy_all
+    end
+  end
+
+  def deactivate
+    clear_user_data
+    update_attribute(:status, :deactivated)
+  end
+
+  def reactivate
+    update_attribute(:status, :active)
+  end
+
+  def delete_account
+    clear_user_data(true)
+    update_attribute(:status, :deleted)
+  end
+
+  def all_notification_settings_are_off?
+    result = true
+    self.notification_settings.each do |setting|
+      result = false if setting.value != 'never'
+    end
+    result
   end
 end

@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
   get 'account-settings',                      to: 'account_settings#edit'
+  put 'account-settings',                      to: 'account_settings#update'
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile/:id',                        to: 'users#update'
@@ -85,7 +86,12 @@ Rails.application.routes.draw do
   post 'blocks',                               to: 'blocks#create'
   delete 'blocks/:id',                         to: 'blocks#destroy'
 
-  put 'update_user',                           to: 'users#update', as: :user
+  put 'deactivate',                            to: 'account_settings#deactivate'
+  put 'reactivate',                            to: 'account_settings#reactivate'
+  delete 'delete-account',                     to: 'account_settings#destroy'
+
+  put 'notification-settings',                 to: 'notification_settings#update'
+  put 'communication-preferences',             to: 'communication_preferences#update'
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

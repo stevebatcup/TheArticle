@@ -128,7 +128,7 @@
 				  	<a class="dropdown-item" href="#" ng-click="block($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isBlocked">Block</a>
 				  	<a class="dropdown-item" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isBlocked">Unblock</a>
 
-		        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report {{profile.data.originalUsername}}</a>
+		        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report</a>
 				  </div>
 				</div>
 			</div>
@@ -359,7 +359,7 @@
 		</section>
 
 		<div class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
-			<% if user_signed_in? %>
+			<% if user_signed_in? && !current_user.profile_is_deactivated? %>
 			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3">
 				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
 					<div class="card-header">

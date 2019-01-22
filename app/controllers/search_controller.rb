@@ -14,9 +14,9 @@ class SearchController < ApplicationController
 						@contributors = Author.search("*#{@query}*")
 						# profiles
 						if user_signed_in?
-							@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id })
+							@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id }, conditions: { status: 'active' })
 						else
-							@profiles = User.search("*#{@query}*")
+							@profiles = User.search("*#{@query}*", conditions: { status: 'active' })
 						end
 					else
 						@topics = @exchanges = @contributors = @profiles = []
@@ -42,9 +42,9 @@ class SearchController < ApplicationController
 					exchanges = Exchange.search("*#{@query}*").to_a
 					posts = Share.search("*#{@query}*").to_a
 					if user_signed_in?
-						profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id }).to_a
+						profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id }, conditions: { status: 'active' }).to_a
 					else
-						profiles = User.search("*#{@query}*").to_a
+						profiles = User.search("*#{@query}*", conditions: { status: 'active' }).to_a
 					end
 					@results = (articles + contributors + profiles + exchanges + posts)
 					search_log = SearchLog.new({

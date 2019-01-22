@@ -29,6 +29,8 @@ module TheArticle
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.autoload_paths += Dir[File.join(Rails.root, "lib", "core_ext", "*.rb")].each {|l| require l }
+
     # Don't generate system test files.
     config.generators.system_tests = nil
   end

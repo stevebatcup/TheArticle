@@ -3,4 +3,5 @@ ThinkingSphinx::Index.define :user, :with => :real_time do
   indexes username, :sortable => true
   indexes location
   indexes bio
+  indexes status
 end

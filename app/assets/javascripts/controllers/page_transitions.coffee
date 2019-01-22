@@ -13,6 +13,12 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 		$('.slidepage-page').first().addClass('center')
 					.removeClass('right')
 					.addClass('current')
+		@rootScope.$broadcast 'page_moved_back', { title: 'Settings', showBack: false }
+		@scope.pageHistory = []
+		@timeout =>
+			$('.slidepage-container').scrollTop(0)
+			$(window).scrollTop(0)
+		, 300
 
 	forwardToPage: ($event, newPage) =>
 		$event.preventDefault() if $event?

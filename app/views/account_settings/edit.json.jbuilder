@@ -12,9 +12,26 @@ json.set! :user do
 
 	json.displayName current_user.display_name
 
-	json.email current_user.email
+	email = current_user.email
+	json.email email
+	json.cleanEmail email
+
 	json.password ''
 
 	json.profileDeactivated current_user.profile_is_deactivated?
-	json.confirmingPassword false
+	json.confirmingPassword ''
+
+	json.emailNotificationStatus current_user.all_notification_settings_are_off? ? 'Off' : 'On'
+
+	json.set!	:notificationSettings do
+		current_user.notification_settings.each do |setting|
+			json.set! setting.key.camelize.lcfirst, setting.value
+		end
+	end
+
+	json.set!	:communicationPreferences do
+		current_user.communication_preferences.each do |preference|
+			json.set! preference.preference.camelize.lcfirst, preference.status
+		end
+	end
 end

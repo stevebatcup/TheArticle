@@ -27,6 +27,9 @@ class UserFollowingsController < ApplicationController
 		elsif other_user.has_blocked(current_user)
 			@status = :error
 			@message = "You are currently blocked by this user so you cannot follow them"
+		elsif other_user.profile_is_deactivated?
+			@status = :error
+			@message = "Sorry this user is currently deactivated"
 		end
 
 		if @status != :error

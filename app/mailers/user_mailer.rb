@@ -12,24 +12,34 @@ class UserMailer < Devise::Mailer
     reply_to: Rails.application.credentials.email_reply_to
   )
 
+  def username_updated(user)
+    subject = "Your username on TheArticle has been updated"
+    merge_vars = {
+      FIRST_NAME: user.display_name,
+      CURRENT_YEAR: Date.today.strftime("%Y"),
+      NEW_USERNAME: user.username
+    }
+    body = mandrill_template("username-updated", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+  end
+
   def reset_password_instructions(user, token, opts={})
     subject = I18n.t('devise.mailer.reset_password_instructions.subject')
     merge_vars = {
       FIRST_NAME: user.display_name,
       USER_URL: edit_password_url(user, reset_password_token: token),
-      CURRENT_YEAR: Date.today.strftime("%Y"),
-      # "UPDATE_ALERTS_URL" => update_alerts_url
+      CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("password-reset", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
   end
 
   def confirmation_instructions(user, token, opts={})
-    if user.confirmed?
-      send_email_change_confirmation(user, token)
-    else
-      send_welcome(user, token)
-    end
+    # if user.confirmed?
+    #   send_email_change_confirmation(user, token)
+    # else
+    send_welcome(user, token)
+    # end
   end
 
   def send_welcome(user, token)
@@ -49,8 +59,7 @@ class UserMailer < Devise::Mailer
     merge_vars = {
       FIRST_NAME: user.display_name,
       USER_URL: confirmation_url(user, confirmation_token: token),
-      CURRENT_YEAR: Date.today.strftime("%Y"),
-      # UPDATE_ALERTS_URL: update_alerts_url
+      CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("email-address-change", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)

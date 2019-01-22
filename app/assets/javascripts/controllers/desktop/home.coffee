@@ -7,6 +7,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	  '$rootElement'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	  'EditorsPick'
 	  'SponsoredPick'
 	]
@@ -24,6 +25,8 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			items:  []
 			loading: false
 			firstLoaded: false
+		vars = @getUrlVars()
+		@goodbye() if 'account_deleted' of vars
 
 	bindEvents: =>
 		super
@@ -70,5 +73,8 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			, timeoutDelay
 		, (response) =>
 			@refreshPage() if response.status is 401
+
+	goodbye: =>
+		@alert "Your account has been deleted.  We are sorry to see you go.", "Goodbye"
 
 TheArticle.ControllerModule.controller('HomeController', TheArticle.Home)
