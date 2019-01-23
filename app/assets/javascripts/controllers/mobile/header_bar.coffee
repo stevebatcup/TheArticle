@@ -15,7 +15,7 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		if !@scope.myProfile
 			@scope.userProfile = window.location.pathname.indexOf("profile/") > 0
 
-		if @isDevelopment()
+		if !@hasAds()
 			@timeout =>
 				@bindFixedNavScrolling()
 			, 1000

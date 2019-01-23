@@ -3,6 +3,9 @@ class TheArticle.PageController extends TheArticle.NGController
 		super
 		@showCookieNotice() if $('body').hasClass('show_cookie_notice')
 
+	hasAds: ->
+		$('#ads_top').length > 0
+
 	reloadPageWithFlash: (flashMsg='', flashAction='') =>
 		url = "#{window.location.protocol}//#{window.location.host}#{window.location.pathname}"
 		url += "?flash_msg=#{flashMsg}" if flashMsg.length

@@ -10,7 +10,6 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		@bindListingHovers() unless @isTablet()
 		@bindBlockClicks()
 		@bindSearchFilters()
-		@bindFixedNavScrolling() if @isDevelopment()
 
 		$('#hidden_editors_picks').on 'shown.bs.collapse', (e) =>
 			@reLinePosts() unless @isTablet()

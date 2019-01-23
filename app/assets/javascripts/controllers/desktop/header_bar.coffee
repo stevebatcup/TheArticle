@@ -28,7 +28,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 			, 2000
 
 	bindEvents: =>
-		if @isDevelopment()
+		if !@hasAds()
 			@timeout =>
 				@bindFixedNavScrolling()
 			, 1000
