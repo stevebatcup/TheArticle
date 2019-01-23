@@ -39,6 +39,8 @@ class User < ApplicationRecord
   has_many  :notification_settings
   has_many  :communication_preferences
 
+  has_many  :email_alias_logs
+
   include Suggestable
   include Shareable
   include Followable
@@ -217,9 +219,23 @@ class User < ApplicationRecord
     update_attribute(:status, :active)
   end
 
+  def self.poison_email(email)
+    "_deleted_#{email}"
+  end
+
   def delete_account
     clear_user_data(true)
-    update_attribute(:status, :deleted)
+    poisoned_email = self.class.poison_email(self.email)
+    skip_reconfirmation!
+    self.email_alias_logs.create({
+      old_email: self.email,
+      new_email: poisoned_email,
+      reason: "Deleted account"
+    })
+    update_attributes({
+      status: :deleted,
+      email: poisoned_email
+    })
   end
 
   def all_notification_settings_are_off?
