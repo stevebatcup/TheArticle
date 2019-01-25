@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get 'my-profile',                            to: 'users#show', as: :my_profile, me: true
   get 'account-settings',                      to: 'account_settings#edit'
   put 'account-settings',                      to: 'account_settings#update'
+  put 'update-email',                          to: 'account_settings#update_email'
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile/:id',                        to: 'users#update'

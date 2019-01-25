@@ -30,7 +30,12 @@ class AccountSettingsController < ApplicationController
 	end
 
 	def update_email
-
+		if current_user.update_attribute(:email, user_params[:email])
+			@status = :success
+		else
+			@status = :error
+			@message = "Unknown error updating your email address, please try again"
+		end
 	end
 
 	def deactivate
@@ -71,6 +76,6 @@ class AccountSettingsController < ApplicationController
 private
 
 	def user_params
-		params.require(:user).permit(:title, :first_name, :last_name, :username)
+		params.require(:user).permit(:title, :first_name, :last_name, :username, :email, :password)
 	end
 end

@@ -35,11 +35,11 @@ class UserMailer < Devise::Mailer
   end
 
   def confirmation_instructions(user, token, opts={})
-    # if user.confirmed?
-    #   send_email_change_confirmation(user, token)
-    # else
-    send_welcome(user, token)
-    # end
+    if user.has_completed_wizard?
+      send_email_change_confirmation(user, token)
+    else
+      send_welcome(user, token)
+    end
   end
 
   def send_welcome(user, token)
@@ -50,7 +50,7 @@ class UserMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y"),
       USER_URL: confirmation_url(user, confirmation_token: token),
     }
-    body = mandrill_template("registration-phase-1-welcome-email", merge_vars)
+    body = mandrill_template("welcome", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
   end
 
@@ -61,7 +61,29 @@ class UserMailer < Devise::Mailer
       USER_URL: confirmation_url(user, confirmation_token: token),
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
-    body = mandrill_template("email-address-change", merge_vars)
+    body = mandrill_template("confirm-email-address-change", merge_vars)
+    send_mail(user.unconfirmed_email, "#{user.first_name} #{user.last_name}", subject, body)
+  end
+
+  def first_confirmed(user)
+    subject = I18n.t('devise.mailer.email_first_confirmed.subject')
+    merge_vars = {
+      FIRST_NAME: user.display_name,
+      CURRENT_YEAR: Date.today.strftime("%Y")
+    }
+    body = mandrill_template("email-address-confirmed", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+  end
+
+  def email_change_confirmed(user, old_email)
+    subject = I18n.t('devise.mailer.email_changed.subject')
+    merge_vars = {
+      FIRST_NAME: user.display_name,
+      CURRENT_YEAR: Date.today.strftime("%Y"),
+      EMAIL_ADDRESS: user.email
+    }
+    body = mandrill_template("email-address-change-confirmed", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+    send_mail(old_email, "#{user.first_name} #{user.last_name}", subject, body)
   end
 end

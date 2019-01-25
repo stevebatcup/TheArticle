@@ -245,4 +245,13 @@ class User < ApplicationRecord
     end
     result
   end
+
+  def after_confirmation
+    old_email = self.email_before_last_save
+    if old_email != self.email
+      UserMailer.email_change_confirmed(self, old_email).deliver_now
+    else
+      UserMailer.first_confirmed(self).deliver_now
+    end
+  end
 end

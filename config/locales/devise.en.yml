@@ -18,6 +18,8 @@ en:
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
+      email_change:
+        subject: Confirm your new email address
       confirmation_instructions:
         subject: "Confirmation instructions"
       reset_password_instructions:
@@ -25,7 +27,9 @@ en:
       unlock_instructions:
         subject: "Unlock instructions"
       email_changed:
-        subject: "Email Changed"
+        subject: "Email address updated"
+      email_first_confirmed:
+        subject: "Email address confirmed"
       password_change:
         subject: "Password Changed"
     omniauth_callbacks:
