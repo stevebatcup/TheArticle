@@ -10,7 +10,7 @@
               <a class="nav-link nav-icon-text text-black pl-0" href="/front-page" id="nav_link_front_page">
                 <span class="pr-1 pt-1">
                   <i class="far fa-newspaper"></i>
-                </span> My Home
+                </span> Home
               </a>
             </li>
           <% else %>
@@ -35,14 +35,14 @@
       <nav class="navbar navbar-expand-md col-4 d-flex px-md-0 px-lg-1 pb-0">
         <ul class="nav w-100 justify-content-end ">
           <% if user_signed_in? %>
-            <li class="nav-item mr-2" id="nav_link_search_signed_in">
+            <li class="nav-item" id="nav_link_search_signed_in">
               <a class="nav-link nav-icon py-2 text-black search_trigger" href="#">
                 <i class="fas fa-search"></i>
               </a>
             </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link nav-icon py-2 text-black pl-md-5" href="#" id="nav_link_notifications" data-toggle="dropdown">
+              <a class="nav-link nav-icon py-2 pr-1 text-black pl-md-5" href="#" id="nav_link_notifications" data-toggle="dropdown">
                 <i class="fas fa-bell"></i>
                 <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
                   {{notificationBadgeCount}}
@@ -71,23 +71,18 @@
             </li>
 
             <li class="nav-item dropdown" >
-              <a class="nav-link nav-icon py-0 text-black pl-md-5" href="#" id="nav_link_my_profile" data-toggle="dropdown">
-                <i class="fas fa-user-circle"></i>
+              <a class="nav-link nav-icon pb-0 pt-1 text-black" href="#" id="nav_link_my_profile" data-toggle="dropdown">
+                <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>">
+                <span class="display_name"><%= current_user.display_name %></span>
               </a>
-             <div class="dropdown-menu dropdown-menu-right bg-light" id="my_profile_menu">
-                <h6 class="dropdown-header mb-2 d-flex">
-                  <a href="<%= my_profile_path %>" class="mr-3">
-                    <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
-                  </a>
-                  <a href="<%= my_profile_path %>" class="pt-1">
-                    <span class="display_name"><%= current_user.display_name %></span>
-                    <span class="username"><%= current_user.username %></span>
-                    <span class="link">View profile</span></a>
-                  </h6>
-                </h6>
+             <div class="dropdown-menu bg-light" id="my_profile_menu">
                 <a class="dropdown-item py-2 bg-white" href="<%= front_page_path %>">
                   <i class="far fa-newspaper mr-2"></i>
-                 My Home
+                 Home
+                </a>
+                <a class="dropdown-item py-2 bg-white" href="/my-profile">
+                 <i class="fas fa-user-alt"></i>
+                 My profile
                 </a>
                 <a class="dropdown-item py-2 bg-white" href="<%= my_profile_path %>?panel=following">
                   <i class="fas fa-angle-double-right mr-2"></i>

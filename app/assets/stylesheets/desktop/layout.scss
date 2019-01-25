@@ -106,7 +106,23 @@ header {
 						top: 6px;
 
 						&#nav_link_my_profile {
-							font-size: 2em;
+							font-size: 0.95em;
+							width: 245px;
+							text-align: right;
+
+							span {
+								top: 3px;
+								position: relative;
+								left: 2px;
+								text-overflow: ellipsis;
+								word-break: break-word;
+								white-space: nowrap;
+							}
+
+							img {
+								width: 32px;
+								height: 32px;
+							}
 						}
 					}
 
@@ -900,8 +916,9 @@ div.new_article {
 
 .dropdown-menu {
 	&#my_profile_menu {
-		width: 300px;
-		left: -220px;
+		width: 230px;
+		left: 10px;
+		top: 10px;
 
 		.dropdown-header {
 			line-height: 1.4em;
