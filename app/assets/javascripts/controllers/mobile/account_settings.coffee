@@ -200,13 +200,23 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 			if @scope.user.email is @scope.user.cleanEmail
 				@backToPage('account')
 			else
-				@updateUser =>
+				@updateEmail =>
 					alertMsg = "Your request to change your email address has been received and an email has been sent to <b>#{@scope.user.email}</b>.
 					To complete this change request, please verify your new email address by clicking on the link in that email"
 					@alert alertMsg, "Email address change request", =>
 						@backToPage('account')
 				, (errorMsg) =>
 					@scope.errors.email = errorMsg
+
+	updateEmail: (successCallback=null, errorCallback=null) =>
+		@http.put "/update-email",
+			user:
+				email: @scope.user.email
+		.then (response) =>
+			if response.data.status is 'success'
+				successCallback.call(@) if successCallback?
+			else if response.data.status is 'error'
+				errorCallback.call(@, response.data.message) if errorCallback?
 
 	savePassword: ($event) =>
 		$event.preventDefault() if $event?

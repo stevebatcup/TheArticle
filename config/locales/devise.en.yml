@@ -20,6 +20,8 @@ en:
     mailer:
       email_change:
         subject: Confirm your new email address
+      password_change:
+        subject: Confirm your new password
       confirmation_instructions:
         subject: "Confirmation instructions"
       reset_password_instructions:

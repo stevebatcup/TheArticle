@@ -34,6 +34,17 @@ class UserMailer < Devise::Mailer
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
   end
 
+  # def send_password_change_confirmation(user, token)
+  #   subject = I18n.t('devise.mailer.password_change.subject')
+  #   merge_vars = {
+  #     FIRST_NAME: user.display_name,
+  #     USER_URL: confirmation_url(user, confirmation_token: token),
+  #     CURRENT_YEAR: Date.today.strftime("%Y")
+  #   }
+  #   body = mandrill_template("confirm-email-address-change", merge_vars)
+  #   send_mail(user.unconfirmed_email, "#{user.first_name} #{user.last_name}", subject, body)
+  # end
+
   def confirmation_instructions(user, token, opts={})
     if user.has_completed_wizard?
       send_email_change_confirmation(user, token)

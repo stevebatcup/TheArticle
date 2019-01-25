@@ -240,13 +240,23 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 		if (@scope.errors.password is false) and (@scope.user.password.length < 6)
 			@scope.errors.password = "Please make sure your password is at least 6 characters long"
 		if @scope.errors.password is false
-			@updateUser =>
+			@updatePassword =>
 				alertMsg = "Your request to change your password has been received and an email has been sent to <b>#{@scope.user.email}</b>.
 				To complete this change request, please verify your new password by clicking on the link in that email. "
 				@alert alertMsg, "Password change request", =>
 					@backToPage('account')
 			, (errorMsg) =>
 				@scope.errors.password = errorMsg
+
+	updatePassword: (successCallback=null, errorCallback=null) =>
+		@http.put "/update-password",
+			user:
+				password: @scope.user.password
+		.then (response) =>
+			if response.data.status is 'success'
+				successCallback.call(@) if successCallback?
+			else if response.data.status is 'error'
+				errorCallback.call(@, response.data.message) if errorCallback?
 
 	deleteAccount: ($event) =>
 		$event.preventDefault() if $event?

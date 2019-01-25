@@ -24,10 +24,15 @@ class AccountSettingsController < ApplicationController
 		end
 	end
 
-	def update_password
-
-		# sign_in(current_user, :bypass => true)
-	end
+	# def update_password
+	# 	if current_user.update_attribute(:unconfirmed_password, user_params[:password])
+	# 		UserMailer.
+	# 		@status = :success
+	# 	else
+	# 		@status = :error
+	# 		@message = "Unknown error updating your password, please try again"
+	# 	end
+	# end
 
 	def update_email
 		if current_user.update_attribute(:email, user_params[:email])
