@@ -10,7 +10,11 @@ input#suggestion_search {
 
 .feed-listing {
 	margin-bottom: 10px;
-	border-bottom: 1px solid $grey;
+	// border-bottom: 1px solid $grey;
+
+	&.comment {
+		border-bottom: none;
+	}
 
 	&:last-child {
 		padding-bottom: 0 !important;
@@ -194,15 +198,26 @@ input#suggestion_search {
 		height: initial;
 
 		.card {
-			padding: 16px;
+			padding: 12px;
 			border-radius: 0;
 
 			.follow_summary {
-				font-size: 0.95em;
 				max-width: 90%;
+			}
+
+			.follow_summary,
+			.comment_body {
+				font-size: 0.95em;
 				a {
 					text-decoration: underline;
 				}
+			}
+
+			.comment_body,
+			.comment_body p {
+				word-break: break-word;
+				text-overflow: ellipsis;
+				overflow-wrap: break-word;
 			}
 
 			.share_menu_btn {
@@ -210,6 +225,7 @@ input#suggestion_search {
 				position: relative;
 				top: 0px;
 				right: 0px;
+				padding: 0;
 
 				a {
 					color: inherit;

@@ -6,6 +6,7 @@ module FollowHelper
 			date: follow.created_at.strftime("%e %b"),
 			follower: {
 				id: follow.user.id,
+				path: profile_path(slug: follow.user.slug),
 				displayName: follow.user.display_name,
 				username: follow.user.username,
 				image: follow.user.profile_photo.url(:square)
