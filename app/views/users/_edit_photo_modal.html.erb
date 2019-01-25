@@ -22,12 +22,21 @@
 						<div class="inner">
 							<input type="file" id="<%= type %>Photo_uploader" fileread="profile.data.<%= type %>Photo.source" class="replace_file_input" ng-show="profile.data.<%= type %>Photo.source.length == 0" />
 
-							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(profile.data.<%= type %>Photo.source)}}" ng-model="profile.data.<%= type %>Photo.image" />
+							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(profile.data.<%= type %>Photo.source)}}" alt="New <%= type %> photo" ng-show="profile.data.<%= type %>Photo.source.length > 0" ng-cloak />
 						</div>
 
 						<div class="buttons d-flex justify-content-between pt-4 mt-5 px-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
-							<button data-dismiss="modal" class="btn btn-outline-success w-50 mr-3">Cancel</button>
-							<button ng-click="saveCroppedPhoto($event, '<%= type %>Photo')" class="btn btn-success w-50 ml-3">Upload</button>
+							<button data-dismiss="modal"
+											class="btn btn-outline-success w-50 mr-3"
+											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
+											ng-disabled="profile.data.<%= type %>Photo.uploading != false">Cancel</button>
+							<button ng-click="saveCroppedPhoto($event, '<%= type %>Photo')"
+											class="btn btn-success w-50 ml-3"
+											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
+											ng-disabled="profile.data.<%= type %>Photo.uploading != false">
+								<span ng-if="profile.data.<%= type %>Photo.uploading == false">Upload</span>
+								<span ng-if="profile.data.<%= type %>Photo.uploading != false">Uploading...</span>
+							</button>
 						</div>
 
 					</form>

@@ -23,10 +23,14 @@ json.set! :profile do
 	json.profilePhoto do
 		json.image profileImage
 		json.source ""
+		json.sourceForUpload ""
+		json.uploading false
 	end
 	json.coverPhoto do
 		json.image @user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 		json.source ""
+		json.sourceForUpload ""
+		json.uploading false
 	end
 
 	recentFollowingSummary = following_summary(@user.recent_followings(48))

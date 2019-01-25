@@ -160,18 +160,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		pos = $('#public_activity').position().top - 50
 		$(window).scrollTop(pos)
 
-	showProfilePhotoCropper: (element, width, height, shape) =>
-		type = $(element).data('type')
-		c = new Croppie element,
-			viewport:
-				width: width
-				height: height
-				type: shape
-			update: =>
-				c.result({type: 'canvas', size: {'1140', '228'}}).then (img) =>
-					@scope.$apply =>
-						@scope.profile.data[type].image = img
-
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
 			@timeout =>
@@ -287,16 +275,38 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		$('body').append $content
 		$("#editcoverPhotoModal").modal()
 
+	showProfilePhotoCropper: (element, width, height, shape) =>
+		type = $(element).data('type')
+		c = new Croppie element,
+			viewport:
+				width: width
+				height: height
+				type: shape
+			update: =>
+				newWidth = "#{(width*2)}"
+				newHeight = "#{(height*2)}"
+				c.result({type: 'canvas', size: {newWidth, newHeight}}).then (imgSource) =>
+					@scope.$apply =>
+						@scope.profile.data[type].sourceForUpload = imgSource
+		@timeout =>
+			c.setZoom(0.8)
+		, 200
+
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()
-		profile = new @MyProfile({id: @scope.profile.data.id, photo: @scope.profile.data[type].image, mode: type })
+		@scope.profile.data[type].uploading = true
+		profile = new @MyProfile({id: @scope.profile.data.id, photo: @scope.profile.data[type].sourceForUpload, mode: type })
 		profile.update().then (response) =>
-			if response.status is 'error'
-				@savePhotoError response.message
-			else
-				@timeout =>
-					$('button[data-dismiss=modal]', "#edit#{type}Modal").click()
-				, 750
+			@timeout =>
+				if response.status is 'error'
+					@savePhotoError response.message
+				else
+					@timeout =>
+						@scope.profile.data[type].image = @scope.profile.data[type].sourceForUpload
+						$('button[data-dismiss=modal]', "#edit#{type}Modal").click()
+						@scope.profile.data[type].uploading = false
+					, 750
+			, 800
 		, (error) =>
 			@savePhotoError error.statusText
 
