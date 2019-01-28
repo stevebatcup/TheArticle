@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many  :exchanges, through: :subscriptions
 
   before_create :assign_default_profile_photo_id
-  after_create :assign_default_settings
+  # after_create :assign_default_settings
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
