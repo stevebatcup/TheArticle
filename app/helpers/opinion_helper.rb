@@ -45,8 +45,8 @@ module OpinionHelper
 				user: {
 					id: opinion.user.id,
 					displayName: opinion.user.display_name,
-					isMuted: current_user.has_muted(opinion.user),
-					isBlocked: current_user.has_blocked(opinion.user),
+					isMuted: user_signed_in? ? current_user.has_muted(opinion.user) : false,
+					isBlocked: user_signed_in? ? current_user.has_blocked(opinion.user) : false,
 					username: opinion.user.username,
 					image: opinion.user.profile_photo.url(:square),
 					path: profile_path(slug: opinion.user.slug)
