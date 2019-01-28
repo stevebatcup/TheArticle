@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<% if user_signed_in? %>
-			<div ng-if="item.commentAction.user.id != <%= current_user.id %>">
+			<div ng-if="item.commentAction.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
 				<%= render partial: 'common/options_menu', locals: { from: :commentAction } %>
 			</div>
 		<% end %>
