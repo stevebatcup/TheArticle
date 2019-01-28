@@ -72,71 +72,27 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :subscriptions,
-    :exchanges,
-    :followings,
-    :fandoms,
+    :title,
+    :first_name,
+    :last_name,
+    :display_name,
+    :email,
+    :username,
+    :has_completed_wizard,
+    :status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :subscriptions,
-    :exchanges,
-    :followings,
-    :fandoms,
-    :followers,
-    :profile_suggestions,
-    :shares,
-    :search_logs,
-    :comments,
-    :opinions,
-    :feeds,
-    :notifications,
-    :concern_reports,
-    :mutes,
-    :blocks,
-    :notification_settings,
-    :communication_preferences,
-    :email_alias_logs,
-    :id,
     :status,
     :title,
     :first_name,
     :last_name,
-    :slug,
-    :has_completed_wizard,
-    :username,
     :display_name,
-    :location,
-    :lat,
-    :lng,
-    :country_code,
-    :profile_photo,
-    :default_profile_photo_id,
-    :cover_photo,
-    :bio,
-    :email,
-    :encrypted_password,
-    :reset_password_token,
-    :reset_password_sent_at,
-    :remember_created_at,
-    :sign_in_count,
-    :current_sign_in_at,
-    :last_sign_in_at,
-    :current_sign_in_ip,
-    :last_sign_in_ip,
-    :confirmation_token,
-    :confirmed_at,
-    :confirmation_sent_at,
-    :unconfirmed_email,
-    :created_at,
-    :updated_at,
-    :signup_ip_address,
-    :signup_ip_city,
-    :signup_ip_region,
-    :signup_ip_country,
-    :notification_counter_cache,
+    :username,
+    :has_completed_wizard,
+    :email
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -201,7 +157,7 @@ class UserDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(user)
-  #   "User ##{user.id}"
-  # end
+  def display_resource(user)
+    user.username
+  end
 end

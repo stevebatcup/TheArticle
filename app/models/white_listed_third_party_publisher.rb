@@ -1,0 +1,2 @@
+class WhiteListedThirdPartyPublisher < ApplicationRecord
+end

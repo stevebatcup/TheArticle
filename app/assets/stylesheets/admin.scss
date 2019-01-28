@@ -1,0 +1,57 @@
+#admin_sidenav {
+	flex: 1 0 13rem;
+
+	#logo {
+		margin-bottom: 20px;
+		background-image: url('logo-2-lines.svg');
+		background-size: 85%;
+		background-repeat: no-repeat;
+		background-position: center center;
+		transition: background-size 0.5s;
+		position: relative;
+		line-height: 4.3em;
+		height: 60px;
+
+		a {
+			width: inherit;
+			height: inherit;
+			border: none;
+			display: block;
+			outline: none;
+		}
+
+		.text-hide {
+			text-indent: -99999px;
+			display: inline-block;
+		}
+	}
+
+	h3 {
+		font-size: 1.3em;
+	}
+
+	ul {
+		padding-left: 15px;
+		margin-bottom: 25px;
+		margin-top: 7px;
+
+		li {
+			line-height: 1.3em;
+
+			a {
+				font-weight: normal;
+				text-decoration: none;
+
+				&.navigation__link--active {
+					font-weight: bold;
+				}
+			}
+		}
+	}
+}
+
+.admin_index_header {
+	.search {
+		max-width: 27rem;
+	}
+}

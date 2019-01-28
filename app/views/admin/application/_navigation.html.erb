@@ -1,0 +1,41 @@
+<%#
+# Navigation
+
+This partial is used to display the navigation in Administrate.
+By default, the navigation contains navigation links
+for all resources in the admin dashboard,
+as defined by the routes in the `admin/` namespace
+%>
+
+<nav id="admin_sidenav" class="navigation" role="navigation">
+	<div id="logo">
+	  <a href="/?force_home=1" target="_blank" style="" title="Open main website in another window">
+	  </a>
+	</div>
+
+	<h3>Users</h3>
+	<ul>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/users') %>" href="/admin/users">Search</a>
+		</li>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/concern_reports') %>" href="/admin/concern_reports">Concern reports</a>
+		</li>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Quarantined posts</a>
+		</li>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/watch_list_users') %>" href="/admin/watch_list_users">Watchlist</a>
+		</li>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/black_list_users') %>" href="/admin/black_list_users">Blacklist</a>
+		</li>
+	</ul>
+
+	<h3>Content</h3>
+	<ul>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/white_listed_third_party_publishers') %>" href="/admin/white_listed_third_party_publishers">Publication whitelist</a>
+		</li>
+	</ul>
+</nav>

@@ -3,6 +3,12 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   namespace :admin do
     resources :users
+    resources :concern_reports
+    resources :watch_list_users
+    resources :black_list_users
+    resources :concern_reports
+    resources :quarantined_third_party_shares
+    resources :white_listed_third_party_publishers
     root to: "users#index"
   end
 
