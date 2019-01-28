@@ -5,10 +5,6 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token, if: :json_request?
   before_action :set_vary_header
 
-  def set_vary_header
-  	response.headers["Vary"] = "Accept"
-  end
-
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
 	end
@@ -98,6 +94,10 @@ private
     else
       request.variant = :desktop
     end
+  end
+
+  def set_vary_header
+  	response.headers["Vary"] = "Accept"
   end
 
 	def set_layout

@@ -17,7 +17,6 @@ class ProfileWizardController < ApplicationController
 		begin
 			current_user.complete_profile_from_wizard(params[:profile])
 			ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
-			# ThinkingSphinxReindexJob.perform_later
 			@status = :success
 			@redirect = front_page_path(from_wizard: true)
 		rescue Exception => e

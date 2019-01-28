@@ -6,6 +6,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	  '$http'
 	  '$element'
 	  '$timeout'
+	  '$ngConfirm'
 	  'MyProfile'
 	]
 

@@ -93,11 +93,6 @@ group :development do
   gem 'capistrano-rbenv', '~> 2.1'
 end
 
-group :staging do
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-end
-
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15', '< 4.0'

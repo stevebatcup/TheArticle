@@ -8,13 +8,13 @@ class User < ApplicationRecord
 
   validates_presence_of	:first_name, :last_name, on: :create
   enum  status: [:active, :deactivated, :deleted]
-  enum  admin_level: [:nil, :admin, :super_admin]
+  enum  admin_level: [:nothing, :admin, :super_admin]
 
   has_many  :subscriptions
   has_many  :exchanges, through: :subscriptions
 
   before_create :assign_default_profile_photo_id
-  # after_create :assign_default_settings
+  after_create :assign_default_settings
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
@@ -42,6 +42,10 @@ class User < ApplicationRecord
 
   has_many  :email_alias_logs
 
+  has_many  :black_list_users
+  has_many  :watch_list_users
+  has_many  :quarantined_third_party_shares
+
   include Suggestable
   include Shareable
   include Followable
@@ -55,7 +59,6 @@ class User < ApplicationRecord
 
     self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
     self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
-
     self.save
   end
 
@@ -83,13 +86,11 @@ class User < ApplicationRecord
   def set_ip_data(request)
     ip = request.remote_ip
     # ip = '86.150.196.99'
-    self.update_attribute(:signup_ip_address, ip)
+    self.signup_ip_address = ip
     if geo_info = Geocoder.search(ip).first
-      self.update_attributes({
-        signup_ip_city: geo_info.city,
-        signup_ip_region: geo_info.region,
-        signup_ip_country: geo_info.country
-      })
+      self.signup_ip_city = geo_info.city
+      self.signup_ip_region = geo_info.region
+      self.signup_ip_country = geo_info.country
     end
   end
 
@@ -257,6 +258,6 @@ class User < ApplicationRecord
   end
 
   def is_admin?
-    [:nil].exclude?(self.admin_level.to_sym)
+    [:nothing].exclude?(self.admin_level.to_sym)
   end
 end

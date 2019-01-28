@@ -7,6 +7,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	  '$rootElement'
 	  '$element'
 	  '$timeout'
+	  '$ngConfirm'
 	  'MyProfile'
 	]
 
