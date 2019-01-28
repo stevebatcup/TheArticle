@@ -1,6 +1,11 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :users
+    root to: "users#index"
+  end
+
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions" }
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'

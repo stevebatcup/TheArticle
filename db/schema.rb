@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_23_171625) do
+ActiveRecord::Schema.define(version: 2019_01_28_120052) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -292,6 +292,7 @@ ActiveRecord::Schema.define(version: 2019_01_23_171625) do
     t.string "title"
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
+    t.integer "admin_level", default: 0
     t.string "slug"
     t.boolean "has_completed_wizard", default: false
     t.string "username", default: ""

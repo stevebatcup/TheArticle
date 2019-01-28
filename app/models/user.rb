@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   validates_presence_of	:first_name, :last_name, on: :create
   enum  status: [:active, :deactivated, :deleted]
+  enum  admin_level: [:nil, :admin, :super_admin]
 
   has_many  :subscriptions
   has_many  :exchanges, through: :subscriptions
@@ -253,5 +254,9 @@ class User < ApplicationRecord
     else
       UserMailer.first_confirmed(self).deliver_now
     end
+  end
+
+  def is_admin?
+    [:nil].exclude?(self.admin_level.to_sym)
   end
 end

@@ -71,6 +71,9 @@ gem 'geocoder'
 gem "acts_as_commentable_with_threading"
 gem 'mustache'
 
+gem "administrate", '>= 0.10.0'
+gem "wysiwyg-rails"
+# gem "administrate-field-nested_has_many", git: "https://github.com/NedelescuVlad/administrate-field-nested_has_many"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
