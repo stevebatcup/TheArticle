@@ -1,7 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, :only => [:create]
   after_action  :generate_profile_suggestions, :only => [:create]
-  after_action  :set_ip_data, :only => [:create]
+  # after_action  :set_ip_data, :only => [:create]
   layout	'profile-wizard'
 
   def generate_profile_suggestions
