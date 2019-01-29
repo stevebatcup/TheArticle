@@ -39,6 +39,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@getFollowSuggestions()
 
 	bindEvents: =>
+		@bindCookieAcceptance()
 		$(document).on 'keyup', 'input#user_location', (e) =>
 			$input = $('input#user_location')
 			value = $input.val()
@@ -51,6 +52,21 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 
 		# @scope.$on 'wizard:stepChanged', (event, args) =>
 		# 	console.log(args)
+
+	bindCookieAcceptance: =>
+		$('#cn-accept-cookie').on 'click', (e) =>
+			$.getJSON '/cookie-acceptance', (response) =>
+				if response.status is 'success'
+					$('#cookie-notice').fadeOut()
+					$('body').removeClass('show_cookie_notice')
+				else
+					@cookieAcceptanceError()
+			.fail (error) =>
+				@cookieAcceptanceError()
+
+	cookieAcceptanceError: =>
+		@alert "Sorry there has been an error. Please try again.", "Error"
+
 
 	searchForSuggestions: (query)=>
 		if query.length > 0
