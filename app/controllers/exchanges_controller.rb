@@ -8,7 +8,6 @@ class ExchangesController < ApplicationController
 	def show
 		@exchange = Exchange.find_by(slug: params[:slug])
 		@articles_for_carousel = @exchange.articles
-																			.unscoped
 																			.includes(:author).references(:author)
 																			.includes(:exchanges).references(:exchanges)
 																			.not_sponsored

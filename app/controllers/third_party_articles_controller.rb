@@ -17,7 +17,7 @@ class ThirdPartyArticlesController < ApplicationController
 
 	def create
 		begin
-			ThirdPartyArticleService.create_from_share(share_params)
+			ThirdPartyArticleService.create_from_share(share_params, current_user)
 			@status = :success
 		rescue Exception => e
 			@message = e.message

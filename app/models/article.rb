@@ -1,8 +1,9 @@
 class Article < ApplicationRecord
 	include WpCache
+	default_scope { where("remote_article_url = '' OR remote_article_url IS NULL") }
 	# has_and_belongs_to_many	:exchanges
 	has_and_belongs_to_many	:keyword_tags
-	belongs_to :author
+	belongs_to :author, optional: true
 	has_many :shares
 
   has_many  :categorisations
