@@ -21,6 +21,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@bindEvents()
 		vars = @getUrlVars()
 		@scope.showWelcome = if 'from_wizard' of vars then true else false
+		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars

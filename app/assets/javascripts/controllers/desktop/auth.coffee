@@ -4,12 +4,18 @@ class TheArticle.Auth extends TheArticle.PageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$compile'
+	  '$rootElement'
+	  '$element'
 	  '$timeout'
+	  '$ngConfirm'
+	  '$compile'
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
+		@bindEvents()
 
 	bindEvents: ->
+		@bindCookieAcceptance()
 
 TheArticle.ControllerModule.controller('AuthController', TheArticle.Auth)

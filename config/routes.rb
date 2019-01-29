@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     root to: "users#index"
   end
 
-  devise_for :users, controllers: { registrations: "registrations", sessions: "sessions" }
+  devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
   get 'search-suggestions',                    to: 'search#index', mode: :suggestions

@@ -3,9 +3,13 @@
 	aria-labelledby="front-page-tab"
 	 ng-controller="FrontPageController" ng-cloak>
 		<div class="container">
-			<div class="alert alert-success mb-3" ng-show="showWelcome">
+			<div class="alert alert-success mb-3 mt-3" ng-show="showWelcome">
 				<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
 				<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
+			</div>
+
+			<div class="alert alert-success mb-3 mt-3" ng-show="showPasswordChangedThanks" ng-cloak>
+				<p class="alert-success">Thanks, your password has been changed.</p>
 			</div>
 
 			<section  id="feed">

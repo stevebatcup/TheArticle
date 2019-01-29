@@ -1,7 +1,11 @@
 <section ng-controller="FrontPageController" class="container front-page" data-user-id="<%= current_user.id %>">
-	<div class="alert alert-success mb-3" ng-show="showWelcome" ng-cloak>
+	<div class="alert alert-success mb-3 mt-3" ng-show="showWelcome" ng-cloak>
 		<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
 		<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
+	</div>
+
+	<div class="alert alert-success mb-3 mt-3" ng-show="showPasswordChangedThanks" ng-cloak>
+		<p class="alert-success">Thanks, your password has been changed.</p>
 	</div>
 
 
@@ -70,7 +74,7 @@
 
 		<section class="col-6" id="feed">
 			<div class="container" id="activity-tabs">
-				<button class="btn-block btn btn-success mb-2" ng-click="openThirdPartySharingPanel($event)">Share an article</button>
+				<button class="btn-block btn btn-success mb-2 mt-3" ng-click="openThirdPartySharingPanel($event)">Share an article</button>
 				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
 				<div ng-if="feeds.loaded" class="results_block row"
 						ng-class="{'empty': feeds.data.length == 0}">
