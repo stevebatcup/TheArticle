@@ -1,0 +1,56 @@
+#thirdPartySharingModal {
+	min-height: 300px;
+	font-size: 0.9em;
+
+	.url_box {
+		padding-bottom: 20px;
+
+		img {
+			width: 45px;
+			height: 45px;
+		}
+
+		textarea {
+			height: 6em;
+			width: 87%;
+			border: none;
+			font-size: 1em;
+			outline: none;
+
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+
+	#article_preview {
+		h6 {
+			text-transform: uppercase;
+			margin: 8px 0 1px;
+		}
+
+		h4 {
+			font-size: 1em;
+		}
+
+		p {
+			color: $grey;
+		}
+	}
+
+	#your_rating {
+		textarea {
+			height: 5em;
+			padding: 12px;
+			background: $grey_light;
+			width: 100%;
+			border: none;
+			font-size: 1em;
+			outline: none;
+
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}

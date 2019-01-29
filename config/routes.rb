@@ -106,6 +106,9 @@ Rails.application.routes.draw do
   put 'notification-settings',                 to: 'notification_settings#update'
   put 'communication-preferences',             to: 'communication_preferences#update'
 
+  post 'third_party_article',                  to: 'third_party_articles#show'
+  post 'submit_third_party_article',           to: 'third_party_articles#create'
+
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|

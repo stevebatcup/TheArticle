@@ -12,6 +12,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	  'Feed'
 		'Comment'
 		'Opinion'
+		'MyProfile'
 	]
 
 	init: ->
@@ -43,6 +44,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			totalItems: 0
 			moreToLoad: true
 		@getFeeds()
+
+		@scope.myProfile = {}
+		@getMyProfile()
+
 		@listenForActions()
 
 	bindEvents: =>
@@ -84,6 +89,15 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			# console.log @scope.feeds.moreToLoad
 			@scope.feeds.loaded = true
 
+	getMyProfile: (callback=null) =>
+		@MyProfile.get().then (profile) =>
+			@scope.myProfile = profile
 
+	openThirdPartySharingPanel: ($event) =>
+		$event.preventDefault()
+		tpl = $("#thirdPartySharing").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#thirdPartySharingModal").modal()
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

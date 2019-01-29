@@ -70,6 +70,7 @@
 
 		<section class="col-6" id="feed">
 			<div class="container" id="activity-tabs">
+				<button class="btn-block btn btn-success mb-2" ng-click="openThirdPartySharingPanel($event)">Share an article</button>
 				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
 				<div ng-if="feeds.loaded" class="results_block row"
 						ng-class="{'empty': feeds.data.length == 0}">
@@ -170,4 +171,8 @@
 
 <script id="requiresConnectionInfoBox" type="script/x-mustache">
 	<%= render partial: 'follows/no_connection_modal' %>
+</script>
+
+<script id="thirdPartySharing" type="script/x-mustache">
+	<%= render partial: 'articles/third_party_sharing_modal' %>
 </script>

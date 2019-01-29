@@ -1,0 +1,90 @@
+<div class="modal fade update_card_cetails" id="thirdPartySharingModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog medium" role="document">
+    <div class="modal-content" ng-controller="ThirdPartySharingController">
+
+    	<div class="modal-header d-flex justify-content-between bg-grey">
+  			<h6 class="mb-2 mt-1">
+  				Share an article
+  			</h6>
+
+				<button data-dismiss="modal" class="btn btn-link close_share_modal text-green">
+					<i class="fas fa-times"></i>
+				</button>
+
+    	</div>
+
+      <div class="modal-body px-4">
+        <p ng-show="thirdPartyArticle.urlError.length > 0" class="alert alert-danger">
+          <small>{{ thirdPartyArticle.urlError }}</small>
+        </p>
+
+        <div class="d-flex justify-content-start url_box">
+          <img ng-src="{{myProfile.profilePhoto.image}}" alt="{{myProfile.displayName}}" class="rounded-circle mr-3" />
+
+          <textarea name="third_party_article_url"
+                      id="third_party_article_url"
+                      ng-keyup="keyPressedArticleUrl($event)"
+                      ng-paste="pastedArticleUrl($event)" placeholder="What are you reading, {{myProfile.displayName}}?  Post a link to any article you would like to share on your public profile"
+                      ng-model="thirdPartyArticle.url"></textarea>
+        </div>
+
+
+        <div ng-if="thirdPartyArticle.article.loaded" id="article_preview">
+          <img ng-src="{{thirdPartyArticle.article.data.image}}"
+                  alt="{{thirdPartyArticle.article.data.title}}"
+                  width="100%"
+                   ng-if="thirdPartyArticle.article.data.image.length > 0" />
+
+          <h6 ng-if="thirdPartyArticle.article.data.siteName.length > 0">{{thirdPartyArticle.article.data.siteName}}</h6>
+          <h4 ng-if="thirdPartyArticle.article.data.title.length > 0">{{thirdPartyArticle.article.data.title}}</h4>
+          <p ng-if="thirdPartyArticle.article.data.snippet.length > 0">{{thirdPartyArticle.article.data.snippet}}</p>
+        </div>
+
+        <div id="your_rating" ng-show="thirdPartyArticle.article.loaded">
+          <textarea name="comments" id="comments" placeholder="Add a comment..." ng-model="thirdPartyArticle.article.share.comments"></textarea>
+
+            <div id="ratings_box">
+              <div class="inner">
+                <div class="rating_section" id="well_written">
+                  <label for="well_written">Well written?</label>
+                  <input type="range" class="custom-range"
+                          ng-model="thirdPartyArticle.article.share.rating_well_written"
+                           min="1" max="10" />
+                  <div class="range_key d-flex justify-content-between">
+                    <small>Bad</small>
+                    <small>Great</small>
+                  </div>
+                </div>
+
+                <div class="rating_section" id="valid_points">
+                  <label for="valid_points">Valid points?</label>
+                  <input type="range" class="custom-range"
+                          ng-model="thirdPartyArticle.article.share.rating_valid_points"
+                          min="1" max="10" />
+                  <div class="range_key d-flex justify-content-between">
+                    <small>None</small>
+                    <small>Loads</small>
+                  </div>
+                </div>
+
+                <div class="rating_section" id="agree">
+                  <label for="agree">Agree with article?</label>
+                  <input type="range" class="custom-range"
+                          ng-model="thirdPartyArticle.article.share.rating_agree"
+                          min="1" max="10" />
+                  <div class="range_key d-flex justify-content-between">
+                    <small>No</small>
+                    <small>Yes</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="button_box justify-content-end d-flex py-3">
+              <button class="btn btn-success px-4 btn-block" ng-click="shareArticle()">Share</button>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>

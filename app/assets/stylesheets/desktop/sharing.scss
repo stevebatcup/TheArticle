@@ -39,82 +39,82 @@ $contrast: 5%;
 				height: 110px;
 			}
 		}
+	}
+}
 
-		#ratings_box {
-			margin: 10px 0 15px;
-			background: #000;
-			padding: 20px 30px;
+#ratings_box {
+	margin: 10px 0 15px;
+	background: #000;
+	padding: 20px 30px;
 
-			.rating_section {
-				border-bottom: 1px #5b5b5b solid;
-				padding: 16px 0 12px;
+	.rating_section {
+		border-bottom: 1px #5b5b5b solid;
+		padding: 16px 0 12px;
 
-				&:last-child {
-					border-bottom: none;
+		&:last-child {
+			border-bottom: none;
+		}
+
+		label {
+			font-size: 1.3em;
+			margin-bottom: 12px;
+		}
+
+		.range_key {
+			margin-top: 18px;
+			color: #ccc;
+		}
+
+		&#well_written {
+			label {
+				color: $blue_dark
+			}
+
+			input[type=range] {
+				&::-webkit-slider-thumb {
+					background-color: $blue_dark;
 				}
-
-				label {
-					font-size: 1.3em;
-					margin-bottom: 12px;
+				&::-ms-thumb {
+					background-color: $blue_dark;
 				}
-
-				.range_key {
-					margin-top: 18px;
-					color: #ccc;
+				&::-moz-range-thumb {
+					background-color: $blue_dark;
 				}
+			}
+		}
 
-				&#well_written {
-					label {
-						color: $blue_dark
-					}
+		&#valid_points {
+			label {
+				color: $green
+			}
 
-					input[type=range] {
-						&::-webkit-slider-thumb {
-							background-color: $blue_dark;
-						}
-						&::-ms-thumb {
-							background-color: $blue_dark;
-						}
-						&::-moz-range-thumb {
-							background-color: $blue_dark;
-						}
-					}
+			input[type=range] {
+				&::-webkit-slider-thumb {
+					background-color: $green;
 				}
-
-				&#valid_points {
-					label {
-						color: $green
-					}
-
-					input[type=range] {
-						&::-webkit-slider-thumb {
-							background-color: $green;
-						}
-						&::-ms-thumb {
-							background-color: $green;
-						}
-						&::-moz-range-thumb {
-							background-color: $green;
-						}
-					}
+				&::-ms-thumb {
+					background-color: $green;
 				}
+				&::-moz-range-thumb {
+					background-color: $green;
+				}
+			}
+		}
 
-				&#agree {
-					label {
-						color: $salmon
-					}
+		&#agree {
+			label {
+				color: $salmon
+			}
 
-					input[type=range] {
-						&::-webkit-slider-thumb {
-							background-color: $salmon;
-						}
-						&::-ms-thumb {
-							background-color: $salmon;
-						}
-						&::-moz-range-thumb {
-							background-color: $salmon;
-						}
-					}
+			input[type=range] {
+				&::-webkit-slider-thumb {
+					background-color: $salmon;
+				}
+				&::-ms-thumb {
+					background-color: $salmon;
+				}
+				&::-moz-range-thumb {
+					background-color: $salmon;
 				}
 			}
 		}
