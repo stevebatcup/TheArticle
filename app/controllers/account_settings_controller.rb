@@ -24,15 +24,20 @@ class AccountSettingsController < ApplicationController
 		end
 	end
 
-	# def update_password
-	# 	if current_user.update_attribute(:unconfirmed_password, user_params[:password])
-	# 		UserMailer.
-	# 		@status = :success
-	# 	else
-	# 		@status = :error
-	# 		@message = "Unknown error updating your password, please try again"
-	# 	end
-	# end
+	def update_password
+		if current_user.valid_password?(user_params[:existing_password])
+			if current_user.update_attribute(:password, user_params[:new_password])
+				sign_in(current_user, :bypass => true)
+				@status = :success
+			else
+				@status = :error
+				@message = "Unknown error updating your password, please try again"
+			end
+		else
+			@status = :error
+			@message = "You have entered your existing password incorrectly, please try again"
+		end
+	end
 
 	def update_email
 		if current_user.update_attribute(:email, user_params[:email])
@@ -81,6 +86,6 @@ class AccountSettingsController < ApplicationController
 private
 
 	def user_params
-		params.require(:user).permit(:title, :first_name, :last_name, :username, :email, :password)
+		params.require(:user).permit(:title, :first_name, :last_name, :username, :email, :existing_password, :new_password)
 	end
 end

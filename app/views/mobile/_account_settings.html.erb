@@ -289,8 +289,19 @@
 			<div class="slidepage-page right" data-page="password" data-title="Edit password" data-level="3">
 				<div class="nav_menu_form container pt-3">
 					<p class="sidenote">Change your password</p>
+
 					<div class="form-group">
-						<label for="password">Password</label>
+						<label for="confirming_password_password_1">Existing password</label><br />
+						<input type="password" name="confirming_password_password_1" id="confirming_password_password_1" ng-model="user.confirmingPassword" class="form-control" required />
+					</div>
+
+					<div class="form-group">
+						<label for="confirming_password_password_2">Confirm existing password</label><br />
+						<input type="password" name="confirming_password_password_2" id="confirming_password_password_2" ng-model="user.confirmingPasswordConfirm" class="form-control" required />
+					</div>
+
+					<div class="form-group">
+						<label for="password">New password</label>
 						<em>(6 characters minimum)</em>
 					  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password' %>
 					</div>
@@ -299,7 +310,7 @@
 
 					<div class="actions d-flex justify-content-between align-items-start">
 						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
-						<button class="btn btn-success w-40" ng-click="savePassword($event)">Save</button>
+						<button class="btn btn-success w-40" ng-click="savePassword($event)">Update password</button>
 					</div>
 				</div>
 			</div>

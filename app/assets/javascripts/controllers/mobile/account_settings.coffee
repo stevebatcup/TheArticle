@@ -221,18 +221,35 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 	savePassword: ($event) =>
 		$event.preventDefault() if $event?
 		@scope.errors.password = false
-		if (!@scope.user.password?) or (@scope.user.password.length is 0)
+		if (!@scope.user.confirmingPassword?) or (!@scope.user.confirmingPasswordConfirm?)
+			@scope.errors.password = "Please enter the existing password for your account in the first and second boxes above."
+		if (@scope.errors.password is false) and (@scope.user.confirmingPassword isnt @scope.user.confirmingPasswordConfirm)
+			@scope.errors.password = "Please make sure your existing password and the confirmation match"
+		if (@scope.errors.password is false) and ((!@scope.user.password?) or (@scope.user.password.length is 0))
 			@scope.errors.password = "Please enter a new password for your account"
 		if (@scope.errors.password is false) and (@scope.user.password.length < 6)
-			@scope.errors.password = "Please make sure your password is at least 6 characters long"
+			@scope.errors.password = "Please make sure your new password is at least 6 characters long"
 		if @scope.errors.password is false
-			@updateUser =>
-				alertMsg = "Your request to change your password has been received and an email has been sent to <b>#{@scope.user.email}</b>.
-				To complete this change request, please verify your new password by clicking on the link in that email. "
-				@alert alertMsg, "Password change request", =>
+			@updatePassword =>
+				alertMsg = "Thanks, your password has been changed."
+				@alert alertMsg, "Password changed", =>
+					@scope.user.confirmingPassword = ''
+					@scope.user.confirmingPasswordConfirm = ''
+					@scope.user.password = ''
 					@backToPage('account')
 			, (errorMsg) =>
 				@scope.errors.password = errorMsg
+
+	updatePassword: (successCallback=null, errorCallback=null) =>
+		@http.put "/update-password",
+			user:
+				existing_password: @scope.user.confirmingPassword
+				new_password: @scope.user.password
+		.then (response) =>
+			if response.data.status is 'success'
+				successCallback.call(@) if successCallback?
+			else if response.data.status is 'error'
+				errorCallback.call(@, response.data.message) if errorCallback?
 
 	deleteAccount: ($event) =>
 		$event.preventDefault() if $event?
