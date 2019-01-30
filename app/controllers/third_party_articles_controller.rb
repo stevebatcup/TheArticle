@@ -20,7 +20,7 @@ class ThirdPartyArticlesController < ApplicationController
 			ThirdPartyArticleService.create_from_share(share_params, current_user)
 			@status = :success
 		rescue Exception => e
-			@message = e.message
+			@message = e.backtrace
 			@status = :error
 		end
 	end
@@ -31,6 +31,6 @@ private
 	end
 
 	def share_params
-		params.require(:share).permit(:article, :post, :rating_well_written, :rating_valid_points, :rating_agree)
+		params.require(:share).permit(:post, :rating_well_written, :rating_valid_points, :rating_agree, article: [:url, :title, :snippet, :image, :type, :siteName])
 	end
 end

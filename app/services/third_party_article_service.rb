@@ -22,9 +22,8 @@ module ThirdPartyArticleService
 			if WhiteListedThirdPartyPublisher.find_by(url: host)
 				# create the article
 				article = self.create_article(params[:article])
-				# byebug
 				# create the share
-				self.create_share(article, params[:post], params[:rating_well_written], params[:rating_valid_points], params[:rating_agree])
+				share = self.create_share(article.id, current_user, params[:post], params[:rating_well_written], params[:rating_valid_points], params[:rating_agree])
 			else
 				QuarantinedThirdPartyShare.create({
 					status: :pending,
@@ -54,8 +53,15 @@ module ThirdPartyArticleService
 			})
 		end
 
-		def create_share(article, post, rating_well_written, rating_valid_points, rating_agree)
-
+		def create_share(article_id, current_user, post, rating_well_written, rating_valid_points, rating_agree)
+			Share.create({
+				user_id: current_user.id,
+				article_id: article_id,
+				post: post,
+				rating_well_written: rating_well_written,
+				rating_valid_points: rating_valid_points,
+				rating_agree: rating_agree
+			})
 		end
 	end
 end

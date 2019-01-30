@@ -12,6 +12,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	  'Feed'
 		'Comment'
 		'Opinion'
+		'MyProfile'
 	]
 
 	init: ->
@@ -45,6 +46,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			totalItems: 0
 			moreToLoad: true
 		@getFeeds()
+
+		@scope.myProfile = {}
+		@getMyProfile()
+
 		@listenForActions()
 
 	bindEvents: =>
@@ -90,5 +95,16 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
 			# console.log @scope.feeds.moreToLoad
 			@scope.feeds.loaded = true
+
+	getMyProfile: (callback=null) =>
+		@MyProfile.get().then (profile) =>
+			@scope.myProfile = profile
+
+	openThirdPartySharingPanel: ($event) =>
+		$event.preventDefault()
+		tpl = $("#thirdPartySharing").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#thirdPartySharingModal").modal()
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

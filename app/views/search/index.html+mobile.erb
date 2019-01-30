@@ -39,10 +39,10 @@
 		</ul>
 	</div>
 
-	<div id="results_pane" class="">
+	<div id="results_pane" class="" ng-cloak>
 		<div class="">
 			<div class="results_block"
-						ng-if="(selectedTab == 'all' || selectedTab == 'articles')">
+						ng-if="(selectedTab == 'all' || selectedTab == 'articles')" ng-cloak>
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Article results for "{{search.query}}"</h6>
 				<p ng-if="(search.results.data.articles.length == 0)" class="no_results">
 					Sorry no article results for "{{search.query}}"

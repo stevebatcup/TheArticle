@@ -36,7 +36,7 @@ class ArticlesController < ApplicationController
 
 	def show
 		@ad_page_type = 'article'
-		if @article = Article.where(slug: params[:slug])
+		if @article = Article.not_remote.where(slug: params[:slug])
 													.includes(:author).references(:author)
 													.includes(:exchanges).references(:exchanges)
 													.first

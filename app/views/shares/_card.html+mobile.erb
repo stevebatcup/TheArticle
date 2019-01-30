@@ -73,27 +73,30 @@
 	<div class="article_box">
 		<div class="inner">
 			<div class="img_mask">
-				<a ng-if="item.article.image" href="{{ item.article.path }}">
+				<a ng-if="item.article.image" href="{{ item.article.path }}"
+						ng-attr-target="{{(item.article.isRemote) ? '_blank' : undefined}}">
 					<img ng-src="{{ item.article.image }}" alt="{{ item.article.title }}" />
 				</a>
 			</div>
 
-			<a href="{{ item.article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ item.article.exchange.slug }}">
+			<a href="{{ item.article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ item.article.exchange.slug }}"
+				ng-if="item.article.exchange.name.length">
 		    <i ng-if="item.article.exchange.isSponsored" class="fas fa-star"></i>
 			  {{ item.article.exchange.name }}
 			</a>
 
-			<header class="entry-header pt-3 px-3">
+			<header class="entry-header pt-3 px-3" ng-class="{'pt-4': item.article.isRemote}">
 				<h4 class="entry-title mb-0" id="article-post-title-{{ item.article.id }}">
-					<a href="{{ item.article.path }}" ng-bind="item.article.title"></a>
+					<a href="{{ item.article.path }}" ng-bind-html="item.article.title"
+							ng-attr-target="{{(item.article.isRemote) ? '_blank' : undefined}}"></a>
 				</h4>
 			</header>
 
-			<div class="entry-content py-0 px-3">
+			<div class="entry-content py-0 px-3" ng-class="{'pb-3': item.article.isRemote}">
 				{{ item.article.snippet }}
 			</div>
 
-			<footer class="entry-footer pt-1 px-3 pb-2">
+			<footer class="entry-footer pt-1 px-3 pb-2" ng-if="item.article.author.name.length">
 				<p class="author_link d-flex justify-content-between align-items-start">
 					<a href="{{ item.article.author.path }}">by <span>{{ item.article.author.name }}</span></a>
 					<span class="entry-date">{{ item.article.publishedAt }}</span></p>
@@ -180,21 +183,21 @@
 		  <div class="comments px-0 px-md-2 px-lg-3 navbar">
 		  	<div class="order_by_dropdown dropdown">
 		  	  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		  	    {{commentOrderText(item.orderBy)}} <i class="fas fa-chevron-down"></i>
+		  	    {{commentOrderText(item.orderCommentsBy)}} <i class="fas fa-chevron-down"></i>
 		  	  </a>
 		  	  <div class="dropdown-menu">
 		  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_relevant')">
-		  				<i class="fas fa-check tick" ng-if="item.orderBy == 'most_relevant'"></i>
+		  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'most_relevant'"></i>
 		  				<h6>Most relevant</h6>
 		  				<p>Shows people you follow’s comments and the most engaging comments first</p>
 		  	    </div>
 		  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_recent')">
-		  				<i class="fas fa-check tick" ng-if="item.orderBy == 'most_recent'"></i>
+		  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'most_recent'"></i>
 		  				<h6>Most recent</h6>
 		  				<p>Shows all comments, with the oldest first</p>
 		  	    </div>
 		  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'oldest')">
-		  				<i class="fas fa-check tick" ng-if="item.orderBy == 'oldest'"></i>
+		  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'oldest'"></i>
 		  				<h6>Oldest</h6>
 		  				<p>Shows all comments, with the oldest first</p>
 		  	    </div>

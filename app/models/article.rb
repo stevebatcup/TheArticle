@@ -1,7 +1,5 @@
 class Article < ApplicationRecord
 	include WpCache
-	default_scope { where("remote_article_url = '' OR remote_article_url IS NULL") }
-	# has_and_belongs_to_many	:exchanges
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author, optional: true
 	has_many :shares
@@ -11,6 +9,8 @@ class Article < ApplicationRecord
 
 	after_destroy :update_all_article_counts
 	mount_uploader :image, ArticleImageUploader
+
+	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
 	def ratings
 		@ratings ||= begin
@@ -50,7 +50,7 @@ class Article < ApplicationRecord
 		sponsors = Author.sponsors.to_a
 		limit = sponsors.any? ? 5 : 6
 		articles = Rails.cache.fetch("recent_unsponsored_articles") do
-			self.not_sponsored
+			self.not_sponsored.not_remote
 					.includes(:author).references(:author)
 					.order(published_at: :desc)
 					.limit(limit)
@@ -68,7 +68,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.trending
-		self.not_sponsored
+		self.not_sponsored.not_remote
 			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
@@ -141,7 +141,7 @@ class Article < ApplicationRecord
 
 	def self.leading_editor_article
 		Rails.cache.fetch("leading_editor_article") do
-			self.not_sponsored
+			self.not_sponsored.not_remote
 				.includes(:keyword_tags).references(:keyword_tags)
 				.includes(:exchanges).references(:exchanges)
 				.includes(:author).references(:author)
@@ -153,7 +153,7 @@ class Article < ApplicationRecord
 
 	def self.editors_picks
 		editor_at_exchange_articles = Exchange.where(slug: 'editor-at-the-article').first.articles
-		self.not_sponsored
+		self.not_sponsored.not_remote
 			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)

@@ -12,7 +12,9 @@
 				<p class="alert-success">Thanks, your password has been changed.</p>
 			</div>
 
-			<section  id="feed">
+			<section id="feed">
+				<button class="btn-block btn btn-success mb-2 mt-3" ng-click="openThirdPartySharingPanel($event)">Share an article</button>
+
 				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
 				<div ng-if="feeds.loaded" class="results_block row"
 							ng-class="{'empty': feeds.data.length == 0}">

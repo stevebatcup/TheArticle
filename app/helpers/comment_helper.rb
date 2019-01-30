@@ -8,7 +8,7 @@ module CommentHelper
 			id: comment.id,
 			stamp: comment.created_at.to_i,
 			date: comment.created_at.strftime("%e %b"),
-			orderBy: :most_relevant,
+			orderCommentsBy: :most_relevant,
 			share: share_info_as_json(share, true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,
@@ -25,20 +25,21 @@ module CommentHelper
 			},
 			article: {
 				id: share.article.id,
+				isRemote: share.article.remote_article_url.present?,
 				snippet: article_excerpt_for_listing(share.article, 160),
 				image: share.article.image.url(:cover_mobile),
 				title: strip_tags(share.article.title),
 				publishedAt: article_date(share.article),
 				path: article_path(share.article),
 				author: {
-				  name: author.display_name,
-				  path: contributor_path(slug: author.slug)
+				  name: author.nil? ? '' : author.display_name,
+				  path: author.nil? ? '' : contributor_path(slug: author.slug)
 				},
 				exchange: {
-					name: exchange.name,
-					path: exchange_path(slug: exchange.slug),
-					isSponsored: exchange.slug == 'sponsored',
-					slug: exchange.slug
+					name: exchange.nil? ? '' : exchange.name,
+					path: exchange.nil? ? '' : exchange_path(slug: exchange.slug),
+					slug: exchange.nil? ? '' : exchange.slug,
+					isSponsored: exchange.nil? ? '' : exchange.slug == 'sponsored'
 				}
 			},
 			commentAction: {

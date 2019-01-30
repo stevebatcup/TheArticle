@@ -12,7 +12,7 @@ module ArticleHelper
 	end
 
 	def article_path(article)
-		"/#{article.slug}"
+		article.remote_article_url.present? ? article.remote_article_url : "/#{article.slug}"
 	end
 
 	def adified_content(article)
