@@ -1,4 +1,11 @@
 GIT
+  remote: git@github.com:BigDilettante/ogp.git
+  revision: cb4c2058d917bec7862797b3536d44a4a63a3f50
+  specs:
+    ogp (0.2.0)
+      oga (~> 2.10)
+
+GIT
   remote: git@github.com:BigDilettante/wp-connector.git
   revision: bad2b5601d18f8656b93f0e80109031052be0078
   specs:
@@ -239,8 +246,6 @@ GEM
     oga (2.15)
       ast
       ruby-ll (~> 2.1)
-    ogp (0.2.0)
-      oga (~> 2.10)
     orm_adapter (0.5.0)
     public_suffix (3.0.3)
     puma (3.12.0)
@@ -415,7 +420,7 @@ DEPENDENCIES
   mustache
   mysql2 (>= 0.4.4, < 0.6.0)
   nokogiri
-  ogp
+  ogp!
   puma (~> 3.11)
   rails (~> 5.2.0)
   redis-rails
