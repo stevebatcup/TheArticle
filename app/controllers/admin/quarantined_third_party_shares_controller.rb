@@ -5,7 +5,7 @@ module Admin
     #
     # def index
     #   super
-    #   @resources = QuarantinedThirdPartyShare.
+    #   @resources = QuarantinedThirdPartyShare.pending.
     #     page(params[:page]).
     #     per(10)
     # end
@@ -15,7 +15,59 @@ module Admin
     #   QuarantinedThirdPartyShare.find_by!(slug: param)
     # end
 
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+    def scoped_resource
+      QuarantinedThirdPartyShare.pending.
+      page(params[:page]).
+      per(10)
+    end
+
+    def approve
+      respond_to do |format|
+        format.json do
+          share = QuarantinedThirdPartyShare.find(params[:id])
+          if share.update_attribute(:status, :approved)
+            @status = :success
+          else
+            @status = :error
+            @message = share.errors.full_messages.first
+          end
+        end
+      end
+    end
+
+    def reject
+      respond_to do |format|
+        format.json do
+          share = QuarantinedThirdPartyShare.find(params[:id])
+          if share.update_attribute(:status, :rejected)
+            NoticeMailer.reject_third_party_share(share).deliver_now
+            if share.user.has_reached_rejected_post_limit?
+              share.user.delete_account
+            end
+            @status = :success
+          else
+            @status = :error
+            @message = share.errors.full_messages.first
+          end
+        end
+      end
+    end
+
+    def delete
+      respond_to do |format|
+        format.json do
+          share = QuarantinedThirdPartyShare.find(params[:id])
+          if share.update_attribute(:status, :rejected)
+            share.user.delete_account
+            @status = :success
+          else
+            @status = :error
+            @message = share.errors.full_messages.first
+          end
+        end
+      end
+    end
+
+
   end
 end

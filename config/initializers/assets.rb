@@ -14,4 +14,4 @@ end
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( tablet.scss desktop.scss desktop.js mobile.scss mobile.js setup.js admin.scss )
+Rails.application.config.assets.precompile += %w( tablet.scss desktop.scss desktop.js mobile.scss mobile.js setup.js admin.scss bootstrap/dist/css/bootstrap.css admin_setup.js admin_angular.js )

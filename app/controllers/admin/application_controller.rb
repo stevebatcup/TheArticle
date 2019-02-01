@@ -17,6 +17,11 @@ module Admin
       raise SecurityError unless current_user.try(:is_admin?)
     end
 
+    def quarantined_post_count
+      @quarantined_post_count ||= QuarantinedThirdPartyShare.where(status: :pending).size
+    end
+    helper_method :quarantined_post_count
+
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.
     # def records_per_page

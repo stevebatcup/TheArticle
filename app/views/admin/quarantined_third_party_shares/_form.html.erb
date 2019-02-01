@@ -1,0 +1,49 @@
+<%#
+# Form Partial
+
+This partial is rendered on a resource's `new` and `edit` pages,
+and renders all form fields for a resource's editable attributes.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Form][1].
+  Contains helper methods to display a form,
+  and knows which attributes should be displayed in the resource's form.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Form
+%>
+
+<%= form_for([namespace, page.resource], html: { class: "form" }) do |f| %>
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+          "administrate.form.errors",
+          pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+          resource_name: display_resource_name(page.resource_name)
+        ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% page.attributes.each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <div class="field-unit">
+    <div class="field-unit__field form-actions">
+      <button ng-click="approve($event, <%= page.resource.id %>)" id="approve" class="btn btn-block btn-success">Approve post and send domain to whitelist</button>
+      <button ng-click="reject($event, <%= page.resource.id %>)" id="reject" class="btn btn-block btn-danger">Delete post and send rejection email</button>
+      <button ng-click="delete($event, <%= page.resource.id %>)" id="delete" class="btn btn-block btn-danger">Delete both post and usr</button>
+    </div>
+  </div>
+<% end %>

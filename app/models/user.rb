@@ -260,4 +260,8 @@ class User < ApplicationRecord
   def is_admin?
     [:nothing].exclude?(self.admin_level.to_sym)
   end
+
+  def has_reached_rejected_post_limit?
+    self.quarantined_third_party_shares.where(status: :rejected).size > 5
+  end
 end

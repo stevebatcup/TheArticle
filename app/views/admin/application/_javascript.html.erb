@@ -19,3 +19,30 @@ by providing a `content_for(:javascript)` block.
     $.ajaxSetup({ async: false });
   <% end %>
 <% end %>
+
+<script type="text/javascript">
+  // Bootstrap the app
+  var moduleName = "TheArticleNG"
+  window.App = angular.module(moduleName, [
+    'rails',
+    'cp.ngConfirm',
+    'mgo-angular-wizard',
+    'ngSanitize',
+    'TheArticle.directives',
+    'TheArticle.factories',
+    'TheArticle.filters',
+    'TheArticle.controllers'
+  ]);
+  window.App.run(function ($rootScope) { $rootScope._ = _; });
+  $(document).ready(function() {
+    $('[ng-controller]').each(function(index, root) {
+      if (!$(root).hasClass('ng-scope')) {
+        console.log("bootstrapped " + $(root).attr('ng-controller'));
+        angular.bootstrap($(root), [moduleName]);
+      }
+    })
+  });
+</script>
+
+  <%= javascript_include_tag 'admin_angular', 'data-turbolinks-track': 'reload' %>
+
