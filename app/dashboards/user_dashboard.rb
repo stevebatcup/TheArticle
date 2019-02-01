@@ -8,6 +8,11 @@ class UserDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    id: Field::Number,
+    first_name: Field::String,
+    last_name: Field::String,
+    created_at: Field::DateTime,
+    human_created_at: Field::DateTime,
     subscriptions: Field::HasMany,
     exchanges: Field::HasMany,
     followings: Field::HasMany.with_options(class_name: "Follow"),
@@ -26,11 +31,9 @@ class UserDashboard < Administrate::BaseDashboard
     notification_settings: Field::HasMany,
     communication_preferences: Field::HasMany,
     email_alias_logs: Field::HasMany,
-    id: Field::Number,
     status: Field::String.with_options(searchable: false),
+    status_for_admin: Field::String.with_options(searchable: false),
     title: Field::String,
-    first_name: Field::String,
-    last_name: Field::String,
     slug: Field::String,
     has_completed_wizard: Field::Boolean,
     username: Field::String,
@@ -57,7 +60,6 @@ class UserDashboard < Administrate::BaseDashboard
     confirmed_at: Field::DateTime,
     confirmation_sent_at: Field::DateTime,
     unconfirmed_email: Field::String,
-    created_at: Field::DateTime,
     updated_at: Field::DateTime,
     signup_ip_address: Field::String,
     signup_ip_city: Field::String,
@@ -72,92 +74,72 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :title,
+    :id,
+    :human_created_at,
     :first_name,
     :last_name,
     :display_name,
     :email,
-    :username,
-    :has_completed_wizard,
     :status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :status,
     :title,
     :first_name,
     :last_name,
     :display_name,
     :username,
+    :email,
+    :status,
     :has_completed_wizard,
-    :email
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :subscriptions,
-    :exchanges,
-    :followings,
-    :fandoms,
-    :followers,
-    :profile_suggestions,
-    :shares,
-    :search_logs,
-    :comments,
-    :opinions,
-    :feeds,
-    :notifications,
-    :concern_reports,
-    :mutes,
-    :blocks,
-    :notification_settings,
-    :communication_preferences,
-    :email_alias_logs,
+    # :subscriptions,
+    # :exchanges,
+    # :followings,
+    # :fandoms,
+    # :followers,
+    # :profile_suggestions,
+    # :shares,
+    # :search_logs,
+    # :comments,
+    # :opinions,
+    # :feeds,
+    # :notifications,
+    # :concern_reports,
+    # :mutes,
+    # :blocks,
+    # :notification_settings,
+    # :communication_preferences,
+    # :email_alias_logs,
     :status,
     :title,
     :first_name,
     :last_name,
-    :slug,
-    :has_completed_wizard,
     :username,
     :display_name,
+    :bio,
+    :email,
     :location,
-    :lat,
-    :lng,
-    :country_code,
     :profile_photo,
     :default_profile_photo_id,
     :cover_photo,
-    :bio,
-    :email,
-    :encrypted_password,
-    :reset_password_token,
-    :reset_password_sent_at,
-    :remember_created_at,
-    :sign_in_count,
-    :current_sign_in_at,
-    :last_sign_in_at,
-    :current_sign_in_ip,
-    :last_sign_in_ip,
-    :confirmation_token,
-    :confirmed_at,
-    :confirmation_sent_at,
-    :unconfirmed_email,
     :signup_ip_address,
     :signup_ip_city,
     :signup_ip_region,
     :signup_ip_country,
-    :notification_counter_cache,
   ].freeze
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.
   #
   def display_resource(user)
-    user.username
+    user.display_name
   end
 end

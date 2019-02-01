@@ -42,14 +42,15 @@ class User < ApplicationRecord
 
   has_many  :email_alias_logs
 
-  has_many  :black_list_users
-  has_many  :watch_list_users
+  has_one  :black_list_user
+  has_one  :watch_list_user
   has_many  :quarantined_third_party_shares
 
   include Suggestable
   include Shareable
   include Followable
   include Opinionable
+  include Adminable
 
   def assign_default_settings
     self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
@@ -255,13 +256,5 @@ class User < ApplicationRecord
     else
       UserMailer.first_confirmed(self).deliver_now
     end
-  end
-
-  def is_admin?
-    [:nothing].exclude?(self.admin_level.to_sym)
-  end
-
-  def has_reached_rejected_post_limit?
-    self.quarantined_third_party_shares.where(status: :rejected).size > 5
   end
 end

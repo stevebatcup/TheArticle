@@ -3,6 +3,9 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   namespace :admin do
     resources :users
+    get 'set_users_per_page', to: 'users#set_records_per_page'
+    get 'add_user_to_blacklist', to: 'users#add_to_blacklist'
+    get 'add_user_to_watchlist', to: 'users#add_to_watchlist'
     resources :concern_reports
     resources :watch_list_users
     resources :black_list_users

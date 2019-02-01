@@ -30,4 +30,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  helpers:
+    label:
+      user:
+        id: User ID
+        human_created_at: Signed up
+        has_completed_wizard: Has completed registration

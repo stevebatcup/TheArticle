@@ -1,7 +1,25 @@
+@import "_variables";
+@import "colours";
 @import "angular1-confirm/css/angular-confirm.css";
 
+/* FIXES */
+.search__eyeglass-icon,
+.search__clear-link {
+	top: 58%;
+}
+
+.search {
+	position: relative;
+  top: -3px;
+
+  label {
+		display: block;
+	}
+}
+
+
 #admin_sidenav {
-	flex: 1 0 15rem;
+	flex: 1 0 13rem;
 
 	#logo {
 		margin-bottom: 20px;
@@ -55,5 +73,26 @@
 .admin_index_header {
 	.search {
 		max-width: 27rem;
+	}
+}
+
+.main-content__body {
+	.pagination {
+		width: 75%;
+	  float: left;
+	}
+
+	#per_page_setter {
+		width: 23%;
+    float: right;
+    padding-top: 15px;
+    padding-right: 40px;
+    text-align: right;
+    overflow: hidden;
+
+    select {
+    	width: 60px;
+    	float: right;
+    }
 	}
 }
