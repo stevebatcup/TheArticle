@@ -20,6 +20,11 @@ module ThirdPartyArticleService
 			URI.parse(url).host.downcase.gsub(/www\./, '')
 		end
 
+		def add_domain_from_url(url)
+			host = self.get_domain_from_url(url)
+			WhiteListedThirdPartyPublisher.create({domain: host})
+		end
+
 		def create_from_share(params, current_user)
 			url = params[:article][:url]
 			host = self.get_domain_from_url(url)
