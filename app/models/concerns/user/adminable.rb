@@ -19,8 +19,17 @@ module User::Adminable
 		self.black_list_user.present?
 	end
 
+	def is_watchlisted?
+		self.watch_list_user.present?
+	end
+
 	def add_to_blacklist(reason)
 		self.build_black_list_user({reason: reason})
+		self.save
+	end
+
+	def add_to_watchlist(reason)
+		self.build_watch_list_user({reason: reason})
 		self.save
 	end
 

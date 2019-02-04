@@ -89,16 +89,16 @@ class TheArticle.PageController extends TheArticle.NGController
 			closeIcon: true,
 			closeIconClass: 'fas fa-times'
 			buttons:
-				successBtn:
-					text: buttons[1]
-					btnClass: 'btn-success'
-					action: success
 				cancelBtn:
 					text: buttons[0]
 					btnClass: 'btn-danger'
 					action: =>
 						cancel.call(@) if cancel?
 						confirmBox.close()
+				successBtn:
+					text: buttons[1]
+					btnClass: 'btn-success'
+					action: success
 
 	postJSON: (url, data, successCallback=null, errorCallback=null) =>
 		$.ajax

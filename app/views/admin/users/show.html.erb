@@ -32,7 +32,13 @@ as well as a link to its edit page.
   </div>
 </header>
 
-<section class="main-content__body" ng-controller="UserController">
+<section class="main-content__body"
+          ng-controller="UserController"
+          data-black-listed="<%= page.resource.is_blacklisted? %>"
+          data-watch-listed="<%= page.resource.is_watchlisted? %>"
+          data-status="<%= page.resource.status %>"
+          data-name="<%= page.resource.full_name %>"
+          data-id="<%= page.resource.id %>">
   <dl>
     <% page.attributes.each do |attribute| %>
       <dt class="attribute-label" id="<%= attribute.name %>">
@@ -47,11 +53,5 @@ as well as a link to its edit page.
     <% end %>
   </dl>
 
-  <div class="field-unit">
-    <div class="field-unit__field form-actions">
-      <% unless page.resource.is_blacklisted? %>
-        <button ng-click="addToBlackList($event, <%= page.resource.id %>)" class="btn btn-danger" ng-if="!user.blacklisted">Add user to blacklist</button>
-      <% end %>
-    </div>
-  </div>
+  <%= render partial: 'actions', locals: { user: page.resource } %>
 </section>

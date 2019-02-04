@@ -1,27 +1,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  namespace :admin do
-    resources :users
-    get 'set_users_per_page', to: 'users#set_records_per_page'
-    get 'add_user_to_blacklist', to: 'users#add_to_blacklist'
-    get 'add_user_to_watchlist', to: 'users#add_to_watchlist'
-    resources :concern_reports
-    resources :user_concern_reports
-    resources :comment_concern_reports
-    resources :share_concern_reports
-    get 'mark_concern_report_as_seen', to: 'concern_reports#update'
-    resources :watch_list_users
-    resources :black_list_users
-    resources :concern_reports
-    resources :quarantined_third_party_shares
-    get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
-    get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
-    get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'
-    resources :white_listed_third_party_publishers
-    root to: "users#index"
-  end
-
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
@@ -119,6 +98,30 @@ Rails.application.routes.draw do
   post 'third_party_article',                  to: 'third_party_articles#show'
   get 'check_third_party_whitelist',           to: 'third_party_articles#check_white_list'
   post 'submit_third_party_article',           to: 'third_party_articles#create'
+
+  namespace :admin do
+    resources :users
+    get 'set_users_per_page', to: 'users#set_records_per_page'
+    get 'add_user_to_blacklist', to: 'users#add_to_blacklist'
+    get 'add_user_to_watchlist', to: 'users#add_to_watchlist'
+    get 'deactivate_user', to: 'users#deactivate'
+    get 'reactivate_user', to: 'users#reactivate'
+    delete 'delete_user', to: 'users#destroy'
+    resources :concern_reports
+    resources :user_concern_reports
+    resources :comment_concern_reports
+    resources :share_concern_reports
+    get 'mark_concern_report_as_seen', to: 'concern_reports#update'
+    resources :watch_list_users
+    resources :black_list_users
+    resources :concern_reports
+    resources :quarantined_third_party_shares
+    get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
+    get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
+    get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'
+    resources :white_listed_third_party_publishers
+    root to: "users#index"
+  end
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

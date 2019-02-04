@@ -1,0 +1,2 @@
+class AccountDeletion < ApplicationRecord
+end

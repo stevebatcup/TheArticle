@@ -1,0 +1,50 @@
+<div class="field-unit">
+  <div class="field-unit__field form-actions">
+  	<div class="btn-group btn-group-sm" role="group">
+	      <button ng-click="addToBlackList($event)"
+	      				class="btn btn-danger"
+	      				ng-class="{'disabled': user.watchlisted}"
+	      				ng-disabled="user.blacklisted"
+	      				ng-if="!user.deleted">
+	      				<i class="fas fa-users mr-2"></i>
+	      				<span ng-if="!user.blacklisted">Add user to blacklist</span>
+	      				<span ng-if="user.blacklisted">On blacklist</span>
+	      	</button>
+
+	      <button ng-click="addToWatchList($event)"
+	      			class="btn btn-danger"
+	      			ng-class="{'disabled': user.watchlisted}"
+	      			ng-disabled="user.watchlisted"
+	      			ng-if="!user.deleted">
+	      			<i class="fas fa-stopwatch mr-2"></i>
+	      		<span ng-if="!user.watchlisted">Add user to watchlist</span>
+	      		<span ng-if="user.watchlisted">On watchlist</span>
+	      	</button>
+
+		    <button ng-click="deactivate($event)"
+		    					class="btn btn-danger"
+		    					ng-if="!user.deactivated && !user.deleted">
+		    				<i class="fas fa-toggle-on mr-2"></i>
+		    				Deactivate user
+	    			</button>
+
+		    <button ng-click="reactivate($event)"
+		    					class="btn btn-danger"
+		    					ng-if="user.deactivated && !user.deleted">
+		    				<i class="fas fa-toggle-off mr-2"></i>
+		    				Reactivate user
+	    			</button>
+
+	    <button ng-click="delete($event)"
+	    				class="btn btn-danger"
+	    				ng-class="{'disabled': user.deleted}"
+	    				ng-disabled="user.deleted">
+	    				<span ng-if="!user.deleted">
+		    				<i class="fas fa-exclamation-triangle mr-2"></i>
+		    				Delete account
+	    				</span>
+	    				<span ng-if="user.deleted">ACCOUNT DELETED!</span>
+  			</button>
+	  </div>
+  </div>
+</div>

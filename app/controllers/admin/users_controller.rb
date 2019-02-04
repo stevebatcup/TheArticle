@@ -1,20 +1,5 @@
 module Admin
   class UsersController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = User.
-    #     page(params[:page]).
-    #     per(10)
-    # end
-
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   User.find_by!(slug: param)
-    # end
-
     def set_records_per_page
       respond_to do |format|
         format.json do
@@ -32,11 +17,51 @@ module Admin
         format.json do
           if user = User.find_by(id: params[:user_id])
             user.add_to_blacklist("Blacklisted from admin")
-            @status = :error
+            @status = :success
           else
             @status = :error
           end
         end
+      end
+    end
+
+    def add_to_watchlist
+      respond_to do |format|
+        format.json do
+          if user = User.find_by(id: params[:user_id])
+            user.add_to_watchlist("Added from admin")
+            @status = :success
+          else
+            @status = :error
+          end
+        end
+      end
+    end
+
+    def deactivate
+      if user = User.find_by(id: params[:user_id])
+        user.deactivate
+        @status = :success
+      else
+        @status = :error
+      end
+    end
+
+    def reactivate
+      if user = User.find_by(id: params[:user_id])
+        user.reactivate
+        @status = :success
+      else
+        @status = :error
+      end
+    end
+
+    def destroy
+      if user = User.find_by(id: params[:user_id])
+        user.delete_account("Admin deleted account", true)
+        @status = :success
+      else
+        @status = :error
       end
     end
 
