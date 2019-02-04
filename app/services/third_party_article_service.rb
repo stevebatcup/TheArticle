@@ -9,17 +9,21 @@ module ThirdPartyArticleService
 				OGP::OpenGraph.new(response.body)
 			rescue NoMethodError => e
 				raise IOError.new("Sorry, we cannot properly read the data from that article URL")
-			rescue Faraday::ConnectionFailed, ArgumentError
+			rescue Faraday::ConnectionFailed, ArgumentError, URI::InvalidURIError
 				raise IOError.new("Please enter a valid web URL")
 			rescue OGP::MissingAttributeError
 				raise IOError.new("Please enter a valid article URL")
 			end
 		end
 
+		def get_domain_from_url(url)
+			URI.parse(url).host.downcase.gsub(/www\./, '')
+		end
+
 		def create_from_share(params, current_user)
 			url = params[:article][:url]
-			host = URI.parse(url).host.downcase
-			if WhiteListedThirdPartyPublisher.find_by(url: host)
+			host = self.get_domain_from_url(url)
+			if WhiteListedThirdPartyPublisher.find_by(domain: host)
 				# create the article
 				article = self.create_article(params[:article])
 				# create the share

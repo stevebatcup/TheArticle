@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_29_171454) do
+ActiveRecord::Schema.define(version: 2019_02_04_092758) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "wp_id"
@@ -365,7 +365,7 @@ ActiveRecord::Schema.define(version: 2019_01_29_171454) do
 
   create_table "white_listed_third_party_publishers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
-    t.string "url"
+    t.string "domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -8,6 +8,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 	  '$element'
 	  '$timeout'
 	  '$ngConfirm'
+	  '$compile'
 	]
 
 	init: ->
@@ -16,6 +17,10 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 			well_written: false
 			valid_points: false
 			agree: false
+		@resetArticleData()
+		@bindWatchers()
+
+	resetArticleData: =>
 		@scope.thirdPartyArticle =
 			url: ''
 			urlError: ''
@@ -28,7 +33,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 					rating_well_written: 0
 					rating_valid_points: 0
 					rating_agree: 0
-		@bindWatchers()
+
 
 	bindWatchers: =>
 		@scope.$watch 'thirdPartyArticle.article.share.rating_well_written', (newVal, oldVal) =>
@@ -65,8 +70,31 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 					@scope.thirdPartyArticle.article.data = response.data.article
 					@scope.thirdPartyArticle.article.loaded = true
 
+	shareNonWhitelistedArticleConfirm: =>
+		tpl = $("#confirmNonWhiteListed").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#confirmNonWhiteListedModal").modal()
+
+	cancelNonWhiteListArticle: ($event) =>
+		$event.preventDefault()
+		$('[data-dismiss=modal]').click()
+
+	confirmNonWhiteListArticle: ($event) =>
+		$event.preventDefault()
+		$("#confirmNonWhiteListedModal").modal('hide')
+		@shareArticleConfirm()
+
 	shareArticle: =>
 		@scope.thirdPartyArticle.article.error = false
+		@http.get("check_third_party_whitelist?url=#{@scope.thirdPartyArticle.url}").then (response) =>
+			if response.data.status is 'missing'
+				@shareNonWhitelistedArticleConfirm()
+			else if response.data.status is 'found'
+				@shareArticleConfirm()
+
+	shareArticleConfirm: () =>
+		# $event.preventDefault() if $event?
 		data =
 			article: @scope.thirdPartyArticle.article.data
 			post: @scope.thirdPartyArticle.article.share.comments
@@ -81,11 +109,10 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		if (@scope.ratingsTouched.agree is false) and (@scope.thirdPartyArticle.article.share.rating_agree is 1)
 			data['rating_agree'] = 0
 
-		# console.log data
-		# console.log @scope.ratingsTouched
 		@http.post("/submit_third_party_article", { share: data }).then (response) =>
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
+				@resetArticleData()
 			else
 				@scope.thirdPartyArticle.article.error = response.data.message
 

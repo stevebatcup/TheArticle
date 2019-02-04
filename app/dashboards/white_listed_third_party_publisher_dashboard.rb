@@ -10,7 +10,7 @@ class WhiteListedThirdPartyPublisherDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     name: Field::String,
-    url: Field::String,
+    domain: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -23,7 +23,7 @@ class WhiteListedThirdPartyPublisherDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
-    :url,
+    :domain,
     :created_at,
   ].freeze
 
@@ -32,7 +32,7 @@ class WhiteListedThirdPartyPublisherDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
-    :url,
+    :domain,
     :created_at,
     :updated_at,
   ].freeze
@@ -42,7 +42,7 @@ class WhiteListedThirdPartyPublisherDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
-    :url,
+    :domain,
   ].freeze
 
   # Overwrite this method to customize how white listed third party publishers are displayed

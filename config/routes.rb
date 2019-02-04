@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   put 'communication-preferences',             to: 'communication_preferences#update'
 
   post 'third_party_article',                  to: 'third_party_articles#show'
+  get 'check_third_party_whitelist',           to: 'third_party_articles#check_white_list'
   post 'submit_third_party_article',           to: 'third_party_articles#create'
 
   PageRouter.load

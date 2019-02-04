@@ -25,6 +25,15 @@ class ThirdPartyArticlesController < ApplicationController
 		end
 	end
 
+	def check_white_list
+		host = ThirdPartyArticleService.get_domain_from_url(params[:url])
+		if WhiteListedThirdPartyPublisher.find_by(domain: host)
+			@status = :found
+		else
+			@status = :missing
+		end
+	end
+
 private
 	def article_params
 		params.require(:article).permit(:url)
