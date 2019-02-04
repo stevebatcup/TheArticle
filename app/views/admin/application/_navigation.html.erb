@@ -19,7 +19,18 @@ as defined by the routes in the `admin/` namespace
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/users') %>" href="/admin/users">Search</a>
 		</li>
 		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/concern_reports') %>" href="/admin/concern_reports">Concern reports</a>
+			<span class="navigation__link">Concern reports</span>
+			<ul class="children">
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/user_concern_reports') %>" href="/admin/user_concern_reports">- Profiles (<%= user_concern_report_count %>)</a>
+				</li>
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/comment_concern_reports') %>" href="/admin/comment_concern_reports">- Comments (<%= comment_concern_report_count %>)</a>
+				</li>
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/share_concern_reports') %>" href="/admin/share_concern_reports">- Posts (<%= share_concern_report_count %>)</a>
+				</li>
+			</ul>
 		</li>
 		<li>
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Quarantined posts (<%= quarantined_post_count %>)</a>

@@ -24,9 +24,9 @@ module User::Adminable
 		self.save
 	end
 
-	# def status_for_admin
-	#   self.confirmed? ? "Verified" : "Unverified"
-	# end
+	def get_reported_count
+		ConcernReport.unscoped.where(reported_id: self.id).size
+	end
 
 	module ClassMethods
 	end

@@ -1,0 +1,81 @@
+<%#
+# Show
+
+This view is the template for the show page.
+It renders the attributes of a resource,
+as well as a link to its edit page.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Show][1].
+  Contains methods for accessing the resource to be displayed on the page,
+  as well as helpers for describing how each attribute of the resource
+  should be displayed.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
+%>
+
+<% content_for(:title) { "Concern report" } %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+</header>
+
+<section class="main-content__body concern_reports" ng-controller="ConcernReportController">
+  <dl>
+    <dt class="attribute-label">
+      Reason(s) for concern
+    </dt>
+    <dd class="attribute-data">
+      <b><%= page.resource.build_reason_sentence %></b>
+    </dd>
+
+    <% page.attributes.each do |attribute| %>
+      <dt class="attribute-label" id="<%= attribute.name %>">
+      <%= t(
+        "helpers.label.#{resource_name}.#{attribute.name}",
+        default: attribute.name.titleize,
+      ) %>
+      </dt>
+
+      <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
+          ><%= render_field attribute, page: page %></dd>
+    <% end %>
+
+    <% share = page.resource.sourceable %>
+    <dt class="attribute-label">
+      Article
+    </dt>
+    <dd class="attribute-data">
+      <% share_article_path = share.article.remote_article_url.present? ? share.article.remote_article_url : "/#{share.article.slug}" %>
+      <%= link_to share.article.title, share_article_path, target: "_blank" %>
+    </dd>
+
+    <% if share.post.length > 0 %>
+      <dt class="attribute-label">
+        Post
+      </dt>
+      <dd class="attribute-data">
+        <p><%= share.post %></p>
+      </dd>
+    <% end %>
+
+    <dt class="attribute-label">
+      Other concern reports about this user
+    </dt>
+    <dd class="attribute-data">
+      <%= page.resource.reported.get_reported_count - 1 %>
+    </dd>
+
+  </dl>
+
+
+  <div class="field-unit">
+    <div class="field-unit__field form-actions">
+      <button ng-click="markAsSeen($event, <%= page.resource.id %>, 'share')" class="btn btn-block btn-success">Mark concern report as seen</button>
+    </div>
+  </div>
+</section>

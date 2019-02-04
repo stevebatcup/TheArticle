@@ -22,6 +22,21 @@ module Admin
     end
     helper_method :quarantined_post_count
 
+    def user_concern_report_count
+      @user_concern_report_count ||= UserConcernReport.all.size
+    end
+    helper_method :user_concern_report_count
+
+    def comment_concern_report_count
+      @comment_concern_report_count ||= CommentConcernReport.all.size
+    end
+    helper_method :comment_concern_report_count
+
+    def share_concern_report_count
+      @share_concern_report_count ||= ShareConcernReport.all.size
+    end
+    helper_method :share_concern_report_count
+
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.
     # def records_per_page

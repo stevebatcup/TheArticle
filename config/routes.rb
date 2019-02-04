@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     get 'add_user_to_blacklist', to: 'users#add_to_blacklist'
     get 'add_user_to_watchlist', to: 'users#add_to_watchlist'
     resources :concern_reports
+    resources :user_concern_reports
+    resources :comment_concern_reports
+    resources :share_concern_reports
+    get 'mark_concern_report_as_seen', to: 'concern_reports#update'
     resources :watch_list_users
     resources :black_list_users
     resources :concern_reports

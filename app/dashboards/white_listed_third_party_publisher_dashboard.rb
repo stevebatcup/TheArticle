@@ -21,20 +21,14 @@ class WhiteListedThirdPartyPublisherDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
-    :name,
-    :domain,
-    :created_at,
+    :domain
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :id,
     :name,
     :domain,
-    :created_at,
-    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -48,7 +42,7 @@ class WhiteListedThirdPartyPublisherDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how white listed third party publishers are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(white_listed_third_party_publisher)
-  #   "WhiteListedThirdPartyPublisher ##{white_listed_third_party_publisher.id}"
-  # end
+  def display_resource(white_listed_third_party_publisher)
+    "Whitelisted publication"
+  end
 end

@@ -13,7 +13,8 @@ class ConcernReportsController < ApplicationController
 			primary_reason: concern_report_params[:reason][:primary],
 			secondary_reason: concern_report_params[:reason][:secondary],
 			more_info: concern_report_params[:more_info],
-			sourceable: sourceable
+			sourceable: sourceable,
+			status: :pending
 		})
 		if @report.save
 			@status = :success

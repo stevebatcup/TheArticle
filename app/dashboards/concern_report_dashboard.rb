@@ -28,7 +28,7 @@ class ConcernReportDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :reporter,
-    :reported,
+    :reported
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -36,15 +36,8 @@ class ConcernReportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :reporter,
     :reported,
-    :sourceable,
-    :id,
-    :reporter_id,
-    :reported_id,
-    :primary_reason,
-    :secondary_reason,
     :more_info,
     :created_at,
-    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES

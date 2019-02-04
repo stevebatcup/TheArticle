@@ -55,6 +55,15 @@
 		margin-bottom: 25px;
 		margin-top: 7px;
 
+		&.children {
+			margin-bottom: 4px;
+			margin-top: -3px;
+
+			li {
+				font-size: 0.9em;
+			}
+		}
+
 		li {
 			line-height: 1.3em;
 
@@ -80,6 +89,16 @@
 	.pagination {
 		width: 75%;
 	  float: left;
+	}
+
+	&.concern_reports {
+		dt {
+			width: calc(30% - 1rem);
+		}
+
+		dd {
+			width: calc(70% - 1rem);
+		}
 	}
 
 	#per_page_setter {
