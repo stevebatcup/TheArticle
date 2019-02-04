@@ -11,12 +11,12 @@ class QuarantinedThirdPartyShareDashboard < Administrate::BaseDashboard
     user: Field::BelongsTo,
     article: Field::BelongsTo,
     id: Field::Number,
-    url: Field::String,
+    url: UrlField,
     status: Field::String.with_options(searchable: false),
     heading: Field::String,
-    image: Field::String,
     snippet: Field::Text,
     post: Field::Text,
+    image: ImageField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -29,35 +29,25 @@ class QuarantinedThirdPartyShareDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :user,
     :url,
+    :post
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :user,
-    :article,
-    :id,
-    :url,
-    :status,
     :heading,
-    :image,
     :snippet,
+    :image,
     :post,
+    :url,
     :created_at,
-    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :user,
-    :url,
-    :status,
-    :heading,
-    :image,
-    :snippet,
-    :post,
   ].freeze
 
   # Overwrite this method to customize how quarantined third party shares are displayed

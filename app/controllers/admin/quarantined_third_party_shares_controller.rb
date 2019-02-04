@@ -1,19 +1,8 @@
 module Admin
   class QuarantinedThirdPartySharesController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = QuarantinedThirdPartyShare.pending.
-    #     page(params[:page]).
-    #     per(10)
-    # end
-
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   QuarantinedThirdPartyShare.find_by!(slug: param)
-    # end
+     def valid_action?(name, resource = resource_class)
+       %w[edit new destroy].exclude?(name.to_s) && super
+     end
 
     def scoped_resource
       QuarantinedThirdPartyShare.pending.

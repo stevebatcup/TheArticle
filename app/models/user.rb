@@ -84,6 +84,10 @@ class User < ApplicationRecord
     "#{self.title}. #{self.first_name} #{self.last_name}"
   end
 
+  def account_name
+    "#{self.first_name} #{self.last_name}"
+  end
+
   def set_ip_data(request)
     ip = request.remote_ip
     # ip = '86.150.196.99'

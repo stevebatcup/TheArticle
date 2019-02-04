@@ -1,0 +1,7 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+	<%= image_tag(field.small) unless field.small.nil? %>
+  <%= f.file_field field.attribute %>
+</div>
