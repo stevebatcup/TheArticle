@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
 	def show
 		if params[:me]
+			authenticate_user!
 			@user = current_user
 		elsif params[:identifier] == :slug
 			@user = User.find_by(slug: params[:slug])

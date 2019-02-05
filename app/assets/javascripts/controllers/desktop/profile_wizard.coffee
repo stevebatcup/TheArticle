@@ -4,7 +4,6 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
 	  '$element'
 	  '$timeout'
 	  '$ngConfirm'
@@ -14,7 +13,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@scope.user =
-			id: @rootElement.data('user-id')
+			id: @element.data('user-id')
 			location:
 				lat: ''
 				lng: ''
@@ -23,10 +22,10 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 				error: null
 			names:
 				displayName:
-					value: @rootElement.data('default-display_name')
+					value: @element.data('default-display_name')
 					error: null
 				username:
-					value: @rootElement.data('default-username')
+					value: @element.data('default-username')
 					error: null
 			selectedExchanges: []
 
@@ -83,14 +82,15 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		options =
 			types: ['geocode']
 			input: $input.val()
-			componentRestrictions:
-				country: 'gb'
+			componentRestrictions: {}
+			# {country: 'gb'}
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
 		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
 		acService.getPlacePredictions options, (predictions) =>
 			if _.some(predictions)
 				predictions.forEach (prediction) =>
+					# console.log prediction
 					if _.intersection(prediction.types, excludeTypes).length < 1
 						@scope.$apply =>
 							@scope.autocompleteItems.push(prediction)
@@ -99,12 +99,13 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		# console.log event.target.innerHTML
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
+		placeText = $(event.currentTarget.innerHTML).find(".main_location_text").text()
+		@scope.user.location.value = placeText
 		geocoder.geocode { 'address': address }, (results, status) =>
 			if status is google.maps.GeocoderStatus.OK
 				@scope.$apply =>
 					@scope.user.location.lat = results[0].geometry.location.lat()
 					@scope.user.location.lng = results[0].geometry.location.lng()
-					@scope.user.location.value = event.target.innerHTML
 					results[0].address_components.forEach (component) =>
 						if _.contains(component.types, 'country')
 							@scope.user.location.countryCode = component.short_name
@@ -115,7 +116,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		if !@scope.user.names.displayName.value?
 			@scope.user.names.displayName.error = "Please choose a Display Name"
 		else if !(/^[a-z][a-z\s]*$/i.test(@scope.user.names.displayName.value))
-			@scope.user.names.displayName.error = "Your Display Name can only contain letters and a space"
+			@scope.user.names.displayName.error = "Your display name can only contain letters and a space"
 		else if !@scope.user.names.username.value?
 			@scope.user.names.username.error = "Please enter a username"
 		else if @scope.user.names.username.value.length < 6
@@ -125,12 +126,22 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		if @scope.user.names.displayName.error or @scope.user.names.username.error
 			return false
 		else
-			return @http.get("/username-availability?username=@#{@scope.user.names.username.value}").then (response) =>
-				if response.data is false
-					@scope.user.names.username.error = "Username has already been taken"
-					return false
-				else
-					return true
+			return @validateUsername()
+
+	validateUsernameFromField: =>
+		@scope.user.names.username.error = ""
+		@validateUsername (result) =>
+			@scope.user.names.username.available = result
+
+	validateUsername: (callback=null) =>
+		@http.get("/username-availability?username=@#{@scope.user.names.username.value}").then (response) =>
+			if response.data is false
+				@scope.user.names.username.error = "Username has already been taken"
+				callback.call(@, false) if callback?
+				return false
+			else
+				callback.call(@, true) if callback?
+				return true
 
 	selectExchange: (selected) =>
 		if _.contains(@scope.user.selectedExchanges, selected)
@@ -144,8 +155,8 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	validateExchanges: =>
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
-	toggleFollowUserFromCard: (member, $event) =>
-		$event.preventDefault()
+	toggleFollowSuggestion: (member, $event=null) =>
+		$event.preventDefault() if $event?
 		if member.imFollowing
 			@unfollowUser member.id ,=>
 				member.imFollowing = false
@@ -154,16 +165,22 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 				member.imFollowing = true
 			, true
 
-	finishedWizard: =>
+	submitWizard: =>
 		new @MyProfile(@scope.user).create().then (response) =>
 			if response.status is 'error'
-				@finishedWizardError(response.error)
+				@submitWizardError(response.error)
+				false
 			else
-				window.location.href = response.redirect
+				@scope.redirectWhenDone = response.redirect
+				true
 		, (error) =>
-			@finishedWizardError(error.statusText)
+			@submitWizardError(error.statusText)
+			false
 
-	finishedWizardError: (msg) =>
+	submitWizardError: (msg) =>
 		@alert "Sorry there has been an error: #{msg}"
+
+	finishedWizard: =>
+		window.location.href = @scope.redirectWhenDone
 
 TheArticle.ControllerModule.controller('ProfileWizardController', TheArticle.ProfileWizard)

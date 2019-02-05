@@ -12,6 +12,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 
 	init: ->
 		@setDefaultHttpHeaders()
+		@scope.redirectWhenDone = "/front-page"
 		@scope.user =
 			id: @element.data('user-id')
 			location:
@@ -112,7 +113,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		if !@scope.user.names.displayName.value?
 			@scope.user.names.displayName.error = "Please choose a Display Name"
 		else if !(/^[a-z][a-z\s]*$/i.test(@scope.user.names.displayName.value))
-			@scope.user.names.displayName.error = "Your Display Name can only contain letters and a space"
+			@scope.user.names.displayName.error = "Your display name can only contain letters and a space"
 		else if !@scope.user.names.username.value?
 			@scope.user.names.username.error = "Please enter a username"
 		else if @scope.user.names.username.value.length < 6
@@ -141,8 +142,8 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	validateExchanges: =>
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
-	toggleFollowUserFromCard: (member, $event) =>
-		$event.preventDefault()
+	toggleFollowSuggestion: (member, $event=null) =>
+		$event.preventDefault() if $event
 		if member.imFollowing
 			@unfollowUser member.id ,=>
 				member.imFollowing = false
@@ -151,16 +152,22 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 				member.imFollowing = true
 			, true
 
-	finishedWizard: =>
+	submitWizard: =>
 		new @MyProfile(@scope.user).create().then (response) =>
 			if response.status is 'error'
-				@finishedWizardError(response.error)
+				@submitWizardError(response.error)
+				false
 			else
-				window.location.href = response.redirect
+				@scope.redirectWhenDone = response.redirect
+				true
 		, (error) =>
-			@finishedWizardError(error.statusText)
+			@submitWizardError(error.statusText)
+			false
 
-	finishedWizardError: (msg) =>
+	submitWizardError: (msg) =>
 		@alert "Sorry there has been an error: #{msg}"
+
+	finishedWizard: =>
+		window.location.href = @scope.redirectWhenDone
 
 TheArticle.ControllerModule.controller('ProfileWizardController', TheArticle.ProfileWizard)

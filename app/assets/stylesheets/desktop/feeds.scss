@@ -182,6 +182,12 @@
 		}
 	}
 
+	&.feed-follow {
+		& > div {
+			border: 1px solid #ccc;
+		}
+	}
+
 	&.feed-share,
 	&.feed-exchange,
 	&.feed-follow,
@@ -508,7 +514,7 @@
 	}
 
 	&.wide {
-		max-height: 230px;
+		max-height: 250px;
 		height: fit-content;
 		height: -moz-fit-content;
 		margin-bottom: 12px;

@@ -1,0 +1,154 @@
+<section ng-controller="ProfileWizardController"
+				class=""
+				data-default-display_name="<%= current_user.display_name %>"
+				data-default-username="<%= current_user.username %>"
+				data-user-id="<%= current_user.id %>">
+		<%= form_for(current_user, url: save_profile_wizard_path) do |f| %>
+	<wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-indicators="true">
+    <wz-step wz-title="Names" canexit="validateNames">
+			<div class="row">
+				<div class="col-12">
+					<h4>Please edit or confirm your display name and unique @username.</h4>
+					<p>These will appear on your public profile and alongside any content you post.</p>
+				  <div class="form-group">
+				    <%= f.label :display_name %><br />
+			    	<p ng-show="user.names.displayName.error" class="alert alert-danger">{{user.names.displayName.error}}</p>
+				    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "user.names.displayName.value" %>
+				  </div>
+
+				  <div class="form-group">
+				    <span ng-show="!user.names.username.error && !user.names.username.available"><%= f.label :username %></span>
+			    	<label ng-show="user.names.username.error" class="alert-no-bg alert-danger">
+			    		{{user.names.username.error}}
+			    	</label>
+			    	<label ng-show="user.names.username.available" class="alert-no-bg alert-success">
+			    		Available!
+			    	</label>
+
+			    	<br />
+			    	<div class="input-group mb-2">
+    	        <div class="input-group-prepend">
+    	          <div class="input-group-text">@</div>
+    	        </div>
+					    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "user.names.username.value",
+					    	"ng-keyup": "validateUsernameFromField()" %>
+					  </div>
+				    <p><small class="form-text alert-no-bg"
+				    			ng-class="{
+				    			'alert-success': user.names.username.available,
+				    			'alert-danger': user.names.username.error.length > 0
+				    		}">
+				    	<%= profile_url(slug: '') %>{{user.names.username.value.toLowerCase()}}
+				    </small></p>
+				  </div>
+
+	       	<input type="submit" wz-next value="Confirm" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+	       </div>
+      </div>
+    </wz-step>
+
+    <wz-step wz-title="Exchanges" canexit="validateExchanges">
+      <h4>Help us understand what interests you by selecting which of our Exchanges you would like to follow.</h4>
+
+  		<div class="row pb-4 mb-5 px-1">
+      <% if exchanges.any? %>
+        <% exchanges.each do |exchange| %>
+        	<article class="col-6 col-md-4 article-listing exchange profile_wizard mb-1 mb-md-3 hoveraction px-1 px-md-2"
+        				ng-click="selectExchange(<%= exchange.id %>)"
+        				ng-class="{'selected': user.selectedExchanges.indexOf(<%= exchange.id %>) !== -1}">
+        		<div class="inner rounded">
+        			<div class="img_mask">
+      					<% if exchange.image? %>
+      						<img class="w-100 exchange_image" src="<%= exchange.image.url(:listing) %>" alt="<%= exchange.name %>" />
+      					<% end %>
+        			</div>
+        			<div class="px-2 py-2 py-lg-2 py-xl-3 heading_box">
+        				<h6 class="text-white mb-0">
+        					<span class="text-white inherit_hover filter_target">
+        						<%= exchange.name %>
+        					</span>
+        				</h6>
+        				<p class="text-white entry-content mb-0 mx-0 mt-2 mobile_hide">
+        					<%= truncate(exchange.description, length: 220) %>
+        				</p>
+        			</div>
+        		</div>
+        	</article>
+        <% end %>
+      <% end %>
+	    </div>
+
+	    <div class="float-bottom py-2 px-3 bg-white">
+	    	<div class="row">
+					<div class="col-12 text-center px-md-4">
+						<h4 class="text-center" ng-show="!exchangesOk">Select 3 or more to continue</h4>
+		        <input type="submit" wz-next value="Continue" class="btn text-white bg-green-dark pt-1 btn-block my-3"  ng-show="exchangesOk" />
+		      </div>
+		    </div>
+      </div>
+    </wz-step>
+
+    <wz-step wz-title="Location">
+			<div class="row pt-3">
+				<div class="col col-md-1"></div>
+				<div class="col-12 col-md-10">
+	        <h4>Tell us where you live to help us serve articles that are relevant to you.</h4>
+	        <p>This will appear on your public profile.</p>
+				  <div class="form-group autocompleter">
+				    <%= f.label :location %><br />
+			    	<p ng-show="user.location.error" class="alert alert-danger">{{user.location.error}}</p>
+				    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.value", "autocomplete": "on" %>
+				    <ul ng-if="autocompleteItems.length > 0">
+				    	<li ng-repeat="item in autocompleteItems">
+				    		<a href='#' ng-click="populateLocation($event, item)" class="d-flex justify-content-start align-items-start">
+				    			<i class="fas fa-map-marker-alt text-green"></i>
+				    			<p class="my-0 ml-3">
+				    				<span class="main_location_text">{{ item.structured_formatting.main_text }}</span>
+					    			<small class="text-muted">{{ item.structured_formatting.secondary_text }}</small>
+					    		</p>
+				    		</a>
+				    	</li>
+				    </ul>
+				  </div>
+	        <input type="submit" wz-next ng-value="user.location.value.length > 0 ? 'Continue' : 'Skip for now'" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+				 </div>
+				 <div class="col col-md-1"></div>
+				</div>
+    </wz-step>
+
+    <wz-step wz-title="Suggestions" canexit="">
+			<div class="px-3 pb-5 pt-3 pb-4">
+				<h4>Make your first connections by following other members</h4>
+				<div class="form-group">
+					 <input type="text" class="form-control my-3" id="suggestion_search" ng-model="suggestionSearch.value" placeholder="Search by username/location" />
+			    	<p ng-show="suggestionSearch.error" class="pt-3 px-1">{{suggestionSearch.error}}</p>
+				</div>
+
+				<div class="row pb-4">
+					<div ng-repeat="item in followSuggestions" class="col-12 col-md-6 feed-listing feed-follow wide">
+						<%= render 'users/member_card', locals: { suggestions: true } %>
+					</div>
+				</div>
+
+		    <div class="float-bottom py-2 px-3 bg-white">
+		    	<div class="container">
+			    	<div class="row">
+							<div class="col-12">
+				        <input type="submit" wz-next="submitWizard()" value="Finish" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
+				      </div>
+				    </div>
+				   </div>
+	      </div>
+
+			</div>
+		</wz-step>
+
+		<wz-step wz-title="Finished">
+			<div class="px-3 pb-5 pt-3 pb-4">
+				<h4 class="text-center">Thank you for registering on TheArticle.</h4>
+				<button wz-finish class="btn btn-block btn-success mt-4">Close</button>
+			</div>
+		</wz-step>
+	</wizard>
+	<% end %>
+</section>

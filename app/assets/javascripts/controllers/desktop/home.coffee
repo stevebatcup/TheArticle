@@ -5,6 +5,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$http'
 	  '$rootElement'
+	  '$element'
 	  '$timeout'
 	  '$compile'
 	  '$ngConfirm'
@@ -27,6 +28,15 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			firstLoaded: false
 		vars = @getUrlVars()
 		@goodbye() if 'account_deleted' of vars
+		@showProfileWizardModal() if @element.data('force-profile-wizard')
+
+	showProfileWizardModal: =>
+		tpl = $("#profileWizard").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#profileWizardModal").modal
+			backdrop: 'static'
+			keyboard: false
 
 	bindEvents: =>
 		super

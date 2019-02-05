@@ -1,16 +1,20 @@
-<% suggestions = false if local_assigns[:suggestions].nil? %>
+<%
+	if local_assigns[:locals]
+		suggestions = [:suggestions].nil? ? false : true
+	end
+%>
 <div class="pb-2 block_click bg-white" data-href="{{ item.path }}">
 	<div class="card-img-top cover_photo">
-		<a href="{{item.path}}">
+		<% unless suggestions == true %><a href="{{item.path}}"><% end %>
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />
-		</a>
+		<% unless suggestions == true %></a><% end %>
 	</div>
 
 	<div class="card-body py-2 w-100">
 		<div class="d-flex align-items-start justify-content-between mb-2">
-			<a href="{{ item.path }}">
+			<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
 				<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image with_cover_image" alt="{{item.displayName}}" />
-			</a>
+			<% unless suggestions == true %></a><% end %>
 
 			<% if user_signed_in? %>
 				<button class="btn btn-sm follow_btn"
@@ -36,23 +40,25 @@
 			<% end %>
 		</div>
 		<h5 class="card-title d-flex justify-content-between mb-0">
-			<a href="{{ item.path }}"><span>{{ item.displayName }}</span></a>
+			<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
+				<span>{{ item.displayName }}</span>
+				<% unless suggestions == true %></a><% end %>
 			<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
 		</h5>
 
 		<h6 class="text-muted">
 			<small>
-				<a href="{{ item.path }}">
+				<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
 					{{ item.username }}
-				</a>
+				<% unless suggestions == true %></a><% end %>
 			</small>
 		</h6>
 
 		<p class="card-text">
 			<small>
-				<a href="{{ item.path }}">
+				<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
 					{{ item.bio }}
-				</a>
+				<% unless suggestions == true %></a><% end %>
 			</small>
 		</p>
 	</div>

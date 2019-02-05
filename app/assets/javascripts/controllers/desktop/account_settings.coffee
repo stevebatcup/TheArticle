@@ -6,6 +6,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 	  '$rootScope'
 	  '$http'
 	  '$rootElement'
+	  '$element'
 	  '$timeout'
 	  '$compile'
 	  '$ngConfirm'

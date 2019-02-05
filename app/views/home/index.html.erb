@@ -1,6 +1,6 @@
 <% meta_tag :image, asset_url("social-logo-square.png") %>
 
-<section ng-controller="HomeController" data-per-page="<%= articles_per_page %>" ng-cloak>
+<section ng-controller="HomeController" data-per-page="<%= articles_per_page %>" ng-cloak <%= ' data-force-profile-wizard=1' if user_signed_in? && !current_user.has_completed_wizard? %>>
 	<div class="container mt-4 mt-md-5 slick-carousel-title">
 	  <h1 class="bullet cloak">Trending articles</h1>
 	</div>
@@ -43,3 +43,9 @@
 			recent_articles: @recent_articles
 		} %>
 </section>
+
+<% if user_signed_in? && !current_user.has_completed_wizard? %>
+<script id="profileWizard" type="script/x-mustache">
+  <%= render partial: 'profile_wizard/new_modal' %>
+</script>
+<% end %>

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  POPULAR_FOLLOW_COUNT = 5
+  # POPULAR_FOLLOW_COUNT = 5
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable, :rememberable
   devise :database_authenticatable, :registerable,
@@ -72,7 +72,6 @@ class User < ApplicationRecord
   end
 
   def active_for_authentication?
-    logger.debug self.to_yaml
     super && has_active_status?
   end
 
@@ -108,16 +107,17 @@ class User < ApplicationRecord
   end
 
   def default_display_name
-  	"#{first_name} #{last_name}"
+  	"#{first_name} #{last_name}".gsub(/[^0-9a-z_ ]/i, '')
   end
 
   def generate_usernames(amount=1)
   	items = []
     username = ""
-    i = 1
+    i = 0
     amount.times do
       begin
-        username = "#{first_name.capitalize}#{last_name.capitalize}#{i}"
+        username = "#{first_name.capitalize}#{last_name.capitalize}#{i > 0 ? i : ''}"
+        username = username.gsub(/[^0-9a-z_ ]/i, '')
         i += 1
       end while !self.class.is_username_available?("@#{username}") || items.include?(username)
       items << username
@@ -140,11 +140,13 @@ class User < ApplicationRecord
     self.save
   end
 
-  def self.popular_users(excludes=[])
+  def self.popular_users(excludes=[], popular_follow_count=5, amount=10)
     self.joins(:followers)
           .where.not(id: excludes)
           .group("users.id")
-          .having("count(follows.user_id) >= #{POPULAR_FOLLOW_COUNT}")
+          .order("count(follows.user_id) DESC")
+          .having("count(follows.user_id) >= #{popular_follow_count}")
+          .limit(amount)
   end
 
   def self.bio_max_length

@@ -1,6 +1,6 @@
 class ProfileWizardController < ApplicationController
 	before_action :authenticate_user!
-	layout	'profile-wizard'
+	layout	:profile_wizard_layout_for_mobile
 
 	def new
 		redirect_to front_page_path(wizard_already_complete: true) if current_user.has_completed_wizard?
@@ -17,11 +17,18 @@ class ProfileWizardController < ApplicationController
 		begin
 			current_user.complete_profile_from_wizard(params[:profile])
 			ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
+			sign_in(current_user)
+			cookies.delete :force_profile_wizard
 			@status = :success
-			@redirect = front_page_path(from_wizard: true)
+			@redirect = front_page_path
 		rescue Exception => e
 			@status = :error
 			@error = e.message
 		end
+	end
+
+private
+	def profile_wizard_layout_for_mobile
+		browser.device.mobile? ? 'profile-wizard' : 'application'
 	end
 end

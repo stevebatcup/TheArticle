@@ -84,7 +84,11 @@ class ApplicationController < ActionController::Base
 
 protected
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || front_page_path
+  	if cookies.permanent.signed[:force_profile_wizard]
+
+  	else
+	    stored_location_for(resource) || front_page_path
+	  end
   end
 
   def json_request?
@@ -111,7 +115,11 @@ private
 	def authenticate_user!
 		super
 		if !current_user.has_completed_wizard? && request.format != 'application/json'
-			redirect_to profile_wizard_path unless self.class == ProfileWizardController
+			if browser.device.mobile?
+				redirect_to profile_wizard_path unless self.class == ProfileWizardController
+			else
+				redirect_to "/?force_home=1" unless self.class == HomeController
+			end
 		end
 	end
 end

@@ -1,49 +1,114 @@
-.float-bottom {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-}
+#profileWizardModal {
 
-article.article-listing.exchange.profile_wizard {
-	cursor: pointer;
-	height: 215px;
+	label.alert-danger {
+		color: #721c24;
+	}
 
-	&.selected {
-		.inner {
-			background-color: #72b678;
+	label.alert-success {
+		color: #155724;
+	}
 
-			img {
-				opacity: 0.4;
-			}
+	.alert-no-bg {
+		background: transparent !important;
+	}
 
-			.heading_box {
-				background-color: #72b678;
+	.modal-dialog {
+		height: 92%;
+		height: 92vh;
+
+		.modal-content {
+			height: 100%;
+
+			.modal-body {
+				overflow: auto;
 			}
 		}
 	}
-}
 
-.autocompleter {
-	ul {
-		padding: 0;
-		border-bottom: 1px solid #ccc;
-		border-left: 1px solid #ccc;
-		border-right: 1px solid #ccc;
-		box-shadow: 1px 1px 2px #ccc;
-		background: #fff;
+	.float-bottom {
+		position: fixed;
+		bottom: 1px;
+		left: 1%;
+		width: 98%;
+		border-radius: 4px;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
 
-		li {
-			list-style: none;
-			line-height: 2.2em;
+	article.article-listing.exchange.profile_wizard {
+		cursor: pointer;
+		height: 175px;
 
-			a {
-				padding: 5px 0 5px 10px;
-				display: block;
-				color: inherit;
+		&.hovered {
+			.inner {
+				.img_mask {
+					height: 2%
+				}
+			}
+		}
 
-				&:hover {
-					background: #eee;
+		h6 {
+			font-size: 0.8rem;
+		}
+
+		p {
+			font-size: 0.7rem;
+		}
+
+		&.selected {
+			.inner {
+				background-color: #72b678;
+
+				img {
+					opacity: 0.4;
+				}
+
+				.heading_box {
+					background-color: #72b678;
+				}
+			}
+		}
+	}
+
+	.autocompleter {
+		ul {
+			padding: 0;
+			border-bottom: 1px solid #ccc;
+			border-left: 1px solid #ccc;
+			border-right: 1px solid #ccc;
+			box-shadow: 1px 1px 2px #ccc;
+			background: #fff;
+
+			li {
+				list-style: none;
+				line-height: 2.2em;
+
+				a {
+					padding: 10px 0 6px 14px;
+					display: block;
+					color: inherit;
+
+					svg {
+						font-size: 20px;
+						position: relative;
+						top: 2px;
+					}
+
+					p {
+						line-height: 1.3em;
+
+						span {
+							display: block;
+						}
+
+						small {
+							display: block;
+						}
+					}
+
+					&:hover {
+						background: #eee;
+					}
 				}
 			}
 		}

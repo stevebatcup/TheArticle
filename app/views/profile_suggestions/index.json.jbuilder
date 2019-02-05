@@ -8,7 +8,7 @@ json.set! :suggestions do
 				json.path profile_path(slug: user.slug)
 				json.displayName user.display_name
 				json.username user.username
-				json.bio bio_excerpt(user, browser.device.mobile? ? 18 : 28)
+				json.bio bio_excerpt(user, browser.device.mobile? ? 18 : 23)
 				json.profilePhoto user.profile_photo.url(:square)
 				json.coverPhoto user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 				json.imFollowing user.is_followed_by(current_user)
@@ -27,7 +27,7 @@ json.set! :suggestions do
 				json.path profile_path(slug: user.slug)
 				json.displayName user.display_name
 				json.username user.username
-				json.bio bio_excerpt(user, browser.device.mobile? ? 18 : 28)
+				json.bio bio_excerpt(user, browser.device.mobile? ? 18 : 23)
 				json.profilePhoto user.profile_photo.url(:square)
 				json.coverPhoto user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)
 				json.imFollowing user.is_followed_by(current_user)
