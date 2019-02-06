@@ -26,9 +26,4 @@ class ProfileWizardController < ApplicationController
 			@error = e.message
 		end
 	end
-
-private
-	def profile_wizard_layout_for_mobile
-		browser.device.mobile? ? 'profile-wizard' : 'application'
-	end
 end

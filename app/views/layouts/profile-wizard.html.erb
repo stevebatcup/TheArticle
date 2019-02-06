@@ -1,0 +1,20 @@
+<%= render 'layouts/head' %>
+<header class="pt-2 container">
+	<div class="row">
+		<div class="col-12">
+			<div id="logo" class="py-5">
+		    <span class="text-hide">TheArticle</span>
+			</div>
+		</div>
+	</div>
+</header>
+<main id="main_content">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+			  <%= yield %>
+			 </div>
+		</div>
+	</div>
+</main>
+<%= render 'layouts/foot' %>

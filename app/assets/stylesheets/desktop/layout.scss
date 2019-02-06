@@ -52,6 +52,11 @@ h5 {
 	font-size: 1.2em;
 }
 
+.alert-no-bg {
+	background: transparent !important;
+}
+
+
 .text-increase-1 {
 	font-size: 1.1em;
 }
@@ -61,7 +66,26 @@ h5 {
 }
 
 .text-increase-3 {
-	font-size: 1.1em;
+	font-size: 1.3em;
+}
+
+.text-increase-4 {
+	font-size: 1.4em;
+}
+
+.top-1 {
+	position: relative;
+	top: 1px;
+}
+
+.top-2 {
+	position: relative;
+	top: 2px;
+}
+
+.top-3 {
+	position: relative;
+	top: 3px;
 }
 
 header.black_heading {
@@ -204,7 +228,7 @@ header {
 
 	#logo {
 		background-image: url('logo-2-lines.png');
-		background-size: 50%;
+		background-size: 46%;
 		background-repeat: no-repeat;
 		background-position: center center;
 		transition: background-size 0.5s;
@@ -242,6 +266,11 @@ a.btn {
 	border-style: solid;
 	border-radius: 2px;
 	padding: 0.25rem 1.2rem !important;
+
+	&.join_button {
+		text-transform: none !important;
+		font-size: 1.2em;
+	}
 
 	&:hover {
 		color: #333;
@@ -293,7 +322,7 @@ footer.main_footer {
 /* SVG Overrides */
 html.svg #logo {
 	background-image: url('logo-2-lines.svg') !important;
-	background-size: 50%;
+	background-size: 46%;
 
 	&.short {
 		background-size: 32%;

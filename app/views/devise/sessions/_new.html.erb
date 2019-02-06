@@ -1,14 +1,15 @@
 <div class="modal fade update_card_cetails" id="signinBoxModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
-    <div class="modal-content">
+    <div class="modal-content" ng-controller="AuthController">
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
   			<h6 class="mb-2 mt-1 pt-1">
-  				Sign in to TheArticle
+  				<span ng-if="!forgottenPassword.show">Sign in</span>
+  				<span ng-if="forgottenPassword.show">Forgot your password?</span>
   			</h6>
 
 				<button data-dismiss="modal" class="btn btn-link close_modal">
-					<i class="fas fa-times"></i>
+					<i class="fas fa-times text-green"></i>
 				</button>
     	</div>
 
@@ -16,33 +17,34 @@
       	<header class="pt-2 container">
       		<div class="row">
       			<div class="col col-md-12">
-      				<div id="logo" class="py-3 mt-2">
+      				<div id="logo" class="py-3">
       			    <span class="text-hide">TheArticle</span>
       				</div>
       			</div>
       		</div>
       	</header>
 
-				<section ng-controller="AuthController" class="auth">
+				<section class="auth">
 					<div class="alert alert-danger mt-5 mb-0" ng-if="authMessage && authMessage.length > 0">
 						{{authMessage}}
 					</div>
 
-				  <div class="container pt-4 pb-4">
+				  <div class="container pt-2 pt-md-3 pb-4">
 				    <div class="row">
-				      <div class="col-0 col-md-12">
-				        <% if notice %><div class="alert alert-success" role="alert"><%= notice %></div><% end %>
-				        <% if alert %><div class="alert alert-danger" role="alert"><%= alert %></div><% end %>
+				      <div class="col-0 col-md-12" ng-if="!forgottenPassword.show">
 				        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 				          <div class="form-group">
-				            <%= f.label :email %><br />
-				            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: '' %>
+				            <label for="user_login">Email or username</label><br />
+				            <p ng-show="signInDetails.login.error" class="mb-1 mt-1 alert alert-danger">{{signInDetails.login.error}}</p>
+
+				            <%= f.text_field :login, autofocus: true, class: "form-control", required: '', 'ng-model': 'signInDetails.login.value' %>
 				          </div>
 
 				          <div class="form-group">
 				            <%= f.label :password %><br />
-				            <%= f.password_field :password, autocomplete: "current-password", class: "form-control", required: '' %>
-				            <a href="#" ng-click="openForgottenPasswordForm($event)"><small>Forgot your password?</small></a>
+				            <p ng-show="signInDetails.password.error" class="mb-1 mt-1 alert alert-danger">{{signInDetails.password.error}}</p>
+				            <%= f.password_field :password, autocomplete: "current-password", class: "form-control", required: '', 'ng-model': 'signInDetails.password.value' %>
+				            <a href="#" ng-click="openForgottenPasswordPanel($event)"><small>Forgot your password?</small></a>
 				          </div>
 
 				          <% if devise_mapping.rememberable? -%>
@@ -53,11 +55,61 @@
 				          <% end -%>
 
 				          <div class="actions">
-				            <%= f.submit "Sign in", class: "btn btn-success btn-block text-white my-3" %>
+				          	<button class="btn btn-success btn-block text-white my-3" ng-click="signIn($event)">Sign in</button>
 				          </div>
 				        <% end %>
 
-				        <p>Don't have an account with <b>TheArticle</b>? <a href="#" ng-click="openRegisterForm($event)">Register here</a>.</p>
+				        <p>Don't have an account with <b>TheArticle</b>? <a href="#" class="text-green" ng-click="openRegisterForm($event)">Register here</a>.</p>
+				      </div>
+
+
+				      <div class="col-0 col-md-12" ng-if="forgottenPassword.show == true">
+				      	<div ng-if="!forgottenPassword.thanks">
+									<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+								  <%= devise_error_messages! %>
+
+								  <p class="mt-2 mb-2">No problem.  Please enter your registered email address below and we will send you a link to reset it.</p>
+
+								  <div class="form-group">
+								    <%= f.label :email %><br />
+					            <p ng-show="forgottenPassword.error" class="mb-1 mt-1 alert alert-danger">{{forgottenPassword.error}}</p>
+								    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', required: '', 'ng-model': 'forgottenPassword.email' %>
+								  </div>
+
+								  <div class="actions">
+								  	<button class="btn btn-success btn-block text-white my-3"
+								  						ng-click="resetPassword($event)">Send link</button>
+
+				            <button class="btn btn-danger btn-block text-white my-3"
+				            					ng-click="closeForgottenPasswordPanel($event)">
+				            	Cancel
+				            </button>
+								  </div>
+
+
+								  <p>By proceeding, you agree to our <a href="/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and our <a href="/privacy-policy" target="_blank">Privacy Policy</a>.</p>
+									<% end %>
+								</div>
+
+
+								<div ng-if="forgottenPassword.thanks">
+									<h4 class="mt-3">How to reset your password</h4>
+
+									<p>If an account exists for this email address, you will shortly receive an email from us.  You will then need to:</p>
+
+									<ol style="padding: 0 0 0 17px;">
+										<li>Open the email sent to <b>{{forgottenPassword.email}}</b>.</li>
+										<li>Click the link in that email to reset your password.</li>
+									</ol>
+
+									<p>Please note, this link will only be valid for 24 hours.  If you do not receive our email, please check your Junk Mail folder and add info@thearticle.com to your safe list.</p>
+
+									<button data-dismiss="modal" class="btn btn-block btn-success close_modal">
+										Done
+									</button>
+
+
+								</div>
 				      </div>
 				    </div>
 				  </div>

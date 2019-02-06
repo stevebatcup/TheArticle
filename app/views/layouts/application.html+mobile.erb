@@ -12,16 +12,19 @@
         <a class="" href="/" id="nav_home">Home</a>
       </li>
       <li>
-        <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
-      </li>
-      <li>
-        <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
-      </li>
-      <li>
         <a class="join_button" href="#" ng-click="openRegisterForm($event)">Register</a>
       </li>
       <li>
         <a class="join_button" href="#" ng-click="openSigninForm($event)">Sign in</a>
+      </li>
+      <li>
+        <a class="search_trigger" href="#" id="nav_link_search">Search</a>
+      </li>
+      <li>
+        <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
+      </li>
+      <li>
+        <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
       </li>
       <li>
         <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
@@ -54,7 +57,7 @@
           </a>
         </div>
 
-        <div class="col-3 align-items-center">
+        <div class="col-3 align-items-center d-flex justify-content-end">
           <% if user_signed_in? && params[:controller] != 'search' %>
             <div ng-if="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
               <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,8 +87,8 @@
               </div>
             </div>
           <% else %>
-            <a class="text-black search_trigger" href="#">
-              <i class="fas fa-search" aria-hidden="true"></i>
+            <a class="text-black pt-1" href="#" ng-click="openSigninForm($event)">
+              <i class="fas fa-user-circle mr-1 text-increase-5"></i>
             </a>
           <% end %>
         </div>
@@ -142,25 +145,28 @@
           <nav class="navbar navbar-expand-lg col-12 d-flex justify-content-center" id="footer_nav">
             <ul class="navbar-nav text-center" id="main_footer_links">
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/our-mission">Our Mission</a>
+                <a class="text-white nav-link" href="/our-mission">Our Mission</a>
               </li>
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/terms-and-conditions">Terms & Conditions</a>
+                <a class="text-white nav-link" href="/terms-and-conditions">Terms & Conditions</a>
               </li>
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/privacy-policy">Privacy Policy</a>
+                <a class="text-white nav-link" href="/privacy-policy">Privacy Policy</a>
               </li>
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/contributors">Contributors</a>
+                <a class="text-white nav-link" href="/contributors">Contributors</a>
               </li>
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/sponsors">Sponsors</a>
+                <a class="text-white nav-link" href="/sponsors">Sponsors</a>
               </li>
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/write-for-us">Write for Us</a>
+                <a class="text-white nav-link" href="/write-for-us">Write for Us</a>
               </li class="nav-item">
               <li class="nav-item">
-                <a class="mr-3 text-white nav-link" href="/contact">Contact</a>
+                <a class="text-white nav-link" href="/contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white nav-link" href="<%= new_user_session_path %>">Sign in</a>
               </li>
             </ul>
           </nav>

@@ -52,7 +52,25 @@ class User < ApplicationRecord
   include Opinionable
   include Adminable
 
+  attr_writer :login
+
+  def login
+    @login || self.username || self.email
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    elsif conditions.has_key?(:username) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
+  end
+
   def assign_default_settings
+    self.username = "@#{generate_usernames.first}"
+    self.slug = self.username.downcase
+
     self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
     self.notification_settings.build({ key: 'email_exchanges', value: 'as_it_happens' })
     self.notification_settings.build({ key: 'email_responses', value: 'daily' })

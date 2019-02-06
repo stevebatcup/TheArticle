@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   skip_before_action :verify_authenticity_token, if: :json_request?
   before_action :set_vary_header
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
@@ -91,6 +92,12 @@ protected
 	  end
   end
 
+  def configure_permitted_parameters
+    added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
+    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
+  end
+
   def json_request?
     request.format.json?
   end
@@ -110,6 +117,10 @@ private
 
 	def set_layout
 		user_signed_in? && browser.device.mobile? ? 'member' : 'application'
+	end
+
+	def profile_wizard_layout_for_mobile
+		browser.device.mobile? ? 'profile-wizard' : 'application'
 	end
 
 	def authenticate_user!

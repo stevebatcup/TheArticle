@@ -10,10 +10,10 @@ en:
       already_authenticated: "You are already signed in."
       inactive: "Your account is not activated yet."
       account_deleted: "Your account has been deleted so you are no longer able to sign in"
-      invalid: "Invalid %{authentication_keys} or password."
+      invalid: "Invalid email/username or password."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
+      not_found_in_database: "Invalid email/username or password."
       timeout: "Your session expired. Please sign in again to continue."
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
@@ -55,6 +55,8 @@ en:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
+      user:
+        invalid: You entered incorrect details, please try again.
     unlocks:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
