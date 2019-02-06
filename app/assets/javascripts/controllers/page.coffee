@@ -265,8 +265,8 @@ class TheArticle.PageController extends TheArticle.NGController
 			@followExchange exchange.id, =>
 				exchange.imFollowing = true
 
-	openRegisterForm: ($event) =>
-		$event.preventDefault()
+	openRegisterForm: ($event=null) =>
+		$event.preventDefault() if $event
 		$('[data-dismiss=modal]', '#signinBoxModal').click()
 		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 		@timeout =>

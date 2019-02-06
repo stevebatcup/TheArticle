@@ -12,10 +12,11 @@ class TheArticle.Auth extends TheArticle.PageController
 	]
 
 	init: ->
+		vars = @getUrlVars()
 		@setDefaultHttpHeaders()
 		@setCsrfTokenHeaders()
 		@scope.forgottenPassword =
-			show: false
+			show: if 'forgotten_password' of vars then true else false
 			error: false
 			email: ''
 			thanks: false

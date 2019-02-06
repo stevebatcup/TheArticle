@@ -3,6 +3,14 @@ class RegistrationsController < Devise::RegistrationsController
   after_action  :generate_profile_suggestions, :only => [:create]
   layout	'profile-wizard'
 
+  def new
+    respond_to do |format|
+      format.html do
+        redirect_to "/?register=1"
+      end
+    end
+  end
+
   def create
     build_resource(sign_up_params)
     resource.set_ip_data(request)

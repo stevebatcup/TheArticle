@@ -24,6 +24,9 @@ class TheArticle.Home extends TheArticle.MobilePageController
 			moreToLoad: true
 		vars = @getUrlVars()
 		@goodbye() if 'account_deleted' of vars
+		@openSigninForm() if 'sign_in' of vars
+		@openSigninForm() if 'forgotten_password' of vars
+		@openRegisterForm() if 'register' of vars
 
 	bindEvents: =>
 		super

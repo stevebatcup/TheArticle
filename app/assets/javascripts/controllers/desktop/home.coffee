@@ -27,6 +27,9 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			loading: false
 			firstLoaded: false
 		vars = @getUrlVars()
+		@openSigninForm() if 'sign_in' of vars
+		@openSigninForm() if 'forgotten_password' of vars
+		@openRegisterForm() if 'register' of vars
 		@goodbye() if 'account_deleted' of vars
 		@showProfileWizardModal() if @element.data('force-profile-wizard')
 

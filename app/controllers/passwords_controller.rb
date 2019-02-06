@@ -2,6 +2,14 @@ class PasswordsController < Devise::PasswordsController
 	layout	:profile_wizard_layout_for_mobile
   respond_to :json, only: [:create]
 
+  def new
+    respond_to do |format|
+      format.html do
+        redirect_to "/?forgotten_password=1"
+      end
+    end
+  end
+
   def create
     self.resource = resource_class.send_reset_password_instructions(params.fetch(:user))
 
