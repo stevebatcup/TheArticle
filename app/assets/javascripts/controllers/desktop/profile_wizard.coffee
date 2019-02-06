@@ -126,15 +126,18 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		if @scope.user.names.displayName.error or @scope.user.names.username.error
 			return false
 		else
-			return @validateUsername()
+			return @validateUsername(null, true)
 
 	validateUsernameFromField: =>
 		@scope.user.names.username.error = ""
 		@validateUsername (result) =>
 			@scope.user.names.username.available = result
+		, false
 
-	validateUsername: (callback=null) =>
-		@http.get("/username-availability?username=@#{@scope.user.names.username.value}").then (response) =>
+	validateUsername: (callback=null, save=false) =>
+		url = "/username-availability?username=@#{@scope.user.names.username.value}"
+		url += "&save=1" if save is true
+		@http.get(url).then (response) =>
 			if response.data is false
 				@scope.user.names.username.error = "Username has already been taken"
 				callback.call(@, false) if callback?

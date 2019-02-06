@@ -1,7 +1,7 @@
 <section ng-controller="ProfileWizardController"
 				class=""
 				data-default-display_name="<%= current_user.display_name %>"
-				data-default-username="<%= current_user.username %>"
+				data-default-username="<%= current_user.username.gsub(/@/, '') %>"
 				data-user-id="<%= current_user.id %>">
 		<%= form_for(current_user, url: save_profile_wizard_path) do |f| %>
 	<wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-indicators="true">

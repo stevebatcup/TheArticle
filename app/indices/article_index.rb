@@ -11,4 +11,6 @@ ThinkingSphinx::Index.define :article, :with => :real_time do
   has published_at, type: :timestamp
   # has author_id,  :type => :integer
   # has updated_at, :type => :timestamp
+
+  scope { Article.where("author_id IS NOT NULL") }
 end

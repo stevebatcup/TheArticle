@@ -3,12 +3,17 @@
     <div class="modal-content">
 
       <div class="modal-header d-flex justify-content-between bg-grey">
-        <h6 class="mb-2 mt-1 pt-1">
-         Join now – it's free
-        </h6>
+        <div>
+          <h5 class="mb-2 mt-1 pt-1">
+          <a href="#" class="text-inrease-1 mr-4" ng-click="openSigninForm($event)">
+            <i class="fas fa-sign-in-alt text-green"></i>
+          </a>
+           Join now – it's free
+          </h5>
+        </div>
 
         <button data-dismiss="modal" class="btn btn-link close_modal">
-          <i class="fas fa-times"></i>
+          <i class="fas fa-times text-green"></i>
         </button>
       </div>
 
@@ -42,19 +47,22 @@
                   <%= f.text_field :last_name, autofocus: true, autocomplete: "Last name", class: "form-control", required: '' %>
                 </div>
 
-                <div class="form-group">
-                  <%= f.label :gender %><br />
-                  <%= f.select :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ], resource.gender), {}, { class: "form-control short", required: '' } %>
+                <div class="row">
+                  <div class="col">
+                    <%= f.label :gender %><br />
+                    <%= f.select :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ], resource.gender), {}, { class: "form-control short", required: '' } %>
+                  </div>
+
+                  <div class="col">
+                    <%= f.label :age_bracket %><br />
+                    <%= f.select :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ], resource.age_bracket), {}, { class: "form-control short", required: '' } %>
+                  </div>
                 </div>
 
-                <div class="form-group">
-                  <%= f.label :age_bracket %><br />
-                  <%= f.select :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ], resource.age_bracket), {}, { class: "form-control short", required: '' } %>
-                </div>
-
-                <p><a href='#gender_and_age_info' data-toggle="collapse" role="button">What's this for?</a></p>
-                <div id="gender_and_age_info" class="collapse">
-
+                <p class="mb-2"><a href='#gender_and_age_info' data-toggle="collapse" role="button"><small>What's this for?</small></a></p>
+                <div id="gender_and_age_info" class="collapse mb-2">
+                  <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</small>
                 </div>
 
                 <div class="form-group">
@@ -62,23 +70,25 @@
                   <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: '' %>
                 </div>
 
-                <div class="form-group">
-                  <%= f.label :password %>
-                  <% if @minimum_password_length %>
-                  <em>(<%= @minimum_password_length %> characters minimum)</em>
-                  <% end %><br />
-                  <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: '' %>
+                <div class="row mb-2">
+                  <div class="col">
+                    <%= f.label :password %>
+                    <% if @minimum_password_length %>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em>
+                    <% end %><br />
+                    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: '' %>
+                  </div>
+
+                  <div class="col">
+                    <%= f.label :password_confirmation %><br />
+                    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: '' %>
+                  </div>
                 </div>
 
-                <div class="form-group">
-                  <%= f.label :password_confirmation %><br />
-                  <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: '' %>
-                </div>
-
-                <div class="form-group checker">
+                <div class="form-group checker d-flex">
+                  <input type="checkbox" class="mr-2" name="tandc" id="tandc" required='true' style="width: 18px; height: 18px; position: relative; top: 5px;" />
                   <label>
-                    <input type="checkbox" name="tandc" id="tandc" required='true' />
-                    <small>I am over 16 and agree to TheArticle Terms & Conditions and Privacy Policy</small>
+                    <small>I am over 16 and agree to TheArticle <a href="/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></small>
                   </label>
                 </div>
 

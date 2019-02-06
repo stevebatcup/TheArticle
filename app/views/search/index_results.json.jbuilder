@@ -1,7 +1,6 @@
 if @results.any?
 	json.set! :results do
 		json.array! @results do |result|
-			# json.className result.class.to_s
 			if result.class == Article
 				json.type :articles
 				json.id result.id
@@ -38,12 +37,22 @@ if @results.any?
 			elsif result.class == Share
 				json.type :posts
 				json.set! :share do
+					json.id result.id
+					json.post result.post
 					json.isRatings true
 					json.date result.created_at.strftime("%e %b")
-					json.commentCount pluralize(result.commentCount, 'comment')
-					json.agreeCount "#{pluralize(result.agreeCount, 'person')} agree"
-					json.disagreeCount "#{pluralize(result.disagreeCount, 'person')} disagree"
-					json.comments result.comments
+					json.commentCount pluralize(result.comment_count, 'comment')
+					json.agreeCount "#{pluralize(result.agree_count, 'person')} agree"
+					json.disagreeCount "#{pluralize(result.disagree_count, 'person')} disagree"
+					json.user do
+						json.id result.user.id
+						json.isMuted user_signed_in? ? current_user.has_muted(result.user) : false
+						json.isBlocked user_signed_in? ? current_user.has_blocked(result.user) : false
+						json.displayName result.user.display_name
+						json.username result.user.username
+						json.image result.user.profile_photo.url(:square)
+						json.path profile_path(slug: result.user.slug)
+					end
 				end
 				json.set! :ratings do
 					json.wellWritten result.rating_well_written
