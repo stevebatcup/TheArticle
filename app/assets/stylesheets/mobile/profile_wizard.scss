@@ -5,62 +5,97 @@
 	width: 100%;
 }
 
-article.article-listing.exchange {
-	height: 134px;
-
-	.inner {
-		// border-radius: 0.35rem;
-		overflow: hidden;
-
-		.img_mask {
-			height: 130px !important;
-		}
-
-		h6 {
-			font-size: 0.8em;
-			padding-bottom: 0.2em;
-		}
-
-		img {
-			min-height: 106px;
-			max-height: 100%;
-		}
+.profile_wizard_wizard {
+	label.alert-danger {
+		color: #721c24;
 	}
 
-	&.selected {
+	label.alert-success {
+		color: #155724;
+	}
+
+	.alert-no-bg {
+		background: transparent !important;
+	}
+
+	article.article-listing.exchange {
+		height: 134px;
+
 		.inner {
-			background-color: #72b678;
+			// border-radius: 0.35rem;
+			overflow: hidden;
+
+			.img_mask {
+				height: 130px !important;
+			}
+
+			h6 {
+				font-size: 0.8em;
+				padding-bottom: 0.2em;
+			}
 
 			img {
-				opacity: 0.4;
+				min-height: 106px;
+				max-height: 100%;
 			}
+		}
 
-			.heading_box {
+		&.selected {
+			.inner {
 				background-color: #72b678;
+
+				img {
+					opacity: 0.4;
+				}
+
+				.heading_box {
+					background-color: #72b678;
+				}
 			}
 		}
 	}
-}
 
 
-.autocompleter {
-	ul {
-		padding: 0;
-		border-bottom: 1px solid #ccc;
-		border-left: 1px solid #ccc;
-		border-right: 1px solid #ccc;
-		box-shadow: 1px 1px 2px #ccc;
-		background: #fff;
+	.autocompleter {
+		ul {
+			padding: 0;
+			border-bottom: 1px solid #ccc;
+			border-left: 1px solid #ccc;
+			border-right: 1px solid #ccc;
+			box-shadow: 1px 1px 2px #ccc;
+			background: #fff;
 
-		li {
-			list-style: none;
-			line-height: 2.2em;
+			li {
+				list-style: none;
+				line-height: 2.2em;
 
-			a {
-				padding: 5px 0 5px 10px;
-				display: block;
-				color: inherit;
-				font-weight: bold;
+				a {
+					padding: 10px 0 6px 14px;
+					display: block;
+					color: inherit;
+
+					svg {
+						font-size: 20px;
+						position: relative;
+						top: 2px;
+					}
+
+					p {
+						line-height: 1.3em;
+
+						span {
+							display: block;
+						}
+
+						small {
+							display: block;
+						}
+					}
+
+					&:hover {
+						background: #eee;
+					}
+				}
 			}
 		}
 	}

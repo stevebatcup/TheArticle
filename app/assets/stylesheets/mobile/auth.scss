@@ -1,10 +1,14 @@
 section.auth {
+	.form-group {
+		margin-bottom: 0.7em;
+	}
+
 	.form-group.checker {
 		input[type=checkbox] {
-			width: 18px;
-	    height: 18px;
+			width: 40px;
+	    height: 40px;
 	    position: relative;
-	    top: 6px;
+	    top: -5px;
 		}
 	}
 }

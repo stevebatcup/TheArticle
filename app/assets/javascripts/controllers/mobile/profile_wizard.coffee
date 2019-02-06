@@ -81,8 +81,8 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		options =
 			types: ['geocode']
 			input: $input.val()
-			componentRestrictions:
-				country: 'gb'
+			componentRestrictions: {}
+			# country: 'gb'
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
 		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
@@ -97,12 +97,13 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		# console.log event.target.innerHTML
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
+		placeText = $(event.currentTarget.innerHTML).find(".main_location_text").text()
+		@scope.user.location.value = placeText
 		geocoder.geocode { 'address': address }, (results, status) =>
 			if status is google.maps.GeocoderStatus.OK
 				@scope.$apply =>
 					@scope.user.location.lat = results[0].geometry.location.lat()
 					@scope.user.location.lng = results[0].geometry.location.lng()
-					@scope.user.location.value = event.target.innerHTML
 					results[0].address_components.forEach (component) =>
 						if _.contains(component.types, 'country')
 							@scope.user.location.countryCode = component.short_name
@@ -123,12 +124,25 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		if @scope.user.names.displayName.error or @scope.user.names.username.error
 			return false
 		else
-			return @http.get("/username-availability?username=@#{@scope.user.names.username.value}").then (response) =>
-				if response.data is false
-					@scope.user.names.username.error = "Username has already been taken"
-					return false
-				else
-					return true
+			return @validateUsername(null, true)
+
+	validateUsernameFromField: =>
+		@scope.user.names.username.error = ""
+		@validateUsername (result) =>
+			@scope.user.names.username.available = result
+		, false
+
+	validateUsername: (callback=null, save=false) =>
+		url = "/username-availability?username=@#{@scope.user.names.username.value}"
+		url += "&save=1" if save is true
+		@http.get(url).then (response) =>
+			if response.data is false
+				@scope.user.names.username.error = "Username has already been taken"
+				callback.call(@, false) if callback?
+				return false
+			else
+				callback.call(@, true) if callback?
+				return true
 
 	selectExchange: (selected) =>
 		if _.contains(@scope.user.selectedExchanges, selected)

@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="row mb-2">
-                  <div class="col">
+                  <div class="col-md mb-3 mb-md-0">
                     <%= f.label :password %>
                     <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
@@ -79,14 +79,14 @@
                     <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: '' %>
                   </div>
 
-                  <div class="col">
+                  <div class="col-md">
                     <%= f.label :password_confirmation %><br />
                     <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: '' %>
                   </div>
                 </div>
 
                 <div class="form-group checker d-flex">
-                  <input type="checkbox" class="mr-2" name="tandc" id="tandc" required='true' style="width: 18px; height: 18px; position: relative; top: 5px;" />
+                  <input type="checkbox" class="mr-2" name="tandc" id="tandc" required='true' />
                   <label>
                     <small>I am over 16 and agree to TheArticle <a href="/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></small>
                   </label>

@@ -1,8 +1,9 @@
 <section ng-controller="ProfileWizardController"
-				class=""
+				class="profile_wizard_wizard"
 				data-default-display_name="<%= current_user.display_name %>"
 				data-default-username="<%= current_user.username.gsub(/@/, '') %>"
-				data-user-id="<%= current_user.id %>">
+				data-user-id="<%= current_user.id %>"
+				ng-cloak>
 		<%= form_for(current_user, url: save_profile_wizard_path) do |f| %>
 	<wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-indicators="true">
     <wz-step wz-title="Names" canexit="validateNames">

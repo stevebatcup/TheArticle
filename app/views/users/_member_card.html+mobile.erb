@@ -29,7 +29,7 @@
 				<% if user_signed_in? %>
 					<button class="btn btn-sm follow_btn mt-2"
 									ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
-									ng-click="toggleFollowUserFromCard(item, $event)"
+									ng-click="<%= suggestions ? 'toggleFollowSuggestion(item, $event)' : 'toggleFollowUserFromCard(item, $event)' %>"
 									ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock)">
 						<i class="fas fa-users mr-2"></i>
 						<span ng-show="item.imFollowing">Following</span>
