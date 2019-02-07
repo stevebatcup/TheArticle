@@ -4,7 +4,7 @@ else
 	json.set! :total, @total if @total
 	json.set! :articles do
 		json.array! @articles do |article|
-			image_size = browser.device.mobile? ? :listing_mobile : :listing_desktop
+			image_size = browser.device.mobile? ? :cover_mobile : :listing_desktop
 			json.id article.id
 			json.title strip_tags(article.title)
 			json.excerpt article_excerpt_for_listing(article).html_safe
