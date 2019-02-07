@@ -148,12 +148,16 @@ header {
 							top: 8px;
 
 							span {
-								top: 3px;
+								top: 7px;
 								position: relative;
-								left: 2px;
+								left: 5px;
+								padding-right: 5px;
 								text-overflow: ellipsis;
 								word-break: break-word;
 								white-space: nowrap;
+								max-width: 150px;
+								display: inline-block;
+								overflow-x: hidden;
 							}
 
 							img {
