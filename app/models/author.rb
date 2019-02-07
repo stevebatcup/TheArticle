@@ -43,17 +43,15 @@ class Author < ApplicationRecord
 		list.each_with_index do |item, index|
 			if item.email == 'stephen.rand@thearticle.com'
 				editors.unshift item
-				list.delete(item)
 			end
 			if item.email == 'olivia.utley@thearticle.com'
 				editors.unshift item
-				list.delete(item)
 			end
 			if item.email == 'daniel.johnson@thearticle.com'
 				editors.unshift item
-				list.delete(item)
 			end
 		end
+		list.reject! {|item| editors.map(&:id).include?(item.id) }
 		editors.each do |editor|
 			list.unshift editor
 		end
