@@ -3,7 +3,8 @@ class Share < ApplicationRecord
 	has_many :concern_reports, as: :sourceable
 	acts_as_commentable
 	validates_presence_of	:article_id, :user_id
-	has_many	:opinions
+	has_many	:opinions, dependent: :destroy
+	has_many	:opinion_groups, dependent: :destroy
 	belongs_to	:user
 	belongs_to	:article
 	before_create	:update_feed

@@ -198,6 +198,16 @@ header {
 						background-position: left 11px;
 						padding-left: 1.8rem;
 					}
+
+					&#nav_link_notifications {
+						.badge {
+							position: absolute;
+							bottom: 2px;
+							right: -15px;
+							padding: 5px 6px;
+							font-size: 0.6em;
+						}
+					}
 				}
 			}
 		}
