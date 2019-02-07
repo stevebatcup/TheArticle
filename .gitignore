@@ -56,3 +56,5 @@ public/uploads
 db/sphinx
 
 Procfile
+
+dump.rdb
