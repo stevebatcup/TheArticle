@@ -908,3 +908,12 @@ button.follow {
 .ng-confirm .ng-confirm-box div.ng-confirm-title-c {
 	font-size: 1.2em;
 }
+
+.slick-dots {
+	bottom: -18px;
+
+	li {
+		width: 11px;
+		height: 11px;
+	}
+}
