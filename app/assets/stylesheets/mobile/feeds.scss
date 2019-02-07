@@ -8,6 +8,13 @@ input#suggestion_search {
 	}
 }
 
+#app_tabs {
+	.tab-pane {
+		min-height: 70%;
+		min-height: 70vh;
+	}
+}
+
 .feed-listing {
 	margin-bottom: 10px;
 	// border-bottom: 1px solid $grey;

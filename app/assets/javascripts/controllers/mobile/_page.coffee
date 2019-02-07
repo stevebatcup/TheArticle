@@ -37,7 +37,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 				$('#dismiss, ul', 'nav#sidebar').show()
 
 	bindMemberSideMenu: =>
-		# console.log 'bindMemberSideMenu'
 		@scope.slideout = new Slideout
 			'panel': document.getElementById('panel_for_side_menu')
 			'menu': document.getElementById('mobile_side_menu')

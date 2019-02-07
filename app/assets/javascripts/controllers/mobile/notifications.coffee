@@ -46,7 +46,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@listenForActions()
 
 	bindEvents: =>
-		super
 		@scope.$on 'load_more_notifications', =>
 			if @scope.notifications.moreToLoad is true
 				@scope.notifications.moreToLoad = false

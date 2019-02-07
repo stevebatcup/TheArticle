@@ -41,11 +41,14 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 	toggleSearch: =>
 		$box = $('#search_box')
 		if $box.is(':hidden')
-			$box.slideDown(200)
-			$box.find('input[name=query]').focus()
-			$('#ads_top').hide()
-			$('.wrapper').addClass('no-scroll')
-			@getSearchSuggestions() unless @scope.search.suggestions.loaded
+			$('#dismiss').click() if $('#dismiss', '#sidebar').is(':visible')
+			@timeout =>
+				$box.slideDown(200)
+				$box.find('input[name=query]').focus()
+				$('#ads_top').hide()
+				$('.wrapper').addClass('no-scroll')
+				@getSearchSuggestions() unless @scope.search.suggestions.loaded
+			, 250
 		else
 			$box.slideUp(200)
 			$('#ads_top').show()

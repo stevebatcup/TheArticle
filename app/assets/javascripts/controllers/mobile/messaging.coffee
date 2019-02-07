@@ -11,6 +11,9 @@ class TheArticle.Messaging extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		@bindEvents()
+
+	bindEvents: =>
 
 
 TheArticle.ControllerModule.controller('MessagingController', TheArticle.Messaging)
