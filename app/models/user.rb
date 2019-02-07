@@ -250,18 +250,26 @@ class User < ApplicationRecord
     "_deleted_#{email}"
   end
 
+  def self.poison_username(username)
+    "_deleted_#{username}"
+  end
+
   def delete_account(reason="User deleted account", by_admin=false)
     clear_user_data(true)
     poisoned_email = self.class.poison_email(self.email)
+    poisoned_username = self.class.poison_username(self.username)
     skip_reconfirmation!
     self.email_alias_logs.create({
       old_email: self.email,
       new_email: poisoned_email,
+      old_username: self.username,
+      new_username: poisoned_username,
       reason: reason
     })
     update_attributes({
       status: :deleted,
-      email: poisoned_email
+      email: poisoned_email,
+      username: poisoned_username
     })
     AccountDeletion.create({
       user_id: self.id,

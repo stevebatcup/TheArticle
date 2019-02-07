@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_104253) do
+ActiveRecord::Schema.define(version: 2019_02_07_162642) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
@@ -146,6 +146,8 @@ ActiveRecord::Schema.define(version: 2019_02_06_104253) do
     t.string "old_email"
     t.string "new_email"
     t.text "reason"
+    t.string "old_username"
+    t.string "new_username"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
