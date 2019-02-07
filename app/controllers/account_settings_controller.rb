@@ -13,7 +13,10 @@ class AccountSettingsController < ApplicationController
 	end
 
 	def update
-		send_username_changed_email = (user_params[:username] != current_user.username)
+		send_username_changed_email = false
+		if user_params[:username] && (user_params[:username] != current_user.username)
+			send_username_changed_email = true
+		end
 		current_user.update(user_params)
 		if current_user.save
 			@status = :success
@@ -86,6 +89,6 @@ class AccountSettingsController < ApplicationController
 private
 
 	def user_params
-		params.require(:user).permit(:title, :first_name, :last_name, :username, :email, :existing_password, :new_password)
+		params.require(:user).permit(:title, :first_name, :last_name, :username, :email, :existing_password, :new_password, :gender, :age_bracket)
 	end
 end

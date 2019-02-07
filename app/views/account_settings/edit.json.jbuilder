@@ -1,7 +1,7 @@
 json.set! :user do
 	json.id current_user.id
 
-	json.title current_user.title
+	# json.title current_user.title
 	json.firstName current_user.first_name
 	json.lastName current_user.last_name
 	json.fullName current_user.full_name
@@ -17,6 +17,9 @@ json.set! :user do
 	json.cleanEmail email
 
 	json.password ''
+
+	json.gender current_user.gender
+	json.ageBracket current_user.age_bracket
 
 	json.profileDeactivated current_user.profile_is_deactivated?
 	json.confirmingPassword ''

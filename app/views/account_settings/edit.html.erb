@@ -116,6 +116,14 @@
 									<i class="fas fa-chevron-right"></i>
 								</div>
 
+								<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'gender_and_age', 'account')">
+									<div class="w-50">
+										<h5>Gender &amp; age bracket</h5>
+										<h6>{{ user.gender }} | {{ user.ageBracket }}</h6>
+									</div>
+									<i class="fas fa-chevron-right"></i>
+								</div>
+
 								<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'password', 'account')">
 									<h5>Password</h5>
 									<i class="fas fa-chevron-right"></i>
@@ -261,10 +269,6 @@
 						<div class="slidepage-page right" data-page="name" data-title="Edit name" data-level="3">
 							<div class="nav_menu_form container pt-3">
 								<p class="sidenote">This will not be displayed on your public profile</p>
-								<div class="form-group">
-									<label for="title">Title</label><br />
-								  <%= select :user, :title, options_for_select([ "Mrs", "Mr", "Dr", "Rt. Hon", "Rev" ], current_user.title), {}, { class: "form-control short", required: '', 'ng-model': 'user.title' } %>
-								</div>
 
 								<div class="form-group">
 									<label for="first_name">First name</label>
@@ -285,6 +289,27 @@
 							</div>
 						</div>
 
+						<!-- GENDER and AGE -->
+						<div class="slidepage-page right" data-page="gender_and_age" data-title="Edit gender and age bracket" data-level="3">
+							<div class="nav_menu_form container pt-3">
+								<div class="form-group">
+									<label for="gender">Gender</label>
+								  <%= select :user, :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ]), { include_blank: false }, { class: "form-control", 'ng-model': 'user.gender' } %>
+								</div>
+
+                <div class="form-group">
+                	<label for="age_bracket">Age bracket</label>
+                  <%= select :user, :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ]), { include_blank: false }, { class: "form-control", 'ng-model': 'user.ageBracket' } %>
+                </div>
+
+								<p class="alert alert-danger" ng-if="errors.genderAndAge">{{errors.genderAndAge}}</p>
+
+								<div class="actions d-flex justify-content-between align-items-start">
+									<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+									<button class="btn btn-success w-40" ng-click="saveGenderAndAge($event)">Save</button>
+								</div>
+							</div>
+						</div>
 
 						<!-- USERNAME -->
 						<div class="slidepage-page right" data-page="username" data-title="Edit username" data-level="3">

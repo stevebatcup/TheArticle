@@ -98,7 +98,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    "#{self.title}. #{self.first_name} #{self.last_name}"
+    account_name
   end
 
   def account_name

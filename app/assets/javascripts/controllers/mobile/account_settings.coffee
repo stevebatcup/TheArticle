@@ -32,6 +32,8 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 			password: false
 			deactivate: false
 			reactivate: false
+			deleteAccount: false
+			genderAndAge: false
 		@scope.cleanUsername = ''
 		@scope.blocks = []
 		@scope.user = {}
@@ -217,6 +219,17 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 				successCallback.call(@) if successCallback?
 			else if response.data.status is 'error'
 				errorCallback.call(@, response.data.message) if errorCallback?
+
+	saveGenderAndAge: ($event) =>
+		$event.preventDefault() if $event?
+		@http.put "/account-settings",
+			user:
+				gender: @scope.user.gender
+				age_bracket: @scope.user.ageBracket
+		.then (response) =>
+			@backToPage('account')
+		, (errorMsg) =>
+			@scope.errors.genderAndAge = errorMsg
 
 	savePassword: ($event) =>
 		$event.preventDefault() if $event?

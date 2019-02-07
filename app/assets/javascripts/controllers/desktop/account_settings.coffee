@@ -36,6 +36,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 			deactivate: false
 			reactivate: false
 			deleteAccount: false
+			genderAndAge: false
 		@scope.cleanUsername = ''
 		@scope.user = {}
 		@scope.profile = {}
@@ -157,9 +158,6 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 			first_name: @scope.user.firstName
 			last_name: @scope.user.lastName
 			username: @scope.user.originalUsername
-		# 	email: @scope.user.email
-		# if @scope.user.password.length > 0
-		# 	userData.password = @scope.user.password
 		@http.put "/account-settings",
 			user: userData
 		.then (response) =>
@@ -231,6 +229,17 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 				successCallback.call(@) if successCallback?
 			else if response.data.status is 'error'
 				errorCallback.call(@, response.data.message) if errorCallback?
+
+	saveGenderAndAge: ($event) =>
+		$event.preventDefault() if $event?
+		@http.put "/account-settings",
+			user:
+				gender: @scope.user.gender
+				age_bracket: @scope.user.ageBracket
+		.then (response) =>
+			@backToPage('account')
+		, (errorMsg) =>
+			@scope.errors.genderAndAge = errorMsg
 
 	savePassword: ($event) =>
 		$event.preventDefault() if $event?
