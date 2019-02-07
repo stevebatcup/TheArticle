@@ -1,10 +1,10 @@
 module SeoHelper
 	def page_title(text)
-    content_for :page_title, text
+    content_for :page_title, sanitize(text.html_safe)
   end
 
 	def yield_page_title(default_text='')
-    title = content_for?(:page_title) ? "#{content_for :page_title}".html_safe : default_text
+    title = content_for?(:page_title) ? content_for(:page_title) : default_text
     "#{title} | TheArticle"
   end
 
