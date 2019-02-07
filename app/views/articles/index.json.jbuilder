@@ -10,7 +10,7 @@ else
 			json.excerpt article_excerpt_for_listing(article).html_safe
 			json.path article_path(article)
 			json.isNew article.is_newly_published?
-			json.published_at article_date(article)
+			json.publishedAt article_date(article)
 			json.image article.image.url(image_size) if article.image?
 			json.isSponsored article.is_sponsored
 			json.author do
