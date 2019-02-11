@@ -12,6 +12,12 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	init: ->
 		@scope.myProfile = window.location.pathname is "/my-profile"
 		@scope.userProfile = false
+
+		@scope.appPage = false
+		@scope.showBackPage = false
+		@scope.appPageTitle = ''
+		@listen()
+
 		if !@scope.myProfile
 			@scope.userProfile = window.location.pathname.indexOf("profile/") > 0
 
@@ -19,6 +25,32 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 			@timeout =>
 				@bindFixedNavScrolling()
 			, 1000
+
+	listen: =>
+		@scope.$on 'setup_app_page', ($event, data) =>
+			$('#member_options').hide()
+			@scope.appPage = true
+			@scope.showBackPage = false
+			@scope.appPageTitle = data.title
+			@scope.username = data.username
+
+		@scope.$on 'page_moved_forward', ($event, data) =>
+			@scope.showBackPage = true
+			@scope.appPageTitle = data.title
+
+		@scope.$on 'page_moved_back', ($event, data) =>
+			@scope.showBackPage = data.showBack
+			@scope.appPageTitle = data.title
+
+		@scope.$on 'username_updated', ($event, data) =>
+			@scope.username = data.username
+
+	backPage: ($event) =>
+		$event.preventDefault()
+		@rootScope.$broadcast 'page_moving_back'
+
+	openFrontPage: =>
+		window.location.href = "/front-page"
 
 	bindFixedNavScrolling: =>
 		if $('#member_options').length

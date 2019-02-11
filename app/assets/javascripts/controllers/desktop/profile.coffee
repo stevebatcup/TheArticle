@@ -146,9 +146,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		$('#feed').scrollTop(0)
 
 	detectPanelOpeners: =>
-		@timeout =>
-			$("#activity-#{@getVars['panel']}-tab").click()
-		, 750
+		if @getVars['panel'] is 'edit_profile'
+			@timeout =>
+				$('#edit_profile_btn').click()
+			, 350
+		else
+			@timeout =>
+				$("#activity-#{@getVars['panel']}-tab").click()
+			, 750
 
 	loadMoreRatings: =>
 		@scope.profile.ratings.page += 1

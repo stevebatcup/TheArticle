@@ -103,6 +103,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				photo: false
 
 		@bindEvents()
+		@getVars = @getUrlVars()
+		@detectPanelOpeners() if 'panel' of @getVars
 		if @scope.profile.isMe is true
 			@rootScope.isSignedIn = true
 			@getMyProfile @getProfileCallback
@@ -110,6 +112,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback
 
+	detectPanelOpeners: =>
+		if @getVars['panel'] is 'edit_profile'
+			@timeout =>
+				$('#edit_profile_btn').click()
+			, 350
 
 	getProfileCallback: =>
 		@getUserExchanges()

@@ -286,6 +286,10 @@ a.btn {
 		font-size: 1.2em;
 	}
 
+	&.btn-lower {
+		text-transform: none !important;
+	}
+
 	&:hover {
 		color: #333;
 	}

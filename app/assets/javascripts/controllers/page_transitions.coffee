@@ -4,6 +4,12 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 		@scope.$on 'page_moving_back', =>
 			@backToPage _.last(@scope.pageHistory)
 
+	resetContainerHeight: =>
+		@timeout =>
+			height = $('.slidepage-page.current').outerHeight() + 120
+			$('.slidepage-container').css({ height: height })
+		, 100
+
 	resetPages: =>
 		$('.slidepage-page').removeClass('current')
 					.removeClass('center')
@@ -15,6 +21,7 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 					.addClass('current')
 		@rootScope.$broadcast 'page_moved_back', { title: 'Settings', showBack: false }
 		@scope.pageHistory = []
+		@resetContainerHeight()
 		@timeout =>
 			$('.slidepage-container').scrollTop(0)
 			$(window).scrollTop(0)
@@ -30,6 +37,7 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 		@rootScope.$broadcast 'page_moved_forward', { title: $newPage.data('title') }
 		$('.slidepage-container').scrollTop(0)
 		$(window).scrollTop(0)
+		@resetContainerHeight()
 
 	backToPage: (newPage, $event) =>
 		$event.preventDefault() if $event?
@@ -42,3 +50,4 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 		@rootScope.$broadcast 'page_moved_back', { title: $newPage.data('title'), showBack: !isTopPage }
 		$('.slidepage-container').scrollTop(0)
 		$(window).scrollTop(0)
+		@resetContainerHeight()

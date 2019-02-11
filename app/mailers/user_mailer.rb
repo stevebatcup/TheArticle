@@ -97,4 +97,14 @@ class UserMailer < Devise::Mailer
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
     send_mail(old_email, "#{user.first_name} #{user.last_name}", subject, body)
   end
+
+  def password_change_confirmed(user)
+    subject = I18n.t('devise.mailer.password_change.subject')
+    merge_vars = {
+      FIRST_NAME: user.display_name,
+      CURRENT_YEAR: Date.today.strftime("%Y")
+    }
+    body = mandrill_template("password-change-confirmed", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+  end
 end

@@ -16,7 +16,9 @@ json.set! :profile do
 
 	json.location @user.location
 	json.bio @user.bio
+
 	userPath = profile_path(slug: @user.slug)
+	json.path userPath
 
 	# photos
 	profileImage = @user.profile_photo.url(:square)

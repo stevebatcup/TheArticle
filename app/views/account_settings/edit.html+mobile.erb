@@ -1,7 +1,7 @@
 <div id="content-account-settings"
 	class="app_page pt-4 slidepage-container"
 	ng-controller="AccountSettingsController"
-	ng-show="accountSettings" ng-cloak>
+	data-slideout-ignore ng-cloak>
 
 	<!-- MAIN MENU -->
 	<div class="slidepage-page center current" data-page="main" data-title="Settings" data-level="1">
@@ -17,6 +17,11 @@
 					<i class="fas fa-chevron-right"></i>
 				</div>
 
+				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'privacy', 'main')">
+					<h5>Your privacy</h5>
+					<i class="fas fa-chevron-right"></i>
+				</div>
+
 				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'notifications', 'main')">
 					<h5>Notifications</h5>
 					<i class="fas fa-chevron-right"></i>
@@ -24,11 +29,6 @@
 
 				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'communication_preferences', 'main')">
 					<h5>Communication preferences</h5>
-					<i class="fas fa-chevron-right"></i>
-				</div>
-
-				<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'privacy', 'main')">
-					<h5>Privacy &amp; safety</h5>
 					<i class="fas fa-chevron-right"></i>
 				</div>
 
@@ -42,11 +42,12 @@
 
 		<!-- ACCOUNT MENU -->
 		<div class="slidepage-page right" data-page="account" data-title="Account settings" data-level="2">
+			<p class="mx-3 mb-0 mt-2">Manage your account settings.</p>
 			<div class="">
 				<div class="nav_menu">
 					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'name', 'account')">
-						<div>
-							<h5>Name</h5>
+						<div class="w-75">
+							<h5>Your details</h5>
 							<h6>{{ user.fullName }}</h6>
 						</div>
 						<i class="fas fa-chevron-right"></i>
@@ -68,15 +69,6 @@
 						<i class="fas fa-chevron-right"></i>
 					</div>
 
-
-					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'gender_and_age', 'account')">
-						<div class="w-75">
-							<h5>Gender &amp; age bracket</h5>
-							<h6>{{ user.gender }} | {{ user.ageBracket }}</h6>
-						</div>
-						<i class="fas fa-chevron-right"></i>
-					</div>
-
 					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'password', 'account')">
 						<h5>Password</h5>
 						<i class="fas fa-chevron-right"></i>
@@ -84,7 +76,7 @@
 
 					<div class="nav_menu_spacer"></div>
 
-					<div class="nav_menu_item danger d-flex justify-content-between" ng-click="forwardToPage($event, 'delete_account', 'account')">
+					<div class="nav_menu_item important_item danger d-flex justify-content-between" ng-click="forwardToPage($event, 'delete_account', 'account')">
 						<h5>Delete your account</h5>
 						<i class="fas fa-chevron-right"></i>
 					</div>
@@ -107,7 +99,9 @@
 						</div>
 
 						<div class="align-items-start d-flex px-2 pt-2">
-							<img ng-src="{{profile.profilePhoto.image}}" class="rounded-circle feed_image mr-2" alt="{{profile.displayName}}" />
+							<a href="{{ profile.path }}">
+								<img ng-src="{{profile.profilePhoto.image}}" class="rounded-circle feed_image mr-2" alt="{{profile.displayName}}" />
+							</a>
 
 							<div class="w-100 pl-2 pb-2 pt-4">
 								<div class="d-flex align-items-start justify-content-between">
@@ -122,6 +116,7 @@
 								</div>
 
 								<div class="py-0 w-100">
+									<h6 class="text-muted mt-2 mb-0">{{ profile.location }}</h6>
 									<p class="card-text">
 										<a href="{{ profile.path }}">
 											<small>{{ profile.bio }}</small>
@@ -134,7 +129,6 @@
 					</div>
 				</div>
 
-
 				<p ng-if="user.profileDeactivated"><small>Your profile was deactivated so it is currently hidden</small></p>
 			</div>
 
@@ -146,12 +140,12 @@
 
 				<div class="nav_menu_spacer"></div>
 
-				<div ng-if="!user.profileDeactivated" class="nav_menu_item danger d-flex justify-content-between" ng-click="forwardToPage($event, 'deactivate_profile')">
+				<div ng-if="!user.profileDeactivated" class="nav_menu_item important_item danger d-flex justify-content-between" ng-click="forwardToPage($event, 'deactivate_profile')">
 					<h5>Deactivate your profile</h5>
 					<i class="fas fa-chevron-right"></i>
 				</div>
 
-				<div ng-if="user.profileDeactivated" class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'reactivate_profile')">
+				<div ng-if="user.profileDeactivated" class="nav_menu_item success d-flex justify-content-between" ng-click="forwardToPage($event, 'reactivate_profile')">
 					<h5>Reactivate your profile</h5>
 					<i class="fas fa-chevron-right"></i>
 				</div>
@@ -162,6 +156,7 @@
 		<!-- NOTIFICATIONS MENU -->
 		<div class="slidepage-page right" data-page="notifications" data-title="Notifications" data-level="2">
 			<div class="">
+				<p class="mt-2 mb-1 mx-3">Manage how and when you receive notifications.</p>
 				<div class="nav_menu">
 					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'notifications_article', 'account')">
 						<h5>On TheArticle</h5>
@@ -189,7 +184,9 @@
 		</div>
 
 		<!-- PRIVACY -->
-		<div class="slidepage-page right" data-page="privacy" data-title="Privacy settings" data-level="2">
+		<div class="slidepage-page right" data-page="privacy" data-title="Your privacy" data-level="2">
+			<p class="mt-1 mb-1 mx-3">Manage your interactions with other profiles - who can see you, who can interact with your posts and who appears in your newsfeeds.</p>
+
 			<div class="">
 				<div class="nav_menu">
 					<div class="nav_menu_item d-flex justify-content-between" ng-click="getConnects(); forwardToPage($event, 'privacy_connected', 'account')">
@@ -213,19 +210,15 @@
 		<!-- FIND PEOPLE -->
 		<div class="slidepage-page right" data-page="find_people" data-title="Find people you know" data-level="2">
 			<div class="container pt-2">
-				<p>Find people you know</p>
+				<p>Search for people you know on <b>TheArticle</b></p>
 			</div>
 		</div>
 
 
 			<!-- ACCOUNT NAME -->
-			<div class="slidepage-page right" data-page="name" data-title="Edit name" data-level="3">
+			<div class="slidepage-page right" data-page="name" data-title="Edit your details" data-level="3">
 				<div class="nav_menu_form container pt-3">
 					<p class="sidenote">This will not be displayed on your public profile</p>
-					<div class="form-group">
-						<label for="title">Title</label><br />
-					  <%= select :user, :title, options_for_select([ "Mrs", "Mr", "Dr", "Rt. Hon", "Rev" ], current_user.title), {}, { class: "form-control short", required: '', 'ng-model': 'user.title' } %>
-					</div>
 
 					<div class="form-group">
 						<label for="first_name">First name</label>
@@ -237,18 +230,6 @@
 					  <%= text_field :user, :last_name, class: "form-control", required: '', 'ng-model':  'user.lastName' %>
 					</div>
 
-					<p class="alert alert-danger" ng-if="errors.names">{{errors.names}}</p>
-
-					<div class="actions d-flex justify-content-between align-items-start">
-						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
-						<button class="btn btn-success w-40" ng-click="saveNames($event)">Save</button>
-					</div>
-				</div>
-			</div>
-
-			<!-- GENDER and AGE -->
-			<div class="slidepage-page right" data-page="gender_and_age" data-title="Edit gender and age bracket" data-level="3">
-				<div class="nav_menu_form container pt-3">
 					<div class="form-group">
 						<label for="gender">Gender</label>
 					  <%= select :user, :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ]), { include_blank: false }, { class: "form-control", 'ng-model': 'user.gender' } %>
@@ -259,38 +240,50 @@
             <%= select :user, :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ]), { include_blank: false }, { class: "form-control", 'ng-model': 'user.ageBracket' } %>
           </div>
 
-					<p class="alert alert-danger" ng-if="errors.genderAndAge">{{errors.genderAndAge}}</p>
+					<p class="alert alert-danger" ng-if="errors.yourDetails">{{errors.yourDetails}}</p>
 
 					<div class="actions d-flex justify-content-between align-items-start">
-						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
-						<button class="btn btn-success w-40" ng-click="saveGenderAndAge($event)">Save</button>
+						<button class="btn btn-danger w-40" ng-click="cancelYourDetails($event)">Cancel</button>
+						<button class="btn btn-success w-40" ng-click="saveYourDetails($event)">Save</button>
 					</div>
 				</div>
 			</div>
-
 
 			<!-- USERNAME -->
 			<div class="slidepage-page right" data-page="username" data-title="Edit username" data-level="3">
 				<div class="nav_menu_form container pt-3">
 					<p class="sidenote">This will be displayed on your public profile</p>
 					<div class="form-group">
-						<label for="username">Username</label><br />
+				    <span ng-show="!errors.username && !usernameAvailable">
+				    	<label for="username">Username</label>
+				    </span>
+			    	<label ng-show="errors.username" class="alert-no-bg alert-danger">
+			    		{{errors.username}}
+			    	</label>
+			    	<label ng-show="usernameAvailable" class="alert-no-bg alert-success">
+			    		Available!
+			    	</label>
+
+						<br />
 						<p ng-show="user.error" class="alert alert-danger">{{user.error}}</p>
 						<div class="input-group mb-2">
 						  <div class="input-group-prepend">
 						    <div class="input-group-text">@</div>
-							  <%= text_field :user, :username, class: "form-control", required: '', 'ng-model':  'user.username' %>
+							  <%= text_field :user, :username, class: "form-control", required: '', 'ng-model':  'user.username',
+							  	"ng-keyup": "validateUsernameFromField()" %>
 						  </div>
 						</div>
-						<p><small class="form-text text-muted">
-							<%= profile_url(slug: '') %>{{user.username.toLowerCase()}}
-						</small></p>
+				    <p><small class="form-text alert-no-bg"
+				    			ng-class="{
+				    			'alert-success': usernameAvailable,
+				    			'alert-danger': errors.username.length > 0
+				    		}">
+				    	<%= profile_url(slug: '') %>{{user.username.toLowerCase()}}
+				    </small></p>
 					</div>
 
-					<p class="alert alert-danger" ng-if="errors.username">{{errors.username}}</p>
-
 					<div class="actions d-flex justify-content-between align-items-start">
-						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+						<button class="btn btn-danger w-40" ng-click="cancelUsername($event)">Cancel</button>
 						<button class="btn btn-success w-40" ng-click="saveUsername($event)">Save</button>
 					</div>
 				</div>
@@ -309,7 +302,7 @@
 					<p class="alert alert-danger" ng-if="errors.email">{{errors.email}}</p>
 
 					<div class="actions d-flex justify-content-between align-items-start">
-						<button class="btn btn-danger w-40" ng-click="backToPage('account', $event)">Cancel</button>
+						<button class="btn btn-danger w-40" ng-click="cancelEmail($event)">Cancel</button>
 						<button class="btn btn-success w-40" ng-click="saveEmail($event)">Save</button>
 					</div>
 				</div>
@@ -323,18 +316,18 @@
 
 					<div class="form-group">
 						<label for="confirming_password_password_1">Existing password</label><br />
-						<input type="password" name="confirming_password_password_1" id="confirming_password_password_1" ng-model="user.confirmingPassword" class="form-control" required />
-					</div>
-
-					<div class="form-group">
-						<label for="confirming_password_password_2">Confirm existing password</label><br />
-						<input type="password" name="confirming_password_password_2" id="confirming_password_password_2" ng-model="user.confirmingPasswordConfirm" class="form-control" required />
+						<input type="password" name="confirming_old_password" id="confirming_old_password" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
 					<div class="form-group">
 						<label for="password">New password</label>
 						<em>(6 characters minimum)</em>
 					  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password' %>
+					</div>
+
+					<div class="form-group">
+						<label for="confirming_password_password_2">Confirm new password</label><br />
+						<input type="password" name="password_confirmation" id="password_confirmation" ng-model="user.newPasswordConfirmation" class="form-control" required />
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.password">{{errors.password}}</p>
@@ -371,16 +364,20 @@
 					<ul>
 						<li>your public profile will removed from the site</li>
 						<li>your posts and comments will be deleted</li>
-						<li>However, you would still be able to:</li>
+					</ul>
+
+					<p>However, you would still be able to:</p>
+
+					<ul>
 						<li>sign in to TheArticle</li>
 						<li>read comments on other people's profiles</li>
 						<li>follow exchanges</li>
 						<li>receive our newsletters, notifications etc. (and manage how and when we contact you)</li>
 					</ul>
 
-					<button class="btn btn-success btn-block" ng-click="forwardToPage($event, 'deactivate_profile')" ng-if="!user.profileDeactivated">Learn more about profile deactivation</button>
+					<button class="btn btn-success btn-block btn-lower" ng-click="forwardToPage($event, 'deactivate_profile')" ng-if="!user.profileDeactivated">Learn more about profile deactivation</button>
 
-					<button class="btn btn-danger btn-block" ng-click="forwardToPage($event, 'delete_account_continue')">Continue account deletion process</button>
+					<button class="btn btn-danger btn-block btn-lower" ng-click="forwardToPage($event, 'delete_account_continue')">Continue account deletion process</button>
 
 				</div>
 			</div>
@@ -400,7 +397,7 @@
 
 					<p>Once you have deleted your account, it cannot be reinstated</p>
 
-					<button class="btn btn-success btn-block"
+					<button class="btn btn-danger btn-block btn-lower"
 									ng-click="deleteAccount($event)"
 									ng-class="{'disabled': user.confirmingPassword.length == 0}"
 									ng-disabled="user.confirmingPassword.length == 0">Delete</button>
@@ -451,7 +448,7 @@
 
 					<p>Once you have deactivated your profile, all your current posts and comments will be permanently deleted.  However, you can reinstate your profile if you wish to engage with other users in the future.</p>
 
-					<button class="btn btn-success btn-block"
+					<button class="btn btn-danger btn-lower btn-block"
 									ng-click="deactivateProfile($event)"
 									ng-class="{'disabled': user.confirmingPassword.length == 0}"
 									ng-disabled="user.confirmingPassword.length == 0">Deactivate profile</button>
@@ -492,71 +489,93 @@
 			<!-- Notifications : TheArticle -->
 			<div class="slidepage-page right" data-page="notifications_article" data-title="Online notification settings" data-level="3">
 				<div class="container">
-					<p>You will see every notification on TheArticle, but you can turn off notifications about specific posts as you view them. <a class="text-green" href="/help?section=notifications">Learn more.</a></p>
+					<p class="mt-3">You will see every notification on TheArticle, but you can turn off notifications about specific posts as you view them. <a class="text-green" href="/help?section=notifications">Learn more.</a></p>
 					<button class="btn btn-info btn-block w-40" ng-click="backToPage('notifications', $event)">Done</button>
 				</div>
 			</div>
 
 			<!-- Notifications : Email -->
 			<div class="slidepage-page right" data-page="notifications_email" data-title="Email notification settings" data-level="3">
+				<p class="mt-2 mb-0 mx-3">Manage what notifications are sent to your registered email address and how often you receive them.</p>
+
 				<div class="nav_menu nav_menu_checkboxes">
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_followers">
-							<h5>Followers</h5>
-							<select ng-model="user.notificationSettings.emailFollowers"
-										name="notifications_email_followers"
-										id="notifications_email_followers">
-								<option value="as_it_happens">As it happens</option>
-								<option value="daily">Daily</option>
-								<option value="weekly">Weekly</option>
-								<option value="never">Never</option>
-							</select>
+							<div class="d-flex justify-content-between w-100">
+								<div>
+									<h5>Followers</h5>
+									<p class="mb-0 mt-2 w-100">Notify me by email if someone follows me</p>
+								</div>
+								<select ng-model="user.notificationSettings.emailFollowers"
+											name="notifications_email_followers"
+											id="notifications_email_followers">
+									<option value="as_it_happens">As it happens</option>
+									<option value="daily">Daily</option>
+									<option value="weekly">Weekly</option>
+									<option value="never">Never</option>
+								</select>
+							</div>
 						</label>
 					</div>
 
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_exchanges">
-							<h5>Exchanges</h5>
-							<select ng-model="user.notificationSettings.emailExchanges"
-										name="notifications_email_exchanges"
-										id="notifications_email_exchanges">
-								<option value="as_it_happens">As it happens</option>
-								<option value="daily">Daily</option>
-								<option value="weekly">Weekly</option>
-								<option value="never">Never</option>
-							</select>
+							<div class="d-flex justify-content-between w-100">
+								<div>
+								<h5>Exchanges</h5>
+									<p class="mb-0 mt-2 w-100">Notify me by email if an article is added to an exchange I follow</p>
+								</div>
+								<select ng-model="user.notificationSettings.emailExchanges"
+											name="notifications_email_exchanges"
+											id="notifications_email_exchanges">
+									<option value="as_it_happens">As it happens</option>
+									<option value="daily">Daily</option>
+									<option value="weekly">Weekly</option>
+									<option value="never">Never</option>
+								</select>
+							</div>
 						</label>
 					</div>
 
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_responses">
-							<h5>Responses to your posts</h5>
-							<select ng-model="user.notificationSettings.emailResponses"
-										name="notifications_email_responses"
-										id="notifications_email_responses">
-								<option value="daily">Daily</option>
-								<option value="weekly">Weekly</option>
-								<option value="never">Never</option>
-							</select>
+							<div class="d-flex justify-content-between w-100">
+								<div>
+									<h5>Responses to your posts</h5>
+									<p class="mb-0 mt-2 w-100">Notify me by email if someone comments on, or agrees/disagrees with, one of my posts</p>
+								</div>
+								<select ng-model="user.notificationSettings.emailResponses"
+											name="notifications_email_responses"
+											id="notifications_email_responses">
+									<option value="daily">Daily</option>
+									<option value="weekly">Weekly</option>
+									<option value="never">Never</option>
+								</select>
+							</div>
 						</label>
 					</div>
 
 					<div class="nav_menu_item">
 						<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_replies">
-							<h5>Replies to your comments</h5>
-							<select ng-model="user.notificationSettings.emailReplies"
-										name="notifications_email_replies"
-										id="notifications_email_replies">
-								<option value="daily">Daily</option>
-								<option value="weekly">Weekly</option>
-								<option value="never">Never</option>
-							</select>
+							<div class="d-flex justify-content-between w-100">
+								<div>
+									<h5>Replies to your comments</h5>
+									<p class="mb-0 mt-2 w-100">Notify me by email if someone replies to a comment I have made on someone else's post</p>
+								</div>
+								<select ng-model="user.notificationSettings.emailReplies"
+											name="notifications_email_replies"
+											id="notifications_email_replies">
+									<option value="daily">Daily</option>
+									<option value="weekly">Weekly</option>
+									<option value="never">Never</option>
+								</select>
+							</div>
 						</label>
 					</div>
-				</div>
 
-				<div class="container">
-					<button class="btn btn-success btn-block mt-3" ng-click="backToPage('notifications', $event)">Done</button>
+					<div class="container">
+						<button class="btn btn-success btn-block mt-3" ng-click="backToPage('notifications', $event)">Save</button>
+					</div>
 				</div>
 			</div>
 
@@ -565,6 +584,7 @@
 			<div class="slidepage-page right" data-page="communication_preferences_email" data-title="Email preferences" data-level="3">
 
 				<div class="nav_menu nav_menu_checkboxes">
+					<p class="mb-1 mt-2 mx-3">Manage how you hear from us by email.</p>
 					<div class="nav_menu_item d-flex justify-content-between"  ng-click="forwardToPage($event, 'notifications_email')">
 						<h5>Notifications: {{user.emailNotificationStatus}}</h5>
 						<p class="mb-0 mt-0"><small>
@@ -587,7 +607,7 @@
 								<span class="checkmark"></span>
 								<h5>TheArticle Weekly roundup</h5>
 							</div>
-							<p class="mb-0 mt-0"><small>The latest from our editorial team</small></p>
+							<p class="mb-0 mt-1" style="line-height: 1.3em;">The latest from our editorial team</p>
 						</label>
 					</div>
 
@@ -599,7 +619,7 @@
 								<span class="checkmark"></span>
 								<h5>TheArticle Offers and Promotions</h5>
 							</div>
-							<p class="mb-0 mt-0"><small>Occasional emails about new service offerings, promotions, offers or events</small></p>
+							<p class="mb-0 mt-1" style="line-height: 1.3em;">Occasional emails about new service offerings, promotions, offers or events</p>
 						</label>
 					</div>
 				</div>
@@ -658,5 +678,4 @@
 					</div>
 				</div>
 			</div>
-
 </div>

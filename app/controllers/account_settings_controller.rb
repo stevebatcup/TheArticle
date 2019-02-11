@@ -31,6 +31,7 @@ class AccountSettingsController < ApplicationController
 		if current_user.valid_password?(user_params[:existing_password])
 			if current_user.update_attribute(:password, user_params[:new_password])
 				sign_in(current_user, :bypass => true)
+				UserMailer.password_change_confirmed(current_user).deliver_now
 				@status = :success
 			else
 				@status = :error

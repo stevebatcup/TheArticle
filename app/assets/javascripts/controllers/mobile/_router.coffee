@@ -34,14 +34,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			$(window).scrollTop(0)
 			@openRoute 'followers'
 
-		@scope.$on 'page_moved_forward', ($event, data) =>
-			@scope.showBackPage = true
-			@scope.appPageTitle = data.title
-
-		@scope.$on 'page_moved_back', ($event, data) =>
-			@scope.showBackPage = data.showBack
-			@scope.appPageTitle = data.title
-
 		@interval =>
 			@getNotificationsBadgeUpdate()
 		, 30000

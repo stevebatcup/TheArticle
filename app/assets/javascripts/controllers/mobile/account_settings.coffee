@@ -26,28 +26,32 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 			data: []
 			loaded: false
 		@scope.errors =
-			names: false
+			yourDetails: false
 			username: false
 			email: false
 			password: false
 			deactivate: false
 			reactivate: false
 			deleteAccount: false
-			genderAndAge: false
 		@scope.cleanUsername = ''
 		@scope.blocks = []
 		@scope.user = {}
+		@scope.userDup = {}
 		@scope.profile = {}
 		@bindEvents()
+		@resetContainerHeight()
 		@getUser()
+		@rootScope.$broadcast 'setup_app_page', { title: "Settings" }
 
 	bindEvents: ->
+		super
 		@listenForBack()
 		@scope.$on 'page_moved_back', =>
 			@scope.user.confirmingPassword = ''
 		@scope.$on 'account_subpage_selected', ($event, data) =>
 			@timeout =>
 				@resetPages()
+				@resetContainerHeight()
 				@timeout =>
 					@forwardToPage(null, data.page)
 				, 350
@@ -87,6 +91,8 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 	getUser: =>
 		@AccountSettings.get({me: true}).then (settings) =>
 			@scope.user = settings.user
+			@scope.userDup = _.clone(settings.user)
+			@rootScope.$broadcast 'username_updated', { username: "@#{@scope.user.username}" }
 			@scope.cleanUsername = settings.user.username
 			@watchForNotificationSettingsChanges()
 			@watchForCommunicationPreferencesChanges()
@@ -96,6 +102,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 		unless @scope.connects.loaded
 			@http.get("/connects").then (response) =>
 				@scope.connects.data = response.data.connects
+				@resetContainerHeight()
 				@timeout =>
 					@scope.connects.loaded = true
 				, 900
@@ -104,6 +111,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 		unless @scope.mutes.loaded
 			@http.get("/mutes").then (response) =>
 				@scope.mutes.data = response.data.mutes
+				@resetContainerHeight()
 				@timeout =>
 					@scope.mutes.loaded = true
 				, 900
@@ -112,6 +120,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 		unless @scope.blocks.loaded
 			@http.get("/blocks").then (response) =>
 				@scope.blocks.data = response.data.blocks
+				@resetContainerHeight()
 				@timeout =>
 					@scope.blocks.loaded = true
 				, 900
@@ -146,6 +155,8 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 			last_name: @scope.user.lastName
 			username: @scope.user.originalUsername
 			email: @scope.user.email
+			gender: @scope.user.gender
+			age_bracket: @scope.user.ageBracket
 		if @scope.user.password.length > 0
 			userData.password = @scope.user.password
 		@http.put "/account-settings",
@@ -156,20 +167,54 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 			else if response.data.status is 'error'
 				errorCallback.call(@, response.data.message) if errorCallback?
 
-	saveNames: ($event) =>
+	cancelYourDetails: ($event) =>
 		$event.preventDefault() if $event?
-		@scope.errors.names = false
+		@scope.user.firstName = @scope.userDup.firstName
+		console.log @scope.userDup.firstName
+		@scope.user.lastName = @scope.userDup.lastName
+		@scope.user.gender = @scope.userDup.gender
+		@scope.user.ageBracket = @scope.userDup.ageBracket
+		@backToPage('account', null)
+
+	saveYourDetails: ($event) =>
+		$event.preventDefault() if $event?
+		@scope.errors.yourDetails = false
 		if !@scope.user.firstName?
-			@scope.errors.names = "Please enter your first name"
-		if (!@scope.user.lastName?) and (@scope.errors.names is false)
-			@scope.errors.names = "Please enter your last name"
-		if @scope.errors.names is false
+			@scope.errors.yourDetails = "Please enter your first name"
+		if (!@scope.user.lastName?) and (@scope.errors.yourDetails is false)
+			@scope.errors.yourDetails = "Please enter your last name"
+		if @scope.errors.yourDetails is false
 			@updateUser =>
-				@scope.user.fullName = "#{@scope.user.title} #{@scope.user.firstName} #{@scope.user.lastName}"
+				@scope.user.fullName = "#{@scope.user.firstName} #{@scope.user.lastName}"
 				@backToPage('account')
-				@flash "Your name has been updated"
+				@flash "Your details have been updated"
 			,(errorMsg) =>
-				@scope.errors.names = errorMsg
+				@scope.errors.yourDetails = errorMsg
+
+	validateUsernameFromField: =>
+		@scope.errors.username = ""
+		@validateUsername (result) =>
+			@scope.usernameAvailable = result
+		, false
+
+	validateUsername: (callback=null, save=false) =>
+		url = "/username-availability?username=@#{@scope.user.username}"
+		url += "&save=1" if save is true
+		@http.get(url).then (response) =>
+			if response.data is false
+				@scope.errors.username = "Username has already been taken"
+				callback.call(@, false) if callback?
+				return false
+			else
+				callback.call(@, true) if callback?
+				return true
+
+	cancelUsername: ($event) =>
+		$event.preventDefault() if $event?
+		@scope.errors.username = false
+		@scope.usernameAvailable = false
+		@scope.user.username = @scope.userDup.username
+		@backToPage('account', null)
 
 	saveUsername: ($event) =>
 		$event.preventDefault() if $event?
@@ -186,10 +231,17 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 					else
 						@scope.user.originalUsername = "@#{@scope.user.username}"
 						@updateUser =>
+							@rootScope.$broadcast 'username_updated', { username: "@#{@scope.user.username}" }
 							@backToPage('account')
 							@flash "Your username has been updated"
 						,(errorMsg) =>
 							@scope.errors.username = errorMsg
+
+	cancelEmail: ($event) =>
+		$event.preventDefault() if $event?
+		@scope.errors.email = false
+		@scope.user.email = @scope.userDup.email
+		@backToPage('account', null)
 
 	saveEmail: ($event) =>
 		$event.preventDefault() if $event?
@@ -206,6 +258,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 					alertMsg = "Your request to change your email address has been received and an email has been sent to <b>#{@scope.user.email}</b>.
 					To complete this change request, please verify your new email address by clicking on the link in that email"
 					@alert alertMsg, "Email address change request", =>
+						@scope.user.email = @scope.userDup.email
 						@backToPage('account')
 				, (errorMsg) =>
 					@scope.errors.email = errorMsg
@@ -220,26 +273,15 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 			else if response.data.status is 'error'
 				errorCallback.call(@, response.data.message) if errorCallback?
 
-	saveGenderAndAge: ($event) =>
-		$event.preventDefault() if $event?
-		@http.put "/account-settings",
-			user:
-				gender: @scope.user.gender
-				age_bracket: @scope.user.ageBracket
-		.then (response) =>
-			@backToPage('account')
-		, (errorMsg) =>
-			@scope.errors.genderAndAge = errorMsg
-
 	savePassword: ($event) =>
 		$event.preventDefault() if $event?
 		@scope.errors.password = false
-		if (!@scope.user.confirmingPassword?) or (!@scope.user.confirmingPasswordConfirm?)
-			@scope.errors.password = "Please enter the existing password for your account in the first and second boxes above."
-		if (@scope.errors.password is false) and (@scope.user.confirmingPassword isnt @scope.user.confirmingPasswordConfirm)
-			@scope.errors.password = "Please make sure your existing password and the confirmation match"
+		if (!@scope.user.confirmingPassword?) or (@scope.user.confirmingPassword.length is 0)
+			@scope.errors.password = "Please enter the existing password for your account in the first box above."
 		if (@scope.errors.password is false) and ((!@scope.user.password?) or (@scope.user.password.length is 0))
 			@scope.errors.password = "Please enter a new password for your account"
+		if (@scope.errors.password is false) and (@scope.user.password isnt @scope.user.newPasswordConfirmation)
+			@scope.errors.password = "Please make sure your new password and the confirmation match"
 		if (@scope.errors.password is false) and (@scope.user.password.length < 6)
 			@scope.errors.password = "Please make sure your new password is at least 6 characters long"
 		if @scope.errors.password is false
@@ -247,7 +289,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 				alertMsg = "Thanks, your password has been changed."
 				@alert alertMsg, "Password changed", =>
 					@scope.user.confirmingPassword = ''
-					@scope.user.confirmingPasswordConfirm = ''
+					@scope.user.newPasswordConfirmation = ''
 					@scope.user.password = ''
 					@backToPage('account')
 			, (errorMsg) =>
@@ -290,7 +332,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 
 	editProfile: ($event) =>
 		$event.preventDefault() if $event?
-		window.location.href = "/my-profile"
+		window.location.href = "/my-profile?panel=edit_profile"
 
 	reactivateProfile: ($event) =>
 		$event.preventDefault() if $event?

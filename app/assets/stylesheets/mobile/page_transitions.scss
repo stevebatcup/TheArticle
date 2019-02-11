@@ -25,9 +25,14 @@
 }
 
 .slidepage-container {
-  height: 70vh;
+  // height: 70%;
+  // height: 70vh;
+  min-height: 60vh;
+  width: 100%;
+  width: 100vw;
   position: relative;
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
   // background: #cecece;
 
   .slidepage-page {
@@ -35,7 +40,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: fit-content;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }

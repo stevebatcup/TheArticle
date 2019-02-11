@@ -60,6 +60,6 @@ class TheArticle.Home extends TheArticle.MobilePageController
 			@refreshPage() if response.status is 401
 
 	goodbye: =>
-		@alert "Your account has been deleted.  We are sorry to see you go.", "Goodbye"
+		@alert "Your account has been deleted.  We are sorry to see you go.", "Account deleted"
 
 TheArticle.ControllerModule.controller('HomeController', TheArticle.Home)

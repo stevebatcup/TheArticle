@@ -70,12 +70,7 @@
         Notifications</a>
       </li>
       <li>
-        <% if use_app_links %>
-          <a href='#account' ng-click="openAccountSettings()">
-        <% else %>
-          <a href="<%= front_page_path(route: 'account') %>">
-        <% end %>
-        Account settings</a>
+        <a href="/account-settings">Account settings</a>
       </li>
       <li>
         <a class="" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>

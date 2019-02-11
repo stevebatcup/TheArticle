@@ -62,6 +62,10 @@ h5 {
 	}
 }
 
+.alert-no-bg {
+	background: transparent !important;
+}
+
 body.fixed-header {
 	header#main_header {
 		position: fixed;
@@ -73,6 +77,10 @@ body.fixed-header {
 
 	main#main_content {
 		padding-top: 2.7rem;
+
+		&.app_page {
+			padding-top: 4rem;
+		}
 	}
 }
 
@@ -326,6 +334,10 @@ a.btn {
 	&.join_button {
 		text-transform: none !important;
 		font-size: 1.2em;
+	}
+
+	&.btn-lower {
+		text-transform: none !important;
 	}
 }
 

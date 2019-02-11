@@ -47,7 +47,8 @@
 		<section class="container" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 			<button class="btn btn-outline-success btn-block mt-3 mb-4"
 								ng-click="editProfile()"
-								ng-if="profile.isMe">Edit Profile</button>
+								ng-if="profile.isMe"
+								id="edit_profile_btn">Edit Profile</button>
 
 			<button class="btn btn-outline-success btn-block mt-3 mb-4" ng-click="toggleFollowUser(<%= @user.id %>)"
 							ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (!profile.isMe) && (!profile.data.imFollowing)">

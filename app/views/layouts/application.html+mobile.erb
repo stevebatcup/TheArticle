@@ -42,7 +42,33 @@
 <!-- Page Content -->
 <div id="content">
   <header id="main_header" ng-controller="HeaderBarController">
-    <div class="container">
+
+    <div class="container bg-grey" ng-if="appPage" ng-cloak>
+      <div class="app_page_heading py-1">
+        <div class="d-flex justify-content-between">
+          <div ng-if="showBackPage" class="with_back">
+            <h4 class="pt-2">
+              <a ng-click="backPage($event)" href='#' class="text-black">
+                <i class="fas fa-chevron-left backer mr-2"></i>
+                {{appPageTitle}}
+              </a>
+            </h4>
+            <h6>{{ username }}</h6>
+          </div>
+
+          <div ng-if="!showBackPage">
+            <h4 class="pt-2" ng-if="!showBackPage">{{appPageTitle}}</h4>
+            <h6>{{ username }}</h6>
+          </div>
+
+          <a ng-click="openFrontPage()" href='#' class="d-block pt-2 text-green" id="close_app_page">
+            <i class="fas fa-times text-green"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" ng-if="!appPage" ng-cloak>
       <div class="row">
 
         <div class="col-3 align-items-center">
@@ -98,7 +124,7 @@
   </header>
 
   <% if user_signed_in? %>
-  <nav id="member_options" ng-show="!appPage">
+  <nav id="member_options">
     <ul class="nav nav-pills nav-fill d-flex">
       <li class="nav-item">
         <a class="nav-link" id="front-page-tab" href="/front-page">
@@ -134,7 +160,7 @@
 
   <%= render 'common/search-box' %>
 
-  <main id="main_content">
+  <main id="main_content" ng-class="{'app_page': appPage != false}">
     <%= yield %>
   </main>
 

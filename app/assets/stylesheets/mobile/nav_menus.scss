@@ -27,9 +27,34 @@
 			color: #111;
 		}
 
+		&.important_item {
+			h5 {
+				width: 90%;
+				text-align: center;
+				font-size: 1em;
+			}
+
+			svg {
+				font-size: 1.1em;
+			}
+		}
+
 		&.danger {
 			h5, svg {
 				color: $red
+			}
+		}
+
+		&.success {
+			h5, svg {
+				color: $green_dark;
+			}
+		}
+
+		label.nav_menu_select {
+			p {
+				line-height: 1.3em !important;
+				font-size: 0.9em;
 			}
 		}
 
@@ -58,34 +83,50 @@
 			  width: 0;
 
 			  &:checked ~ .checkmark {
-				  background-color: $green;
 				}
 
 				&:checked ~ .checkmark:after {
 				  display: block;
+				  right: 1px;
+		      top: -7px;
 				}
 			}
 
 			.checkmark {
 			  position: absolute;
-			  top: 0px;
+			  top: 6px;
 			  right: 3px;
 			  height: 25px;
 			  width: 25px;
-			  background-color: #eee;
+			  background-color: #efefef;
+			  border: 1px solid #cfcfcf;
 			  border-radius: 4px;
+			  cursor: pointer;
+
+			  &:hover {
+			  	background-color: #efefef;
+			  }
+
+			  &.hover {
+			  	outline: none;
+			  }
 
 			  &:after {
 				  content: "";
 				  position: absolute;
 				  display: none;
-				  top: 9px;
-				  left: 9px;
-				  width: 8px;
-				  height: 8px;
-				  border-radius: 50%;
-				  background: white;
-				}
+				  width: 12px;
+			    border-bottom: 7px solid $green_dark;
+
+			    height: 24px;
+			    border-right: 7px solid $green_dark;
+
+			    /* rotate the mirrored L to make it a checkbox */
+			    transform: rotate(45deg);
+			      -o-transform: rotate(45deg);
+			      -ms-transform: rotate(45deg);
+			      -webkit-transform: rotate(45deg);
+			  }
 			}
 		}
 

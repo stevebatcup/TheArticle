@@ -1,14 +1,22 @@
+.app_page_heading {
+	background: $grey_light;
+}
+
 .nav_menu {
 	background: #fff;
 	width: 100%;
+	border-top: 1px solid $grey;
+	margin-top: 10px;
 
 	.nav_menu_item {
 		cursor: pointer;
-		padding: 15px 16px 7px;
+		padding: 14px 16px 9px;
 		border-bottom: 1px solid $grey;
+		border-left: 1px solid $grey;
+		border-right: 1px solid $grey;
 
 		h5 {
-			font-size: 1.2em;
+			font-size: 1em;
 			max-width: 88%;
 		}
 
@@ -25,12 +33,36 @@
 
 		svg {
 			font-size: 1.3em;
-			color: #111;
+			color: $green_dark;
+		}
+
+		&.important_item {
+			h5 {
+				width: 90%;
+				text-align: center;
+				font-size: 1em;
+			}
+
+			svg {
+				font-size: 1.1em;
+			}
 		}
 
 		&.danger {
 			h5, svg {
 				color: $red
+			}
+		}
+
+		&.success {
+			h5, svg {
+				color: $green_dark;
+			}
+		}
+
+		label.nav_menu_select {
+			p {
+				line-height: 1.3em !important;
 			}
 		}
 
@@ -59,34 +91,50 @@
 			  width: 0;
 
 			  &:checked ~ .checkmark {
-				  background-color: $green;
 				}
 
 				&:checked ~ .checkmark:after {
 				  display: block;
+				  right: 1px;
+		      top: -7px;
 				}
 			}
 
 			.checkmark {
 			  position: absolute;
-			  top: 0px;
+			  top: 6px;
 			  right: 3px;
 			  height: 25px;
 			  width: 25px;
-			  background-color: #eee;
+			  background-color: #efefef;
+			  border: 1px solid #cfcfcf;
 			  border-radius: 4px;
+			  cursor: pointer;
+
+			  &:hover {
+			  	background-color: #efefef;
+			  }
+
+			  &.hover {
+			  	outline: none;
+			  }
 
 			  &:after {
 				  content: "";
 				  position: absolute;
 				  display: none;
-				  top: 9px;
-				  left: 9px;
-				  width: 8px;
-				  height: 8px;
-				  border-radius: 50%;
-				  background: white;
-				}
+				  width: 12px;
+			    border-bottom: 7px solid $green_dark;
+
+			    height: 24px;
+			    border-right: 7px solid $green_dark;
+
+			    /* rotate the mirrored L to make it a checkbox */
+			    transform: rotate(45deg);
+			      -o-transform: rotate(45deg);
+			      -ms-transform: rotate(45deg);
+			      -webkit-transform: rotate(45deg);
+			  }
 			}
 		}
 
@@ -105,9 +153,9 @@
 			}
 		}
 
-		label.nav_menu_checkbox:hover input ~ .checkmark {
-		  background-color: #ccc;
-		}
+		// label.nav_menu_checkbox:hover input ~ .checkmark {
+		//   background-color: #ccc;
+		// }
 	}
 
 	.nav_menu_spacer {
