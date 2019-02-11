@@ -21,7 +21,10 @@ class UserFollowingsController < ApplicationController
 	def create
 		@status = ''
 		other_user = User.find(params[:id])
-		if current_user.has_blocked(other_user)
+		if current_user.profile_is_deactivated?
+			@status = :error
+			@message = "You must reactivate your profile in order to follow #{other_user.display_name}"
+		elsif current_user.has_blocked(other_user)
 			@status = :error
 			@message = "You are blocking this user so you cannot follow them"
 		elsif other_user.has_blocked(current_user)

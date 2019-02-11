@@ -28,6 +28,17 @@ input#suggestion_search {
 		margin-bottom: 0 !important;
 	}
 
+
+	&.feed-deactivated {
+		.card {
+			border: 3px solid $red;
+
+			.inner {
+				padding: 35px;
+			}
+		}
+	}
+
 	&.feed-blocked {
 		.inner {
 			padding: 0 20px 10px;

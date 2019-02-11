@@ -75,4 +75,6 @@ json.set! :profile do
 	json.iAmBlocked user_signed_in? && (current_user != @user) ? @user.has_blocked(current_user) : false
 
 	json.isMe user_signed_in? ? @user == current_user : false
+
+	json.deactivated @user.profile_is_deactivated?
 end

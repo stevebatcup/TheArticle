@@ -96,11 +96,13 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				coverPhoto:
 					image: ""
 					source: ""
+				confirmingPassword: ''
 			errors:
 				main: false
 				displayName: false
 				username: false
 				photo: false
+				reactivate: false
 
 		@bindEvents()
 		@getVars = @getUrlVars()
@@ -484,5 +486,19 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	sortExchangesByName: (list) =>
 		list.sort (a,b) =>
 			a[0]-b[0]
+
+	reactivateProfile: ($event) =>
+		$event.preventDefault() if $event?
+		@scope.profile.errors.reactivate = false
+		if (!@scope.profile.data.confirmingPassword?) or (@scope.profile.data.confirmingPassword.length is 0)
+			@scope.profile.errors.reactivate = "Please enter your account password."
+		else
+			@http.put("/reactivate?auth=#{@scope.profile.data.confirmingPassword}").then (response) =>
+				if response.data.status is 'success'
+					@scope.profile.data.deactivated = false
+					@scope.profile.data.confirmingPassword = ''
+					@flash "Your profile has been reactivated"
+				else if response.data.status is 'error'
+					@scope.profile.errors.reactivate = response.data.message
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

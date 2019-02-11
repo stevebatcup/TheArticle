@@ -172,6 +172,25 @@
 		<div class="" id="feed" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
 
+				<div ng-if="profile.isMe && profile.data.deactivated" class="row feed-listing feed-deactivated">
+					<div class="card">
+						<div class="inner">
+							<p>This profile has been deactivated and is not visible to other users. You will need to reactivate it if you want to follow other users or share/rate articles.</p>
+
+							<p>To reactivate your profile please enter your password.</p>
+
+							<div class="form-group">
+								<label for="confirming_password_reactivate">Password</label><br />
+								<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="profile.data.confirmingPassword" class="form-control" required />
+							</div>
+
+							<p class="alert alert-danger" ng-if="profile.errors.reactivate">{{profile.errors.reactivate}}</p>
+
+							<button class="btn btn-success btn-block" ng-click="reactivateProfile($event)">Reactivate profile</button>
+						</div>
+					</div>
+				</div>
+
 				<p class="col-12 empty_resource" ng-if="profile.digest.length == 0">
 					<span ng-if="profile.isMe">You have no recent activity</span>
 					<span ng-if="!profile.isMe">{{profile.data.displayName}} has no recent activity</span>
