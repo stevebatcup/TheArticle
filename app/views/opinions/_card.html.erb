@@ -15,11 +15,9 @@
 				<p><b>{{item.opinionAction.action}}</b></p>
 			</div>
 		</div>
-		<% if user_signed_in? %>
-			<div ng-if="item.opinionAction.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
-				<%= render partial: 'common/options_menu', locals: { from: :opinionAction } %>
-			</div>
-		<% end %>
+		<div ng-if="item.opinionAction.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
+			<%= render partial: 'common/options_menu', locals: { from: :opinionAction } %>
+		</div>
 	</div>
 
 	<%= render 'shares/card' %>

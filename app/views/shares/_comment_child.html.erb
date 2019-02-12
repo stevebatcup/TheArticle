@@ -20,11 +20,9 @@
         <p class="comment_body mb-0" ng-bind-html="child.data.body"></p>
       </div>
     </div>
-    <% if user_signed_in? %>
-      <div ng-if="child.data.userId != <%= current_user.id %>">
-        <%= render partial: 'common/options_menu', locals: { from: :childComment } %>
-      </div>
-    <% end %>
+    <div ng-if="child.data.userId != <%= user_signed_in? ? current_user.id : 0 %>">
+      <%= render partial: 'common/options_menu', locals: { from: :childComment } %>
+    </div>
   </div>
 
   <div class="reply_area pl-5" ng-if="item.canInteract == 'yes'">

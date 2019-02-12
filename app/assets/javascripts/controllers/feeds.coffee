@@ -350,20 +350,32 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	reportProfile: ($event, profile) =>
 		$event.preventDefault()
-		@openConcernReportModal('profile', profile)
+		if @scope.isSignedIn is false
+			@requiresSignIn('report this profile')
+		else
+			@openConcernReportModal('profile', profile)
 
 	reportPost: ($event, item) =>
 		$event.preventDefault()
-		item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
-		@openConcernReportModal('post', item)
+		if @scope.isSignedIn is false
+			@requiresSignIn('report this post')
+		else
+			item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
+			@openConcernReportModal('post', item)
 
 	reportCommentAction: ($event, item) =>
 		$event.preventDefault()
-		@openConcernReportModal('commentAction', item)
+		if @scope.isSignedIn is false
+			@requiresSignIn('report this comment')
+		else
+			@openConcernReportModal('commentAction', item)
 
 	reportComment: ($event, item) =>
 		$event.preventDefault()
-		@openConcernReportModal('comment', item)
+		if @scope.isSignedIn is false
+			@requiresSignIn('report this comment')
+		else
+			@openConcernReportModal('comment', item)
 
 	openConcernReportModal: (type='post', resource) =>
 		# console.log resource
@@ -380,8 +392,11 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	mute: ($event, userId, username) =>
 		$event.preventDefault()
-		@http.post("/mutes", {id: userId}).then (response) =>
-			@reloadPageWithFlash("You have muted <b>#{username}</b>", 'unmute')
+		if @scope.isSignedIn is false
+			@requiresSignIn('mute a profile')
+		else
+			@http.post("/mutes", {id: userId}).then (response) =>
+				@reloadPageWithFlash("You have muted <b>#{username}</b>", 'unmute')
 
 	unmute: ($event, userId, username) =>
 		$event.preventDefault()
@@ -390,11 +405,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	block: ($event, userId, username) =>
 		$event.preventDefault()
-		confirmMsg = "#{username} will no longer be able to follow you or message you, and you will not receive notifications for #{username}.  <a href='/help?section=blocking'>Read more</a> about what it means to block someone."
-		@confirm confirmMsg, =>
-			@http.post("/blocks", {id: userId}).then (response) =>
-				@reloadPageWithFlash("You have Blocked <b>#{username}</b>", 'unblock')
-		, null, "Block #{username}?", ["Cancel", "Block"]
+		if @scope.isSignedIn is false
+			@requiresSignIn('block a profile')
+		else
+			confirmMsg = "#{username} will no longer be able to follow you or message you, and you will not receive notifications for #{username}.  <a href='/help?section=blocking'>Read more</a> about what it means to block someone."
+			@confirm confirmMsg, =>
+				@http.post("/blocks", {id: userId}).then (response) =>
+					@reloadPageWithFlash("You have Blocked <b>#{username}</b>", 'unblock')
+			, null, "Block #{username}?", ["Cancel", "Block"]
 
 	unblock: ($event, userId, username) =>
 		$event.preventDefault()

@@ -66,80 +66,71 @@
 		  </li>
 		</ul>
 
-		<% if user_signed_in? %>
-			<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
+		<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
 
-				<div class="btn-group" class="mt-2" ng-show="profile.isMe">
-				  <button class="btn btn-outline-success btn-sm" type="button" id="edit_profile_btn" ng-click="editProfile()">
-				    Edit profile
-				  </button>
-				  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				  	<span class="sr-only">Toggle Dropdown</span>
-				    <i class="fas fa-cog" aria-hidden="true"></i>
-				  </button>
-				  <div class="dropdown-menu">
-				    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
-		        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
-		        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
-				  </div>
-				</div>
-
-
-				<div class="btn-group" class="mt-2" ng-show="!profile.isMe">
-					<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-									ng-if="!profile.data.isBlocked && !profile.data.iAmBlocked && !profile.data.imFollowing">
-						<i class="fas fa-users mr-2"></i>
-						Follow
-					</button>
-					<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
-										ng-if="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.data.imFollowing)">
-						<i class="fas fa-users mr-2"></i>
-						Following
-					</button>
-
-					<button class="btn btn-danger btn-disabled blocked-btn" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked">
-						<i class="fas fa-ban"></i>
-						Blocked
-					</button>
-
-					<button class="btn btn-danger blocked-btn"
-										ng-if="profile.data.isBlocked"
-										ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">
-						<i class="fas fa-ban"></i>
-						<span class="shown">Blocked</span>
-						<span class="hidden">Unblock</span>
-					</button>
-				  <button type="button" class="btn btn-sm"
-				  				data-toggle="dropdown"
-				  				aria-haspopup="true"
-				  				aria-expanded="false"
-				  				ng-class="{
-				  					'btn-outline-success': !profile.data.isBlocked && !profile.data.iAmBlocked,
-				  					'btn-outline-danger': profile.data.isBlocked,
-				  					'btn-outline-danger': profile.data.iAmBlocked
-				  				}">
-				  	<span class="sr-only">Toggle Dropdown</span>
-				    <i class="fas fa-cog" aria-hidden="true"></i>
-				  </button>
-				  <div class="dropdown-menu dropdown-menu-right">
-				  	<a class="dropdown-item" href="#" ng-click="mute($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isMuted">Mute</a>
-				  	<a class="dropdown-item" href="#" ng-click="unmute($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isMuted">Unmute</a>
-
-				  	<a class="dropdown-item" href="#" ng-click="block($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isBlocked">Block</a>
-				  	<a class="dropdown-item" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isBlocked">Unblock</a>
-
-		        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report</a>
-				  </div>
-				</div>
+			<div class="btn-group" class="mt-2" ng-show="profile.isMe">
+			  <button class="btn btn-outline-success btn-sm" type="button" id="edit_profile_btn" ng-click="editProfile()">
+			    Edit profile
+			  </button>
+			  <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			  	<span class="sr-only">Toggle Dropdown</span>
+			    <i class="fas fa-cog" aria-hidden="true"></i>
+			  </button>
+			  <div class="dropdown-menu">
+			    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+	        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+	        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+			  </div>
 			</div>
-		<% else %>
-			<div class="col-2 px-0 navbar">
-				<button class="btn btn-outline-success" ng-click="actionRequiresSignIn($event, 'follow ' + profile.data.displayName)">
+
+
+			<div class="btn-group" class="mt-2" ng-show="!profile.isMe">
+				<button class="btn btn-outline-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+								ng-if="!profile.data.isBlocked && !profile.data.iAmBlocked && !profile.data.imFollowing">
 					<i class="fas fa-users mr-2"></i>
 					Follow
 				</button>
+				<button class="btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+									ng-if="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.data.imFollowing)">
+					<i class="fas fa-users mr-2"></i>
+					Following
+				</button>
+
+				<button class="btn btn-danger btn-disabled blocked-btn" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked">
+					<i class="fas fa-ban"></i>
+					Blocked
+				</button>
+
+				<button class="btn btn-danger blocked-btn"
+									ng-if="profile.data.isBlocked"
+									ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">
+					<i class="fas fa-ban"></i>
+					<span class="shown">Blocked</span>
+					<span class="hidden">Unblock</span>
+				</button>
+			  <button type="button" class="btn btn-sm"
+			  				data-toggle="dropdown"
+			  				aria-haspopup="true"
+			  				aria-expanded="false"
+			  				ng-class="{
+			  					'btn-outline-success': !profile.data.isBlocked && !profile.data.iAmBlocked,
+			  					'btn-outline-danger': profile.data.isBlocked,
+			  					'btn-outline-danger': profile.data.iAmBlocked
+			  				}">
+			  	<span class="sr-only">Toggle Dropdown</span>
+			    <i class="fas fa-cog" aria-hidden="true"></i>
+			  </button>
+			  <div class="dropdown-menu dropdown-menu-right">
+			  	<a class="dropdown-item" href="#" ng-click="mute($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isMuted">Mute</a>
+			  	<a class="dropdown-item" href="#" ng-click="unmute($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isMuted">Unmute</a>
+
+			  	<a class="dropdown-item" href="#" ng-click="block($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isBlocked">Block</a>
+			  	<a class="dropdown-item" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isBlocked">Unblock</a>
+
+	        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report</a>
+			  </div>
 			</div>
-		<% end %>
+		</div>
 
 	</section>
 

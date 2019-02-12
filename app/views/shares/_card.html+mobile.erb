@@ -21,11 +21,9 @@
 				</p>
 			</div>
 		</div>
-		<% if user_signed_in? %>
-			<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
-				<%= render partial: 'common/options_menu', locals: { from: :share } %>
-			</div>
-		<% end %>
+		<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
+			<%= render partial: 'common/options_menu', locals: { from: :share } %>
+		</div>
 	</div>
 
 	<p class="post" ng-if="item.share.post.length > 0">
