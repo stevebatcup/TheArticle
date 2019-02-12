@@ -6,9 +6,9 @@ class UsersController < ApplicationController
 			authenticate_user!
 			@user = current_user
 		elsif params[:identifier] == :slug
-			@user = User.find_by(slug: params[:slug])
+			@user = User.active.find_by(slug: params[:slug])
 		elsif params[:identifier] == :id
-			@user = User.find_by(id: params[:id])
+			@user = User.active.find_by(id: params[:id])
 		end
 
 		if (@user == current_user) && !params[:me]

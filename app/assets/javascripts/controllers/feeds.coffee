@@ -481,12 +481,12 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault()
 		@scope.dataForCommentDeletion =
 			item: item
-			comment: comment:
+			comment: comment
 			parent: parent
-			tpl = $("#deleteOthersComment").html().trim()
-			$content = @compile(tpl)(@scope)
-			$('body').append $content
-			$("#deleteOthersCommentModal").modal()
+		tpl = $("#deleteOthersComment").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#deleteOthersCommentModal").modal()
 
 	deleteComment: (comment, ownership='own', callback) =>
 		@http.delete("/delete-comment?id=#{comment.data.id}&ownership=#{ownership}").then (response) =>
