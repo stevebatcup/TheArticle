@@ -60,6 +60,10 @@ module Admin
       if user = User.find_by(id: params[:user_id])
         user.delete_account("Admin deleted account", true)
         @status = :success
+        if params[:destroy]
+          user.destroy
+          redirect_to "/admin/users"
+        end
       else
         @status = :error
       end

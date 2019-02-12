@@ -57,6 +57,11 @@ to display a collection of resources in an HTML table.
 
       <!-- Message user -->
       <th scope="col"></th>
+
+      <% if current_user.admin_level == 'super_admin' %>
+        <!-- Destroy user -->
+        <th scope="col"></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -90,16 +95,32 @@ to display a collection of resources in an HTML table.
           class: "action-edit",
         ) %></small></td>
 
-        <td class="cell-data text-center text-slate"><small><%= link_to(
-          "Profile",
-          profile_path(slug: resource.slug),
-          target: "_blank"
-        ) %></small></td>
+        <td class="cell-data text-center text-slate">
+          <% if resource.slug %>
+            <small><%= link_to(
+            "Profile",
+            profile_path(slug: resource.slug),
+            target: "_blank"
+          ) %></small>
+          <% end %>
+      </td>
 
         <td class="cell-data text-center text-slate"><small><%= link_to(
           "Send email",
           "mailto:#{resource.email}"
         ) %></small></td>
+
+        <% if current_user.admin_level == 'super_admin' %>
+        <td class="cell-data text-center text-red">
+          <small>
+            <%= link_to(
+          "Destroy",
+          "/admin/destroy_user?user_id=#{resource.id}",
+          data: { method: "delete" }
+        ) %>
+          </small>
+        </td>
+        <% end %>
 
       </tr>
     <% end %>
