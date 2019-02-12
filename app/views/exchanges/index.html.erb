@@ -1,7 +1,7 @@
 <% page_title "Exchanges" %>
 <% meta_tag :description, "List of exchanges" %>
 
-<section ng-controller="ExchangesController">
+<section ng-controller="ExchangesController" ng-cloak>
 	<div class="pt-md-5">
 		<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>
 	</div>

@@ -17,6 +17,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	init: ->
 		# console.log 'init frontpage'
+		@setDefaultHttpHeaders()
 		@detectFlashFromGet()
 		@rootScope.isSignedIn = true
 		@bindEvents()

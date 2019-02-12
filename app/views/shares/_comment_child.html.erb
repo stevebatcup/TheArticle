@@ -17,7 +17,7 @@
             </span>
           </a>
         </h4>
-        <p class="comment_body mb-0" ng-bind-html="child.data.body"></p>
+        <p class="comment_body" ng-bind-html="child.data.body | linky:'_blank'"></p>
       </div>
     </div>
     <div ng-if="child.data.userId != <%= user_signed_in? ? current_user.id : 0 %>">

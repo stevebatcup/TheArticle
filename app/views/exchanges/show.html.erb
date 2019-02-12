@@ -5,7 +5,7 @@
 <section ng-controller="ExchangesController"
 		data-exchange="<%= @exchange.slug %>"
 		data-per-page="<%= articles_per_page %>"
-		data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
 	<header class="black_heading py-4 py-md-5">
 		<div class="container">
 			<div class="row">

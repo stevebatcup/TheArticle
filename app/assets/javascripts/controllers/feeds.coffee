@@ -43,7 +43,6 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$("#requiresConnectionInfoBoxModal").modal()
 		, 350
 
-
 	pluralize: (count, single, multipleOrZero) =>
 		if count is 1
 			"#{count} #{single}"

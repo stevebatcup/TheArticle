@@ -69,7 +69,7 @@ module CommentHelper
 	    displayName: comment.user.display_name,
 			username: comment.user.username,
 			photo: comment.user.profile_photo.url(:square),
-			body: simple_format(comment.body),
+			body: comment.body,
 			timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
 			timeHuman: comment.created_at.strftime("%e %b"),
 	    replyShowLimit: Comment.show_reply_limit
