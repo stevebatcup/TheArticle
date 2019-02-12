@@ -86,12 +86,40 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			count
 
+	followUserFromCommentAuthError: ($event, item) =>
+		$event.preventDefault()
+		@followUserFromAuthError item, =>
+			@showComments()
+
+	followUserFromAuthError: ($event=null, item, canThenInteract=false) =>
+		$event.preventDefault() if $event?
+		@followUser item.share.user.id, =>
+			if canThenInteract is true
+				item.canInteract = 'yes'
+				if item.actionForRetry is 'comment'
+					@showComments($event, item, true)
+				if item.actionForRetry is 'agree'
+					@agreeWithPost($event, item)
+				if item.actionForRetry is 'disagree'
+					@disagreeWithPost($event, item)
+				item.actionForRetry = false
+			else
+				item.canInteract = 'not_followed'
+				@flash "You are now following <b>#{item.share.user.displayName}</b>"
+			item.actionAuthError = false
+
 	showComments: ($event=null, item, startWriting=false) =>
 		$event.preventDefault() if $event?
+		item.actionAuthError = false
 		if @scope.isSignedIn is false
 			@requiresSignIn('view comments')
-		else if (item.canInteract != 'yes') and (startWriting is true)
-			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
+		else if (item.canInteract is 'not_followed') and (startWriting is true)
+			item.actionAuthError = 'not_followed'
+		else if (item.canInteract is 'not_following') and (startWriting is true)
+			item.actionAuthError = 'not_following'
+			item.actionForRetry = 'comment'
+		else if (item.canInteract isnt 'yes') and (startWriting is true)
+			item.actionAuthError = 'not_connected'
 		else
 			if !item.share.commentsLoaded
 				@Comment.query({share_id: item.share.id, order_by: item.orderCommentsBy}).then (comments) =>
@@ -215,12 +243,17 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			item.opinions.agrees
 
-	agreeWithPost: ($event, item) =>
-		$event.preventDefault()
+	agreeWithPost: ($event=null, item) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('interact with this post')
-		else if item.canInteract != 'yes'
-			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
+		else if item.canInteract is 'not_followed'
+			item.actionAuthError = 'not_followed'
+		else if item.canInteract is 'not_following'
+			item.actionAuthError = 'not_following'
+			item.actionForRetry = 'agree'
+		else if item.canInteract isnt 'yes'
+			item.actionAuthError = 'not_connected'
 		else
 			if !item.share.opinionsLoaded
 				@loadOpinions item, =>
@@ -290,12 +323,17 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			item.opinions.disagrees
 
-	disagreeWithPost: ($event, item) =>
-		$event.preventDefault()
+	disagreeWithPost: ($event=null, item) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('interact with this post')
-		else if item.canInteract != 'yes'
-			item.actionAuthError = "You need to be connected to #{item.user.displayName} to interact with this post"
+		else if item.canInteract is 'not_followed'
+			item.actionAuthError = 'not_followed'
+		else if item.canInteract is 'not_following'
+			item.actionAuthError = 'not_following'
+			item.actionForRetry = 'disagree'
+		else if item.canInteract isnt 'yes'
+			item.actionAuthError = 'not_connected'
 		else
 			if !item.share.opinionsLoaded
 				@loadOpinions item, =>

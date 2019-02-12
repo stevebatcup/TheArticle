@@ -56,6 +56,17 @@ h5 {
 	background: transparent !important;
 }
 
+.alert-danger {
+	a {
+		color: #721c24 !important;
+		text-decoration: underline;
+
+		&:hover {
+			color: #721c24 !important;
+			text-decoration: none;
+		}
+	}
+}
 
 .text-increase-1 {
 	font-size: 1.1em;

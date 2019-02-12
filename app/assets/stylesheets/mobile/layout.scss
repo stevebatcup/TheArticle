@@ -66,6 +66,13 @@ h5 {
 	background: transparent !important;
 }
 
+.alert-danger {
+	a {
+		color: #721c24 !important;
+		text-decoration: underline;
+	}
+}
+
 body.fixed-header {
 	header#main_header {
 		position: fixed;

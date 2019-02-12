@@ -145,14 +145,18 @@
 					Disagree
 				</a>
 			</div>
-			<a href='#' class="helper" ng-if="!isSignedIn" ng-click="feedActionRequiresSignIn($event, 'interact with this post')">
-				<i class="far fa-question-circle"></i>
-			</a>
-			<a href='#' class="helper" ng-if="item.canInteract != 'yes'" ng-click="showRequiresConnectionInfo($event, item)">
-				<i class="far fa-question-circle"></i>
-			</a>
 
-			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError">{{item.actionAuthError}}</p>
+			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_followed'">
+				You follow {{item.user.displayName}} but they do not follow you so you cannot interact with this post. Start a discussion on your own profile by <a href='{{item.article.path}}'>visiting the article</a> and sharing your own thoughts and rating.
+			</p>
+
+			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_following'">
+				{{item.user.displayName}} follows you but you do not follow them so you cannot interact with this post. <a href='#' ng-click='followUserFromAuthError($event, item, true)'>Follow {{item.user.displayName}}.</a>
+			</p>
+
+			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_connected'">
+				You need to be connected to {{item.user.displayName}} to interact with this post. Make the first move by <a href='#' ng-click='followUserFromAuthError($event, item, false)'>following {{item.user.displayName}}.</a>.
+			</p>
 		</div>
 	</section>
 </div>
