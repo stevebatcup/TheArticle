@@ -524,5 +524,17 @@ class TheArticle.Feeds extends TheArticle.PageController
 		, (error) =>
 			@alert "Sorry there was an error deleting this comment, please try again.", "Error deleting comment"
 
+	deleteMyPost: ($event, share) =>
+		$event.preventDefault()
+		msg = "Are you sure you wish to delete this post?"
+		@confirm msg, =>
+			@http.delete("/delete-share?id=#{share.id}").then (response) =>
+				if response.data.status is 'success'
+					window.location.reload()
+				else
+					@alert response.data.message, "Error deleting post"
+			, (error) =>
+				@alert "Sorry there was an error deleting this post, please try again.", "Error deleting post"
+		, null, 'Delete your post', ['Cancel', 'Delete']
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

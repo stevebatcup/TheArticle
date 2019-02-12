@@ -30,7 +30,7 @@
       Reply
     </a>
 
-    <a href='#' class="delete text-red pl-3" ng-click="deleteOthersComment($event, item, comment)" ng-if="item.share.user.id == <%= user_signed_in? ? current_user.id : 0 %>">
+    <a href='#' class="delete text-red pl-3" ng-click="deleteOthersComment($event, item, comment)" ng-if="item.share.user.id == <%= user_signed_in? ? current_user.id : 0 %> && comment.data.userId != <%= user_signed_in? ? current_user.id : 0 %>">
       Delete
     </a>
   </div>

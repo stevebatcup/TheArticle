@@ -8,9 +8,15 @@ class Share < ApplicationRecord
 	belongs_to	:user
 	belongs_to	:article
 	before_create	:update_feed
+	after_destroy	:delete_associated_data
 
 	def update_feed
 		self.feeds.build({user_id: self.user_id})
+	end
+
+	def delete_associated_data
+		self.feeds.destroy_all
+		self.concern_reports.destroy_all
 	end
 
 	def current_user_can_interact(current_user)

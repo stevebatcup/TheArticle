@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   get 'user_ratings/:id',                      to: 'user_ratings#index'
   get 'share/:id',                             to: 'shares#show'
   post 'share',                                to: 'shares#create', as: :share
+  delete 'delete-share',                       to: 'shares#destroy'
 
   get 'comments',                              to: 'comments#index', as: :comments
   get 'comments/:id',                          to: 'comments#show', as: :comment

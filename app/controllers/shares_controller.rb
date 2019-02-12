@@ -20,6 +20,16 @@ class SharesController < ApplicationController
 		@share = Share.find(params[:id])
 	end
 
+	def destroy
+		share = Share.find(params[:id])
+		if share.user_id == current_user.id
+			share.destroy
+			render json: { status: :success }
+		else
+			render json: { status: :error, message: "You do not have permission to delete this post" }
+		end
+	end
+
 private
 
 	def update(share)
