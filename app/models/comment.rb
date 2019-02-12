@@ -7,13 +7,8 @@ class Comment < ActiveRecord::Base
   validates :body, :presence => true
   validates :user, :presence => true
 
-  # NOTE: install the acts_as_votable plugin if you
-  # want user to vote on the quality of comments.
-  #acts_as_votable
-
   belongs_to :commentable, :polymorphic => true
 
-  # NOTE: Comments belong to a user
   belongs_to :user
   before_create :create_feed
 

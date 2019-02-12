@@ -27,4 +27,16 @@ class CommentsController < ApplicationController
 	def show
 		@comment = Comment.find(params[:id])
 	end
+
+	def destroy
+		comment = Comment.find(params[:id])
+		if params[:ownership] == 'own'
+			if comment.user_id == current_user.id
+				comment.destroy
+				render json: { status: :success }
+			else
+				render json: { status: :error, message: "You do not have permission to delete this comment" }
+			end
+		end
+	end
 end

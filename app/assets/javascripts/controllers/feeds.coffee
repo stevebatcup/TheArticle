@@ -464,4 +464,38 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@http.delete("/user_followings/#{userId}").then (response) =>
 			@reloadPageWithFlash("You have unfollowed <b>#{username}</b>", 'block')
 
+	deleteOwnComment: ($event, item, comment, parent=null) =>
+		$event.preventDefault()
+		msg = "You are about to delete your comment, are you sure?"
+		@confirm msg, =>
+			@deleteComment comment, 'own', =>
+				if parent?
+					parent.children = _.filter parent.children, (c) =>
+						c.data.id isnt comment.data.id
+				else
+					item.comments = _.filter item.comments, (c) =>
+						c.data.id isnt comment.data.id
+		, null, 'Delete your own comment', ['Cancel', 'Delete']
+
+	deleteOthersComment: ($event, item, comment, parent=null) =>
+		$event.preventDefault()
+		@scope.dataForCommentDeletion =
+			item: item
+			comment: comment:
+			parent: parent
+			tpl = $("#deleteOthersComment").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#deleteOthersCommentModal").modal()
+
+	deleteComment: (comment, ownership='own', callback) =>
+		@http.delete("/delete-comment?id=#{comment.data.id}&ownership=#{ownership}").then (response) =>
+			if response.data.status is 'success'
+				callback.call(@)
+			else
+				@alert response.data.message, "Error deleting comment"
+		, (error) =>
+			@alert "Sorry there was an error deleting this comment, please try again.", "Error deleting comment"
+
+
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

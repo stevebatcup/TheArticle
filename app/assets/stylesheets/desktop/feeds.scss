@@ -103,7 +103,12 @@
 						.comment-item {
 							.reply_area {
 								margin: -8px 0 6px 61px;
-								font-size: 1.1em;
+								font-size: 1em;
+							}
+
+							.delete_area {
+								margin: -8px 0 6px 61px;
+								font-size: 1em;
 							}
 
 							h4 {
@@ -128,7 +133,8 @@
 						}
 
 						&.with_children {
-							.reply_area {
+							.reply_area,
+							.delete_area {
 								border-left: 2px solid $green;
 							}
 						}
@@ -136,14 +142,16 @@
 						ol.children {
 							padding: 0 0 0 48px;
 
-							.reply_area {
+							.reply_area,
+							.delete_area {
 								border-left: 2px solid $green;
 								margin-left: 15px;
 							}
 
 							li:last-child {
 								& > .comment-item {
-									.reply_area {
+									.reply_area,
+									.delete_area {
 										border-left: none;
 									}
 								}
