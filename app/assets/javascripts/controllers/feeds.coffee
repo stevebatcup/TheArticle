@@ -400,15 +400,15 @@ class TheArticle.Feeds extends TheArticle.PageController
 			item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
 			@openConcernReportModal('post', item)
 
-	reportCommentAction: ($event, item) =>
-		$event.preventDefault()
+	reportCommentAction: ($event=null, item) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('report this comment')
 		else
 			@openConcernReportModal('commentAction', item)
 
-	reportComment: ($event, item) =>
-		$event.preventDefault()
+	reportComment: ($event=null, item) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('report this comment')
 		else
@@ -440,8 +440,8 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@http.delete("/mutes/#{userId}").then (response) =>
 			@reloadPageWithFlash("You have unmuted <b>#{username}</b>", 'mute')
 
-	block: ($event, userId, username) =>
-		$event.preventDefault()
+	block: ($event=null, userId, username) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('block a profile')
 		else
@@ -468,13 +468,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault()
 		msg = "You are about to delete your comment, are you sure?"
 		@confirm msg, =>
-			@deleteComment comment, 'own', =>
+			@deleteComment comment, 'own', null, =>
 				if parent?
 					parent.children = _.filter parent.children, (c) =>
 						c.data.id isnt comment.data.id
 				else
 					item.comments = _.filter item.comments, (c) =>
 						c.data.id isnt comment.data.id
+				@flash "Comment deleted"
 		, null, 'Delete your own comment', ['Cancel', 'Delete']
 
 	deleteOthersComment: ($event, item, comment, parent=null) =>
@@ -488,10 +489,36 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$('body').append $content
 		$("#deleteOthersCommentModal").modal()
 
-	deleteComment: (comment, ownership='own', callback) =>
-		@http.delete("/delete-comment?id=#{comment.data.id}&ownership=#{ownership}").then (response) =>
+	deleteCommentFromModal: ($event, item, comment, parent=null) =>
+		@deleteComment comment, 'theirs', comment.data.deleteReason, =>
+			$("#deleteOthersCommentModal").modal('hide')
+			@timeout =>
+				if parent?
+					parent.children = _.filter parent.children, (c) =>
+						c.data.id isnt comment.data.id
+				else
+					item.comments = _.filter item.comments, (c) =>
+						c.data.id isnt comment.data.id
+				@flash "Comment deleted"
+				comment.data.deleteReason = false
+
+				if comment.data.deleteAlsoBlock is true
+					@block(null, comment.data.userId, comment.data.username)
+					comment.data.deleteAlsoBlock = false
+
+				if comment.data.deleteAlsoReport is true
+					@reportComment(null, comment.data)
+					comment.deleteAlsoReport = false
+
+				@scope.dataForCommentDeletion = {}
+			, 350
+
+	deleteComment: (comment, ownership='own', reason=null, callback=null) =>
+		url = "/delete-comment?id=#{comment.data.id}&ownership=#{ownership}"
+		url += "&reason=#{reason}" if reason?
+		@http.delete(url).then (response) =>
 			if response.data.status is 'success'
-				callback.call(@)
+				callback.call(@) if callback?
 			else
 				@alert response.data.message, "Error deleting comment"
 		, (error) =>

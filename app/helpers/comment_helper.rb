@@ -73,7 +73,10 @@ module CommentHelper
 			body: comment.body,
 			timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
 			timeHuman: comment.created_at.strftime("%e %b"),
-	    replyShowLimit: Comment.show_reply_limit
+	    replyShowLimit: Comment.show_reply_limit,
+	    deleteReason: false,
+	    deleteAlsoBlock: false,
+	    deleteAlsoReport: false
 		}
 	end
 end

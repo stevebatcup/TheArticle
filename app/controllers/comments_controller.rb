@@ -37,6 +37,13 @@ class CommentsController < ApplicationController
 			else
 				render json: { status: :error, message: "You do not have permission to delete this comment" }
 			end
+		else
+			if comment.commentable.user_id == current_user.id
+				comment.destroy
+				render json: { status: :success }
+			else
+				render json: { status: :error, message: "You do not have permission to delete this comment" }
+			end
 		end
 	end
 end

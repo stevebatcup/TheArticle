@@ -104,7 +104,7 @@
 
 	<section>
 		<div class="share_meta d-flex justify-content-start">
-			<div class="count_box comment_count flex-fill" ng-if="commentCount(item, false) > 0 && item.share.post.length > 0">
+			<div class="count_box comment_count flex-fill" ng-if="commentCount(item, false) > 0">
 				<a href='#' ng-click="showComments($event, item)">
 					<i class="far fa-comment-alt"></i>
 					{{ commentCount(item) }}
@@ -116,7 +116,7 @@
 					{{ agreeCount(item) }}
 				</a>
 			</div>
-			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0">
+			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0 && item.share.post.length > 0">
 				<a href='#' ng-click="showDisagrees($event, item)"
 						>
 					<i class="far fa-thumbs-down"></i>
