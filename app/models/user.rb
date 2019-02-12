@@ -146,7 +146,7 @@ class User < ApplicationRecord
   def complete_profile_from_wizard(params)
     self.display_name = params[:names][:display_name][:value]
     self.username = "@#{params[:names][:username][:value]}"
-    self.slug = self.username.downcase
+    self.slug = params[:names][:username][:value].downcase
     self.location = params[:location][:value]
     self.lat = params[:location][:lat]
     self.lng = params[:location][:lng]

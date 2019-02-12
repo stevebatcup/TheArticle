@@ -14,11 +14,12 @@ class AccountSettingsController < ApplicationController
 
 	def update
 		send_username_changed_email = false
+		params_for_update = user_params.clone.to_hash
 		if user_params[:username] && (user_params[:username] != current_user.username)
 			send_username_changed_email = true
+			params_for_update[:slug] = user_params[:username].downcase.gsub(/@/i, '')
 		end
-		current_user.update(user_params)
-		if current_user.save
+		if current_user.update(params_for_update)
 			@status = :success
 			UserMailer.username_updated(current_user).deliver_now if send_username_changed_email
 		else
