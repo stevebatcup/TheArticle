@@ -1,11 +1,11 @@
-<div class="modal fade no_connection question_modal" id="concernReportModal" tabindex="-1" role="dialog">
+<div class="modal fade no_connection question_modal mobile_full" id="concernReportModal" tabindex="-1" role="dialog">
   <div class="modal-dialog medium" role="document">
     <div class="modal-content" ng-controller="ConcernReportsController">
 
     	<div class="modal-header">
     		<h5 class="pt-2" ng-if="reason.success != true">
           Report&nbsp;
-          <span ng-if="concernReportType == 'profile'"> {{profileForConcernReport.username}}</span>
+          <span ng-if="concernReportType == 'profile'"> an account</span>
           <span ng-if="concernReportType == 'post'"> a post</span>
           <span ng-if="_.contains(['comment', 'commentAction'], concernReportType)"> a comment</span>
         </h5>
@@ -15,7 +15,7 @@
         </h5>
 
         <button data-dismiss="modal" class="btn btn-link close_modal" ng-click="resetReason($event)">
-          <i class="fas fa-times"></i>
+          <i class="fas fa-times text-green"></i>
         </button>
     	</div>
 
@@ -28,7 +28,10 @@
               <span ng-if="_.contains(['comment', 'commentAction'], concernReportType)"><b>{{profileForConcernReport.username}}'s</b> comment</span>
             </p>
 
-            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.imFollowing == true">
+            <p ng-if="profileForConcernReport.canShowOptions.unfollow || profileForConcernReport.canShowOptions.mute || profileForConcernReport.canShowOptions.block">You may now wish to take one of the following steps:</p>
+
+            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row"
+                  ng-if="profileForConcernReport.canShowOptions.unfollow">
               <h5 class="col-12">Unfollow <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
 
               <p class="col-12 col-md-9">Unfollowing <b>{{profileForConcernReport.username}}</b> will stop you receiving notifications about their posts. It also means that they cannot contribute to one of your posts, even if they follow you. <a href="/terms-and-conditions?section=unfollowing">Read more</a> about what it means to unfollow someone.
@@ -36,7 +39,8 @@
               <button class="col-12 col-md-3 btn btn-sm btn-success" ng-click="unfollow($event, profileForConcernReport.id, profileForConcernReport.username)">Unfollow</button>
             </div>
 
-            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.isMuted != true">
+            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row"
+                    ng-if="profileForConcernReport.canShowOptions.mute">
               <h5 class="col-12">Mute <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
 
               <p class="col-12 col-md-9">Muting <b>{{profileForConcernReport.username}}</b> will stop you receiving notifications about their posts. <a href="/terms-and-conditions?section=muting">Read more</a> about what it means to mute someone.
@@ -44,7 +48,8 @@
               <button class="col-12 col-md-3 btn btn-sm btn-danger" ng-click="mute($event, profileForConcernReport.id, profileForConcernReport.username)">Mute</button>
             </div>
 
-            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row" ng-if="profileForConcernReport.isBlocked != true">
+            <div class="pt-3 px-md-3 pt-md-3 mt-md-4 mx-md-2 align-items-start action_option row"
+                  ng-if="profileForConcernReport.canShowOptions.block">
               <h5 class="col-12">Block <span class="text-muted">{{profileForConcernReport.username}}</span></h5>
 
               <p class="col-12 col-md-9">Blocking <b>{{profileForConcernReport.username}}</b> will mean that they cannot follow you, view your posts or send you a direct message. It also means that you cannot follow them, view their posts or send them a direct message. <a href="/terms-and-conditions?section=blocking">Read more</a> about what it means to block someone.
@@ -56,11 +61,9 @@
 
           <!-- PROFILES -->
           <section ng-if="concernReportType == 'profile'">
-            <p class="alert alert-danger my-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
-
             <div class="options primary_reason" ng-if="!reason.primarySubmitted && !reason.success">
               <p class="heading_question">
-                How is <b>{{profileForConcernReport.username}}'s</b> activity suspicious or spreading spam?
+                Help us understand the problem. Why are you reporting <b>{{profileForConcernReport.username}}</b>?
               </p>
 
               <div class="container">
@@ -158,11 +161,13 @@
                       placeholder="Can you tell us anything else to help us understand your concern?"
                       ng-model="reason.moreInfo"
                       ng-if="reason.primary=='something_else_account'"></textarea>
-
                   </label>
                 </div>
 
+                <p class="mb-0 mt-2 mx-2"><a class="text-green" href="/help?section=concern_reports">Read more</a> about the reporting process and what is considered a violation of our rules.</p>
+
                 <div class="buttons">
+                  <p class="alert alert-danger mb-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
                   <button class="btn btn-block btn-success mt-4" ng-click="submitProfilePrimary($event)"
                           ng-class="{'disabled': reason.primary.length == 0}">Submit</button>
                 </div>
@@ -211,7 +216,7 @@
               <!-- Pretending -->
               <div ng-if="reason.primary=='pretending'">
                 <div class="options">
-                  <p class="heading_question">Who is {{profileForConcernReport.username}} impersonating?</p>
+                  <p class="heading_question">Who is <b>{{profileForConcernReport.username}}</b> impersonating?</p>
 
                   <div class="container">
                     <div class="form-group">
@@ -242,7 +247,7 @@
               <!-- Offensive -->
               <div ng-if="reason.primary=='offensive'">
                 <div class="options">
-                  <p class="heading_question">How are {{profileForConcernReport.username}}'s posts offensive or abusive?</p>
+                  <p class="heading_question">How are <b>{{profileForConcernReport.username}}'s</b> posts offensive or abusive?</p>
 
                   <div class="container">
                     <div class="form-group">
@@ -284,20 +289,28 @@
                 </div>
               </div>
 
-              <div class="container buttons mt-4 d-flex justify-content-between">
-                <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Cancel</button>
-                <button class="btn btn-success w-40" ng-click="submitProfileSecondary($event)"
-                        ng-class="{'disabled': reason.primary=='offensive_something_else' && reason.secondary.length==0}">Submit</button>
+              <div class="container mt-2" ng-if="reason.secondary.length > 0">
+                <textarea placeholder="Can you tell us anything else to help us understand your concern? (optional)"
+                        class="form-control"
+                        name="moreInfo"
+                        ng-model="reason.moreInfo"></textarea></div>
+
+              <div class="container buttons mt-3">
+                <p class="alert alert-danger mb-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Back</button>
+                  <button class="btn btn-success w-40" ng-click="submitProfileSecondary($event)"
+                          ng-class="{'disabled': reason.secondary.length==0}">Submit</button>
+                </div>
               </div>
             </div>
+
           </section>
 
 
 
           <!-- POSTS -->
           <section ng-if="concernReportType == 'post'">
-            <p class="alert alert-danger my-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
-
             <div class="options primary_reason" ng-if="!reason.primarySubmitted && !reason.success">
               <p class="heading_question">
                 Help us understand the problem. Why are you reporting <b>{{profileForConcernReport.username}}'s</b> post?
@@ -352,6 +365,7 @@
                 </div>
 
                 <div class="buttons">
+                  <p class="alert alert-danger mb-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
                   <button class="btn btn-block btn-success" ng-click="submitPostPrimary($event)"
                           ng-class="{'disabled': reason.primary.length == 0}">Submit</button>
                 </div>
@@ -445,10 +459,20 @@
                 </div>
               </div>
 
-              <div class="container buttons d-flex justify-content-between">
-                <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Cancel</button>
-                <button class="btn btn-success w-40" ng-click="submitPostSecondary($event)"
-                        ng-class="{'disabled': reason.primary=='offensive_something_else' && reason.secondary.length==0}">Submit</button>
+              <div class="container mt-2" ng-if="reason.secondary.length > 0">
+                <textarea placeholder="Can you tell us anything else to help us understand your concern? (optional)"
+                        class="form-control"
+                        name="moreInfo"
+                        ng-model="reason.moreInfo"></textarea></div>
+
+
+              <div class="container buttons mt-3">
+                <p class="alert alert-danger mb-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Back</button>
+                  <button class="btn btn-success w-40" ng-click="submitPostSecondary($event)"
+                          ng-class="{'disabled': reason.secondary.length==0}">Submit</button>
+                </div>
               </div>
             </div>
           </section>
@@ -457,8 +481,6 @@
 
           <!-- COMMENTS -->
           <section ng-if="_.contains(['comment', 'commentAction'], concernReportType)">
-            <p class="alert alert-danger my-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
-
             <div class="options primary_reason" ng-if="!reason.primarySubmitted && !reason.success">
               <p class="heading_question">
                 Help us understand the problem. Why are you reporting <b>{{profileForConcernReport.username}}'s</b> comment?
@@ -496,6 +518,7 @@
                 </div>
 
                 <div class="buttons">
+                  <p class="alert alert-danger mb-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
                   <button class="btn btn-block btn-success" ng-click="submitCommentPrimary($event)"
                           ng-class="{'disabled': reason.primary.length == 0}">Submit</button>
                 </div>
@@ -588,10 +611,19 @@
                 </div>
               </div>
 
-              <div class="container buttons d-flex justify-content-between">
-                <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Cancel</button>
-                <button class="btn btn-success w-40" ng-click="submitCommentSecondary($event)"
-                        ng-class="{'disabled': reason.primary=='offensive_something_else' && reason.secondary.length==0}">Submit</button>
+              <div class="container mt-2" ng-if="reason.secondary.length > 0">
+                <textarea placeholder="Can you tell us anything else to help us understand your concern? (optional)"
+                        class="form-control"
+                        name="moreInfo"
+                        ng-model="reason.moreInfo"></textarea></div>
+
+              <div class="container buttons mt-3">
+                <p class="alert alert-danger mb-3" ng-if="reason.error.length && !reason.success">{{reason.error}}</p>
+                <div class="d-flex justify-content-between">
+                  <button class="btn btn-outline-success w-40" ng-click="cancelSecondary($event)">Back</button>
+                  <button class="btn btn-success w-40" ng-click="submitCommentSecondary($event)"
+                          ng-class="{'disabled': reason.secondary.length==0}">Submit</button>
+                </div>
               </div>
             </div>
           </section>

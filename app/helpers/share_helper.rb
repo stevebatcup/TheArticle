@@ -46,6 +46,7 @@ module ShareHelper
 				agree: share.rating_agree,
 			},
 			user: {
+				id: user.id,
 				displayName: user.display_name,
 				username: user.username,
 				image: user.profile_photo.url(:square)

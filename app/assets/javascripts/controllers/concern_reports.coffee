@@ -41,14 +41,11 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 				username: @scope.concernReportResource.username
 				imFollowing: false
 		else if @scope.concernReportType == 'post'
-			# console.log 'post'
 			@rootScope.profileForConcernReport =
 				id: @scope.concernReportResource.user.id
 				username: @scope.concernReportResource.user.username
 				imFollowing: false
 		@resetReason()
-		# console.log "resource id: #{@scope.concernReportResource.id}"
-		# console.log "user id: #{@rootScope.profileForConcernReport.id}"
 		@getProfileData @scope.profileForConcernReport.id
 
 	getProfileData: (id) =>
@@ -56,6 +53,10 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 			@rootScope.profileForConcernReport.imFollowing = profile.imFollowing
 			@rootScope.profileForConcernReport.isMuted = profile.isMuted
 			@rootScope.profileForConcernReport.isBlocked = profile.isBlocked
+			@rootScope.profileForConcernReport.canShowOptions =
+				mute: (@rootScope.profileForConcernReport.isMuted isnt true) and (@rootScope.profileForConcernReport.imFollowing is true)
+				block: @rootScope.profileForConcernReport.isBlocked isnt true
+				unfollow: @rootScope.profileForConcernReport.imFollowing is true
 
 	resetReason: ($event=null) =>
 		$event.preventDefault() if $event
@@ -69,6 +70,9 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 
 	cancelSecondary: ($event) =>
 		$event.preventDefault()
+		@scope.reason.error = ''
+		@scope.reason.secondary = ''
+		@scope.reason.moreInfo = ''
 		@scope.reason.primarySubmitted = false
 
 	submitProfilePrimary: ($event) =>
@@ -78,9 +82,9 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		if @scope.reason.primary.length > 0
 			if _.contains(['not_interested_account', 'dont_agree_views', 'hacked', 'offensive_content', 'offensive_photo'], @scope.reason.primary)
 				@success()
-			else if @scope.reason.primary is 'something_else'
+			else if @scope.reason.primary is 'something_else_account'
 				if @scope.reason.moreInfo.length is 0
-					@scope.reason.error = 'Please tell us more about your concern'
+					@scope.reason.error = 'Please give us more information in the text box'
 				else
 					@success()
 			else
@@ -93,6 +97,11 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		$event.preventDefault()
 		if @scope.reason.secondary.length is 0
 			@scope.reason.error = 'Please choose an option'
+		else if _.contains(['offensive_something_else', 'suspicious_something_else', 'pretending_someone_else'], @scope.reason.secondary)
+			if @scope.reason.moreInfo.length is 0
+				@scope.reason.error = 'Please give us more information in the text box'
+			else
+				@success()
 		else
 			@success()
 
@@ -103,9 +112,9 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		if @scope.reason.primary.length > 0
 			if _.contains(['not_interested_post', 'dont_agree_post'], @scope.reason.primary)
 				@success()
-			else if @scope.reason.primary is 'something_else'
+			else if @scope.reason.primary is 'something_else_post'
 				if @scope.reason.moreInfo.length is 0
-					@scope.reason.error = 'Please tell us more about your concern'
+					@scope.reason.error = 'Please give us more information in the text box'
 				else
 					@success()
 			else
@@ -118,6 +127,11 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		$event.preventDefault()
 		if @scope.reason.secondary.length is 0
 			@scope.reason.error = 'Please choose an option'
+		else if _.contains(['offensive_something_else', 'suspicious_something_else'], @scope.reason.secondary)
+			if @scope.reason.moreInfo.length is 0
+				@scope.reason.error = 'Please give us more information in the text box'
+			else
+				@success()
 		else
 			@success()
 
@@ -126,9 +140,9 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		@scope.reason.success = false
 		@scope.reason.error = ''
 		if @scope.reason.primary.length > 0
-			if @scope.reason.primary is 'something_else'
+			if @scope.reason.primary is 'something_else_comments'
 				if @scope.reason.moreInfo.length is 0
-					@scope.reason.error = 'Please tell us more about your concern'
+					@scope.reason.error = 'Please give us more information in the text box'
 				else
 					@success()
 			else
@@ -141,6 +155,11 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 		@scope.reason.error = ''
 		if @scope.reason.secondary.length is 0
 			@scope.reason.error = 'Please choose an option'
+		else if _.contains(['offensive_something_else', 'suspicious_something_else'], @scope.reason.secondary)
+			if @scope.reason.moreInfo.length is 0
+				@scope.reason.error = 'Please give us more information in the text box'
+			else
+				@success()
 		else
 			@success()
 
