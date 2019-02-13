@@ -115,6 +115,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 				@resetContainerHeight()
 				@timeout =>
 					@scope.connects.loaded = true
+					@resetContainerHeight()
 				, 900
 
 	getMutes: =>
@@ -124,6 +125,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 				@resetContainerHeight()
 				@timeout =>
 					@scope.mutes.loaded = true
+					@resetContainerHeight()
 				, 900
 
 	getBlocks: =>
@@ -133,6 +135,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 				@resetContainerHeight()
 				@timeout =>
 					@scope.blocks.loaded = true
+					@resetContainerHeight()
 				, 900
 
 	unmute: (item, $event) =>
