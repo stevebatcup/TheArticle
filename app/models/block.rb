@@ -13,5 +13,13 @@ class Block < ApplicationRecord
 		if followMe = followed.followings.find_by(followed_id: self.user_id)
 			followMe.destroy
 		end
+		delete_activity(follower, followed)
+	end
+
+	def delete_activity(me, them)
+		# delete their interactions with my posts/comments
+		my_share_ids = me.shares.map(&:id)
+		them.opinions.where(share_id: my_share_ids).destroy_all
+		them.comments.where(commentable_id: my_share_ids).where(commentable_type: 'Share').destroy_all
 	end
 end

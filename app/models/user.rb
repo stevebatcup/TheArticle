@@ -206,8 +206,9 @@ class User < ApplicationRecord
   end
 
   def is_comment_disallowed?(comment)
-    # false
     if self.has_blocked(comment.user)
+      true
+    elsif comment.user.has_blocked(self)
       true
     else
       blocked_usernames = self.blocked_list.map(&:blocked).map(&:username)

@@ -445,11 +445,19 @@ class TheArticle.Feeds extends TheArticle.PageController
 		if @scope.isSignedIn is false
 			@requiresSignIn('block a profile')
 		else
-			confirmMsg = "#{username} will no longer be able to follow you or message you, and you will not receive notifications for #{username}.  <a href='/help?section=blocking'>Read more</a> about what it means to block someone."
-			@confirm confirmMsg, =>
-				@http.post("/blocks", {id: userId}).then (response) =>
-					@reloadPageWithFlash("You have Blocked <b>#{username}</b>", 'unblock')
-			, null, "Block #{username}?", ["Cancel", "Block"]
+			@scope.confirmingBlock =
+				user:
+					id: userId
+					username: username
+			tpl = $("#confirmBlock").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#confirmBlockModal").modal()
+
+	confirmBlock: ($event, user) =>
+		@http.post("/blocks", {id: user.id}).then (response) =>
+			$("#confirmBlockModal").modal('hide')
+			@reloadPageWithFlash("You have blocked <b>#{user.username}</b>", 'unblock')
 
 	unblock: ($event, userId, username) =>
 		$event.preventDefault()

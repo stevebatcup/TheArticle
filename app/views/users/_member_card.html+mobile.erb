@@ -30,7 +30,7 @@
 					<button class="btn btn-sm follow_btn mt-2"
 									ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
 									ng-click="<%= suggestions ? 'toggleFollowSuggestion(item, $event)' : 'toggleFollowUserFromCard(item, $event)' %>"
-									ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock)">
+									ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock) && (!item.isBlocked) && (!item.isBlockingMe)">
 						<i class="fas fa-users mr-2"></i>
 						<span ng-show="item.imFollowing">Following</span>
 						<span ng-show="!item.imFollowing">Follow</span>
@@ -57,7 +57,7 @@
 			</div>
 
 			<div class="py-0 w-100">
-				<p class="card-text">
+				<p class="card-text" ng-if="!item.isBlocked && !item.isBlockingMe">
 					<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
 						<small>{{ item.bio }}</small>
 					<% unless suggestions == true %></a><% end %>

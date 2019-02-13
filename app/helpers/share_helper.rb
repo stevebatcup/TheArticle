@@ -23,7 +23,9 @@ module ShareHelper
 				displayName: share.user.display_name,
 				username: share.user.username,
 				image: share.user.profile_photo.url(:square),
-				path: profile_path(slug: share.user.slug)
+				path: profile_path(slug: share.user.slug),
+				imFollowing: share.user.is_followed_by(current_user),
+				isFollowingMe: current_user.is_followed_by(share.user)
 			}
 		}
 	end

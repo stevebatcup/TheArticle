@@ -14,7 +14,8 @@ class SearchController < ApplicationController
 						@contributors = Author.search("*#{@query}*")
 						# profiles
 						if user_signed_in?
-							@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id }, conditions: { status: 'active' })
+							ids_to_exclude = [current_user.id] + current_user.blocks.map(&:blocked_id)
+							@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: ids_to_exclude }, conditions: { status: 'active' })
 						else
 							@profiles = User.search("*#{@query}*", conditions: { status: 'active' })
 						end

@@ -38,6 +38,8 @@ module ExchangeHelper
 			  displayName: user.display_name,
 			  username: user.username,
 			  image: user.profile_photo.url(:square),
+				imFollowing: user.is_followed_by(current_user),
+				isFollowingMe: current_user.is_followed_by(user)
 			}
 		}
 	end

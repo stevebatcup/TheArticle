@@ -19,13 +19,15 @@ if @results.any?
 			elsif result.class == User
 				json.type :profiles
 				json.id result.id
+				json.path profile_path(slug: result.slug)
 				json.displayName result.display_name.html_safe
 				json.username result.username
 				json.bio bio_excerpt(result, browser.device.mobile? ? 18 : 28)
 				json.profilePhoto result.profile_photo.url(:square)
 				json.imFollowing user_signed_in? ? result.is_followed_by(current_user) : false
 				json.isFollowingMe user_signed_in? ? current_user.is_followed_by(result) : false
-				json.path profile_path(slug: result.slug)
+				json.isBlocked user_signed_in? ? current_user.has_blocked(result) : false
+				json.isBlockingMe user_signed_in? ? result.has_blocked(current_user) : false
 			elsif result.class == Exchange
 				json.type :exchanges
 				json.id result.id

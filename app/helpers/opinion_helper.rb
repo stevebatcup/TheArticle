@@ -51,7 +51,9 @@ module OpinionHelper
 					isBlocked: user_signed_in? ? current_user.has_blocked(opinion.user) : false,
 					username: opinion.user.username,
 					image: opinion.user.profile_photo.url(:square),
-					path: profile_path(slug: opinion.user.slug)
+					path: profile_path(slug: opinion.user.slug),
+					imFollowing: opinion.user.is_followed_by(current_user),
+					isFollowingMe: current_user.is_followed_by(opinion.user)
 				}
 			}
 		}

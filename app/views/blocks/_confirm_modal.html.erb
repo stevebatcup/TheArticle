@@ -1,0 +1,32 @@
+<div class="modal fade no_connection question_modal" id="confirmBlockModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog medium" role="document">
+    <div class="modal-content" ng-controller="ConcernReportsController">
+
+    	<div class="modal-header">
+        <h5 class="pt-2">
+          Block {{confirmingBlock.user.username}}?
+        </h5>
+
+        <button data-dismiss="modal" class="btn btn-link close_modal">
+          <i class="fas fa-times text-green"></i>
+        </button>
+    	</div>
+
+      <div class="modal-body pb-3">
+      	<section class="container mt-md-3 px-4">
+	      	<p><b>{{confirmingBlock.user.username}}</b> will no longer be able to follow you or message you, and you will not receive notifications for <b>{{confirmingBlock.user.username}}</b>.</p>
+
+	      	<p><a href='/help?section=blocking'>Read more</a> about what it means to block someone.</p>
+
+	      	<div class="buttons mt-4 mt-lg-3">
+	      	  <div class="d-flex justify-content-between">
+	      	    <button class="btn btn-outline-success w-40" data-dismiss="modal">Cancel</button>
+	      	    <button class="btn btn-danger w-40" ng-click="confirmBlock($event, confirmingBlock.user)">Block</button>
+	      	  </div>
+	      	</div>
+	      </section>
+
+      </div>
+    </div>
+  </div>
+</div>

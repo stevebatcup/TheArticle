@@ -11,14 +11,15 @@ class Comment < ActiveRecord::Base
 
   belongs_to :user
   before_create :create_feed
-  before_destroy :delete_feeds
+  before_destroy :delete_feeds_and_notifications
 
   def create_feed
     self.feeds.build({user_id: self.user_id})
   end
 
-  def delete_feeds
+  def delete_feeds_and_notifications
     self.feeds.destroy_all
+    self.notifications.destroy_all
   end
 
   def create_notification

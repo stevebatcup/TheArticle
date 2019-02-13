@@ -91,7 +91,7 @@
 			<i class="fas fa-map-marker-alt"></i>
 			<span class="pl-3">{{ profile.data.location }}</span>
 		</p>
-		<p ng-if="!profile.data.location || profile.data.location.length == 0">
+		<p ng-if="!profile.data.location || profile.data.location.length == 0 && profile.isMe">
 			<a href='#' ng-click="editProfile()">
 				<i class="fas fa-map-marker-alt"></i>
 				<span class="pl-3">Add Location</span>
@@ -149,8 +149,8 @@
 			<div class="pt-4 results_block">
 				<div class="col-12 feed-listing feed-blocked">
 					<div class="inner">
-						<h4 class="mb-3">You blocked <b>{{profile.data.username}}</b></h4>
-						<p><a class="text-green" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">Unblock</a> {{profile.data.username}} if you wish to see their posts</p>
+						<h4 class="mb-3">You blocked <b>{{profile.data.originalUsername}}</b></h4>
+						<p><a class="text-green" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">Unblock</a> {{profile.data.originalUsername}} if you wish to see their posts</p>
 					</div>
 				</div>
 			</div>
@@ -162,7 +162,9 @@
 				<div class="col-12 feed-listing feed-blocked">
 					<div class="inner">
 						<h4 class="mb-3">You have been blocked</h4>
-						<p>You cannot follow {{profile.data.username}} or see their posts.  If you have commented on any of their posts, these comments will have been deleted.</p>
+						<p>You cannot follow {{profile.data.originalUsername}} or see their posts.  If you have commented on any of their posts, these comments will have been deleted.</p>
+
+						<p><a href="/help?section=blocking">Read more about what it means to be blocked</a>.</p>
 					</div>
 				</div>
 			</div>
@@ -489,4 +491,8 @@
 
 <script id="deleteOthersComment" type="script/x-mustache">
 	<%= render partial: 'comments/delete_others_modal' %>
+</script>
+
+<script id="confirmBlock" type="script/x-mustache">
+	<%= render partial: 'blocks/confirm_modal' %>
 </script>
