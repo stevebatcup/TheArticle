@@ -42,6 +42,11 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:show_ads?
 
+	def is_profile_page?
+		self.class == UsersController && params[:action] == 'show'
+	end
+	helper_method	:is_profile_page?
+
 	def is_article_page?
 		ad_page_type == 'article'
 	end

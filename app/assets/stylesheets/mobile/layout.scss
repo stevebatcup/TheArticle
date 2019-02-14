@@ -854,3 +854,14 @@ div.new_article {
 		height: 11px;
 	}
 }
+
+.follower-badge {
+	position: relative;
+	top: -2px;
+	left: 2px;
+	display: inline;
+	background: #ddd;
+	padding: 4px 5px;
+	font-weight: normal;
+	font-size: 0.6em;
+}

@@ -55,21 +55,38 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 			# console.log @scope.notifications.moreToLoad
 			@scope.notifications.loaded = true
 
-	bindFixedNavScrolling: =>
+	bindProfileNavScrolling: =>
 		$win = $(window)
-		$header = $('header#main_header')
-		$headerPosition = Math.round $header.offset().top
-		offset = 20
+		$navBar = $('section#top_bar')
+		$navBarPosition = Math.round $navBar.offset().top
+		offset = 35
 		$win.on 'scroll', =>
 			scrollTop = document.scrollingElement.scrollTop
-			if scrollTop  >= $headerPosition
-				$('body').addClass('fixed-header')
+			if scrollTop  >= ($navBarPosition + offset)
+				$('body').addClass('fixed-profile-nav')
+				$navBar.addClass('container')
 			else
-				$('body').removeClass('fixed-header')
+				$('body').removeClass('fixed-profile-nav')
+				$navBar.removeClass('container')
 
-			if scrollTop >= $headerPosition + offset
-				$header.addClass('short') unless $header.hasClass('short')
-			else
-				$header.removeClass('short')
+	bindFixedNavScrolling: =>
+		if $('[data-fixed-profile-nav]').length > 0
+			@bindProfileNavScrolling()
+		else
+			$win = $(window)
+			$header = $('header#main_header')
+			$headerPosition = Math.round $header.offset().top
+			offset = 20
+			$win.on 'scroll', =>
+				scrollTop = document.scrollingElement.scrollTop
+				if scrollTop  >= $headerPosition
+					$('body').addClass('fixed-header')
+				else
+					$('body').removeClass('fixed-header')
+
+				if scrollTop >= $headerPosition + offset
+					$header.addClass('short') unless $header.hasClass('short')
+				else
+					$header.removeClass('short')
 
 TheArticle.ControllerModule.controller('HeaderBarController', TheArticle.HeaderBar)

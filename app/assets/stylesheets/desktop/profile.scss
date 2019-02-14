@@ -39,6 +39,7 @@
 			width: 7.5em;
 			height: 7.5em;
 	    border: 4px solid #fff;
+	    background-color: #fff;
 	    position: relative;
 	    top: -6em;
 	    left: 1em;
@@ -127,5 +128,52 @@
 		.follow_btn {
 			font-size: 0.8em;
 		}
+	}
+}
+
+#mini_profile_inner {
+	display: none;
+	font-size: 0.7em;
+
+	h6 {
+		font-size: 1em;
+	}
+
+	img {
+		width: 4em;
+		height: 4em;
+    border: 2px solid #fff;
+    background-color: #fff;
+    position: relative;
+	}
+}
+
+body.fixed-profile-nav {
+	header#main_header,
+	#ads_top,
+	#basic_info {
+		display: none;
+	}
+
+	#top_bar {
+		z-index: 100;
+		position: fixed;
+    top: 0;
+    width: 100%;
+    left: auto;
+    padding-left: 0;
+    padding-right: 0;
+	}
+
+	#main_feed {
+		margin-top: 11em;
+	}
+
+	#mini_profile {
+		padding-right: 0;
+	}
+
+	#mini_profile_inner {
+		display: flex;
 	}
 }

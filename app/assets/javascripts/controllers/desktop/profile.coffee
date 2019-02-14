@@ -21,6 +21,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = false
+		@$navBar = $('section#top_bar')
+		@$navBarPosition = Math.round @$navBar.offset().top
+		@$navBarHeight = @$navBar.outerHeight()
 		@scope.selectedTab = 'all'
 		@scope.allExchanges = []
 		@scope.replyingToComment =
@@ -145,7 +148,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab
-		$('#feed').scrollTop(0)
+		console.log @$navBarHeight
+		if ($('[data-fixed-profile-nav]').length > 0) and ($('body').hasClass('fixed-profile-nav'))
+			$(window).scrollTop(@$navBarPosition - @$navBarHeight - 160)
 
 	detectPanelOpeners: =>
 		if @getVars['panel'] is 'edit_profile'

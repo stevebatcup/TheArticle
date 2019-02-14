@@ -38,9 +38,9 @@
 				</div>
 
 				<% if user_signed_in? %>
-				<button class="mt-1 btn follow_btn follow_exchange"
-								ng-class="{ 'btn-outline-dark': !item.imFollowing, 'btn-dark': item.imFollowing }"
-								ng-click="toggleFollowExchangeFromCard(exchange, $event)">
+				<button class="mt-1 btn btn-block mt-3"
+								ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
+								ng-click="toggleFollowExchangeFromCard(item, $event)">
 					<i class="fas fa-plus-square mr-1"></i>
 					<span ng-show="item.imFollowing">Following</span>
 					<span ng-show="!item.imFollowing">Follow</span>

@@ -34,16 +34,18 @@
 					</div>
 				</div>
 
-				<% if @article.ratings %>
 				<div class="member_ratings">
 					<h5>Member ratings</h5>
+					<% if @article.ratings %>
 					<ul class="d-flex">
 						<li>Well written: <span class="rating"><%= @article.ratings[:well_written] %></span></li>
 						<li>Valid points: <span class="rating"><%= @article.ratings[:valid_points] %></span></li>
 						<li>Agree with arguments: <span class="rating"><%= @article.ratings[:agree] %></span></li>
 					</ul>
+					<% else %>
+					<p>This article has not been rated yet. <a href='#' ng-click="openSharingPanel($event)">Be the first person to rate this article</a>.</p>
+					<% end %>
 				</div>
-				<% end %>
 			</header>
 
 			<div class="mt-0 mb-3 d-flex share_links">
@@ -70,11 +72,17 @@
 					</div>
 
 					<footer class="row pl-0 mt-3 mb-4">
-						<div class="col-12 c" id="twitter_follow_col">
-							<a class="btn btn-primary btn-block text-white text-case-inherit mx-auto mt-2"
-									href="https://twitter.com/TweetTheArticle">
-									<i class="fab fa-twitter"></i>
-									<span class="ml-2">Follow TheArticle</span>
+						<div class="w-100" id="twitter_follow_col">
+							<a class="btn btn-success text-white text-case-inherit btn-block text-white text-case-inherit mx-auto mt-2"
+									href="#"
+									ng-click="openSharingPanel($event)">
+									<span class="ml-2">
+										<% if @article.ratings %>
+											Re-rate this article
+										<% else %>
+											Rate this article
+										<% end %>
+									</span>
 							</a>
 						</div>
 						<div class="col-12 mt-3 d-flex share_links">
@@ -111,7 +119,7 @@
 	end %>
 
 
-	<div class="container pb-5" id="most_read_articles">
+	<div class="container pb-5 mt-4" id="most_read_articles">
 		<h2 class="bullet underline">Trending articles</h2>
 		<% @trending_articles.each do |ta| %>
 			<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">

@@ -1,4 +1,4 @@
-<section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>">
+<section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>" data-fixed-profile-nav=1>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>
@@ -16,10 +16,23 @@
 		</div>
 	</section>
 
-	<section id="top_bar" class="row bg-grey" ng-cloak>
-		<div class="col-2"></div>
+	<section id="top_bar" class="row" ng-cloak>
+		<div class="col-2 bg-grey" id="mini_profile">
+			<div id="mini_profile_inner" class="d-hide pt-2" ng-cloak>
+				<img ng-src="{{ profile.data.profilePhoto.image }}"
+								class="rounded-circle"
+								alt="{{ profile.data.displayName }}" />
+				<div class="pl-2 pt-1">
+					<h5 class="mb-1">{{ profile.data.displayName }}</h5>
+					<h6 class="text-muted">
+						{{ profile.data.originalUsername }}
+					</h6>
+				</div>
+			</div>
+		</div>
+
 		<!-- Tabs when blocked (either way) -->
-		<ul class="col-8 nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
+		<ul class="col-8 bg-grey nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
 		  <li class="nav-item">
 		    <a id="activity-all-tab" class="with_badge nav-link active">
 		      <label>All</label>
@@ -28,7 +41,7 @@
 		</ul>
 
 		<!-- Tabs when not blocked -->
-		<ul class="col-8 nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
+		<ul class="col-8 bg-grey nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 		  <li class="nav-item">
 		    <a id="activity-all-tab" class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
 		      <label>All</label>
@@ -66,8 +79,7 @@
 		  </li>
 		</ul>
 
-		<div class="col-2 px-0 navbar" ng-show="profile.loaded && !profile.loadError">
-
+		<div class="col-2 bg-grey px-0 navbar" ng-cloak>
 			<div class="btn-group" class="mt-2" ng-show="profile.isMe">
 			  <button class="btn btn-outline-success btn-sm" type="button" id="edit_profile_btn" ng-click="editProfile()">
 			    Edit profile
@@ -134,15 +146,18 @@
 
 	</section>
 
-	<div class="row">
+	<div class="row" id="main_feed">
 		<section class="col-3" ng-show="profile.loaded && !profile.loadError" ng-cloak>
-			<div id="basic_info">
 
+			<div id="basic_info">
 				<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
 
 				<div class="pl-2">
 					<h5>{{ profile.data.displayName }}</h5>
-					<h6 class="text-muted mb-4">{{ profile.data.originalUsername }}</h6>
+					<h6 class="text-muted mb-4">
+						{{ profile.data.originalUsername }}
+						<span ng-show="profile.data.isFollowingMe" class="badge follower-badge">Follows you</span>
+					</h6>
 					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 					</p>

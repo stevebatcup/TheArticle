@@ -24,7 +24,10 @@
 				 class="profile_circle_image rounded-circle" ng-click="editProfilePhoto()"></div>
 		<div class="pl-3">
 			<h5>{{ profile.data.displayName }}</h5>
-			<h6 class="text-muted">{{ profile.data.originalUsername }}</h6>
+			<h6 class="text-muted">
+				{{ profile.data.originalUsername }}
+				<span ng-show="profile.data.isFollowingMe" class="badge follower-badge">Follows you</span>
+			</h6>
 		</div>
 	</section>
 

@@ -69,6 +69,7 @@ json.set! :profile do
 	end
 
 	json.imFollowing user_signed_in? && (current_user != @user) ? @user.is_followed_by(current_user) : false
+	json.isFollowingMe user_signed_in? && (current_user != @user) ? current_user.is_followed_by(@user) : false
 	json.isMuted user_signed_in? && (current_user != @user) ? current_user.has_muted(@user) : false
 
 	json.isBlocked user_signed_in? && (current_user != @user) ? current_user.has_blocked(@user) : false

@@ -293,8 +293,10 @@ a.btn {
 	padding: 0.25rem 1.2rem !important;
 	outline: none;
 
-	&:focus {
+	&:focus,
+	&:active {
 		outline: none;
+		box-shadow: none;
 	}
 
 	&.join_button {
@@ -1034,6 +1036,13 @@ select.short {
 		left: -12px;
 		font-size: 0.75em;
 		top: 2px;
+		outline: none;
+
+		&:focus,
+		&:active {
+			outline: none;
+			box-shadow: none;
+		}
 	}
 
 	a.dropdown-item {
@@ -1105,4 +1114,17 @@ select.short {
 			display: none;
 		}
 	}
+}
+
+.follower-badge {
+	position: relative;
+	top: -2px;
+	left: 2px;
+	display: inline;
+	background: #ddd;
+	padding: 4px 9px;
+	font-weight: normal;
+	font-size: 0.6em;
+	height: fit-content;
+	height: -moz-fit-content;
 }

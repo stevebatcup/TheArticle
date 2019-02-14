@@ -88,7 +88,7 @@
             <div ng-if="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
               <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
-                <i class="fas fa-cogs" aria-hidden="true"></i>
+                <i class="fas fa-cog" aria-hidden="true"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
@@ -100,9 +100,18 @@
             <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
               <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
-                <i class="fas fa-cogs" aria-hidden="true"></i>
+                <i class="fas fa-cog" aria-hidden="true"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
+                      ng-if="!profileDataForHeader.imFollowing">
+                    Follow
+                </a>
+                <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
+                      ng-if="profileDataForHeader.imFollowing">
+                    Unfollow
+                </a>
+
                 <a class="dropdown-item" href="#" ng-click="mute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="(!profileDataForHeader.isMuted) && (profileDataForHeader.imFollowing)">Mute</a>
                 <a class="dropdown-item" href="#" ng-click="unmute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isMuted">Unmute</a>
 
@@ -113,9 +122,23 @@
               </div>
             </div>
           <% else %>
-            <a class="text-black pt-1" href="#" ng-click="openSigninForm($event)">
-              <i class="fas fa-user-circle mr-1 text-increase-5"></i>
-            </a>
+            <% if is_profile_page? %>
+            <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+                <i class="fas fa-cog" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#" ng-click="requiresSignIn('follow a user')">Follow</a>
+                <a class="dropdown-item" href="#" ng-click="requiresSignIn('block a user')">Block</a>
+                <a class="dropdown-item" href="#" ng-click="requiresSignIn('report a user')">Report</a>
+              </div>
+            </div>
+            <% else %>
+              <a class="text-black pt-1" href="#" ng-click="openSigninForm($event)">
+                <i class="fas fa-user-circle mr-1 text-increase-5"></i>
+              </a>
+            <% end %>
           <% end %>
         </div>
 

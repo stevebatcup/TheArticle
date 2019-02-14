@@ -28,7 +28,7 @@ module ExchangeHelper
 			slug: exchange.slug,
 			excerpt: exchange_excerpt(exchange, browser.device.mobile? ? 9 : 20),
 			blurb: exchange_excerpt(exchange, 10),
-			imFollowing: user_signed_in? ? exchange.is_followed_by(user) : false,
+			imFollowing: user_signed_in? ? exchange.is_followed_by(current_user) : false,
 			followedDate: subscription.created_at.strftime("%e %b"),
 			user: {
 			  path: profile_path(slug: user.slug),
@@ -38,8 +38,8 @@ module ExchangeHelper
 			  displayName: user.display_name,
 			  username: user.username,
 			  image: user.profile_photo.url(:square),
-				imFollowing: user.is_followed_by(current_user),
-				isFollowingMe: current_user.is_followed_by(user)
+				imFollowing: user_signed_in? ? user.is_followed_by(current_user) : false,
+				isFollowingMe: user_signed_in? ? current_user.is_followed_by(user) : false
 			}
 		}
 	end
