@@ -1,12 +1,12 @@
 <% page_title "Exchanges" %>
 <% meta_tag :description, "List of exchanges" %>
 
-<section ng-controller="ExchangesController" ng-cloak>
+<section ng-controller="ExchangesController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
 	<div class="pt-md-5">
 		<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>
 	</div>
 
-	<div class="container py-md-5">
+	<div class="container pt-5 py-md-5">
 
 		<form id="filter_list_form" name="filter_list_form"
 					class="filter_list_form mb-3 mb-md-4"
@@ -24,7 +24,7 @@
 			<%
 				@exchanges.each do |exchange|
 			%>
-			<article class="col-6 col-md-4 col-lg-3 article-listing exchange mb-4 hoveraction">
+			<article class="col-12 col-md-4 col-lg-3 article-listing exchange mb-4">
 				<div class="inner">
 					<div class="img_mask">
 						<a href="<%= exchange_path(slug: exchange.slug) %>">
@@ -33,15 +33,19 @@
 							<% end %>
 						</a>
 					</div>
-					<div class="px-2 px-md-3 py-2 py-lg-3 block_click heading_box" data-href="<%= exchange_path(slug: exchange.slug) %>">
-						<h5 class="text-white mb-0">
-							<a href="<%= exchange_path(slug: exchange.slug) %>" class="text-white inherit_hover filter_target">
+					<div class="px-2 px-md-3 py-2 py-lg-3 heading_box">
+						<h5 class="text-white mb-0 d-flex justify-content-between align-items-start">
+							<a href="<%= exchange_path(slug: exchange.slug) %>" class="exchange-link pt-1 pt-md-0 text-white inherit_hover filter_target">
 								<%= exchange.name %>
 							</a>
+
+							<a class="follow_exchange" href='#'
+							    ng-click="toggleFollowExchange(<%= exchange.id %>, $event)"
+							    ng-class="{'followed': inFollowedExchanges(<%= exchange.id %>)}">
+						    <i ng-if="!inFollowedExchanges(<%= exchange.id %>)" class="fas fa-plus"></i>
+						    <i ng-if="inFollowedExchanges(<%= exchange.id %>)" class="fas fa-check text-black"></i>
+						  </a>
 						</h5>
-						<p class="text-white entry-content mb-0 mx-0 mt-2 mobile_hide">
-							<%= truncate(exchange.description, length: 220) %>
-						</p>
 					</div>
 				</div>
 			</article>

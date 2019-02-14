@@ -291,6 +291,11 @@ a.btn {
 	border-style: solid;
 	border-radius: 2px;
 	padding: 0.25rem 1.2rem !important;
+	outline: none;
+
+	&:focus {
+		outline: none;
+	}
 
 	&.join_button {
 		text-transform: none !important;
@@ -376,41 +381,6 @@ html.svg header#main_header nav li.nav-item #nav_link_join {
 	background-image: url('nav/join.svg') !important;
 }
 
-.exchange-badge {
-	text-transform: uppercase;
-	color: white;
-	display: inline-block;
-	padding: 3px 8px 3px;
-	letter-spacing: 1.3px;
-	margin: 0;
-	font-size: 0.62em;
-	font-weight: 600;
-	position: relative;
-	top: -4px;
-	white-space: nowrap;
-
-	&:hover {
-		text-decoration: none;
-		color: #eee !important;
-	}
-
-	&.exchange-editor-at-the-article {
-		background-color: $black;
-		border: 1px solid #ffffff;
-		border-radius: 1px;
-	}
-
-	&.exchange-sponsored {
-		@extend .bg-gold-dark;
-		padding-left: 10px;
-
-		svg {
-			margin-right: 4px;
-			position: relative;
-			top: -1px;
-		}
-	}
-}
 
 /**** LISTINGS ******/
 .article-listing {
@@ -551,47 +521,6 @@ html.svg header#main_header nav li.nav-item #nav_link_join {
 					background-color: rgba(0,0,0,0.4);
 				}
 			}
-		}
-	}
-
-	&.exchange {
-		height: 246px;
-
-		.inner {
-			background-color: $black;
-			.img_mask {
-				height: 78%;
-			}
-
-			.heading_box {
-				h5 {
-					font-size: 1.15em;
-				}
-			}
-		}
-
-		&.hovered {
-			.inner {
-				.entry-content {
-					display: block !important;
-				}
-
-				.img_mask {
-					height: 30%;
-				}
-			}
-
-			&.profile_wizard {
-				.inner {
-					.img_mask {
-						height: 8%;
-					}
-				}
-			}
-		}
-
-		p {
-			cursor: pointer;
 		}
 	}
 
@@ -1097,38 +1026,6 @@ div.new_article {
 
 select.short {
 	width: 150px;
-}
-
-button.follow {
-	color: #fff;
-	font-size: 0.9em;
-	border: 2px solid #fff;
-	text-align: left;
-	padding: 11px 15px 9px 12px !important;
-	font-weight: 500;
-	line-height: 1.5em;
-
-	&:hover {
-		color: #ededed;
-	}
-
-
-	&:active,
-	&:focus {
-		border: 2px solid #ffffff !important;
-		text-decoration: none !important;
-	}
-
-	&.in_header {
-		margin-top: 60px;
-	}
-
-	svg {
-		margin-right: 6px;
-		font-size: 1.2em;
-		position: relative;
-		top: 1px;
-	}
 }
 
 #top_bar {

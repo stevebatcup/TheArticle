@@ -2,15 +2,25 @@
 	<h2 class="h1 bullet cloak">Trending exchanges</h2>
 </div>
 
-<div id="exchangesCarousel" class="exchanges slick-carousel slide w-100" data-slideout-ignore>
+<div id="exchangesCarousel" class="exchanges slick-carousel slide w-100" ng-controller="ExchangesController" data-carousel-only='1' data-slideout-ignore data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
 	<% exchanges.each_with_index do |exchange, index| %>
-    <div class="slick-carousel-item block_click" data-href="<%= exchange_path(slug: exchange.slug) %>">
+    <div class="slick-carousel-item">
       <% if exchange.image? %>
-        <div class="img" style="background-image: url('<%= exchange.image.url %>')"></div>
+        <a href="<%= exchange_path(slug: exchange.slug) %>">
+          <div class="img" style="background-image: url('<%= exchange.image.url %>')"></div>
+        </a>
       <% end %>
   		<div class="inner entry-content bg-colour-<%= index+1 %>">
-      	<h4><a href="<%= exchange_path(slug: exchange.slug) %>"><%= exchange.name %></a></h4>
-      	<p><%= truncate(exchange.description, length: 220) %></p>
+      	<h4 class="d-flex justify-content-between">
+          <a class="exchange-link" href="<%= exchange_path(slug: exchange.slug) %>"><%= exchange.name %></a>
+
+          <a class="follow_exchange" href='#'
+              ng-click="toggleFollowExchange(<%= exchange.id %>, $event)"
+              ng-class="{'followed': inFollowedExchanges(<%= exchange.id %>)}">
+            <i ng-if="!inFollowedExchanges(<%= exchange.id %>)" class="fas fa-plus"></i>
+            <i ng-if="inFollowedExchanges(<%= exchange.id %>)" class="fas fa-check text-colour-<%= index+1 %>"></i>
+          </a>
+        </h4>
       </div>
     </div>
   <% end %>

@@ -6,7 +6,7 @@
 		data-exchange="<%= @exchange.slug %>"
 		data-per-page="<%= articles_per_page %>"
 		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
-	<header class="black_heading py-4 py-md-5">
+	<header class="black_heading py-4 py-md-5" ng-cloak>
 		<div class="container">
 			<div class="row">
 				<div class="col-3 col-md-2">
@@ -26,15 +26,18 @@
 						<p class="h6 w-md-90 mb-0 text-white"><%=  @exchange.description %></p>
 					<% end %>
 				</div>
-				<div class="col-0 col-md-1">
-					<% if user_signed_in? && !browser.device.mobile? %>
-						<button class="follow in_header btn btn-link"
-											ng-click="toggleFollowExchange(<%= @exchange.id %>)"
-											ng-class="{ 'selected': inFollwedExchanges(<%= @exchange.id %>) }"
-											ng-show="userExchangesLoaded">
+				<div class="col-0 col-md-1 d-flex align-items-end">
+					<% if !browser.device.mobile? %>
+						<button class="follow_btn in_header btn"
+											ng-click="toggleFollowExchange(<%= @exchange.id %>, $event)"
+											ng-class="{
+												'selected': inFollowedExchanges(<%= @exchange.id %>),
+												'btn-outline-success': !inFollowedExchanges(<%= @exchange.id %>),
+												'btn-success': inFollowedExchanges(<%= @exchange.id %>)
+											}">
 							<i class="fas fa-plus-square"></i>
-							<span ng-if="!inFollwedExchanges(<%= @exchange.id %>)">Follow</span>
-							<span ng-if="inFollwedExchanges(<%= @exchange.id %>)">Following</span>
+							<span ng-if="!inFollowedExchanges(<%= @exchange.id %>)">Follow</span>
+							<span ng-if="inFollowedExchanges(<%= @exchange.id %>)">Following</span>
 						</button>
 					<% end %>
 				</div>
@@ -49,16 +52,17 @@
 				</div>
 				<div class="row">
 					<div class="col-12">
-						<% if user_signed_in? %>
-							<button class="follow in_header btn btn-link"
-												ng-click="toggleFollowExchange(<%= @exchange.id %>)"
-												ng-class="{ 'selected': inFollwedExchanges(<%= @exchange.id %>) }"
-												ng-show="userExchangesLoaded">
-								<i class="fas fa-plus-square"></i>
-								<span ng-if="!inFollwedExchanges(<%= @exchange.id %>)">Follow</span>
-								<span ng-if="inFollwedExchanges(<%= @exchange.id %>)">Following</span>
-							</button>
-						<% end %>
+						<button class="follow_btn in_header btn btn-block mt-3"
+											ng-click="toggleFollowExchange(<%= @exchange.id %>)"
+											ng-class="{
+												'selected': inFollowedExchanges(<%= @exchange.id %>),
+												'btn-outline-success': !inFollowedExchanges(<%= @exchange.id %>),
+												'btn-success': inFollowedExchanges(<%= @exchange.id %>)
+											}">
+							<i class="fas fa-plus-square"></i>
+							<span ng-if="!inFollowedExchanges(<%= @exchange.id %>)">Follow</span>
+							<span ng-if="inFollowedExchanges(<%= @exchange.id %>)">Following</span>
+						</button>
 					</div>
 				</div>
 			<% end %>

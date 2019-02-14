@@ -31,7 +31,7 @@
 	<% end %>
 	<div class="ajax_loading sponsored_picks" ng-show="sponsoredPicks.loading">Loading sponsored articles</div>
 
-	<div class="mb-md-3">
+	<div class="mb-3">
 		<%= if @trending_exchanges.any?
 			render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
 		end %>

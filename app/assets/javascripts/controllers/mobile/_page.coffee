@@ -19,7 +19,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		if $("#mobile_side_menu").length > 0
 			@bindMemberSideMenu()
 		else
-			# console.log 'bind mCustomScrollbar'
 			$("#sidebar").mCustomScrollbar
 				theme: "minimal"
 
@@ -27,7 +26,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 				$('#sidebar').removeClass('active')
 				$('.overlay').removeClass('active')
 
-			$('#sidebarCollapse').on 'click', (e) =>
+			$(document).on 'click', '#sidebarCollapse', (e) =>
 				e.preventDefault()
 				$('#search_box').slideUp(200) if $('#search_box').is(':visible')
 				$('#sidebar').addClass('active')

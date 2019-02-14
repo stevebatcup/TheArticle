@@ -20,8 +20,8 @@ class UserExchangesController < ApplicationController
 	end
 
 	def create
-		exchange = Exchange.find(params[:id])
-		current_user.exchanges << exchange
+		@exchange = Exchange.find(params[:id])
+		current_user.exchanges << @exchange
 		if current_user.save
 			@status = :success
 		else
@@ -31,6 +31,7 @@ class UserExchangesController < ApplicationController
 
 	def destroy
 		subscription = current_user.subscriptions.find_by(exchange_id: params[:id])
+		@exchange = subscription.exchange
 		if subscription.destroy
 			@status = :success
 		else

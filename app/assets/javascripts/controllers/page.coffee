@@ -250,11 +250,11 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	followExchange: (exchangeId, callback) =>
 		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
-			callback.call(@)
+			callback.call(@, response)
 
 	unfollowExchange: (exchangeId, callback) =>
 		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
-			callback.call(@)
+			callback.call(@, response)
 
 	toggleFollowExchangeFromCard: (exchange, $event) =>
 		$event.preventDefault()

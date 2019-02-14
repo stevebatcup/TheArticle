@@ -12,18 +12,21 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 	]
 
 	init: ->
-		@bindEvents()
-		@scope.exchangeArticles =
-			page: 1
-			items: []
-			totalItemCount: 0
-			firstLoaded: false
-			loading: false
-			moreToLoad: true
-		@scope.exchange = @element.data('exchange')
 		@signedIn = !!@element.data('signed-in')
+		@setDefaultHttpHeaders()
+
+		unless @element.data('carousel-only')
+			@scope.exchange = @element.data('exchange')
+			@scope.exchangeArticles =
+				page: 1
+				items: []
+				totalItemCount: 0
+				firstLoaded: false
+				loading: false
+				moreToLoad: true
+			@bindEvents()
+
 		if @signedIn
-			@setDefaultHttpHeaders()
 			@getUserExchanges()
 			@scope.userExchangesLoaded = false
 
@@ -39,16 +42,22 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 				e.id
 			@scope.userExchangesLoaded = true
 
-	toggleFollowExchange: (exchangeId) =>
-		if @inFollwedExchanges(exchangeId)
-			@unfollowExchange exchangeId, =>
-				@userExchanges = _.filter @userExchanges, (item) =>
-					 item isnt exchangeId
+	toggleFollowExchange: (exchangeId, $event=null) =>
+		$event.preventDefault() if $event?
+		if !@signedIn
+			@requiresSignIn("follow an exchange")
 		else
-			@followExchange exchangeId, =>
-				@userExchanges.push exchangeId
+			if @inFollowedExchanges(exchangeId)
+				@unfollowExchange exchangeId, (response) =>
+					@userExchanges = _.filter @userExchanges, (item) =>
+						item isnt exchangeId
+					@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
+			else
+				@followExchange exchangeId, (response) =>
+					@userExchanges.push exchangeId
+					@flash "You are now following the <b>#{response.data.exchange}</b> exchange"
 
-	inFollwedExchanges: (exchangeId) =>
+	inFollowedExchanges: (exchangeId) =>
 		_.contains @userExchanges, exchangeId
 
 	loadMore: =>

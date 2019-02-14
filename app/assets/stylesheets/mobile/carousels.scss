@@ -163,50 +163,6 @@
 			}
 		}
 	}
-
-
-	&.exchanges {
-		.slick-track {
-			height: 430px;
-		}
-
-		.slick-carousel-item {
-			margin: 0 4px;
-
-			.img {
-				width: 100%;
-				height: 50%;
-				background-size: cover;
-				background-repeat: no-repeat;
-			}
-
-			.entry-content {
-				padding: 10px 5%;
-				height: 40%;
-
-				h4 {
-					font-size: 1.5em;
-					margin: 0.1em 0 0.3em;
-					color: #fff;
-
-					a {
-						color: #fff;
-
-						&:hover {
-							text-decoration: none;
-							color: #eee !important;
-						}
-					}
-				}
-
-				p {
-					font-size: 0.8em;
-					color: #fff;
-					line-height: 1.25em;
-				}
-			}
-		}
-	}
 }
 
 @media only screen

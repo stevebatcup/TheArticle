@@ -337,6 +337,11 @@ a.btn {
 	border-style: solid;
 	border-radius: 2px;
 	padding: 0.25rem 1.2rem !important;
+	outline: none;
+
+	&:focus {
+		outline: none;
+	}
 
 	&.join_button {
 		text-transform: none !important;
@@ -402,35 +407,6 @@ footer {
 // 	background-size: 14% !important;
 // }
 
-.exchange-badge {
-	text-transform: uppercase;
-	color: white;
-	display: inline-block;
-	padding: 2px 7px;
-	letter-spacing: 1px;
-	margin: 0;
-	font-size: 0.6em;
-	font-weight: 600;
-	position: relative;
-	top: -5px;
-
-	&.exchange-editor-at-the-article {
-		background-color: $black;
-		border: 1px solid #ffffff;
-		border-radius: 1px;
-	}
-
-	&.exchange-sponsored {
-		@extend .bg-gold-dark;
-		padding-left: 10px;
-
-		svg {
-			margin-right: 4px;
-			position: relative;
-			top: -1px;
-		}
-	}
-}
 
 /**** LISTINGS ******/
 .article-listing {
@@ -516,32 +492,6 @@ footer {
 						margin: 0 auto;
 						display: block;
 					}
-				}
-			}
-		}
-	}
-
-	&.exchange {
-		height: 150px;
-
-		.inner {
-			position: relative;
-
-			.img_mask {
-				height: 140px;
-			}
-
-			.heading_box {
-				background-color: $black;
-				width: 100%;
-				position: absolute;
-				bottom: 0;
-				left: 0;
-
-				h5 {
-					font-size: 0.85em;
-					line-height: 1.35em;
-					padding-left: 2px;
 				}
 			}
 		}
@@ -890,38 +840,6 @@ div.new_article {
   padding: 50px 0 50px 45px;
   margin: 30px auto;
   background: asset_url('ajax-loader.gif') no-repeat left center;
-}
-
-
-button.follow {
-	color: #fff;
-	font-size: 0.9em;
-	border: 2px solid #fff;
-	text-align: left;
-	padding: 11px 15px 9px 12px !important;
-	font-weight: 500;
-	line-height: 1.5em;
-
-	&:hover {
-		color: #ededed;
-	}
-
-	&:active,
-	&:focus {
-		border: 2px solid #ffffff !important;
-		text-decoration: none !important;
-	}
-
-	&.in_header {
-		margin-top: 20px;
-	}
-
-	svg {
-		margin-right: 6px;
-		font-size: 1.2em;
-		position: relative;
-		top: 1px;
-	}
 }
 
 .ng-confirm .ng-confirm-box div.ng-confirm-title-c {

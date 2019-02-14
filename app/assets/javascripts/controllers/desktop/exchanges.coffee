@@ -4,27 +4,31 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$compile'
 	  '$timeout'
 	  'ExchangeArticle'
 	]
 
 	init: ->
-		@bindEvents()
-		@scope.exchangeArticles =
-			page: 1
-			items: []
-			totalItemCount: 0
-			firstLoaded: false
-			loading: false
-			moreToLoad: true
-		@scope.exchange = @rootElement.data('exchange')
-		@signedIn = !!@rootElement.data('signedIn')
+		@signedIn = !!@element.data('signed-in')
+		@setDefaultHttpHeaders()
+
+		unless @element.data('carousel-only')
+			@scope.exchange = @element.data('exchange')
+			@scope.exchangeArticles =
+				page: 1
+				items: []
+				totalItemCount: 0
+				firstLoaded: false
+				loading: false
+				moreToLoad: true
+			@bindEvents()
+
 		if @signedIn
-			@setDefaultHttpHeaders()
-			@getUserExchanges()
+			@scope.userExchanges = []
 			@scope.userExchangesLoaded = false
+			@getUserExchanges()
 
 	bindEvents: ->
 		super
@@ -32,29 +36,34 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 			@getArticles() if @scope.exchange
 
 	getUserExchanges: =>
-		@userExchanges = []
 		@http.get("/user_exchanges").then (exchanges) =>
-			@userExchanges = _.map exchanges.data.exchanges, (e) =>
+			@scope.userExchanges = _.map exchanges.data.exchanges, (e) =>
 				e.id
 			@scope.userExchangesLoaded = true
 
-	toggleFollowExchange: (exchangeId) =>
-		if @inFollwedExchanges(exchangeId)
-			@unfollow(exchangeId)
+	toggleFollowExchange: (exchangeId, $event=null) =>
+		$event.preventDefault() if $event?
+		if !@signedIn
+			@requiresSignIn("follow an exchange")
 		else
-			@follow(exchangeId)
+			if @inFollowedExchanges(exchangeId)
+				@unfollow(exchangeId)
+			else
+				@follow(exchangeId)
 
-	inFollwedExchanges: (exchangeId) =>
-		_.contains @userExchanges, exchangeId
+	inFollowedExchanges: (exchangeId) =>
+		_.contains @scope.userExchanges, exchangeId
 
 	follow: (exchangeId) =>
 		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
-			@userExchanges.push exchangeId
+			@scope.userExchanges.push exchangeId
+			@flash "You are now following the <b>#{response.data.exchange}</b> exchange"
 
 	unfollow: (exchangeId) =>
 		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
-			@userExchanges = _.filter @userExchanges, (item) =>
+			@scope.userExchanges = _.filter @scope.userExchanges, (item) =>
 				 item isnt exchangeId
+			@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
 
 	loadMore: =>
 		@getArticles()
@@ -62,7 +71,7 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 	getArticles: =>
 		@scope.exchangeArticles.loading = true
 		timeoutDelay = if @scope.exchangeArticles.page is 1 then 1200 else 1
-		vars = { exchange: @scope.exchange, page: @scope.exchangeArticles.page, perPage: @rootElement.data('per-page') }
+		vars = { exchange: @scope.exchange, page: @scope.exchangeArticles.page, perPage: @element.data('per-page') }
 		@ExchangeArticle.query(vars).then (response) =>
 			@timeout =>
 				@scope.exchangeArticles.totalItemCount = response.total if @scope.exchangeArticles.page is 1
