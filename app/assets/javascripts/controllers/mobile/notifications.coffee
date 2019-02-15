@@ -74,6 +74,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
 			$("#commentPostModal").modal()
+			$(document).on 'hidden.bs.modal', '#commentPostModal', =>
+				$content.remove()
 
 	openOpinionModal: (notification) =>
 		@Share.get({id: notification.shareId}).then (item) =>
@@ -82,13 +84,14 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
 			$("#opinionPostModal").modal()
+			$(document).on 'hidden.bs.modal', '#opinionPostModal', =>
+				$content.remove()
 
 	openFollowsTab: (notification) =>
 		@rootScope.$broadcast 'open_followers_tab'
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
-		@scope.item = {}
 		switch notification.type
 			when 'comment'
 				@openCommentModal notification
