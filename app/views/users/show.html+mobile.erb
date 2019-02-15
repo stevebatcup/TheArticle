@@ -1,4 +1,4 @@
-<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>" ng-cloak>
+<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>"  data-fixed-profile-nav=1 ng-cloak>
 
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
@@ -113,38 +113,65 @@
 	</section>
 
 	<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
-		<!-- Tabs when blocked (either way) -->
-		<ul class="nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
-		  <li class="nav-item">
-		    <a class="nav-link active">
-		      <label>All</label>
-		    </a>
-		  </li>
-		</ul>
+		<section  id="activity_tabs">
+			<div class="bg-grey w-100 bg-grey justify-content-between align-items-start pt-2 pb-1 px-2" id="mini_profile" ng-cloak>
+				<div id="mini_profile_inner" class="pb-1 w-100 d-flex justify-content-start align-items-start">
+					<img ng-src="{{ profile.data.profilePhoto.image }}"
+									class="rounded-circle"
+									alt="{{ profile.data.displayName }}" />
+					<div class="pl-2">
+						<h5 class="mb-0">{{ profile.data.displayName }}</h5>
+						<h6 class="mb-0 text-muted">
+							{{ profile.data.originalUsername }}
+						</h6>
+					</div>
+				</div>
 
-		<!-- Tabs when not blocked -->
-		<ul class="nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
-		  <li class="nav-item">
-		    <a class="nav-link active" href="#" ng-click="selectTab('all', $event)" ng-class="{'active': selectedTab == 'all'}">
-		      All
-		    </a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('ratings', $event)" ng-class="{'active': selectedTab == 'ratings'}">
-		      Ratings
-		    </a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('shares', $event)" ng-class="{'active': selectedTab == 'shares'}">
-		      Shares
-		    </a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('exchanges', $event)" ng-class="{'active': selectedTab == 'exchanges'}">
-		      Exchanges
-		    </a>
-		  </li>
-		</ul>
+				<button class="btn btn-outline-success mt-1" ng-click="toggleFollowUser(<%= @user.id %>)"
+								ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (!profile.isMe) && (!profile.data.imFollowing)">
+					<i class="fas fa-users"></i>
+					Follow
+				</button>
+				<button class="btn btn-success mt-1" ng-click="toggleFollowUser(<%= @user.id %>)"
+									ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (!profile.isMe) && (profile.data.imFollowing)">
+					<i class="fas fa-users"></i>
+					Following
+				</button>
+			</div>
+
+			<!-- Tabs when blocked (either way) -->
+			<ul class="nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
+			  <li class="nav-item">
+			    <a class="nav-link active">
+			      <label>All</label>
+			    </a>
+			  </li>
+			</ul>
+
+			<!-- Tabs when not blocked -->
+			<ul class="nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
+			  <li class="nav-item">
+			    <a class="nav-link active" href="#" ng-click="selectTab('all', $event)" ng-class="{'active': selectedTab == 'all'}">
+			      All
+			    </a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#" ng-click="selectTab('ratings', $event)" ng-class="{'active': selectedTab == 'ratings'}">
+			      Ratings
+			    </a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#" ng-click="selectTab('shares', $event)" ng-class="{'active': selectedTab == 'shares'}">
+			      Shares
+			    </a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="#" ng-click="selectTab('exchanges', $event)" ng-class="{'active': selectedTab == 'exchanges'}">
+			      Exchanges
+			    </a>
+			  </li>
+			</ul>
+		</section>
 
 
 		<!-- Feed when blocking them -->

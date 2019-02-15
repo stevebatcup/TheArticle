@@ -129,6 +129,30 @@
 		display: block;
 		// top: 158px;
 	}
+
+	#mini_profile {
+		display: none;
+
+		h5 {
+			font-size: 0.9em;
+		}
+
+		h6 {
+			font-size: 0.75em;
+			font-weight: normal;
+		}
+
+		img {
+			width: 2.2em;
+			height: 2.2em;
+			position: relative;
+		}
+
+		.btn {
+			font-size: 0.8em;
+			padding: 4px 10px;
+		}
+	}
 }
 
 
@@ -215,5 +239,37 @@
 		.follow_btn {
 			font-size: 0.8em;
 		}
+	}
+}
+
+body.fixed-profile-nav {
+	header#main_header,
+	#ads_top,
+	#basic_info {
+		display: none;
+	}
+
+	#activity_tabs {
+		z-index: 100;
+		position: fixed;
+    top: 0;
+    width: 100%;
+    left: auto;
+    padding-left: 0;
+    padding-right: 0;
+    background: #fff;
+    margin-top: 0 !important;
+	}
+
+	#public_activity {
+		margin-top: 9.2em !important;
+	}
+
+	#mini_profile {
+		display: flex;
+	}
+
+	#mini_profile_inner {
+		// display: flex;
 	}
 }

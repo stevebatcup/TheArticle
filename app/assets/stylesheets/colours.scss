@@ -32,10 +32,17 @@ button.btn-standard {
 }
 
 .bg-grey {
-	background-color: $grey_light;
+	background-color: darken($grey_light, 5%);
 }
 .text-grey {
-	color: $grey_light;
+	color: darken($grey_light, 5%);
+}
+
+.bg-grey-dark {
+	background-color: $grey;
+}
+.text-grey-dark {
+	color: $grey;
 }
 
 .bg-green,

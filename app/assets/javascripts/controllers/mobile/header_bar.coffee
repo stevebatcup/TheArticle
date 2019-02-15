@@ -45,6 +45,9 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		@scope.$on 'username_updated', ($event, data) =>
 			@scope.username = data.username
 
+		@scope.$on 'profile_loaded', ($event, data) =>
+			@bindProfileNavScrolling()
+
 	toggleFollowUser: (userId) =>
 		if @scope.profileDataForHeader.imFollowing
 			@unfollowUser userId, =>
@@ -61,19 +64,34 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	openFrontPage: =>
 		window.location.href = "/front-page"
 
+	bindProfileNavScrolling: =>
+		$win = $(window)
+		$navBar = $('section#activity_tabs')
+		$navBarPosition = Math.round $navBar.offset().top
+		offset = 0
+		$win.on 'scroll', =>
+			scrollTop = document.scrollingElement.scrollTop
+			if scrollTop  >= ($navBarPosition + offset)
+				$('body').addClass('fixed-profile-nav')
+				$navBar.addClass('container')
+			else
+				$('body').removeClass('fixed-profile-nav')
+				$navBar.removeClass('container')
+
 	bindFixedNavScrolling: =>
-		if $('#member_options').length
-			@bindAppHeaderFixedScrolling()
-		else
-			$win = $(window)
-			$header = $('header#main_header')
-			$headerPosition = Math.round $header.offset().top
-			$win.on 'scroll', =>
-				scrollTop = document.scrollingElement.scrollTop
-				if scrollTop >= $headerPosition
-					$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
-				else
-					$('body').removeClass('fixed-header')
+		unless $('[data-fixed-profile-nav]').length > 0
+			if $('#member_options').length
+				@bindAppHeaderFixedScrolling()
+			else
+				$win = $(window)
+				$header = $('header#main_header')
+				$headerPosition = Math.round $header.offset().top
+				$win.on 'scroll', =>
+					scrollTop = document.scrollingElement.scrollTop
+					if scrollTop >= $headerPosition
+						$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
+					else
+						$('body').removeClass('fixed-header')
 
 	bindAppHeaderFixedScrolling: =>
 		$win = $(window)

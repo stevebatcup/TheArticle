@@ -127,6 +127,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@getRatings()
 		@getCommentActions()
 		@getOpinionActions()
+		@timeout =>
+			@$activityBar = $('section#activity_tabs')
+			@$activityBarPosition = Math.round @$activityBar.offset().top
+			@$activityBarHeight = @$activityBar.outerHeight()
+			@rootScope.$broadcast 'profile_loaded'
+		, 750
 
 	bindEvents: =>
 		super
@@ -165,9 +171,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	selectTab: (tab='all', $event) =>
 		$event.preventDefault()
 		@scope.selectedTab = tab
-		$('#feed').scrollTop(0)
-		pos = $('#public_activity').position().top - 50
-		$(window).scrollTop(pos)
+		if ($('[data-fixed-profile-nav]').length > 0) and ($('body').hasClass('fixed-profile-nav'))
+			$(window).scrollTop(@$activityBarPosition)
+		else
+			$('#feed').scrollTop(0)
+			pos = $('#activity_tabs').position().top - 50
+			$(window).scrollTop(pos)
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
@@ -332,7 +341,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 					@scope.profile.data.imFollowing = true
 				, false
 		else
-			@requiresSignIn("follow #{member.displayName}")
+			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'

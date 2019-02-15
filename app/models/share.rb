@@ -16,6 +16,7 @@ class Share < ApplicationRecord
 
 	def delete_associated_data
 		self.feeds.destroy_all
+		self.opinions.destroy_all
 		self.concern_reports.destroy_all
 	end
 
