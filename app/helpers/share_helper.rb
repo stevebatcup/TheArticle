@@ -39,6 +39,7 @@ module ShareHelper
 			share: share_info_as_json(share),
 			orderCommentsBy: :most_relevant,
 			stamp: share.created_at.to_i,
+			date: share.created_at.strftime("%e %b"),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,
 			iDisagreeWithPost: user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false,

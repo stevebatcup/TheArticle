@@ -1,4 +1,3 @@
-
 class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageController, TheArticle.Feeds
 
 	@register window.App
@@ -84,6 +83,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
 			$("#commentPostModal").modal()
+			$(document).on 'hidden.bs.modal', '#commentPostModal', =>
+				$content.remove()
 
 	openOpinionModal: (notification) =>
 		@Share.get({id: notification.shareId}).then (item) =>
@@ -92,6 +93,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
 			$("#opinionPostModal").modal()
+			$(document).on 'hidden.bs.modal', '#opinionPostModal', =>
+				$content.remove()
 
 	openFollowsModal: (notification) =>
 		@FollowGroup.get({id: notification.itemId}).then (followGroup) =>
@@ -100,6 +103,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
 			$("#followsListModal").modal()
+			$(document).on 'hidden.bs.modal', '#followsListModal', =>
+				$content.remove()
 
 	toggleFollowUserFromCard: (member) =>
 		if member.imFollowing
@@ -112,7 +117,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
-		@scope.item = {}
 		switch notification.type
 			when 'comment'
 				@openCommentModal notification

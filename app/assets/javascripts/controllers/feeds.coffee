@@ -55,7 +55,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			comment: comment
 			parentComment: parentComment.data
 			replyingToReply: replyingToReply
-		$commentBox = $("[data-comment-id=#{comment.data.id}]")
+		$commentBox = $(".comment-item[data-comment-id=#{comment.data.id}]")
 		$replyBox = $commentBox.closest('.comments_pane').find('.respond')
 		$replyBox.find('a.cancel_reply', $replyBox).show()
 		$textarea = $replyBox.find('textarea')
