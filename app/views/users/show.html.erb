@@ -217,6 +217,17 @@
 			<div class="container" id="activity-tabs" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 
 				<div class="" ng-if="selectedTab == 'all'">
+					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="profile.isMe">
+	          <textarea name="third_party_article_url"
+	                      id="third_party_article_url_phantom"
+	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
+	                      ng-focus="expandThirdPartySharingTextarea($event)"
+	                      ng-blur="contractThirdPartySharingTextarea($event)"
+	                      ng-paste="openThirdPartySharingPanelFromPaste($event)"
+	                      placeholder="What are you reading?"
+	                      class="form-control w-100"></textarea>
+					</div>
+
 					<div ng-if="profile.isMe && profile.data.deactivated" class="row feed-listing feed-deactivated">
 						<div class="card">
 							<div class="inner">
@@ -480,8 +491,13 @@
 	<script id="confirmBlock" type="script/x-mustache">
 		<%= render partial: 'blocks/confirm_modal' %>
 	</script>
+
+	<script id="thirdPartySharing" type="script/x-mustache">
+		<%= render partial: 'third_party_articles/sharing_modal' %>
+	</script>
 <% end %>
 
 <script id="requiresConnectionInfoBox" type="script/x-mustache">
 	<%= render partial: 'follows/no_connection_modal' %>
 </script>
+

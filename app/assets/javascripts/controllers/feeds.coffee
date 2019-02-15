@@ -545,4 +545,40 @@ class TheArticle.Feeds extends TheArticle.PageController
 				@alert "Sorry there was an error deleting this post, please try again.", "Error deleting post"
 		, null, 'Delete your post', ['Cancel', 'Delete']
 
+	expandThirdPartySharingTextarea: ($event) =>
+		$textarea = $($event.target)
+		$textarea.addClass('expanded').attr('placeholder', 'What are you reading? Post a link to any published article you would like to share on your public profile.')
+
+	contractThirdPartySharingTextarea: ($event) =>
+		$textarea = $($event.target)
+		$textarea.removeClass('expanded').attr('placeholder', 'What are you reading?')
+
+	openThirdPartySharingPanelIfEnterPressed: ($event) =>
+		if $('textarea#third_party_article_url_phantom').val().length > 10
+			url = $('textarea#third_party_article_url_phantom').val()
+			@openThirdPartySharingPanel(url) if $event.keyCode is 13
+
+	openThirdPartySharingPanelFromPaste: ($event) =>
+		url = $event.originalEvent.clipboardData.getData('text/plain')
+		@openThirdPartySharingPanel(url)
+
+	openThirdPartySharingPanel: (url) =>
+		if $("#thirdPartySharingModal").length > 0
+			$("#thirdPartySharingModal").modal('show')
+		else
+			tpl = $("#thirdPartySharing").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#thirdPartySharingModal").modal()
+
+		$(document).off 'shown.bs.modal', '#thirdPartySharingModal'
+		$(document).off 'hide.bs.modal', '#thirdPartySharingModal'
+		$(document).on 'shown.bs.modal', '#thirdPartySharingModal', =>
+			@timeout =>
+				@rootScope.$broadcast 'third_party_url_sharing', { url: url }
+			, 500
+		$(document).on 'hide.bs.modal', '#thirdPartySharingModal', =>
+			@rootScope.$broadcast 'third_party_url_close', { url: url }
+			$('textarea#third_party_article_url_phantom').val('')
+
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

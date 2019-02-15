@@ -19,6 +19,15 @@ input#suggestion_search {
 	margin-bottom: 10px;
 	// border-bottom: 1px solid $grey;
 
+	#third_party_article_url_phantom {
+		height: 2.6em;
+		font-size: 0.85em;
+
+		&.expanded {
+			height: 5.4em;
+		}
+	}
+
 	&.comment {
 		border-bottom: none;
 	}

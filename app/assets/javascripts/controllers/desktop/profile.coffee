@@ -345,6 +345,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@MyProfile.get().then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
+				@scope.myProfile = profile
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
 				@reorderDigest()

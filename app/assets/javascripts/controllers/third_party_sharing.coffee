@@ -18,6 +18,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 			valid_points: false
 			agree: false
 		@resetArticleData()
+		@bindListeners()
 		@bindWatchers()
 
 	resetArticleData: =>
@@ -34,6 +35,12 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 					rating_valid_points: 0
 					rating_agree: 0
 
+	bindListeners: =>
+		@rootScope.$on 'third_party_url_sharing', ($event, data) =>
+			@scope.thirdPartyArticle.url = data.url
+			@readArticleUrl()
+		@rootScope.$on 'third_party_url_close', ($event, data) =>
+			@resetArticleData()
 
 	bindWatchers: =>
 		@scope.$watch 'thirdPartyArticle.article.share.rating_well_written', (newVal, oldVal) =>
@@ -45,7 +52,6 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@scope.$watch 'thirdPartyArticle.article.share.rating_agree', (newVal, oldVal) =>
 			if (newVal isnt oldVal) and (oldVal > 0)
 				@scope.ratingsTouched.agree = true
-
 
 	keyPressedArticleUrl: ($event) =>
 		@readArticleUrl() if $event.keyCode is 13

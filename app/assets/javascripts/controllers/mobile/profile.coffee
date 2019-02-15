@@ -173,15 +173,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@scope.selectedTab = tab
 		if ($('[data-fixed-profile-nav]').length > 0) and ($('body').hasClass('fixed-profile-nav'))
 			$(window).scrollTop(@$activityBarPosition)
-		else
-			$('#feed').scrollTop(0)
-			pos = $('#activity_tabs').position().top - 50
-			$(window).scrollTop(pos)
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
 			@timeout =>
 				@scope.profile.data = profile
+				@scope.myProfile = profile
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
 				@reorderDigest()

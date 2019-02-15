@@ -95,11 +95,4 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 
-	openThirdPartySharingPanel: ($event) =>
-		$event.preventDefault()
-		tpl = $("#thirdPartySharing").html().trim()
-		$content = @compile(tpl)(@scope)
-		$('body').append $content
-		$("#thirdPartySharingModal").modal()
-
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

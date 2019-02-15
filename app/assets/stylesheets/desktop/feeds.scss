@@ -1,6 +1,14 @@
 .feed-listing {
 	margin-bottom: 10px;
 
+	#third_party_article_url_phantom {
+		height: 2.4em;
+
+		&.expanded {
+			height: 4.8em;
+		}
+	}
+
 	&:last-child {
 		padding-bottom: 0 !important;
 		margin-bottom: 0 !important;
