@@ -10,11 +10,11 @@
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
   			<h6 class="mb-2 mt-1">
-  				This will be posted on your public feed
+  				Share this article
   			</h6>
 
 				<button data-dismiss="modal" class="btn btn-link close_share_modal">
-					<i class="fas fa-times"></i>
+					<i class="fas fa-times text-green"></i>
 				</button>
 
     	</div>
@@ -23,10 +23,7 @@
 
         <p ng-show="formError" class="alert alert-danger">{{ formError }}</p>
 
-      	<h2 class="bullet">
-      		<a data-toggle="collapse" href="#comments_box" role="button" id="comments_toggler">Add comment</a>
-      	</h2>
-      	<div id="comments_box" class="collapse">
+      	<div id="comments_box">
       		<textarea name="comments" id="comments" placeholder="Add a comment..." ng-model="share.comments"></textarea>
       	</div>
 

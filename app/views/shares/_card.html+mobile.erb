@@ -43,42 +43,59 @@
 		{{item.share.post}}
 	</p>
 
-	<div class="ratings" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
-		<div class="rating d-flex justify-content-between align-items-start" ng-if="item.ratings.wellWritten > 0">
-			<label class="text-white">Well written</label>
-			<div class="d-flex">
-				<div class="star" ng-repeat="i in _.range(0, item.ratings.wellWritten)">
-					<i class="fas fa-star"></i>
+	<div class="member_ratings pt-3 px-3" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
+		<ul class="dots">
+			<li class="mb-3" ng-if="item.ratings.wellWritten > 0">
+				<label class="">Well written: </label>
+				<div class="justify-content-start d-flex align-items-start">
+					<div class="dots">
+						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
+							<span ng-class="{
+								'filled': i <= item.ratings.wellWritten,
+								'empty': i > item.ratings.wellWritten
+							}">&nbsp;</span>
+						</span>
+					</div>
+					<h6 class="text-green feed">
+						{{item.ratings.wellWrittenText}}
+					</h6>
 				</div>
-				<div class="star" ng-repeat="i in _.range(0, 10 - item.ratings.wellWritten)">
-					<i class="far fa-star"></i>
-				</div>
-			</div>
-		</div>
+			</li>
 
-		<div class="rating d-flex justify-content-between align-items-start" ng-if="item.ratings.validPoints > 0">
-			<label class="text-white">Valid points</label>
-			<div class="d-flex">
-				<div class="star" ng-repeat="i in _.range(0, item.ratings.validPoints)">
-					<i class="fas fa-star"></i>
+			<li class="mb-3" ng-if="item.ratings.validPoints > 0">
+				<label class="">Interesting: </label>
+				<div class="justify-content-start d-flex align-items-start">
+					<div class="dots">
+						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
+							<span ng-class="{
+								'filled': i <= item.ratings.validPoints,
+								'empty': i > item.ratings.validPoints
+							}">&nbsp;</span>
+						</span>
+					</div>
+					<h6 class="text-green feed">
+						{{item.ratings.validPointsText}}
+					</h6>
 				</div>
-				<div class="star" ng-repeat="i in _.range(0, 10 - item.ratings.validPoints)">
-					<i class="far fa-star"></i>
-				</div>
-			</div>
-		</div>
+			</li>
 
-		<div class="rating d-flex justify-content-between align-items-start" ng-if="item.ratings.agree > 0">
-			<label class="text-white">Agree</label>
-			<div class="d-flex">
-				<div class="star" ng-repeat="i in _.range(0, item.ratings.agree)">
-					<i class="fas fa-star"></i>
+			<li class="mb-3" ng-if="item.ratings.agree > 0">
+				<label class="">Agree: </label>
+				<div class="justify-content-start d-flex align-items-start">
+					<div class="dots">
+						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
+							<span ng-class="{
+								'filled': i <= item.ratings.agree,
+								'empty': i > item.ratings.agree
+							}">&nbsp;</span>
+						</span>
+					</div>
+					<h6 class="text-green feed">
+						{{item.ratings.agreeText}}
+					</h6>
 				</div>
-				<div class="star" ng-repeat="i in _.range(0, 10 - item.ratings.agree)">
-					<i class="far fa-star"></i>
-				</div>
-			</div>
-		</div>
+			</li>
+		</ul>
 	</div>
 
 	<div class="article_box">

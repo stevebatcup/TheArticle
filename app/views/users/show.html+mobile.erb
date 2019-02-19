@@ -265,45 +265,42 @@
 					<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
 				</p>
 
-				<div class="ratings_summary col-12 mb-3 px-0" ng-if="profile.ratings.data.length > 0">
-					<div class="inner">
-						<h4>{{ profile.data.ratingsSummary.articleCount }}</h4>
-						<p>Average ratings: </p>
-						<div class="rating d-flex justify-content-between align-items-start" ng-if="profile.data.ratingsSummary.wellWritten > 0">
-							<label>Well written</label>
-							<div class="d-flex">
-								<div class="star" ng-repeat="i in _.range(0, profile.data.ratingsSummary.wellWritten)">
-									<i class="fas fa-star"></i>
-								</div>
-								<div class="star" ng-repeat="i in _.range(0, 10 - profile.data.ratingsSummary.wellWritten)">
-									<i class="far fa-star"></i>
-								</div>
-							</div>
-						</div>
+				<div class="col-12 mb-3 px-0" ng-if="profile.ratings.data.length > 0">
+					<div class="inner member_ratings summary px-3">
+						<h4 class="d-flex justify-content-between mb-3">
+							<span>Average ratings</span>
+							<small class="text-green">{{ profile.data.ratingsSummary.articleCount }}</small>
+						</h4>
 
-						<div class="rating d-flex justify-content-between align-items-start" ng-if="profile.data.ratingsSummary.validPoints > 0">
-							<label>Valid points</label>
-							<div class="d-flex">
-								<div class="star" ng-repeat="i in _.range(0, profile.data.ratingsSummary.validPoints)">
-									<i class="fas fa-star"></i>
-								</div>
-								<div class="star" ng-repeat="i in _.range(0, 10 - profile.data.ratingsSummary.validPoints)">
-									<i class="far fa-star"></i>
-								</div>
-							</div>
-						</div>
-
-						<div class="rating d-flex justify-content-between align-items-start" ng-if="profile.data.ratingsSummary.agree > 0">
-							<label>Agree</label>
-							<div class="d-flex">
-								<div class="star" ng-repeat="i in _.range(0, profile.data.ratingsSummary.agree)">
-									<i class="fas fa-star"></i>
-								</div>
-								<div class="star" ng-repeat="i in _.range(0, 10 - profile.data.ratingsSummary.agree)">
-									<i class="far fa-star"></i>
-								</div>
-							</div>
-						</div>
+						<ul class="bars">
+							<li class="mb-2">
+								<label class="text">Well written: </label>
+								<span class="justify-content-start d-flex align-items-start">
+									<span class="bar w-75 mr-2">
+										<span class="inner" style="width: {{profile.data.ratingsSummary.wellWritten}}"></span>
+									</span>
+									<span class="clear-rating">{{profile.data.ratingsSummary.wellWritten}}</span>
+								</span>
+							</li>
+							<li class="mb-2">
+								<label class="text">Interesting points: </label>
+								<span class="justify-content-start d-flex align-items-start">
+									<span class="bar w-75 mr-2">
+										<span class="inner" style="width: {{profile.data.ratingsSummary.validPoints}};"></span>
+									</span>
+									<span class="clear-rating">{{profile.data.ratingsSummary.validPoints}}</span>
+								</span>
+							</li>
+							<li class="mb-2">
+								<label class="text">Agree with arguments: </label>
+								<span class="justify-content-start d-flex align-items-start">
+									<span class="bar w-75 mr-2">
+										<span class="inner" style="width: {{profile.data.ratingsSummary.agree}};"></span>
+									</span>
+									<span class="clear-rating">{{profile.data.ratingsSummary.agree}}</span>
+								</span>
+							</li>
+						</ul>
 					</div>
 				</div>
 

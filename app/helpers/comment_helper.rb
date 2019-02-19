@@ -16,8 +16,11 @@ module CommentHelper
 			iDisagreeWithPost: user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false,
 			ratings: {
 				wellWritten: share.rating_well_written,
+				wellWrittenText: text_rating(:well_written, share.rating_well_written.to_s),
 				validPoints: share.rating_valid_points,
-				agree: share.rating_agree
+				validPointsText: text_rating(:valid_points, share.rating_valid_points.to_s),
+				agree: share.rating_agree,
+				agreeText: text_rating(:agree, share.rating_agree.to_s),
 			},
 			user: {
 				displayName: share.user.display_name,

@@ -16,9 +16,9 @@ class Article < ApplicationRecord
 		@ratings ||= begin
 			if self.shares.any?
 				{
-					well_written: format_rating_percentage(self.shares.average(:rating_well_written)),
-					valid_points: format_rating_percentage(self.shares.average(:rating_valid_points)),
-					agree: format_rating_percentage(self.shares.average(:rating_agree))
+					well_written: self.class.format_rating_percentage(self.shares.average(:rating_well_written)),
+					valid_points: self.class.format_rating_percentage(self.shares.average(:rating_valid_points)),
+					agree: self.class.format_rating_percentage(self.shares.average(:rating_agree))
 				}
 			else
 				nil
@@ -26,8 +26,8 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def format_rating_percentage(avg)
-		(BigDecimal(avg * 10).to_i).to_s + "%"
+	def self.format_rating_percentage(amount)
+		(BigDecimal(amount * 20).to_i).to_s + "%"
 	end
 
 	def exchange_names

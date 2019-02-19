@@ -40,22 +40,23 @@
 					</div>
 				</div>
 
-				<div class="member_ratings">
-					<h5>Member ratings</h5>
-					<% if @article.ratings %>
-					<ul class="d-flex">
-						<li>Well written: <span class="rating"><%= @article.ratings[:well_written] %></span></li>
-						<li>Valid points: <span class="rating"><%= @article.ratings[:valid_points] %></span></li>
-						<li>Agree with arguments: <span class="rating"><%= @article.ratings[:agree] %></span></li>
-					</ul>
-					<% else %>
-					<p>This article has not been rated yet. <a href='#' ng-click="openSharingPanel($event)">Be the first person to rate this article</a>.</p>
-					<% end %>
-				</div>
 			</header>
 
 			<div class="row">
 				<div class="col-12 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
+					<div class="member_ratings pt-2 pb-2 px-3">
+						<h5>Member ratings</h5>
+						<% if @article.ratings %>
+						<ul class="d-flex w-100 justify-content-between">
+							<li>Well written: <span class="rating"><%= @article.ratings[:well_written] %></span></li>
+							<li>Interesting points: <span class="rating"><%= @article.ratings[:valid_points] %></span></li>
+							<li>Agree with arguments: <span class="rating"><%= @article.ratings[:agree] %></span></li>
+						</ul>
+						<% else %>
+						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event)">Be the first person to rate this article</a>.</p>
+						<% end %>
+					</div>
+
 					<div id="img_box" class="mb-4">
 						<% if @article.image? %>
 							<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
@@ -73,13 +74,101 @@
 						<% end %>
 					</div>
 
+					<div class="member_ratings bars pt-3 pb-2 px-3">
+						<h5>Member ratings</h5>
+						<% if @article.ratings %>
+						<ul class="bars">
+							<li class="row justify-content-start d-flex align-items-start mb-2">
+								<span class="col-4 text">Well written: </span>
+								<span class="bar col-6">
+									<span class="inner" style="width: <%= @article.ratings[:well_written] %>;"></span>
+								</span>
+								<span class="col-2 clear-rating"><%= @article.ratings[:well_written] %></span>
+							</li>
+							<li class="row justify-content-start d-flex align-items-start mb-2">
+								<span class="col-4 text">Interesting points: </span>
+								<span class="bar col-6">
+									<span class="inner" style="width: <%= @article.ratings[:valid_points] %>;"></span>
+								</span>
+								<span class="col-2 clear-rating"><%= @article.ratings[:valid_points] %></span>
+							</li>
+							<li class="row justify-content-start d-flex align-items-start mb-2">
+								<span class="col-4 text">Agree with arguments: </span>
+								<span class="bar col-6">
+									<span class="inner" style="width: <%= @article.ratings[:agree] %>;"></span>
+								</span>
+								<span class="col-2 clear-rating"><%= @article.ratings[:agree] %></span>
+							</li>
+						</ul>
+						<% else %>
+						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event)">Be the first person to rate this article</a>.</p>
+						<% end %>
+
+						<% if current_user.article_share(@article) %>
+							<div class="your_rating">
+								<h5>Your rating</h5>
+
+								<ul class="dots">
+									<li class="mb-2">
+										<div class="justify-content-start d-flex align-items-start">
+											<label class="mr-4">Well written: </label>
+											<div class="dots">
+												<% for i in 1..5 %>
+													<% dot_class = @article_share['rating_well_written'] >= i ? 'filled' : 'empty' %>
+													<span class="dot">
+														<span class="<%= dot_class %>"></span>
+													</span>
+												<% end %>
+											</div>
+											<h6 class="text-green">
+												<%= text_rating(:well_written, @article_share['rating_well_written'].to_s) %>
+											</h6>
+										</div>
+									</li>
+									<li class="mb-2">
+										<div class="justify-content-start d-flex align-items-start">
+											<label class="mr-4">Interesting points: </label>
+											<div class="dots">
+												<% for i in 1..5 %>
+													<% dot_class = @article_share['rating_valid_points'] >= i ? 'filled' : 'empty' %>
+													<span class="dot">
+														<span class="<%= dot_class %>"></span>
+													</span>
+												<% end %>
+											</div>
+											<h6 class="text-green">
+												<%= text_rating(:valid_points, @article_share['rating_valid_points'].to_s) %>
+											</h6>
+										</div>
+									</li>
+									<li class="mb-2">
+										<div class="justify-content-start d-flex align-items-start">
+											<label class="mr-4">Agree with arguments: </label>
+											<div class="dots">
+												<% for i in 1..5 %>
+													<% dot_class = @article_share['rating_agree'] >= i ? 'filled' : 'empty' %>
+													<span class="dot">
+														<span class="<%= dot_class %>"></span>
+													</span>
+												<% end %>
+											</div>
+											<h6 class="text-green">
+												<%= text_rating(:agree, @article_share['rating_agree'].to_s) %>
+											</h6>
+										</div>
+									</li>
+								</ul>
+							</div>
+						<% end %>
+					</div>
+
 					<footer class="entry-footer pl-0 mt-5 d-flex justify-content-between">
 						<div class="" id="twitter_follow_col">
-							<a class="thearticle_share d-block text-black btn btn-success text-white text-case-inherit"
+							<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
 									href="#"
 									ng-click="openSharingPanel($event)">
 									<span class="ml-2">
-										<% if @article.ratings %>
+										<% if current_user.article_share(@article) %>
 											Re-rate this article
 										<% else %>
 											Rate this article

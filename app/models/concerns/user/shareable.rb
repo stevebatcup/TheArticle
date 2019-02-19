@@ -24,8 +24,8 @@ module User::Shareable
     self.shares.where("rating_well_written > 6 AND rating_valid_points > 6 AND rating_agree > 6 ")
   end
 
-  def ratingsSummary
-    @ratingsSumary ||= {
+  def ratings_summary
+    @ratings_summary ||= {
       article_count: self.ratings.size,
       well_written: summarise_rating_item(self.ratings.average(:rating_well_written)),
       valid_points: summarise_rating_item(self.ratings.average(:rating_valid_points)),
@@ -34,7 +34,7 @@ module User::Shareable
   end
 
   def summarise_rating_item(item)
-    item.nil? ? 0 : BigDecimal(item).to_i
+    item.nil? ? 0 : Article.format_rating_percentage(item)
   end
 
   def agree_with_post(share)

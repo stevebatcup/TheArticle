@@ -111,28 +111,11 @@
 		margin: 20px auto;
 	}
 
-	.member_ratings {
-		margin: 0 0 5px;
-		width: 100%;
-		color: #000;
-
-		ul {
-			padding: 0;
-			margin: 0;
-
-			li {
-				font-weight: 500;
-				list-style: none;
-				margin-right: 18px;
-
-				span.rating {
-					background: #000;
-					font-size: 0.9em;
-					color: #fff;
-					padding: 1px 5px;
-					font-weight: normal;
-				}
-			}
-		}
+	.rate_this {
+		background-image: asset_url('capital-a-bg.png');
+		background-repeat: no-repeat;
+		background-position: 7px 3px;
+		background-size: 26px;
+		padding-left: 30px !important;
 	}
 }
