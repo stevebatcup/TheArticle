@@ -1,5 +1,5 @@
 <% page_title @article.title %>
-<% meta_tag :description, truncate(@article.meta_description, length: 120) %>
+<% meta_tag :description, truncate(sanitize(@article.meta_description), length: 120) %>
 <% if @article.image? %>
 	<% meta_tag :image, @article.image.url %>
 <% end %>

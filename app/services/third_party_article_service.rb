@@ -5,7 +5,13 @@ module ThirdPartyArticleService
 	class << self
 		def scrape_url(url)
 			begin
-				response = Faraday.get(url)
+				if url.include?('railstaging.thearticle.com')
+					conn = Faraday.new('http://railstaging.thearticle.com')
+					conn.basic_auth('londonbridge', 'B37ys0m2w')
+					response = conn.get URI.parse(url).request_uri
+				else
+					response = Faraday.get(url)
+				end
 				OGP::OpenGraph.new(response.body)
 			rescue NoMethodError => e
 				raise IOError.new("Sorry, we cannot properly read the data from that article URL")
