@@ -27,7 +27,7 @@
           <% else %>
             <a href="<%= front_page_path(route: 'following') %>">
           <% end %>
-          Following <span class="text-muted pl-1">4</span></a>
+          Following <span class="text-muted pl-1"><%= current_user.followings_count %></span></a>
         </span>
         <span class="pl-1">
           <% if use_app_links %>
@@ -35,7 +35,7 @@
           <% else %>
             <a href="<%= front_page_path(route: 'followers') %>">
           <% end %>
-          Followers <span class="text-muted pl-1">12</span></a>
+          Followers <span class="text-muted pl-1"><%= current_user.followers_count %></span></a>
         </span>
       </p>
     </div>

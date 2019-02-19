@@ -17,6 +17,18 @@ module User::Followable
     self.followers.map(&:id).include?(user.id)
   end
 
+  def followings_count
+    Rails.cache.fetch("followings_count_#{self.id}") do
+      self.followings.size
+    end
+  end
+
+  def followers_count
+    Rails.cache.fetch("followers_count_#{self.id}") do
+      self.followers.size
+    end
+  end
+
   def recent_followings(hours=24)
     self.followings.where("created_at >= DATE_SUB(CURTIME(), INTERVAL #{hours} HOUR)").order("created_at DESC")
   end
