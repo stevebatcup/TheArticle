@@ -1,3 +1,4 @@
+<% unless user_signed_in? %>
 <section id="member_callout">
 	<div class="container">
 		<h2>Join our community</h2>
@@ -5,6 +6,7 @@
 		<button ng-click="openRegisterForm($event)" class="join_button btn btn-sm bg-grass text-white">Register</button>
 	</div>
 </section>
+<% end %>
 
 <div class="container">
 	<div class="row">

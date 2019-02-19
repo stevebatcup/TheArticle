@@ -1,6 +1,6 @@
  <%= render 'layouts/head' %>
 
-<header id="main_header" ng-controller="HeaderBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+<header id="main_header" ng-controller="HeaderBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
   <div class="container">
     <div class="row">
       <nav id="main_nav_left" class="navbar navbar-expand-md col-4 px-md-0 px-lg-1 pb-0 pt-3">
@@ -139,7 +139,7 @@
 </main>
 
 <%# unless user_signed_in? %>
-<footer id="main_footer_top" class="main_footer bg-black text-white border-light border-bottom" ng-controller="FooterController">
+<footer id="main_footer_top" class="main_footer bg-black text-white border-light border-bottom" ng-controller="FooterController" ng-cloak>
   <div class="container">
     <div class="row py-2">
       <nav class="navbar navbar-expand-md col-12 col-lg-10 d-flex" id="footer_nav">
@@ -185,7 +185,7 @@
 </footer>
 <%# end %>
 
-<footer id="main_footer_bottom" class="main_footer bg-black text-white border-light border-top">
+<footer id="main_footer_bottom" class="main_footer bg-black text-white border-light border-top" ng-cloak>
   <div class="container">
     <div class="row py-3">
       <div id="copyright" class="col-6 col-lg-5 d-flex align-items-center">
