@@ -228,6 +228,7 @@ class User < ApplicationRecord
     self.comments.destroy_all
     self.feeds.destroy_all
     self.opinions.destroy_all
+    self.quarantined_third_party_shares.destroy_all
     ProfileSuggestion.delete_suggested(self)
     if deleting_account
       self.profile_suggestions.destroy_all

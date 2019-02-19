@@ -35,9 +35,9 @@
                   width="100%"
                    ng-if="thirdPartyArticle.article.data.image.length > 0" />
 
-          <h6 ng-if="thirdPartyArticle.article.data.siteName.length > 0">{{thirdPartyArticle.article.data.siteName}}</h6>
+          <h6 ng-if="thirdPartyArticle.article.data.domain.length > 0">{{thirdPartyArticle.article.data.domain}}</h6>
           <h4 ng-if="thirdPartyArticle.article.data.title.length > 0">{{thirdPartyArticle.article.data.title}}</h4>
-          <p ng-if="thirdPartyArticle.article.data.snippet.length > 0" ng-bind-html="thirdPartyArticle.article.data.snippet"></p>
+          <div ng-if="thirdPartyArticle.article.data.snippet.length > 0" ng-bind-html="thirdPartyArticle.article.data.snippet"></div>
         </div>
 
         <div id="your_rating" ng-show="thirdPartyArticle.article.loaded">

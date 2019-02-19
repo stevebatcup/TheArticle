@@ -17,8 +17,19 @@ class ThirdPartyArticlesController < ApplicationController
 
 	def create
 		begin
-			ThirdPartyArticleService.create_from_share(share_params, current_user)
-			@status = :success
+			if ThirdPartyArticleService.share_is_thearticle_domain(share_params[:article][:url], request.host)
+				slug = ThirdPartyArticleService.get_slug_from_url(share_params[:article][:url])
+				if article = Article.find_by(slug: slug)
+					Share.create_or_replace(article, current_user, share_params[:post], share_params[:rating_well_written], share_params[:rating_valid_points], share_params[:rating_agree])
+					@status = :success
+				else
+					@status = :error
+					@message = "TheArticle: article not found (#{slug})"
+				end
+			else
+				ThirdPartyArticleService.create_from_share(share_params, current_user)
+				@status = :success
+			end
 		rescue Exception => e
 			@message = e.backtrace
 			@status = :error

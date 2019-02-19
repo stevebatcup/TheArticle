@@ -20,9 +20,18 @@ module ThirdPartyArticleService
 			URI.parse(url).host.downcase.gsub(/www\./, '')
 		end
 
+		def get_slug_from_url(url)
+			URI.parse(url).request_uri.gsub("/", "")
+		end
+
 		def add_domain_from_url(url)
 			host = self.get_domain_from_url(url)
 			WhiteListedThirdPartyPublisher.create({domain: host})
+		end
+
+		def share_is_thearticle_domain(url, current_host)
+			domain = get_domain_from_url(url)
+			['thearticle.com', 'www.thearticle.com', current_host].include?(domain)
 		end
 
 		def create_from_share(params, current_user)
@@ -54,7 +63,7 @@ module ThirdPartyArticleService
 				title: article_params[:title],
 				content: "<p>#{article_params[:snippet]}</p>".html_safe,
 				remote_article_url:  article_params[:url],
-				remote_image_url: article_params[:image],
+				remote_article_image_url: article_params[:image],
 				excerpt: "<p>#{article_params[:snippet]}</p>".html_safe,
 				published_at: Time.now,
 				robots_nofollow: 0,

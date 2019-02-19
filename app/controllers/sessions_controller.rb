@@ -7,6 +7,7 @@ class SessionsController < Devise::SessionsController
 			format.html do
 				redirect_to	"/?sign_in=1"
 			end
+			format.json
 		end
 	end
 

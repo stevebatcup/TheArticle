@@ -81,4 +81,24 @@ class Share < ApplicationRecord
 	def has_ratings?
 		(self.rating_well_written > 0) || (self.rating_valid_points > 0) || (self.rating_agree > 0)
 	end
+
+	def self.create_or_replace(article, current_user, post, rating_well_written, rating_valid_points, rating_agree)
+		if share = current_user.article_share(article)
+			share.update_attributes(
+				post: post,
+				rating_well_written: rating_well_written,
+				rating_valid_points: rating_valid_points,
+				rating_agree: rating_agree
+			)
+		else
+			self.create({
+				user_id: current_user.id,
+				article_id: article.id,
+				post: post,
+				rating_well_written: rating_well_written,
+				rating_valid_points: rating_valid_points,
+				rating_agree: rating_agree
+			})
+		end
+	end
 end

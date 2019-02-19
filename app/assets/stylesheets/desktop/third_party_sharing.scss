@@ -1,9 +1,9 @@
 #thirdPartySharingModal {
 	min-height: 300px;
-	font-size: 0.9em;
+	// font-size: 0.9em;
 
 	.url_box {
-		padding-bottom: 20px;
+		// padding-bottom: 20px;
 
 		img {
 			width: 45px;
@@ -11,10 +11,10 @@
 		}
 
 		textarea {
-			height: 6em;
+			height: 5em;
 			width: 87%;
 			border: none;
-			font-size: 1em;
+			font-size: 0.9em;
 			outline: none;
 
 			&:focus {
@@ -26,12 +26,12 @@
 	#article_preview {
 		h6 {
 			text-transform: uppercase;
-			margin: 8px 0 5px;
+			margin: 8px 0 7px;
 		}
 
 		h4 {
-			font-size: 1.1em;
-			margin-bottom: 2px;
+			font-size: 1em;
+			margin-bottom: 4px;
 		}
 
 		p {
