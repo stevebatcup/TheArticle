@@ -52,8 +52,8 @@ module OpinionHelper
 					username: opinion.user.username,
 					image: opinion.user.profile_photo.url(:square),
 					path: profile_path(slug: opinion.user.slug),
-					imFollowing: opinion.user.is_followed_by(current_user),
-					isFollowingMe: current_user.is_followed_by(opinion.user)
+					imFollowing: user_signed_in? ? opinion.user.is_followed_by(current_user) : false,
+					isFollowingMe: user_signed_in? ? current_user.is_followed_by(opinion.user) : false
 				}
 			}
 		}

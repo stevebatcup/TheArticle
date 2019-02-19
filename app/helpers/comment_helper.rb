@@ -23,8 +23,8 @@ module CommentHelper
 				displayName: share.user.display_name,
 				username: share.user.username,
 				image: share.user.profile_photo.url(:square),
-				imFollowing: share.user.is_followed_by(current_user),
-				isFollowingMe: current_user.is_followed_by(share.user)
+				imFollowing: user_signed_in? ? share.user.is_followed_by(current_user) : false,
+				isFollowingMe: user_signed_in? ? current_user.is_followed_by(share.user) : false
 			},
 			article: {
 				id: share.article.id,
@@ -57,8 +57,8 @@ module CommentHelper
 					username: comment.user.username,
 					image: comment.user.profile_photo.url(:square),
 					path: profile_path(slug: comment.user.slug),
-					imFollowing: comment.user.is_followed_by(current_user),
-					isFollowingMe: current_user.is_followed_by(comment.user)
+					imFollowing: user_signed_in? ? comment.user.is_followed_by(current_user) : false,
+					isFollowingMe: user_signed_in? ? current_user.is_followed_by(comment.user) : false
 				}
 			}
 		}
@@ -81,8 +81,8 @@ module CommentHelper
 	    deleteReason: false,
 	    deleteAlsoBlock: false,
 	    deleteAlsoReport: false,
-			imFollowing: comment.user.is_followed_by(current_user),
-			isFollowingMe: current_user.is_followed_by(comment.user)
+			imFollowing: user_signed_in? ? comment.user.is_followed_by(current_user) : false,
+			isFollowingMe: user_signed_in? ? current_user.is_followed_by(comment.user) : false
 		}
 	end
 end
