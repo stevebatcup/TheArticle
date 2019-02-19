@@ -21,6 +21,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			, 900
 
 	flash: (msg, action=null) =>
+		$.notifyClose('bottom-center')
 		$.notify({
 			message: msg
 		},
