@@ -10,11 +10,12 @@
 		}
 
 		textarea {
-			height: 5em;
+			height: 7em;
 			width: 87%;
 			border: none;
 			font-size: 0.9em;
 			outline: none;
+			margin-bottom: 8px;
 
 			&:focus {
 				outline: none;

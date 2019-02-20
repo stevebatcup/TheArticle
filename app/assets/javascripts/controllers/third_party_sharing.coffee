@@ -13,6 +13,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 
 	init: ->
 		@setDefaultHttpHeaders()
+		@scope.ratingTextLabels = @element.data('rating-text-labels')
 		@scope.ratingsTouched =
 			well_written: false
 			valid_points: false
@@ -34,6 +35,9 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 					rating_well_written: 0
 					rating_valid_points: 0
 					rating_agree: 0
+
+	toggleDots: (section, rating) =>
+		@scope.thirdPartyArticle.article.share["rating_#{section}"] = rating
 
 	bindListeners: =>
 		@rootScope.$on 'third_party_url_sharing', ($event, data) =>

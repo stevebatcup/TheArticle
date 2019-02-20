@@ -1,6 +1,8 @@
 <div class="modal fade update_card_cetails" id="thirdPartySharingModal" tabindex="-1" role="dialog">
   <div class="modal-dialog medium" role="document">
-    <div class="modal-content" ng-controller="ThirdPartySharingController">
+    <div class="modal-content"
+          ng-controller="ThirdPartySharingController"
+          data-rating-text-labels="<%= rating_labels.to_json %>">
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
   			<h6 class="mb-2 mt-1">
@@ -40,43 +42,66 @@
           <div ng-if="thirdPartyArticle.article.data.snippet.length > 0" ng-bind-html="thirdPartyArticle.article.data.snippet"></div>
         </div>
 
-        <div id="your_rating" ng-show="thirdPartyArticle.article.loaded">
+        <div id="your_rating" ng-show="thirdPartyArticle.article.loaded" class="pt-3">
           <textarea name="comments" id="comments" placeholder="Add a comment..." ng-model="thirdPartyArticle.article.share.comments"></textarea>
 
-            <div id="ratings_box">
+            <div id="ratings_box" class="member_ratings px-2 px-md-3 pt-3 pb-md-1">
               <div class="inner">
-                <div class="rating_section" id="well_written">
-                  <label for="well_written">Well written?</label>
-                  <input type="range" class="custom-range"
-                          ng-model="thirdPartyArticle.article.share.rating_well_written"
-                           min="1" max="10" />
-                  <div class="range_key d-flex justify-content-between">
-                    <small>Bad</small>
-                    <small>Great</small>
-                  </div>
-                </div>
+                <ul class="dots panel">
+                  <li class="mb-3">
+                    <div class="justify-content-start d-md-flex align-items-start">
+                      <label class="mr-4 w-md-25">Well written: </label>
+                      <div class="dots">
+                        <span class="dot panel" ng-repeat="i in _.range(1, 6)"
+                                ng-click="toggleDots('well_written', i)">
+                          <span ng-class="{
+                            'filled': i <= thirdPartyArticle.article.share.rating_well_written,
+                            'empty': i > thirdPartyArticle.article.share.rating_well_written
+                          }">&nbsp;</span>
+                        </span>
+                      </div>
+                      <h6 class="text-green panel">
+                        {{ ratingTextLabels.well_written[thirdPartyArticle.article.share.rating_well_written] }}
+                      </h6>
+                    </div>
+                  </li>
 
-                <div class="rating_section" id="valid_points">
-                  <label for="valid_points">Valid points?</label>
-                  <input type="range" class="custom-range"
-                          ng-model="thirdPartyArticle.article.share.rating_valid_points"
-                          min="1" max="10" />
-                  <div class="range_key d-flex justify-content-between">
-                    <small>None</small>
-                    <small>Loads</small>
-                  </div>
-                </div>
+                  <li class="mb-3">
+                    <div class="justify-content-start d-md-flex align-items-start">
+                      <label class="mr-4 w-md-25">Interesting: </label>
+                      <div class="dots">
+                        <span class="dot panel" ng-repeat="i in _.range(1, 6)"
+                                ng-click="toggleDots('valid_points', i)">
+                          <span ng-class="{
+                            'filled': i <= thirdPartyArticle.article.share.rating_valid_points,
+                            'empty': i > thirdPartyArticle.article.share.rating_valid_points
+                          }">&nbsp;</span>
+                        </span>
+                      </div>
+                      <h6 class="text-green panel">
+                        {{ ratingTextLabels.valid_points[thirdPartyArticle.article.share.rating_valid_points] }}
+                      </h6>
+                    </div>
+                  </li>
 
-                <div class="rating_section" id="agree">
-                  <label for="agree">Agree with article?</label>
-                  <input type="range" class="custom-range"
-                          ng-model="thirdPartyArticle.article.share.rating_agree"
-                          min="1" max="10" />
-                  <div class="range_key d-flex justify-content-between">
-                    <small>No</small>
-                    <small>Yes</small>
-                  </div>
-                </div>
+                  <li class="mb-3">
+                    <div class="justify-content-start d-md-flex align-items-start">
+                      <label class="mr-4 w-md-25">Agree: </label>
+                      <div class="dots">
+                        <span class="dot panel" ng-repeat="i in _.range(1, 6)"
+                                ng-click="toggleDots('agree', i)">
+                          <span ng-class="{
+                            'filled': i <= thirdPartyArticle.article.share.rating_agree,
+                            'empty': i > thirdPartyArticle.article.share.rating_agree
+                          }">&nbsp;</span>
+                        </span>
+                      </div>
+                      <h6 class="text-green panel">
+                        {{ ratingTextLabels.agree[thirdPartyArticle.article.share.rating_agree] }}
+                      </h6>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
 
