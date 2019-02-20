@@ -45,6 +45,7 @@ class User < ApplicationRecord
   has_one  :black_list_user
   has_one  :watch_list_user
   has_many  :quarantined_third_party_shares
+  has_many  :feed_users
 
   include Suggestable
   include Shareable

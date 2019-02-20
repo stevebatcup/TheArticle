@@ -33,7 +33,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 				@bindFixedNavScrolling()
 			, 1000
 
-		if @scope.signedIn
+		if @scope.signedIn && !@isDevelopment()
 			@interval =>
 				@getNotificationsBadgeUpdate()
 			, 30000

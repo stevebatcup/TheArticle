@@ -20,7 +20,7 @@
         <p class="comment_body" ng-bind-html="child.data.body | linky:'_blank'"></p>
       </div>
     </div>
-    <div ng-if="child.data.userId != <%= user_signed_in? ? current_user.id : 0 %>">
+    <div>
       <%= render partial: 'common/options_menu', locals: { from: :childComment } %>
     </div>
   </div>
@@ -33,9 +33,5 @@
     <a href='#' class="delete text-red pl-3" ng-click="deleteOthersComment($event, item, child, comment)" ng-if="item.share.user.id == <%= user_signed_in? ? current_user.id : 0 %>">
       Delete
     </a>
-  </div>
-
-  <div ng-if="child.data.userId == <%= user_signed_in? ? current_user.id : 0 %>" class="delete_area pl-5">
-    <a href='#' class="delete text-red" ng-click="deleteOwnComment($event, item, child, comment)">Delete</a>
   </div>
 </div>

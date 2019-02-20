@@ -6,13 +6,13 @@
 				<img ng-src="{{item.follower.image}}" alt="{{item.follower.displayName}}" class="mr-3 rounded-circle" />
 			</a>
 			<div>
-				<h4>
+				<h4 class="mb-3">
 					<a href="{{item.follower.path}}">
-						{{item.follower.displayName}}
-						<span class="text-muted">{{item.follower.username}}</span> &bullet; <span><time>{{item.date}}</time></span>
+						<b>{{item.follower.displayName}}</b>
+						<span class="text-muted">{{item.follower.username}}</span> followed {{item.followed.displayName}}
+						&bullet; <span><time>{{item.date}}</time></span>
 					</a>
 				</h4>
-				<p><b>followed {{item.followed.displayName}}</b></p>
 			</div>
 		</div>
 	</div>

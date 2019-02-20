@@ -1,5 +1,5 @@
 module ShareHelper
-	def share_info_as_json(share, has_ratings=true)
+	def share_info_as_json(share, has_ratings=true, show_comments=false, show_agrees=false, show_disagrees=false)
 		{
 			id: share.id,
 			isRatings: has_ratings,
@@ -10,9 +10,9 @@ module ShareHelper
 			agreeCount: share.agree_count,
 			disagreeCount: share.disagree_count,
 			post: share.post,
-			showComments: false,
-			showAgrees: false,
-			showDisagrees: false,
+			showComments: show_comments,
+			showAgrees: show_agrees,
+			showDisagrees: show_disagrees,
 			commentShowLimit: Comment.show_limit,
 			agreeShowLimit: Opinion.show_limit,
 			disagreeShowLimit: Opinion.show_limit,

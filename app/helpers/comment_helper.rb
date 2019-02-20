@@ -1,5 +1,5 @@
 module CommentHelper
-	def comment_as_json_data(comment)
+	def comment_as_json_data(comment, sentence='')
 		share = comment.commentable
 		author = share.article.author
 		exchange = share.article.exchanges.first
@@ -9,7 +9,7 @@ module CommentHelper
 			stamp: comment.created_at.to_i,
 			date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
 			orderCommentsBy: :most_relevant,
-			share: share_info_as_json(share, true),
+			share: share_info_as_json(share, true, true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
 			actionForRetry: false,
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,
@@ -49,9 +49,9 @@ module CommentHelper
 				}
 			},
 			commentAction: {
+				sentence: sentence,
 				comment: comment.body,
 				date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
-				action: (comment.parent_id.nil? ? "commented on a post by #{share.user.display_name}" : "replied to a comment by #{comment.parent.user.display_name}"),
 				user: {
 					id: comment.user.id,
 					isMuted: user_signed_in? ? current_user.has_muted(comment.user) : false,
@@ -63,6 +63,7 @@ module CommentHelper
 					imFollowing: user_signed_in? ? comment.user.is_followed_by(current_user) : false,
 					isFollowingMe: user_signed_in? ? current_user.is_followed_by(comment.user) : false
 				}
+				# action: (comment.parent_id.nil? ? "commented on a post by #{share.user.display_name}" : "replied to a comment by #{comment.parent.user.display_name}"),
 			}
 		}
 	end

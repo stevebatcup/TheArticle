@@ -31,11 +31,12 @@
 						<span>There is no activity to show here</span>
 					</p>
 
-					<div ng-repeat="item in feeds.data" class="col-12 feed-listing pb-3 px-0"
+					<div ng-repeat="item in feeds.data" class="col-12 feed-listing pb-3 px-0 type-{{item.type}}"
 								ng-class="{
 									'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary', 'categorisation'], item.type),
 									'feed-exchange': item.type == 'exchange',
-									'feed-follow': item.type == 'follow'
+									'feed-follow': item.type == 'follow',
+									'feed-suggestion': item.type == 'suggestion'
 								}">
 							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
 							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
@@ -44,6 +45,7 @@
 							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
 							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
 							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
+							<div ng-if="item.type == 'suggestion'"><%= render 'profile_suggestions/card' %></div>
 					</div>
 				</div>
 			</section>

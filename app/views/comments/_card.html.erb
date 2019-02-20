@@ -8,9 +8,7 @@
 			<div>
 				<h4 class="mb-3">
 					<a href="{{item.commentAction.user.path}}">
-						<b>{{item.commentAction.user.displayName}}</b>
-						<span class="text-muted">{{item.commentAction.user.username}}</span>
-						<span ng-bind-html="item.commentAction.action"></span>
+						<span ng-bind-html="item.commentAction.sentence"></span>
 						&bullet; <span><time>{{item.commentAction.date}}</time></span>
 					</a>
 				</h4>

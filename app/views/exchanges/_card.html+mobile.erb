@@ -6,13 +6,12 @@
 				<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" />
 			</a>
 			<div>
-				<h4>
+				<h4 class="mb-3">
 					<a href="{{item.user.path}}">
-						{{item.user.displayName}}
-						<span class="text-muted">{{item.user.username}}</span>
+						<span ng-bind-html="item.sentence"></span>
+						&bullet; <span><time>{{item.followedDate}}</time></span>
 					</a>
 				</h4>
-				<p><b>Followed an exchange</b> &bullet; {{item.followedDate}}</p>
 			</div>
 		</div>
 		<div ng-if="item.user.id != <%= user_signed_in? ? current_user.id : 0 %>">

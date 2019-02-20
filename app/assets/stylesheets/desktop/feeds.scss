@@ -38,9 +38,9 @@
 
 	&.feed-share {
 		.comments_pane {
-			border-left: 1px dashed $grey;
-			border-bottom: 1px dashed $grey;
-			border-right: 1px dashed $grey;
+			border-left: 1px solid rgba(0, 0, 0, 0.125);
+			border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+			border-right: 1px solid rgba(0, 0, 0, 0.125);
 			background: #fff;
 
 			.respond {
@@ -169,9 +169,9 @@
 		}
 
 		.opinions_pane {
-			border-left: 1px dashed $grey;
-			border-bottom: 1px dashed $grey;
-			border-right: 1px dashed $grey;
+			border-left: 1px solid rgba(0, 0, 0, 0.125);
+			border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+			border-right: 1px solid rgba(0, 0, 0, 0.125);
 			background: #fff;
 			padding-top: 8px;
 

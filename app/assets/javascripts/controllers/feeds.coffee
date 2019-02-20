@@ -215,8 +215,8 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			count
 
-	showAgrees: ($event, item) =>
-		$event.preventDefault()
+	showAgrees: ($event=null, item) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is true
 			item.actionAuthError = false
 			if !item.share.opinionsLoaded
@@ -296,8 +296,8 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			count
 
-	showDisagrees: ($event, item) =>
-		$event.preventDefault()
+	showDisagrees: ($event=null, item) =>
+		$event.preventDefault() if $event?
 		if @scope.isSignedIn is true
 			item.actionAuthError = false
 			if !item.share.opinionsLoaded
@@ -474,7 +474,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	deleteOwnComment: ($event, item, comment, parent=null) =>
 		$event.preventDefault()
-		msg = "You are about to delete your comment, are you sure?"
+		msg = "You are about to delete your own comment, along with any replies to that comment. Are you sure?"
 		@confirm msg, =>
 			@deleteComment comment, 'own', null, =>
 				if parent?
@@ -484,7 +484,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 					item.comments = _.filter item.comments, (c) =>
 						c.data.id isnt comment.data.id
 				@flash "Comment deleted"
-		, null, 'Delete your own comment', ['Cancel', 'Delete']
+		, null, 'Delete your comment', ['Cancel', 'Delete']
 
 	deleteOthersComment: ($event, item, comment, parent=null) =>
 		$event.preventDefault()

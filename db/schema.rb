@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_20_114909) do
+ActiveRecord::Schema.define(version: 2019_02_20_151233) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -180,6 +180,21 @@ ActiveRecord::Schema.define(version: 2019_02_20_114909) do
     t.datetime "created_at"
     t.index ["exchange_id"], name: "index_exchanges_users_on_exchange_id"
     t.index ["user_id"], name: "index_exchanges_users_on_user_id"
+  end
+
+  create_table "feed_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_type"
+    t.integer "source_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "feed_users_feeds", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "feed_user_id"
+    t.bigint "feed_id"
+    t.index ["feed_id"], name: "index_feed_users_feeds_on_feed_id"
+    t.index ["feed_user_id"], name: "index_feed_users_feeds_on_feed_user_id"
   end
 
   create_table "feeds", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -551,4 +566,6 @@ ActiveRecord::Schema.define(version: 2019_02_20_114909) do
   add_foreign_key "articles_keyword_tags", "keyword_tags"
   add_foreign_key "exchanges_users", "exchanges"
   add_foreign_key "exchanges_users", "users"
+  add_foreign_key "feed_users_feeds", "feed_users"
+  add_foreign_key "feed_users_feeds", "feeds"
 end

@@ -79,6 +79,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@Feed.query({page: @scope.feeds.page}).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				@scope.feeds.data.push feed
+				if feed.share?
+					if feed.share.showComments is true
+						@showComments(null, feed, false)
+					else if feed.share.showAgrees is true
+						@showAgrees(null, feed)
+					else if feed.share.showDisagrees is true
+						@showDisagrees(null, feed)
 				if response.suggestions.length > 0
 					if (index is 1)
 						@scope.feeds.data.push response.suggestions[0]

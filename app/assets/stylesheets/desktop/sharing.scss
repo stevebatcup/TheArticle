@@ -119,7 +119,7 @@ $contrast: 5%;
 		&.dots {
 			li {
 				.dots {
-					margin-right: 10px;
+					margin-right: 5px;
 
 					.dot {
 						display: inline-block;
@@ -171,7 +171,9 @@ $contrast: 5%;
 		}
 
 		h6.feed {
-			font-size: 1.1em;
+			font-size: 0.9em;
+			position: relative;
+			top: 5px;
 		}
 	}
 

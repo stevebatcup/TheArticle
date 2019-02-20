@@ -10,11 +10,22 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
 
   belongs_to :user
-  before_create :create_feed
+  after_create :create_feed
   before_destroy :delete_feeds_and_notifications
 
   def create_feed
-    self.feeds.build({user_id: self.user_id})
+    feed = self.feeds.create({user_id: self.user_id})
+    self.user.followers.each do |follower|
+      unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'comment', source_id: self.commentable_id)
+        user_feed_item = FeedUser.new({
+          user_id: follower.id,
+          action_type: 'comment',
+          source_id: self.commentable_id
+        })
+      end
+      user_feed_item.feeds << feed
+      user_feed_item.save
+    end
   end
 
   def delete_feeds_and_notifications
@@ -37,7 +48,7 @@ class Comment < ActiveRecord::Base
   end
 
   def self.show_reply_limit
-    4
+    5
   end
 
   # Helper class method that allows you to build a comment
