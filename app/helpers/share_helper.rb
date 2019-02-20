@@ -79,12 +79,15 @@ module ShareHelper
 		}
 	end
 
-	def text_rating(category, rating)
-		rating_labels = {
-			well_written: { '1' => 'Terrible', '2' => 'Poor', '3' => 'Average', '4' => 'Good', '5' => 'Excellent' },
-			valid_points: { '1' => 'Very boring', '2' => 'Boring', '3' => 'Neutral', '4' => 'Interesting', '5' => 'Very interesting' },
-			agree: { '1' => 'Strongly disagree', '2' => 'Disagree', '3' => 'Neutral', '4' => 'Agree', '5' => 'Strongly agree' }
+	def rating_labels
+		{
+			well_written: { '0' => 'No rating', '1' => 'Terrible', '2' => 'Poor', '3' => 'Average', '4' => 'Good', '5' => 'Excellent' },
+			valid_points: { '0' => 'No rating', '1' => 'Very boring', '2' => 'Boring', '3' => 'Neutral', '4' => 'Interesting', '5' => 'Very interesting' },
+			agree: { '0' => 'No rating', '1' => 'Strongly disagree', '2' => 'Disagree', '3' => 'Neutral', '4' => 'Agree', '5' => 'Strongly agree' }
 		}
+	end
+
+	def text_rating(category, rating)
 		rating_labels[category][rating]
 	end
 end

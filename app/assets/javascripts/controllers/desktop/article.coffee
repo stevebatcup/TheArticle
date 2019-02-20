@@ -5,7 +5,7 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$http'
 	  '$rootElement'
-	  '$compile'
+	  '$rootScope'
 	  '$timeout'
 	  '$compile'
 	]

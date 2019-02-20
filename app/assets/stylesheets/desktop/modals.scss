@@ -1,6 +1,7 @@
 .modal {
 	.modal-header {
-		button.close_modal {
+		button.close_modal,
+		button.close_share_modal {
 			position: relative;
 			top: -4px;
 		}

@@ -3,6 +3,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$timeout'
 	  '$element'
@@ -12,6 +13,8 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@scope.formError = false
+		@scope.ratingsHeading = "Add a rating?"
+		@scope.ratingTextLabels = @element.data('rating-text-labels')
 		@scope.ratingsTouched =
 			well_written: false
 			valid_points: false
@@ -25,6 +28,13 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@bindEvents()
 
 	bindEvents: =>
+		$(document).on 'show.bs.collapse', '#ratings_box', =>
+			@scope.$apply =>
+				@scope.ratingsHeading = "Rate this article"
+		$(document).on 'hide.bs.collapse', '#ratings_box', =>
+			@scope.$apply =>
+				@scope.ratingsHeading = "Add a rating?"
+
 		@scope.$watch 'share.rating_well_written', (newVal, oldVal) =>
 			if (newVal isnt oldVal) and (oldVal > 0)
 				@scope.ratingsTouched.well_written = true
@@ -34,6 +44,9 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@scope.$watch 'share.rating_agree', (newVal, oldVal) =>
 			if (newVal isnt oldVal) and (oldVal > 0)
 				@scope.ratingsTouched.agree = true
+
+	toggleDots: (section, rating) =>
+		@scope.share["rating_#{section}"] = rating
 
 	submitShare: =>
 		@scope.formError = false
@@ -51,12 +64,19 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		if (@scope.ratingsTouched.agree is false) and (@scope.share.rating_agree is 1)
 			data['rating_agree'] = 0
 
-		# console.log data
-		# console.log @scope.ratingsTouched
 		@http.post("/share", { share: data }).then (response) =>
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
+				window.location.reload()
 			else
 				@scope.formError = response.data.message
+
+	expandCommentsBox: ($event) =>
+		$textarea = $($event.target)
+		$textarea.addClass('expanded')
+
+	contractCommentsBox: ($event) =>
+		$textarea = $($event.target)
+		$textarea.removeClass('expanded')
 
 TheArticle.ControllerModule.controller('SharingPanelController', TheArticle.SharingPanel)

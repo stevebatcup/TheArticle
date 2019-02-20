@@ -53,7 +53,7 @@
 							<li>Agree with arguments: <span class="rating"><%= @article.ratings[:agree] %></span></li>
 						</ul>
 						<% else %>
-						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event)">Be the first person to rate this article</a>.</p>
+						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 						<% end %>
 					</div>
 
@@ -101,7 +101,7 @@
 							</li>
 						</ul>
 						<% else %>
-						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event)">Be the first person to rate this article</a>.</p>
+						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 						<% end %>
 
 						<% if current_user.article_share(@article) %>
@@ -164,17 +164,17 @@
 
 					<footer class="entry-footer pl-0 mt-5 d-flex justify-content-between">
 						<div class="" id="twitter_follow_col">
-							<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
-									href="#"
-									ng-click="openSharingPanel($event)">
-									<span class="ml-2">
-										<% if current_user.article_share(@article) %>
-											Re-rate this article
-										<% else %>
-											Rate this article
-										<% end %>
-									</span>
-							</a>
+							<% if current_user.article_share(@article) %>
+								<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
+										href="#" ng-click="openSharingPanel($event, 'rerate')">
+											<span class="ml-2">Re-rate this article</span>
+								</a>
+							<% else %>
+									<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
+										href="#" ng-click="openSharingPanel($event, 'rate')">
+											<span class="ml-2">Rate this article</span>
+									</a>
+							<% end %>
 						</div>
 						<div class="pl-lg-5 d-flex share_links">
 							<%= render 'common/share-buttons' %>
@@ -280,14 +280,6 @@
 			</div>
 		</article>
 	</div>
-
-	<header id="rate_this" class="black_heading pt-3 pb-2">
-		<div class="container text-center d-flex justify-content-center">
-			<h1 class="double-bullet text-white py-3">
-				<a href='#' class="text-white py-3" ng-click="openSharingPanel($event, 'ratings')">Rate this article</a>
-			</h1>
-		</div>
-	</header>
 
 	<% if @articles_in_same_exchange.any? %>
 		<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>

@@ -95,11 +95,8 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 	openSharingPanel: ($event, mode=null) =>
 		$event.preventDefault()
+		@rootScope.sharingPanelMode = mode if mode?
 		tpl = $("#sharingPanel").html().trim()
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
 		$("#sharingPanelModal").modal()
-		if mode
-			@timeout =>
-				$("##{mode}_toggler").click()
-			, 500

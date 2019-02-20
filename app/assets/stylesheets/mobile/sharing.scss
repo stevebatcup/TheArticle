@@ -33,90 +33,20 @@ $contrast: 5%;
 
 			textarea {
 				border: none;
-				background: #e9e9e9;
+				background: $grey_light;
 				width: 100%;
 				padding: 10px;
-				height: 110px;
+				height: 3.5em;
+
+				&.expanded {
+					height: 7em;
+				}
 			}
 		}
 
 		#ratings_box {
 			margin: 10px 0 15px;
-			background: #000;
-			padding: 20px 30px;
-
-			.rating_section {
-				border-bottom: 1px #5b5b5b solid;
-				padding: 16px 0 12px;
-
-				&:last-child {
-					border-bottom: none;
-				}
-
-				label {
-					font-size: 1.3em;
-					margin-bottom: 12px;
-				}
-
-				.range_key {
-					margin-top: 18px;
-					color: #ccc;
-				}
-
-				&#well_written {
-					label {
-						color: $blue_dark
-					}
-
-					input[type=range] {
-						&::-webkit-slider-thumb {
-							background-color: $blue_dark;
-						}
-						&::-ms-thumb {
-							background-color: $blue_dark;
-						}
-						&::-moz-range-thumb {
-							background-color: $blue_dark;
-						}
-					}
-				}
-
-				&#valid_points {
-					label {
-						color: $green
-					}
-
-					input[type=range] {
-						&::-webkit-slider-thumb {
-							background-color: $green;
-						}
-						&::-ms-thumb {
-							background-color: $green;
-						}
-						&::-moz-range-thumb {
-							background-color: $green;
-						}
-					}
-				}
-
-				&#agree {
-					label {
-						color: $salmon
-					}
-
-					input[type=range] {
-						&::-webkit-slider-thumb {
-							background-color: $salmon;
-						}
-						&::-ms-thumb {
-							background-color: $salmon;
-						}
-						&::-moz-range-thumb {
-							background-color: $salmon;
-						}
-					}
-				}
-			}
+			padding: 10px 10px 2px;
 		}
 	}
 }
@@ -175,20 +105,28 @@ $contrast: 5%;
 
 		&.dots {
 			li {
+				margin-right: 0;
+
+				h6 {
+					font-size: 0.9em;
+					position: relative;
+					top: 2px;
+				}
+
 				.dots {
-					margin-right: 10px;
+					margin-right: 5px;
 
 					.dot {
 						display: inline-block;
 						background: #fff;
-						width: 29px;
-						height: 29px;
+						width: 27px;
+						height: 27px;
 						border-radius: 50%;
 						margin-right: 3px;
 						border: 1px solid $green;
-						padding: 5px;
+						padding: 4px;
 						position: relative;
-						top: -6px;
+						top: -4px;
 
 						.filled {
 							width: 17px;
@@ -204,8 +142,8 @@ $contrast: 5%;
 							display: inline-block;
 						}
 
-
-						&.feed {
+						&.feed,
+						&.panel {
 							width: 26px;
 							height: 26px;
 							margin-right: 7px;
@@ -218,6 +156,32 @@ $contrast: 5%;
 								height: 14px;
 							}
 						}
+					}
+				}
+			}
+
+			&.panel {
+				li {
+					margin-right: 0;
+
+					label {
+						display: block;
+					}
+
+					.dots {
+						margin-right: 0;
+						display: inline-block;
+
+						.dot {
+							margin-right: 4px;
+						}
+					}
+
+					h6 {
+						display: inline-block;
+						position: relative;
+						top: -8px;
+						font-size: 0.9em;
 					}
 				}
 			}
