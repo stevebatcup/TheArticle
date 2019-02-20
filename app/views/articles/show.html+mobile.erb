@@ -116,7 +116,7 @@
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 						<% end %>
 
-						<% if current_user.article_share(@article) %>
+						<% if user_signed_in? && current_user.article_share(@article) %>
 							<div class="your_rating">
 								<h5>Your rating</h5>
 
