@@ -176,7 +176,7 @@
 
 					<footer class="container px-4 mt-3 mb-4">
 						<div class="w-100" id="twitter_follow_col">
-							<% if current_user.article_share(@article) %>
+							<% if user_signed_in? && current_user.article_share(@article) %>
 								<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
 										href="#" ng-click="openSharingPanel($event, 'rerate')">
 											<span class="ml-2">Re-rate this article</span>
