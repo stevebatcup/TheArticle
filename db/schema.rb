@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_19_115303) do
+ActiveRecord::Schema.define(version: 2019_02_20_114909) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -318,6 +318,7 @@ ActiveRecord::Schema.define(version: 2019_02_19_115303) do
   end
 
   create_table "shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+    t.string "share_type", default: "rating"
     t.integer "user_id"
     t.integer "article_id"
     t.text "post"

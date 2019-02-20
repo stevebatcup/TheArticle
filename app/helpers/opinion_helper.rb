@@ -6,7 +6,7 @@ module OpinionHelper
 		{
 			type: 'opinionAction',
 			stamp: opinion.created_at.to_i,
-			date: opinion.created_at.strftime("%e %b"),
+			date: opinion.created_at < 1.day.ago ? opinion.created_at.strftime("%e %b") : happened_at(opinion.created_at),
 			share: share_info_as_json(share, true),
 			orderCommentsBy: :most_relevant,
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
@@ -45,8 +45,8 @@ module OpinionHelper
 				}
 			},
 			opinionAction: {
-				date: opinion.created_at.strftime("%e %b"),
-				action: "#{opinion.decision.capitalize}d with a post by #{share.user.display_name}",
+				date: opinion.created_at < 1.day.ago ? opinion.created_at.strftime("%e %b") : happened_at(opinion.created_at),
+				action: "#{opinion.decision}d with a post by #{share.user.display_name}",
 				user: {
 					id: opinion.user.id,
 					displayName: opinion.user.display_name,

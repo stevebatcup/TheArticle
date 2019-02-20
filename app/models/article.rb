@@ -14,7 +14,7 @@ class Article < ApplicationRecord
 
 	def ratings
 		@ratings ||= begin
-			if self.shares.any?
+			if self.shares.where(share_type: 'rating').any?
 				{
 					well_written: self.class.format_rating_percentage(self.shares.average(:rating_well_written)),
 					valid_points: self.class.format_rating_percentage(self.shares.average(:rating_valid_points)),

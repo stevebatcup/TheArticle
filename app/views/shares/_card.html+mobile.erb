@@ -8,17 +8,14 @@
 			<div>
 				<h4>
 					<a href="{{item.share.user.path}}">
-						{{item.share.user.displayName}}
-						<span class="text-muted">{{item.share.user.username}}</span> &bullet; <time><span>{{item.share.date}}</span></time>
+						<b>{{item.share.user.displayName}}</b>
+						<span class="text-muted">{{item.share.user.username}}</span>
+						<span ng-if="item.type == 'rating'">rated</span>
+						<span ng-if="item.type != 'rating'">shared</span>
+						 an article
+						&bullet; <time><span>{{item.share.date}}</span></time>
 					</a>
 				</h4>
-				<p>
-					<b>
-						<span ng-if="item.type == 'rating'">Rated</span>
-						<span ng-if="item.type != 'rating'">Shared</span>
-						 an article
-					</b>
-				</p>
 			</div>
 		</div>
 		<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
@@ -39,7 +36,7 @@
 		<% end %>
 	</div>
 
-	<p class="post" ng-if="item.share.post.length > 0">
+	<p class="post mt-3" ng-if="item.share.post.length > 0">
 		{{item.share.post}}
 	</p>
 

@@ -7,7 +7,7 @@ module CommentHelper
 			type: 'commentAction',
 			id: comment.id,
 			stamp: comment.created_at.to_i,
-			date: comment.created_at.strftime("%e %b"),
+			date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
 			orderCommentsBy: :most_relevant,
 			share: share_info_as_json(share, true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
@@ -50,8 +50,8 @@ module CommentHelper
 			},
 			commentAction: {
 				comment: comment.body,
-				date: comment.created_at.strftime("%e %b"),
-				action: (comment.parent_id.nil? ? "Commented on a post by #{share.user.display_name}" : "Replied to a comment by #{comment.parent.user.display_name}"),
+				date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
+				action: (comment.parent_id.nil? ? "commented on a post by #{share.user.display_name}" : "replied to a comment by #{comment.parent.user.display_name}"),
 				user: {
 					id: comment.user.id,
 					isMuted: user_signed_in? ? current_user.has_muted(comment.user) : false,

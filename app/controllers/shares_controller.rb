@@ -3,10 +3,11 @@ class SharesController < ApplicationController
 
 	def create
 		article = Article.find(share_params[:article_id])
-		if share = current_user.article_share(article)
-			update(share)
+		if rating = current_user.existing_article_rating(article)
+			update(rating)
 		else
 			@share = Share.new(share_params)
+			@share.share_type = Share.determine_share_type(share_params)
 			@share.user_id = current_user.id
 			if @share.save
 				render json: { status: :success }

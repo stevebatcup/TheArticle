@@ -6,20 +6,24 @@
 				<img ng-src="{{item.commentAction.user.image}}" alt="{{item.commentAction.user.displayName}}" class="mr-3 rounded-circle" />
 			</a>
 			<div>
-				<h4>
+				<h4 class="mb-3">
 					<a href="{{item.commentAction.user.path}}">
-						{{item.commentAction.user.displayName}}
-						<span class="text-muted">{{item.commentAction.user.username}}</span> &bullet; <span><time>{{item.commentAction.date}}</time></span>
+						<b>{{item.commentAction.user.displayName}}</b>
+						<span class="text-muted">{{item.commentAction.user.username}}</span>
+						<span ng-bind-html="item.commentAction.action"></span>
+						&bullet; <span><time>{{item.commentAction.date}}</time></span>
 					</a>
 				</h4>
-				<p><b ng-bind-html="item.commentAction.action"></b></p>
-				<p ng-bind-html="item.commentAction.comment"></p>
 			</div>
 		</div>
 		<div ng-if="item.commentAction.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
 			<%= render partial: 'common/options_menu', locals: { from: :commentAction } %>
 		</div>
 	</div>
+
+	<p class="post" ng-if="item.commentAction.comment.length > 0">
+		<span ng-bind-html="item.commentAction.comment"></span>
+	</p>
 
 	<%= render 'shares/card' %>
 </div>

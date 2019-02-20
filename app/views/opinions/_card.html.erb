@@ -6,13 +6,14 @@
 				<img ng-src="{{item.opinionAction.user.image}}" alt="{{item.opinionAction.user.displayName}}" class="mr-3 rounded-circle" />
 			</a>
 			<div>
-				<h4>
+				<h4 class="mb-3">
 					<a href="{{item.opinionAction.user.path}}">
-						{{item.opinionAction.user.displayName}}
-						<span class="text-muted">{{item.opinionAction.user.username}}</span> &bullet; <span><time>{{item.opinionAction.date}}</time></span>
+						<b>{{item.opinionAction.user.displayName}}</b>
+						<span class="text-muted">{{item.opinionAction.user.username}}</span>
+						{{item.opinionAction.action}}
+						&bullet; <span><time>{{item.opinionAction.date}}</time></span>
 					</a>
 				</h4>
-				<p><b>{{item.opinionAction.action}}</b></p>
 			</div>
 		</div>
 		<div ng-if="item.opinionAction.user.id != <%= user_signed_in? ? current_user.id : 0 %>">

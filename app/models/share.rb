@@ -49,11 +49,13 @@ class Share < ApplicationRecord
 	end
 
 	def self.share_onlys
-		where(rating_well_written: 0, rating_valid_points: 0, rating_agree: 0)
+		# where(rating_well_written: 0, rating_valid_points: 0, rating_agree: 0)
+		where(share_type: 'share')
 	end
 
 	def self.ratings
-		where('rating_well_written > 0 OR rating_valid_points > 0 OR rating_agree > 0')
+		# where('rating_well_written > 0 OR rating_valid_points > 0 OR rating_agree > 0')
+		where(share_type: 'rating')
 	end
 
 	def comment_count(current_user=nil)
@@ -79,12 +81,13 @@ class Share < ApplicationRecord
 	end
 
 	def has_ratings?
-		(self.rating_well_written > 0) || (self.rating_valid_points > 0) || (self.rating_agree > 0)
+		# (self.rating_well_written > 0) || (self.rating_valid_points > 0) || (self.rating_agree > 0)
+		self.share_type == 'rating'
 	end
 
 	def self.create_or_replace(article, current_user, post, rating_well_written, rating_valid_points, rating_agree)
-		if share = current_user.article_share(article)
-			share.update_attributes(
+		if rating = current_user.existing_article_rating(article)
+			rating.update_attributes(
 				post: post,
 				rating_well_written: rating_well_written,
 				rating_valid_points: rating_valid_points,
@@ -99,6 +102,14 @@ class Share < ApplicationRecord
 				rating_valid_points: rating_valid_points,
 				rating_agree: rating_agree
 			})
+		end
+	end
+
+	def self.determine_share_type(params)
+		if params[:rating_well_written].to_i > 0 || params[:rating_valid_points].to_i > 0 || params[:rating_agree].to_i > 0
+			'rating'
+		else
+			'share'
 		end
 	end
 end

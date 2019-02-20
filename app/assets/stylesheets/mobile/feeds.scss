@@ -134,11 +134,8 @@ input#suggestion_search {
 
 							h4 {
 								font-size: 1em;
-
-								span {
-									font-weight: normal;
-									font-size: 0.9em;
-								}
+								line-height: 1.5em;
+								font-weight: normal;
 							}
 
 							&.comment-item-parent {
@@ -199,11 +196,8 @@ input#suggestion_search {
 						// padding: 0 10px;
 						h4 {
 							font-size: 1em;
-
-							span {
-								font-weight: normal;
-								font-size: 0.9em;
-							}
+							line-height: 1.5em;
+							font-weight: normal;
 						}
 
 						img {
@@ -294,12 +288,10 @@ input#suggestion_search {
 			.user_info {
 				h4 {
 					margin-bottom: 3px;
+					line-height: 1.5em;
 					font-size: 1em;
-
-					span {
-						font-weight: normal;
-						font-size: 0.8em;
-					}
+					font-weight: normal;
+					max-width: 95%;
 				}
 
 				img {
@@ -417,7 +409,7 @@ input#suggestion_search {
 	}
 
 	.card {
-		font-size: 0.9em;
+		font-size: 14px;
 		border-top: none;
 		border-left: none;
 		border-right: none;

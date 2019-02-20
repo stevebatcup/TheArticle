@@ -11,10 +11,10 @@ module User::Shareable
   	self.shares.ratings.order(created_at: :desc)
   end
 
-  def article_share(article)
-    share = self.shares.where(article_id: article.id)
-    if share.any?
-      share.first
+  def existing_article_rating(article)
+    rating = self.shares.where(article_id: article.id).where(share_type: 'rating')
+    if rating.any?
+      rating.first
     else
       nil
     end

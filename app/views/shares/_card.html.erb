@@ -6,19 +6,16 @@
 				<img ng-src="{{item.share.user.image}}" alt="{{item.share.user.displayName}}" class="mr-3 rounded-circle" />
 			</a>
 			<div>
-				<h4>
+				<h4 class="mb-3">
 					<a href="{{item.share.user.path}}">
-						{{item.share.user.displayName}}
-						<span class="text-muted">{{item.share.user.username}}</span> &bullet; <time><span>{{item.share.date}}</span></time>
+						<b>{{item.share.user.displayName}}</b>
+						<span class="text-muted">{{item.share.user.username}}</span>
+						<span ng-if="item.type == 'rating'">rated</span>
+						<span ng-if="item.type != 'rating'">shared</span>
+						 an article
+						&bullet; <time><span>{{item.share.date}}</span></time>
 					</a>
 				</h4>
-				<p>
-					<b>
-						<span ng-if="item.type == 'rating'">Rated</span>
-						<span ng-if="item.type != 'rating'">Shared</span>
-						 an article
-					</b>
-				</p>
 			</div>
 		</div>
 		<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">

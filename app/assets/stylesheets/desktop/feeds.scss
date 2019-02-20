@@ -120,10 +120,8 @@
 							}
 
 							h4 {
-								span {
-									font-weight: normal;
-									font-size: 0.9em;
-								}
+								font-weight: normal;
+								line-height: 1.4em;
 							}
 
 							&.comment-item-parent {
@@ -186,10 +184,8 @@
 						margin-bottom: 5px;
 						// padding: 0 10px;
 						h4 {
-							span {
-								font-weight: normal;
-								font-size: 0.9em;
-							}
+							font-weight: normal;
+							line-height: 1.4em;
 						}
 
 						img {
@@ -231,8 +227,8 @@
 			.share_menu_btn {
 				font-size: 1.4em;
 				position: relative;
-				top: 0px;
-				right: 0px;
+				top: -12px;
+				right: -12px;
 
 				a {
 					color: inherit;
@@ -276,9 +272,11 @@
 
 			.user_info {
 				h4 {
+					font-weight: normal;
 					margin-bottom: 3px;
+					line-height: 1.4em;
+
 					span {
-						font-weight: normal;
 					}
 				}
 
