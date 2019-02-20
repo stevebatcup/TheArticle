@@ -249,11 +249,11 @@ class User < ApplicationRecord
   end
 
   def self.poison_email(email)
-    "_deleted_#{email}"
+    "_deleted_#{self.id}_#{email}"
   end
 
   def self.poison_username(username)
-    "_deleted_#{username}"
+    "_deleted_#{self.id}_#{username}"
   end
 
   def delete_account(reason="User deleted account", by_admin=false)
