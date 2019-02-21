@@ -47,6 +47,9 @@ class User < ApplicationRecord
   has_many  :quarantined_third_party_shares
   has_many  :feed_users
 
+  has_many  :follow_mutes
+  has_many  :exchange_mutes
+
   include Suggestable
   include Shareable
   include Followable
@@ -296,5 +299,9 @@ class User < ApplicationRecord
     else
       UserMailer.first_confirmed(self).deliver_now
     end
+  end
+
+  def mute_exchange(id)
+    self.exchange_mutes.create({muted_id: id})
   end
 end

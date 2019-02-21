@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get 'user_exchanges/:id',                    to: 'user_exchanges#index'
   post 'user_exchanges',                       to: 'user_exchanges#create'
   delete 'user_exchanges/:id',                 to: 'user_exchanges#destroy'
+  get 'my-followers-of-exchange/:id',          to: 'user_exchanges#my_followers_of'
+  get 'mute-exchange/:id',                     to: 'user_exchanges#mute'
 
   get 'contributors',                          to: 'contributors#index'
   get 'contributor/:slug',                     to: 'contributors#show', as: :contributor
@@ -49,6 +51,8 @@ Rails.application.routes.draw do
   get 'follow-suggestions',                    to: 'profile_suggestions#index'
   get 'suggestion-search',                     to: 'profile_suggestions#index'
   get 'connects',                              to: 'connects#index'
+  get 'my-followers-of-user/:id',              to: 'user_followings#my_followers_of'
+  get 'mute-followed/:id',                     to: 'user_followings#mute'
 
   get 'front-page',                            to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following

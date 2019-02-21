@@ -15,10 +15,12 @@ module ExchangeHelper
 	  list
 	end
 
-	def subscription_item_as_json_data(user, subscription, sentence='')
+	def subscription_item_as_json_data(user, subscription, sentence='', source_type='profile')
 		exchange = subscription.exchange
+		sentence = "<b>#{user.display_name}</b> <span class='text-muted'>#{user.username}</span> followed an exchange" if sentence.length == 0
 		{
 			type: 'exchange',
+			sourceType: source_type,
 			stamp: subscription.created_at.to_i,
 			id: exchange.id,
 			path: exchange_path(slug: exchange.slug),

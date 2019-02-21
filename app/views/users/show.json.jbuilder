@@ -35,7 +35,7 @@ json.set! :profile do
 		json.uploading false
 	end
 
-	recentFollowingSummary = following_summary(@user.recent_followings(48))
+	recentFollowingSummary = following_summary(@user, @user.recent_followings(48))
 	json.recentFollowingSummary do
 		json.stamp recentFollowingSummary[:stamp]
 		json.date recentFollowingSummary[:date]
@@ -48,7 +48,7 @@ json.set! :profile do
 		end
 	end
 
-	recentFollowedSummary  = following_summary(@user.recent_followeds(48), "followed")
+	recentFollowedSummary  = following_summary(@user, @user.recent_followeds(48), "followed")
 	json.recentFollowedSummary do
 		json.stamp recentFollowedSummary[:stamp]
 		json.date recentFollowedSummary[:date]

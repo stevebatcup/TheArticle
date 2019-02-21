@@ -581,4 +581,30 @@ class TheArticle.Feeds extends TheArticle.PageController
 			@rootScope.$broadcast 'third_party_url_close', { url: url }
 			$('textarea#third_party_article_url_phantom').val('')
 
+	muteFollowed: ($event, item) =>
+		$event.preventDefault()
+		@http.get("/mute-followed/#{item.followed.id}").then (response) =>
+			$($event.target).closest('.feed-listing').remove()
+
+	muteExchange: ($event, item) =>
+		$event.preventDefault()
+		@http.get("/mute-exchange/#{item.id}").then (response) =>
+			$($event.target).closest('.feed-listing').remove()
+
+	showAllMyFollowersOfUser: (id) =>
+		@http.get("/my-followers-of-user/#{id}").then (response) =>
+			@scope.myFollowersOf = response.data
+			tpl = $("#myFollowersOf").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#myFollowersOfModal").modal()
+
+	showAllMyFollowersOfExchange: (id) =>
+		@http.get("/my-followers-of-exchange/#{id}").then (response) =>
+			@scope.myFollowersOf = response.data
+			tpl = $("#myFollowersOf").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#myFollowersOfModal").modal()
+
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

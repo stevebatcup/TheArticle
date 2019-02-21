@@ -60,6 +60,18 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			if $hiding.hasClass('search_trigger')
 				@toggleSearch()
 
+		$(document).on 'click', '.other_followers_of_user', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			followedId = $span.data('followed')
+			@showAllMyFollowersOfUser(followedId)
+
+		$(document).on 'click', '.other_followers_of_exchange', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			exchangeId = $span.data('exchange')
+			@showAllMyFollowersOfExchange(exchangeId)
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>

@@ -52,6 +52,10 @@ module User::Followable
     end
   end
 
+  def mute_followed(id)
+    self.follow_mutes.create({muted_id: id})
+  end
+
   module ClassMethods
   end
 end

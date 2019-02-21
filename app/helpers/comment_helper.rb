@@ -3,6 +3,7 @@ module CommentHelper
 		share = comment.commentable
 		author = share.article.author
 		exchange = share.article.exchanges.first
+		sentence = "<b>#{comment.user.display_name}</b> <span class='text-muted'>#{comment.user.username}</span> commented on a post" if sentence.length == 0
 		{
 			type: 'commentAction',
 			id: comment.id,

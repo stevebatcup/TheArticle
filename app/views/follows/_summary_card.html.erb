@@ -8,12 +8,10 @@
 			<div>
 				<h4>
 					<a href="{{item.user.path}}">
-						{{item.user.displayName}}
-						<span class="text-muted">{{item.user.username}}</span> &bullet;
-						<span>{{item.date}}</span>
+						<span ng-bind-html="item.sentence"></span>
+						&bullet; <span><time>{{item.date}}</time></span>
 					</a>
 				</h4>
-				<p class="follow_summary mb-0" ng-bind-html="item.sentence"></p>
 			</div>
 		</div>
 	</div>

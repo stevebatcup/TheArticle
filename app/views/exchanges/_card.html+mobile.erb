@@ -8,7 +8,7 @@
 			<div>
 				<h4 class="mb-3">
 					<a href="{{item.user.path}}">
-						<span ng-bind-html="item.sentence"></span>
+						<span ng-bind-html="item.sentence" data-exchange="{{item.id}}"></span>
 						&bullet; <span><time>{{item.followedDate}}</time></span>
 					</a>
 				</h4>

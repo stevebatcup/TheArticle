@@ -7,13 +7,14 @@
 			</a>
 			<div>
 				<h4 class="mb-3">
-					<a href="{{item.follower.path}}">
-						<b>{{item.follower.displayName}}</b>
-						<span class="text-muted">{{item.follower.username}}</span> followed {{item.followed.displayName}}
-						&bullet; <span><time>{{item.date}}</time></span>
-					</a>
+					<span ng-bind-html="item.sentence" data-followed="{{item.followed.id}}"></span>
+					&bullet; <span><time>{{item.date}}</time></span>
 				</h4>
 			</div>
+		</div>
+
+		<div>
+			<%= render partial: 'common/options_menu', locals: { from: :follow } %>
 		</div>
 	</div>
 </div>

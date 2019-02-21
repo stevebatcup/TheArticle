@@ -73,6 +73,15 @@
       <a class="dropdown-item" href="#" ng-click="block($event, item.user.id, item.user.username)" ng-if="!item.user.isBlocked">Block</a>
       <a class="dropdown-item" href="#" ng-click="unblock($event, item.user.id, item.user.username)" ng-if="item.user.isBlocked">Unblock</a>
 
+      <a class="dropdown-item" href="#" ng-click="muteExchange($event, item)" ng-if="item.sourceType == 'front_page'">
+        Don't show me this again
+      </a>
+
+    <% elsif from == :follow %>
+      <a class="dropdown-item" href="#" ng-click="muteFollowed($event, item)" ng-if="item.sourceType == 'front_page'">
+        Don't show me this again
+      </a>
+
     <% end %>
   </div>
 </nav>

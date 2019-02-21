@@ -200,12 +200,6 @@
 		}
 	}
 
-	&.feed-follow {
-		& > div {
-			border: 1px solid #ccc;
-		}
-	}
-
 	&.feed-share,
 	&.feed-exchange,
 	&.feed-follow,
@@ -490,8 +484,6 @@
 		font-size: 1em;
 
 		a {
-			color: inherit;
-
 			&:hover {
 				color: inherit !important;
 			}

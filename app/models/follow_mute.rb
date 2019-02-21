@@ -1,0 +1,2 @@
+class FollowMute < ApplicationRecord
+end

@@ -5,6 +5,7 @@ module OpinionHelper
 		exchange = share.article.exchanges.first
 		show_agrees = opinion.decision == 'agree'
 		show_disagrees = opinion.decision == 'disagree'
+		sentence = "<b>#{opinion.user.display_name}</b> <span class='text-muted'>#{opinion.user.username}</span> #{opinion.decision}d with a post" if sentence.length == 0
 		{
 			type: 'opinionAction',
 			stamp: opinion.created_at.to_i,

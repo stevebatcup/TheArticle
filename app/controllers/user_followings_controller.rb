@@ -54,4 +54,16 @@ class UserFollowingsController < ApplicationController
 			@status = :error
 		end
 	end
+
+	def my_followers_of
+		@followed = User.find(params[:id])
+		@followers = current_user.followings.map(&:followed).select! do |my_following|
+			@followed.is_followed_by(my_following)
+		end
+	end
+
+	def mute
+		current_user.mute_followed(params[:id])
+		render json: { status: :success }
+	end
 end

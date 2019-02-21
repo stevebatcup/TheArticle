@@ -409,6 +409,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@http.get(url).then (response) =>
 			angular.forEach response.data.comments, (item) =>
 				@scope.profile.commentActions.data.push item
+				if item.share.showComments is true
+					@showComments(null, item, false)
 			@scope.profile.commentActions.totalItems = response.data.total if @scope.profile.commentActions.page is 1
 			@scope.profile.commentActions.moreToLoad = @scope.profile.commentActions.totalItems > (@scope.profile.commentActions.page * @scope.profile.commentActions.perPage)
 			@scope.profile.commentActions.loaded = true
@@ -432,6 +434,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@http.get(url).then (response) =>
 			angular.forEach response.data.opinions, (item) =>
 				@scope.profile.opinionActions.data.push item
+				if item.share.showAgrees is true
+					@showAgrees(null, item)
+				else if item.share.showDisagrees is true
+					@showDisagrees(null, item)
 			@scope.profile.opinionActions.totalItems = response.data.total if @scope.profile.opinionActions.page is 1
 			@scope.profile.opinionActions.moreToLoad = @scope.profile.opinionActions.totalItems > (@scope.profile.opinionActions.page * @scope.profile.opinionActions.perPage)
 			@scope.profile.opinionActions.loaded = true

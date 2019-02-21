@@ -38,4 +38,16 @@ class UserExchangesController < ApplicationController
 			@status = :error
 		end
 	end
+
+	def my_followers_of
+		@exchange = Exchange.find(params[:id])
+		@followers = current_user.followings.map(&:followed).select! do |my_following|
+			@exchange.is_followed_by(my_following)
+		end
+	end
+
+	def mute
+		current_user.mute_exchange(params[:id])
+		render json: { status: :success }
+	end
 end

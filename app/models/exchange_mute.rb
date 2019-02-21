@@ -1,0 +1,2 @@
+class ExchangeMute < ApplicationRecord
+end
