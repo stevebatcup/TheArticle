@@ -51,13 +51,13 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	replyToComment: ($event, comment, parentComment, replyingToReply=false) =>
 		$event.preventDefault()
+		$commentsPane = $($event.target).closest('.comments_pane')
 		@scope.replyingToComment =
 			comment: comment
 			parentComment: parentComment.data
 			replyingToReply: replyingToReply
-		$commentBox = $(".comment-item[data-comment-id=#{comment.data.id}]")
-		$replyBox = $commentBox.closest('.comments_pane').find('.respond')
-		console.log $replyBox.length
+		$commentBox = $(".comment-item[data-comment-id=#{comment.data.id}]", $commentsPane)
+		$replyBox = $commentsPane.find('.respond')
 		$replyBox.find('a.cancel_reply', $replyBox).show()
 		$textarea = $replyBox.find('textarea')
 		$textarea.attr('placeholder', 'Reply to Comment')
@@ -166,15 +166,15 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	cancelReply: ($event, shareId) =>
 		$event.preventDefault()
+		$commentsPane = $($event.target).closest('.comments_pane')
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
 			replyingToReply: false
-		$replyBox = $(".respond[data-share-id=#{shareId}]")
+		$replyBox = $(".respond[data-share-id=#{shareId}]", $commentsPane)
 		$replyBox.find('a.cancel_reply', $replyBox).hide()
 		$replyBox.find('textarea').attr('placeholder', 'Add your Comment')
 		$replyBox.data('comment-id', 0).attr('data-comment-id', 0)
-		$commentsPane = $replyBox.closest('.comments_pane')
 		$replyBox.detach().prependTo $commentsPane
 
 	postComment: ($event, post) =>
