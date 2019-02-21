@@ -179,7 +179,8 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	postComment: ($event, post) =>
 		$event.preventDefault()
-		$replyBox = $(".respond[data-share-id=#{post.share.id}]")
+		$commentsPane = $($event.target).closest('.comments_pane')
+		$replyBox = $(".respond[data-share-id=#{post.share.id}]", $commentsPane)
 		replyingToCommentId = Number($replyBox.data('comment-id'))
 		replyingToUsername = if @scope.replyingToComment.replyingToReply then @scope.replyingToComment.comment.data.username else ''
 		parentId = if 'id' of @scope.replyingToComment.parentComment then @scope.replyingToComment.parentComment.id else 0
