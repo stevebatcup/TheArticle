@@ -1,6 +1,7 @@
 class Feed < ApplicationRecord
 	belongs_to	:user
 	has_and_belongs_to_many	:feed_user, dependent: :destroy
+	has_and_belongs_to_many	:notifications
 	belongs_to	:actionable, polymorphic: true
 
 	def self.types_for_followings

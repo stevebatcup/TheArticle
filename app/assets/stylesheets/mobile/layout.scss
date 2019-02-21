@@ -869,3 +869,21 @@ div.new_article {
 	font-weight: normal;
 	font-size: 0.6em;
 }
+
+#member_options {
+	li {
+		position: relative;
+
+		.badge {
+			position: absolute;
+			top: 5px;
+			right: -6px;
+			padding: 3px 2px 0px 2px;
+			font-size: 0.5em;
+			min-width: 15px;
+			min-height: 16px;
+			font-weight: 600;
+			font-family: verdana;
+		}
+	}
+}

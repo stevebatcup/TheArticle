@@ -221,10 +221,14 @@ header {
 					&#nav_link_notifications {
 						.badge {
 							position: absolute;
-							bottom: 2px;
-							right: -15px;
-							padding: 5px 6px;
-							font-size: 0.6em;
+							top: 5px;
+							right: -6px;
+							padding: 4px 3px 0px 2px;
+							font-size: 0.5em;
+							min-width: 17px;
+							min-height: 18px;
+							font-weight: 600;
+							font-family: verdana;
 						}
 					}
 				}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_21_095740) do
+ActiveRecord::Schema.define(version: 2019_02_21_131953) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -213,6 +213,13 @@ ActiveRecord::Schema.define(version: 2019_02_21_095740) do
     t.index ["actionable_type", "actionable_id"], name: "index_feeds_on_actionable_type_and_actionable_id"
     t.index ["user_id", "actionable_type", "actionable_id"], name: "index_feeds_on_user_id_and_actionable_type_and_actionable_id"
     t.index ["user_id"], name: "index_feeds_on_user_id"
+  end
+
+  create_table "feeds_notifications", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "feed_id"
+    t.bigint "notification_id"
+    t.index ["feed_id"], name: "index_feeds_notifications_on_feed_id"
+    t.index ["notification_id"], name: "index_feeds_notifications_on_notification_id"
   end
 
   create_table "follow_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -582,4 +589,6 @@ ActiveRecord::Schema.define(version: 2019_02_21_095740) do
   add_foreign_key "exchanges_users", "users"
   add_foreign_key "feed_users_feeds", "feed_users"
   add_foreign_key "feed_users_feeds", "feeds"
+  add_foreign_key "feeds_notifications", "feeds"
+  add_foreign_key "feeds_notifications", "notifications"
 end

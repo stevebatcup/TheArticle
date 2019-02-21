@@ -57,6 +57,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			replyingToReply: replyingToReply
 		$commentBox = $(".comment-item[data-comment-id=#{comment.data.id}]")
 		$replyBox = $commentBox.closest('.comments_pane').find('.respond')
+		console.log $replyBox.length
 		$replyBox.find('a.cancel_reply', $replyBox).show()
 		$textarea = $replyBox.find('textarea')
 		$textarea.attr('placeholder', 'Reply to Comment')
@@ -173,7 +174,8 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$replyBox.find('a.cancel_reply', $replyBox).hide()
 		$replyBox.find('textarea').attr('placeholder', 'Add your Comment')
 		$replyBox.data('comment-id', 0).attr('data-comment-id', 0)
-		$replyBox.detach().prependTo('.comments_pane')
+		$commentsPane = $replyBox.closest('.comments_pane')
+		$replyBox.detach().prependTo $commentsPane
 
 	postComment: ($event, post) =>
 		$event.preventDefault()

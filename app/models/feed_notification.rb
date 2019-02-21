@@ -1,0 +1,2 @@
+class FeedNotification < ApplicationRecord
+end

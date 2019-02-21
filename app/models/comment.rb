@@ -35,12 +35,16 @@ class Comment < ActiveRecord::Base
 
   def create_notification
     is_reply = !self.parent.nil?
-    self.notifications.create({
-      user_id: is_reply ? self.parent.user_id : self.commentable.user_id,
-      specific_type: is_reply ? "reply" : "comment",
-      body: is_reply ? "<b>#{self.user.display_name}</b> replied to a comment on your post" : "<b>#{self.user.display_name}</b> commented on your post",
-      feed_id: self.feeds.first.id
+    notification = Notification.find_or_create_by({
+      eventable_type: 'Share',
+      eventable_id: self.commentable.id,
+      specific_type: "comment",
+      user_id: self.commentable.user_id,
+      feed_id: nil
     })
+    notification.feeds << self.feeds.first
+    notification.body = Notification.write_body_for_comment_set(notification)
+    notification.save
   end
 
   def self.show_limit

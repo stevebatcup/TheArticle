@@ -88,7 +88,7 @@ module FeedHelper
 		if comments_count == 1
 			sentence = "#{sentence_opener} commented on a post"
 		else
-			sentence = "#{sentence_opener} and #{pluralize(comments_count - 1, 'other')} commented on a post"
+			sentence = "#{sentence_opener} and <a href='#' class='also_commented'>#{pluralize(comments_count - 1, 'other')}</a> commented on a post"
 		end
 
 		comment_as_json_data(top_item[:comment], sentence)
