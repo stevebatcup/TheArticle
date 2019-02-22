@@ -9,9 +9,9 @@ staging:
   enable_star: 1
   min_infix_len: 1
 production:
+  configuration_file: /var/www/thearticle/rails/shared/config/production.sphinx.conf
   pid_file: /var/www/thearticle/rails/shared/tmp/searchd.pid
   indices_location: /var/www/thearticle/rails/shared/db/sphinx
-  configuration_file: /var/www/thearticle/rails/shared/config/production.sphinx.conf
   binlog_path: /var/www/thearticle/rails/shared/binlog
   enable_star: 1
   min_infix_len: 1
