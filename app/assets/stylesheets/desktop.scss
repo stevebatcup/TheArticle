@@ -1,7 +1,7 @@
 @import "_variables";
 @import "_functions";
 @import "_mixins";
-@import "bootstrap.css";
+@import "bootstrap";
 @import "colours";
 @import "text";
 @import "cookie-notice";
@@ -10,7 +10,7 @@
 @import "vendor/slick-theme";
 @import "vendor/animate";
 @import "croppie";
-@import "angular1-confirm/css/angular-confirm.css";
+@import "angular1-confirm/css/angular-confirm";
 @import "angular-wizard";
 
 @import "desktop/page_transitions";

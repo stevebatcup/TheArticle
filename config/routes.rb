@@ -132,8 +132,8 @@ Rails.application.routes.draw do
     root to: "users#index"
   end
 
-  # PageRouter.load
-	# mount Sidekiq::Web, at: '/sidekiq'
+  PageRouter.load
+	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
     req.path.exclude? 'amazonaws.com'
   }
