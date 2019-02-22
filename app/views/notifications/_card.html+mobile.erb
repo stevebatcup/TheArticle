@@ -5,12 +5,12 @@
 		<i ng-if="item.type!='categorisation'" ng-class="{
 			'fas fa-thumbs-up': item.type=='opiniongroup' && item.specificType=='agree',
 			'fas fa-thumbs-down': item.type=='opiniongroup' && item.specificType=='disagree',
-			'far fa-comment-alt': item.type=='share' && item.specificType=='comment',
+			'far fa-comment-alt': item.type=='share' && (item.specificType=='comment' || item.specificType=='reply'),
 			'fas fa-users': item.type=='followgroup'
 		}"></i>
 
 		<p class="d-flex align-items-center">
-			<span ng-bind-html="item.body"></span>
+			<span ng-bind-html="item.body" data-notification="{{item.id}}"></span>
 		</p>
 	</div>
 

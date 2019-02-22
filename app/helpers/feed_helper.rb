@@ -1,5 +1,5 @@
 module FeedHelper
-	def group_user_opinion_feed_item(item)
+	def group_user_opinion_feed_item(item, for_notification=false)
 		results = {
 			agree: [],
 			disagree: []
@@ -27,71 +27,98 @@ module FeedHelper
 
 		agree_count = results[:agree].length
 		disagree_count = results[:disagree].length
+		ownership = for_notification ? "your" : "a"
 
 		sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
 		if agree_count > 0 && disagree_count > 0
 			if top_item[:type] == :agree
 				if agree_count == 1
-					sentence = "#{sentence_opener} agreed with a post, #{pluralize(disagree_count, 'other')} disagreed"
+					sentence = "#{sentence_opener} agreed with #{ownership} post, #{pluralize(disagree_count, 'other')} disagreed"
 				else
-					sentence = "#{sentence_opener} and #{pluralize(agree_count - 1, 'other')} agreed with a post, #{pluralize(disagree_count, 'other')} disagreed"
+					sentence = "#{sentence_opener} and #{pluralize(agree_count - 1, 'other')} agreed with #{ownership} post, #{pluralize(disagree_count, 'other')} disagreed"
 				end
 			else
 				if disagree_count == 1
-					sentence = "#{sentence_opener} disagreed with a post, #{pluralize(agree_count, 'other')} agreed"
+					sentence = "#{sentence_opener} disagreed with #{ownership} post, #{pluralize(agree_count, 'other')} agreed"
 				else
-					sentence = "#{sentence_opener} and #{pluralize(disagree_count - 1, 'other')} disagreed with a post, #{pluralize(agree_count, 'other')} agreed"
+					sentence = "#{sentence_opener} and #{pluralize(disagree_count - 1, 'other')} disagreed with #{ownership} post, #{pluralize(agree_count, 'other')} agreed"
 				end
 			end
 		elsif agree_count > 0
 			if agree_count == 1
-				sentence = "#{sentence_opener} agreed with a post"
+				sentence = "#{sentence_opener} agreed with #{ownership} post"
 			else
-				sentence = "#{sentence_opener} and #{pluralize(agree_count - 1, 'other')} agreed with a post"
+				sentence = "#{sentence_opener} and #{pluralize(agree_count - 1, 'other')} agreed with #{ownership} post"
 			end
 		elsif disagree_count > 0
 			if disagree_count == 1
-				sentence = "#{sentence_opener} disagreed with a post"
+				sentence = "#{sentence_opener} disagreed with #{ownership} post"
 			else
-				sentence = "#{sentence_opener} and #{pluralize(disagree_count - 1, 'other')} disagreed with a post"
+				sentence = "#{sentence_opener} and #{pluralize(disagree_count - 1, 'other')} disagreed with #{ownership} post"
 			end
 		end
 
-		opinion_as_json_data(top_item[:opinion], sentence)
+		if for_notification
+			sentence
+		else
+			opinion_as_json_data(top_item[:opinion], sentence)
+		end
 	end
 
-	def group_user_comment_feed_item(item)
+	def group_user_comment_feed_item(item, is_reply=false, for_notification=false)
 		results = []
 		top_item = {}
+		user_ids = []
 
 		item.feeds.each do |feed|
-			comment = feed.actionable
-			result = {
-				comment: comment,
-				stamp: feed.created_at.to_i,
-				user: {
-					display_name: feed.user.display_name,
-					username: feed.user.username,
+			if comment = feed.actionable
+				result = {
+					comment: comment,
+					stamp: feed.created_at.to_i,
+					user: {
+						display_name: feed.user.display_name,
+						username: feed.user.username,
+					}
 				}
-			}
-			results << result
 
-			if top_item.empty?
-				top_item = result
-			elsif feed.created_at.to_i > top_item[:stamp]
-				top_item = result
+				unless user_ids.include?(feed.user.id)
+					user_ids << feed.user.id
+					results << result
+
+					if top_item.empty?
+						top_item = result
+					elsif feed.created_at.to_i > top_item[:stamp]
+						top_item = result
+					end
+				end
 			end
 		end
 
 		comments_count = results.length
 		sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		ownership = for_notification ? "your" : "a"
+		poster_name = item.eventable.user.display_name if is_reply
+
 		if comments_count == 1
-			sentence = "#{sentence_opener} commented on a post"
+			if is_reply
+				sentence = "#{sentence_opener} replied to a comment on #{poster_name}'s post"
+			else
+				sentence = "#{sentence_opener} commented on #{ownership} post"
+			end
 		else
-			sentence = "#{sentence_opener} and <a href='#' class='also_commented'>#{pluralize(comments_count - 1, 'other')}</a> commented on a post"
+			others = pluralize(comments_count - 1, 'other')
+			if is_reply
+				sentence = "#{sentence_opener} and <a href='#' class='also_commented others_commented text-green'>#{others}</a> replied to a comment on #{poster_name}'s post"
+			else
+				sentence = "#{sentence_opener} and <a href='#' class='also_commented others_commented text-green'>#{others}</a> commented on #{ownership} post"
+			end
 		end
 
-		comment_as_json_data(top_item[:comment], sentence)
+		if for_notification
+			sentence
+		else
+			comment_as_json_data(top_item[:comment], sentence)
+		end
 	end
 
 	def group_user_subscription_feed_item(item)

@@ -50,6 +50,12 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 		super
 		@bindScrollEvent() if @element.hasClass('notifications_page')
 
+		$(document).on 'click', '.others_commented', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllOthersNotificationCommentedOn(notificationId)
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>
@@ -59,6 +65,15 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 				if (scrollTop + $win.height()) >= (docHeight - 600)
 					@scope.notifications.moreToLoad = false
 					@loadMore()
+
+	showAllOthersNotificationCommentedOn: (id) =>
+		@http.get("/all-notification-comments/#{id}").then (response) =>
+			@scope.allCommenters = response.data
+			tpl = $("#notificationComments").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#notificationCommentsModal").modal()
+
 
 	loadMore: ($event=null) =>
 		$event.preventDefault() if $event
@@ -77,8 +92,11 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			@scope.notifications.loaded = true
 
 	openCommentModal: (notification) =>
+		console.log notification
 		@Comment.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
+			if item.share.showComments is true
+				@showComments(null, item, false)
 			tpl = $("#commentPost").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -117,18 +135,19 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
-		switch notification.type
-			when 'comment'
-				@openCommentModal notification
-			when 'opiniongroup'
-				@openOpinionModal notification
-			when 'followgroup'
-				@openFollowsModal notification
-			when 'categorisation'
-				path = notification.exchange.path
-				window.location.href = path
-		if notification.isSeen is false
-			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
-				notification.isSeen = true
+		unless $event.target.tagName is "A" or $event.target.tagName is "B"
+			switch notification.type
+				when 'share'
+					@openCommentModal notification
+				when 'opiniongroup'
+					@openOpinionModal notification
+				when 'followgroup'
+					@openFollowsModal notification
+				when 'categorisation'
+					path = notification.exchange.path
+					window.location.href = path
+			if notification.isSeen is false
+				@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
+					notification.isSeen = true
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

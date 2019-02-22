@@ -84,6 +84,7 @@ Rails.application.routes.draw do
   get 'notifications',                         to: 'notifications#index', as: :notifications
   put 'notification/:id',                      to: 'notifications#update'
   get 'notification-count',                    to: 'notifications#index', as: :notification_count, count: true
+  get 'all-notification-comments/:id',         to: 'notifications#commenters'
   get 'follow-groups/:id',                     to: 'follow_groups#show', as: :follow_group
 
   post 'concern-reports',                      to: 'concern_reports#create'

@@ -20,7 +20,7 @@ class NotificationsController < ApplicationController
 					per_page = (params[:per_page] || 20).to_i
 					@total_notifications = Notification.last_weeks_for_user(current_user, 4).size if page == 1
 					@notifications = Notification.last_weeks_for_user(current_user, 4)
-																				.order(created_at: :desc)
+																				.order(updated_at: :desc)
 																				.page(page)
 																				.per(per_page)
 					unless params[:panel].present?
@@ -38,5 +38,10 @@ class NotificationsController < ApplicationController
 		@notification = Notification.find(params[:id])
 		@notification.update_attribute(:is_seen, true)
 		render json: { status: :success }
+	end
+
+	def commenters
+		@notification = Notification.find(params[:id])
+		@commenters = @notification.feeds.map(&:user).uniq
 	end
 end

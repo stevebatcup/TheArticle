@@ -5,6 +5,7 @@ class Opinion < ApplicationRecord
 	belongs_to	:share
 	belongs_to	:opinion_group, optional: true
 	after_create	:update_feeds
+	after_create	:create_notification
 	after_destroy	:delete_feed_and_notification
 
 	def update_feeds
@@ -22,9 +23,21 @@ class Opinion < ApplicationRecord
 		end
 	end
 
+	def create_notification
+		notification = Notification.find_or_create_by({
+		  eventable_type: 'Share',
+		  eventable_id: self.share_id,
+		  specific_type: "opinion",
+		  user_id: self.share.user_id,
+		  feed_id: nil
+		})
+		notification.feeds << self.feeds.first
+		notification.body = ApplicationController.helpers.group_user_opinion_feed_item(notification, true)
+		notification.save
+	end
+
 	def delete_feed_and_notification
 		self.feeds.destroy_all
-		self.notifications.destroy_all
 	end
 
 	def self.show_limit

@@ -3,9 +3,9 @@ json.set! :notificationItems do
 	json.array! @notifications do |notification|
 		json.id notification.id
 		json.itemId notification.eventable_id
-		json.stamp notification.created_at.to_i
-		json.happenedAt happened_at(notification.created_at)
-		json.date notification.created_at.strftime("%e %b")
+		json.stamp notification.updated_at.to_i
+		json.happenedAt happened_at(notification.updated_at)
+		json.date notification.updated_at.strftime("%e %b")
 		json.body notification.body
 		json.type notification.eventable_type.downcase
 		json.specificType notification.specific_type

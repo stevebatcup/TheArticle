@@ -1,15 +1,16 @@
 <div class="card inner" ng-class="{'seen': item.isSeen}">
-	<div class="d-flex justify-content-start align-items-start" ng-click="callNotificationAction(item, $event)">
+	<div class="d-flex justify-content-start align-items-start"
+					ng-click="callNotificationAction(item, $event)">
 		<img ng-if="item.type=='categorisation'" ng-src="{{item.exchange.image}}" alt="{{item.exchange.name}}" class="exchange_image" />
 
-		<p>
+		<p class="notification_body d-flex justify-content-start align-items-start pt-2">
 			<i ng-if="item.type!='categorisation'" ng-class="{
-				'fas fa-thumbs-up': item.type=='opiniongroup' && item.specificType=='agree',
-				'fas fa-thumbs-down': item.type=='opiniongroup' && item.specificType=='disagree',
-				'far fa-comment-alt': item.type=='share' && item.specificType=='comment',
+				'fas fa-thumbs-up': item.type=='share' && item.specificType=='opinion',
+				'fas fa-thumbs-down': item.type=='share' && item.specificType=='',
+				'far fa-comment-alt': item.type=='share' && (item.specificType=='comment' || item.specificType=='reply'),
 				'fas fa-users': item.type=='followgroup'
 			}"></i>
-			<span ng-bind-html="item.body"></span>
+			<span ng-bind-html="item.body" data-notification="{{item.id}}"></span>
 		</p>
 	</div>
 

@@ -24,37 +24,4 @@ class Notification < ApplicationRecord
 								.includes(:eventable)
 								.where("created_at > ?", 4.weeks.ago)
 	end
-
-	def self.write_body_for_comment_set(notification)
-		results = []
-		top_item = {}
-
-		notification.feeds.each do |feed|
-			comment = feed.actionable
-			result = {
-				comment: comment,
-				stamp: feed.created_at.to_i,
-				user: {
-					display_name: feed.user.display_name,
-					username: feed.user.username,
-				}
-			}
-			results << result
-
-			if top_item.empty?
-				top_item = result
-			elsif feed.created_at.to_i > top_item[:stamp]
-				top_item = result
-			end
-		end
-
-		comments_count = results.length
-		sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
-		if comments_count == 1
-			"#{sentence_opener} commented on your post"
-		else
-			others = ApplicationController.helpers.pluralize(comments_count - 1, 'other')
-			"#{sentence_opener} and #{others} commented on your post"
-		end
-	end
 end

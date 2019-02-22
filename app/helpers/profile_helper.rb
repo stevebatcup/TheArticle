@@ -11,7 +11,6 @@ module ProfileHelper
 		end
 	end
 
-
 	def suggestions_as_json_data(current_user, suggestions)
 		items = []
 		suggestions.each do |suggestion|

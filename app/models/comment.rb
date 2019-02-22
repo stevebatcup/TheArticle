@@ -34,17 +34,33 @@ class Comment < ActiveRecord::Base
   end
 
   def create_notification
-    is_reply = !self.parent.nil?
-    notification = Notification.find_or_create_by({
-      eventable_type: 'Share',
-      eventable_id: self.commentable.id,
-      specific_type: "comment",
-      user_id: self.commentable.user_id,
-      feed_id: nil
-    })
-    notification.feeds << self.feeds.first
-    notification.body = Notification.write_body_for_comment_set(notification)
-    notification.save
+    unless self.commentable.user_id == self.user_id
+      is_reply = !self.parent.nil?
+
+      notification = Notification.find_or_create_by({
+        eventable_type: 'Share',
+        eventable_id: self.commentable.id,
+        specific_type: "comment",
+        user_id: self.commentable.user_id,
+        feed_id: nil
+      })
+      notification.feeds << self.feeds.first
+      notification.body = ApplicationController.helpers.group_user_comment_feed_item(notification, false, true)
+      notification.save
+
+      if is_reply
+        reply_notification = Notification.find_or_create_by({
+          eventable_type: 'Share',
+          eventable_id: self.commentable.id,
+          specific_type: "reply",
+          user_id: self.parent.user_id,
+          feed_id: nil
+        })
+        reply_notification.feeds << self.feeds.first
+        reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
+        reply_notification.save
+      end
+    end
   end
 
   def self.show_limit

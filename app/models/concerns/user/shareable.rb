@@ -37,36 +37,6 @@ module User::Shareable
     item.nil? ? 0 : Article.format_rating_percentage(item)
   end
 
-  def agree_with_post(share)
-    Opinion.create({
-      user_id: self.id,
-      share_id: share.id,
-      decision: 'agree'
-    })
-    undisagree_with_post(share)
-  end
-
-  def unagree_with_post(share)
-    if opinion = Opinion.find_by(user_id: self.id, share_id: share.id, decision: 'agree')
-      opinion.destroy
-    end
-  end
-
-  def disagree_with_post(share)
-    Opinion.create({
-      user_id: self.id,
-      share_id: share.id,
-      decision: 'disagree'
-    })
-    unagree_with_post(share)
-  end
-
-  def undisagree_with_post(share)
-    if opinion = Opinion.find_by(user_id: self.id, share_id: share.id, decision: 'disagree')
-      opinion.destroy
-    end
-  end
-
   module ClassMethods
   end
 end

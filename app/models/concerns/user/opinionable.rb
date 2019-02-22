@@ -26,6 +26,36 @@ module User::Opinionable
     end
   end
 
+  def agree_with_post(share)
+    undisagree_with_post(share)
+    Opinion.create({
+      user_id: self.id,
+      share_id: share.id,
+      decision: 'agree'
+    })
+  end
+
+  def unagree_with_post(share)
+    if opinion = Opinion.find_by(user_id: self.id, share_id: share.id, decision: 'agree')
+      opinion.destroy
+    end
+  end
+
+  def disagree_with_post(share)
+    unagree_with_post(share)
+    Opinion.create({
+      user_id: self.id,
+      share_id: share.id,
+      decision: 'disagree'
+    })
+  end
+
+  def undisagree_with_post(share)
+    if opinion = Opinion.find_by(user_id: self.id, share_id: share.id, decision: 'disagree')
+      opinion.destroy
+    end
+  end
+
   module ClassMethods
   end
 end
