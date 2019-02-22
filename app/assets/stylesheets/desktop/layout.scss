@@ -369,7 +369,7 @@ footer.main_footer {
 
 /* SVG Overrides */
 html.svg #logo {
-	background-image: url('logo-2-lines.svg') !important;
+	background-image: asset_url('logo-2-lines.svg') !important;
 	background-size: 46%;
 
 	&.short {
@@ -378,21 +378,21 @@ html.svg #logo {
 }
 
 html.svg #copyright {
-	background-image: url('capital-a.svg') !important;
+	background-image: asset_url('capital-a.svg') !important;
 	background-size: 14% !important;
 }
 
 html.svg header#main_header nav li.nav-item #nav_link_mission {
 	background-size: 1em;
-	background-image: url('nav/mission.svg') !important;
+	background-image: asset_url('nav/mission.svg') !important;
 }
 
 html.svg header#main_header nav li.nav-item #nav_link_exchanges {
-	background-image: url('nav/exchanges.svg') !important;
+	background-image: asset_url('nav/exchanges.svg') !important;
 }
 
 html.svg header#main_header nav li.nav-item #nav_link_join {
-	background-image: url('nav/join.svg') !important;
+	background-image: asset_url('nav/join.svg') !important;
 }
 
 

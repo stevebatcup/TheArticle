@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'Gabriela';
-  src: url('gabriela.eot'); /* IE9 Compat Modes */
-  src: url('gabriela.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('gabriela.woff2') format('woff2'), /* Super Modern Browsers */
-       url('gabriela.woff') format('woff'), /* Pretty Modern Browsers */
-       url('gabriela.ttf')  format('truetype'); /* Safari, Android, iOS */
+  src: asset_url('gabriela.eot'); /* IE9 Compat Modes */
+  src: asset_url('gabriela.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       asset_url('gabriela.woff2') format('woff2'), /* Super Modern Browsers */
+       asset_url('gabriela.woff') format('woff'), /* Pretty Modern Browsers */
+       asset_url('gabriela.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
 .gabriela {
@@ -13,7 +13,7 @@
 
 h1.bullet,
 h2.bullet {
-	background-image: url('heading.png');
+	background-image: asset_url('heading.png');
 	background-repeat: no-repeat;
 	padding-left: 1em;
 	background-position: left 0.2em;
@@ -21,7 +21,7 @@ h2.bullet {
 }
 
 h1.double-bullet {
-	background-image: url('heading-bg-large.png');
+	background-image: asset_url('heading-bg-large.png');
 	background-repeat: no-repeat;
 	background-position: left center;
 	padding-left: 95px;
@@ -30,7 +30,7 @@ h1.double-bullet {
 	width: -moz-fit-content;
 
 	a {
-		background-image: url('heading-bg-large-reversed.png');
+		background-image: asset_url('heading-bg-large-reversed.png');
 		background-repeat: no-repeat;
 		background-position: right center;
 		padding-right: 95px;

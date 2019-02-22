@@ -214,7 +214,7 @@ header {
 }
 
 html.svg #logo {
-	background-image: url('logo-2-lines.svg') !important;
+	background-image: asset_url('logo-2-lines.svg') !important;
 	background-size: 50%;
 }
 
@@ -277,7 +277,7 @@ html.svg #logo {
 }
 
 // html.svg #nav_link_join {
-// 	background-image: url('nav/join.svg') !important;
+// 	background-image: asset_url('nav/join.svg') !important;
 // }
 
 @media (max-width: 768px) {
@@ -407,7 +407,7 @@ footer {
 }
 
 // html.svg #copyright {
-// 	background-image: url('capital-a.svg') !important;
+// 	background-image: asset_url('capital-a.svg') !important;
 // 	background-size: 14% !important;
 // }
 
