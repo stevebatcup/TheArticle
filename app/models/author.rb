@@ -19,15 +19,11 @@ class Author < ApplicationRecord
 	end
 
 	def self.sponsor_role
-		Rails.cache.fetch("sponsor_role") do
-			AuthorRole.find_by(slug: 'sponsor')
-		end
+		AuthorRole.find_by(slug: 'sponsor')
 	end
 
 	def self.contributor_role
-		Rails.cache.fetch("contributor_role") do
-			AuthorRole.find_by(slug: 'contributor')
-		end
+		AuthorRole.find_by(slug: 'contributor')
 	end
 
 	def self.contributors_for_spotlight(limit=6)
