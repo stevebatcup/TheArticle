@@ -42,10 +42,10 @@ Rails.application.routes.draw do
   get 'account-settings',                      to: 'account_settings#edit'
   put 'account-settings',                      to: 'account_settings#update'
   put 'update-email',                          to: 'account_settings#update_email'
-  put 'update-password',                          to: 'account_settings#update_password'
+  put 'update-password',                       to: 'account_settings#update_password'
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
-  put 'my-profile/:id',                        to: 'users#update'
+  put 'my-profile',                            to: 'users#update'
 
   get 'user_followings',                       to: 'user_followings#index'
   get 'user_followings/:id',                   to: 'user_followings#index'

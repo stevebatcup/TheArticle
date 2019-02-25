@@ -13,7 +13,7 @@
 					ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
 					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}" ng-cloak>
 		<div class="col-12">
-			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && profile.data.coverPhoto.image.length == 0">
+			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && !profile.data.coverPhoto.image">
 				<i class="fas fa-image"></i>
 			</a>
 		</div>
@@ -32,7 +32,7 @@
 	</section>
 
 	<section class="container d-flex" class="d-flex" id="stats_info" ng-show="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.loaded) && (!profile.loadError) && (mode == 'view')" ng-cloak>
-		<div class="stats p-2 flex-fill">
+		<div class="stats p-2 flex-fill" ng-click="showRatings($event)">
 			<label>Ratings</label>
 			<span>{{ profile.ratings.data.length }}</span>
 		</div>
@@ -96,8 +96,8 @@
 		</p>
 		<p ng-if="!profile.data.location || profile.data.location.length == 0 && profile.isMe">
 			<a href='#' ng-click="editProfile()">
-				<i class="fas fa-map-marker-alt"></i>
-				<span class="pl-3">Add Location</span>
+				<i class="fas fa-map-marker-alt text-green"></i>
+				<span class="pl-3 text-green">Add Location</span>
 			</a>
 		</p>
 
@@ -106,8 +106,8 @@
 		</p>
 		<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
 			<a href='#' ng-click="editProfile()">
-				<i class="far fa-plus-square"></i>
-				<span class="pl-3">Add Bio</span>
+				<i class="fas fa-plus-square text-green"></i>
+				<span class="pl-3 text-green">Add Bio</span>
 			</a>
 		</p>
 	</section>
@@ -339,7 +339,7 @@
 	<!-- Edit profile fields -->
 	<section id="edit_profile_form_box" ng-if="mode == 'edit'" ng-cloak>
 		<div class="cover_photo" class="justify-content-center"
-					ng-style="{'background-image':'url('+profile.data.coverPhoto.image+')'}"
+					ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
 					ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}">
 			<a ng-click="editCoverPhoto()" href='#' class="align-middle">
 				<i class="fas fa-image"></i>
@@ -360,7 +360,7 @@
 			  <div class="form-group">
 			    <%= f.label :display_name %><br />
 		    	<p ng-show="profile.errors.displayName" class="alert alert-danger">{{profile.errors.displayName}}</p>
-			    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.displayName" %>
+			    <%= f.text_field :display_name, autofocus: true, class: "form-control", 'ng-model': "profile.form.data.displayName", 'ng-keyup': 'markFormAsEdited()' %>
 			  </div>
 
 			  <div class="form-group">
@@ -370,20 +370,20 @@
   	        <div class="input-group-prepend">
   	          <div class="input-group-text">@</div>
   	        </div>
-				    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.username" %>
+				    <%= f.text_field :username, autofocus: true, class: "form-control", 'ng-model': "profile.form.data.username", 'ng-keyup': 'markFormAsEdited()' %>
 				  </div>
 				</div>
 
 			  <div class="form-group">
 			    <%= f.label :location %><br />
 		    	<p ng-show="profile.errors.location" class="alert alert-danger">{{profile.errors.location}}</p>
-			    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.data.location" %>
+			    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.form.data.location", 'ng-keyup': 'markFormAsEdited()' %>
 			  </div>
 
 	  	  <div class="form-group">
 	  	    <%= f.label :bio %><br />
 	      	<p ng-show="profile.errors.bio" class="alert alert-danger">{{profile.errors.bio}}</p>
-	  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio", rows: 6, maxlength: bio_max_length %>
+	  	    <%= f.text_area :bio, placeholder: 'Tell us something about yourself.', class: "form-control", 'ng-model': "profile.form.data.bio", rows: 6, maxlength: bio_max_length, 'ng-keyup': 'markFormAsEdited()' %>
 	  	    <p class="hint text-right pr-1">
 	  	    	<small ng-if="!profile.data.bio.length"><%= bio_max_length %> character maximum</small>
 	  	    	<small ng-if="profile.data.bio.length">{{profile.data.bio.length}} / <%= bio_max_length %> characters</small>

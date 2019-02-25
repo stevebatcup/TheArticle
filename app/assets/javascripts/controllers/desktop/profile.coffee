@@ -78,6 +78,13 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				perPage: 10
 				moreToLoad: false
 				totalItems: 0
+			form:
+				edited: false
+				data:
+					displayName: ""
+					username: ""
+					location: ""
+					bio: ""
 			data:
 				id: null
 				displayName: ""
@@ -352,6 +359,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@timeout =>
 				@scope.profile.data = profile
 				@scope.myProfile = profile
+				@scope.profile.form.data =
+					displayName: profile.displayName
+					username: profile.username
+					location: profile.location
+					bio: profile.bio
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
 				@reorderDigest()
@@ -397,25 +409,28 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	saveProfile: ($event) =>
 		$event.preventDefault()
 		@scope.mode = 'view'
-		@validateProfile @updateProfile
+		if @scope.profile.form.edited is true
+			@validateProfile @updateProfile
+		else
+			$('#editProfileFormModal').modal('hide')
 
 	validateProfile: (callback=null) =>
 		@scope.profile.errors.displayName = @scope.profile.errors.username = @scope.profile.errors.main = false
-		if !@scope.profile.data.displayName?
+		if !@scope.profile.form.data.displayName? or @scope.profile.form.data.displayName.length is 0
 			@scope.profile.errors.displayName = "Please choose a Display Name"
-		else if !(/^[a-z][a-z\s]*$/i.test(@scope.profile.data.displayName))
+		else if !(/^[a-z][a-z\s]*$/i.test(@scope.profile.form.data.displayName))
 			@scope.profile.errors.displayName = "Your Display Name can only contain letters and a space"
-		else if !@scope.profile.data.username?
+		else if !@scope.profile.form.data.username?
 			@scope.profile.errors.username = "Please enter a username"
-		else if @scope.profile.data.username.length < 6
+		else if @scope.profile.form.data.username.length < 6
 			@scope.profile.errors.username = "Your Username must be at least 6 characters long"
-		else if !(/^[0-9a-zA-Z_]+$/i.test(@scope.profile.data.username))
+		else if !(/^[0-9a-zA-Z_]+$/i.test(@scope.profile.form.data.username))
 			@scope.profile.errors.username = "Your Username can only contain letters, numbers and an '_'"
 
 		if @scope.profile.errors.displayName or @scope.profile.errors.username
 			return false
 		else
-			if "@#{@scope.profile.data.username}" is @scope.profile.data.originalUsername
+			if "@#{@scope.profile.form.data.username}" is @scope.profile.form.data.originalUsername
 				callback.call(@) if callback?
 			else
 				@http.get("/username-availability?username=@#{@scope.profile.data.username}").then (response) =>
@@ -426,14 +441,15 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						callback.call(@) if callback?
 
 	updateProfile: =>
-		@scope.profile.data.originalUsername = "@#{@scope.profile.data.username}"
-		profile = new @MyProfile @setProfileData(@scope.profile.data)
+		@scope.profile.data.originalUsername = "@#{@scope.profile.form.data.username}"
+		profile = new @MyProfile @setProfileData(@scope.profile.form.data)
 		profile.update().then (response) =>
 			if response.status is 'error'
 				@updateProfileError response.message
 			else
 				@timeout =>
-					$('button[data-dismiss=modal]', '#editProfileFormModal').click()
+					$('#editProfileFormModal').modal('hide')
+					window.location.reload()
 				, 750
 		, (error) =>
 			@updateProfileError error.statusText
@@ -516,5 +532,18 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					@flash "Your profile has been reactivated"
 				else if response.data.status is 'error'
 					@scope.profile.errors.reactivate = response.data.message
+
+	cancelEditProfile: ($event) =>
+		$event.preventDefault()
+		if @scope.profile.form.edited is true
+			@confirm "Are you sure you want to discard these changes?", null, =>
+				@scope.$apply =>
+					$('#editProfileFormModal').modal('hide')
+			, "Are you sure?", ['Discard', 'Continue editing']
+		else
+			$('#editProfileFormModal').modal('hide')
+
+	markFormAsEdited: =>
+		@scope.profile.form.edited = true
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

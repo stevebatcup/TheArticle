@@ -9,7 +9,7 @@
 				  <div class="form-group">
 				    <%= f.label :display_name %><br />
 			    	<p ng-show="profile.errors.displayName" class="alert alert-danger">{{profile.errors.displayName}}</p>
-				    <%= f.text_field :display_name, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.displayName" %>
+				    <%= f.text_field :display_name, autofocus: true, class: "form-control", 'ng-model': "profile.form.data.displayName", 'ng-keyup': 'markFormAsEdited()' %>
 				  </div>
 
 				  <div class="form-group">
@@ -19,18 +19,18 @@
 	  	        <div class="input-group-prepend">
 	  	          <div class="input-group-text">@</div>
 	  	        </div>
-					    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.data.username" %>
+					    <%= f.text_field :username, autofocus: true, class: "form-control", 'ng-model': "profile.form.data.username", 'ng-keyup': 'markFormAsEdited()' %>
 					  </div>
 					</div>
 
 				  <div class="form-group">
 				    <%= f.label :location %><br />
-				    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.data.location" %>
+				    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.form.data.location", 'ng-keyup': 'markFormAsEdited()' %>
 				  </div>
 
 		  	  <div class="form-group">
 		  	    <%= f.label :bio %><br />
-		  	    <%= f.text_area :bio, class: "form-control", 'ng-model': "profile.data.bio", rows: 6, maxlength: bio_max_length %>
+		  	    <%= f.text_area :bio, placeholder: 'Tell us something about yourself.', class: "form-control", 'ng-model': "profile.form.data.bio", rows: 6, maxlength: bio_max_length, 'ng-keyup': 'markFormAsEdited()' %>
 		  	    <p class="hint text-right pr-1">
 		  	    	<small ng-if="!profile.data.bio.length"><%= bio_max_length %> character maximum</small>
 		  	    	<small ng-if="profile.data.bio.length">{{profile.data.bio.length}} / <%= bio_max_length %> characters</small>
@@ -38,7 +38,7 @@
 		  	  </div>
 
 		  	  <div class="buttons d-flex justify-content-between pt-3">
-		  	  	<button data-dismiss="modal" class="btn btn-outline-success">Cancel</button>
+		  	  	<button ng-click="cancelEditProfile($event)" class="btn btn-outline-success">Cancel</button>
 		  	  	<button ng-click="saveProfile($event)" class="btn btn-success">Save</button>
 		  	  </div>
 				<% end %>
