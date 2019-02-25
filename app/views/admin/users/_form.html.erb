@@ -39,6 +39,6 @@ and renders all form fields for a resource's editable attributes.
     </div>
   <% end -%>
 
-  <%= render partial: 'actions', locals: { user: page.resource } %>
+  <%= render partial: 'actions', locals: { user: page.resource, submit: true, f: f } %>
 
 <% end %>

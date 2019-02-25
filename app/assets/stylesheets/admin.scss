@@ -125,3 +125,12 @@ dd.attribute-data--image-field {
     }
 	}
 }
+
+.field-unit--author-select-field {
+	select {
+		background-color: #fff;
+		border: 1px solid #dfe0e1;
+		border-radius: 4px;
+		padding: 0.5em;
+	}
+}

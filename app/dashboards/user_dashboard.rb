@@ -14,6 +14,9 @@ class UserDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     human_created_at: Field::DateTime,
     subscriptions: Field::HasMany,
+    author_id: AuthorSelectField.with_options(
+      choices: Author.contributors.order(:display_name)
+    ),
     exchanges: Field::HasMany,
     followings: Field::HasMany.with_options(class_name: "Follow"),
     fandoms: Field::HasMany.with_options(class_name: "Follow"),
@@ -134,6 +137,7 @@ class UserDashboard < Administrate::BaseDashboard
     :signup_ip_city,
     :signup_ip_region,
     :signup_ip_country,
+    :author_id
   ].freeze
 
   # Overwrite this method to customize how users are displayed

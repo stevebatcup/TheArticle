@@ -1,0 +1,6 @@
+<div class="field-unit__label">
+	<label>Contributor</label>
+</div>
+<div class="field-unit__field">
+  <%= f.collection_select(field.attribute, field.choices, :id, :display_name, include_blank: 'Select the contributor account to link to this member...') %>
+</div>

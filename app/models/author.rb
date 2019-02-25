@@ -3,6 +3,7 @@ class Author < ApplicationRecord
 	has_many	:articles
 	belongs_to	:author_role, foreign_key: :role_id
   mount_uploader :image, AuthorImageUploader
+	has_one	:user
 
 	def is_sponsor?
 		self.author_role == AuthorRole.find_by(slug: 'sponsor')
@@ -173,6 +174,10 @@ class Author < ApplicationRecord
 
 	def post_count
 		3
+	end
+
+	def author_role_id
+		role_id
 	end
 
 end

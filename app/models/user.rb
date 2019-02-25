@@ -51,6 +51,8 @@ class User < ApplicationRecord
   has_many  :exchange_mutes
   has_many  :interaction_mutes
 
+  belongs_to   :author, optional: true
+
   include Suggestable
   include Shareable
   include Followable
