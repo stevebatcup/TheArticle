@@ -51,19 +51,19 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 				@scope.notifications.moreToLoad = false
 				@loadMore()
 
-		$(document).on 'click', '.others_commented', (e) =>
+		$(document).on 'click', '#feed.notifications_page .others_commented', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			notificationId = $span.data('notification')
 			@showAllOthersNotificationCommentedOn(notificationId)
 
-		$(document).on 'click', '.also_opinionated', (e) =>
+		$(document).on 'click', '#feed.notifications_page .also_opinionated', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			notificationId = $span.data('notification')
 			@showAllOthersNotificationOpinionated(notificationId)
 
-		$(document).on 'click', '.other_followers_of_user', (e) =>
+		$(document).on 'click', '#feed.notifications_page .other_followers_of_user', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			notificationId = $span.data('notification')

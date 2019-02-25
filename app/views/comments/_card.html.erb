@@ -8,7 +8,7 @@
 			<div>
 				<h4 class="mb-3">
 					<a href="{{item.commentAction.user.path}}">
-						<span ng-bind-html="item.commentAction.sentence"></span>
+						<span ng-bind-html="item.commentAction.sentence" data-share="{{item.share.id}}"></span>
 						&bullet; <span><time>{{item.commentAction.date}}</time></span>
 					</a>
 				</h4>

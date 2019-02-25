@@ -3,11 +3,12 @@ class Follow < ApplicationRecord
 	belongs_to	:user
 	belongs_to :followed, :class_name => "User"
 	belongs_to	:follow_group, optional: true
-	after_create	:update_feed
+	after_create	:update_feeds
 	after_create	:create_notification
 	after_destroy	:delete_feed_and_regenerate_notification
 
-	def update_feed
+	def update_feeds
+		# feed for this follow (to appear on my followers homepage)
 		feed = self.feeds.build({user_id: self.user_id})
 		self.user.followers.each do |follower|
 			unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'follow', source_id: self.followed_id)
@@ -19,6 +20,46 @@ class Follow < ApplicationRecord
 			end
 			user_feed_item.feeds << feed
 			user_feed_item.save
+		end
+
+		# feeds for opinions/comments made by newly followed user (to appear on the followers homepage)
+		current_user = User.find(self.user_id)
+		interactor = User.find(self.followed_id)
+		build_retrospective_opinion_feed(interactor, current_user)
+		build_retrospective_comment_feed(interactor, current_user)
+	end
+
+	def build_retrospective_opinion_feed(opinionator, current_user)
+		opinionator.feeds.where(actionable_type: 'Opinion').each do |opinion_feed|
+			if opinion_feed.actionable
+				share_id = opinion_feed.actionable.share_id
+				unless user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'opinion', source_id: share_id)
+					user_feed_item = FeedUser.new({
+						user_id: current_user.id,
+						action_type: 'opinion',
+						source_id: share_id
+					})
+				end
+				user_feed_item.feeds << opinion_feed
+				user_feed_item.save
+			end
+		end
+	end
+
+	def build_retrospective_comment_feed(commentor, current_user)
+		commentor.feeds.where(actionable_type: 'Comment').each do |comment_feed|
+			if comment_feed.actionable
+				share_id = comment_feed.actionable.commentable_id
+				unless user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'comment', source_id: share_id)
+					user_feed_item = FeedUser.new({
+						user_id: current_user.id,
+						action_type: 'comment',
+						source_id: share_id
+					})
+				end
+				user_feed_item.feeds << comment_feed
+				user_feed_item.save
+			end
 		end
 	end
 

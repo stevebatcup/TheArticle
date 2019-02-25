@@ -610,6 +610,22 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$('body').append $content
 			$("#myFollowersOfModal").modal()
 
+	showAllShareOpinionators: (share_id) =>
+		@http.get("/opinionators-of-share/#{share_id}").then (response) =>
+			@scope.opinionatorsOfShare = response.data
+			tpl = $("#opinionatorsOfShare").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#opinionatorsOfShareModal").modal()
+
+	showAllShareCommenters: (share_id) =>
+		@http.get("/commenters-of-share/#{share_id}").then (response) =>
+			@scope.commentersOfShare = response.data
+			tpl = $("#commentersOnShare").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#commentersOnShareModal").modal()
+
 	interactionMute: ($event, share) =>
 		$event.preventDefault()
 		@http.post("/interaction-mute", {share_id: share.id}).then (response) =>

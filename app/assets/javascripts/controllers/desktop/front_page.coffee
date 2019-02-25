@@ -72,6 +72,18 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			exchangeId = $span.data('exchange')
 			@showAllMyFollowersOfExchange(exchangeId)
 
+		$(document).on 'click', '.also_opinionated', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			shareId = $span.data('share')
+			@showAllShareOpinionators(shareId)
+
+		$(document).on 'click', '.also_commented', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			shareId = $span.data('share')
+			@showAllShareCommenters(shareId)
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>

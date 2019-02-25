@@ -18,4 +18,44 @@ class UserSharesController < ApplicationController
 			end
 		end
 	end
+
+	def opinionators
+		@opinionators = []
+		if user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'opinion', source_id: params[:share_id])
+			user_feed_item.feeds.each do |feed|
+				if opinion = feed.actionable
+					opinionator = feed.user
+					@opinionators <<  {
+						displayName: opinionator.display_name,
+						username: opinionator.username,
+						image: opinionator.profile_photo.url(:square),
+						decision: opinion.decision.capitalize
+					}
+				end
+			end
+			render json: { opinionators: @opinionators }
+		end
+	end
+
+	def commenters
+		@commenters = []
+		user_ids = []
+		if user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'comment', source_id: params[:share_id])
+			user_feed_item.feeds.each do |feed|
+				if comment = feed.actionable
+					commenter = feed.user
+					unless user_ids.include?(commenter.id)
+						@commenters <<  {
+							displayName: commenter.display_name,
+							username: commenter.username,
+							image: commenter.profile_photo.url(:square),
+						}
+						user_ids << commenter.id
+					end
+				end
+			end
+			render json: { commenters: @commenters }
+		end
+	end
+
 end

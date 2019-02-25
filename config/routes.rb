@@ -83,6 +83,8 @@ Rails.application.routes.draw do
   post 'opinions',                             to: 'opinions#create'
   get 'user_opinions',                         to: 'user_opinions#index'
   get 'user_opinions/:id',                     to: 'user_opinions#index'
+  get 'opinionators-of-share/:share_id',       to: 'user_shares#opinionators'
+  get 'commenters-of-share/:share_id',         to: 'user_shares#commenters'
 
   get 'notifications',                         to: 'notifications#index', as: :notifications
   put 'notification/:id',                      to: 'notifications#update'

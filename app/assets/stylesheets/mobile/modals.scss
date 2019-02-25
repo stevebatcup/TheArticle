@@ -1,4 +1,8 @@
 .modal {
+	.modal-header {
+		background: $grey_light;
+	}
+
 	&.mobile_full {
 		top: 0;
 		left: 0;
@@ -8,12 +12,16 @@
 		width: 100vw;
 
 		.modal-dialog {
-			margin: 0;
-			height: 100%;
+			// margin: 0;
+			// height: 100%;
 
 			.modal-content {
 				border-radius: 0;
 				height: 100%;
+
+				.modal-body {
+					background: #fff;
+				}
 			}
 		}
 	}

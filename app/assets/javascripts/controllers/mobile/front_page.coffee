@@ -76,17 +76,29 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				@scope.feeds.moreToLoad = false
 				@loadMore()
 
-		$(document).on 'click', '.other_followers_of_user', (e) =>
+		$(document).on 'click', '#feed.front_page_page .other_followers_of_user', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			followedId = $span.data('followed')
 			@showAllMyFollowersOfUser(followedId)
 
-		$(document).on 'click', '.other_followers_of_exchange', (e) =>
+		$(document).on 'click', '#feed.front_page_page .other_followers_of_exchange', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			exchangeId = $span.data('exchange')
 			@showAllMyFollowersOfExchange(exchangeId)
+
+		$(document).on 'click', '#feed.front_page_page .also_opinionated', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			shareId = $span.data('share')
+			@showAllShareOpinionators(shareId)
+
+		$(document).on 'click', '#feed.front_page_page .also_commented', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			shareId = $span.data('share')
+			@showAllShareCommenters(shareId)
 
 	loadMore: =>
 		console.log 'loading more feeds'

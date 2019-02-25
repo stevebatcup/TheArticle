@@ -1,5 +1,9 @@
 .modal {
 	.modal-header {
+		background: $grey_light;
+	}
+
+	.modal-header {
 		button.close_modal,
 		button.close_share_modal {
 			position: relative;
