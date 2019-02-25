@@ -16,11 +16,11 @@ module OpinionHelper
 			iAgreeWithPost: user_signed_in? ? share.agrees.map(&:user_id).include?(current_user.id) : false,
 			iDisagreeWithPost: user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false,
 			ratings: {
-				wellWritten: share.rating_well_written,
+				wellWritten: convert_rating_to_dots(share.rating_well_written),
 				wellWrittenText: text_rating(:well_written, share.rating_well_written.to_s),
-				validPoints: share.rating_valid_points,
+				validPoints: convert_rating_to_dots(share.rating_valid_points),
 				validPointsText: text_rating(:valid_points, share.rating_valid_points.to_s),
-				agree: share.rating_agree,
+				agree: convert_rating_to_dots(share.rating_agree),
 				agreeText: text_rating(:agree, share.rating_agree.to_s),
 			},
 			user: {
