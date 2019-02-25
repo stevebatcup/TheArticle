@@ -21,6 +21,13 @@
 
 						<a href="<%= article_author_url(@article); %>">by <span>
 						<%= @article.author.display_name %></span></a>
+						<% if @article.author.user.present? %>
+							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
+							 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">
+									<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
+									<span><%= @article.author.user.username %></span>
+								</a>
+						<% end %>
 						<% if @article.author.twitter_handle %>
 							<span class="ml-1  ml-xl-3 mr-0">|</span>
 							 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
@@ -30,35 +37,37 @@
 						<% end %>
 
 						<span class="mx-1  mx-xl-3">|</span>
-						<span class="entry-date"><%= @article.author.twitter_handle %></span>
+						<span class="entry-date"><%= article_date(@article) %></span>
 					</div>
 				</div>
 
 				<div class="mt-0 mb-3 d-flex share_links">
-					<%= render 'common/share-buttons' %>
+					<%= render partial: 'common/share-buttons', locals: { article: @article } %>
 				</div>
 
+				<% unless @article.is_sponsored? %>
 				<div class="member_ratings pt-2 pb-2 px-3 mb-2">
 					<h5>Member ratings</h5>
-					<% if @article.ratings %>
+					<% if @article.has_ratings? %>
 					<ul class="">
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Well written: </span>
-							<span class="col-2 rating"><%= @article.ratings[:well_written] %></span>
+							<span class="col-2 rating"><%=  @article.ratings_well_written_cache %>%</span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Interesting points: </span>
-							<span class="col-2 rating"><%= @article.ratings[:valid_points] %></span>
+							<span class="col-2 rating"><%= @article.ratings_valid_points_cache %>%</span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Agree with arguments: </span>
-							<span class="col-2 rating"><%= @article.ratings[:agree] %></span>
+							<span class="col-2 rating"><%= @article.ratings_agree_cache %>%</span>
 						</li>
 					</ul>
 					<% else %>
 					<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 					<% end %>
 				</div>
+				<% end %>
 			</header>
 
 			<div class="row">
@@ -80,35 +89,36 @@
 						<% end %>
 					</div>
 
+					<% unless @article.is_sponsored? %>
 					<div class="member_ratings bars pt-3 pb-2 px-3">
 						<h5>Member ratings</h5>
-						<% if @article.ratings %>
+						<% if @article.has_ratings? %>
 						<ul class="bars">
 							<li class="mb-2">
 								<label>Well written: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings[:well_written] %>;"></span>
+										<span class="inner" style="width: <%=  @article.ratings_well_written_cache %>;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings[:well_written] %></span>
+									<span class="clear-rating ml-3"><%=  @article.ratings_well_written_cache %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Interesting points: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings[:valid_points] %>;"></span>
+										<span class="inner" style="width: <%= @article.ratings_valid_points_cache %>;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings[:valid_points] %></span>
+									<span class="clear-rating ml-3"><%= @article.ratings_valid_points_cache %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Agree with arguments: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings[:agree] %>;"></span>
+										<span class="inner" style="width: <%= @article.ratings_agree_cache %>;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings[:agree] %></span>
+									<span class="clear-rating ml-3"><%= @article.ratings_agree_cache %></span>
 								</span>
 							</li>
 						</ul>
@@ -126,14 +136,14 @@
 										<div class="justify-content-start d-flex align-items-start">
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = @article_share['rating_well_written'] >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(@article_share['rating_well_written']) >= i ? 'filled' : 'empty' %>
 													<span class="dot">
 														<span class="<%= dot_class %>"></span>
 													</span>
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:well_written, @article_share['rating_well_written'].to_s) %>
+												<%= text_rating(:well_written, convert_rating_to_dots(@article_share['rating_well_written']).to_s) %>
 											</h6>
 										</div>
 									</li>
@@ -142,14 +152,14 @@
 										<div class="justify-content-start d-flex align-items-start">
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = @article_share['rating_valid_points'] >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(@article_share['rating_valid_points']) >= i ? 'filled' : 'empty' %>
 													<span class="dot">
 														<span class="<%= dot_class %>"></span>
 													</span>
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:valid_points, @article_share['rating_valid_points'].to_s) %>
+												<%= text_rating(:valid_points, convert_rating_to_dots(@article_share['rating_valid_points']).to_s) %>
 											</h6>
 										</div>
 									</li>
@@ -158,14 +168,14 @@
 										<div class="justify-content-start d-flex align-items-start">
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = @article_share['rating_agree'] >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(@article_share['rating_agree']) >= i ? 'filled' : 'empty' %>
 													<span class="dot">
 														<span class="<%= dot_class %>"></span>
 													</span>
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:agree, @article_share['rating_agree'].to_s) %>
+												<%= text_rating(:agree, convert_rating_to_dots(@article_share['rating_agree']).to_s) %>
 											</h6>
 										</div>
 									</li>
@@ -173,6 +183,7 @@
 							</div>
 						<% end %>
 					</div>
+					<% end %>
 
 					<footer class="container px-4 mt-3 mb-4">
 						<div class="w-100" id="twitter_follow_col">
@@ -189,7 +200,7 @@
 							<% end %>
 						</div>
 						<div class="mt-3 d-flex share_links">
-							<%= render 'common/share-buttons' %>
+							<%= render partial: 'common/share-buttons', locals: { article: @article } %>
 						</div>
 					</footer><!-- .entry-footer -->
 

@@ -4,9 +4,9 @@
           ng-controller="SharingPanelController"
           data-article-id="<%= article.id %>"
           data-share-comments="<%= article_share['comments'] %>"
-          data-share-well_written="<%= article_share['rating_well_written'] %>"
-          data-share-valid_points="<%= article_share['rating_valid_points'] %>"
-          data-share-agree="<%= article_share['rating_agree'] %>"
+          data-share-well_written="<%= convert_rating_to_dots(article_share['rating_well_written']) %>"
+          data-share-valid_points="<%= convert_rating_to_dots(article_share['rating_valid_points']) %>"
+          data-share-agree="<%= convert_rating_to_dots(article_share['rating_agree']) %>"
           data-rating-text-labels="<%= rating_labels.to_json %>">
 
     	<div class="modal-header d-flex justify-content-between bg-grey">

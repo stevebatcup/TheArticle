@@ -1,6 +1,16 @@
 .article_detail {
 	margin-top: 20px;
 
+	#article_meta {
+		.article_author_user {
+			img {
+				width: 14px;
+				margin-left: 9px;
+				margin-right: 3px;
+			}
+		}
+	}
+
 	#twitter_follow_col {
 		margin-bottom: 15px;
 	}

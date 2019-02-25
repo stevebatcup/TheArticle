@@ -54,4 +54,21 @@ module ArticleHelper
 			}
 		}
 	end
+
+	def convert_rating_to_dots(rating)
+		case rating.to_i
+		when 0
+			1
+		when 25
+			2
+		when 50
+			3
+		when 75
+			4
+		when 100
+			5
+		else
+			0
+		end
+	end
 end

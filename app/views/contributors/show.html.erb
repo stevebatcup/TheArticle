@@ -26,6 +26,15 @@
 						</a></h6>
 					<% end %>
 
+					<% if @contributor.user.present? %>
+						<h6 class="pt-md-2 pb-md-2">
+							<a href="<%= profile_path(slug: @contributor.user.slug) %>" class="text-white article_account">
+								<img src="<%= asset_url('capital-a-bg.png') %>" alt="The Article" />
+								<span><%= @contributor.user.username %></span>
+							</a>
+						</h6>
+					<% end %>
+
 					<% if @contributor.twitter_handle.present? %>
 						<h6><a href="https://twitter.com/<%= @contributor.twitter_handle %>" target="_blank" class="text-white twitter_handle">
 							<i class="fab fa-twitter text-colour-2-light"></i>

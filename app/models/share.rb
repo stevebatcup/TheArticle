@@ -8,10 +8,34 @@ class Share < ApplicationRecord
 	belongs_to	:user
 	belongs_to	:article
 	before_create	:update_feed
+	before_save :percentagise_ratings
+	after_create	:recalculate_article_ratings
 	after_destroy	:delete_associated_data
 
 	def update_feed
 		self.feeds.build({user_id: self.user_id})
+	end
+
+	def percentagise_ratings
+		[:well_written, :valid_points, :agree].each do |rating_cat|
+			current = self.send("rating_#{rating_cat}")
+			case current
+			when 1, 0
+				self["rating_#{rating_cat}"] = 0
+			when 2
+				self["rating_#{rating_cat}"] = 25
+			when 3
+				self["rating_#{rating_cat}"] = 50
+			when 4
+				self["rating_#{rating_cat}"] = 75
+			when 5
+				self["rating_#{rating_cat}"] = 100
+			end
+		end
+	end
+
+	def recalculate_article_ratings
+		self.article.recalculate_ratings_caches
 	end
 
 	def delete_associated_data

@@ -87,5 +87,21 @@ module ThirdPartyArticleService
 				rating_agree: rating_agree
 			})
 		end
+
+		def approve_quarantined_share(quarantined_share)
+			article = create_article({
+				title: quarantined_share.heading,
+				snippet: quarantined_share.snippet,
+				url: quarantined_share.url,
+				image: quarantined_share.image
+			})
+			create_share(article.id,
+				User.find(quarantined_share.user_id),
+				quarantined_share.post,
+				quarantined_share.rating_well_written,
+				quarantined_share.rating_valid_points,
+				quarantined_share.rating_agree
+			)
+		end
 	end
 end

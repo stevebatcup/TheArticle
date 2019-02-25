@@ -16,6 +16,7 @@ module Admin
           share = QuarantinedThirdPartyShare.find(params[:id])
           if share.update_attribute(:status, :approved)
             ThirdPartyArticleService.add_domain_from_url(share.url)
+            ThirdPartyArticleService.approve_quarantined_share(share)
             @status = :success
           else
             @status = :error

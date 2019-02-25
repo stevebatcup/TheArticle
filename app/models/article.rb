@@ -12,13 +12,26 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
+	def recalculate_ratings_caches
+		self.ratings_well_written_cache = ratings[:well_written]
+		self.ratings_valid_points_cache = ratings[:valid_points]
+		self.ratings_agree_cache = ratings[:agree]
+		self.save
+	end
+
+	def has_ratings?
+		(self.ratings_well_written_cache > 0) ||
+			(self.ratings_valid_points_cache > 0) ||
+			(self.ratings_agree_cache > 0)
+	end
+
 	def ratings
 		@ratings ||= begin
 			if self.shares.where(share_type: 'rating').any?
 				{
-					well_written: self.class.format_rating_percentage(self.shares.average(:rating_well_written)),
-					valid_points: self.class.format_rating_percentage(self.shares.average(:rating_valid_points)),
-					agree: self.class.format_rating_percentage(self.shares.average(:rating_agree))
+					well_written: self.shares.average(:rating_well_written).to_i,
+					valid_points: self.shares.average(:rating_valid_points).to_i,
+					agree: self.shares.average(:rating_agree).to_i
 				}
 			else
 				nil
@@ -26,9 +39,6 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.format_rating_percentage(amount)
-		(BigDecimal(amount * 20).to_i).to_s + "%"
-	end
 
 	def exchange_names
 		exchanges.collect(&:name).join(" ")

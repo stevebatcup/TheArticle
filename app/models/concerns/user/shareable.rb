@@ -12,9 +12,9 @@ module User::Shareable
   end
 
   def existing_article_rating(article)
-    rating = self.shares.where(article_id: article.id).where(share_type: 'rating')
-    if rating.any?
-      rating.first
+    rating_share = self.shares.where(article_id: article.id).where(share_type: 'rating').first
+    if rating_share.present?
+      rating_share
     else
       nil
     end
@@ -27,14 +27,10 @@ module User::Shareable
   def ratings_summary
     @ratings_summary ||= {
       article_count: self.ratings.size,
-      well_written: summarise_rating_item(self.ratings.average(:rating_well_written)),
-      valid_points: summarise_rating_item(self.ratings.average(:rating_valid_points)),
-      agree: summarise_rating_item(self.ratings.average(:rating_agree))
+      well_written: "#{self.ratings.average(:rating_well_written).to_i}%",
+      valid_points: "#{self.ratings.average(:rating_valid_points).to_i}%",
+      agree: "#{self.ratings.average(:rating_agree).to_i}%"
     }
-  end
-
-  def summarise_rating_item(item)
-    item.nil? ? 0 : Article.format_rating_percentage(item)
   end
 
   module ClassMethods

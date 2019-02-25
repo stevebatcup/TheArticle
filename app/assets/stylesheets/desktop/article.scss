@@ -1,4 +1,14 @@
 .article_detail {
+	#article_meta {
+		.article_author_user {
+			img {
+				width: 14px;
+				margin-left: 9px;
+				margin-right: 3px;
+			}
+		}
+	}
+
 	#content_box {
 		& > p {
 			line-height: 1.5em;

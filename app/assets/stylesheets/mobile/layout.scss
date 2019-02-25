@@ -716,6 +716,20 @@ form#filter_list_form {
 	}
 }
 
+.article_account {
+	font-size: 0.7em;
+
+	img {
+		width: 17px !important;
+		margin-right: 5px;
+	}
+
+	span {
+		position: relative;
+		top: 2px;
+	}
+}
+
 .twitter_handle,
 .facebook_url,
 .instagram_username,
