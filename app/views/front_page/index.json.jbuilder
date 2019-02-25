@@ -9,7 +9,7 @@ items = []
 			items << group_user_comment_feed_item(user_feed_item)
 		elsif (user_feed_item.action_type == 'follow') && (user_feed_item.feeds.length > 1)
 			unless @my_followings_ids.include?(user_feed_item.source_id) || @my_muted_follow_ids.include?(user_feed_item.source_id)
-				items << group_user_follow_feed_item(user_feed_item)
+				items << group_user_follow_feed_item(user_feed_item, current_user)
 			end
 		elsif user_feed_item.action_type == 'subscription'
 			unless @my_exchange_ids.include?(user_feed_item.source_id) || @my_muted_exchange_ids.include?(user_feed_item.source_id)

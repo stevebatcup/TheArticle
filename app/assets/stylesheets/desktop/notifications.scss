@@ -4,12 +4,13 @@
 
 		.inner {
 			padding: 7px 21px 8px;
-			margin: 4px 8px;
+			margin: -1px 0;
 			border-radius: 2px;
 			position: relative;
+			background: darken($grey_light, 5%);
 
 			&.seen {
-				background: $grey_light;
+				background: #fff;
 			}
 
 			.happened_at {
@@ -21,20 +22,29 @@
 			}
 
 			.exchange_image {
-				width: 45px;
-				height: 45px;
-				margin-right: 12px;
+				width: 60px;
+				height: 60px;
+				margin-right: 15px;
 			}
 
 			p {
 				margin: 0em 0 0.5em;
 				line-height: 1.6em;
+				max-width: 90%;
+
+				a {
+					color: #555;
+
+					&.text-green {
+						color: $green;
+					}
+				}
 
 				svg {
 					font-size: 32px;
 					margin-right: 15px;
 					position: relative;
-					top: 9px;
+					// top: 9px;
 				}
 			}
 		}

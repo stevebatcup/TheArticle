@@ -6,7 +6,7 @@
   <main id="panel_for_side_menu">
     <div id="content">
       <header id="main_header" ng-controller="HeaderBarController" ng-cloak>
-        <div class="container bg-grey">
+        <div class="container">
 
           <!-- Non tabbed app page header -->
           <div class="app_page_heading py-1" ng-show="appPage">
@@ -47,10 +47,7 @@
               </a>
             </div>
 
-            <div class="col-3 align-items-center" ng-if="notifications">
-              <a class="text-black" ng-click="openAccountSettings('notifications')" href='#' id="notification_settings_btn">
-                <i class="fas fa-cogs" aria-hidden="true"></i>
-              </a>
+            <div class="col-3 align-items-center">
             </div>
 
           </div>
@@ -172,6 +169,18 @@
 
 <script id="confirmNonWhiteListed" type="script/x-mustache">
   <%= render partial: 'third_party_articles/confirm_non_whitelisted_modal' %>
+</script>
+
+<script id="notificationComments" type="script/x-mustache">
+  <%= render partial: 'notifications/all_comments_modal' %>
+</script>
+
+<script id="notificationOpinions" type="script/x-mustache">
+  <%= render partial: 'notifications/all_opinions_modal' %>
+</script>
+
+<script id="notificationFollowers" type="script/x-mustache">
+  <%= render partial: 'notifications/all_followers_modal' %>
 </script>
 
 <%= render 'layouts/foot' %>

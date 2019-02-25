@@ -27,14 +27,14 @@ every	5.minutes do
 	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake ts:index >> /var/www/thearticle/rails/shared/log/thinking_sphinx.log 2>&1"
 end
 
-every	6.hours do
-	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake notifications:group_follows >> /var/www/thearticle/rails/shared/log/notification_grouping.log 2>&1"
-end
+# every	6.hours do
+# 	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake notifications:group_follows >> /var/www/thearticle/rails/shared/log/notification_grouping.log 2>&1"
+# end
 
-every	1.hour do
-	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake notifications:group_agrees >> /var/www/thearticle/rails/shared/log/notification_grouping.log 2>&1"
-end
+# every	1.hour do
+# 	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake notifications:group_agrees >> /var/www/thearticle/rails/shared/log/notification_grouping.log 2>&1"
+# end
 
-every	1.hour do
-	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake notifications:group_disagrees >> /var/www/thearticle/rails/shared/log/notification_grouping.log 2>&1"
-end
+# every	1.hour do
+# 	command "cd #{Dir.pwd} && RAILS_ENV=#{@environment} bundle exec rake notifications:group_disagrees >> /var/www/thearticle/rails/shared/log/notification_grouping.log 2>&1"
+# end

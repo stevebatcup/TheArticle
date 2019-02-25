@@ -38,24 +38,26 @@ class Comment < ActiveRecord::Base
       is_reply = !self.parent.nil?
 
       notification = Notification.find_or_create_by({
-        eventable_type: 'Share',
-        eventable_id: self.commentable.id,
+        eventable_type: 'Comment',
         specific_type: "comment",
+        share_id: self.commentable.id,
         user_id: self.commentable.user_id,
         feed_id: nil
       })
+      notification.eventable_id = self.id
       notification.feeds << self.feeds.first
       notification.body = ApplicationController.helpers.group_user_comment_feed_item(notification, false, true)
       notification.save
 
       if is_reply
         reply_notification = Notification.find_or_create_by({
-          eventable_type: 'Share',
-          eventable_id: self.commentable.id,
+          eventable_type: 'Comment',
           specific_type: "reply",
+          share_id: self.commentable.id,
           user_id: self.parent.user_id,
           feed_id: nil
         })
+        reply_notification.eventable_id = self.id
         reply_notification.feeds << self.feeds.first
         reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
         reply_notification.save

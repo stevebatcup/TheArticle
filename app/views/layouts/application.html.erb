@@ -42,32 +42,12 @@
             </li>
 
             <li class="nav-item dropdown pr-3">
-              <a class="nav-link nav-icon py-2 pr-1 text-black pl-md-5" href="#" id="nav_link_notifications" data-toggle="dropdown">
+              <a class="nav-link nav-icon py-2 pr-1 text-black pl-md-5" href="/notifications" id="nav_link_notifications">
                 <i class="fas fa-bell"></i>
                 <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
                   {{notificationBadgeCount}}
                 </span>
               </a>
-               <div class="dropdown-menu dropdown-menu-right bg-light" id="notifications_menu">
-                  <h6 class="dropdown-header">Notifications</h6>
-                  <div ng-repeat="item in notifications.data" class="dropdown-item notification border-bottom d-flex justify-content-start align-items-start bg-white">
-                    <i ng-class="{
-                      'fas fa-thumbs-up': item.type=='opinion' && item.specificType=='agree',
-                      'fas fa-thumbs-down': item.type=='opinion' && item.specificType=='disagree',
-                      'far fa-comment-alt': item.type=='comment',
-                      'fas fa-users': item.type=='follow'
-                    }"></i>
-                    <div class="inner">
-                      <p class="notification-item-detail">
-                        <span ng-bind-html="item.body"></span><br />
-                        <time class="notification-item-time happened_at"><b>{{item.happenedAt}}</b></time>
-                      </p>
-                    </div>
-                </div>
-                 <p class="dropdown-see-all text-center pt-2 my-0">
-                  <a href="/notifications"><small>See all notifications</small></a>
-                 </p>
-              </div>
             </li>
 
             <li class="nav-item dropdown" >

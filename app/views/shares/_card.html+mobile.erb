@@ -28,7 +28,12 @@
 					<a href='#' data-toggle="dropdown">
 						<i class="fas fa-chevron-circle-down"></i>
 					</a>
+
 				  <div class="dropdown-menu dropdown-menu-right">
+				  	<a class="dropdown-item" href="#" ng-click="interactionMute($event, item.share)"
+				  	      ng-if="!item.share.isInteractionMuted">Turn off notifications</a>
+				  	<a class="dropdown-item" href="#" ng-click="interactionUnmute($event, item.share)"
+				  	      ng-if="item.share.isInteractionMuted">Turn on notifications</a>
 			      <a class="dropdown-item" href="#" ng-click="deleteMyPost($event, item.share)">Delete post</a>
 				  </div>
 				</nav>

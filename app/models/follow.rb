@@ -4,7 +4,8 @@ class Follow < ApplicationRecord
 	belongs_to :followed, :class_name => "User"
 	belongs_to	:follow_group, optional: true
 	after_create	:update_feed
-	after_destroy	:delete_feed
+	after_create	:create_notification
+	after_destroy	:delete_feed_and_regenerate_notification
 
 	def update_feed
 		feed = self.feeds.build({user_id: self.user_id})
@@ -21,8 +22,37 @@ class Follow < ApplicationRecord
 		end
 	end
 
-	def delete_feed
+	def create_notification
+		notification = Notification.where(eventable_type: 'Follow')
+										.where(user_id: self.followed_id)
+										.where("DATE(created_at) = CURDATE()")
+										.first()
+		if notification.nil?
+			notification = Notification.new({
+				eventable_type: 'Follow',
+				user_id: self.followed_id,
+				created_at: Time.now
+			})
+		end
+		notification.eventable_id = self.id
+		notification.feeds << self.feeds.first
+		notification.body = ApplicationController.helpers.group_user_follow_feed_item(notification, self.user, true)
+		notification.save
+	end
+
+	def delete_feed_and_regenerate_notification
 		self.feeds.destroy_all
+		if notification = Notification.where(eventable_type: 'Follow')
+										.where(user_id: self.followed_id)
+										.where("DATE(created_at) = CURDATE()")
+										.first()
+			if notification.feeds.any?
+				new_body = ApplicationController.helpers.group_user_follow_feed_item(notification, self.user, true)
+				notification.update_attribute(:body, new_body)
+			else
+				notification.destroy
+			end
+		end
 	end
 
 	def self.users_are_connected(current_user, other_user)

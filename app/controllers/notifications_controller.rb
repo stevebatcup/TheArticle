@@ -36,6 +36,7 @@ class NotificationsController < ApplicationController
 
 	def update
 		@notification = Notification.find(params[:id])
+		Notification.record_timestamps = false
 		@notification.update_attribute(:is_seen, true)
 		render json: { status: :success }
 	end
@@ -43,5 +44,15 @@ class NotificationsController < ApplicationController
 	def commenters
 		@notification = Notification.find(params[:id])
 		@commenters = @notification.feeds.map(&:user).uniq
+	end
+
+	def opinionators
+		@notification = Notification.find(params[:id])
+		@opinionators = @notification.feeds.map(&:user).uniq
+	end
+
+	def followers
+		@notification = Notification.find(params[:id])
+		@followers = @notification.feeds.map(&:user).uniq
 	end
 end

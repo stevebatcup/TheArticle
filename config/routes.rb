@@ -19,6 +19,9 @@ Rails.application.routes.draw do
   get 'my-followers-of-exchange/:id',          to: 'user_exchanges#my_followers_of'
   get 'mute-exchange/:id',                     to: 'user_exchanges#mute'
 
+  post 'interaction-mute',                     to: 'interaction_mutes#create'
+  delete 'interaction-mute/:share_id',         to: 'interaction_mutes#destroy'
+
   get 'contributors',                          to: 'contributors#index'
   get 'contributor/:slug',                     to: 'contributors#show', as: :contributor
   get 'sponsors',                              to: 'sponsors#index'
@@ -85,6 +88,8 @@ Rails.application.routes.draw do
   put 'notification/:id',                      to: 'notifications#update'
   get 'notification-count',                    to: 'notifications#index', as: :notification_count, count: true
   get 'all-notification-comments/:id',         to: 'notifications#commenters'
+  get 'all-notification-opinions/:id',         to: 'notifications#opinionators'
+  get 'all-notification-followers/:id',        to: 'notifications#followers'
   get 'follow-groups/:id',                     to: 'follow_groups#show', as: :follow_group
 
   post 'concern-reports',                      to: 'concern_reports#create'

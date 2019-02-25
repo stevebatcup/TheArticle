@@ -8,13 +8,14 @@
 
 		.inner {
 			height: 100%;
-			padding: 10px 21px 8px;
-			margin: 1px 8px;
-			border-radius: 2px;
+			padding: 8px 8px 10px;
+			margin: -1px 0;
 			position: relative;
+			background: darken($grey_light, 5%);
+			// border-radius: 2px;
 
 			&.seen {
-				background: $grey_light;
+				background: #fff;
 			}
 
 			.happened_at {
@@ -26,21 +27,31 @@
 			}
 
 			.exchange_image {
-				width: 45px;
-				height: 45px;
-				margin-right: 12px;
+				width: 60px;
+				height: 60px;
+				margin: 2px 15px 2px 0;
 			}
 
 			p {
-				margin: 0em 0 0.5em;
+				margin: 0em 0 1em;
 				line-height: 1.4em;
+				max-width: 90%;
+				font-size: 0.9em;
+
+				a {
+					color: #555;
+
+					&.text-green {
+						color: $green;
+					}
+				}
 			}
 
 			svg {
 				font-size: 28px;
 				margin-right: 14px;
 				position: relative;
-				top: 13px;
+				// top: 13px;
 			}
 		}
 

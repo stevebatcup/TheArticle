@@ -24,16 +24,21 @@ class Opinion < ApplicationRecord
 	end
 
 	def create_notification
-		notification = Notification.find_or_create_by({
-		  eventable_type: 'Share',
-		  eventable_id: self.share_id,
-		  specific_type: "opinion",
-		  user_id: self.share.user_id,
-		  feed_id: nil
-		})
-		notification.feeds << self.feeds.first
-		notification.body = ApplicationController.helpers.group_user_opinion_feed_item(notification, true)
-		notification.save
+		sharer = User.find(self.share.user_id)
+		sharer_interaction_mute_share_ids = sharer.interaction_mutes.map(&:share_id) # maybe the sharer does not want to hear about this?
+		unless sharer_interaction_mute_share_ids.include?(self.share_id)
+			notification = Notification.find_or_create_by({
+			  eventable_type: 'Opinion',
+			  share_id: self.share_id,
+			  user_id: self.share.user_id,
+			  feed_id: nil
+			})
+			notification.specific_type = self.decision
+			notification.eventable_id = self.id
+			notification.feeds << self.feeds.first
+			notification.body = ApplicationController.helpers.group_user_opinion_feed_item(notification, true)
+			notification.save
+		end
 	end
 
 	def delete_feed_and_notification

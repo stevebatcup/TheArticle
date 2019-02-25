@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_21_131953) do
+ActiveRecord::Schema.define(version: 2019_02_22_192459) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -244,6 +244,13 @@ ActiveRecord::Schema.define(version: 2019_02_21_131953) do
     t.integer "follow_group_id"
   end
 
+  create_table "interaction_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "share_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "keyword_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "wp_id"
     t.string "name"
@@ -274,6 +281,7 @@ ActiveRecord::Schema.define(version: 2019_02_21_131953) do
     t.integer "eventable_id"
     t.string "eventable_type"
     t.string "specific_type"
+    t.integer "share_id"
     t.integer "feed_id"
     t.text "body"
     t.datetime "created_at", null: false

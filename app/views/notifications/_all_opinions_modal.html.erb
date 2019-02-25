@@ -1,9 +1,9 @@
-<div class="modal fade no_connection" id="notificationCommentsModal" tabindex="-1" role="dialog">
+<div class="modal fade no_connection" id="notificationOpinionsModal" tabindex="-1" role="dialog">
   <div class="modal-dialog thin" role="document">
     <div class="modal-content">
 
     	<div class="modal-header">
-    		<h5 class="pt-1">Commenters</h5>
+    		<h5 class="pt-1">Agree/Disagree</h5>
 
 
         <button data-dismiss="modal" class="btn btn-link close_modal">
@@ -12,18 +12,18 @@
     	</div>
 
       <div class="modal-body">
-        <div ng-repeat="commenter in allCommenters.commenters" class="feed-listing feed-follow">
+        <div ng-repeat="opinionator in allOpinionators.opinionators" class="feed-listing feed-follow">
           <div class="card px-0 py-0 no-border">
             <div class="user_info d-flex justify-content-between align-items-start">
               <div class="user_info_inner d-flex align-items-start">
-                <a href="{{commenter.path}}">
-                  <img ng-src="{{commenter.image}}" alt="{{commenter.displayName}}" class="mr-3 rounded-circle" />
+                <a href="{{opinionator.path}}">
+                  <img ng-src="{{opinionator.image}}" alt="{{opinionator.displayName}}" class="mr-3 rounded-circle" />
                 </a>
                 <div class="pt-md-1">
                   <h4 class="mt-md-2">
-                    <a href="{{commenter.path}}">
-                      <b>{{commenter.displayName}}</b>
-                      <span class="text-muted">{{commenter.username}}</span>
+                    <a href="{{opinionator.path}}">
+                      <b>{{opinionator.displayName}}</b>
+                      <span class="text-muted">{{opinionator.username}}</span>
                     </a>
                   </h4>
                 </div>

@@ -51,6 +51,48 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 				@scope.notifications.moreToLoad = false
 				@loadMore()
 
+		$(document).on 'click', '.others_commented', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllOthersNotificationCommentedOn(notificationId)
+
+		$(document).on 'click', '.also_opinionated', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllOthersNotificationOpinionated(notificationId)
+
+		$(document).on 'click', '.other_followers_of_user', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllNotificationFollowers(notificationId)
+
+	showAllOthersNotificationCommentedOn: (id) =>
+		@http.get("/all-notification-comments/#{id}").then (response) =>
+			@scope.allCommenters = response.data
+			tpl = $("#notificationComments").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#notificationCommentsModal").modal()
+
+	showAllOthersNotificationOpinionated: (id) =>
+		@http.get("/all-notification-opinions/#{id}").then (response) =>
+			@scope.allOpinionators = response.data
+			tpl = $("#notificationOpinions").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#notificationOpinionsModal").modal()
+
+	showAllNotificationFollowers: (id) =>
+		@http.get("/all-notification-followers/#{id}").then (response) =>
+			@scope.allFollowers = response.data
+			tpl = $("#notificationFollowers").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#notificationFollowersModal").modal()
+
 	loadMore: =>
 		console.log 'loading more notifications'
 		@scope.notifications.page += 1
@@ -70,6 +112,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	openCommentModal: (notification) =>
 		@Comment.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
+			if item.share.showComments is true
+				@showComments(null, item, false)
 			tpl = $("#commentPost").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -92,17 +136,18 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault
-		switch notification.type
-			when 'comment'
-				@openCommentModal notification
-			when 'opinion'
-				@openOpinionModal notification
-			when 'follow'
-				@openFollowsTab notification
-			when 'categorisation'
-				path = notification.exchange.path
-				window.location.href = path
-		@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
-			notification.isSeen = true
+		unless $event.target.tagName is "A" or $event.target.tagName is "B"
+			switch notification.type
+				when 'comment'
+					@openCommentModal notification
+				when 'opinion'
+					@openOpinionModal notification
+				when 'follow'
+					@openFollowsTab notification
+				when 'categorisation'
+					path = notification.exchange.path
+					window.location.href = path
+			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
+				notification.isSeen = true
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

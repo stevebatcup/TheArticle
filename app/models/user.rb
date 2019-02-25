@@ -49,6 +49,7 @@ class User < ApplicationRecord
 
   has_many  :follow_mutes
   has_many  :exchange_mutes
+  has_many  :interaction_mutes
 
   include Suggestable
   include Shareable
@@ -303,5 +304,9 @@ class User < ApplicationRecord
 
   def mute_exchange(id)
     self.exchange_mutes.create({muted_id: id})
+  end
+
+  def has_muted_own_share?(share)
+    self.interaction_mutes.find_by(share_id: share.id).present?
   end
 end

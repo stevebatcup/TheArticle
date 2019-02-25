@@ -610,4 +610,21 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$('body').append $content
 			$("#myFollowersOfModal").modal()
 
+	interactionMute: ($event, share) =>
+		$event.preventDefault()
+		@http.post("/interaction-mute", {share_id: share.id}).then (response) =>
+			if response.data.status is 'success'
+				share.isInteractionMuted = true
+			else
+				@alert response.data.message, "Error turning off notifications"
+
+	interactionUnmute: ($event, share) =>
+		$event.preventDefault()
+		@http.delete("/interaction-mute/#{share.id}").then (response) =>
+			if response.data.status is 'success'
+				share.isInteractionMuted = false
+			else
+				@alert response.data.message, "Error turning on notifications"
+
+
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

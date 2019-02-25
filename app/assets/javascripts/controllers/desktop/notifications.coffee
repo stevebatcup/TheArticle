@@ -56,6 +56,18 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			notificationId = $span.data('notification')
 			@showAllOthersNotificationCommentedOn(notificationId)
 
+		$(document).on 'click', '.also_opinionated', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllOthersNotificationOpinionated(notificationId)
+
+		$(document).on 'click', '.other_followers_of_user', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllNotificationFollowers(notificationId)
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>
@@ -74,6 +86,21 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$('body').append $content
 			$("#notificationCommentsModal").modal()
 
+	showAllOthersNotificationOpinionated: (id) =>
+		@http.get("/all-notification-opinions/#{id}").then (response) =>
+			@scope.allOpinionators = response.data
+			tpl = $("#notificationOpinions").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#notificationOpinionsModal").modal()
+
+	showAllNotificationFollowers: (id) =>
+		@http.get("/all-notification-followers/#{id}").then (response) =>
+			@scope.allFollowers = response.data
+			tpl = $("#notificationFollowers").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#notificationFollowersModal").modal()
 
 	loadMore: ($event=null) =>
 		$event.preventDefault() if $event
@@ -92,7 +119,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			@scope.notifications.loaded = true
 
 	openCommentModal: (notification) =>
-		console.log notification
 		@Comment.get({id: notification.itemId}).then (item) =>
 			@scope.item = item
 			if item.share.showComments is true
@@ -137,9 +163,9 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 		$event.preventDefault
 		unless $event.target.tagName is "A" or $event.target.tagName is "B"
 			switch notification.type
-				when 'share'
+				when 'comment'
 					@openCommentModal notification
-				when 'opiniongroup'
+				when 'opinion'
 					@openOpinionModal notification
 				when 'followgroup'
 					@openFollowsModal notification

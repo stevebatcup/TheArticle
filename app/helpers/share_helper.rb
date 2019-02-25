@@ -16,6 +16,7 @@ module ShareHelper
 			commentShowLimit: Comment.show_limit,
 			agreeShowLimit: Opinion.show_limit,
 			disagreeShowLimit: Opinion.show_limit,
+			isInteractionMuted: current_user.has_muted_own_share?(share),
 			user: {
 				id: share.user.id,
 				isMuted: user_signed_in? ? current_user.has_muted(share.user) : false,
