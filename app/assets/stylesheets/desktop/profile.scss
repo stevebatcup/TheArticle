@@ -13,8 +13,6 @@
 		padding-right: 0;
 	}
 
-	#feed
-
 	#left_col,
 	#callouts {
 		.card {
@@ -28,6 +26,14 @@
 				}
 			}
 		}
+	}
+
+	#feed {
+		padding-left: 0;
+
+		.tab-content > .active {
+	    display: flex;
+	  }
 	}
 
 	#cover_photo {
@@ -130,14 +136,6 @@
 			}
 		}
 	}
-}
-
-#feed {
-	padding-left: 0;
-
-	.tab-content > .active {
-    display: flex;
-  }
 }
 
 .modal.all_user_exchanges {
