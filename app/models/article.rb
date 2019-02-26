@@ -7,10 +7,17 @@ class Article < ApplicationRecord
   has_many  :categorisations
   has_many  :exchanges, through: :categorisations
 
+  before_create	:nullify_ratings_caches
 	after_destroy :update_all_article_counts
 	mount_uploader :image, ArticleImageUploader
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
+
+	def nullify_ratings_caches
+		self.ratings_well_written_cache = nil
+		self.ratings_valid_points_cache = nil
+		self.ratings_agree_cache = nil
+	end
 
 	def recalculate_ratings_caches
 		self.ratings_well_written_cache = ratings[:well_written]
