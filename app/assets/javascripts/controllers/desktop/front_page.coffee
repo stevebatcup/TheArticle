@@ -51,6 +51,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@getMyProfile()
 
 		@listenForActions()
+		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
 
 	bindEvents: =>
 		super

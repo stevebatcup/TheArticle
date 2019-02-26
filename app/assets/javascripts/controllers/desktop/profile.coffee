@@ -18,6 +18,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	init: ->
 		@detectFlashFromGet()
+		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
 		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = false
@@ -278,10 +279,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.follows.totalItems = response.data.total if @scope.profile.follows.page is 1
 			@scope.profile.follows.moreToLoad = @scope.profile.follows.totalItems > (@scope.profile.follows.page * @scope.profile.follows.perPage)
 			@scope.profile.follows.loaded = true
+			@buildConnections()
 		 if @scope.profile.follows.moreToLoad is true
 				@timeout =>
 					@loadMoreFollows()
 				, 500
+
+	buildConnections: =>
+		results = []
+		angular.forEach @scope.profile.follows.followers, (item) =>
+			results.push(item) if item.isConnected
+		@scope.profile.follows.connections = results
 
 	loadMoreExchanges: =>
 		@scope.profile.exchanges.page += 1
@@ -486,9 +494,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			if @scope.profile.data.imFollowing
 				@unfollowUser userId, =>
 					@scope.profile.data.imFollowing = false
+					window.location.reload()
 			else
 				@followUser userId, =>
 					@scope.profile.data.imFollowing = true
+					window.location.reload()
 				, false
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")

@@ -12,8 +12,8 @@ class UserFollowingsController < ApplicationController
 				if page == 1
 					@total = Follow.both_directions_for_user(user).size
 				end
-				@userFollowings = user.followings.page(page).per(per_page).map(&:followed)
-				@userFollowers = user.followers.page(page).per(per_page)
+				@userFollowings = user.followings.order("created_at DESC").page(page).per(per_page).map(&:followed)
+				@userFollowers = user.followers.order("created_at DESC").page(page).per(per_page)
 			end
 		end
 	end
@@ -39,7 +39,8 @@ class UserFollowingsController < ApplicationController
 			current_user.followings << Follow.new({followed_id: params[:id]})
 			if current_user.save
 				@status = :success
-				current_user.accept_suggestion_of_user_id(params[:id]) if params[:from_suggestion]
+				flash[:notice] = "You are now following <b>#{other_user.display_name}</b>"
+				current_user.accept_suggestion_of_user_id(params[:id])
 			else
 				@status = :error
 				@message = current_user.errors.full_messages
@@ -48,7 +49,9 @@ class UserFollowingsController < ApplicationController
 	end
 
 	def destroy
+		other_user = User.find(params[:id])
 		if current_user.followings.where(followed_id: params[:id]).first.destroy
+			flash[:notice] = "You are no longer following <b>#{other_user.display_name}</b>"
 			@status = :success
 		else
 			@status = :error

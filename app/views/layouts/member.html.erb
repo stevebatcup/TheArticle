@@ -1,5 +1,11 @@
 <%= render 'layouts/head' %>
 
+<% if flash[:notice] %>
+<div id="flash_notice" class="d-none">
+  <%= flash[:notice].html_safe %>
+</div>
+<% end %>
+
 <section ng-controller="RouterController">
   <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: true } %>
 

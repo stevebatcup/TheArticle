@@ -87,6 +87,18 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			count
 
+	followUserFromFeed: ($event, user) =>
+		$event.preventDefault()
+		@followUser user.id, =>
+			user.imFollowing = true
+			window.location.reload()
+
+	unfollowUserFromFeed: ($event, user) =>
+		$event.preventDefault()
+		@unfollowUser user.id, =>
+			user.imFollowing = false
+			window.location.reload()
+
 	followUserFromCommentAuthError: ($event, item) =>
 		$event.preventDefault()
 		@followUserFromAuthError item, =>

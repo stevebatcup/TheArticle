@@ -1,5 +1,5 @@
 <div class="modal fade all_profile_suggestions" id="allProfileSuggestionsModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog scrollable thin" role="document">
+  <div class="modal-dialog scrollable medium" role="document">
     <div class="modal-content">
 
     	<div class="modal-header">
@@ -7,14 +7,35 @@
 
 
         <button data-dismiss="modal" class="btn btn-link close_modal">
-          <i class="fas fa-times"></i>
+          <i class="fas fa-times text-green"></i>
         </button>
     	</div>
 
       <div class="modal-body">
-      	<div ng-repeat="item in suggestions" class="feed-listing mb-3">
-      		<%= render partial: 'users/member_card', locals: { suggestions: true } %>
-      	</div>
+
+        <div class="row">
+        	<ul class="col-12 nav nav-pills d-flex mb-3">
+            <li class="nav-item" ng-if="suggestions.forYous.length > 0">
+              <a class="nav-link"
+                  ng-class="{'active': suggestions.mode == 'forYous'}" href='#' ng-click="selectSuggestionTab($event, 'forYous')">
+                <label>Suggested for you ({{suggestions.forYous.length}})</label>
+              </a>
+            </li>
+            <li class="nav-item" ng-if="suggestions.populars.length > 0">
+              <a class="nav-link"
+                  ng-class="{'active': suggestions.mode == 'populars'}" href='#' ng-click="selectSuggestionTab($event, 'populars')">
+                <label>Popular with people you follow ({{suggestions.populars.length}})</label>
+              </a>
+            </li>
+          </ul>
+
+          <div ng-repeat="item in suggestions.forYous" class="col-6 feed-listing feed-follow" ng-show="suggestions.mode == 'forYous'">
+            <%= render partial: 'users/member_card', locals: { suggestions: true } %>
+          </div>
+          <div ng-repeat="item in suggestions.populars" class="col-6 feed-listing feed-follow" ng-show="suggestions.mode == 'populars'">
+            <%= render partial: 'users/member_card', locals: { suggestions: true } %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

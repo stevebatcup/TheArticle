@@ -6,6 +6,12 @@
 		</div>
 	</div>
 
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
 	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
 	<section class="cover_photo justify-content-center"

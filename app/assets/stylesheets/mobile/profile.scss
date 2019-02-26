@@ -159,6 +159,32 @@
 	}
 }
 
+#follows_box {
+	p.empty {
+		max-width: 70%;
+		text-align: center;
+		padding-top: 35px;
+		margin: 0 auto;
+	}
+
+	nav#follows_options {
+		background: #fff;
+
+		li {
+			a {
+				color: #111;
+
+				&.active {
+					border-bottom-color: $green;
+					background-color: #fff !important;
+					color: #111 !important;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+}
+
 
 #edit_profile_form_box {
 	z-index: 999;

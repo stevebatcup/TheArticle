@@ -18,6 +18,7 @@ json.set! :list do
 			json.isFollowingMe is_following_me
 
 			json.isConnected im_following && is_following_me
+			json.isMe user_signed_in? ? follower == current_user : false
 		end
 	end
 
@@ -38,6 +39,7 @@ json.set! :list do
 			json.isFollowingMe is_following_me
 
 			json.isConnected im_following && is_following_me
+			json.isMe user_signed_in? ? following == current_user : false
 		end
 	end
 end

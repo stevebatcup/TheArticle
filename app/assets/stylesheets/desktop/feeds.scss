@@ -368,6 +368,15 @@
 		}
 	}
 
+	&.feed-follow {
+		padding: 0 10px 10px;
+		height: 225px;
+
+		.block_click {
+			height: 100%;
+		}
+	}
+
 	&.feed-suggestion {
 		.card {
 			background-color: $gold;

@@ -1,4 +1,7 @@
 main.front_page_index {
+	#left_col {
+		padding-right: 0;
+	}
 
 	#left_col,
 	#callouts {
@@ -19,6 +22,7 @@ main.front_page_index {
 		border: 1px solid rgba(0, 0, 0, 0.125);
 		border-radius: 0.25rem;
 		overflow: hidden;
+		background: #fff;
 
 		img.profile_image {
 			width: 3.7em;

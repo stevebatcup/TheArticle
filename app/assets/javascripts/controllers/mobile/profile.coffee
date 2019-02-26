@@ -18,6 +18,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 	init: ->
 		@detectFlashFromGet()
+		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
 		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false
 		@rootScope.isSignedIn = false
@@ -169,6 +170,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 		# Broadcast from FollowsController
 		@scope.$on 'follows_panel_close', =>
+			$('#main_footer_top, #member_options').show()
 			@scope.mode = 'view'
 
 	actionRequiresSignIn: ($event, action) =>
@@ -356,15 +358,18 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			if @scope.profile.data.imFollowing
 				@unfollowUser @scope.profile.data.id, =>
 					@scope.profile.data.imFollowing = false
+					window.location.reload()
 			else
 				@followUser @scope.profile.data.id, =>
 					@scope.profile.data.imFollowing = true
+					window.location.reload()
 				, false
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'
+		$('#main_footer_top, #member_options').hide()
 		@timeout =>
 			$("#follows-sub-tab-#{tab}").click()
 			@rootScope.$broadcast('follows_panel_open', tab)

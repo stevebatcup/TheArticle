@@ -10,6 +10,11 @@
       <a class="dropdown-item" href="#" ng-click="block($event, item.share.user.id, item.share.user.username)" ng-if="!item.share.user.isBlocked">Block</a>
       <a class="dropdown-item" href="#" ng-click="unblock($event, item.share.user.id, item.share.user.username)" ng-if="item.share.user.isBlocked">Unblock</a>
 
+      <a class="dropdown-item" href="#" ng-click="followUserFromFeed($event, item.share.user)"
+                ng-if="!item.share.user.imFollowing">Follow</a>
+      <a class="dropdown-item" href="#" ng-click="unfollowUserFromFeed($event, item.share.user)"
+                ng-if="item.share.user.imFollowing">Unfollow</a>
+
       <a class="dropdown-item" href="#" ng-click="reportPost($event, item)">
         <span>Report post</span>
       </a>
@@ -21,7 +26,12 @@
       <a class="dropdown-item" href="#" ng-click="block($event, item.commentAction.user.id, item.commentAction.user.username)" ng-if="!item.commentAction.user.isBlocked">Block</a>
       <a class="dropdown-item" href="#" ng-click="unblock($event, item.commentAction.user.id, item.commentAction.user.username)" ng-if="item.commentAction.user.isBlocked">Unblock</a>
 
-     <a class="dropdown-item" href="#" ng-click="reportCommentAction($event, item)">
+      <a class="dropdown-item" href="#" ng-click="followUserFromFeed($event, item.commentAction.user)"
+                ng-if="!item.commentAction.user.imFollowing">Follow</a>
+      <a class="dropdown-item" href="#" ng-click="unfollowUserFromFeed($event, item.commentAction.user)"
+                ng-if="item.commentAction.user.imFollowing">Unfollow</a>
+
+      <a class="dropdown-item" href="#" ng-click="reportCommentAction($event, item)">
         <span>Report comment</span>
       </a>
 
@@ -31,6 +41,11 @@
 
       <a class="dropdown-item" href="#" ng-click="block($event, item.opinionAction.user.id, item.opinionAction.user.username)" ng-if="!item.opinionAction.user.isBlocked">Block</a>
       <a class="dropdown-item" href="#" ng-click="unblock($event, item.opinionAction.user.id, item.opinionAction.user.username)" ng-if="item.opinionAction.user.isBlocked">Unblock</a>
+
+      <a class="dropdown-item" href="#" ng-click="followUserFromFeed($event, item.opinionAction.user)"
+                ng-if="!item.opinionAction.user.imFollowing">Follow</a>
+      <a class="dropdown-item" href="#" ng-click="unfollowUserFromFeed($event, item.opinionAction.user)"
+                ng-if="item.opinionAction.user.imFollowing">Unfollow</a>
 
     <% elsif from == :comment %>
       <a class="dropdown-item" href="#" ng-click="mute($event, comment.data.userId, comment.data.username)" ng-if="(!comment.data.isMuted) && (comment.data.imFollowing)">Mute</a>

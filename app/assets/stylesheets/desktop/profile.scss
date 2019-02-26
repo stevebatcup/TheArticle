@@ -9,6 +9,12 @@
 .show-profile {
 	min-height: 60vh;
 
+	#left_col {
+		padding-right: 0;
+	}
+
+	#feed
+
 	#left_col,
 	#callouts {
 		.card {
@@ -127,6 +133,8 @@
 }
 
 #feed {
+	padding-left: 0;
+
 	.tab-content > .active {
     display: flex;
   }
@@ -190,5 +198,30 @@ body.fixed-profile-nav {
 
 	#mini_profile_inner {
 		display: flex;
+	}
+}
+
+#allProfileSuggestionsModal {
+	.nav-pills {
+		margin-left: 0px;
+
+		.nav-link {
+			cursor: pointer;
+
+			label {
+				font-weight: normal;
+				cursor: pointer;
+				color: $green;
+				margin-bottom: 0;
+			}
+
+			&.active {
+				background-color: transparent;
+
+				label {
+					font-weight: bold;
+				}
+			}
+		}
 	}
 }

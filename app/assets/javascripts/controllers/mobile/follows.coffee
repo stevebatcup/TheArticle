@@ -74,7 +74,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	buildAlsoKnowsMes: =>
 		results = []
 		angular.forEach @scope.follows.data.followers, (item) =>
-			results.push(item) if item.isFollowingMe
+			results.push(item) if item.imFollowing
 		@scope.follows.data.alsoKnowsMes = results
 
 	toggleFollowUserFromCard: (member) =>

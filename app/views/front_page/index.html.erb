@@ -4,6 +4,12 @@
 		<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
 	</div>
 
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
 	<div class="alert alert-success mb-3 mt-3" ng-show="showPasswordChangedThanks" ng-cloak>
 		<p class="alert-success">Thanks, your password has been changed.</p>
 	</div>

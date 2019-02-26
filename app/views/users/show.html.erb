@@ -6,6 +6,12 @@
 	</div>
 	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
 
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
 	<section id="cover_photo" class="cover_photo row" ng-show="profile.loaded && !profile.loadError"
 						ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
 						ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}" ng-cloak>
@@ -57,6 +63,12 @@
 		    <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
 					<label>Followers</label>
 					<span>{{ profile.follows.followers.length }}</span>
+		    </a>
+		  </li>
+		  <li class="nav-item" ng-if="profile.isMe">
+		    <a id="activity-connected-tab" class="with_badge nav-link" ng-click="selectTab('connected')" ng-class="{'active': selectedTab == 'connected'}">
+					<label>Connected</label>
+					<span>{{ profile.follows.connections.length }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
@@ -282,7 +294,7 @@
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not following anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.follows.followings" class="col-12 feed-listing feed-follow pb-3 px-0 mb-3">
+						<div ng-repeat="item in profile.follows.followings" class="col-6 feed-listing feed-follow">
 							<%= render 'member_card' %>
 						</div>
 
@@ -297,7 +309,21 @@
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not being followed by anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.follows.followers" class="col-12 feed-listing feed-follow pb-3 px-0">
+						<div ng-repeat="item in profile.follows.followers" class="col-6 feed-listing feed-follow">
+							<%= render 'member_card' %>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="(selectedTab == 'connected')"">
+					<div class="results_block row" ng-class="{'empty': profile.follows.connections.length == 0}">
+
+						<p class="col-12 empty_resource" ng-show="profile.follows.connections.length == 0">
+							<span ng-if="profile.isMe">You currently have no connections</span>
+						</p>
+
+						<div ng-repeat="item in profile.follows.connections" class="col-6 feed-listing feed-follow">
 							<%= render 'member_card' %>
 						</div>
 
@@ -401,12 +427,14 @@
 								id="suggestions_for_you"
 								role="tabpanel"
 								aria-labelledby="suggestions-sub-tab-for_you">
-								<div ng-repeat="item in filterSuggestionListForBox(suggestions)" class="feed-listing mb-3">
-									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+								<div ng-repeat="item in suggestions.listForSidebox" class="feed-listing mb-3">
+									<div ng-if="!item.imFollowing">
+										<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+									</div>
 								</div>
 							</div>
 
-							<div ng-if="suggestions.length > 3" class="px-3 pt-2 pb-1" id="show_all_suggestions">
+							<div ng-if="suggestions.total > 3" class="px-3 pt-2 pb-1" id="show_all_suggestions">
 								<a href="#" ng-click="openSuggestionsModal($event)" class="text-green">See all suggestions</a>
 							</div>
 						</div>

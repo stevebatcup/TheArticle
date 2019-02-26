@@ -52,6 +52,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@getMyProfile()
 
 		@listenForActions()
+		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
 
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
