@@ -9,7 +9,7 @@ class Share < ApplicationRecord
 	belongs_to	:article
 	before_create	:update_feed
 	before_save :percentagise_ratings
-	after_create	:recalculate_article_ratings
+	after_save	:recalculate_article_ratings
 	after_destroy	:delete_associated_data
 
 	def update_feed
@@ -20,8 +20,10 @@ class Share < ApplicationRecord
 		[:well_written, :valid_points, :agree].each do |rating_cat|
 			current = self.send("rating_#{rating_cat}")
 			case current
-			when 1, 0
+			when 0
 				self["rating_#{rating_cat}"] = 0
+			when 1
+				self["rating_#{rating_cat}"] = 1
 			when 2
 				self["rating_#{rating_cat}"] = 25
 			when 3

@@ -20,18 +20,18 @@ class Article < ApplicationRecord
 	end
 
 	def has_ratings?
-		(self.ratings_well_written_cache > 0) ||
-			(self.ratings_valid_points_cache > 0) ||
-			(self.ratings_agree_cache > 0)
+		(!self.ratings_well_written_cache.nil?) ||
+			(!self.ratings_valid_points_cache.nil?) ||
+			(!self.ratings_agree_cache.nil?)
 	end
 
 	def ratings
 		@ratings ||= begin
 			if self.shares.where(share_type: 'rating').any?
 				{
-					well_written: self.shares.average(:rating_well_written).to_i,
-					valid_points: self.shares.average(:rating_valid_points).to_i,
-					agree: self.shares.average(:rating_agree).to_i
+					well_written: self.shares.average("CASE WHEN `rating_well_written` = 1 THEN 0 ELSE `rating_well_written` END").to_i,
+					valid_points: self.shares.average("CASE WHEN `rating_valid_points` = 1 THEN 0 ELSE `rating_valid_points` END").to_i,
+					agree: self.shares.average("CASE WHEN `rating_agree` = 1 THEN 0 ELSE `rating_agree` END").to_i
 				}
 			else
 				nil

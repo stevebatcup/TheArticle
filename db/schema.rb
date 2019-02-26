@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(version: 2019_02_25_150048) do
     t.boolean "robots_nofollow"
     t.boolean "robots_noindex"
     t.boolean "is_sponsored", default: false
-    t.integer "ratings_well_written_cache", default: 0
-    t.integer "ratings_valid_points_cache", default: 0
-    t.integer "ratings_agree_cache", default: 0
+    t.integer "ratings_well_written_cache"
+    t.integer "ratings_valid_points_cache"
+    t.integer "ratings_agree_cache"
   end
 
   create_table "articles_exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

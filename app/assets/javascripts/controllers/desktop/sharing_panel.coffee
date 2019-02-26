@@ -57,12 +57,12 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			rating_valid_points: @scope.share.rating_valid_points
 			rating_agree: @scope.share.rating_agree
 
-		if (@scope.ratingsTouched.well_written is false) and (@scope.share.rating_well_written is 1)
-			data['rating_well_written'] = 0
-		if (@scope.ratingsTouched.valid_points is false) and (@scope.share.rating_valid_points is 1)
-			data['rating_valid_points'] = 0
-		if (@scope.ratingsTouched.agree is false) and (@scope.share.rating_agree is 1)
-			data['rating_agree'] = 0
+		# if (@scope.ratingsTouched.well_written is false) and (@scope.share.rating_well_written is 1)
+		# 	data['rating_well_written'] = 0
+		# if (@scope.ratingsTouched.valid_points is false) and (@scope.share.rating_valid_points is 1)
+		# 	data['rating_valid_points'] = 0
+		# if (@scope.ratingsTouched.agree is false) and (@scope.share.rating_agree is 1)
+		# 	data['rating_agree'] = 0
 
 		@http.post("/share", { share: data }).then (response) =>
 			if response.data.status is 'success'

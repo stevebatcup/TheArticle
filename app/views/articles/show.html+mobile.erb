@@ -52,15 +52,15 @@
 					<ul class="">
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Well written: </span>
-							<span class="col-2 rating"><%=  @article.ratings_well_written_cache %>%</span>
+							<span class="col-2 rating"><%=  @article.ratings_well_written_cache.to_i %>%</span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Interesting points: </span>
-							<span class="col-2 rating"><%= @article.ratings_valid_points_cache %>%</span>
+							<span class="col-2 rating"><%= @article.ratings_valid_points_cache.to_i %>%</span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Agree with arguments: </span>
-							<span class="col-2 rating"><%= @article.ratings_agree_cache %>%</span>
+							<span class="col-2 rating"><%= @article.ratings_agree_cache.to_i %>%</span>
 						</li>
 					</ul>
 					<% else %>
@@ -98,27 +98,27 @@
 								<label>Well written: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%=  @article.ratings_well_written_cache %>;"></span>
+										<span class="inner" style="width: <%=  @article.ratings_well_written_cache.to_i %>;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%=  @article.ratings_well_written_cache %></span>
+									<span class="clear-rating ml-3"><%=  @article.ratings_well_written_cache.to_i %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Interesting points: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings_valid_points_cache %>;"></span>
+										<span class="inner" style="width: <%= @article.ratings_valid_points_cache.to_i %>;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings_valid_points_cache %></span>
+									<span class="clear-rating ml-3"><%= @article.ratings_valid_points_cache.to_i %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Agree with arguments: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings_agree_cache %>;"></span>
+										<span class="inner" style="width: <%= @article.ratings_agree_cache.to_i %>;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings_agree_cache %></span>
+									<span class="clear-rating ml-3"><%= @article.ratings_agree_cache.to_i %></span>
 								</span>
 							</li>
 						</ul>

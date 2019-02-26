@@ -58,6 +58,8 @@ module ArticleHelper
 	def convert_rating_to_dots(rating)
 		case rating.to_i
 		when 0
+			0
+		when 1
 			1
 		when 25
 			2
