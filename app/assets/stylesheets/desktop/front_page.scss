@@ -1,21 +1,61 @@
-#front_page_profile_card {
-	border: 1px solid rgba(0, 0, 0, 0.125);
-	border-radius: 0.25rem;
-	overflow: hidden;
+main.front_page_index {
 
-	img.profile_image {
-		width: 3.7em;
-		height: 3.7em;
-		margin-right: 10px;
-		border: 3px solid #fff;
-    position: relative;
-    top: -1.8em;
-		left: 9px;
-		margin-bottom: -1.8em;
+	#left_col,
+	#callouts {
+		.card {
+			.card-header {
+				background: $grey_dark;
+
+				h5 {
+					margin-bottom: 0;
+					text-align: center;
+					color: #fff;
+				}
+			}
+		}
 	}
 
-	.cover_photo {
-		height: 50px;
-		width: 100%;
+	#front_page_profile_card {
+		border: 1px solid rgba(0, 0, 0, 0.125);
+		border-radius: 0.25rem;
+		overflow: hidden;
+
+		img.profile_image {
+			width: 3.7em;
+			height: 3.7em;
+			margin-right: 10px;
+			border: 3px solid #fff;
+	    position: relative;
+	    top: -1.8em;
+			left: 9px;
+			margin-bottom: -1.8em;
+		}
+
+		.cover_photo {
+			height: 50px;
+			width: 100%;
+		}
+
+		#stats_info {
+			padding: 0 12px;
+			.stats {
+				cursor: pointer;
+
+				label {
+					cursor: pointer;
+					font-size: 0.85em;
+					font-weight: bold;
+					color: lighten($grey_dark, 10%);
+					margin-bottom: 0;
+				}
+
+				span {
+					color: $green;
+					font-size: 1.25em;
+					font-weight: bold;
+					padding-left: 4px;
+				}
+			}
+		}
 	}
 }

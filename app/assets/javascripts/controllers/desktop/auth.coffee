@@ -53,7 +53,7 @@ class TheArticle.Auth extends TheArticle.PageController
 				login: @scope.signInDetails.login.value
 				password: @scope.signInDetails.password.value
 		@http.post("/users/sign_in", data).then (response) =>
-			window.location.href = "/front-page"
+			window.location.href = "/my-home"
 		, (response) =>
 			@scope.signInDetails.login.error = response.data.status
 

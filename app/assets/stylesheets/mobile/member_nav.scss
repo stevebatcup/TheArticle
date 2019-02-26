@@ -3,11 +3,11 @@
 }
 
 .menu {
-  background-color: #1D1F20;
-  background-image: linear-gradient(145deg, #1D1F20, #404348);
+  background-color: #fff;
+  // background-image: linear-gradient(145deg, #fcfcfc, #fefefe);
 
   #sidebar_logo {
-    background-image: url('logo-2-lines-white.png');
+    background-image: url('logo-2-lines.png');
     background-size: 42%;
     background-repeat: no-repeat;
     background-position: center center;
@@ -19,13 +19,13 @@
 }
 
 .menu a {
-  color: #fff;
+  color: #333;
   text-decoration: none;
 
   &:hover,
   &:active {
     text-decoration: none;
-    color: #efefef;
+    color: #555;
   }
 }
 
@@ -35,30 +35,33 @@
 
 .menu-section-title {
   text-transform: uppercase;
-  color: #85888d;
-  font-weight: 200;
-  font-size: 13px;
-  letter-spacing: 1px;
-  padding: 0 20px;
+  color: $green;
+  font-weight: normal;
+  font-size: 1em;
+  letter-spacing: 1.5px;
+  padding: 0 19px;
   margin:0;
 }
 
 .menu-section-list {
   padding:0;
-  margin: 10px 0;
+  margin: 3px 0 25px;
   list-style:none;
 
   li {
-    font-size: 0.8em;
+    font-size: 0.85em;
+
     a {
       display: block;
       padding: 10px 20px;
+      color: #505050;
+      font-weight: bold;
     }
   }
 }
 
 div#sidebar_me {
-  padding: 10px 20px;
+  padding: 10px 20px 0;
 
   img {
     width: 52px;
@@ -66,7 +69,9 @@ div#sidebar_me {
   }
 
   p {
-    color: #fff;
+    color: #333;
+    position: relative;
+    top: -2px;
     font-size: 0.7em;
     padding-left: 14px;
     line-height: 1.75em;
@@ -74,6 +79,7 @@ div#sidebar_me {
     .display_name {
       font-size: 1.2em;
       font-weight: bold;
+      color: $green_dark;
     }
 
     .username {
@@ -81,20 +87,23 @@ div#sidebar_me {
       display: block;
     }
 
-    a {
-      color: #fff;
+    .link {
+      color: $green;
     }
   }
 }
 
 div#follows_info {
-  padding: 10px 20px;
+  padding: 0 10px 25px;
+  font-weight: bold;
+  font-size: 1.1em;
 
   p {
     color: #fff;
     font-size: 0.9em;
     padding-left: 10px;
     line-height: 2em;
+    margin-bottom: 0;
   }
 }
 

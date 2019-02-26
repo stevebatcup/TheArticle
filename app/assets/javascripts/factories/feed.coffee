@@ -2,7 +2,7 @@ TheArticle.FactoryModule.factory("Feed", ['RailsResource',
   (RailsResource) ->
     class Feed extends RailsResource
       @configure
-        url: '/front-page'
+        url: '/my-home'
         name: 'feed'
         interceptAuth: true
 ])

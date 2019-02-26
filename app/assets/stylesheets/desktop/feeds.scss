@@ -653,7 +653,7 @@
 	.callout {
 
 		#who_to_follow {
-			height: 610px;
+			height: 680px;
 			// overflow-y: auto;
 
 			nav#suggestions_options {
@@ -677,7 +677,7 @@
 			}
 
 			.feed-listing {
-				height: 170px;
+				height: 185px;
 
 				.cover_photo {
 					height: 44px;
@@ -691,6 +691,14 @@
 				p.card-text {
 					display: none;
 				}
+			}
+
+			#show_all_suggestions {
+				background: $grey_light;
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				left: 0;
 			}
 		}
 

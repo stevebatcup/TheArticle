@@ -63,7 +63,7 @@ private
 	def redirect_to_my_profile
 		redirect_to my_profile_path
 		# if browser.device.mobile?
-		# 	redirect_to "/front-page?route=myprofile"
+		# 	redirect_to "/my-home?route=myprofile"
 		# else
 		# end
 	end

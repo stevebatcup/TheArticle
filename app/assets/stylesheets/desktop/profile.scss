@@ -9,6 +9,21 @@
 .show-profile {
 	min-height: 60vh;
 
+	#left_col,
+	#callouts {
+		.card {
+			.card-header {
+				background: $grey_dark;
+
+				h5 {
+					margin-bottom: 0;
+					text-align: center;
+					color: #fff;
+				}
+			}
+		}
+	}
+
 	#cover_photo {
 		height: 228px;
 		line-height: 13em;

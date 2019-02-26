@@ -62,7 +62,7 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		@rootScope.$broadcast 'page_moving_back'
 
 	openFrontPage: =>
-		window.location.href = "/front-page"
+		window.location.href = "/my-home"
 
 	bindProfileNavScrolling: =>
 		$win = $(window)

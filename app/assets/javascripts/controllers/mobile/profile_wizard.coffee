@@ -12,7 +12,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 
 	init: ->
 		@setDefaultHttpHeaders()
-		@scope.redirectWhenDone = "/front-page"
+		@scope.redirectWhenDone = "/my-home"
 		@scope.user =
 			id: @element.data('user-id')
 			location:

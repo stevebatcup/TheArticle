@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   get 'my-followers-of-user/:id',              to: 'user_followings#my_followers_of'
   get 'mute-followed/:id',                     to: 'user_followings#mute'
 
-  get 'front-page',                            to: 'front_page#index', as: :front_page
+  get 'my-home',                               to: 'front_page#index', as: :front_page
   get 'following',                             to: 'follows#index', mode: :following
   get 'followers',                             to: 'follows#index', mode: :followers
   get 'follow-suggestions',                    to: 'follows#index', mode: :suggestions

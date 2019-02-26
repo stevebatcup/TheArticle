@@ -126,4 +126,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 
+	openMyProfile: ($event, panel) =>
+		$event.preventDefault()
+		window.location.href = "/my-profile?panel=#{panel}"
+
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

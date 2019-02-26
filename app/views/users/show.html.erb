@@ -147,7 +147,7 @@
 	</section>
 
 	<div class="row" id="main_feed">
-		<section class="col-3" ng-show="profile.loaded && !profile.loadError" ng-cloak>
+		<section class="col-3" ng-show="profile.loaded && !profile.loadError" id="left_col" ng-cloak>
 
 			<div id="basic_info">
 				<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
@@ -406,7 +406,7 @@
 								</div>
 							</div>
 
-							<div ng-if="suggestions.length > 3" class="px-3">
+							<div ng-if="suggestions.length > 3" class="px-3 pt-2 pb-1" id="show_all_suggestions">
 								<a href="#" ng-click="openSuggestionsModal($event)" class="text-green">See all suggestions</a>
 							</div>
 						</div>

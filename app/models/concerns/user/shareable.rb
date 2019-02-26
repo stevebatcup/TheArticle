@@ -11,6 +11,12 @@ module User::Shareable
   	self.shares.ratings.order(created_at: :desc)
   end
 
+  def ratings_count
+    Rails.cache.fetch("ratings_count_#{self.id}") do
+      self.ratings.size
+    end
+  end
+
   def existing_article_rating(article)
     rating_share = self.shares.where(article_id: article.id).where(share_type: 'rating').first
     if rating_share.present?

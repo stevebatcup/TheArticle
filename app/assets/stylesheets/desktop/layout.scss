@@ -279,6 +279,13 @@ header {
 	}
 }
 
+main#main_content {
+	&.front_page_index,
+	&.users_show {
+		background: $grey_light;
+	}
+}
+
 body.fixed-header {
 	header#main_header {
 		position: fixed;
