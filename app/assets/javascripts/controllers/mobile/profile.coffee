@@ -493,7 +493,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			@scope.profile.follows.totalItems = response.data.total if @scope.profile.follows.page is 1
 			@scope.profile.follows.moreToLoad = @scope.profile.follows.totalItems > (@scope.profile.follows.page * @scope.profile.follows.perPage)
 			@scope.profile.follows.loaded = true
-		 if @scope.profile.follows.moreToLoad is true
+			if @scope.profile.follows.moreToLoad is true
 				@timeout =>
 					@loadMoreFollows()
 				, 500

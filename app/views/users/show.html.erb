@@ -309,8 +309,28 @@
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not being followed by anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.follows.followers" class="col-6 feed-listing feed-follow">
-							<%= render 'member_card' %>
+						<ul class="col-12 nav nav-pills d-flex mb-3 follow_filters"
+									ng-show="(profile.follows.followers.length > 0) && !profile.isMe">
+					    <li class="nav-item">
+					      <a class="nav-link"
+					          ng-class="{'active': profile.follows.followersMode == 'all'}"
+					          href='#' ng-click="selectFollowersTab($event, 'all')">
+					        <label>All</label>
+					      </a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link"
+					          ng-class="{'active': profile.follows.followersMode == 'youKnow'}"
+					          href='#' ng-click="selectFollowersTab($event, 'youKnow')">
+					        <label>{{profile.follows.imFollowingCount}} Followers you know</label>
+					      </a>
+					    </li>
+					  </ul>
+
+						<div ng-repeat="item in profile.follows.followers"
+									class="col-6 feed-listing feed-follow"
+									ng-if="(profile.follows.followersMode == 'all') || (item.imFollowing)">
+								<%= render 'member_card' %>
 						</div>
 
 					</div>

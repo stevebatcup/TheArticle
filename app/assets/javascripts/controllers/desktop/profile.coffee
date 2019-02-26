@@ -45,6 +45,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			follows:
 				followings: []
 				followers: []
+				imFollowingCount: 0
+				followersMode: 'all'
 				page: 1
 				perPage: 10
 				moreToLoad: false
@@ -280,6 +282,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.follows.moreToLoad = @scope.profile.follows.totalItems > (@scope.profile.follows.page * @scope.profile.follows.perPage)
 			@scope.profile.follows.loaded = true
 			@buildConnections()
+			@buildFollowersImFollowingCount() unless @scope.profile.isMe
 		 if @scope.profile.follows.moreToLoad is true
 				@timeout =>
 					@loadMoreFollows()
@@ -290,6 +293,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		angular.forEach @scope.profile.follows.followers, (item) =>
 			results.push(item) if item.isConnected
 		@scope.profile.follows.connections = results
+
+	buildFollowersImFollowingCount: =>
+		results = []
+		angular.forEach @scope.profile.follows.followers, (item) =>
+			results.push(item) if item.imFollowing
+		@scope.profile.follows.imFollowingCount = results.length
 
 	loadMoreExchanges: =>
 		@scope.profile.exchanges.page += 1
@@ -512,10 +521,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					if followerItem = _.findWhere @scope.profile.follows.followers, { id: member.id }
 						followerItem.imFollowing = false
 					member.imFollowing = false
+					@buildFollowersImFollowingCount() unless @scope.profile.isMe
 			else
 				@followUser member.id, =>
 					member.imFollowing = true
 					@scope.profile.follows.followings.push member
+					@buildFollowersImFollowingCount() unless @scope.profile.isMe
 				, false
 		else
 			@requiresSignIn("follow #{member.displayName}")
@@ -555,5 +566,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	markFormAsEdited: =>
 		@scope.profile.form.edited = true
+
+	selectFollowersTab: ($event, tab) =>
+		$event.preventDefault()
+		@scope.profile.follows.followersMode = tab
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

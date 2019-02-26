@@ -201,26 +201,25 @@ body.fixed-profile-nav {
 	}
 }
 
-#allProfileSuggestionsModal {
-	.nav-pills {
-		margin-left: 0px;
 
-		.nav-link {
+.nav-pills.follow_filters {
+	margin-left: 0px;
+
+	.nav-link {
+		cursor: pointer;
+
+		label {
+			font-weight: normal;
 			cursor: pointer;
+			color: $green;
+			margin-bottom: 0;
+		}
+
+		&.active {
+			background-color: transparent;
 
 			label {
-				font-weight: normal;
-				cursor: pointer;
-				color: $green;
-				margin-bottom: 0;
-			}
-
-			&.active {
-				background-color: transparent;
-
-				label {
-					font-weight: bold;
-				}
+				font-weight: bold;
 			}
 		}
 	}
