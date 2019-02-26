@@ -281,7 +281,9 @@ header {
 
 main#main_content {
 	&.front_page_index,
-	&.users_show {
+	&.users_show,
+	&.notifications_index,
+	&.account_settings_edit {
 		background: $grey_light;
 	}
 }
