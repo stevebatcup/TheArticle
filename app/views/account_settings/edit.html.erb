@@ -27,6 +27,22 @@
 						</h6>
 					</div>
 				</div>
+
+
+				<div class="d-flex" id="stats_info" ng-cloak>
+					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'ratings')">
+						<label>Ratings</label>
+						<span><%= current_user.ratings_count %></span>
+					</div>
+					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'followers')">
+						<label>Followers</label>
+						<span><%= current_user.followers_count %></span>
+					</div>
+					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'following')">
+						<label>Following</label>
+						<span><%= current_user.followings_count %></span>
+					</div>
+				</div>
 			</div>
 		</section>
 
