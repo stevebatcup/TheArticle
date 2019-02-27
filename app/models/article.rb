@@ -188,6 +188,13 @@ class Article < ApplicationRecord
 	end
 
 	def update_wp_cache(json)
+    # bust caches
+    # Rails.cache.clear
+    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
+    	# puts "busting cache: #{cache_key}"
+    	Rails.cache.delete(cache_key)
+    end
+
 		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
 		self.content = json["content"]["rendered"]
@@ -212,13 +219,6 @@ class Article < ApplicationRecord
     # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache
-
-    # bust caches
-    # Rails.cache.clear
-    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
-    	puts "busting cache: #{cache_key}"
-    	Rails.cache.delete(cache_key)
-    end
   end
 
   def update_all_article_counts
