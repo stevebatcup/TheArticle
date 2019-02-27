@@ -21,9 +21,9 @@ class Share < ApplicationRecord
 			current = self.send("rating_#{rating_cat}")
 			case current
 			when 0
-				self["rating_#{rating_cat}"] = 0
+				self["rating_#{rating_cat}"] = nil
 			when 1
-				self["rating_#{rating_cat}"] = 1
+				self["rating_#{rating_cat}"] = 0
 			when 2
 				self["rating_#{rating_cat}"] = 25
 			when 3

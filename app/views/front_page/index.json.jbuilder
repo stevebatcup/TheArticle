@@ -4,16 +4,24 @@ items = []
 @user_feeds.each do |user_feed_item|
 	if user_feed_item.feeds.any?
 		if user_feed_item.action_type == 'opinion'
-			items << group_user_opinion_feed_item(user_feed_item)
+			if item = group_user_opinion_feed_item(user_feed_item)
+				items << item
+			end
 		elsif user_feed_item.action_type == 'comment'
-			items << group_user_comment_feed_item(user_feed_item)
+			if item = group_user_comment_feed_item(user_feed_item)
+				items << item
+			end
 		elsif (user_feed_item.action_type == 'follow') && (user_feed_item.feeds.length > 1)
 			unless @my_followings_ids.include?(user_feed_item.source_id) || @my_muted_follow_ids.include?(user_feed_item.source_id)
-				items << group_user_follow_feed_item(user_feed_item, current_user)
+				if item = group_user_follow_feed_item(user_feed_item, current_user)
+					items << item
+				end
 			end
 		elsif user_feed_item.action_type == 'subscription'
 			unless @my_exchange_ids.include?(user_feed_item.source_id) || @my_muted_exchange_ids.include?(user_feed_item.source_id)
-				items << group_user_subscription_feed_item(user_feed_item)
+				if item = group_user_subscription_feed_item(user_feed_item)
+					items << item
+				end
 			end
 		end
 	end
@@ -31,7 +39,10 @@ json.total @total_feeds if @total_feeds
 		end
 	end
 end
-json.feedItems items.sort! { |a, b| b[:stamp] <=> a[:stamp] }
+
+if items.any?
+	json.feedItems items.sort! { |a, b| b[:stamp] <=> a[:stamp] }
+end
 
 
 # SUGGESTIONS

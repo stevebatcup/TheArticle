@@ -33,9 +33,9 @@ module User::Shareable
   def ratings_summary
     @ratings_summary ||= {
       article_count: self.ratings.size,
-      well_written: "#{self.ratings.average("CASE WHEN `rating_well_written` = 1 THEN 0 ELSE `rating_well_written` END").to_i}%",
-      valid_points: "#{self.ratings.average("CASE WHEN `rating_valid_points` = 1 THEN 0 ELSE `rating_valid_points` END").to_i}%",
-      agree: "#{self.ratings.average("CASE WHEN `rating_agree` = 1 THEN 0 ELSE `rating_agree` END").to_i}%"
+      well_written: "#{self.ratings.average(:rating_well_written)}",
+      valid_points: "#{self.ratings.average(:rating_valid_points)}",
+      agree: "#{self.ratings.average(:rating_agree)}"
     }
   end
 

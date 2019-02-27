@@ -56,9 +56,9 @@
 						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
-							<li>Well written: <span class="rating"><%= @article.ratings_well_written_cache.to_i %>%</span></li>
-							<li>Interesting points: <span class="rating"><%= @article.ratings_valid_points_cache.to_i %>%</span></li>
-							<li>Agree with arguments: <span class="rating"><%= @article.ratings_agree_cache.to_i %>%</span></li>
+							<li>Well written: <span class="rating"><%= readable_article_rating(@article.ratings_well_written_cache) %></span></li>
+							<li>Interesting points: <span class="rating"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span></li>
+							<li>Agree with arguments: <span class="rating"><%= readable_article_rating(@article.ratings_agree_cache) %></span></li>
 						</ul>
 						<% else %>
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
@@ -93,21 +93,21 @@
 								<span class="bar col-6">
 									<span class="inner" style="width: <%= @article.ratings_well_written_cache.to_i %>%;"></span>
 								</span>
-								<span class="col-2 clear-rating"><%= @article.ratings_well_written_cache.to_i %>%</span>
+								<span class="col-2 clear-rating"><%= readable_article_rating(@article.ratings_well_written_cache) %></span>
 							</li>
 							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<span class="col-4 text">Interesting points: </span>
 								<span class="bar col-6">
 									<span class="inner" style="width: <%= @article.ratings_valid_points_cache.to_i %>%;"></span>
 								</span>
-								<span class="col-2 clear-rating"><%= @article.ratings_valid_points_cache.to_i %>%</span>
+								<span class="col-2 clear-rating"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span>
 							</li>
 							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<span class="col-4 text">Agree with arguments: </span>
 								<span class="bar col-6">
 									<span class="inner" style="width: <%= @article.ratings_agree_cache.to_i %>%;"></span>
 								</span>
-								<span class="col-2 clear-rating"><%= @article.ratings_agree_cache.to_i %>%</span>
+								<span class="col-2 clear-rating"><%= readable_article_rating(@article.ratings_agree_cache) %></span>
 							</li>
 						</ul>
 						<% else %>
@@ -174,6 +174,7 @@
 					<% end %>
 
 					<footer class="entry-footer pl-0 mt-5 d-flex justify-content-between">
+						<% unless @article.is_sponsored? %>
 						<div class="" id="twitter_follow_col">
 							<% if user_signed_in? && current_user.existing_article_rating(@article) %>
 								<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
@@ -187,6 +188,7 @@
 									</a>
 							<% end %>
 						</div>
+						<% end %>
 						<div class="pl-lg-5 d-flex share_links">
 							<%= render partial: 'common/share-buttons', locals: { article: @article } %>
 						</div>

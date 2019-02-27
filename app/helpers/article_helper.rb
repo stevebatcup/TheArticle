@@ -56,10 +56,10 @@ module ArticleHelper
 	end
 
 	def convert_rating_to_dots(rating)
-		case rating.to_i
-		when 0
+		case rating
+		when nil
 			0
-		when 1
+		when 0
 			1
 		when 25
 			2
@@ -71,6 +71,15 @@ module ArticleHelper
 			5
 		else
 			0
+		end
+	end
+
+	def readable_article_rating(rating)
+		if rating.nil? || rating == ''
+			# browser.device.mobile? ? 'N/A' : "no ratings"
+			'N/A'
+		else
+			"#{rating.to_i}%"
 		end
 	end
 end

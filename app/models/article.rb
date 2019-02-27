@@ -20,10 +20,12 @@ class Article < ApplicationRecord
 	end
 
 	def recalculate_ratings_caches
-		self.ratings_well_written_cache = ratings[:well_written]
-		self.ratings_valid_points_cache = ratings[:valid_points]
-		self.ratings_agree_cache = ratings[:agree]
-		self.save
+		unless ratings.nil?
+			self.ratings_well_written_cache = ratings[:well_written]
+			self.ratings_valid_points_cache = ratings[:valid_points]
+			self.ratings_agree_cache = ratings[:agree]
+			self.save
+		end
 	end
 
 	def has_ratings?
@@ -36,9 +38,9 @@ class Article < ApplicationRecord
 		@ratings ||= begin
 			if self.shares.where(share_type: 'rating').any?
 				{
-					well_written: self.shares.average("CASE WHEN `rating_well_written` = 1 THEN 0 ELSE `rating_well_written` END").to_i,
-					valid_points: self.shares.average("CASE WHEN `rating_valid_points` = 1 THEN 0 ELSE `rating_valid_points` END").to_i,
-					agree: self.shares.average("CASE WHEN `rating_agree` = 1 THEN 0 ELSE `rating_agree` END").to_i
+					well_written: self.shares.average(:rating_well_written),
+					valid_points: self.shares.average(:rating_valid_points),
+					agree: self.shares.average(:rating_agree)
 				}
 			else
 				nil

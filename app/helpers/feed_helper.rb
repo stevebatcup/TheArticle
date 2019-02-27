@@ -30,7 +30,9 @@ module FeedHelper
 		disagree_count = results[:disagree].length
 		ownership = for_notification ? "your" : "a"
 
-		sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		unless top_item.empty?
+			sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		end
 		if agree_count > 0 && disagree_count > 0
 			if top_item[:type] == :agree
 				if agree_count == 1
@@ -62,7 +64,9 @@ module FeedHelper
 		if for_notification
 			sentence
 		else
-			opinion_as_json_data(top_item[:opinion], sentence)
+			unless top_item.empty?
+				opinion_as_json_data(top_item[:opinion], sentence)
+			end
 		end
 	end
 
@@ -96,7 +100,9 @@ module FeedHelper
 		end
 
 		comments_count = results.length
-		sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		unless top_item.empty?
+			sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		end
 		ownership = for_notification ? "your" : "a"
 		if is_reply
 			share = Share.find(item.share_id)
@@ -121,7 +127,9 @@ module FeedHelper
 		if for_notification
 			sentence
 		else
-			comment_as_json_data(top_item[:comment], sentence)
+			unless top_item.empty?
+				comment_as_json_data(top_item[:comment], sentence)
+			end
 		end
 	end
 
@@ -151,14 +159,18 @@ module FeedHelper
 		end
 
 		subscription_count = results.length
-		sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		unless top_item.empty?
+			sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+		end
 		if subscription_count == 1
 			sentence = "#{sentence_opener} followed an exchange"
 		else
 			sentence = "#{sentence_opener} and <a href='#' class='other_followers_of_exchange text-green'>#{pluralize(subscription_count - 1, 'other')}</a> followed an exchange"
 		end
 
-		subscription_item_as_json_data(top_item[:subscription].user, top_item[:subscription], sentence, 'front_page')
+		unless top_item.empty?
+			subscription_item_as_json_data(top_item[:subscription].user, top_item[:subscription], sentence, 'front_page')
+		end
 	end
 
 	def group_user_follow_feed_item(item, current_user, for_notification=false)
@@ -187,8 +199,10 @@ module FeedHelper
 		end
 
 		follow_count = results.length
-		sentence_opener = "<a href='#{top_item[:user][:path]}'><b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span></a>"
-		followed_path = "/profile/#{top_item[:follow].followed.slug}"
+		unless top_item.empty?
+			sentence_opener = "<a href='#{top_item[:user][:path]}'><b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span></a>"
+			followed_path = "/profile/#{top_item[:follow].followed.slug}"
+		end
 		if for_notification
 			followed_name = "you"
 		else
@@ -203,7 +217,9 @@ module FeedHelper
 		if for_notification
 			sentence
 		else
-			follow_as_json_data(top_item[:follow], current_user, sentence, 'front_page')
+			unless top_item.empty?
+				follow_as_json_data(top_item[:follow], current_user, sentence, 'front_page')
+			end
 		end
 	end
 end

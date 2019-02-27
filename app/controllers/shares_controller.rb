@@ -4,16 +4,15 @@ class SharesController < ApplicationController
 	def create
 		article = Article.find(share_params[:article_id])
 		if rating = current_user.existing_article_rating(article)
-			update(rating)
+			rating.destroy
+		end
+		@share = Share.new(share_params)
+		@share.share_type = Share.determine_share_type(share_params)
+		@share.user_id = current_user.id
+		if @share.save
+			render json: { status: :success }
 		else
-			@share = Share.new(share_params)
-			@share.share_type = Share.determine_share_type(share_params)
-			@share.user_id = current_user.id
-			if @share.save
-				render json: { status: :success }
-			else
-				render json: { status: :error, message: @share.errors.full_messages.first }
-			end
+			render json: { status: :error, message: @share.errors.full_messages.first }
 		end
 	end
 

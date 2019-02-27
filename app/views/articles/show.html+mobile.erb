@@ -52,15 +52,15 @@
 					<ul class="">
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Well written: </span>
-							<span class="col-2 rating"><%=  @article.ratings_well_written_cache.to_i %>%</span>
+							<span class="col-2 rating"><%=  readable_article_rating(@article.ratings_well_written_cache) %></span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Interesting points: </span>
-							<span class="col-2 rating"><%= @article.ratings_valid_points_cache.to_i %>%</span>
+							<span class="col-2 rating"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
 							<span class="col-10 text">Agree with arguments: </span>
-							<span class="col-2 rating"><%= @article.ratings_agree_cache.to_i %>%</span>
+							<span class="col-2 rating"><%= readable_article_rating(@article.ratings_agree_cache) %></span>
 						</li>
 					</ul>
 					<% else %>
@@ -98,27 +98,27 @@
 								<label>Well written: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%=  @article.ratings_well_written_cache.to_i %>;"></span>
+										<span class="inner" style="width: <%=  @article.ratings_well_written_cache.to_i %>%;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%=  @article.ratings_well_written_cache.to_i %></span>
+									<span class="clear-rating ml-3"><%=  readable_article_rating(@article.ratings_well_written_cache) %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Interesting points: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings_valid_points_cache.to_i %>;"></span>
+										<span class="inner" style="width: <%= @article.ratings_valid_points_cache.to_i %>%;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings_valid_points_cache.to_i %></span>
+									<span class="clear-rating ml-3"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Agree with arguments: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings_agree_cache.to_i %>;"></span>
+										<span class="inner" style="width: <%= @article.ratings_agree_cache.to_i %>%;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= @article.ratings_agree_cache.to_i %></span>
+									<span class="clear-rating ml-3"><%= readable_article_rating(@article.ratings_agree_cache) %></span>
 								</span>
 							</li>
 						</ul>
@@ -186,6 +186,7 @@
 					<% end %>
 
 					<footer class="container px-4 mt-3 mb-4">
+						<% unless @article.is_sponsored? %>
 						<div class="w-100" id="twitter_follow_col">
 							<% if user_signed_in? && current_user.existing_article_rating(@article) %>
 								<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
@@ -199,6 +200,7 @@
 									</a>
 							<% end %>
 						</div>
+						<% end %>
 						<div class="mt-3 d-flex share_links">
 							<%= render partial: 'common/share-buttons', locals: { article: @article } %>
 						</div>

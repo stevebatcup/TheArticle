@@ -63,9 +63,9 @@ json.set! :profile do
 
 	json.set! :ratingsSummary do
 		json.articleCount "#{pluralize(@user.ratings_summary[:article_count], 'rating')}"
-		json.wellWritten @user.ratings_summary[:well_written]
-		json.validPoints @user.ratings_summary[:valid_points]
-		json.agree @user.ratings_summary[:agree]
+		json.wellWritten readable_article_rating(@user.ratings_summary[:well_written])
+		json.validPoints readable_article_rating(@user.ratings_summary[:valid_points])
+		json.agree readable_article_rating(@user.ratings_summary[:agree])
 	end
 
 	json.imFollowing user_signed_in? && (current_user != @user) ? @user.is_followed_by(current_user) : false

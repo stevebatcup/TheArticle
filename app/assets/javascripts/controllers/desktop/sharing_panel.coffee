@@ -13,19 +13,28 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@scope.formError = false
-		@scope.ratingsHeading = "Add a rating?"
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
 		@scope.ratingsTouched =
 			well_written: false
 			valid_points: false
 			agree: false
 
+		@resetData()
+		@scope.alreadyRated = parseInt(@element.data('share-well_written')) > 0 or parseInt(@element.data('share-valid_points')) > 0 or parseInt(@element.data('share-agree')) > 0
+		@setRatingsDefaultHeading()
+		@bindEvents()
+
+	resetData: =>
 		@scope.share =
 			comments: @element.data('share-comments')
 			rating_well_written: @element.data('share-well_written')
 			rating_valid_points: @element.data('share-valid_points')
 			rating_agree: @element.data('share-agree')
-		@bindEvents()
+
+	setRatingsDefaultHeading: =>
+		notYetRatedHeading = "Add a rating?"
+		alreadyRatedHeading = "You have already rated this article - view rating"
+		@scope.ratingsHeading = if @scope.alreadyRated then alreadyRatedHeading else notYetRatedHeading
 
 	bindEvents: =>
 		$(document).on 'show.bs.collapse', '#ratings_box', =>
@@ -33,7 +42,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 				@scope.ratingsHeading = "Rate this article"
 		$(document).on 'hide.bs.collapse', '#ratings_box', =>
 			@scope.$apply =>
-				@scope.ratingsHeading = "Add a rating?"
+				@setRatingsDefaultHeading()
 
 		@scope.$watch 'share.rating_well_written', (newVal, oldVal) =>
 			if (newVal isnt oldVal) and (oldVal > 0)
@@ -44,6 +53,9 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@scope.$watch 'share.rating_agree', (newVal, oldVal) =>
 			if (newVal isnt oldVal) and (oldVal > 0)
 				@scope.ratingsTouched.agree = true
+
+		$(document).on 'hidden.bs.modal', "#sharingPanelModal", =>
+			@resetData()
 
 	toggleDots: (section, rating) =>
 		@scope.share["rating_#{section}"] = rating
