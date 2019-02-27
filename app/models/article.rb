@@ -93,7 +93,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
-		Rails.cache.fetch("article_carousel") do
+		# Rails.cache.fetch("article_carousel") do
 			articles = self.trending
 				.includes(:exchanges).references(:exchanges)
 	      .where.not(image: nil)
@@ -141,7 +141,7 @@ class Article < ApplicationRecord
 			end
 
 			carousel_articles
-		end
+		# end
 	end
 
 	def is_newly_published?
@@ -189,9 +189,7 @@ class Article < ApplicationRecord
 
 	def update_wp_cache(json)
     # bust caches
-    # Rails.cache.clear
     ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
-    	# puts "busting cache: #{cache_key}"
     	Rails.cache.delete(cache_key)
     end
 
