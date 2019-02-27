@@ -27,6 +27,7 @@ class Follow < ApplicationRecord
 		interactor = User.find(self.followed_id)
 		build_retrospective_opinion_feed(interactor, current_user)
 		build_retrospective_comment_feed(interactor, current_user)
+		build_retrospective_subscription_feed(interactor, current_user)
 	end
 
 	def build_retrospective_opinion_feed(opinionator, current_user)
@@ -58,6 +59,23 @@ class Follow < ApplicationRecord
 					})
 				end
 				user_feed_item.feeds << comment_feed
+				user_feed_item.save
+			end
+		end
+	end
+
+	def build_retrospective_subscription_feed(subscriber, current_user)
+		subscriber.feeds.where(actionable_type: 'Subscription').each do |subscription_feed|
+			if subscription_feed.actionable
+				exchange_id = subscription_feed.actionable.exchange_id
+				unless user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'subscription', source_id: exchange_id)
+					user_feed_item = FeedUser.new({
+						user_id: current_user.id,
+						action_type: 'subscription',
+						source_id: exchange_id
+					})
+				end
+				user_feed_item.feeds << subscription_feed
 				user_feed_item.save
 			end
 		end

@@ -9,12 +9,13 @@ main.account_settings_edit {
 	#callouts {
 		.card {
 			.card-header {
-				background: $grey_dark;
+				background: #fff;
 
 				h5 {
 					margin-bottom: 0;
 					text-align: center;
-					color: #fff;
+					color: $grey_dark;
+					font-weight: bold;
 				}
 			}
 		}
@@ -46,6 +47,7 @@ main.account_settings_edit {
 			padding: 0 12px;
 			.stats {
 				cursor: pointer;
+				text-align: center;
 
 				label {
 					cursor: pointer;

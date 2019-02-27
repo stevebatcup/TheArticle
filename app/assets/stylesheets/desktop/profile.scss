@@ -17,12 +17,13 @@
 	#callouts {
 		.card {
 			.card-header {
-				background: $grey_dark;
+				background: #fff;
 
 				h5 {
 					margin-bottom: 0;
 					text-align: center;
-					color: #fff;
+					color: $grey_dark;
+					font-weight: bold;
 				}
 			}
 		}

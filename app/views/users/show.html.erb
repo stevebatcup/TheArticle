@@ -23,7 +23,7 @@
 	</section>
 
 	<section id="top_bar" class="row" ng-cloak>
-		<div class="col-2 bg-grey" id="mini_profile">
+		<div class="col-2 bg-white" id="mini_profile">
 			<div id="mini_profile_inner" class="d-hide pt-2" ng-cloak>
 				<img ng-src="{{ profile.data.profilePhoto.image }}"
 								class="rounded-circle"
@@ -38,7 +38,7 @@
 		</div>
 
 		<!-- Tabs when blocked (either way) -->
-		<ul class="col-8 bg-grey nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
+		<ul class="col-8 bg-white nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
 		  <li class="nav-item">
 		    <a id="activity-all-tab" class="with_badge nav-link active">
 		      <label>All</label>
@@ -47,7 +47,7 @@
 		</ul>
 
 		<!-- Tabs when not blocked -->
-		<ul class="col-8 bg-grey nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
+		<ul class="col-8 bg-white nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
 		  <li class="nav-item">
 		    <a id="activity-all-tab" class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
 		      <label>All</label>
@@ -91,7 +91,7 @@
 		  </li>
 		</ul>
 
-		<div class="col-2 bg-grey px-0 navbar" ng-cloak>
+		<div class="col-2 bg-white px-0 navbar" ng-cloak>
 			<div class="btn-group" class="mt-2" ng-show="profile.isMe">
 			  <button class="btn btn-outline-success btn-sm" type="button" id="edit_profile_btn" ng-click="editProfile()">
 			    Edit profile
