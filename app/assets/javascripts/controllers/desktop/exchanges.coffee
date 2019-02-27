@@ -7,6 +7,7 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 	  '$element'
 	  '$compile'
 	  '$timeout'
+	  '$ngConfirm'
 	  'ExchangeArticle'
 	]
 
@@ -61,9 +62,12 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 
 	unfollow: (exchangeId) =>
 		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
-			@scope.userExchanges = _.filter @scope.userExchanges, (item) =>
-				 item isnt exchangeId
-			@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
+			if response.data.status is 'success'
+				@scope.userExchanges = _.filter @scope.userExchanges, (item) =>
+					 item isnt exchangeId
+				@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
+			else
+				@alert response.data.message, "Error unfollowing exchange"
 
 	loadMore: =>
 		@getArticles()

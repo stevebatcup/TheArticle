@@ -249,7 +249,10 @@ class TheArticle.PageController extends TheArticle.NGController
 		url = "/user_exchanges/#{exchangeId}"
 		url += "?set_flash=1" if showFlash
 		@http.delete(url).then (response) =>
-			callback.call(@, response)
+			if response.data.status is 'success'
+				callback.call(@, response)
+			else
+				@alert response.data.message, "Error unfollowing exchange"
 
 	toggleFollowExchangeFromCard: (exchange, $event) =>
 		$event.preventDefault()

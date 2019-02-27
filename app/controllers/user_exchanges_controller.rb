@@ -33,11 +33,17 @@ class UserExchangesController < ApplicationController
 	def destroy
 		subscription = current_user.subscriptions.find_by(exchange_id: params[:id])
 		@exchange = subscription.exchange
-		if subscription.destroy
-			flash[:notice] = "You are no longer following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
-			@status = :success
-		else
+		if current_user.subscriptions.length <= 3
 			@status = :error
+			@message = "You must follow at least 3 exchanges"
+		else
+			if subscription.destroy
+				flash[:notice] = "You are no longer following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
+				@status = :success
+			else
+				@status = :error
+				@message = subscription.errors.full_messages
+			end
 		end
 	end
 

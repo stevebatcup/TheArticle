@@ -8,6 +8,7 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 	  '$element'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	  'ExchangeArticle'
 	]
 
