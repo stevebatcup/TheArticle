@@ -1,6 +1,10 @@
 section.auth {
 	.form-group {
-		margin-bottom: 0.7em;
+		margin-bottom: 0.2em;
+
+		label {
+			margin-bottom: 0;
+		}
 	}
 
 	.form-group.checker {

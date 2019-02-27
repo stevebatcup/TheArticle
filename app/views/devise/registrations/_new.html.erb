@@ -30,32 +30,33 @@
         </header>
 
         <section ng-controller="AuthController" class="auth">
-          <div class="container pt-4 pb-4">
+          <div class="container pt-3 pt-md-4 pb-4">
 
             <div class="row">
               <div class="col-0 col-md-12">
               <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-                <%= devise_error_messages! %>
 
                 <div class="form-group">
                   <%= f.label :first_name %><br />
-                  <%= f.text_field :first_name, autofocus: true, autocomplete: "First name", class: "form-control", required: '' %>
+                  <%= f.text_field :first_name, autofocus: true, autocomplete: "First name", class: "form-control", 'ng-model': 'register.firstName' %>
                 </div>
+
+                <p class="alert alert-danger" ng-if="register.errors.names">{{register.errors.names}}</p>
 
                 <div class="form-group">
                   <%= f.label :last_name %><br />
-                  <%= f.text_field :last_name, autofocus: true, autocomplete: "Last name", class: "form-control", required: '' %>
+                  <%= f.text_field :last_name, autofocus: true, autocomplete: "Last name", class: "form-control", 'ng-model': 'register.lastName' %>
                 </div>
 
-                <div class="row">
+                <div class="row form-group">
                   <div class="col">
                     <%= f.label :gender %><br />
-                    <%= f.select :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ], resource.gender), {}, { class: "form-control short", required: '' } %>
+                    <%= f.select :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ], resource.gender), {}, { class: "form-control short", 'ng-model': 'register.gender' } %>
                   </div>
 
                   <div class="col">
                     <%= f.label :age_bracket %><br />
-                    <%= f.select :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ], resource.age_bracket), {}, { class: "form-control short", required: '' } %>
+                    <%= f.select :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ], resource.age_bracket), {}, { class: "form-control short", 'ng-model': 'register.ageBracket' } %>
                   </div>
                 </div>
 
@@ -65,39 +66,51 @@
                   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</small>
                 </div>
 
+                <p class="alert alert-danger" ng-if="register.errors.gender">{{register.errors.gender}}</p>
+                <p class="alert alert-danger" ng-if="register.errors.ageBracket">{{register.errors.ageBracket}}</p>
+
                 <div class="form-group">
                   <%= f.label :email %><br />
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", required: '' %>
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", 'ng-model': 'register.email' %>
                 </div>
 
-                <div class="row mb-2">
+                <p class="alert alert-danger" ng-if="register.errors.email">{{register.errors.email}}</p>
+
+                <div class="row mb-2 form-group">
                   <div class="col-md mb-3 mb-md-0">
                     <%= f.label :password %>
                     <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                     <% end %><br />
-                    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", required: '' %>
+                    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", 'ng-model': 'register.password' %>
                   </div>
+
 
                   <div class="col-md">
                     <%= f.label :password_confirmation %><br />
-                    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", required: '' %>
+                    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", 'ng-model': 'register.passwordConfirm' %>
                   </div>
                 </div>
 
+                <p class="alert alert-danger" ng-if="register.errors.password">{{register.errors.password}}</p>
+
                 <div class="form-group checker d-flex">
-                  <input type="checkbox" class="mr-2" name="tandc" id="tandc" required='true' />
+                  <input type="checkbox" class="mr-2" name="tandc" id="tandc" ng-model='register.tandc' value="1" />
                   <label>
-                    <small>I am over 16 and agree to TheArticle <a href="/terms-and-conditions" target="_blank">Terms &amp; Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></small>
+                    <small>I am over 16 and agree to TheArticle <a href="/terms-and-conditions" target="_blank">
+                        Terms &amp; Conditions</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a>
+                    </small>
                   </label>
                 </div>
 
+                <p class="alert alert-danger" ng-if="register.errors.tandc">{{register.errors.tandc}}</p>
+
                 <div class="actions">
-                  <%= f.submit "Join", class: "btn btn-success btn-block text-white my-3" %>
+                  <button class="btn btn-success btn-block text-white my-3" ng-click="submitRegister($event)">Join</button>
                 </div>
               <% end %>
 
-              <p>Already have an account with <b>TheArticle</b>?  <a href=#" ng-click="openSigninForm($event)" class="text-green">Sign in here</a>.</p>
+              <p>Already have an account with <b>TheArticle</b>?  <a href='#' ng-click="openSigninForm($event)" class="text-green">Sign in here</a>.</p>
               </div>
             </div>
           </div>

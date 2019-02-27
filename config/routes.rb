@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   post 'register',                             to: 'register#create'
 
+  get 'email-availability',                    to: 'email_availability#new'
   get 'username-availability',                 to: 'username_availability#new'
   get 'profile/new',                           to: 'profile_wizard#new', as: :profile_wizard
   post 'my-profile',                           to: 'profile_wizard#create', as: :save_profile_wizard
