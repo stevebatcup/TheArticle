@@ -17,7 +17,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	init: ->
 		@setDefaultHttpHeaders()
-		@detectFlashFromGet()
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()

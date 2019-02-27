@@ -17,7 +17,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	]
 
 	init: ->
-		@detectFlashFromGet()
 		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
 		@setDefaultHttpHeaders()
 		@scope.profilePhotoReadyForCrop = false

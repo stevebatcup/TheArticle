@@ -6,20 +6,6 @@ class TheArticle.PageController extends TheArticle.NGController
 	hasAds: ->
 		$('#ads_top').length > 0
 
-	reloadPageWithFlash: (flashMsg='', flashAction='') =>
-		url = "#{window.location.protocol}//#{window.location.host}#{window.location.pathname}"
-		url += "?flash_msg=#{flashMsg}" if flashMsg.length
-		url += "&flash_action=#{flashAction}" if flashAction.length
-		# console.log url
-		window.location.href = url
-
-	detectFlashFromGet: =>
-		vars = @getUrlVars()
-		if 'flash_msg' of vars
-			setTimeout =>
-				@flash( decodeURIComponent(vars['flash_msg'].split('#')[0]), decodeURIComponent(vars['flash_action'].split('#')[0]) )
-			, 900
-
 	flash: (msg, action=null) =>
 		$.notifyClose('bottom-center')
 		$.notify({

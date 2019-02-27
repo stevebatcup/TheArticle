@@ -447,13 +447,13 @@ class TheArticle.Feeds extends TheArticle.PageController
 		if @scope.isSignedIn is false
 			@requiresSignIn('mute a profile')
 		else
-			@http.post("/mutes", {id: userId}).then (response) =>
-				@reloadPageWithFlash("You have muted <b>#{username}</b>", 'unmute')
+			@http.post("/mutes", {id: userId, set_flash: true}).then (response) =>
+				window.location.reload()
 
 	unmute: ($event, userId, username) =>
 		$event.preventDefault()
-		@http.delete("/mutes/#{userId}").then (response) =>
-			@reloadPageWithFlash("You have unmuted <b>#{username}</b>", 'mute')
+		@http.delete("/mutes/#{userId}?set_flash=true").then (response) =>
+			window.location.reload()
 
 	block: ($event=null, userId, username) =>
 		$event.preventDefault() if $event?
@@ -470,22 +470,22 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$("#confirmBlockModal").modal()
 
 	confirmBlock: ($event, user) =>
-		@http.post("/blocks", {id: user.id}).then (response) =>
+		@http.post("/blocks", {id: user.id, set_flash: true}).then (response) =>
 			$("#confirmBlockModal").modal('hide')
-			@reloadPageWithFlash("You have blocked <b>#{user.username}</b>", 'unblock')
+			window.location.reload()
 
 	unblock: ($event, userId, username) =>
 		$event.preventDefault()
 		confirmMsg = "#{username} will be able to follow you and message you.  <a href='/help?section=blocking'>Read more</a> about what it means to block and unblock someone."
 		@confirm confirmMsg, =>
-			@http.delete("/blocks/#{userId}").then (response) =>
-				@reloadPageWithFlash("You have unblocked <b>#{username}</b>", 'block')
+			@http.delete("/blocks/#{userId}?set_flash=true").then (response) =>
+				window.location.reload()
 		, null, "Unblock #{username}?", ["Cancel", "Unblock"]
 
 	unfollow: ($event, userId, username) =>
 		$event.preventDefault()
-		@http.delete("/user_followings/#{userId}").then (response) =>
-			@reloadPageWithFlash("You have unfollowed <b>#{username}</b>", 'block')
+		@http.delete("/user_followings/#{userId}?set_flash=true").then (response) =>
+			window.location.reload()
 
 	deleteOwnComment: ($event, item, comment, parent=null) =>
 		$event.preventDefault()

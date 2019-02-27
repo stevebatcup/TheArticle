@@ -17,7 +17,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	]
 
 	init: ->
-		@detectFlashFromGet()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
 		@bindEvents()

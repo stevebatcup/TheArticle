@@ -39,7 +39,7 @@ class UserFollowingsController < ApplicationController
 			current_user.followings << Follow.new({followed_id: params[:id]})
 			if current_user.save
 				@status = :success
-				flash[:notice] = "You are now following <b>#{other_user.display_name}</b>"
+				flash[:notice] = "You are now following <b>#{other_user.display_name}</b>" if params[:set_flash]
 				current_user.accept_suggestion_of_user_id(params[:id])
 			else
 				@status = :error
