@@ -239,12 +239,16 @@ class TheArticle.PageController extends TheArticle.NGController
 		@http.delete(url).then (response) =>
 			callback.call(@)
 
-	followExchange: (exchangeId, callback) =>
-		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
+	followExchange: (exchangeId, callback, showFlash=false) =>
+		data = { id: exchangeId }
+		data['set_flash'] = 1 if showFlash
+		@http.post("/user_exchanges", data).then (response) =>
 			callback.call(@, response)
 
-	unfollowExchange: (exchangeId, callback) =>
-		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
+	unfollowExchange: (exchangeId, callback, showFlash=false) =>
+		url = "/user_exchanges/#{exchangeId}"
+		url += "?set_flash=1" if showFlash
+		@http.delete(url).then (response) =>
 			callback.call(@, response)
 
 	toggleFollowExchangeFromCard: (exchange, $event) =>
@@ -252,9 +256,15 @@ class TheArticle.PageController extends TheArticle.NGController
 		if exchange.imFollowing
 			@unfollowExchange exchange.id, =>
 				exchange.imFollowing = false
+				@cookies.put('ok_to_flash', true)
+				window.location.reload()
+			, true
 		else
 			@followExchange exchange.id, =>
 				exchange.imFollowing = true
+				@cookies.put('ok_to_flash', true)
+				window.location.reload()
+			, true
 
 	openRegisterForm: ($event=null) =>
 		$event.preventDefault() if $event

@@ -23,6 +23,7 @@ class UserExchangesController < ApplicationController
 		@exchange = Exchange.find(params[:id])
 		current_user.exchanges << @exchange
 		if current_user.save
+			flash[:notice] = "You are now following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
 			@status = :success
 		else
 			@status = :error
@@ -33,6 +34,7 @@ class UserExchangesController < ApplicationController
 		subscription = current_user.subscriptions.find_by(exchange_id: params[:id])
 		@exchange = subscription.exchange
 		if subscription.destroy
+			flash[:notice] = "You are no longer following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
 			@status = :success
 		else
 			@status = :error

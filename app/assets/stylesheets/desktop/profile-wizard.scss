@@ -26,14 +26,6 @@
 		cursor: pointer;
 		height: 175px;
 
-		&.hovered {
-			.inner {
-				.img_mask {
-					height: 2%
-				}
-			}
-		}
-
 		h6 {
 			font-size: 0.8rem;
 		}

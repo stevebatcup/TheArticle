@@ -18,7 +18,6 @@ class HomeController < ApplicationController
 			trending_exchanges = Exchange.trending_list
 			other_exchanges = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc)
 			@exchanges_for_profile_wizard = trending_exchanges.to_a.concat(other_exchanges)
-			@exchanges_for_profile_wizard.unshift(Exchange.editor_item)
 		end
 	end
 end

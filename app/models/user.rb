@@ -161,6 +161,7 @@ class User < ApplicationRecord
     params[:selected_exchanges].each do |eid|
       self.exchanges << Exchange.find(eid)
     end
+    self.exchanges << Exchange.editor_item
     self.has_completed_wizard = 1
     self.save
   end
