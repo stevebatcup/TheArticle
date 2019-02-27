@@ -1,0 +1,43 @@
+.autocompleter {
+	ul {
+		padding: 0;
+		border-bottom: 1px solid #ccc;
+		border-left: 1px solid #ccc;
+		border-right: 1px solid #ccc;
+		box-shadow: 1px 1px 2px #ccc;
+		background: #fff;
+
+		li {
+			list-style: none;
+			line-height: 2.2em;
+
+			a {
+				padding: 10px 0 6px 14px;
+				display: block;
+				color: inherit;
+
+				svg {
+					font-size: 20px;
+					position: relative;
+					top: 2px;
+				}
+
+				p {
+					line-height: 1.3em;
+
+					span {
+						display: block;
+					}
+
+					small {
+						display: block;
+					}
+				}
+
+				&:hover {
+					background: #eee;
+				}
+			}
+		}
+	}
+}

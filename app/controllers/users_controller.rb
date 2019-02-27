@@ -47,7 +47,10 @@ class UsersController < ApplicationController
 			if current_user.update_attributes({
 					display_name: profile_params[:display_name],
 					username: profile_params[:username],
-					location: profile_params[:location],
+			    location: profile_params[:location][:value],
+			    lat: profile_params[:location][:lat],
+			    lng: profile_params[:location][:lng],
+			    country_code: profile_params[:location][:country_code],
 					bio: profile_params[:bio]
 				})
 				@status = :success

@@ -6,6 +6,14 @@
 	display: none;
 }
 
+label.alert-danger {
+	color: #721c24 !important;
+}
+
+label.alert-success {
+	color: #155724 !important;
+}
+
 a:hover,
 a:active {
 	color: inherit !important;

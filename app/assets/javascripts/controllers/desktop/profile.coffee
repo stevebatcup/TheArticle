@@ -85,8 +85,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				edited: false
 				data:
 					displayName: ""
-					username: ""
-					location: ""
+					username:
+						value: ""
+						available: true
+					location:
+						text: ""
+						lat: null
+						lng: null
+						countryCode: ''
 					bio: ""
 			data:
 				id: null
@@ -118,6 +124,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				username: false
 				photo: false
 				reactivate: false
+				location: false
+
 		@bindEvents()
 		@detectPanelOpeners() if 'panel' of @getVars
 		if @scope.profile.isMe is true
@@ -151,6 +159,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 570, 114, 'square'
+
+		$(document).on 'keyup', 'input#user_location', (e) =>
+			$input = $('input#user_location')
+			value = $input.val()
+			if value.length > 2
+				@autocompleteLocations $input
 
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
@@ -372,8 +386,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				@scope.myProfile = profile
 				@scope.profile.form.data =
 					displayName: profile.displayName
-					username: profile.username
-					location: profile.location
+					username:
+						value: profile.username
+					location:
+						text: profile.location
 					bio: profile.bio
 				@scope.profile.loaded = true
 				@buildDigestFromProfileData(@scope.profile.data)
@@ -431,20 +447,20 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.errors.displayName = "Please choose a Display Name"
 		else if !(/^[a-z][a-z\s]*$/i.test(@scope.profile.form.data.displayName))
 			@scope.profile.errors.displayName = "Your Display Name can only contain letters and a space"
-		else if !@scope.profile.form.data.username?
+		else if !@scope.profile.form.data.username.value? or @scope.profile.form.data.username.value.length is 0
 			@scope.profile.errors.username = "Please enter a username"
-		else if @scope.profile.form.data.username.length < 6
+		else if @scope.profile.form.data.username.value.length < 6
 			@scope.profile.errors.username = "Your Username must be at least 6 characters long"
-		else if !(/^[0-9a-zA-Z_]+$/i.test(@scope.profile.form.data.username))
+		else if !(/^[0-9a-zA-Z_]+$/i.test(@scope.profile.form.data.username.value))
 			@scope.profile.errors.username = "Your Username can only contain letters, numbers and an '_'"
 
 		if @scope.profile.errors.displayName or @scope.profile.errors.username
 			return false
 		else
-			if "@#{@scope.profile.form.data.username}" is @scope.profile.form.data.originalUsername
+			if "@#{@scope.profile.form.data.username.value}" is @scope.profile.form.data.originalUsername
 				callback.call(@) if callback?
 			else
-				@http.get("/username-availability?username=@#{@scope.profile.data.username}").then (response) =>
+				@http.get("/username-availability?username=@#{@scope.profile.form.data.username.value}").then (response) =>
 					if response.data is false
 						@scope.profile.errors.username = "Username has already been taken"
 						return false
@@ -452,7 +468,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						callback.call(@) if callback?
 
 	updateProfile: =>
-		@scope.profile.data.originalUsername = "@#{@scope.profile.form.data.username}"
+		@scope.profile.data.originalUsername = "@#{@scope.profile.form.data.username.value}"
 		profile = new @MyProfile @setProfileData(@scope.profile.form.data)
 		profile.update().then (response) =>
 			if response.status is 'error'
@@ -468,13 +484,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	updateProfileError: (msg) =>
 		@scope.profile.errors.main = "Error updating profile: #{msg}"
 
-	setProfileData: (profile) =>
+	setProfileData: (formData) =>
 		{
-			id: profile.id
-			displayName: profile.displayName
-			username: "@#{profile.username}"
-			location: profile.location
-			bio: profile.bio
+			id: formData.id
+			displayName: formData.displayName
+			username: "@#{formData.username.value}"
+			location:
+				value: formData.location.text
+				lat: formData.location.lat
+				lng: formData.location.lng
+				country_code: formData.location.countryCode
+			bio: formData.bio
 		}
 
 	editProfilePhoto: =>
@@ -564,5 +584,57 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	selectFollowersTab: ($event, tab) =>
 		$event.preventDefault()
 		@scope.profile.follows.followersMode = tab
+
+	validateUsernameFromField: =>
+		@markFormAsEdited()
+		@scope.profile.errors.username = ""
+		@validateUsername (result) =>
+			@scope.profile.form.data.username.available = result
+		, false
+
+	validateUsername: (callback=null, save=false) =>
+		url = "/username-availability?username=@#{@scope.profile.form.data.username.value}"
+		url += "&save=1" if save is true
+		@http.get(url).then (response) =>
+			if response.data is false
+				@scope.profile.errors.username = "Username has already been taken"
+				callback.call(@, false) if callback?
+				return false
+			else
+				callback.call(@, true) if callback?
+				return true
+
+	autocompleteLocations: ($input) =>
+		options =
+			types: ['geocode']
+			input: $input.val()
+			componentRestrictions: {}
+			# {country: 'gb'}
+		acService = new google.maps.places.AutocompleteService()
+		@scope.autocompleteItems = []
+		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
+		acService.getPlacePredictions options, (predictions) =>
+			if _.some(predictions)
+				predictions.forEach (prediction) =>
+					# console.log prediction
+					if _.intersection(prediction.types, excludeTypes).length < 1
+						@scope.$apply =>
+							@scope.autocompleteItems.push(prediction)
+
+	populateLocation: ($event, prediction) =>
+		$event.preventDefault()
+		address = prediction.description
+		geocoder = new google.maps.Geocoder()
+		placeText = $($event.currentTarget.innerHTML).find(".main_location_text").text()
+		@scope.profile.form.data.location.text = placeText
+		geocoder.geocode { 'address': address }, (results, status) =>
+			if status is google.maps.GeocoderStatus.OK
+				@scope.$apply =>
+					@scope.profile.form.data.location.lat = results[0].geometry.location.lat()
+					@scope.profile.form.data.location.lng = results[0].geometry.location.lng()
+					results[0].address_components.forEach (component) =>
+						if _.contains(component.types, 'country')
+							@scope.profile.form.data.location.countryCode = component.short_name
+		@scope.autocompleteItems = []
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

@@ -370,21 +370,49 @@
 			  </div>
 
 			  <div class="form-group">
-			    <%= f.label :username %><br />
-		    	<p ng-show="profile.errors.username" class="alert alert-danger">{{profile.errors.username}}</p>
+			    <span ng-show="!profile.errors.username && !profile.form.data.username.available">
+			    	<%= f.label :username %>
+		    	</span>
+		    	<label ng-show="profile.errors.username" class="alert-no-bg alert-danger">
+		    		{{profile.errors.username}}
+		    	</label>
+		    	<label ng-show="profile.form.data.username.available" class="alert-no-bg alert-success">
+		    		Available!
+		    	</label>
+
+		    	<br />
 		    	<div class="input-group mb-2">
   	        <div class="input-group-prepend">
   	          <div class="input-group-text">@</div>
   	        </div>
-				    <%= f.text_field :username, autofocus: true, class: "form-control", 'ng-model': "profile.form.data.username", 'ng-keyup': 'markFormAsEdited()' %>
+				    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.form.data.username.value",
+				    	"ng-keyup": "validateUsernameFromField()" %>
 				  </div>
-				</div>
-
-			  <div class="form-group">
-			    <%= f.label :location %><br />
-		    	<p ng-show="profile.errors.location" class="alert alert-danger">{{profile.errors.location}}</p>
-			    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.form.data.location", 'ng-keyup': 'markFormAsEdited()' %>
+			    <p><small class="form-text alert-no-bg"
+			    			ng-class="{
+			    			'alert-success': profile.form.data.username.available,
+			    			'alert-danger': profile.errors.username.length > 0
+			    		}">
+			    	<%= profile_url(slug: '') %>{{profile.form.data.username.value.toLowerCase()}}
+			    </small></p>
 			  </div>
+
+	  	  <div class="form-group autocompleter">
+	  	    <%= f.label :location %><br />
+	      	<p ng-show="profile.errors.location" class="alert alert-danger">{{profile.errors.location}}</p>
+	  	    <%= f.text_field :location, class: "form-control", 'ng-model': "profile.form.data.location.text", "autocomplete": "on", 'ng-keyup': 'markFormAsEdited()' %>
+	  	    <ul ng-if="autocompleteItems.length > 0">
+	  	    	<li ng-repeat="item in autocompleteItems">
+	  	    		<a href='#' ng-click="populateLocation($event, item)" class="d-flex justify-content-start align-items-start">
+	  	    			<i class="fas fa-map-marker-alt text-green"></i>
+	  	    			<p class="my-0 ml-3">
+	  	    				<span class="main_location_text">{{ item.structured_formatting.main_text }}</span>
+	  		    			<small class="text-muted">{{ item.structured_formatting.secondary_text }}</small>
+	  		    		</p>
+	  	    		</a>
+	  	    	</li>
+	  	    </ul>
+	  	  </div>
 
 	  	  <div class="form-group">
 	  	    <%= f.label :bio %><br />
