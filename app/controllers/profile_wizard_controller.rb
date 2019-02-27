@@ -18,7 +18,6 @@ class ProfileWizardController < ApplicationController
 			current_user.complete_profile_from_wizard(params[:profile])
 			ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
 			sign_in(current_user)
-			cookies.delete :force_profile_wizard
 			@status = :success
 			@redirect = front_page_path
 		rescue Exception => e

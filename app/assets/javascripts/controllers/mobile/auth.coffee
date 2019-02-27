@@ -54,7 +54,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 				login: @scope.signInDetails.login.value
 				password: @scope.signInDetails.password.value
 		@http.post("/users/sign_in", data).then (response) =>
-			window.location.href = "/my-home"
+			window.location.href = response.data.redirect
 		, (response) =>
 			@scope.signInDetails.login.error = response.data.status
 

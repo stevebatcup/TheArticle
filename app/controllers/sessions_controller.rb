@@ -16,8 +16,14 @@ class SessionsController < Devise::SessionsController
 	  return invalid_login_attempt unless resource
 
 	  if resource.valid_password?(params[:user][:password])
-	    sign_in :user, resource
 	    @status = :success
+	    sign_in_url = new_user_session_url
+      if request.referer == sign_in_url
+      	@redirect = front_page_path
+      else
+		    @redirect = stored_location_for(resource) || request.referer || front_page_path
+		  end
+	    sign_in :user, resource
 	  else
 		  invalid_login_attempt
 	  end
