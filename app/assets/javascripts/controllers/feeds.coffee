@@ -91,6 +91,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault()
 		@followUser user.id, =>
 			user.imFollowing = true
+			@cookies.put('ok_to_flash', true)
 			window.location.reload()
 		, false, true
 
@@ -98,6 +99,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault()
 		@unfollowUser user.id, =>
 			user.imFollowing = false
+			@cookies.put('ok_to_flash', true)
 			window.location.reload()
 		, true
 
@@ -120,6 +122,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 				item.actionForRetry = false
 			else
 				item.canInteract = 'not_followed'
+				@cookies.put('ok_to_flash', true)
 				window.location.reload()
 			item.actionAuthError = false
 		, false, true
@@ -451,11 +454,13 @@ class TheArticle.Feeds extends TheArticle.PageController
 			@requiresSignIn('mute a profile')
 		else
 			@http.post("/mutes", {id: userId, set_flash: true}).then (response) =>
+				@cookies.put('ok_to_flash', true)
 				window.location.reload()
 
 	unmute: ($event, userId, username) =>
 		$event.preventDefault()
 		@http.delete("/mutes/#{userId}?set_flash=true").then (response) =>
+			@cookies.put('ok_to_flash', true)
 			window.location.reload()
 
 	block: ($event=null, userId, username) =>
@@ -475,6 +480,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 	confirmBlock: ($event, user) =>
 		@http.post("/blocks", {id: user.id, set_flash: true}).then (response) =>
 			$("#confirmBlockModal").modal('hide')
+			@cookies.put('ok_to_flash', true)
 			window.location.reload()
 
 	unblock: ($event, userId, username) =>
@@ -482,12 +488,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 		confirmMsg = "#{username} will be able to follow you and message you.  <a href='/help?section=blocking'>Read more</a> about what it means to block and unblock someone."
 		@confirm confirmMsg, =>
 			@http.delete("/blocks/#{userId}?set_flash=true").then (response) =>
+				@cookies.put('ok_to_flash', true)
 				window.location.reload()
 		, null, "Unblock #{username}?", ["Cancel", "Unblock"]
 
 	unfollow: ($event, userId, username) =>
 		$event.preventDefault()
 		@http.delete("/user_followings/#{userId}?set_flash=true").then (response) =>
+			@cookies.put('ok_to_flash', true)
 			window.location.reload()
 
 	deleteOwnComment: ($event, item, comment, parent=null) =>

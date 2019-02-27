@@ -9,6 +9,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  '$timeout'
 	  '$compile'
 	  '$ngConfirm'
+	  '$cookies'
 	  'Notification'
 	  'Share'
 	  'Comment'

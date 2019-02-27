@@ -9,6 +9,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	  '$timeout'
 	  '$compile'
 	  '$ngConfirm'
+	  '$cookies'
 	  'Feed'
 		'Comment'
 		'Opinion'
@@ -50,7 +51,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@getMyProfile()
 
 		@listenForActions()
-		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
+		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
+			@flash $('#flash_notice').html()
+			@cookies.remove('ok_to_flash')
 
 	bindEvents: =>
 		super

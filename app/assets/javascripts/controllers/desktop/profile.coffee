@@ -10,6 +10,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	  '$compile'
 	  '$sce'
 	  '$ngConfirm'
+	  '$cookies'
 	  'Profile'
 	  'MyProfile'
 	  'Comment'
@@ -17,7 +18,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	]
 
 	init: ->
-		@flash $('#flash_notice').html() if $('#flash_notice').length > 0
+		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
+			@flash $('#flash_notice').html()
+			@cookies.remove('ok_to_flash')
 		@getVars = @getUrlVars()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = false
@@ -516,12 +519,15 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			if @scope.profile.data.imFollowing
 				@unfollowUser userId, =>
 					@scope.profile.data.imFollowing = false
+					@cookies.put('ok_to_flash', true)
 					window.location.reload()
+				, true
 			else
 				@followUser userId, =>
 					@scope.profile.data.imFollowing = true
+					@cookies.put('ok_to_flash', true)
 					window.location.reload()
-				, false
+				, false, true
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 
