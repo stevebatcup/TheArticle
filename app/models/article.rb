@@ -93,7 +93,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
-		# Rails.cache.fetch("article_carousel") do
+		Rails.cache.fetch("article_carousel") do
 			articles = self.trending
 				.includes(:exchanges).references(:exchanges)
 	      .where.not(image: nil)
@@ -141,7 +141,7 @@ class Article < ApplicationRecord
 			end
 
 			carousel_articles
-		# end
+		end
 	end
 
 	def is_newly_published?
