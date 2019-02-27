@@ -120,8 +120,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 				item.actionForRetry = false
 			else
 				item.canInteract = 'not_followed'
-				@flash "You are now following <b>#{item.share.user.displayName}</b>"
+				window.location.reload()
 			item.actionAuthError = false
+		, false, true
 
 	showComments: ($event=null, item, startWriting=false) =>
 		$event.preventDefault() if $event?
