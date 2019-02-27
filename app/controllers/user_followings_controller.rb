@@ -51,7 +51,7 @@ class UserFollowingsController < ApplicationController
 	def destroy
 		other_user = User.find(params[:id])
 		if current_user.followings.where(followed_id: params[:id]).first.destroy
-			flash[:notice] = "You are no longer following <b>#{other_user.display_name}</b>"
+			flash[:notice] = "You are no longer following <b>#{other_user.display_name}</b>" if params[:set_flash]
 			@status = :success
 		else
 			@status = :error

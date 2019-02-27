@@ -224,15 +224,19 @@ class TheArticle.PageController extends TheArticle.NGController
 	setCsrfTokenHeaders: ->
 		@http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
 
-	followUser: (userId, callback, from_suggestion=false) =>
-		@http.post("/user_followings", {id: userId, from_suggestion: from_suggestion}).then (response) =>
+	followUser: (userId, callback, from_suggestion=false, showFlash=false) =>
+		data = { id: userId, from_suggestion: from_suggestion }
+		data['set_flash'] = 1 if showFlash
+		@http.post("/user_followings", data).then (response) =>
 			if response.data.status is 'success'
 				callback.call(@)
 			else if response.data.status is 'error'
 				@alert response.data.message, "Error following user"
 
-	unfollowUser: (userId, callback) =>
-		@http.delete("/user_followings/#{userId}").then (response) =>
+	unfollowUser: (userId, callback, showFlash=false) =>
+		url = "/user_followings/#{userId}"
+		url += "?set_flash=1" if showFlash
+		@http.delete(url).then (response) =>
 			callback.call(@)
 
 	followExchange: (exchangeId, callback) =>

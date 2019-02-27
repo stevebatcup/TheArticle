@@ -87,6 +87,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 					followingItem.imFollowing = false
 				if followerItem = _.findWhere @scope.follows.data.followers, { id: member.id }
 					followerItem.imFollowing = false
+				@flash "You are no longer following <b>#{member.username}</b>"
 
 				followerItem.isConnected = false if followerItem
 				@buildConnections()
@@ -98,6 +99,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 					followingItem.imFollowing = true
 				if followerItem = _.findWhere @scope.follows.data.followers, { id: member.id }
 					followerItem.imFollowing = true
+				@flash "You are now following <b>#{member.username}</b>"
 
 				followerItem.isConnected = true if followerItem
 				@buildConnections()

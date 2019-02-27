@@ -528,18 +528,24 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	toggleFollowUserFromCard: (member) =>
 		if @rootScope.isSignedIn
 			if member.imFollowing
-				@unfollowUser member.id ,=>
-					@scope.profile.follows.followings = _.filter @scope.profile.follows.followings, (item) =>
-						item.id isnt member.id
-					if followerItem = _.findWhere @scope.profile.follows.followers, { id: member.id }
-						followerItem.imFollowing = false
+				@unfollowUser member.id, =>
 					member.imFollowing = false
-					@buildFollowersImFollowingCount() unless @scope.profile.isMe
+					@flash "You are no longer following <b>#{member.username}</b>"
+					if @scope.profile.isMe
+						@scope.profile.follows.followings = _.filter @scope.profile.follows.followings, (item) =>
+							item.id isnt member.id
+						if followerItem = _.findWhere @scope.profile.follows.followers, { id: member.id }
+							followerItem.imFollowing = false
+					else
+						@buildFollowersImFollowingCount()
 			else
 				@followUser member.id, =>
 					member.imFollowing = true
-					@scope.profile.follows.followings.push member
-					@buildFollowersImFollowingCount() unless @scope.profile.isMe
+					@flash "You are now following <b>#{member.username}</b>"
+					if @scope.profile.isMe
+						@scope.profile.follows.followings.push member
+					else
+						@buildFollowersImFollowingCount()
 				, false
 		else
 			@requiresSignIn("follow #{member.displayName}")

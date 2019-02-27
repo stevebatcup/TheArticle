@@ -27,7 +27,12 @@ class SessionsController < Devise::SessionsController
 	  else
 		  invalid_login_attempt
 	  end
-	 end
+	end
+
+	def destroy
+		super
+		flash.delete(:notice)
+	end
 
 protected
 

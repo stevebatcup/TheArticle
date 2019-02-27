@@ -50,9 +50,11 @@ class TheArticle.SearchResults extends TheArticle.MobilePageController
 		if member.imFollowing
 			@unfollowUser member.id, =>
 				member.imFollowing = false
+				@flash "You are no longer following <b>#{member.username}</b>"
 		else
 			@followUser member.id, =>
 				member.imFollowing = true
+				@flash "You are now following <b>#{member.username}</b>"
 			, false
 
 TheArticle.ControllerModule.controller('SearchResultsController', TheArticle.SearchResults)
