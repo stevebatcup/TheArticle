@@ -79,7 +79,7 @@
 						<% if show_ads? %>
 							<%= adified_content(@article) %>
 						<% else %>
-							<%= simple_format @article.content.html_safe %>
+							<%= @article.content.html_safe %>
 						<% end %>
 					</div>
 
