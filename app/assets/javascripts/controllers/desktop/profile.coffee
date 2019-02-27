@@ -225,8 +225,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@http.get(url).then (response) =>
 			angular.forEach response.data.comments, (item) =>
 				@scope.profile.commentActions.data.push item
-				if (item.share.showComments is true) and (@rootScope.isSignedIn is true)
-					@showComments(null, item, false)
 			@scope.profile.commentActions.totalItems = response.data.total if @scope.profile.commentActions.page is 1
 			@scope.profile.commentActions.moreToLoad = @scope.profile.commentActions.totalItems > (@scope.profile.commentActions.page * @scope.profile.commentActions.perPage)
 			@scope.profile.commentActions.loaded = true
@@ -250,10 +248,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@http.get(url).then (response) =>
 			angular.forEach response.data.opinions, (item) =>
 				@scope.profile.opinionActions.data.push item
-				if (item.share.showAgrees is true) and (@rootScope.isSignedIn is true)
-					@showAgrees(null, item)
-				else if (item.share.showDisagrees is true) and (@rootScope.isSignedIn is true)
-					@showDisagrees(null, item)
 			@scope.profile.opinionActions.totalItems = response.data.total if @scope.profile.opinionActions.page is 1
 			@scope.profile.opinionActions.moreToLoad = @scope.profile.opinionActions.totalItems > (@scope.profile.opinionActions.page * @scope.profile.opinionActions.perPage)
 			@scope.profile.opinionActions.loaded = true

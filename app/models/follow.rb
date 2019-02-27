@@ -72,7 +72,8 @@ class Follow < ApplicationRecord
 			notification = Notification.new({
 				eventable_type: 'Follow',
 				user_id: self.followed_id,
-				created_at: Time.now
+				created_at: Time.now,
+				updated_at: Time.now
 			})
 		end
 		notification.eventable_id = self.id
