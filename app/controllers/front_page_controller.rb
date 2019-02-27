@@ -23,7 +23,7 @@ class FrontPageController < ApplicationController
 				@feeds = Feed.fetch_for_followings_of_user(current_user, page, per_page)
 				@user_feeds = current_user.feed_users.order(updated_at: :desc).page(page).per(per_page)
 				@total_feeds = Feed.fetch_for_followings_of_user(current_user, 1, 0).size if page == 1
-				# @suggestions = current_user.paginated_pending_suggestions(page, 2)
+				@suggestions = []#current_user.paginated_pending_suggestions(page, 2)
 			end
 		end
 	end
