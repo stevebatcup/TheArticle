@@ -104,9 +104,16 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 			return @submitSignIn()
 
 	submitSignIn: =>
+		if @scope.signInDetails.login.value.indexOf('@') > 1
+			login = @scope.signInDetails.login.value
+		else
+			if login = @scope.signInDetails.login.value.indexOf('@') is -1
+				login = "@#{login = @scope.signInDetails.login.value}"
+			else
+				login = @scope.signInDetails.login.value
 		data =
 			user:
-				login: @scope.signInDetails.login.value
+				login: login
 				password: @scope.signInDetails.password.value
 		@http.post("/users/sign_in", data).then (response) =>
 			window.location.href = response.data.redirect

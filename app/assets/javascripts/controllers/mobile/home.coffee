@@ -27,6 +27,7 @@ class TheArticle.Home extends TheArticle.MobilePageController
 		@openSigninForm() if 'sign_in' of vars
 		@openSigninForm() if 'forgotten_password' of vars
 		@openRegisterForm() if 'register' of vars
+		@disableBackButton() if 'signed_out' of vars
 
 	bindEvents: =>
 		super

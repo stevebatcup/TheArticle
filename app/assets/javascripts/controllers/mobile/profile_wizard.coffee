@@ -12,6 +12,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 
 	init: ->
 		@setDefaultHttpHeaders()
+		@disableBackButton()
 		@scope.redirectWhenDone = "/my-home"
 		@scope.user =
 			id: @element.data('user-id')
@@ -85,7 +86,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 			# country: 'gb'
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
-		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
+		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise']
 		acService.getPlacePredictions options, (predictions) =>
 			if _.some(predictions)
 				predictions.forEach (prediction) =>

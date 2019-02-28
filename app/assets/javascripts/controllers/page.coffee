@@ -312,3 +312,8 @@ class TheArticle.PageController extends TheArticle.NGController
 		offset = Math.max(document.body.offsetHeight, document.documentElement.offsetHeight)
 		client = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
 		Math.max(scroll, offset, client)
+
+	disableBackButton: =>
+		history.pushState null, null, location.href
+		window.onpopstate = =>
+			history.go(1)

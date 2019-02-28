@@ -14,15 +14,15 @@
     	</div>
 
       <div class="modal-body px-1 px-md-4">
-      	<header class="pt-2 container">
-      		<div class="row">
-      			<div class="col col-md-12">
-      				<div id="logo" class="py-3">
-      			    <span class="text-hide">TheArticle</span>
-      				</div>
-      			</div>
-      		</div>
-      	</header>
+        <header class="container auth_header">
+          <div class="row">
+            <div class="col col-md-12">
+              <div id="logo" class="">
+                <span class="text-hide">TheArticle</span>
+              </div>
+            </div>
+          </div>
+        </header>
 
 				<section class="auth">
 					<div class="alert alert-danger mt-5 mb-0" ng-if="authMessage && authMessage.length > 0">
@@ -77,10 +77,10 @@
 								  </div>
 
 								  <div class="actions">
-								  	<button class="btn btn-success btn-block text-white my-3"
+								  	<button class="btn btn-success btn-lower btn-block text-white my-3"
 								  						ng-click="resetPassword($event)">Send link</button>
 
-				            <button class="btn btn-danger btn-block text-white my-3"
+				            <button class="btn btn-danger btn-lower btn-block text-white my-3"
 				            					ng-click="closeForgottenPasswordPanel($event)">
 				            	Cancel
 				            </button>
@@ -104,7 +104,7 @@
 
 									<p>Please note, this link will only be valid for 24 hours.  If you do not receive our email, please check your Junk Mail folder and add info@thearticle.com to your safe list.</p>
 
-									<button data-dismiss="modal" class="btn btn-block btn-success close_modal">
+									<button data-dismiss="modal" class="btn btn-block btn-lower btn-success close_modal">
 										Done
 									</button>
 

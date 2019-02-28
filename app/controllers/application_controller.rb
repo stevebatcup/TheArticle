@@ -90,6 +90,11 @@ class ApplicationController < ActionController::Base
 	end
 
 protected
+
+	def after_sign_out_path_for(resource_or_scope)
+    "#{root_path}?signed_out=1"
+  end
+
   def after_sign_in_path_for(resource)
     stored_location_for(resource) || front_page_path
   end

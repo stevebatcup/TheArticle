@@ -12,6 +12,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 
 	init: ->
 		@setDefaultHttpHeaders()
+		@disableBackButton()
 		@scope.user =
 			id: @element.data('user-id')
 			location:
@@ -86,7 +87,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 			# {country: 'gb'}
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
-		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
+		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise']
 		acService.getPlacePredictions options, (predictions) =>
 			if _.some(predictions)
 				predictions.forEach (prediction) =>

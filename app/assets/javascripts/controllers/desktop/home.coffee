@@ -31,6 +31,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 		@openSigninForm() if 'forgotten_password' of vars
 		@openRegisterForm() if 'register' of vars
 		@goodbye() if 'account_deleted' of vars
+		@disableBackButton() if 'signed_out' of vars
 		@showProfileWizardModal() if @element.data('force-profile-wizard')
 
 	showProfileWizardModal: =>
