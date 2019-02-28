@@ -32,7 +32,7 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 			# console.log 'commentAction'
 			@rootScope.profileForConcernReport =
 				id: @scope.concernReportResource.commentAction.user.id
-				username: @scope.concernReportResource.user.username
+				username: @scope.concernReportResource.commentAction.user.username
 				imFollowing: false
 		else if @scope.concernReportType == 'comment'
 			# console.log 'comment'
@@ -45,6 +45,8 @@ class TheArticle.ConcernReports extends TheArticle.NGController
 				id: @scope.concernReportResource.user.id
 				username: @scope.concernReportResource.user.username
 				imFollowing: false
+		# console.log @rootScope.profileForConcernReport
+		# console.log @scope.concernReportResource
 		@resetReason()
 		@getProfileData @scope.profileForConcernReport.id
 
