@@ -27,6 +27,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@scope.$on 'unfollow', ($event, data) =>
 			@unfollow($event, data.userId, data.username)
 
+		@scope.$on 'opinion_on_feed_item', ($event, data) =>
+			@updateAllSharesWithOpinion(data.share_id, data.action, data.user) if 'updateAllSharesWithOpinion' of @
+
 	feedActionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
 		@requiresSignIn(action)
@@ -289,6 +292,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			action: action
 		.create().then (opinion) =>
 			if opinion.status is 'success'
+				@rootScope.$broadcast 'opinion_on_feed_item', { action: action, share_id: item.share.id, user: opinion.user }
 				if action is 'unagree'
 					# un-agree
 					item.opinions.agrees = _.filter item.opinions.agrees, (agree) =>
@@ -369,6 +373,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			action: action
 		.create().then (opinion) =>
 			if opinion.status is 'success'
+				@rootScope.$broadcast 'opinion_on_feed_item', { action: action, share_id: item.share.id, user: opinion.user }
 				if action is 'undisagree'
 					# un-disagree
 					item.opinions.disagrees = _.filter item.opinions.disagrees, (disagree) =>
@@ -390,7 +395,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 	loadOpinions: (item, callback=null) =>
 		@Opinion.query({share_id: item.share.id}).then (opinions) =>
 			item.opinions = opinions
-			callback.call(@)
+			callback.call(@) if callback?
 			@timeout =>
 				item.share.opinionsLoaded = true
 			, 750
@@ -665,5 +670,21 @@ class TheArticle.Feeds extends TheArticle.PageController
 			else
 				@alert response.data.message, "Error turning on notifications"
 
+	updateAllWithOpinion: (data, shareId, action, user) =>
+		angular.forEach data, (feedItem) =>
+			if (feedItem.share?) and feedItem.share.id is shareId
+				# console.log "another instance found of #{shareId}"
+				@loadOpinions feedItem, =>
+					switch action
+						when 'agree'
+							feedItem.iDisagreeWithPost = false
+							feedItem.iAgreeWithPost = true
+						when 'unagree'
+							feedItem.iAgreeWithPost = false
+						when 'disagree'
+							feedItem.iAgreeWithPost = false
+							feedItem.iDisagreeWithPost = true
+						when 'undisagree'
+							feedItem.iDisagreeWithPost = false
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

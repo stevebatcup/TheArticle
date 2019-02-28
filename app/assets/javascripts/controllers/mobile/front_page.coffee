@@ -134,4 +134,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 
+	updateAllSharesWithOpinion: (shareId, action, user) =>
+		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
+
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

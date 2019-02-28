@@ -649,4 +649,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 							@scope.profile.form.data.location.countryCode = component.short_name
 		@scope.autocompleteItems = []
 
+	updateAllSharesWithOpinion: (shareId, action, user) =>
+		@updateAllWithOpinion(@scope.profile.ratings.data, shareId, action, user)
+		@updateAllWithOpinion(@scope.profile.shares.data, shareId, action, user)
+		@updateAllWithOpinion(@scope.profile.exchanges.data, shareId, action, user)
+		@updateAllWithOpinion(@scope.profile.opinionActions.data, shareId, action, user)
+		@updateAllWithOpinion(@scope.profile.commentActions.data, shareId, action, user)
+
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

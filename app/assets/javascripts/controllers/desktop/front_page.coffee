@@ -133,4 +133,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		$event.preventDefault()
 		window.location.href = "/my-profile?panel=#{panel}"
 
+	updateAllSharesWithOpinion: (shareId, action, user) =>
+		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
+
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)
