@@ -21,5 +21,10 @@ class Block < ApplicationRecord
 		my_share_ids = me.shares.map(&:id)
 		them.opinions.where(share_id: my_share_ids).destroy_all
 		them.comments.where(commentable_id: my_share_ids).where(commentable_type: 'Share').destroy_all
+
+		# delete my interactions with their posts/comments
+		their_share_ids = them.shares.map(&:id)
+		me.opinions.where(share_id: their_share_ids).destroy_all
+		me.comments.where(commentable_id: their_share_ids).where(commentable_type: 'Share').destroy_all
 	end
 end

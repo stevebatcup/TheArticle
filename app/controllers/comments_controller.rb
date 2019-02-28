@@ -7,16 +7,30 @@ class CommentsController < ApplicationController
 
 	def create
 		share = Share.find(params[:comment][:share_id])
+
+		parentComment = nil
 		parent_id = params[:comment][:parent].to_i
+		parentComment = Comment.find(parent_id) if parent_id > 0
+
 		body = params[:comment][:body]
+
 		if params[:comment][:replying_to_username].length > 0
 			other_user = User.find_by(username: params[:comment][:replying_to_username])
 			body = "<a href='#{profile_path(slug: other_user.slug)}'>#{other_user.username}</a> #{body}"
 		end
+
+		if share.user.has_blocked(current_user)
+			return @comment = { status: :error, message: "Sorry you have been blocked by the creator of this post" }
+		elsif parentComment.present?
+			if parentComment.user.has_blocked(current_user)
+				return @comment = { status: :error, message: "Sorry you have been blocked by the user who wrote this comment" }
+			end
+		end
+
 		comment = Comment.build_from(share, current_user.id, body)
 		if comment.save
 			@comment = view_context.comment_for_tpl(comment)
-			comment.move_to_child_of Comment.find(parent_id) if parent_id > 0
+			comment.move_to_child_of parentComment
 			comment.create_notification
 			@comment[:status] = :success
 		else
