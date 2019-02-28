@@ -10,6 +10,7 @@ module ShareHelper
 			agreeCount: share.agree_count,
 			disagreeCount: share.disagree_count,
 			post: share.post,
+			isOpinionatable: (share.post.length > 0) || has_ratings,
 			showComments: false,
 			showAgrees: false,
 			showDisagrees: false,
