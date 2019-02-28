@@ -262,8 +262,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@scope.profile.errors.displayName = @scope.profile.errors.username = @scope.profile.errors.main = false
 		if !@scope.profile.form.data.displayName? or @scope.profile.form.data.displayName.length is 0
 			@scope.profile.errors.displayName = "Please choose a Display Name"
-		else if !(/^[a-z][a-z\s]*$/i.test(@scope.profile.form.data.displayName))
-			@scope.profile.errors.displayName = "Your Display Name can only contain letters and a space"
+		else if !(/^[a-z][a-z\s\-\']*$/i.test(@scope.profile.form.data.displayName))
+			@scope.profile.errors.displayName = "Your display name can only contain letters, hyphens, apostrophes and a space"
 		else if !@scope.profile.form.data.username.value? or @scope.profile.form.data.username.value.length is 0
 			@scope.profile.errors.username = "Please enter a username"
 		else if @scope.profile.form.data.username.value.length < 6

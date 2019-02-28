@@ -116,8 +116,8 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		@scope.user.names.displayName.error = @scope.user.names.username.error = false
 		if !@scope.user.names.displayName.value?
 			@scope.user.names.displayName.error = "Please choose a Display Name"
-		else if !(/^[a-z][a-z\s]*$/i.test(@scope.user.names.displayName.value))
-			@scope.user.names.displayName.error = "Your display name can only contain letters and a space"
+		else if !(/^[a-z][a-z\s\-\']*$/i.test(@scope.user.names.displayName.value))
+			@scope.user.names.displayName.error = "Your display name can only contain letters, hyphens, apostrophes and a space"
 		else if !@scope.user.names.username.value?
 			@scope.user.names.username.error = "Please enter a username"
 		else if @scope.user.names.username.value.length < 6
