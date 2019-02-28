@@ -367,7 +367,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		profile.update().then (response) =>
 			@timeout =>
 				if response.status is 'error'
-					@savePhotoError response.message
+					@savePhotoError response.message, type
 				else
 					@timeout =>
 						@scope.profile.data[type].image = @scope.profile.data[type].sourceForUpload
@@ -376,9 +376,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					, 750
 			, 800
 		, (error) =>
-			@savePhotoError error.statusText
+			@savePhotoError error.statusText, type
 
-	savePhotoError: (msg) =>
+	savePhotoError: (msg, type) =>
+		@scope.profile.data[type].uploading = false
 		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
 	getMyProfile: (callback=null) =>
