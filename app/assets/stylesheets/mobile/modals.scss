@@ -2,6 +2,12 @@ html.with_modal {
 	touch-action: unset;
 	overflow: hidden;
 	height: 100%;
+
+	body, #content {
+		touch-action: unset;
+		overflow: hidden;
+		height: 100%;
+	}
 }
 
 .modal {

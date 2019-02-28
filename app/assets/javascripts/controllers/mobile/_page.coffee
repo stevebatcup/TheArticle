@@ -12,9 +12,11 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 		$(document).on 'show.bs.modal', =>
 			$('html').addClass('with_modal')
+			@stopBodyScrolling(true)
 
 		$(document).on 'hide.bs.modal', =>
 			$('html').removeClass('with_modal')
+			@stopBodyScrolling(false)
 
 	bindBlockClicks: =>
 		$('.block_click').on 'click', (e) =>
@@ -106,3 +108,15 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
 		$("#sharingPanelModal").modal()
+
+	disableDefaultBehaviour: (e) =>
+		# console.log 'disableDefaultBehaviour'
+		e.preventDefault()
+
+	stopBodyScrolling: (stop) =>
+		if stop
+			# console.log 'stopBodyScrolling'
+			document.body.addEventListener("touchmove", @disableDefaultBehaviour, false)
+		else
+			# console.log 'startBodyScrolling'
+			document.body.removeEventListener("touchmove", @disableDefaultBehaviour, false)
