@@ -45,11 +45,18 @@ class AccountSettingsController < ApplicationController
 	end
 
 	def update_email
-		if current_user.update_attribute(:email, user_params[:email])
+		if current_user.email == user_params[:email]
 			@status = :success
-		else
+		elsif (user = User.find_by(email: user_params[:email])) && (user != current_user)
 			@status = :error
-			@message = "Unknown error updating your email address, please try again"
+			@message = "Sorry a user with that email address already exists."
+		else
+			if current_user.update_attribute(:email, user_params[:email])
+				@status = :success
+			else
+				@status = :error
+				@message = "Unknown error updating your email address, please try again"
+			end
 		end
 	end
 

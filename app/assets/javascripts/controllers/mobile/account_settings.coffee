@@ -68,33 +68,12 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 					@http.put("/communication-preferences", data).then (response) =>
 						console.log response
 
-	watchForNotificationSettingsChanges: =>
-		angular.forEach @scope.user.notificationSettings, (value, key) =>
-			@scope.$watch "user.notificationSettings.#{key}", (newVal, oldVal) =>
-				if newVal isnt oldVal
-					data =
-						settings:
-							key: key
-							value: newVal
-					@http.put("/notification-settings", data).then (response) =>
-						if newVal is 'never'
-							@checkForEmailNotificationStatusChange()
-						else
-							@scope.user.emailNotificationStatus = 'On'
-
-	checkForEmailNotificationStatusChange: =>
-		allNevers = true
-		angular.forEach @scope.user.notificationSettings, (value, key) =>
-			allNevers = false if value isnt 'never'
-		@scope.user.emailNotificationStatus = if allNevers then 'Off' else 'On'
-
 	getUser: =>
 		@AccountSettings.get({me: true}).then (settings) =>
 			@scope.user = settings.user
 			@scope.userDup = _.clone(settings.user)
 			@rootScope.$broadcast 'username_updated', { username: "@#{@scope.user.username}" }
 			@scope.cleanUsername = settings.user.username
-			@watchForNotificationSettingsChanges()
 			@watchForCommunicationPreferencesChanges()
 			@getProfile()
 
@@ -275,6 +254,26 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 				successCallback.call(@) if successCallback?
 			else if response.data.status is 'error'
 				errorCallback.call(@, response.data.message) if errorCallback?
+
+	saveEmailNotifications: ($event) =>
+		$event.preventDefault() if $event?
+		angular.forEach @scope.user.notificationSettings, (value, key) =>
+			data =
+				settings:
+					key: key
+					value: value
+			@http.put("/notification-settings", data).then (response) =>
+				if value is 'never'
+					@checkForEmailNotificationStatusChange()
+				else
+					@scope.user.emailNotificationStatus = 'On'
+		@backToPage('notifications')
+
+	checkForEmailNotificationStatusChange: =>
+		allNevers = true
+		angular.forEach @scope.user.notificationSettings, (value, key) =>
+			allNevers = false if value isnt 'never'
+		@scope.user.emailNotificationStatus = if allNevers then 'Off' else 'On'
 
 	savePassword: ($event) =>
 		$event.preventDefault() if $event?

@@ -96,10 +96,10 @@
 								<i class="fas fa-chevron-right"></i>
 							</div>
 
-							<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'find_people', 'main')">
+<!-- 							<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'find_people', 'main')">
 								<h5>Find people you know</h5>
 								<i class="fas fa-chevron-right"></i>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -112,15 +112,6 @@
 								<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'name', 'account')">
 									<div class="w-75">
 										<h5>Your details</h5>
-										<h6>{{ user.fullName }}</h6>
-									</div>
-									<i class="fas fa-chevron-right"></i>
-								</div>
-
-								<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'username', 'account')">
-									<div>
-										<h5>Username</h5>
-										<h6>{{ user.originalUsername }}</h6>
 									</div>
 									<i class="fas fa-chevron-right"></i>
 								</div>
@@ -128,7 +119,6 @@
 								<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'email', 'account')">
 									<div>
 										<h5>Email</h5>
-										<h6>{{ user.email }}</h6>
 									</div>
 									<i class="fas fa-chevron-right"></i>
 								</div>
@@ -174,13 +164,13 @@
 														<span>{{ profile.displayName }}</span>
 													</h5>
 													<h6 class="text-muted mb-1">
-														<span>{{ profile.username }}</span>
+														<span>{{ profile.originalUsername }}</span>
 													</h6>
 												</div>
 											</div>
 
 											<div class="py-0 w-100">
-												<h6 class="text-muted mt-2 mb-0">{{ profile.location }}</h6>
+												<h6 class="text-muted mt-2 mb-2">{{ profile.location }}</h6>
 												<p class="card-text">
 													<small>{{ profile.bio }}</small>
 												</p>
@@ -568,7 +558,6 @@
 										<div class="d-flex justify-content-between w-100">
 											<div>
 												<h5>Followers</h5>
-												<p class="mb-0 mt-2 w-75">Notify me by email if someone follows me</p>
 											</div>
 											<select ng-model="user.notificationSettings.emailFollowers"
 														name="notifications_email_followers"
@@ -580,14 +569,16 @@
 											</select>
 										</div>
 									</label>
+									<p class="mb-1 mt-0 w-100">
+										<small>Notify me by email if someone follows me</small>
+									</p>
 								</div>
 
 								<div class="nav_menu_item">
 									<label class="nav_menu_select d-flex justify-content-between" for="notifications_email_exchanges">
 										<div class="d-flex justify-content-between w-100">
 											<div>
-											<h5>Exchanges</h5>
-												<p class="mb-0 mt-2 w-75">Notify me by email if an article is added to an exchange I follow</p>
+												<h5>Exchanges</h5>
 											</div>
 											<select ng-model="user.notificationSettings.emailExchanges"
 														name="notifications_email_exchanges"
@@ -599,6 +590,9 @@
 											</select>
 										</div>
 									</label>
+									<p class="mb-1 mt-0 w-100">
+										<small>Notify me by email if an article is added to an exchange I follow</small>
+									</p>
 								</div>
 
 								<div class="nav_menu_item">
@@ -606,7 +600,6 @@
 										<div class="d-flex justify-content-between w-100">
 											<div>
 												<h5>Responses to your posts</h5>
-												<p class="mb-0 mt-2 w-75">Notify me by email if someone comments on, or agrees/disagrees with, one of my posts</p>
 											</div>
 											<select ng-model="user.notificationSettings.emailResponses"
 														name="notifications_email_responses"
@@ -617,6 +610,9 @@
 											</select>
 										</div>
 									</label>
+									<p class="mb-1 mt-0 w-100">
+										<small>Notify me by email if someone comments on, or agrees/disagrees with, one of my posts</small>
+									</p>
 								</div>
 
 								<div class="nav_menu_item">
@@ -624,7 +620,6 @@
 										<div class="d-flex justify-content-between w-100">
 											<div>
 												<h5>Replies to your comments</h5>
-												<p class="mb-0 mt-2 w-75">Notify me by email if someone replies to a comment I have made on someone else's post</p>
 											</div>
 											<select ng-model="user.notificationSettings.emailReplies"
 														name="notifications_email_replies"
@@ -635,9 +630,12 @@
 											</select>
 										</div>
 									</label>
+									<p class="mb-1 mt-0 w-100">
+										<small>Notify me by email if someone replies to a comment I have made on someone else's post</small>
+									</p>
 								</div>
 
-								<button class="mt-3 btn btn-success btn-block w-40" ng-click="backToPage('notifications', $event)">Save</button>
+								<button class="mt-3 btn btn-success btn-lower btn-block w-40" ng-click="saveEmailNotifications($event)">Save</button>
 
 							</div>
 						</div>
@@ -694,11 +692,11 @@
 							<div class="ajax_loading" ng-show="!connects.loaded">Loading your <br />Connected profiles</div>
 
 							<div ng-if="connects.loaded" class="pt-2">
-								<p class="empty px-2 py-3 text-center" ng-if="!connects.data.length">You have no connected profiles</p>
-
-								<p class="container" ng-if="connects.data.length">
+								<p class="container">
 									You are mutually connected as you follow each other and can, therefore, comment on each other's posts and agree or disagree with what each other have said.  <a class="text-green" href="/help?section=connects">Learn more</a>
 								</p>
+
+								<p class="empty px-2 py-3 text-center" ng-if="!connects.data.length">You have no connected profiles</p>
 
 								<div ng-repeat="item in connects.data" ng-if="connects.data.length" class="feed-listing">
 									<%= render 'users/member_card' %>
@@ -712,11 +710,12 @@
 							<div class="ajax_loading" ng-show="!mutes.loaded">Loading your <br />muted profiles</div>
 
 							<div ng-if="mutes.loaded" class="pt-2">
-								<p class="empty px-2 py-3 text-center" ng-if="!mutes.data.length">You have no muted profiles</p>
 
-								<p class="container" ng-if="mutes.data.length">
+								<p class="container">
 									You follow these profiles, but have muted them so their posts no longer appear in your newsfeeds.  <a class="text-green" href="/help?section=mutes">Learn more</a>
 								</p>
+
+								<p class="empty px-2 py-3 text-center" ng-if="!mutes.data.length">You have no muted profiles</p>
 
 								<div ng-repeat="item in mutes.data" ng-if="mutes.data.length" class="feed-listing">
 									<%= render 'users/member_card' %>
@@ -730,11 +729,12 @@
 							<div class="ajax_loading" ng-show="!blocks.loaded">Loading your <br />blocked profiles</div>
 
 							<div ng-if="blocks.loaded" class="pt-2">
-								<p class="empty px-2 py-3 text-center" ng-if="!blocks.data.length">You have no blocked profiles</p>
 
-								<p class="container" ng-if="blocks.data.length">
+								<p class="container">
 									You have blocked these profiles, meaning you cannot find or contact each other. <a class="text-green" href="/help?section=blocks">Learn more</a>
 								</p>
+
+								<p class="empty px-2 py-3 text-center" ng-if="!blocks.data.length">You have no blocked profiles</p>
 
 								<div ng-repeat="item in blocks.data" ng-if="blocks.data.length" class="feed-listing">
 									<%= render 'users/member_card' %>
