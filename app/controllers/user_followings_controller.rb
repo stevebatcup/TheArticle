@@ -41,8 +41,8 @@ class UserFollowingsController < ApplicationController
 				@status = :success
 				flash[:notice] = "You are now following <b>#{other_user.display_name}</b>" if params[:set_flash]
 				current_user.accept_suggestion_of_user_id(params[:id])
-				Rails.cache.delete("followings_count_#{current_user.id}")
-				Rails.cache.delete("followers_count_#{params[:id]}")
+				# Rails.cache.delete("followings_count_#{current_user.id}")
+				# Rails.cache.delete("followers_count_#{params[:id]}")
 			else
 				@status = :error
 				@message = current_user.errors.full_messages

@@ -18,15 +18,15 @@ module User::Followable
   end
 
   def followings_count
-    Rails.cache.fetch("followings_count_#{self.id}") do
-      self.followings.size
-    end
+    self.followings.size
+    # Rails.cache.fetch("followings_count_#{self.id}") do
+    # end
   end
 
   def followers_count
-    Rails.cache.fetch("followers_count_#{self.id}") do
-      self.followers.size
-    end
+    self.followers.size
+    # Rails.cache.fetch("followers_count_#{self.id}") do
+    # end
   end
 
   def recent_followings(hours=24)
