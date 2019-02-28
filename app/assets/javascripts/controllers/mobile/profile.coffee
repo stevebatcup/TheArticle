@@ -358,7 +358,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()
 		@scope.profile.data[type].uploading = true
-		profile = new @MyProfile({id: @scope.profile.data.id, photo: @scope.profile.data[type].sourceForUpload, mode: type })
+		profile = new @MyProfile({photo: @scope.profile.data[type].sourceForUpload, mode: type })
 		profile.update().then (response) =>
 			@timeout =>
 				if response.status is 'error'
