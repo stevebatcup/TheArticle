@@ -132,7 +132,7 @@ class User < ApplicationRecord
   end
 
   def default_display_name
-  	"#{first_name} #{last_name}".gsub(/[^0-9a-z_ ]/i, '')
+  	"#{first_name} #{last_name}".gsub(/[^0-9a-z_\'\- ]/i, '')
   end
 
   def generate_usernames(amount=1)
