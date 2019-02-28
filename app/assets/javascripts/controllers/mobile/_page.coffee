@@ -10,6 +10,12 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		setTimeout @bindCarousels, 800
 		@bindSearchFilters()
 
+		$(document).on 'shown.bs.modal', =>
+			@stopBodyScrolling(true)
+
+		$(document).on 'hidden.bs.modal', =>
+			@stopBodyScrolling(false)
+
 	bindBlockClicks: =>
 		$('.block_click').on 'click', (e) =>
 			@blockClick $(e.currentTarget), e
@@ -100,3 +106,12 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		$content = @compile(tpl)(@scope)
 		$('body').append $content
 		$("#sharingPanelModal").modal()
+
+	disableDefaultBehaviour: (e) =>
+		e.preventDefault()
+
+	stopBodyScrolling: (stop) =>
+		if stop
+			document.body.addEventListener("touchmove", @disableDefaultBehaviour, false)
+		else
+			document.body.removeEventListener("touchmove", @disableDefaultBehaviour, false)
