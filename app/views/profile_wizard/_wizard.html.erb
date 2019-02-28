@@ -18,11 +18,11 @@
 				  </div>
 
 				  <div class="form-group">
-				    <span ng-show="!user.names.username.error && !user.names.username.available"><%= f.label :username %></span>
+				    <span ng-show="(!user.names.username.error) && (!user.names.username.available)"><%= f.label :username %></span>
 			    	<label ng-show="user.names.username.error" class="alert-no-bg alert-danger">
 			    		{{user.names.username.error}}
 			    	</label>
-			    	<label ng-show="user.names.username.available" class="alert-no-bg alert-success">
+			    	<label ng-show="(user.names.username.available) && (!user.names.username.error)" class="alert-no-bg alert-success">
 			    		Available!
 			    	</label>
 

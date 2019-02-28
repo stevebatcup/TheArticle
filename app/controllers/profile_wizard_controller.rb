@@ -18,7 +18,7 @@ class ProfileWizardController < ApplicationController
 			ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
 			sign_in(current_user)
 			@status = :success
-			@redirect = front_page_path
+			@redirect = "#{front_page_path}?from_wizard=1"
 		rescue Exception => e
 			@status = :error
 			@error = e.message

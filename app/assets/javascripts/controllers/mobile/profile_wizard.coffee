@@ -134,16 +134,23 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		, false
 
 	validateUsername: (callback=null, save=false) =>
-		url = "/username-availability?username=@#{@scope.user.names.username.value}"
-		url += "&save=1" if save is true
-		@http.get(url).then (response) =>
-			if response.data is false
-				@scope.user.names.username.error = "Username has already been taken"
-				callback.call(@, false) if callback?
-				return false
-			else
-				callback.call(@, true) if callback?
-				return true
+		if !@scope.user.names.username.value?
+			@scope.user.names.username.error = "Please enter a username"
+		else if @scope.user.names.username.value.length < 6
+			@scope.user.names.username.error = "Your Username must be at least 6 characters long"
+		else if !(/^[a-z][a-z\s\-\']*$/i.test(@scope.user.names.displayName.value))
+			@scope.user.names.displayName.error = "Your display name can only contain letters, hyphens, apostrophes and a space"
+		else
+			url = "/username-availability?username=@#{@scope.user.names.username.value}"
+			url += "&save=1" if save is true
+			@http.get(url).then (response) =>
+				if response.data is false
+					@scope.user.names.username.error = "Username has already been taken"
+					callback.call(@, false) if callback?
+					return false
+				else
+					callback.call(@, true) if callback?
+					return true
 
 	selectExchange: (selected) =>
 		if _.contains(@scope.user.selectedExchanges, selected)

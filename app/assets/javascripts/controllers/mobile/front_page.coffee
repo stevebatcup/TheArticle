@@ -21,7 +21,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
-		@scope.showWelcome = if 'from_wizard' of vars then true else false
+		@disableBackButton() if 'from_wizard' of vars
+		@scope.showWelcome = false
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 
 		@timeout =>
