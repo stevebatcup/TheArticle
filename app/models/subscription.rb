@@ -18,6 +18,16 @@ class Subscription < ApplicationRecord
 			user_feed_item.feeds << feed
 			user_feed_item.save
 		end
+		build_retrospective_feeds
+	end
+
+	def build_retrospective_feeds
+		self.exchange.categorisations.each do |categorisation|
+			if categorisation.article
+				self.user.feeds << Feed.new({actionable_id: categorisation.id, actionable_type: 'Categorisation'})
+			end
+		end
+		self.user.save
 	end
 
 	def delete_feed

@@ -272,12 +272,15 @@ class Article < ApplicationRecord
 
 	def update_exchanges(json)
 		if json["exchanges"].any?
-			self.categorisations.destroy_all
+			# self.categorisations.destroy_all
 			json["exchanges"].each do |exchange_wp_id|
 				exchange = Exchange.find_or_create_by(wp_id: exchange_wp_id)
 				exchange_json = self.class.get_from_wp_api("exchanges/#{exchange_wp_id}")
 		    exchange.update_wp_cache(exchange_json)
-				self.exchanges << exchange
+		    existing_categorisation_exchange_ids = self.categorisations.map(&:exchange_id)
+		    unless existing_categorisation_exchange_ids.include?(exchange.id)
+					self.categorisations << Categorisation.new({exchange_id: exchange.id, created_at: Time.now})
+				end
 			end
 		end
 	end

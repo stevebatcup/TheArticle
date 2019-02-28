@@ -8,8 +8,8 @@ class Feed < ApplicationRecord
 		['Share', 'Follow']
 	end
 
-	def self.types_for_user
-		['Categorisation']
+	def self.fetch_categorisations_for_user(user, page=1, per_page=25)
+		user.feeds.where(actionable_type: 'Categorisation').page(page).per(per_page)
 	end
 
 	def self.fetch_for_followings_of_user(current_user, page=1, per_page=25)

@@ -1,7 +1,9 @@
 class Exchange < ApplicationRecord
 	include WpCache
   mount_uploader :image, ExchangeImageUploader
-  has_and_belongs_to_many :articles
+  has_many :categorisations
+  has_many :articles, through: :categorisations
+
   has_and_belongs_to_many  :users
 
   def is_followed_by(user)
