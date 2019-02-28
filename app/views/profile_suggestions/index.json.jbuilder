@@ -41,6 +41,7 @@ json.set! :suggestions do
 		json.set! :searchResults do
 			json.array! @search_results do |user|
 				json.id user.id
+				json.path @from_wizard ? '#' : profile_path(slug: user.slug)
 				json.displayName user.display_name
 				json.username user.username
 				json.bio bio_excerpt(user, browser.device.mobile? ? 18 : 28)

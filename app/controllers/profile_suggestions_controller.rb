@@ -4,6 +4,7 @@ class ProfileSuggestionsController < ApplicationController
 	def index
 		respond_to do |format|
 			format.json do
+				@from_wizard = params[:from_wizard].present?
 				if params[:query]
 					@search_results = User.search_for_suggestions(current_user, params[:query])
 				else
@@ -19,7 +20,6 @@ class ProfileSuggestionsController < ApplicationController
 						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%')
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%')
 					end
-
 				end
 			end
 			format.html

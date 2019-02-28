@@ -3,6 +3,7 @@
 		suggestions = [:suggestions].nil? ? false : true
 	end
 %>
+
 <div class="pb-2 block_click bg-white" data-href="{{ item.path }}">
 	<div class="card-img-top cover_photo">
 		<% unless suggestions == true %><a href="{{item.path}}"><% end %>

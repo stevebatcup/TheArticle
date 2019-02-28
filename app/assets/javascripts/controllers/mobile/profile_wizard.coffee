@@ -57,7 +57,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	searchForSuggestions: (query)=>
 		if query.length > 0
 			@scope.suggestionSearch.error = ""
-			@http.get("/suggestion-search?query=#{query}").then (response) =>
+			@http.get("/suggestion-search?query=#{query}&from_wizard=1").then (response) =>
 				@scope.followSuggestions = []
 				if _.some(response.data.suggestions.searchResults)
 					response.data.suggestions.searchResults.forEach (suggestion) =>

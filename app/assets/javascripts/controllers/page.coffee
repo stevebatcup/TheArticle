@@ -195,7 +195,7 @@ class TheArticle.PageController extends TheArticle.NGController
 					link = $clicked.data('href')
 				else
 					link = $clicked.closest('[data-href]').data('href')
-				window.location.href = link
+				window.location.href = link unless link is '#'
 
 	truncateNearestWord: (str, maxLen, separator = ' ') =>
 		if (str.length <= maxLen)
