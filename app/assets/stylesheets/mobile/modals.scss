@@ -2,6 +2,7 @@ html.with_modal {
 	touch-action: unset;
 	overflow: hidden;
 	height: 100%;
+	-webkit-overflow-scrolling: touch;
 
 	body, #content {
 		touch-action: unset;
@@ -18,8 +19,8 @@ html.with_modal {
 	&.mobile_full {
 		top: 0;
 		left: 0;
-		height: 87%;
-		height: 87vh;
+		height: 88%;
+		height: 88vh;
 		width: 100%;
 		width: 100vw;
 
