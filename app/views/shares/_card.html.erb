@@ -142,13 +142,13 @@
 					{{ commentCount(item) }}
 				</a>
 			</div>
-			<div class="count_box agree_count flex-fill" ng-if="agreeCount(item, false) > 0 && item.share.post.length > 0">
+			<div class="count_box agree_count flex-fill" ng-if="agreeCount(item, false) > 0">
 				<a href='#' ng-click="showAgrees($event, item)">
 					<i class="far fa-thumbs-up"></i>
 					{{ agreeCount(item) }}
 				</a>
 			</div>
-			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0 && item.share.post.length > 0">
+			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0">
 				<a href='#' ng-click="showDisagrees($event, item)"
 						>
 					<i class="far fa-thumbs-down"></i>
@@ -166,13 +166,13 @@
 				</a>
 				<a href='#' ng-click="agreeWithPost($event, item)" class="agree_action action"
 						ng-class="{'selected': item.iAgreeWithPost}"
-						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %> && item.share.post.length > 0">
+						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
 					<i class="fas fa-thumbs-up"></i>
 					Agree
 				</a>
 				<a href='#' ng-click="disagreeWithPost($event, item)" class="disagree_action action"
 						ng-class="{'selected': item.iDisagreeWithPost}"
-						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %> && item.share.post.length > 0">
+						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
 					<i class="fas fa-thumbs-down"></i>
 					Disagree
 				</a>
