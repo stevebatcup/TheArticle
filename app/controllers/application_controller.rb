@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 	  raise ActionController::RoutingError.new('Not Found')
 	end
 
+	def render_404
+		render :file => "#{Rails.root}/public/404.html",  layout: false, status: :not_found
+	end
+
 	def default_meta_description
 		"In a post-truth world, thoughtful analysis has never been more necessary. And at TheArticle, we provide it by funding journalism for informed debate"
 	end

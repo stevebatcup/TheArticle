@@ -63,13 +63,15 @@ class ArticlesController < ApplicationController
 																											.where.not(id: @article.id)
 																											.limit(6)
 			end
+			@article_share = {
+				'comments' => '',
+				'rating_well_written' => nil,
+				'rating_valid_points' => nil,
+				'rating_agree' => nil
+			}
+			@article_share = current_user.existing_article_rating(@article).as_json if user_signed_in? && current_user.existing_article_rating(@article)
+		else
+			render_404
 		end
-		@article_share = {
-			'comments' => '',
-			'rating_well_written' => nil,
-			'rating_valid_points' => nil,
-			'rating_agree' => nil
-		}
-		@article_share = current_user.existing_article_rating(@article).as_json if user_signed_in? && current_user.existing_article_rating(@article)
 	end
 end

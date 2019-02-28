@@ -272,7 +272,6 @@ class Article < ApplicationRecord
 
 	def update_exchanges(json)
 		if json["exchanges"].any?
-			# self.categorisations.destroy_all
 			json["exchanges"].each do |exchange_wp_id|
 				exchange = Exchange.find_or_create_by(wp_id: exchange_wp_id)
 				exchange_json = self.class.get_from_wp_api("exchanges/#{exchange_wp_id}")
