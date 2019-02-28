@@ -10,11 +10,13 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		setTimeout @bindCarousels, 800
 		@bindSearchFilters()
 
-		$(document).on 'shown.bs.modal', =>
-			@stopBodyScrolling(true)
+		$(document).on 'show.bs.modal', =>
+			# @stopBodyScrolling(true)
+			$('html').addClass('with_modal')
 
-		$(document).on 'hidden.bs.modal', =>
-			@stopBodyScrolling(false)
+		$(document).on 'hide.bs.modal', =>
+			# @stopBodyScrolling(false)
+			$('html').removeClass('with_modal')
 
 	bindBlockClicks: =>
 		$('.block_click').on 'click', (e) =>
@@ -108,10 +110,13 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		$("#sharingPanelModal").modal()
 
 	disableDefaultBehaviour: (e) =>
+		console.log 'disableDefaultBehaviour'
 		e.preventDefault()
 
 	stopBodyScrolling: (stop) =>
 		if stop
+			console.log 'stopBodyScrolling'
 			document.body.addEventListener("touchmove", @disableDefaultBehaviour, false)
 		else
+			console.log 'startBodyScrolling'
 			document.body.removeEventListener("touchmove", @disableDefaultBehaviour, false)

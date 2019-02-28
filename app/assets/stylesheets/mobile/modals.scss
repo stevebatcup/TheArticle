@@ -1,3 +1,9 @@
+html.with_modal {
+	touch-action: unset;
+	overflow: hidden;
+	height: 100%;
+}
+
 .modal {
 	.modal-header {
 		background: $grey_light;
@@ -54,6 +60,9 @@
 	}
 
 	.modal-body {
+		overflow-y: auto;
+		height: 76.5vh;
+
 		label {
 			color: #000;
 			font-weight: 500;
