@@ -38,7 +38,7 @@ module ShareHelper
 		exchange = share.article.exchanges.first
 		{
 			type: has_ratings ? 'rating' : 'share',
-			share: share_info_as_json(share),
+			share: share_info_as_json(share, has_ratings),
 			orderCommentsBy: :most_relevant,
 			stamp: share.created_at.to_i,
 			date: share.created_at < 1.day.ago ? share.created_at.strftime("%e %b") : happened_at(share.created_at),
