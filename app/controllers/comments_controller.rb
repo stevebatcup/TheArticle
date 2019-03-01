@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
 		comment = Comment.build_from(share, current_user.id, body)
 		if comment.save
 			@comment = view_context.comment_for_tpl(comment)
-			comment.move_to_child_of parentComment
+			comment.move_to_child_of parentComment if parent_id > 0
 			comment.create_notification
 			@comment[:status] = :success
 		else

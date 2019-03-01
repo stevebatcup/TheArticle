@@ -63,6 +63,7 @@ module ShareHelper
 				id: share.article.id,
 				isRemote: share.article.remote_article_url.present?,
 				snippet: article_excerpt_for_listing(share.article, 160),
+				remoteDomain: share.article.remote_article_domain.present? ? share.article.remote_article_domain : nil,
 				image: share.article.remote_article_image_url.present? ? share.article.remote_article_image_url : share.article.image.url(:cover_mobile),
 				title: strip_tags(share.article.title),
 				publishedAt: article_date(share.article),

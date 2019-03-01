@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_25_150048) do
+ActiveRecord::Schema.define(version: 2019_03_01_102616) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -29,7 +29,8 @@ ActiveRecord::Schema.define(version: 2019_02_25_150048) do
     t.integer "wp_image_id"
     t.string "slug"
     t.string "remote_article_url", limit: 1000
-    t.string "remote_article_image_url"
+    t.string "remote_article_domain"
+    t.text "remote_article_image_url"
     t.text "excerpt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

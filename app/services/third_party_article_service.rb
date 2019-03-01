@@ -69,6 +69,7 @@ module ThirdPartyArticleService
 				title: article_params[:title],
 				content: "<p>#{article_params[:snippet]}</p>".html_safe,
 				remote_article_url:  article_params[:url],
+				remote_article_domain:  article_params[:domain],
 				remote_article_image_url: article_params[:image],
 				excerpt: "<p>#{article_params[:snippet]}</p>".html_safe,
 				published_at: Time.now,

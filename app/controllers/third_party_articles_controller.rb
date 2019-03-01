@@ -31,7 +31,7 @@ class ThirdPartyArticlesController < ApplicationController
 				@status = :success
 			end
 		rescue Exception => e
-			@message = e.backtrace
+			@message = e.message
 			@status = :error
 		end
 	end
@@ -51,6 +51,6 @@ private
 	end
 
 	def share_params
-		params.require(:share).permit(:post, :rating_well_written, :rating_valid_points, :rating_agree, article: [:url, :title, :snippet, :image, :type, :siteName])
+		params.require(:share).permit(:post, :rating_well_written, :rating_valid_points, :rating_agree, article: [:url, :title, :snippet, :image, :type, :siteName, :domain])
 	end
 end

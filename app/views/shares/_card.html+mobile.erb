@@ -116,6 +116,9 @@
 			</a>
 
 			<header class="entry-header pt-3 px-3" ng-class="{'pt-4': item.article.isRemote}">
+				<h6 ng-if="item.article.remoteDomain.length > 0" style="text-transform: uppercase;
+	    margin: 0 0 8px;">{{item.article.remoteDomain}}</h6>
+
 				<h4 class="entry-title mb-0" id="article-post-title-{{ item.article.id }}">
 					<a href="{{ item.article.path }}" ng-bind-html="item.article.title"
 							ng-attr-target="{{(item.article.isRemote) ? '_blank' : undefined}}"></a>
