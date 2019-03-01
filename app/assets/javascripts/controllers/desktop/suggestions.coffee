@@ -35,17 +35,12 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 				@scope.suggestions.mode = 'populars'
 
 	buildListForSidebox: =>
-		@scope.suggestions.listForSidebox = @scope.suggestions.forYous.slice(0, 2)
-		remainder = 3 - @scope.suggestions.listForSidebox.length
-		populars = @scope.suggestions.populars.slice(0, remainder)
-		if populars.length > 0
-			angular.forEach populars, (suggestion) =>
-				@scope.suggestions.listForSidebox.push suggestion
-		@scope.suggestions.listForSidebox = _.shuffle(@scope.suggestions.listForSidebox)
+		@scope.suggestions.listForSidebox = _.shuffle(@scope.suggestions.forYous.concat(@scope.suggestions.populars)).slice(0, 3)
 
 	toggleFollowSuggestion: (member) =>
 		@followSuggestion member.id, =>
 			member.imFollowing = true
+			@buildListForSidebox()
 			@timeout =>
 				mode = @scope.suggestions.mode
 				@scope.suggestions[mode] = _.filter @scope.suggestions[mode], (item) =>

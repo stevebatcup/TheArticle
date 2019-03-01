@@ -13,7 +13,7 @@ module User::Suggestable
 
   def generate_suggestions(is_new=false, limit=25)
     results = []
-    existing_ids = self.profile_suggestions.where(status: :pending).map(&:suggested_id)
+    existing_ids = self.profile_suggestions.map(&:suggested_id)
     existing_ids << self.id
 
     # People already following
