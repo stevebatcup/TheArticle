@@ -65,7 +65,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$textarea = $replyBox.find('textarea')
 		$textarea.attr('placeholder', 'Reply to Comment')
 		$replyBox.data('comment-id', comment.data.id).attr('data-comment-id', comment.data.id)
-		$replyBox.detach().appendTo($commentBox.parent())
+		$replyBox.detach().insertAfter($commentBox)
 		$textarea.focus()
 
 	filterCommentsByLimit: (item) =>
@@ -196,7 +196,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$replyBox.find('a.cancel_reply', $replyBox).hide()
 		$replyBox.find('textarea').attr('placeholder', 'Add your Comment')
 		$replyBox.data('comment-id', 0).attr('data-comment-id', 0)
-		$replyBox.detach().prependTo $commentsPane
+		$replyBox.detach().prependTo $('.respond_box', $commentsPane)
 
 	postComment: ($event, post) =>
 		$event.preventDefault()
@@ -213,17 +213,19 @@ class TheArticle.Feeds extends TheArticle.PageController
 		.create().then (comment) =>
 			if comment.status is 'success'
 				if replyingToCommentId is 0
-					post.comments.push { data: comment }
+					post.comments.unshift { data: comment }
 				else
 					angular.forEach post.comments, (rootComment) =>
 						if rootComment is @scope.replyingToComment.comment
 							unless 'children' of rootComment
 								rootComment.children = []
-							rootComment.children.push { data: comment }
+							rootComment.children.unshift { data: comment }
 						else
-							angular.forEach rootComment.children, (childComment) =>
-								if childComment is @scope.replyingToComment.comment
-									rootComment.children.push { data: comment }
+							okToContinue = true
+							angular.forEach rootComment.children, (childComment, childIndex) =>
+								if childComment is @scope.replyingToComment.comment && okToContinue
+									rootComment.children.splice(childIndex+1, 0, { data: comment })
+									okToContinue = false
 				@scope.commentForSubmission.value = ''
 				@cancelReply $event, post.share.id
 			else
@@ -441,7 +443,6 @@ class TheArticle.Feeds extends TheArticle.PageController
 			@openConcernReportModal('comment', item)
 
 	openConcernReportModal: (type='post', resource) =>
-		# console.log resource
 		if @rootScope.concernReportModal
 			@rootScope.concernReportModal.modal('show')
 		else

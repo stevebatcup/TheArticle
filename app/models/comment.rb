@@ -68,11 +68,11 @@ class Comment < ActiveRecord::Base
   end
 
   def self.show_limit
-    5
+    10
   end
 
   def self.show_reply_limit
-    5
+    15
   end
 
   # Helper class method that allows you to build a comment

@@ -201,7 +201,7 @@
 	<div class="comments_pane" ng-if="item.share.showComments">
 			<div class="ajax_loading" ng-if="!item.share.commentsLoaded">Loading...</div>
 
-		<div ng-if="item.share.commentsLoaded">
+		<div ng-if="item.share.commentsLoaded" class="respond_box">
 		  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
 		    <form class="comment-form">
 		    	<div class="d-flex w-100">
