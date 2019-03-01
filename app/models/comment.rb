@@ -16,15 +16,18 @@ class Comment < ActiveRecord::Base
   def create_feed
     feed = self.feeds.create({user_id: self.user_id})
     self.user.followers.each do |follower|
-      unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'comment', source_id: self.commentable_id)
-        user_feed_item = FeedUser.new({
-          user_id: follower.id,
-          action_type: 'comment',
-          source_id: self.commentable_id
-        })
+      followers_blocked_ids = follower.blocked_id_list
+      unless (self.parent && followers_blocked_ids.include?(self.parent.user.id))
+        unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'comment', source_id: self.commentable_id)
+          user_feed_item = FeedUser.new({
+            user_id: follower.id,
+            action_type: 'comment',
+            source_id: self.commentable_id
+          })
+        end
+        user_feed_item.feeds << feed
+        user_feed_item.save
       end
-      user_feed_item.feeds << feed
-      user_feed_item.save
     end
   end
 
