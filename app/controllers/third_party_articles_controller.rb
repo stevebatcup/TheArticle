@@ -17,8 +17,8 @@ class ThirdPartyArticlesController < ApplicationController
 
 	def create
 		begin
-			if ThirdPartyArticleService.share_is_thearticle_domain(share_params[:article][:url], request.host)
-				slug = ThirdPartyArticleService.get_slug_from_url(share_params[:article][:url])
+			if ThirdPartyArticleService.share_is_thearticle_domain(share_params[:url], request.host)
+				slug = ThirdPartyArticleService.get_slug_from_url(share_params[:url])
 				if article = Article.find_by(slug: slug)
 					Share.create_or_replace(article, current_user, share_params[:post], share_params[:rating_well_written], share_params[:rating_valid_points], share_params[:rating_agree])
 					@status = :success
@@ -51,6 +51,6 @@ private
 	end
 
 	def share_params
-		params.require(:share).permit(:post, :rating_well_written, :rating_valid_points, :rating_agree, article: [:url, :title, :snippet, :image, :type, :siteName, :domain])
+		params.require(:share).permit(:url, :post, :rating_well_written, :rating_valid_points, :rating_agree, article: [:url, :title, :snippet, :image, :type, :siteName, :domain])
 	end
 end

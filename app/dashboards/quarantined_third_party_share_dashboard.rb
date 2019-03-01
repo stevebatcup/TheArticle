@@ -28,7 +28,7 @@ class QuarantinedThirdPartyShareDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :user,
-    :url,
+    :heading,
     :post
   ].freeze
 

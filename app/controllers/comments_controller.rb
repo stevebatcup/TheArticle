@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
 			body = "<a href='#{profile_path(slug: other_user.slug)}'>#{other_user.username}</a> #{body}"
 		end
 
-		if share.user.has_blocked(current_user)
+		if share && share.user && share.user.has_blocked(current_user)
 			return @comment = { status: :error, message: "Sorry you have been blocked by the creator of this post" }
 		elsif parentComment.present?
 			if parentComment.user.has_blocked(current_user)

@@ -16,10 +16,6 @@
     	</div>
 
       <div class="modal-body px-4">
-        <p ng-show="thirdPartyArticle.urlError.length > 0" class="alert alert-danger">
-          <small>{{ thirdPartyArticle.urlError }}</small>
-        </p>
-
         <div class="d-flex justify-content-start url_box">
           <img ng-src="{{myProfile.profilePhoto.image}}" alt="{{myProfile.displayName}}" class="rounded-circle mr-3" />
 
@@ -32,14 +28,20 @@
 
 
         <div ng-if="thirdPartyArticle.article.loaded" id="article_preview">
-          <img ng-src="{{thirdPartyArticle.article.data.image}}"
-                  alt="{{thirdPartyArticle.article.data.title}}"
+          <p ng-show="thirdPartyArticle.urlError.length > 0" class="mt-4 alert text-center bg-grey text-grey">
+            {{ thirdPartyArticle.urlError }}
+          </p>
+
+          <div ng-show="!thirdPartyArticle.urlError">
+              <img ng-src="{{thirdPartyArticle.article.data.image}}"
+                    alt="{{thirdPartyArticle.article.data.title}}"
                   width="100%"
                    ng-if="thirdPartyArticle.article.data.image.length > 0" />
 
-          <h6 ng-if="thirdPartyArticle.article.data.domain.length > 0">{{thirdPartyArticle.article.data.domain}}</h6>
-          <h4 ng-if="thirdPartyArticle.article.data.title.length > 0">{{thirdPartyArticle.article.data.title}}</h4>
-          <div ng-if="thirdPartyArticle.article.data.snippet.length > 0" ng-bind-html="thirdPartyArticle.article.data.snippet"></div>
+            <h6 ng-if="thirdPartyArticle.article.data.domain.length > 0">{{thirdPartyArticle.article.data.domain}}</h6>
+            <h4 ng-if="thirdPartyArticle.article.data.title.length > 0">{{thirdPartyArticle.article.data.title}}</h4>
+            <div ng-if="thirdPartyArticle.article.data.snippet.length > 0" ng-bind-html="thirdPartyArticle.article.data.snippet"></div>
+          </div>
         </div>
 
         <div id="your_rating" ng-show="thirdPartyArticle.article.loaded" class="pt-3">

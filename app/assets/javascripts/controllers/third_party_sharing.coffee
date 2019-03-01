@@ -74,11 +74,11 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				article:
 					url: @scope.thirdPartyArticle.url
 			@http.post("/third_party_article", data).then (response) =>
+				@scope.thirdPartyArticle.article.loaded = true
 				if response.data.status is 'error'
 					@scope.thirdPartyArticle.urlError = response.data.message
 				else if response.data.status is 'success'
 					@scope.thirdPartyArticle.article.data = response.data.article
-					@scope.thirdPartyArticle.article.loaded = true
 
 	shareNonWhitelistedArticleConfirm: =>
 		tpl = $("#confirmNonWhiteListed").html().trim()
@@ -106,6 +106,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 	shareArticleConfirm: () =>
 		# $event.preventDefault() if $event?
 		data =
+			url: @scope.thirdPartyArticle.url
 			article: @scope.thirdPartyArticle.article.data
 			post: @scope.thirdPartyArticle.article.share.comments
 			rating_well_written: @scope.thirdPartyArticle.article.share.rating_well_written

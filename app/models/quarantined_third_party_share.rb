@@ -6,4 +6,5 @@ class QuarantinedThirdPartyShare < ApplicationRecord
 	def self.pending
 		where(status: :pending)
 	end
+
 end
