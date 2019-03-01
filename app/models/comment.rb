@@ -50,17 +50,19 @@ class Comment < ActiveRecord::Base
       notification.save
 
       if is_reply
-        reply_notification = Notification.find_or_create_by({
-          eventable_type: 'Comment',
-          specific_type: "reply",
-          share_id: self.commentable.id,
-          user_id: self.parent.user_id,
-          feed_id: nil
-        })
-        reply_notification.eventable_id = self.id
-        reply_notification.feeds << self.feeds.first
-        reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
-        reply_notification.save
+        unless self.commentable.user_id == self.parent.user_id
+          reply_notification = Notification.find_or_create_by({
+            eventable_type: 'Comment',
+            specific_type: "reply",
+            share_id: self.commentable.id,
+            user_id: self.parent.user_id,
+            feed_id: nil
+          })
+          reply_notification.eventable_id = self.id
+          reply_notification.feeds << self.feeds.first
+          reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
+          reply_notification.save
+        end
       end
     end
   end
