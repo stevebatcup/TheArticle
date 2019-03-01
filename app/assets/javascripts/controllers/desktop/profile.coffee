@@ -174,7 +174,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab
-		console.log @$navBarHeight
+		# console.log @$navBarHeight
 		if ($('[data-fixed-profile-nav]').length > 0) and ($('body').hasClass('fixed-profile-nav'))
 			$(window).scrollTop(@$navBarPosition - @$navBarHeight - 160)
 
@@ -357,8 +357,13 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					@scope.$apply =>
 						@scope.profile.data[type].sourceForUpload = imgSource
 		@timeout =>
-			c.setZoom(0.8)
+			c.setZoom(0.1)
 		, 200
+
+	cancelEditPhoto: (type) =>
+		@scope.profile.data[type].source = ''
+		$("#edit#{type}Modal").modal('hide')
+		window.location.reload()
 
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()
@@ -371,8 +376,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				else
 					@timeout =>
 						@scope.profile.data[type].image = @scope.profile.data[type].sourceForUpload
-						$('button[data-dismiss=modal]', "#edit#{type}Modal").click()
 						@scope.profile.data[type].uploading = false
+						@cancelEditPhoto(type)
 					, 750
 			, 800
 		, (error) =>
@@ -637,7 +642,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		$event.preventDefault()
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
-		placeText = $($event.currentTarget.innerHTML).find(".main_location_text").text()
+		$target = $($event.currentTarget.innerHTML)
+		placeText = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
 		@scope.profile.form.data.location.text = placeText
 		geocoder.geocode { 'address': address }, (results, status) =>
 			if status is google.maps.GeocoderStatus.OK

@@ -94,11 +94,11 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 						@scope.$apply =>
 							@scope.autocompleteItems.push(prediction)
 
-	populateLocation: (event, prediction) =>
-		# console.log event.target.innerHTML
+	populateLocation: ($event, prediction) =>
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
-		placeText = $(event.currentTarget.innerHTML).find(".main_location_text").text()
+		$target = $($event.currentTarget.innerHTML)
+		placeText = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
 		@scope.user.location.value = placeText
 		geocoder.geocode { 'address': address }, (results, status) =>
 			if status is google.maps.GeocoderStatus.OK

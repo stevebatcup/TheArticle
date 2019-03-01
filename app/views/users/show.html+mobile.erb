@@ -101,7 +101,7 @@
 			<span class="pl-3">{{ profile.data.location }}</span>
 		</p>
 		<p ng-if="!profile.data.location || profile.data.location.length == 0 && profile.isMe">
-			<a href='#' ng-click="editProfile()">
+			<a href='#' ng-click="editProfile('location')">
 				<i class="fas fa-map-marker-alt text-green"></i>
 				<span class="pl-3 text-green">Add Location</span>
 			</a>
@@ -111,7 +111,7 @@
 			{{ profile.data.bio }}
 		</p>
 		<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
-			<a href='#' ng-click="editProfile()">
+			<a href='#' ng-click="editProfile('bio')">
 				<i class="fas fa-plus-square text-green"></i>
 				<span class="pl-3 text-green">Add Bio</span>
 			</a>
@@ -366,7 +366,7 @@
 			  <div class="form-group">
 			    <%= f.label :display_name %><br />
 		    	<p ng-show="profile.errors.displayName" class="alert alert-danger">{{profile.errors.displayName}}</p>
-			    <%= f.text_field :display_name, autofocus: true, class: "form-control", 'ng-model': "profile.form.data.displayName", 'ng-keyup': 'markFormAsEdited()' %>
+			    <%= f.text_field :display_name, class: "form-control", 'ng-model': "profile.form.data.displayName", 'ng-keyup': 'markFormAsEdited()' %>
 			  </div>
 
 			  <div class="form-group">
@@ -385,7 +385,7 @@
   	        <div class="input-group-prepend">
   	          <div class="input-group-text">@</div>
   	        </div>
-				    <%= f.text_field :username, autofocus: true, class: "form-control", required: '', 'ng-model': "profile.form.data.username.value",
+				    <%= f.text_field :username, class: "form-control", required: '', 'ng-model': "profile.form.data.username.value",
 				    	"ng-keyup": "validateUsernameFromField()" %>
 				  </div>
 			    <p><small class="form-text alert-no-bg"
@@ -407,7 +407,7 @@
 	  	    			<i class="fas fa-map-marker-alt text-green"></i>
 	  	    			<p class="my-0 ml-3">
 	  	    				<span class="main_location_text">{{ item.structured_formatting.main_text }}</span>
-	  		    			<small class="text-muted">{{ item.structured_formatting.secondary_text }}</small>
+	  		    			<small class="text-muted secondary_location_text">{{ item.structured_formatting.secondary_text }}</small>
 	  		    		</p>
 	  	    		</a>
 	  	    	</li>

@@ -7,14 +7,15 @@
 
   			<h5 class="mb-2 mt-1" ng-if="profile.data.<%= type %>Photo.source.length > 0">Position and size <%= type %> photo</h5>
 
-				<button data-dismiss="modal" class="btn btn-link">
-					<i class="fas fa-times"></i>
+				<button data-dismiss="modal" class="btn btn-link" ng-show="profile.data.<%= type %>Photo.source.length == 0">
+					<i class="fas fa-times text-green"></i>
 				</button>
 
     	</div>
 
       <div class="modal-body">
-  			<button id="upload_<%= type %>Photo_btn" class="btn btn-success add_photo btn-block mt-4" ng-show="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">Choose a photo</button>
+  			<button id="upload_<%= type %>Photo_btn" class="btn btn-success add_photo btn-block mt-4"
+  								ng-show="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">Choose a photo</button>
 
 				<section class="edit_photo_box">
 					<form ng-show="profile.data.<%= type %>Photo.source.length > 0">
@@ -26,7 +27,7 @@
 						</div>
 
 						<div class="buttons d-flex justify-content-between pt-4 mt-5 px-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
-							<button data-dismiss="modal"
+							<button ng-click="cancelEditPhoto('<%= type %>Photo')"
 											class="btn btn-outline-success w-50 mr-3"
 											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
 											ng-disabled="profile.data.<%= type %>Photo.uploading != false">Cancel</button>

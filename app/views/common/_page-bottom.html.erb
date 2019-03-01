@@ -58,7 +58,7 @@
 									<% end %>
 									<h5 class="">
 										<a href="<%= article_path(recent_article) %>">
-											<%= recent_article.title.html_safe %>
+											<%= recent_article.title.html_safe if recent_article.title %>
 										</a>
 									</h5>
 									<% footer_padding_bottom = recent_article.is_sponsored ? 'pb-2' : 'pb-0' %>

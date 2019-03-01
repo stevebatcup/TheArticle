@@ -247,9 +247,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@scope.profile.digest.sort (a,b) =>
 			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
-	editProfile: =>
+	editProfile: (section=null) =>
 		return false unless @scope.profile.isMe
 		@scope.mode = 'edit'
+		@timeout =>
+			$("#user_#{section}", ".form-group").focus()
+		, 500
 
 	saveProfile: ($event) =>
 		$event.preventDefault()
@@ -340,7 +343,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
-		c = new Croppie element,
+		@croppie = new Croppie element,
 			viewport:
 				width: width
 				height: height
@@ -348,11 +351,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			update: =>
 				newWidth = "#{(width*2)}"
 				newHeight = "#{(height*2)}"
-				c.result({type: 'canvas', size: {newWidth, newHeight}}).then (imgSource) =>
+				@croppie.result({type: 'canvas', size: {newWidth, newHeight}}).then (imgSource) =>
 					@scope.$apply =>
 						@scope.profile.data[type].sourceForUpload = imgSource
 		@timeout =>
-			c.setZoom(0.8)
+			@croppie.setZoom(0.1)
 		, 200
 
 	saveCroppedPhoto: ($event, type) =>
@@ -366,12 +369,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				else
 					@timeout =>
 						@scope.profile.data[type].image = @scope.profile.data[type].sourceForUpload
-						$('button[data-dismiss=modal]', "#edit#{type}Modal").click()
 						@scope.profile.data[type].uploading = false
+						@cancelEditPhoto(type)
 					, 750
 			, 800
 		, (error) =>
 			@savePhotoError error.statusText, type
+
+	cancelEditPhoto: (type) =>
+		@scope.profile.data[type].source = ''
+		$("#edit#{type}Modal").modal('hide')
+		window.location.reload()
 
 	savePhotoError: (msg, type) =>
 		@scope.profile.data[type].uploading = false
@@ -611,7 +619,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		$event.preventDefault()
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
-		placeText = $($event.currentTarget.innerHTML).find(".main_location_text").text()
+		$target = $($event.currentTarget.innerHTML)
+		placeText = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
 		@scope.profile.form.data.location.text = placeText
 		geocoder.geocode { 'address': address }, (results, status) =>
 			if status is google.maps.GeocoderStatus.OK
