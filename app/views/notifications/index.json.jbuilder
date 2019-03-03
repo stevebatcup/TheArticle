@@ -12,11 +12,13 @@ json.set! :notificationItems do
 		json.specificType notification.specific_type
 		json.isSeen notification.is_seen
 		if notification.eventable_type.downcase == 'categorisation'
-			exchange = notification.eventable.exchange
-			json.set! :exchange do
-				json.image exchange.image.url(:detail)
-				json.name exchange.name
-				json.path exchange_path(slug: exchange.slug)
+			unless notification.eventable.nil?
+				exchange = notification.eventable.exchange
+				json.set! :exchange do
+					json.image exchange.image.url(:detail)
+					json.name exchange.name
+					json.path exchange_path(slug: exchange.slug)
+				end
 			end
 		end
 	end
