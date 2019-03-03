@@ -1,6 +1,15 @@
 .article_detail {
 	margin-top: 20px;
 
+	.ads_box {
+		display: block;
+
+		& > div {
+			height: auto !important;
+			width: auto !important;
+		}
+	}
+
 	#article_meta {
 		.article_author_user {
 			img {

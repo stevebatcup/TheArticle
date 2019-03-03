@@ -84,7 +84,7 @@
           googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/sidecolumn', [[300, 250]], 'div-gpt-ad-<%= ad_page_id %>-1').addService(googletag.pubads());
           googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/skin', [1, 1], 'div-gpt-ad-<%= ad_page_id %>-2').addService(googletag.pubads());
           var topBanner = googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/topbanner', [[320, 50], [320, 100]], 'div-gpt-ad-<%= ad_page_id %>-3').addService(googletag.pubads());
-          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
+          googletag.defineSlot('/21757645549/thearticle_<%= ad_page_type %>/unruly', [[345, 250], [2,2]], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
 
           <% if is_article_page? %>
               googletag.pubads().setTargeting('article_id', <%= nil %>);
