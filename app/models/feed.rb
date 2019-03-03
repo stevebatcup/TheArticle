@@ -9,7 +9,11 @@ class Feed < ApplicationRecord
 	end
 
 	def self.fetch_categorisations_for_user(user, page=1, per_page=25)
-		user.feeds.where(actionable_type: 'Categorisation').page(page).per(per_page)
+		categorisations = user.feeds.where(actionable_type: 'Categorisation')
+		if per_page > 0
+			categorisations = categorisations.page(page).per(per_page)
+		end
+		categorisations
 	end
 
 	def self.fetch_for_followings_of_user(current_user, page=1, per_page=25)

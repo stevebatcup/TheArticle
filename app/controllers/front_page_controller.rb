@@ -21,9 +21,14 @@ class FrontPageController < ApplicationController
 				@my_muted_follow_ids = current_user.follow_mutes.map(&:muted_id)
 				@my_muted_exchange_ids = current_user.exchange_mutes.map(&:muted_id)
 				@feeds = Feed.fetch_for_followings_of_user(current_user, page, per_page)
-				@feeds += Feed.fetch_categorisations_for_user(current_user)
+				@feeds += Feed.fetch_categorisations_for_user(current_user, page, per_page)
 				@user_feeds = current_user.feed_users.order(updated_at: :desc).page(page).per(per_page)
-				@total_feeds = Feed.fetch_for_followings_of_user(current_user, 1, 0).size if page == 1
+				if page == 1
+					total_feeds = Feed.fetch_for_followings_of_user(current_user, 1, 0).size
+					total_categorisations = Feed.fetch_categorisations_for_user(current_user, 1, 0).size
+					total_user_feeds = current_user.feed_users.size
+					@total_feeds = total_feeds + total_categorisations + total_user_feeds
+				end
 				@suggestions = []#current_user.paginated_pending_suggestions(page, 2)
 			end
 		end
