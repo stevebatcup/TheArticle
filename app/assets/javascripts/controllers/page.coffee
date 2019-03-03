@@ -317,3 +317,8 @@ class TheArticle.PageController extends TheArticle.NGController
 		history.pushState null, null, location.href
 		window.onpopstate = =>
 			history.go(1)
+
+	initRandExchangeIndex: =>
+		maximum = 12
+		minimum = 1
+		Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
