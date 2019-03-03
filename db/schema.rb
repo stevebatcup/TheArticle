@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_01_102616) do
+ActiveRecord::Schema.define(version: 2019_03_03_070938) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -19,25 +19,25 @@ ActiveRecord::Schema.define(version: 2019_03_01_102616) do
     t.datetime "created_at"
   end
 
-  create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.integer "wp_id"
     t.string "title"
     t.integer "author_id"
-    t.text "content"
+    t.text "content", limit: 4294967295
     t.string "image"
     t.string "image_caption"
     t.integer "wp_image_id"
     t.string "slug"
     t.string "remote_article_url", limit: 1000
     t.string "remote_article_domain"
-    t.text "remote_article_image_url"
-    t.text "excerpt"
+    t.text "remote_article_image_url", limit: 16777215
+    t.text "excerpt", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "published_at"
     t.string "canonical_url"
-    t.text "page_title"
-    t.text "meta_description"
+    t.text "page_title", limit: 16777215
+    t.text "meta_description", limit: 16777215
     t.string "social_image"
     t.boolean "robots_nofollow"
     t.boolean "robots_noindex"
