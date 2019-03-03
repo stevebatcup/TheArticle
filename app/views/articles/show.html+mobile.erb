@@ -226,7 +226,9 @@
 				<div class="row">
 					<% @articles_in_same_exchange.each do |article| %>
 						<article class="article-listing post col-12 col-md-6 col-lg-4 post hoveraction block_click"
-										data-href="" id="article-listing-post-<%= @article.id %>">
+										data-href=""
+										id="article-listing-post-<%= article.id %>"
+										data-id="<%= article.id %>">
 							<div class="inner">
 								<div class="img_mask">
 									<% if article.is_newly_published? %>
@@ -245,7 +247,7 @@
 								<% end %>
 
 								<header class="entry-header pt-0 px-3">
-									<h4 class="entry-title mb-0" id="article-post-title-<%= @article.id %>">
+									<h4 class="entry-title mb-0" id="article-post-title-<%= article.id %>">
 										<a href="<%= article_path(article) %>">
 											<%= article.title.html_safe %>
 										</a>
