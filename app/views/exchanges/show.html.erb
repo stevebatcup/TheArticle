@@ -30,6 +30,7 @@
 				<div class="col-0 col-md-1 d-flex align-items-end">
 					<% if !browser.device.mobile? %>
 						<button class="follow_btn in_header btn"
+											ng-show="userExchanges.loaded"
 											ng-click="toggleFollowExchange(<%= @exchange.id %>, $event)"
 											ng-class="{
 												'btn-outline-light': !inFollowedExchanges(<%= @exchange.id %>),

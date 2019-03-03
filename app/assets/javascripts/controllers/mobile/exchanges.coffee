@@ -28,8 +28,14 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 			@bindEvents()
 
 		if @signedIn
+			@scope.userExchanges =
+				ids: []
+				page: 1
+				perPage: 15
+				moreToLoad: false
+				totalItems: 0
+				loaded: false
 			@getUserExchanges()
-			@scope.userExchangesLoaded = false
 
 	bindEvents: ->
 		super
@@ -37,11 +43,22 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 			@getArticles() if @scope.exchange
 
 	getUserExchanges: =>
-		@userExchanges = []
-		@http.get("/user_exchanges").then (exchanges) =>
-			@userExchanges = _.map exchanges.data.exchanges, (e) =>
-				e.id
-			@scope.userExchangesLoaded = true
+		url = "/user_exchanges?page=#{@scope.userExchanges.page}&per_page=#{@scope.userExchanges.perPage}"
+		@http.get(url).then (exchanges) =>
+			angular.forEach exchanges.data.exchanges, (exchange) =>
+				@scope.userExchanges.ids.push exchange.id
+			@scope.userExchanges.totalItems = exchanges.data.total if @scope.userExchanges.page is 1
+			@scope.userExchanges.moreToLoad = @scope.userExchanges.totalItems > (@scope.userExchanges.page * @scope.userExchanges.perPage)
+			if @scope.userExchanges.moreToLoad is true
+				@timeout =>
+					@loadMoreExchanges()
+				, 500
+			else
+				@scope.userExchanges.loaded = true
+
+	loadMoreExchanges: =>
+		@scope.userExchanges.page += 1
+		@getUserExchanges()
 
 	toggleFollowExchange: (exchangeId, $event=null) =>
 		$event.preventDefault() if $event?
@@ -50,16 +67,16 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 		else
 			if @inFollowedExchanges(exchangeId)
 				@unfollowExchange exchangeId, (response) =>
-					@userExchanges = _.filter @userExchanges, (item) =>
+					@scope.userExchanges.ids = _.filter @scope.userExchanges.ids, (item) =>
 						item isnt exchangeId
 					@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
 			else
 				@followExchange exchangeId, (response) =>
-					@userExchanges.push exchangeId
+					@scope.userExchanges.ids.push exchangeId
 					@flash "You are now following the <b>#{response.data.exchange}</b> exchange"
 
 	inFollowedExchanges: (exchangeId) =>
-		_.contains @userExchanges, exchangeId
+		_.contains @scope.userExchanges.ids, exchangeId
 
 	loadMore: =>
 		@getArticles()
