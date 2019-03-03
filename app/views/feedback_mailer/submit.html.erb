@@ -1,28 +1,28 @@
 <p>Hello,</p>
 
 <p>
-	New feedback form submission from <b><%= @feedback.name %> </b> as follows:
+New feedback form submission from <b><%= @feedback.name %> </b> as follows:
 </p>
 
-<table cellpadding="0" cellspacing="0">
-	<tr>
-		<th>URL</th>
-		<td><%= @feedback.url %></td>
-	</tr>
-	<tr>
-		<th>Device</th>
-		<td><%= @feedback.device %></td>
-	</tr>
-	<tr>
-		<th>Platform</th>
-		<td><%= @feedback.platform %></td>
-	</tr>
-	<tr>
-		<th>Browser</th>
-		<td><%= @feedback.browser %></td>
-	</tr>
-	<tr>
-		<th>Comments</th>
-		<td><%= @feedback.comments %></td>
-	</tr>
-</table>
+<p>
+	<label><b>URL: </b></label>
+	<span><%= @feedback.url %></span>
+</p>
+<p>
+	<label><b>Device: </b></label>
+	<span><%= @feedback.device %></span>
+</p>
+<p>
+	<label><b>Platform: </b></label>
+	<span><%= @feedback.platform %></span>
+</p>
+<p>
+	<label><b>Browser: </b></label>
+	<span><%= @feedback.browser %></span>
+</p>
+<p>
+	<label><b>Comments: </b></label>
+	<span><%= @feedback.comments %></span>
+</p>
+
+<p>Cheers!</p>
