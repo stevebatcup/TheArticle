@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
+  get 'accept-testing-environment',            to: 'testing_feedback#accept'
   get 'search-suggestions',                    to: 'search#index', mode: :suggestions
   get 'search',                                to: 'search#index', as: :search, mode: :full
   get 'articles',                              to: 'articles#index', as: :articles

@@ -59,5 +59,11 @@
     <script id="parsely-cfg" data-parsely-site="thearticle.com" src="//cdn.parsely.com/keys/thearticle.com/p.js"></script>
     <% end %>
 
+    <% if is_testing_environment? %>
+      <script id="testDomainInterstitial" type="script/x-mustache">
+        <%= render 'testing/domain_interstitial' %>
+      </script>
+    <% end %>
+
   </body>
 </html>

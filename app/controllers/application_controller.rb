@@ -93,6 +93,12 @@ class ApplicationController < ActionController::Base
 		end
 	end
 
+	def is_testing_environment?
+		request.host.include?('localhost') || request.host.include?('live.thearticle.com')
+	end
+	helper_method	:is_testing_environment?
+
+
 protected
 
 	def after_sign_out_path_for(resource_or_scope)

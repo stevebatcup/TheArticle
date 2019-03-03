@@ -15,6 +15,11 @@ module ApplicationHelper
 		bclasses = [Rails.env]
 		bclasses << 'show_cookie_notice' unless cookies[:cookie_permission_set]
 		bclasses << 'tablet' if browser.device.tablet?
+    if is_testing_environment?
+      unless cookies[:cookie_test_environment_seen]
+        bclasses << 'show_testing_interstitial'
+      end
+    end
 		bclasses.join(" ")
 	end
 

@@ -2,6 +2,7 @@ class TheArticle.PageController extends TheArticle.NGController
 	constructor: ->
 		super
 		@showCookieNotice() if $('body').hasClass('show_cookie_notice')
+		@showTestingEnvironmentInterstitial() if $('body').hasClass('show_testing_interstitial')
 
 	hasAds: ->
 		$('#ads_top').length > 0
@@ -322,3 +323,24 @@ class TheArticle.PageController extends TheArticle.NGController
 		maximum = 12
 		minimum = 1
 		Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+
+	showTestingEnvironmentInterstitial: =>
+		if $('#testDomainInterstitial').length
+			tpl = $("#testDomainInterstitial").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#testDomainInterstitialModal").modal()
+
+	acceptTestingEnvironmentInterstitial: ($event) =>
+		$event.preventDefault()
+		$.getJSON '/accept-testing-environment', (response) =>
+			if response.status is 'success'
+				$("#testDomainInterstitialModal").modal('hide')
+				$('body').removeClass('show_testing_interstitial')
+			else
+				@testingEnvironmentInterstitialAcceptanceError()
+		.fail (error) =>
+			@testingEnvironmentInterstitialAcceptanceError()
+
+	testingEnvironmentInterstitialAcceptanceError: =>
+		alert "Sorry there has been an error. Please try again.", "Error"
