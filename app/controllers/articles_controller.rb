@@ -30,7 +30,8 @@ class ArticlesController < ApplicationController
 				@total = @contributor.articles.size
 			end
 		elsif params[:sponsored_picks]
-			@articles = Author.get_sponsors_single_posts('sponsored-pick', params[:per_page].to_i)
+			@articles = Author.get_sponsors_single_posts('sponsored-pick', 6)
+			ordered = @articles.map(&:published_at)
 		end
 	end
 

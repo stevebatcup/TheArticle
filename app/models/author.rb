@@ -107,7 +107,8 @@ class Author < ApplicationRecord
 				sponsored_articles << random_article unless random_article.nil?
 				break if limit && (sponsored_articles.size >= limit)
 			end
-			sponsored_articles.sort { |a, b| a.published_at <=> b.published_at }
+			sponsored_articles.sort_by! { |a| a.published_at }
+			sponsored_articles.reverse
 		# end
 	end
 
