@@ -100,15 +100,15 @@ class Author < ApplicationRecord
 		cache_key = "sponsors_single_posts"
 		cache_key << "_#{tag}" unless tag.nil?
 		cache_key << "_#{limit}" unless limit.nil?
-		Rails.cache.fetch(cache_key) do
+		# Rails.cache.fetch(cache_key) do
 			sponsored_articles = []
 			self.sponsors.each do |sponsor|
 				random_article = sponsor.random_article(tag)
 				sponsored_articles << random_article unless random_article.nil?
 				break if limit && (sponsored_articles.size >= limit)
 			end
-			sponsored_articles.sort_by {|a| a.published_at}
-		end
+			sponsored_articles.sort { |a, b| a.published_at <=> b.published_at }
+		# end
 	end
 
 	def self.wp_type
