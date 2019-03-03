@@ -39,6 +39,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		@scope.followSuggestions = []
 		@getFollowSuggestions()
 		@bindCookieAcceptance()
+		@scope.redirectWhenDone = null
 
 	bindEvents: =>
 		@bindListingHovers() unless @isTablet()
@@ -193,6 +194,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		@alert "Sorry there has been an error: #{msg}"
 
 	finishedWizard: =>
-		window.location.href = @scope.redirectWhenDone
+		url = if @scope.redirectWhenDone? then @scope.redirectWhenDone else "/my-home?from_wizard=1"
+		window.location.href = url
 
 TheArticle.ControllerModule.controller('ProfileWizardController', TheArticle.ProfileWizard)

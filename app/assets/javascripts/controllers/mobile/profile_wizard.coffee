@@ -39,6 +39,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 			error: null
 		@scope.followSuggestions = []
 		@getFollowSuggestions()
+		@scope.redirectWhenDone = null
 
 	bindEvents: =>
 		@bindCookieAcceptance()
@@ -191,6 +192,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@alert "Sorry there has been an error: #{msg}"
 
 	finishedWizard: =>
-		window.location.href = @scope.redirectWhenDone
+		url = if @scope.redirectWhenDone? then @scope.redirectWhenDone else "/my-home?from_wizard=1"
+		window.location.href = url
 
 TheArticle.ControllerModule.controller('ProfileWizardController', TheArticle.ProfileWizard)

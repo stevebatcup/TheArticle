@@ -26,15 +26,14 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 				moreToLoad: true
 			@bindEvents()
 
-		if @signedIn
-			@scope.userExchanges =
-				ids: []
-				page: 1
-				perPage: 20
-				moreToLoad: false
-				totalItems: 0
-				loaded: false
-			@getUserExchanges()
+		@scope.userExchanges =
+			ids: []
+			page: 1
+			perPage: 20
+			moreToLoad: false
+			totalItems: 0
+			loaded: false
+		@getUserExchanges() if @signedIn
 
 	bindEvents: ->
 		super
