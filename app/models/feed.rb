@@ -9,7 +9,11 @@ class Feed < ApplicationRecord
 	end
 
 	def self.fetch_categorisations_for_user(user, page=1, per_page=25)
-		categorisations = user.feeds.where(actionable_type: 'Categorisation')
+		join_sql = "INNER JOIN articles_exchanges ON articles_exchanges.id = feeds.actionable_id"
+		join_sql << " INNER JOIN articles ON articles_exchanges.article_id = articles.id"
+		categorisations = user.feeds.joins(join_sql)
+														.where(actionable_type: 'Categorisation')
+														.order("articles.published_at DESC")
 		if per_page > 0
 			categorisations = categorisations.page(page).per(per_page)
 		end
