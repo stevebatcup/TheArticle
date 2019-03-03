@@ -18,6 +18,9 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			$('html').removeClass('with_modal')
 			@stopBodyScrolling(false)
 
+		$('#open_feedback_form').on 'click', (e) =>
+			@openFeedbackForm(e)
+
 	bindBlockClicks: =>
 		$('.block_click').on 'click', (e) =>
 			@blockClick $(e.currentTarget), e

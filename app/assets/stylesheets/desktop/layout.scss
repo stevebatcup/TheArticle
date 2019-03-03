@@ -1171,3 +1171,18 @@ select.short {
 	height: fit-content;
 	height: -moz-fit-content;
 }
+
+#open_feedback_form {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	font-size: 50px;
+	background: $green;
+	color: #fff;
+	border-radius: 50%;
+	padding: 10px;
+	width: 85px;
+	height: 85px;
+	text-align: center;
+	box-shadow: 2px 2px 5px #333
+}

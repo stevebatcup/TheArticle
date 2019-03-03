@@ -344,3 +344,11 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	testingEnvironmentInterstitialAcceptanceError: =>
 		alert "Sorry there has been an error. Please try again.", "Error"
+
+	openFeedbackForm: ($event) =>
+		$event.preventDefault()
+		tpl = $("#testDomainFeedbackForm").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#testDomainFeedbackFormModal").modal()
+

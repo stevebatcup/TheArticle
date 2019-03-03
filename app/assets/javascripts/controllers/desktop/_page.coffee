@@ -25,6 +25,9 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			else if sideBarHeight - contentHeight >= 400
 				$('#featured_articles_content_bar').show()
 
+		$('#open_feedback_form').on 'click', (e) =>
+			@openFeedbackForm(e)
+
 	reLinePosts: =>
 		$('.article-listing.post').each (index, post) =>
 			if $(post).is(':visible')

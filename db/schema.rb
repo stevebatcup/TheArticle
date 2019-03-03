@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_03_070938) do
+ActiveRecord::Schema.define(version: 2019_03_03_135257) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -206,6 +206,17 @@ ActiveRecord::Schema.define(version: 2019_03_03_070938) do
     t.bigint "feed_id"
     t.index ["feed_id"], name: "index_feed_users_feeds_on_feed_id"
     t.index ["feed_user_id"], name: "index_feed_users_feeds_on_feed_user_id"
+  end
+
+  create_table "feedback_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "url"
+    t.string "platform"
+    t.string "browser"
+    t.string "device"
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feeds", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

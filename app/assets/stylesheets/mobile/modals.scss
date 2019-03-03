@@ -79,4 +79,10 @@ html.with_modal {
 	    width: 100%;
 		}
 	}
+
+	&.mobile_full {
+		.modal-body {
+			height: 86.5vh;
+		}
+	}
 }

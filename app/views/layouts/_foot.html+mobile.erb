@@ -63,6 +63,14 @@
       <script id="testDomainInterstitial" type="script/x-mustache">
         <%= render 'testing/domain_interstitial' %>
       </script>
+
+      <script id="testDomainFeedbackForm" type="script/x-mustache">
+        <%= render 'testing/feedback_form' %>
+      </script>
+
+      <a href='#' ng-click="openFeedbackForm($event)" id="open_feedback_form">
+        <i class="far fa-comment-alt"></i>
+      </a>
     <% end %>
 
   </body>
