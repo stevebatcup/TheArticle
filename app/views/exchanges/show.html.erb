@@ -3,6 +3,7 @@
 <% meta_tag :image, @exchange.image.url(:detail) %>
 
 <section ng-controller="ExchangesController"
+		id="exchange_show_box"
 		data-exchange="<%= @exchange.slug %>"
 		data-per-page="<%= articles_per_page %>"
 		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
@@ -23,7 +24,7 @@
 						<% end %>
 					</h1>
 					<% if !browser.device.mobile? %>
-						<p class="h6 w-md-90 mb-0 text-white"><%=  @exchange.description %></p>
+						<p class="h6 w-md-90 mb-0 text-white exchange_description"><%=  @exchange.description.html_safe %></p>
 					<% end %>
 				</div>
 				<div class="col-0 col-md-1 d-flex align-items-end">

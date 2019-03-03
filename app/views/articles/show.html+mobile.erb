@@ -221,11 +221,48 @@
 	<% if @articles_in_same_exchange.any? %>
 		<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
 		<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
-			<%= render partial: 'articles/listings', locals: {
-				block_id: 'articles_in_same_exchange',
-				articles: @articles_in_same_exchange,
-				title: listings_heading,
-			} %>
+			<div class="container">
+				<h2 class="h1 bullet mb-2 mb-md-3"><%= listings_heading %></h2>
+				<div class="row">
+					<% @articles_in_same_exchange.each do |article| %>
+						<article class="article-listing post col-12 col-md-6 col-lg-4 post hoveraction block_click"
+										data-href="">
+							<div class="inner">
+								<div class="img_mask">
+									<% if article.is_newly_published? %>
+										<div ng-if="article.isNew" class="new_article"><span>New</span></div>
+									<% end %>
+
+									<a href="<%= article_path(article) %>">
+										<img src="<%= article.image.url(:cover_mobile) %>" alt="<%= article.title.html_safe %>" />
+									</a>
+								</div>
+
+								<% article.exchanges.each_with_index do |e, i| %>
+									<a href="<%= exchange_badge_url(e) %>" class="exchange-badge bg-colour-<%= i+1 %>-dark exchange-<%= e.slug %>">
+									  <%= e.name %>
+									</a>
+								<% end %>
+
+								<header class="entry-header pt-0 px-3">
+									<h4 class="entry-title mb-0"><a href="%s" rel="bookmark">
+										<a href="<%= article_path(article) %>"><%= article.title.html_safe %></a>
+									</a>
+								</header>
+
+								<div class="entry-content py-0 px-3">
+									<%= article_excerpt_for_listing(article).html_safe %>
+								</div>
+
+								<footer class="entry-footer pt-1 px-3 pb-2">
+									<p class="author_link"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span>
+										<%= article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
+				</div>
+			</div>
 		</div>
 	<% end %>
 

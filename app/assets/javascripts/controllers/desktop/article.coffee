@@ -12,6 +12,8 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 
 	init: ->
 		@bindEvents()
+		@scope.articlesInSameExchange =
+			firstLoaded: true
 
 	bindEvents: ->
 		super

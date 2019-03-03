@@ -33,8 +33,8 @@ module ArticleHelper
 		author = article.author
 		{
 			type: 'categorisation',
-			stamp: categorisation.created_at.to_i,
-			date: categorisation.created_at.strftime("%e %b"),
+			stamp: categorisation.article.published_at.to_i,
+			date: categorisation.article.published_at.strftime("%e %b"),
 			article: {
 				id: article.id,
 				snippet: article_excerpt_for_listing(article, 160),
