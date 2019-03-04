@@ -75,7 +75,8 @@ class User < ApplicationRecord
   end
 
   def assign_default_settings
-    self.username = "@#{generate_usernames.first}"
+    self.username = generate_usernames.first
+    self.display_name = "#{first_name} #{last_name}"
     self.slug = self.username.downcase
 
     self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
