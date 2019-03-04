@@ -22,8 +22,14 @@ header#main_header {
         width: 130px;
         padding-left: 0;
         padding-right: 0;
-
         font-size: 0.75em;
+
+        img {
+          width: 22px;
+          height: 22px;
+          position: relative;
+          top: 1px;
+        }
       }
 
       .dropdown-menu#my_profile_menu {
