@@ -94,6 +94,14 @@ class Article < ApplicationRecord
 			.where("keyword_tags.slug = 'trending-article'")
 	end
 
+	def self.latest
+		self.not_sponsored.not_remote
+			.includes(:keyword_tags).references(:keyword_tags)
+			.includes(:exchanges).references(:exchanges)
+			.includes(:author).references(:author)
+			.order("published_at DESC")
+	end
+
 	def self.for_carousel(sponsored_starting_position=2)
 		Rails.cache.fetch("article_carousel") do
 			articles = self.trending

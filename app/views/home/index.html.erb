@@ -2,7 +2,7 @@
 
 <section ng-controller="HomeController" data-per-page="<%= articles_per_page %>" ng-cloak <%= ' data-force-profile-wizard=1' if user_signed_in? && !current_user.has_completed_wizard? %>>
 	<div class="container mt-4 mt-md-5 slick-carousel-title">
-	  <h1 class="bullet cloak">Latest articles</h1>
+	  <h1 class="bullet cloak">Trending articles</h1>
 	</div>
 
 	<%= if @articles_for_carousel.any?

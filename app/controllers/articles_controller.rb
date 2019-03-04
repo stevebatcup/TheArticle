@@ -54,7 +54,7 @@ class ArticlesController < ApplicationController
 				@secondSideAdType = 'sidecolumn'
 				@secondSideAdSlot = 1
 			end
-			@trending_articles = Article.trending.limit(Author.sponsors.any? ? 4 : 5).all.to_a
+			@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 			@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 			@articles_in_same_exchange = []
 			if @exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
