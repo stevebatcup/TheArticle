@@ -19,6 +19,7 @@ class ArticlesController < ApplicationController
 			@articles = exchange.articles.not_sponsored
 													.includes(:author).references(:author)
 													.includes(:exchanges).references(:exchanges)
+													.order("published_at DESC")
 													.page(params[:page]).per(params[:per_page].to_i)
 			if params[:page].to_i == 1
 				@total = exchange.articles.not_sponsored.size
@@ -62,6 +63,7 @@ class ArticlesController < ApplicationController
 																											.includes(:exchanges).references(:exchanges)
 																											.includes(:author).references(:author)
 																											.where.not(id: @article.id)
+																											.order("published_at DESC")
 																											.limit(6)
 			end
 			@article_share = {

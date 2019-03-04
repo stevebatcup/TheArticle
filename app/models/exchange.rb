@@ -95,4 +95,41 @@ class Exchange < ApplicationRecord
       self.image = nil
   	end
   end
+
+  def articles_for_carousel
+    articles = self.articles
+                  .includes(:author).references(:author)
+                  .includes(:exchanges).references(:exchanges)
+                  .not_sponsored
+                  .order(Arel.sql('RAND()'))
+                  .limit(12)
+
+    carousel_articles = []
+    carousel_articles_evens = []
+    carousel_articles_odds = []
+    articles.each_with_index do |article, i|
+      if i % 2 == 0
+        carousel_articles_evens << article
+      else
+        carousel_articles_odds << article
+      end
+    end
+
+    carousel_articles_evens.each_with_index do |even_article, i|
+      odd_article = carousel_articles_odds[i]
+      carousel_articles.unshift even_article
+      carousel_articles.push odd_article if odd_article
+    end
+
+    shifted = []
+    halfway = (carousel_articles.length / 2).ceil - 2
+    for i in 0..halfway do
+      article = carousel_articles[i]
+      shifted << article if article
+    end
+    shifted.each do |s|
+      carousel_articles.delete(s)
+    end
+    carousel_articles = carousel_articles + shifted
+  end
 end
