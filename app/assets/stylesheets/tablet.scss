@@ -19,7 +19,7 @@ header#main_header {
       }
 
       a.nav-icon#nav_link_my_profile {
-        width: 130px;
+        max-width: 130px;
         padding-left: 0;
         padding-right: 0;
         font-size: 0.75em;
@@ -138,7 +138,7 @@ footer.main_footer nav#footer_nav .nav-link {
     nav#main_nav_right {
       li.nav-item {
         a.nav-icon#nav_link_my_profile {
-          width: 150px;
+          max-width: 150px;
         }
       }
     }

@@ -33,6 +33,9 @@ class UserFollowingsController < ApplicationController
 		elsif other_user.profile_is_deactivated?
 			@status = :error
 			@message = "Sorry this user is currently deactivated"
+		elsif other_user.is_followed_by(current_user)
+			@status = :error
+			@message = "You are already following #{other_user.display_name}"
 		end
 
 		if @status != :error

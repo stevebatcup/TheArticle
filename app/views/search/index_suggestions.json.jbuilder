@@ -22,10 +22,12 @@ end
 if @contributors.any?
 	json.set! :contributors do
 		json.array! @contributors do |contributor|
-			json.term contributor.display_name.html_safe
-			json.image contributor.image.url(:listing)
-			json.articleCount pluralize(contributor.articles.size, "article")
-			json.path contributor_path(slug: contributor.slug)
+			unless contributor.is_sponsor?
+				json.term contributor.display_name.html_safe
+				json.image contributor.image.url(:listing)
+				json.articleCount pluralize(contributor.articles.size, "article")
+				json.path contributor_path(slug: contributor.slug)
+			end
 		end
 	end
 end

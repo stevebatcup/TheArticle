@@ -25,14 +25,16 @@ items = []
 		items << item
 
 	elsif result.class == Author
-		items << {
-			type: :contributors,
-			id: result.id,
-			name: result.display_name.html_safe,
-			image: result.image.url(:detail),
-			articleCount: pluralize(result.article_count, "article"),
-			path: contributor_path(slug: result.slug)
-		}
+		unless result.is_sponsor?
+			items << {
+				type: :contributors,
+				id: result.id,
+				name: result.display_name.html_safe,
+				image: result.image.url(:detail),
+				articleCount: pluralize(result.article_count, "article"),
+				path: contributor_path(slug: result.slug)
+			}
+		end
 
 	elsif result.class == User
 		items << {
