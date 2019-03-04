@@ -14,6 +14,7 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 	init: ->
 		@signedIn = !!@element.data('signed-in')
 		@setDefaultHttpHeaders()
+		@isEditorItem = !!@element.data('is-editor-item')
 
 		unless @element.data('carousel-only')
 			@scope.exchange = @element.data('exchange')
@@ -37,6 +38,9 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 
 	bindEvents: ->
 		super
+		if @isEditorItem
+			@getArticles() if @scope.exchange
+		else
 		$('.slick-carousel.articles').first().on 'init', (e) =>
 			@getArticles() if @scope.exchange
 

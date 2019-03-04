@@ -6,7 +6,8 @@
 		id="exchange_show_box"
 		data-exchange="<%= @exchange.slug %>"
 		data-per-page="<%= articles_per_page %>"
-		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
+		data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+		data-is-editor-item="<%= @exchange.is_editor_item? ? 1 : 0 %>" ng-cloak>
 	<header class="black_heading py-4 py-md-5" ng-cloak>
 		<div class="container">
 			<div class="row">
