@@ -1,13 +1,46 @@
 @charset "UTF-8";
 
 header#main_header {
-	li.nav-item {
-		font-size: 0.85em;
+  li.nav-item {
+    font-size: 0.85em;
+    margin-right: 0 !important;
 
     a#nav_link_mission{
       padding-left: 1.2rem !important;
     }
-	}
+  }
+
+  nav#main_nav_right {
+    li.nav-item {
+      margin-left: 0;
+
+      a {
+        padding: 0;
+      }
+
+      a.nav-icon#nav_link_my_profile {
+        width: 130px;
+        padding-left: 0;
+        padding-right: 0;
+
+        font-size: 0.75em;
+      }
+
+      .dropdown-menu#my_profile_menu {
+        width: 190px;
+        left: -27px;
+
+        a {
+          padding-left: 10px;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
+
+html.svg #logo {
+  background-size: 65%;
 }
 
 footer.main_footer nav#footer_nav .nav-link {
@@ -91,7 +124,31 @@ footer.main_footer nav#footer_nav .nav-link {
     width: 90%;
   }
 
+  .card-body {
+    padding: 0.7rem;
+  }
+
+  header#main_header {
+    nav#main_nav_right {
+      li.nav-item {
+        a.nav-icon#nav_link_my_profile {
+          width: 150px;
+        }
+      }
+    }
+  }
+
+  main.front_page_index #front_page_profile_card #stats_info,
+  main.notifications_index #front_page_profile_card #stats_info,
+  main.account_settings_edit #front_page_profile_card #stats_info {
+    padding: 0 2px;
+  }
+
   .black_heading {
+    h1 {
+      font-size: 2.5em !important;
+    }
+
     h2 {
       font-size: 2.5em !important;
     }
@@ -118,10 +175,10 @@ footer.main_footer nav#footer_nav .nav-link {
 
   .slick-carousel.exchanges {
     .slick-track {
-      height: 290px !important;
+      height: 330px !important;
 
       .img {
-        height: 48%;
+        height: 84%;
       }
 
       .entry-content {

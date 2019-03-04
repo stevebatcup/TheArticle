@@ -32,7 +32,7 @@
         </a>
       </div>
 
-      <nav class="navbar navbar-expand-md col-4 d-flex px-md-0 px-lg-1 pb-0">
+      <nav class="navbar navbar-expand-md col-4 d-flex px-md-0 px-lg-1 pb-0" id="main_nav_right">
         <ul class="nav w-100 justify-content-end ">
           <% if user_signed_in? %>
             <li class="nav-item" id="nav_link_search_signed_in">
@@ -41,8 +41,8 @@
               </a>
             </li>
 
-            <li class="nav-item dropdown pr-3">
-              <a class="nav-link nav-icon py-2 pr-1 text-black pl-md-5" href="/notifications" id="nav_link_notifications">
+            <li class="nav-item dropdown pr-lg-3">
+              <a class="nav-link nav-icon py-2 pr-1 text-black pl-md-5 pl-lg-5" href="/notifications" id="nav_link_notifications">
                 <i class="fas fa-bell"></i>
                 <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
                   {{notificationBadgeCount}}
@@ -98,7 +98,7 @@
               <a class="nav-link nav-icon-text text-black pl-md-4 pb-0 pr-0" href="#" ng-click="openRegisterForm($event)" id="nav_link_join">Register</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0" href="#" id="nav_link_sign_in" ng-click="openSigninForm($event)">
+              <a class="nav-link nav-icon-text text-black pl-md-3 pl-lg-4 pb-0" href="#" id="nav_link_sign_in" ng-click="openSigninForm($event)">
                 <i class="fas fa-user-circle mr-1 text-increase-3 top-1"></i>
                 Sign in
               </a>

@@ -16,7 +16,7 @@
 						<img src="<%= @exchange.image.url(:detail) %>" alt="<%=  @exchange.name %>" class="mt-1 mt-md-1 mt-xl-2" />
 					<% end %>
 				</div>
-				<div class="col-8 col-md-9 pl-0 pl-md-2 pl-lg-3 pt-0">
+				<div class="col-8 col-md-7 pl-0 pl-md-2 pl-lg-3 pt-0">
 					<h1 class="mb-0 text-white">
 						<% if @exchange.is_editor_item? %>
 							<%= @exchange.name %>
@@ -28,7 +28,7 @@
 						<p class="h6 w-md-90 mb-0 text-white exchange_description"><%=  @exchange.description.html_safe %></p>
 					<% end %>
 				</div>
-				<div class="col-0 col-md-1 d-flex align-items-end">
+				<div class="col-0 col-md-3 d-flex align-items-end">
 					<% if !browser.device.mobile? %>
 						<button class="follow_btn in_header btn"
 											ng-show="userExchanges.loaded"

@@ -159,7 +159,7 @@
 	</section>
 
 	<div class="row" id="main_feed">
-		<section class="col-3" ng-show="profile.loaded && !profile.loadError" id="left_col" ng-cloak>
+		<section class="col-md-4 col-lg-3" ng-show="profile.loaded && !profile.loadError" id="left_col" ng-cloak>
 
 			<div id="basic_info">
 				<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}"ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
@@ -198,7 +198,7 @@
 			</div>
 		</section>
 
-		<section class="col-6" id="feed" ng-show="profile.loaded && !profile.loadError">
+		<section class="col-md-8 col-lg-6" id="feed" ng-show="profile.loaded && !profile.loadError">
 			<!-- Feed when blocking them -->
 			<div class="container" id="activity-tabs" ng-if="profile.data.isBlocked" ng-cloak>
 				<div class="results_block row">
@@ -433,7 +433,7 @@
 			</div>
 		</section>
 
-		<div class="col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
+		<div class="col-md-0 col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
 			<% if user_signed_in? && !current_user.profile_is_deactivated? %>
 			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3">
 				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
