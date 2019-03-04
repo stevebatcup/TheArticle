@@ -128,7 +128,7 @@ class User < ApplicationRecord
   end
 
   def assign_default_profile_photo_id
-    self.default_profile_photo_id = rand(1..10)
+    self.default_profile_photo_id = rand(1..75)
   end
 
   def default_display_name
