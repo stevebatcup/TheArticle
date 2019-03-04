@@ -200,6 +200,10 @@
 		}
 	}
 
+	&.feed-contributor {
+		height: 90px;
+	}
+
 	&.feed-share,
 	&.feed-exchange,
 	&.feed-follow,
@@ -370,7 +374,7 @@
 
 	&.feed-follow.col-6 {
 		padding: 0 10px 10px;
-		height: 250px;
+		height: 300px;
 
 		.block_click {
 			height: 100%;
@@ -415,50 +419,14 @@
 		}
 	}
 
-	&.feed-article {
-		height: 210px;
+	.card {
+		height: 100%;
 
-		&.feed-ratings {
-			height: 220px;
-
-			.card {
-				position: relative;
-
-				.ratings {
-					font-size: 0.9em;
-					background: $grey_light;
-					padding: 12px;
-					overflow: hidden;
-					position: absolute;
-			    bottom: 0px;
-			    width: 100%;
-			    left: 0;
-
-					h5 {
-						font-size: 1em;
-					}
-
-					ul {
-						padding: 0;
-						margin: 0;
-
-						li {
-							list-style: none;
-							font-weight: 500;
-						}
-					}
-				}
-			}
-		}
-
-		.card {
-			height: 100%;
-
-			h6 {
-				color: $grey;
-			}
+		h6 {
+			color: $grey;
 		}
 	}
+
 
 	img.feed_image {
 		width: 3.7em;
@@ -544,6 +512,7 @@
 		margin-top: 8px;
 		position: relative;
 		overflow: hidden;
+		margin-left: 7px;
 
 		div {
 			float: left;
@@ -631,7 +600,7 @@
 	}
 
 	.results_block {
-		background: $grey_light;
+		// background: $grey_light;
 		margin-top: 17px;
 
 		&.empty {
@@ -646,8 +615,8 @@
 		h6.block_heading {
 			display: block;
 			background: $grey_light;
-			color: #444;
-			font-weight: 600;
+			color: #333;
+			font-weight: bold;
 		}
 
 		.view_all {

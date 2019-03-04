@@ -3,6 +3,30 @@ section.no-results {
 	min-height: 280px;
 }
 
+#search-results {
+	.feed-listing {
+		padding: 0 12px 10px !important;
+	}
+
+	.feed-article {
+    height: 405px;
+    margin-bottom: 15px;
+
+    .inner {
+    	background: #fff;
+    	height: 100%;
+
+			img {
+				width: 100%;
+			}
+
+			header {
+				padding-top: 10px !important;
+			}
+    }
+	}
+}
+
 #search_box {
   position: fixed;
   width: 100%;
@@ -90,6 +114,7 @@ section.no-results {
 
 							img {
 								width: 55px;
+								height: 55px;
 
 								&.rounded-circle {
 									width: 45px;

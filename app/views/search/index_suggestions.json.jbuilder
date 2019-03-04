@@ -46,8 +46,8 @@ end
 if @recent_searches.any?
 	json.set! :recentSearches do
 		json.array! @recent_searches do |search_term|
-			json.term search_term.term
-			json.path search_path(query: search_term.term)
+			json.term search_term
+			json.path search_path(query: search_term)
 		end
 	end
 end
@@ -65,7 +65,7 @@ end
 if @trending_articles.any?
 	json.set! :trendingArticles do
 		json.array! @trending_articles do |article|
-			json.term article.title
+			json.term article.title.html_safe
 			json.path article_path(article)
 		end
 	end

@@ -560,15 +560,17 @@ input#suggestion_search {
 		margin-top: 8px;
 		position: relative;
 		overflow: hidden;
+		line-height: 3.3em;
 
 		div {
 			float: left;
 
 			&.single {
 				width: 25px;
+				margin-right: 6px;
 
 				img {
-					top: 2px;
+					top: 0;
 				}
 			}
 
@@ -576,7 +578,7 @@ input#suggestion_search {
 				width: 49px;
 
 				img {
-					top: 4px;
+					top: 0;
 				}
 			}
 
@@ -604,7 +606,7 @@ input#suggestion_search {
 			margin-left: 7px;
 			margin-bottom: 5px;
 			position: relative;
-			top: 5px;
+			top: 11px;
 		}
 	}
 }
@@ -687,6 +689,8 @@ input#suggestion_search {
 		h6.block_heading {
 			display: block;
 			background: $grey_light;
+			color: #333;
+			font-weight: bold;
 		}
 
 		.view_all {

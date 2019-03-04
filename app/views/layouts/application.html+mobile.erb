@@ -88,7 +88,7 @@
         </div>
 
         <div class="col-3 align-items-center d-flex justify-content-end">
-          <% if user_signed_in? && params[:controller] != 'search' %>
+          <% if user_signed_in? %>
             <div ng-if="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
               <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>

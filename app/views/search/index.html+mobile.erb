@@ -1,37 +1,41 @@
-<section ng-controller="SearchResultsController" id="search-results" data-query="<%= @query %>" ng-cloak>
-	<div id="top_bar" class="pb-2">
+<section ng-controller="SearchResultsController"
+					id="search-results"
+					data-query="<%= @query %>"
+					 data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
+	<div id="top_bar" class="">
 		<ul class="nav nav-tabs nav-fill d-flex">
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
+		  <li class="nav-item" ng-if="!search.results.empty">
+		    <a class="nav-link" href="#" ng-click="selectTab($event, 'all')"
+		    		ng-class="{'active': selectedTab == 'all'}">
 		      <label>All</label>
 		    </a>
 		  </li>
-		  <li class="nav-item">
-		  	<a class="nav-link" href="#" ng-click="selectTab('articles')"
+		  <li class="nav-item" ng-if="search.results.data.articles.length > 0">
+		  	<a class="nav-link" href="#" ng-click="selectTab($event, 'articles')"
 		  			ng-class="{'active': selectedTab == 'articles'}">
 			  	<label>Articles</label>
 			  </a>
 		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('contributors')"
+		  <li class="nav-item" ng-if="search.results.data.contributors.length > 0">
+		    <a class="nav-link" href="#" ng-click="selectTab($event, 'contributors')"
 		    		ng-class="{'active': selectedTab == 'contributors'}">
 					<label>Contributors</label>
 		    </a>
 		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('profiles')"
+		  <li class="nav-item" ng-if="search.results.data.profiles.length > 0">
+		    <a class="nav-link" href="#" ng-click="selectTab($event, 'profiles')"
 		    		ng-class="{'active': selectedTab == 'profiles'}">
 		    	<label>Profiles</label>
 		    </a>
 		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('exchanges')"
+		  <li class="nav-item" ng-if="search.results.data.exchanges.length > 0">
+		    <a class="nav-link" href="#" ng-click="selectTab($event, 'exchanges')"
 		    		ng-class="{'active': selectedTab == 'exchanges'}">
 					<label>Exchanges</label>
 		    </a>
 		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" href="#" ng-click="selectTab('posts')"
+		  <li class="nav-item" ng-if="search.results.data.posts.length > 0">
+		    <a class="nav-link" href="#" ng-click="selectTab($event, 'posts')"
 		    		ng-class="{'active': selectedTab == 'posts'}">
 					<label>Posts</label>
 		    </a>
@@ -39,76 +43,88 @@
 		</ul>
 	</div>
 
-	<div id="results_pane" class="" ng-cloak>
+	<div id="results_pane" class="container bg-grey pt-3" ng-cloak>
 		<div class="">
-			<div class="results_block"
-						ng-if="(selectedTab == 'all' || selectedTab == 'articles')" ng-cloak>
-				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Article results for "{{search.query}}"</h6>
-				<p ng-if="(search.results.data.articles.length == 0)" class="no_results">
-					Sorry no article results for "{{search.query}}"
-				</p>
-
-				<div ng-repeat="item in filterListForTab(search.results.data.articles)" class="feed-listing">
-					<%= render 'articles/card' %>
-				</div>
-				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
-					<a href='#' ng-click="selectTab('articles')">View all articles</a>
+			<div class="results_block mb-4" ng-show="(selectedTab == 'all' && search.results.empty) && search.results.loaded">
+				<div class="no_results py-3 px-3">
+					<h4>No Search Results</h4>
+					<p>Sorry, but we cannot find anything on <b>TheArticle</b> for {{search.query}}</p>
 				</div>
 			</div>
 
-			<div class="results_block"
-						ng-if="(selectedTab == 'all' || selectedTab == 'contributors')">
+			<div class="results_block mb-4"
+						ng-if="(selectedTab == 'all' || selectedTab == 'articles') && search.results.data.articles.length > 0" ng-cloak>
+				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Article results for "{{search.query}}"</h6>
+
+				<div ng-repeat="article in filterListForTab(search.results.data.articles)" class="feed-listing feed-article">
+					<%= render 'articles/item' %>
+				</div>
+				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
+					<a href='#' class="text-green" ng-click="selectTab($event, 'articles')">View all articles</a>
+				</div>
+			</div>
+
+			<div class="results_block mb-4"
+						ng-if="(selectedTab == 'all' || selectedTab == 'contributors') && search.results.data.contributors.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Contributor results for "{{search.query}}"</h6>
-				<p ng-if="(search.results.data.contributors.length == 0)" class="no_results">
-					Sorry no contributor results for "{{search.query}}"
-				</p>
 				<div ng-repeat="item in filterListForTab(search.results.data.contributors)" class="feed-listing">
 					<%= render 'contributors/card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.contributors.length > search.allLimit">
-					<a href='#' ng-click="selectTab('contributors')">View all contributors</a>
+					<a href='#' class="text-green" ng-click="selectTab($event, 'contributors')">View all contributors</a>
 				</div>
 			</div>
 
-			<div class="results_block"
-						ng-if="(selectedTab == 'all' || selectedTab == 'profiles')">
+			<div class="results_block mb-4"
+						ng-if="(selectedTab == 'all' || selectedTab == 'profiles') && search.results.data.profiles.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Profile results for "{{search.query}}"</h6>
-				<p ng-if="(search.results.data.profiles.length == 0)" class="no_results">
-					Sorry no profile results for "{{search.query}}"
-				</p>
-				<div ng-repeat="item in filterListForTab(search.results.data.profiles)" class="feed-listing">
+				<div ng-repeat="item in filterListForTab(search.results.data.profiles)" class="feed-listing bg-white">
 					<%= render 'users/member_card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.profiles.length > search.allLimit">
-					<a href='#' ng-click="selectTab('profiles')">View all profiles</a>
+					<a href='#' class="text-green" ng-click="selectTab($event, 'profiles')">View all profiles</a>
 				</div>
 			</div>
 
-			<div class="results_block"
-						ng-if="(selectedTab == 'all' || selectedTab == 'exchanges')">
+			<div class="results_block mb-4"
+						ng-if="(selectedTab == 'all' || selectedTab == 'exchanges') && search.results.data.exchanges.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Exchange results for "{{search.query}}"</h6>
-				<p ng-if="(search.results.data.exchanges.length == 0)" class="no_results">
-					Sorry no exchange results for "{{search.query}}"
-				</p>
-				<div ng-repeat="item in filterListForTab(search.results.data.exchanges)" class="feed-listing feed-exchange">
-					<%= render 'exchanges/card' %>
+				<div ng-repeat="item in filterListForTab(search.results.data.exchanges)" class="col-12 mb-3 px-1 feed-listing article-listing exchange">
+					<div class="inner">
+						<div class="img_mask">
+							<a href="{{item.path}}">
+								<img class="w-100 exchange_image" ng-src="{{item.image}}" alt="{{item.name}}" />
+							</a>
+						</div>
+						<div class="px-2 px-md-3 py-2 py-lg-3 heading_box">
+							<h5 class="text-white mb-0 d-flex justify-content-between align-items-start">
+								<a href="{{item.path}}" class="exchange-link pt-1 pt-md-0 text-white inherit_hover filter_target">
+									{{item.name}}
+								</a>
+
+								<a class="follow_exchange" href='#'
+								    ng-click="toggleFollowExchange(item.id, $event)"
+								    ng-class="{'followed': inFollowedExchanges(item.id)}">
+							    <i ng-if="!inFollowedExchanges(item.id)" class="fas fa-plus"></i>
+							    <i ng-if="inFollowedExchanges(item.id)" class="fas fa-check text-black"></i>
+							  </a>
+							</h5>
+						</div>
+					</div>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.exchanges.length > search.allLimit">
-					<a href='#' ng-click="selectTab('exchanges')">View all exchanges</a>
+					<a href='#' class="text-green" ng-click="selectTab($event, 'exchanges')">View all exchanges</a>
 				</div>
 			</div>
 
-			<div class="results_block"
-						ng-if="(selectedTab == 'all' || selectedTab == 'posts')">
+			<div class="results_block mb-4"
+						ng-if="(selectedTab == 'all' || selectedTab == 'posts') && search.results.data.posts.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Post results for "{{search.query}}"</h6>
-				<p ng-if="(search.results.data.posts.length == 0)" class="no_results">
-					Sorry no post results for "{{search.query}}"
-				</p>
 				<div ng-repeat="item in filterListForTab(search.results.data.posts)" class="feed-listing feed-share">
 					<%= render 'shares/card' %>
 				</div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.posts.length > search.allLimit">
-					<a href='#' ng-click="selectTab('posts')">View all posts</a>
+					<a href='#' class="text-green" ng-click="selectTab($event, 'posts')">View all posts</a>
 				</div>
 			</div>
 

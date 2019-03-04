@@ -72,7 +72,7 @@
 				li {
 					font-size: 0.8em;
 					list-style: none;
-					line-height: 1.6em;
+					line-height: 2.1em;
 
 					a {
 						display: inline-block;
@@ -87,6 +87,7 @@
 
 							img {
 								width: 48px;
+								height: 48px;
 
 								&.rounded-circle {
 									width: 38px;
@@ -136,6 +137,28 @@
 
 /***** SEARCH RESULTS ******/
 section#search-results {
+
+	// .feed-listing {
+	// 	padding: 0 12px 10px !important;
+	// }
+
+	.feed-article {
+    margin-bottom: 15px;
+
+    .inner {
+    	background: #fff;
+    	height: 100%;
+
+			img {
+				width: 100%;
+			}
+
+			header {
+				padding-top: 10px !important;
+			}
+    }
+	}
+
 	ul.nav-tabs {
 		overflow-x: auto;
 		overflow-y:hidden;

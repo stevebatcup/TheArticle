@@ -231,6 +231,7 @@ class Article < ApplicationRecord
 
   def update_all_article_counts
     Author.update_article_counts
+    KeywordTag.update_article_counts
     Exchange.update_article_counts
   end
 

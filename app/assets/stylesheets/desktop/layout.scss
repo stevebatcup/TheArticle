@@ -170,7 +170,7 @@ header {
 
 						&#nav_link_my_profile {
 							font-size: 0.9em;
-							width: 220px;
+							max-width: 220px;
 							text-align: right;
 							top: 8px;
 
@@ -288,7 +288,8 @@ main#main_content {
 	&.front_page_index,
 	&.users_show,
 	&.notifications_index,
-	&.account_settings_edit {
+	&.account_settings_edit,
+	&.search_index {
 		background: $grey_light;
 	}
 }
