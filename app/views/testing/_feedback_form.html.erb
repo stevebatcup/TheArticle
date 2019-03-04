@@ -7,7 +7,7 @@
           data-browser="<%= "#{browser.name} #{browser.version}" %>"
           data-url="<%= request.original_url %>">
 
-      <div class="modal-body px-4 px-md-4">
+      <div class="modal-body px-3 px-md-4">
         <header class="container auth_header mb-4">
           <div class="row">
             <div class="col col-md-12">
@@ -45,7 +45,10 @@
 
             <p class="alert alert-danger" ng-if="feedback.error">{{feedback.error}}</p>
 
-            <button class="btn btn-success btn-block btn-lower" ng-click="submitFeedbackForm($event)">Submit feedback</button>
+            <div class="buttons d-flex justify-content-between">
+              <button class="btn btn-danger w-50 btn-lower" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-success w-50 btn-lower" ng-click="submitFeedbackForm($event)">Submit <span class="mobile_hide">feedback</span></button>
+            </div>
           </section>
       </div>
     </div>

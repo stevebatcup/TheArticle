@@ -1176,13 +1176,20 @@ select.short {
 	position: fixed;
 	bottom: 10px;
 	right: 10px;
-	font-size: 50px;
 	background: $green;
 	color: #fff;
-	border-radius: 50%;
+	border-radius: 10px;
 	padding: 10px;
-	width: 85px;
-	height: 85px;
+	// width: 85px;
+	// height: 85px;
 	text-align: center;
-	box-shadow: 2px 2px 5px #333
+	box-shadow: 2px 2px 5px #333;
+	font-size: 21px;
+
+	svg {
+		font-size: 28px;
+		margin-right: 11px;
+		position: relative;
+		top: 4px;
+	}
 }
