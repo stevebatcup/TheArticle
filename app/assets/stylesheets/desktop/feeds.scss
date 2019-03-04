@@ -691,7 +691,9 @@
 			}
 
 			.feed-listing {
-				height: 185px;
+				& > div {
+					height: 185px;
+				}
 
 				.cover_photo {
 					height: 44px;
