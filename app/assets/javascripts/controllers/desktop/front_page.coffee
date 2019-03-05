@@ -33,6 +33,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			comment: {}
 			parentComment: {}
 			replyingToReply: false
+		@scope.postingComment = false
+		@scope.commentPostButton = "Post Comment"
 		@scope.commentForSubmission =
 			value: ''
 		@scope.commentChildLimit = false

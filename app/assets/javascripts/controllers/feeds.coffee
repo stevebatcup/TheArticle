@@ -200,36 +200,61 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	postComment: ($event, post) =>
 		$event.preventDefault()
+		@scope.postingComment = true
+		@scope.commentPostButton = "Posting..."
 		$commentsPane = $($event.target).closest('.comments_pane')
 		$replyBox = $(".respond[data-share-id=#{post.share.id}]", $commentsPane)
 		replyingToCommentId = Number($replyBox.data('comment-id'))
 		replyingToUsername = if @scope.replyingToComment.replyingToReply then @scope.replyingToComment.comment.data.username else ''
 		parentId = if 'id' of @scope.replyingToComment.parentComment then @scope.replyingToComment.parentComment.id else 0
+
+		# update UI first
+		now = new Date()
+		timeActual = moment().format('YYYY-MM-DD HH:mm')
+		timeHuman = moment().format('D MMM')
+		comment =
+			id: null,
+			path: @scope.myProfile.path,
+			displayName: @scope.myProfile.displayName,
+			username: @scope.myProfile.originalUsername,
+			photo: @scope.myProfile.profilePhoto.image,
+			body: @scope.commentForSubmission.value,
+			timeActual: timeActual,
+			timeHuman: timeHuman
+		console.log comment
+
+		if replyingToCommentId is 0
+			post.comments.unshift { data: comment }
+		else
+			angular.forEach post.comments, (rootComment) =>
+				if rootComment is @scope.replyingToComment.comment
+					unless 'children' of rootComment
+						rootComment.children = []
+					rootComment.children.unshift { data: comment }
+				else
+					okToContinue = true
+					angular.forEach rootComment.children, (childComment, childIndex) =>
+						if childComment is @scope.replyingToComment.comment && okToContinue
+							rootComment.children.splice(childIndex+1, 0, { data: comment })
+							okToContinue = false
+
+		# then save to server
 		new @Comment
 			share_id: post.share.id
 			body: @scope.commentForSubmission.value
 			parent: parentId
 			replying_to_username: replyingToUsername
-		.create().then (comment) =>
-			if comment.status is 'success'
-				if replyingToCommentId is 0
-					post.comments.unshift { data: comment }
+		.create().then (responseComment) =>
+			@timeout =>
+				@scope.postingComment = false
+				@scope.commentPostButton = "Post Comment"
+				if responseComment.status is 'success'
+					@cancelReply $event, post.share.id
+					comment.id = responseComment.id
+					@scope.commentForSubmission.value = ''
 				else
-					angular.forEach post.comments, (rootComment) =>
-						if rootComment is @scope.replyingToComment.comment
-							unless 'children' of rootComment
-								rootComment.children = []
-							rootComment.children.unshift { data: comment }
-						else
-							okToContinue = true
-							angular.forEach rootComment.children, (childComment, childIndex) =>
-								if childComment is @scope.replyingToComment.comment && okToContinue
-									rootComment.children.splice(childIndex+1, 0, { data: comment })
-									okToContinue = false
-				@scope.commentForSubmission.value = ''
-				@cancelReply $event, post.share.id
-			else
-				@alert comment.message
+					@alert responseComment.message
+			, 300
 
 	agreeCount: (item, with_sentence=true) =>
 		if item.share.opinionsLoaded

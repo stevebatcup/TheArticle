@@ -47,6 +47,8 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 				comment: {}
 				parentComment: {}
 				replyingToReply: false
+			@scope.postingComment = false
+			@scope.commentPostButton = "Post Comment"
 			@scope.commentForSubmission =
 				value: ''
 			@scope.commentChildLimit = false

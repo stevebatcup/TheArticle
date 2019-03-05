@@ -34,7 +34,7 @@ class CommentsController < ApplicationController
 			comment.create_notification
 			@comment[:status] = :success
 		else
-			@comment = { status: :error, message: "Could not create comment" }
+			@comment = { status: :error, message: "Could not create comment: #{comment.errors.full_messages}" }
 		end
 	end
 

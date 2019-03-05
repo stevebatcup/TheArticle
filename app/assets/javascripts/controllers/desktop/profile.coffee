@@ -33,6 +33,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			comment: {}
 			parentComment: {}
 			replyingToReply: false
+		@scope.postingComment = false
+		@scope.commentPostButton = "Post Comment"
 		@scope.commentForSubmission =
 			value: ''
 		@scope.commentChildLimit = false

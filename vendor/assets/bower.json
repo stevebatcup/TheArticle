@@ -15,6 +15,7 @@
     "angular-sanitize": "latest",
     "remarkable-bootstrap-notify": "latest",
     "angular1-confirm": "latest",
-    "angular-cookies": "latest"
+    "angular-cookies": "latest",
+    "moment": "latest"
   }
 }
