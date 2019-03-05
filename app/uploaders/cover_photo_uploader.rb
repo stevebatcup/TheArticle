@@ -26,4 +26,12 @@ class CoverPhotoUploader < CarrierWave::Uploader::Base
       "app/#{Rails.env}/users/cover-photo/mobile/#{model.id}"
     end
   end
+
+
+  def fix_exif_rotation
+    manipulate! do |img|
+      img.tap(&:auto_orient)
+    end
+  end
+  process :fix_exif_rotation
 end
