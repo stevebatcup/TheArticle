@@ -95,7 +95,7 @@
 
       <%= render 'common/search-box' %>
 
-      <main id="main_content" ng-class="{'app_page': appPage != false}">
+      <main id="main_content" ng-class="{'app_page': appPage != false}" data-slideout-ignore>
         <div class="tab-content" id="app_tabs" ng-show="!appPage">
           <%= render 'mobile/front_page' %>
           <%= render 'mobile/follows' %>

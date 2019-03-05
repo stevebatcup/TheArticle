@@ -302,7 +302,7 @@
 				<div class="row">
 					<% @articles_in_same_exchange.each do |article| %>
 						<article class="article-listing post col-12 col-md-6 col-lg-4 post hoveraction block_click"
-										data-href=""
+										data-href="<%= article_path(article) %>"
 										id="article-listing-post-<%= article.id %>"
 										data-id="<%= article.id %>">
 							<div class="inner">
