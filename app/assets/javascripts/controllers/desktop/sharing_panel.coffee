@@ -8,6 +8,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	  '$timeout'
 	  '$element'
 	  '$compile'
+	  '$cookies'
 	]
 
 	init: ->
@@ -79,6 +80,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@http.post("/share", { share: data }).then (response) =>
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
+				@cookies.put('ok_to_flash', true)
 				window.location.reload()
 			else
 				@scope.formError = response.data.message

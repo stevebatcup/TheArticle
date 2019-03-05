@@ -9,10 +9,12 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 	  '$timeout'
 	  '$ngConfirm'
 	  '$compile'
+	  '$cookies'
 	]
 
 	init: ->
 		@setDefaultHttpHeaders()
+		@scope.whitelisted = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
 		@scope.ratingsTouched =
 			well_written: false
@@ -99,8 +101,10 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@scope.thirdPartyArticle.article.error = false
 		@http.get("check_third_party_whitelist?url=#{@scope.thirdPartyArticle.url}").then (response) =>
 			if response.data.status is 'missing'
+				@scope.whitelisted = false
 				@shareNonWhitelistedArticleConfirm()
 			else if response.data.status is 'found'
+				@scope.whitelisted = true
 				@shareArticleConfirm()
 
 	shareArticleConfirm: () =>
@@ -123,6 +127,8 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@http.post("/submit_third_party_article", { share: data }).then (response) =>
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
+				flashMsg = if @scope.whitelisted then "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>." else "Your post has been sent to review."
+				@flash flashMsg
 				@resetArticleData()
 			else
 				@scope.thirdPartyArticle.article.error = response.data.message

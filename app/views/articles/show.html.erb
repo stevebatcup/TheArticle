@@ -4,6 +4,12 @@
 	<% meta_tag :image, @article.image.url %>
 <% end %>
 
+<% if flash[:notice] %>
+<div id="flash_notice" class="d-none">
+	<%= flash[:notice].html_safe %>
+</div>
+<% end %>
+
 <section ng-controller="ArticleController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
 	<div class="container mt-md-4 mb-3 mb-md-2">
 		<article id="post-<%= @article.id %>" class="article_detail">

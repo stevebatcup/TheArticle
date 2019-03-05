@@ -10,6 +10,7 @@ class SharesController < ApplicationController
 		@share.share_type = Share.determine_share_type(share_params)
 		@share.user_id = current_user.id
 		if @share.save
+			flash[:notice] = "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>.".html_safe
 			render json: { status: :success }
 		else
 			render json: { status: :error, message: @share.errors.full_messages.first }
