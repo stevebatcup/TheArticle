@@ -2,7 +2,7 @@
 	<div class="">
 		<p>SHARE:</p>
 	</div>
-	<% if user_signed_in? && !article.is_sponsored? %>
+	<% if !article.is_sponsored? %>
 	<div class="">
 		<a href="#" class="thearticle_share d-block text-black bg-grey btn btn-default ml-md-3" ng-click="openSharingPanel($event, 'share')">
 		</a>

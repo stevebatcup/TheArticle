@@ -4,13 +4,14 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	@$inject: [
 	  '$scope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$rootScope'
 	  '$timeout'
 	  '$compile'
 	]
 
 	init: ->
+		@rootScope.isSignedIn = !!@element.data('signed-in')
 		@bindEvents()
 		@scope.articlesInSameExchange =
 			firstLoaded: true

@@ -4,7 +4,7 @@
 	<% meta_tag :image, @article.image.url %>
 <% end %>
 
-<section ng-controller="ArticleController">
+<section ng-controller="ArticleController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
 	<div class="container mb-3">
 		<article id="post-<%= @article.id %>" class="article_detail">
 			<header class="entry-header">

@@ -106,11 +106,14 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 	openSharingPanel: ($event, mode=null) =>
 		$event.preventDefault()
-		@rootScope.sharingPanelMode = mode if mode?
-		tpl = $("#sharingPanel").html().trim()
-		$content = @compile(tpl)(@scope)
-		$('body').append $content
-		$("#sharingPanelModal").modal()
+		if @rootScope.isSignedIn
+			@rootScope.sharingPanelMode = mode if mode?
+			tpl = $("#sharingPanel").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#sharingPanelModal").modal()
+		else
+			@requiresSignIn("share or rate an article")
 
 	disableDefaultBehaviour: (e) =>
 		# console.log 'disableDefaultBehaviour'

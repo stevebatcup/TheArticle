@@ -1,7 +1,7 @@
 <section ng-controller="SearchResultsController"
 					id="search-results"
 					class="container"
-					 data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+					data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
 					data-query="<%= @query %>" ng-cloak>
 	<div class="alert alert-success mt-3 row">
 		<h4 class="pt-1">Search results for "{{search.query}}"</h4>
