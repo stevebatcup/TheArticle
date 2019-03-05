@@ -6,7 +6,7 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
 
   def auto_orient
     manipulate! do |img|
-      img = img.auto_orient
+      img.tap(&:auto_orient!)
     end
   end
 
