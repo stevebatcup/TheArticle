@@ -381,7 +381,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	cancelEditPhoto: (type) =>
 		@scope.profile.data[type].source = ''
 		$("#edit#{type}Modal").modal('hide')
-		window.location.reload()
+		# window.location.reload()
 
 	savePhotoError: (msg, type) =>
 		@scope.profile.data[type].uploading = false
