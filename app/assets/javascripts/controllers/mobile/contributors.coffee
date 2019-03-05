@@ -5,7 +5,7 @@ class TheArticle.Contributors extends TheArticle.MobilePageController
 	  '$scope'
 	  '$rootScope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$timeout'
 	  '$compile'
 	  'ContributorArticle'
@@ -20,7 +20,7 @@ class TheArticle.Contributors extends TheArticle.MobilePageController
 			firstLoaded: false
 			loading: false
 			moreToLoad: true
-		@scope.author = @rootElement.data('author')
+		@scope.author = @element.data('author')
 		@getArticles() if @scope.author
 
 	bindEvents: ->
@@ -32,7 +32,7 @@ class TheArticle.Contributors extends TheArticle.MobilePageController
 	getArticles: =>
 		@scope.contributorArticles.loading = true
 		timeoutDelay = if @scope.contributorArticles.page is 1 then 1200 else 1
-		vars = { author: @scope.author, page: @scope.contributorArticles.page, perPage: @rootElement.data('per-page') }
+		vars = { author: @scope.author, page: @scope.contributorArticles.page, perPage: @element.data('per-page') }
 		@ContributorArticle.query(vars).then (response) =>
 			@timeout =>
 				@scope.contributorArticles.totalItemCount = response.total if @scope.contributorArticles.page is 1
