@@ -346,6 +346,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
 		@croppie = new Croppie element,
+			enableExif: true
 			viewport:
 				width: width
 				height: height
@@ -381,7 +382,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	cancelEditPhoto: (type) =>
 		@scope.profile.data[type].source = ''
 		$("#edit#{type}Modal").modal('hide')
-		# window.location.reload()
+		window.location.reload()
 
 	savePhotoError: (msg, type) =>
 		@scope.profile.data[type].uploading = false
