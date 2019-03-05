@@ -3,6 +3,12 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
 
   storage :fog
 
+  def fix_exif_rotation
+    manipulate! do |img|
+      img = img.auto_orient
+    end
+  end
+
   def default_url(*args)
      ActionController::Base.helpers.asset_path("default-profile-set/" + [model.default_profile_photo_id, ".jpg"].compact.join)
    end
@@ -12,6 +18,7 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
   end
 
   version :square do
+    process :fix_exif_rotation
     process resize_to_fill: [150, 150]
 
     def store_dir
@@ -19,10 +26,4 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def fix_exif_rotation
-    manipulate! do |img|
-      img.tap(&:auto_orient)
-    end
-  end
-  process :fix_exif_rotation
 end
