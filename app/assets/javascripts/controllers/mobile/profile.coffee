@@ -347,6 +347,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		type = $(element).data('type')
 		@croppie = new Croppie element,
 			enableExif: true
+			enableOrientation: true
 			viewport:
 				width: width
 				height: height
@@ -359,6 +360,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						@scope.profile.data[type].sourceForUpload = imgSource
 		@timeout =>
 			@croppie.setZoom(0.1)
+			@croppie.rotate(1)
 		, 200
 
 	saveCroppedPhoto: ($event, type) =>

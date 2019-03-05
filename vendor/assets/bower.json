@@ -16,6 +16,7 @@
     "remarkable-bootstrap-notify": "latest",
     "angular1-confirm": "latest",
     "angular-cookies": "latest",
-    "moment": "latest"
+    "moment": "latest",
+    "exif-js": "latest"
   }
 }
