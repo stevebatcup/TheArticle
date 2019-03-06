@@ -204,7 +204,7 @@ header {
 	}
 
 	#logo {
-		background-image: url('logo-2-lines.png');
+		background-image: asset_url('logo-2-lines.png');
 		background-size: 50%;
 		background-repeat: no-repeat;
 		background-position: center center;
@@ -400,7 +400,7 @@ footer {
 	}
 
 	#copyright {
-		background-image: url('capital-a.png');
+		background-image: asset_url('capital-a.png');
 		background-size: 14%;
 		background-repeat: no-repeat;
 		background-position: 15px center;
@@ -578,7 +578,7 @@ footer.entry-footer {
 
 	.container {
 		padding: 2.9em 0;
-		background-image: url(capital-a-bg.png);
+		background-image: asset_url('capital-a-bg.png');
 		background-repeat: no-repeat;
 		background-position: right bottom;
 		background-size: 5em;
