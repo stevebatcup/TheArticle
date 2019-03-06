@@ -15,7 +15,7 @@ else
 			json.isSponsored article.is_sponsored
 			json.author do
 				author = article.author
-				json.name author.display_name
+				json.name author.display_name.html_safe
 				json.path contributor_path(slug: author.slug)
 			end
 			json.exchanges article.exchanges do |exchange|

@@ -17,7 +17,7 @@
 	            </a>
 	          </h2>
 	        	<footer class="entry-footer">
-	        		<p class="author_link shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+	        		<p class="author_link shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name.html_safe %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
 	        	</footer>
         	</div>
       	</div>
