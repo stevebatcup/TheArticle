@@ -23,12 +23,12 @@
 					<div class="pr-0 pr-md-0 pr-lg-3 author_link row">
 						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
 							<% if @article.author.image? %>
-								<img src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name %>" />
+								<img src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name.html_safe %>" />
 							<% end %>
 						</a>
 
 						<a href="<%= article_author_url(@article); %>">by <span>
-						<%= @article.author.display_name %></span></a>
+						<%= @article.author.display_name.html_safe %></span></a>
 						<% if @article.author.user.present? %>
 							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
 							 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">

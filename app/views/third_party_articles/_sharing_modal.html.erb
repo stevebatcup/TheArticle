@@ -28,9 +28,9 @@
 
 
         <div ng-if="thirdPartyArticle.article.loaded" id="article_preview">
-          <p ng-show="thirdPartyArticle.urlError.length > 0" class="mt-4 alert text-center bg-grey text-grey">
+          <div ng-show="thirdPartyArticle.urlError.length > 0" class="mt-4 alert text-center alert-danger">
             {{ thirdPartyArticle.urlError }}
-          </p>
+          </div>
 
           <div ng-show="!thirdPartyArticle.urlError">
               <img ng-src="{{thirdPartyArticle.article.data.image}}"
@@ -45,9 +45,13 @@
         </div>
 
         <div id="your_rating" ng-show="thirdPartyArticle.article.loaded" class="pt-3">
-          <textarea name="comments" id="comments" placeholder="Add a comment..." ng-model="thirdPartyArticle.article.share.comments"></textarea>
+          <textarea name="comments" id="comments"
+                    placeholder="Add a comment..."
+                    ng-model="thirdPartyArticle.article.share.comments"
+                    ng-show="!invalidUrl"></textarea>
 
-            <div id="ratings_box" class="member_ratings px-2 px-md-3 pt-3 pb-md-1">
+            <div id="ratings_box" class="member_ratings px-2 px-md-3 pt-3 pb-md-1"
+                  ng-show="!invalidUrl">
               <div class="inner">
                 <ul class="dots panel">
                   <li class="mb-3">
@@ -108,7 +112,12 @@
             </div>
 
             <div class="button_box justify-content-end d-flex py-3">
-              <button class="btn btn-success px-4 btn-block" ng-click="shareArticle()">Share</button>
+              <button class="btn btn-success px-4 btn-block"
+                      ng-click="shareArticle()"
+                      ng-show="!invalidUrl">Share</button>
+              <button class="btn btn-danger px-4 btn-block"
+                      ng-show="invalidUrl"
+                      data-dismiss="modal">Cancel</button>
             </div>
         </div>
 

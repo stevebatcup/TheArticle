@@ -13,11 +13,23 @@ class TheArticle.ThirdPartyShare extends TheArticle.AdminPageController
 
 	init: ->
 		@setDefaultHttpHeaders()
-		console.log '3rd party'
 
 	approve: ($event, id) =>
 		$event.preventDefault()
-		@http.get("/admin/approve_quarantined_third_party_share?id=#{id}").then (response) =>
+		@confirm "Are you sure you wish to approve this 3rd party post?", =>
+			@approveConfirm(id, false)
+		, null, "Are you sure?", ["No, cancel", "Yes, approve"]
+
+	approveAndWhitelist: ($event, id) =>
+		$event.preventDefault()
+		@confirm "Are you sure you wish to approve this 3rd party post and add the domain to the whitelist?", =>
+			@approveConfirm(id, true)
+		, null, "Are you sure?", ["No, cancel", "Yes, approve"]
+
+	approveConfirm: (id, whitelistDomain=false) =>
+		url = "/admin/approve_quarantined_third_party_share?id=#{id}"
+		url += "&whitelist_domain=1" if whitelistDomain
+		@http.get(url).then (response) =>
 			if response.data.status is 'success'
 				@redirectToAdminPage 'quarantined_third_party_shares'
 			else
@@ -25,18 +37,23 @@ class TheArticle.ThirdPartyShare extends TheArticle.AdminPageController
 
 	reject: ($event, id) =>
 		$event.preventDefault()
-		@http.get("/admin/reject_quarantined_third_party_share?id=#{id}").then (response) =>
-			if response.data.status is 'success'
-				@redirectToAdminPage 'quarantined_third_party_shares'
-			else
-				@alert response.data.message, "Error rejecting"
+		@confirm "Are you sure you wish to reject this 3rd party post?", =>
+			@http.get("/admin/reject_quarantined_third_party_share?id=#{id}").then (response) =>
+				if response.data.status is 'success'
+					@redirectToAdminPage 'quarantined_third_party_shares'
+				else
+					@alert response.data.message, "Error rejecting"
+		, null, "Are you sure?", ["No, cancel", "Yes, reject"]
 
 	delete: ($event, id) =>
 		$event.preventDefault()
-		@http.get("/admin/delete_quarantined_third_party_share?id=#{id}").then (response) =>
-			if response.data.status is 'success'
-				@redirectToAdminPage 'quarantined_third_party_shares'
-			else
-				@alert response.data.message, "Error deleting"
+		@confirm "Are you sure you wish to delete this 3rd party post and the user?", =>
+			@http.get("/admin/delete_quarantined_third_party_share?id=#{id}").then (response) =>
+				if response.data.status is 'success'
+					@redirectToAdminPage 'quarantined_third_party_shares'
+				else
+					@alert response.data.message, "Error deleting"
+		, null, "Are you sure?", ["No, cancel", "Yes, reject"]
+
 
 TheArticle.ControllerModule.controller('ThirdPartyShareController', TheArticle.ThirdPartyShare)

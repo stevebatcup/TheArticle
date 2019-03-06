@@ -20,6 +20,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 			well_written: false
 			valid_points: false
 			agree: false
+		@scope.invalidUrl = false
 		@resetArticleData()
 		@bindListeners()
 		@bindWatchers()
@@ -68,6 +69,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		, 500
 
 	readArticleUrl: =>
+		@scope.invalidUrl = false
 		if @isValidUrl(@scope.thirdPartyArticle.url)
 			@scope.thirdPartyArticle.urlError = ''
 			@scope.thirdPartyArticle.article.data = {}
@@ -79,6 +81,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				@scope.thirdPartyArticle.article.loaded = true
 				if response.data.status is 'error'
 					@scope.thirdPartyArticle.urlError = response.data.message
+					@scope.invalidUrl = response.data.message.indexOf('preview') < 1
 				else if response.data.status is 'success'
 					@scope.thirdPartyArticle.article.data = response.data.article
 
@@ -127,7 +130,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@http.post("/submit_third_party_article", { share: data }).then (response) =>
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
-				flashMsg = if @scope.whitelisted then "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>." else "Your post has been sent to review."
+				flashMsg = if (@scope.whitelisted) and (!_.isEmpty(@scope.thirdPartyArticle.article.data)) then "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>." else "Your post has been sent to review."
 				@flash flashMsg
 				@resetArticleData()
 			else

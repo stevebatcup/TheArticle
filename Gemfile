@@ -75,7 +75,7 @@ gem "administrate", '>= 0.10.0'
 gem "wysiwyg-rails"
 # gem "administrate-field-nested_has_many", git: "https://github.com/NedelescuVlad/administrate-field-nested_has_many"
 
-gem "ogp", :git => 'git@github.com:BigDilettante/ogp.git'
+gem "ogp", '0.2.1', :git => 'git@github.com:BigDilettante/ogp.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

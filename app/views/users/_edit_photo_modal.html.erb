@@ -26,7 +26,7 @@
 							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(profile.data.<%= type %>Photo.source)}}" alt="New <%= type %> photo" ng-show="profile.data.<%= type %>Photo.source.length > 0" ng-cloak />
 						</div>
 
-						<div class="buttons d-flex justify-content-between pt-4 mt-5 px-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
+						<div class="buttons d-flex justify-content-between pt-4 px-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
 							<button ng-click="cancelEditPhoto('<%= type %>Photo')"
 											class="btn btn-outline-success w-50 mr-3"
 											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"

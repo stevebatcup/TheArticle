@@ -360,8 +360,15 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						@scope.profile.data[type].sourceForUpload = imgSource
 		@timeout =>
 			@croppie.setZoom(0.1)
-			@croppie.rotate(1)
 		, 200
+
+	rotatePhotoLeft: ($event) =>
+		$event.preventDefault()
+		@croppie.rotate('-90')
+
+	rotatePhotoRight: ($event) =>
+		$event.preventDefault()
+		@croppie.rotate('90')
 
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()

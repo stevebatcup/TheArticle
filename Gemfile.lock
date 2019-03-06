@@ -1,8 +1,8 @@
 GIT
   remote: git@github.com:BigDilettante/ogp.git
-  revision: cb4c2058d917bec7862797b3536d44a4a63a3f50
+  revision: a60c641943b7d32203b63c8c55be682b8ec418e4
   specs:
-    ogp (0.2.0)
+    ogp (0.2.1)
       oga (~> 2.10)
 
 GIT
@@ -420,7 +420,7 @@ DEPENDENCIES
   mustache
   mysql2 (>= 0.4.4, < 0.6.0)
   nokogiri
-  ogp!
+  ogp (= 0.2.1)!
   puma (~> 3.11)
   rails (~> 5.2.0)
   redis-rails

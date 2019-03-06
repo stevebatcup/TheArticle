@@ -12,6 +12,7 @@ module ThirdPartyArticleService
 					response = conn.get URI.parse(url).request_uri
 				else
 					response = Faraday.get(url)
+					response.body.force_encoding('utf-8')
 				end
 				OGP::OpenGraph.new(response.body)
 			rescue Faraday::SSLError => e
@@ -41,12 +42,12 @@ module ThirdPartyArticleService
 		end
 
 		def share_is_thearticle_domain(url, current_host)
-			url.include?('thearticle.com') || url.include?(current_host)
+			url.include?(current_host)
 		end
 
 		def create_from_share(params, current_user)
 			host = self.get_domain_from_url(params[:url])
-			if WhiteListedThirdPartyPublisher.find_by(domain: host)
+			if (!params[:article].empty?) && (WhiteListedThirdPartyPublisher.find_by(domain: host))
 				# create the article
 				article = self.create_article(params[:article])
 				# create the share
@@ -94,9 +95,15 @@ module ThirdPartyArticleService
 		end
 
 		def create_share(article_id, current_user, post, rating_well_written, rating_valid_points, rating_agree)
+			rating_params = {
+				rating_well_written: rating_well_written,
+				rating_valid_points: rating_valid_points,
+				rating_agree: rating_agree
+			}
 			Share.create({
 				user_id: current_user.id,
 				article_id: article_id,
+				share_type: Share.determine_share_type(rating_params),
 				post: post,
 				rating_well_written: rating_well_written,
 				rating_valid_points: rating_valid_points,
