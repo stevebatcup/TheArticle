@@ -231,6 +231,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		comment =
 			id: null,
 			path: @scope.myProfile.path,
+			userId: @scope.myProfile.id,
 			displayName: @scope.myProfile.displayName,
 			username: @scope.myProfile.originalUsername,
 			photo: @scope.myProfile.profilePhoto.image,
