@@ -132,6 +132,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		else
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback
+			@getMyProfile null, true
 
 	detectPanelOpeners: =>
 		if @getVars['panel'] is 'edit_profile'
@@ -200,22 +201,23 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		if ($('[data-fixed-profile-nav]').length > 0) and ($('body').hasClass('fixed-profile-nav'))
 			$(window).scrollTop(@$activityBarPosition)
 
-	getMyProfile: (callback=null) =>
+	getMyProfile: (callback=null, setMyProfileOnly=false) =>
 		@MyProfile.get().then (profile) =>
 			@timeout =>
-				@scope.profile.data = profile
 				@scope.myProfile = profile
-				@scope.profile.form.data =
-					displayName: profile.displayName
-					username:
-						value: profile.username
-					location:
-						text: profile.location
-					bio: profile.bio
-				@scope.profile.loaded = true
-				@buildDigestFromProfileData(@scope.profile.data)
-				@reorderDigest()
-				callback.call(@) if callback?
+				unless setMyProfileOnly is true
+					@scope.profile.data = profile
+					@scope.profile.form.data =
+						displayName: profile.displayName
+						username:
+							value: profile.username
+						location:
+							text: profile.location
+						bio: profile.bio
+					@scope.profile.loaded = true
+					@buildDigestFromProfileData(@scope.profile.data)
+					@reorderDigest()
+					callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true

@@ -138,6 +138,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		else
 			id = @rootElement.data('id')
 			@getProfile id, @getProfileCallback
+			@getMyProfile null, true
 
 	getProfileCallback: =>
 		@getUserExchanges()
@@ -389,22 +390,23 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.profile.data[type].uploading = false
 		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
-	getMyProfile: (callback=null) =>
+	getMyProfile: (callback=null, setMyProfileOnly=false) =>
 		@MyProfile.get().then (profile) =>
 			@timeout =>
-				@scope.profile.data = profile
 				@scope.myProfile = profile
-				@scope.profile.form.data =
-					displayName: profile.displayName
-					username:
-						value: profile.username
-					location:
-						text: profile.location
-					bio: profile.bio
-				@scope.profile.loaded = true
-				@buildDigestFromProfileData(@scope.profile.data)
-				@reorderDigest()
-				callback.call(@) if callback?
+				unless setMyProfileOnly is true
+					@scope.profile.data = profile
+					@scope.profile.form.data =
+						displayName: profile.displayName
+						username:
+							value: profile.username
+						location:
+							text: profile.location
+						bio: profile.bio
+					@scope.profile.loaded = true
+					@buildDigestFromProfileData(@scope.profile.data)
+					@reorderDigest()
+					callback.call(@) if callback?
 			, 750
 		, (error) =>
 			@scope.profile.loaded = true

@@ -221,7 +221,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			body: @scope.commentForSubmission.value,
 			timeActual: timeActual,
 			timeHuman: timeHuman
-		console.log comment
+		# console.log comment
 
 		if replyingToCommentId is 0
 			post.comments.unshift { data: comment }
