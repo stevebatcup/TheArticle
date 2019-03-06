@@ -29,6 +29,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
 		, 500
 
+		@scope.showSuggestions = false
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
@@ -139,5 +140,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
+
+	followUserFromSuggestion: ($event, user) =>
+		$event.preventDefault()
+		@followUser user.id, =>
+			user.imFollowing = true
+		, true
+
+	unfollowUserFromSuggestion: ($event, user) =>
+		$event.preventDefault()
+		@unfollowUser user.id, =>
+			user.imFollowing = false
+		, true
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

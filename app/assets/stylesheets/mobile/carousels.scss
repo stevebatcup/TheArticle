@@ -125,9 +125,50 @@
 		}
 	}
 
-	&.journalists {
-		cursor: pointer;
+	&.suggestions {
 
+		.slick-track {
+			height: 305px;
+		}
+
+		.slick-carousel-item {
+			margin: 0 12px;
+			text-align: center;
+			font-size: 1.35em;
+			padding: 25px 0 0;
+			border: 1px solid #ccc;
+			position: relative;
+
+			.shared_followers {
+				.single, .double {
+					display: none;
+				}
+
+				p {
+					width: 100%;
+					line-height: 1.8em;
+					top: 1px;
+				}
+			}
+
+			.follow_btn {
+				width: 76%;
+				position: absolute;
+				bottom: 18px;
+				left: 12%;
+			}
+
+			img.feed_image {
+				width: 110px;
+				height: 110px;
+				margin: 0 auto 20px;
+				display: block;
+			}
+
+		}
+	}
+
+	&.journalists {
 		.slick-track {
 			height: 150px;
 		}

@@ -90,6 +90,22 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			count
 
+	followUserFromComment: ($event, commentData) =>
+		$event.preventDefault()
+		@followUser commentData.userId, =>
+			commentData.imFollowing = true
+			@cookies.put('ok_to_flash', true)
+			window.location.reload()
+		, false, true
+
+	unfollowUserFromComment: ($event, commentData) =>
+		$event.preventDefault()
+		@unfollowUser commentData.userId, =>
+			commentData.imFollowing = false
+			@cookies.put('ok_to_flash', true)
+			window.location.reload()
+		, true
+
 	followUserFromFeed: ($event, user) =>
 		$event.preventDefault()
 		@followUser user.id, =>

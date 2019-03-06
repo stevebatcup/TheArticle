@@ -54,6 +54,11 @@
       <a class="dropdown-item" href="#" ng-click="block($event, comment.data.userId, comment.data.username)" ng-if="(!comment.data.isBlocked) && (comment.data.userId != <%= user_signed_in? ? current_user.id : 0 %>)">Block</a>
       <a class="dropdown-item" href="#" ng-click="unblock($event, comment.data.userId, comment.data.username)" ng-if="comment.data.isBlocked">Unblock</a>
 
+      <a class="dropdown-item" href="#" ng-click="followUserFromComment($event, comment.data)"
+                ng-if="!comment.data.imFollowing">Follow</a>
+      <a class="dropdown-item" href="#" ng-click="unfollowUserFromComment($event, comment.data)"
+                ng-if="comment.data.imFollowing">Unfollow</a>
+
       <a class="dropdown-item" href="#"
           ng-click="reportComment($event, comment.data)"
           ng-if="comment.data.userId != <%= user_signed_in? ? current_user.id : 0 %>">
@@ -70,6 +75,11 @@
 
       <a class="dropdown-item" href="#" ng-click="block($event, child.data.userId, child.data.username)" ng-if="(!child.data.isBlocked) && (child.data.userId != <%= user_signed_in? ? current_user.id : 0 %>)">Block</a>
       <a class="dropdown-item" href="#" ng-click="unblock($event, child.data.userId, child.data.username)" ng-if="child.data.isBlocked">Unblock</a>
+
+      <a class="dropdown-item" href="#" ng-click="followUserFromComment($event, child.data)"
+                ng-if="!child.data.imFollowing">Follow</a>
+      <a class="dropdown-item" href="#" ng-click="unfollowUserFromComment($event, child.data)"
+                ng-if="child.data.imFollowing">Unfollow</a>
 
       <a class="dropdown-item" href="#"
           ng-click="reportComment($event, child.data)"

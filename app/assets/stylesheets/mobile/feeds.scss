@@ -12,6 +12,7 @@ input#suggestion_search {
 	.tab-pane {
 		min-height: 70%;
 		min-height: 70vh;
+		background: $grey_light;
 	}
 }
 
@@ -546,7 +547,7 @@ input#suggestion_search {
 	}
 
 	&.feed-exchange {
-		border-bottom: 1px solid #ddd;
+		// border-bottom: 1px solid #ddd;
 
 		.feed_text {
 			p {
@@ -639,6 +640,17 @@ input#suggestion_search {
 }
 
 #feed {
+	#who_to_follow {
+		margin-left: -15px;
+    margin-right: -15px;
+    padding-bottom: 7px;
+    margin-bottom: 0px;
+
+    h4 {
+    }
+	}
+
+
 	.ratings_summary {
 		font-size: 0.8em;
 
@@ -719,3 +731,4 @@ input#suggestion_search {
 		margin: 20px 0;
 	}
 }
+

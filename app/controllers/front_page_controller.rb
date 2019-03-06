@@ -29,6 +29,7 @@ class FrontPageController < ApplicationController
 					total_user_feeds = current_user.feed_users.size
 					@total_feeds = total_feeds + total_categorisations + total_user_feeds
 				end
+				@page = page
 				@suggestions = []#current_user.paginated_pending_suggestions(page, 2)
 			end
 		end

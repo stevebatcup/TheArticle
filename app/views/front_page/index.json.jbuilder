@@ -40,6 +40,13 @@ json.total @total_feeds if @total_feeds
 	end
 end
 
+if (@page == 1) && browser.device.mobile?
+	items << {
+		type: 'suggestion',
+		stamp: items.any? ? items.last[:stamp]+1 : Time.now.to_i
+	}
+end
+
 if items.any?
 	json.feedItems items.sort! { |a, b| b[:stamp] <=> a[:stamp] }
 end

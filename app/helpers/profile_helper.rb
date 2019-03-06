@@ -59,7 +59,7 @@ module ProfileHelper
 		end
 
 	  if members.any?
-	  	if members.length == 1
+	  	if members.length == 1 || browser.device.mobile?
 	  		sentence << "<div class='single'>
 	  									<img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' />
 	  								</div>

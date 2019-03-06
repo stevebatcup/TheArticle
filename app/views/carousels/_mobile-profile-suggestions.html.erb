@@ -1,0 +1,35 @@
+<div id="who_to_follow" class="bg-white" ng-controller="SuggestionsController">
+	<div class="pt-3 pb-2 px-4">
+		<h4 class="card-title pl-2">Who to follow on TheArticle</h4>
+	</div>
+	<div class="suggestions slick-carousel slide w-100" data-slideout-ignore>
+		<div ng-repeat="item in suggestions" class="profile-suggestion mb-3 slick-carousel-item feed-listing">
+				<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image" alt="{{item.displayName}}" />
+
+				<h5 class="mb-0">
+					<span>{{ item.displayName }}</span>
+				</h5>
+				<h6 class="text-muted mb-0">
+						<span>{{ item.username }}</span>
+						<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
+				</h6>
+
+				<div class="shared_followers w-100" ng-if="item.sharedFollowers.length > 0" ng-bind-html="item.sharedFollowers"></div>
+
+			<button class="btn btn-sm follow_btn btn-outline-success"
+							 ng-click="followUserFromSuggestion($event, item)"
+							 ng-if="!item.imFollowing">
+				<i class="fas fa-users mr-2"></i>
+				Follow
+			</button>
+			<button class="btn btn-sm follow_btn btn-success"
+							 ng-click="unfollowUserFromSuggestion($event, item)"
+							 ng-if="item.imFollowing">
+				<i class="fas fa-users mr-2"></i>
+				Unfollow
+			</button>
+
+
+		</div>
+	</div>
+</div>

@@ -40,12 +40,13 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	toggleFollowSuggestion: (member) =>
 		@followSuggestion member.id, =>
 			member.imFollowing = true
-			@buildListForSidebox()
-			@timeout =>
-				mode = @scope.suggestions.mode
-				@scope.suggestions[mode] = _.filter @scope.suggestions[mode], (item) =>
-					item.id isnt member.id
-			, 750
+			@flash "You are now following <b>#{member.displayName}</b>"
+			# @buildListForSidebox()
+			# @timeout =>
+			# 	mode = @scope.suggestions.mode
+			# 	@scope.suggestions[mode] = _.filter @scope.suggestions[mode], (item) =>
+			# 		item.id isnt member.id
+			# , 750
 
 	followSuggestion: (userId, callback) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
