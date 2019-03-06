@@ -113,8 +113,8 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 					else
 						$header.removeClass('short')
 
-	openSharingPanel: ($event, mode=null) =>
-		$event.preventDefault()
+	openSharingPanel: ($event=null, mode=null) =>
+		$event.preventDefault() if $event?
 		if @rootScope.isSignedIn
 			@rootScope.sharingPanelMode = mode if mode?
 			tpl = $("#sharingPanel").html().trim()

@@ -57,16 +57,25 @@
 					<% if @article.has_ratings? %>
 					<ul class="">
 						<li class="row justify-content-start d-flex align-items.start mb-2">
+							<% rating_wwc = @article.ratings_well_written_cache %>
 							<span class="col-10 text">Well written: </span>
-							<span class="col-2 rating"><%=  readable_article_rating(@article.ratings_well_written_cache) %></span>
+							<span class="col-2 rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>"">
+								<%=  readable_article_rating(rating_wwc) %>
+							</span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
+							<% rating_vpc = @article.ratings_valid_points_cache %>
 							<span class="col-10 text">Interesting points: </span>
-							<span class="col-2 rating"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span>
+							<span class="col-2 rating <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>">
+								<%= readable_article_rating(rating_vpc) %>
+							</span>
 						</li>
 						<li class="row justify-content-start d-flex align-items.start mb-2">
+							<% rating_ac = @article.ratings_agree_cache %>
 							<span class="col-10 text">Agree with arguments: </span>
-							<span class="col-2 rating"><%= readable_article_rating(@article.ratings_agree_cache) %></span>
+							<span class="col-2 rating <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>">
+								<%= readable_article_rating(rating_ac) %>
+							</span>
 						</li>
 					</ul>
 					<% else %>
@@ -104,27 +113,27 @@
 								<label>Well written: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%=  @article.ratings_well_written_cache.to_i %>%;"></span>
+										<span class="inner" style="width: <%=  rating_wwc.to_i %>%;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%=  readable_article_rating(@article.ratings_well_written_cache) %></span>
+									<span class="clear-rating ml-3 <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>"><%=  readable_article_rating(rating_wwc) %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Interesting points: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings_valid_points_cache.to_i %>%;"></span>
+										<span class="inner" style="width: <%= rating_vpc.to_i %>%;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span>
+									<span class="clear-rating ml-3 <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_vpc) %></span>
 								</span>
 							</li>
 							<li class="mb-2">
 								<label>Agree with arguments: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar">
-										<span class="inner" style="width: <%= @article.ratings_agree_cache.to_i %>%;"></span>
+										<span class="inner" style="width: <%= rating_ac.to_i %>%;"></span>
 									</span>
-									<span class="clear-rating ml-3"><%= readable_article_rating(@article.ratings_agree_cache) %></span>
+									<span class="clear-rating ml-3 <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_ac) %></span>
 								</span>
 							</li>
 						</ul>

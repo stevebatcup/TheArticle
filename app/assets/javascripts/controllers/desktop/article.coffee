@@ -23,5 +23,14 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 
 	bindEvents: ->
 		super
+		@scope.$on 'swap_share_panel', (e, data) =>
+			$("#sharingPanelModal").modal('hide')
+			@timeout =>
+				@openSharingPanel(null, data.mode)
+				if data.startedComments.length > 0
+					@timeout =>
+						@rootScope.$broadcast 'copy_started_comments', { comments: data.startedComments }
+					, 500
+			, 350
 
 TheArticle.ControllerModule.controller('ArticleController', TheArticle.Article)

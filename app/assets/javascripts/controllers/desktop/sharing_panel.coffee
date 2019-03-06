@@ -58,6 +58,9 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		$(document).on 'hidden.bs.modal', "#sharingPanelModal", =>
 			@resetData()
 
+		@scope.$on 'copy_started_comments', (e, data) =>
+			@scope.share.comments = data.comments
+
 	toggleDots: (section, rating) =>
 		@scope.share["rating_#{section}"] = rating
 
@@ -65,10 +68,11 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@scope.formError = false
 		data =
 			article_id: @element.data('article-id')
+			share_type: if @rootScope.sharingPanelMode is 'share' then 'share' else 'rating'
 			post: @scope.share.comments
-			rating_well_written: @scope.share.rating_well_written
-			rating_valid_points: @scope.share.rating_valid_points
-			rating_agree: @scope.share.rating_agree
+			rating_well_written: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_well_written
+			rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
+			rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
 
 		# if (@scope.ratingsTouched.well_written is false) and (@scope.share.rating_well_written is 1)
 		# 	data['rating_well_written'] = 0
@@ -92,5 +96,10 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	contractCommentsBox: ($event) =>
 		$textarea = $($event.target)
 		$textarea.removeClass('expanded')
+
+	openRatingsBox: ($event) =>
+		$event.preventDefault()
+		mode = if @scope.alreadyRated then 'rerate' else 'rate'
+		@rootScope.$broadcast 'swap_share_panel', { mode: mode, startedComments: @scope.share.comments }
 
 TheArticle.ControllerModule.controller('SharingPanelController', TheArticle.SharingPanel)

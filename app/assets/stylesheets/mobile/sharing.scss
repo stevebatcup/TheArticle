@@ -28,6 +28,12 @@ $contrast: 5%;
 			margin-top: 24px;
 		}
 
+		h4#add_rating_heading {
+			a.btn {
+				white-space: unset;
+			}
+		}
+
 		#comments_box {
 			margin-bottom: 15px;
 
@@ -78,6 +84,10 @@ $contrast: 5%;
 				color: #fff;
 				padding: 2px 5px 1px;
 				font-weight: normal;
+
+				&.faded {
+					opacity: 0.5;
+				}
 			}
 		}
 
@@ -98,6 +108,12 @@ $contrast: 5%;
 						height: 100%;
 						display: inline-block;
 						background: $green;
+					}
+				}
+
+				span.clear-rating {
+					&.faded {
+						opacity: 0.5;
 					}
 				}
 			}

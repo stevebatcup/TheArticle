@@ -92,6 +92,10 @@ $contrast: 5%;
 				font-weight: normal;
 				display: inline-block;
 				margin-left: 15px;
+
+				&.faded {
+					opacity: 0.5;
+				}
 			}
 		}
 
@@ -110,6 +114,12 @@ $contrast: 5%;
 						height: 100%;
 						display: inline-block;
 						background: $green;
+					}
+				}
+
+				span.clear-rating {
+					&.faded {
+						opacity: 0.5;
 					}
 				}
 			}

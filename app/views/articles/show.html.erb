@@ -62,9 +62,24 @@
 						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
-							<li>Well written: <span class="rating"><%= readable_article_rating(@article.ratings_well_written_cache) %></span></li>
-							<li>Interesting points: <span class="rating"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span></li>
-							<li>Agree with arguments: <span class="rating"><%= readable_article_rating(@article.ratings_agree_cache) %></span></li>
+							<li>Well written:
+								<% rating_wwc = @article.ratings_well_written_cache %>
+								<span class="rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>">
+									<%= readable_article_rating(rating_wwc) %>
+								</span>
+							</li>
+							<li>Interesting points:
+								<% rating_vpc = @article.ratings_valid_points_cache %>
+								<span class="rating <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>">
+									<%= readable_article_rating(rating_vpc) %>
+								</span>
+							</li>
+							<li>Agree with arguments:
+								<% rating_ac = @article.ratings_agree_cache %>
+								<span class="rating <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>">
+									<%= readable_article_rating(rating_ac) %>
+								</span>
+							</li>
 						</ul>
 						<% else %>
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
@@ -97,23 +112,23 @@
 							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<span class="col-4 text">Well written: </span>
 								<span class="bar col-6">
-									<span class="inner" style="width: <%= @article.ratings_well_written_cache.to_i %>%;"></span>
+									<span class="inner" style="width: <%= rating_wwc.to_i %>%;"></span>
 								</span>
-								<span class="col-2 clear-rating"><%= readable_article_rating(@article.ratings_well_written_cache) %></span>
+								<span class="col-2 clear-rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_wwc) %></span>
 							</li>
 							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<span class="col-4 text">Interesting points: </span>
 								<span class="bar col-6">
-									<span class="inner" style="width: <%= @article.ratings_valid_points_cache.to_i %>%;"></span>
+									<span class="inner" style="width: <%= rating_vpc.to_i %>%;"></span>
 								</span>
-								<span class="col-2 clear-rating"><%= readable_article_rating(@article.ratings_valid_points_cache) %></span>
+								<span class="col-2 clear-rating <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_vpc) %></span>
 							</li>
 							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<span class="col-4 text">Agree with arguments: </span>
 								<span class="bar col-6">
-									<span class="inner" style="width: <%= @article.ratings_agree_cache.to_i %>%;"></span>
+									<span class="inner" style="width: <%= rating_ac.to_i %>%;"></span>
 								</span>
-								<span class="col-2 clear-rating"><%= readable_article_rating(@article.ratings_agree_cache) %></span>
+								<span class="col-2 clear-rating <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_ac) %></span>
 							</li>
 						</ul>
 						<% else %>

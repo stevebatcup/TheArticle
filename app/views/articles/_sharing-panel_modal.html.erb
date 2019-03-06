@@ -37,11 +37,16 @@
                   ng-focus="expandCommentsBox($event)"></textarea>
       	</div>
 
+        <% unless article.is_sponsored? %>
       	<h4 id="add_rating_heading" ng-if="sharingPanelMode == 'share'">
-      		<a data-toggle="collapse" href="#ratings_box" role="button" id="ratings_toggler">{{ratingsHeading}}</a>
+      		<a href="#" ng-click="openRatingsBox($event)"
+                id="ratings_toggler"
+                class="btn btn-outline-dark">{{ratingsHeading}}</a>
       	</h4>
-      	<div id="ratings_box" class="member_ratings"
-              ng-class="{'collapse': sharingPanelMode == 'share'}">
+
+      	<div id="ratings_box"
+               class="member_ratings"
+               ng-if="sharingPanelMode != 'share'">
       		<div class="inner">
             <ul class="dots panel">
               <li class="mb-3">
@@ -100,6 +105,7 @@
             </ul>
       		</div>
       	</div>
+        <% end %>
 
       	<div class="button_box justify-content-between align-items-start d-md-flex py-3">
           <div class="w-md-50 px-md-3 py-md-3">

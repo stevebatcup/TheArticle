@@ -104,8 +104,8 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			arrows: false
 			centerMode: true
 
-	openSharingPanel: ($event, mode=null) =>
-		$event.preventDefault()
+	openSharingPanel: ($event=null, mode=null) =>
+		$event.preventDefault() if $event?
 		if @rootScope.isSignedIn
 			@rootScope.sharingPanelMode = mode if mode?
 			tpl = $("#sharingPanel").html().trim()

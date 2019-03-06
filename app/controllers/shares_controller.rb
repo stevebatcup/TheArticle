@@ -3,8 +3,10 @@ class SharesController < ApplicationController
 
 	def create
 		article = Article.find(share_params[:article_id])
-		if rating = current_user.existing_article_rating(article)
-			rating.destroy
+		if share_params[:share_type] == 'rating'
+			if rating = current_user.existing_article_rating(article)
+				rating.destroy
+			end
 		end
 		@share = Share.new(share_params)
 		@share.share_type = Share.determine_share_type(share_params)
@@ -42,6 +44,6 @@ private
 	end
 
 	def share_params
-		params.require(:share).permit(:article_id, :rating_well_written, :rating_valid_points, :rating_agree, :post)
+		params.require(:share).permit(:article_id, :share_type, :rating_well_written, :rating_valid_points, :rating_agree, :post)
 	end
 end
