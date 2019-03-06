@@ -243,18 +243,6 @@ input#suggestion_search {
 				overflow-wrap: break-word;
 			}
 
-			.share_menu_btn {
-				font-size: 1.4em;
-				position: relative;
-				top: 0px;
-				right: 0px;
-				padding: 0;
-
-				a {
-					color: inherit;
-				}
-			}
-
 			.ratings {
 				font-size: 0.8em;
 				background: #222;
@@ -732,3 +720,14 @@ input#suggestion_search {
 	}
 }
 
+.share_menu_btn {
+	font-size: 1.4em;
+	position: relative;
+	top: 0px;
+	right: 0px;
+	padding: 0;
+
+	a {
+		color: inherit;
+	}
+}

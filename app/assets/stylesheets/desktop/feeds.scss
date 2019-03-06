@@ -222,22 +222,6 @@
 				}
 			}
 
-			.share_menu_btn {
-				font-size: 1.4em;
-				position: relative;
-				top: -12px;
-				right: -12px;
-
-				a {
-					color: inherit;
-
-					&.dropdown-item {
-						font-size: 0.85em;
-						padding: 2px 10px;
-					}
-				}
-			}
-
 			.ratings {
 				background: #222;
 				border-radius: 2px;
@@ -706,5 +690,21 @@
 		text-align: center;
 		font-size: 1.2em;
 		margin: 20px 0;
+	}
+}
+
+.share_menu_btn {
+	font-size: 1.4em;
+	position: relative;
+	top: -12px;
+	right: -12px;
+
+	a {
+		color: inherit;
+
+		&.dropdown-item {
+			font-size: 0.85em;
+			padding: 2px 10px;
+		}
 	}
 }
