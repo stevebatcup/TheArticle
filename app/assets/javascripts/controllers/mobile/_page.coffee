@@ -104,16 +104,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			arrows: false
 			centerMode: true
 
-		$('.slick-carousel.suggestions').slick
-			infinite: true
-			slidesToShow: 1
-			slidesToScroll: 1
-			adaptiveHeight: true
-			speed: 500
-			dots: true
-			centerMode: if $(window).width() <= 320 then false else true
-			arrows: false
-
 	openSharingPanel: ($event, mode=null) =>
 		$event.preventDefault()
 		if @rootScope.isSignedIn

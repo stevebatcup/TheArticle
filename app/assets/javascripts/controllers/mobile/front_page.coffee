@@ -128,7 +128,19 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					else if (index is 4)
 						@scope.feeds.data.push response.suggestions[1]
 			# console.log @scope.feeds.data
-			@scope.feeds.totalItems = response.total if @scope.feeds.page is 1
+			if @scope.feeds.page is 1
+				@scope.feeds.totalItems = response.total
+				@timeout =>
+					$('.slick-carousel.suggestions').slick
+						infinite: true
+						slidesToShow: 1
+						slidesToScroll: 1
+						adaptiveHeight: true
+						speed: 500
+						dots: true
+						centerMode: if $(window).width() <= 320 then false else true
+						arrows: false
+				, 1000
 			# console.log @scope.feeds.totalItems
 			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
 			# console.log @scope.feeds.moreToLoad
