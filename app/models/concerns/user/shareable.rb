@@ -12,9 +12,7 @@ module User::Shareable
   end
 
   def ratings_count
-    Rails.cache.fetch("ratings_count_#{self.id}") do
-      self.ratings.size
-    end
+    self.ratings.size
   end
 
   def existing_article_rating(article)
