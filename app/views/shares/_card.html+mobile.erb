@@ -131,7 +131,7 @@
 
 			<footer class="entry-footer pt-1 px-3 pb-2" ng-if="item.article.author.name.length">
 				<p class="author_link d-flex justify-content-between align-items-start">
-					<a href="{{ item.article.author.path }}">by <span>{{ item.article.author.name }}</span></a>
+					<a href="{{ item.article.author.path }}">by <span ng-bind-html="item.article.author.name"></span></a>
 					<span class="entry-date">{{ item.article.publishedAt }}</span></p>
 			</footer>
 		</div>

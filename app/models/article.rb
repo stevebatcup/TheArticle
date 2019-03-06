@@ -178,15 +178,24 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.editors_picks
+	def self.editors_picks(page=1, per_page=6)
 		editor_at_exchange_articles = Exchange.where(slug: 'editor-at-the-article').first.articles
-		self.not_sponsored.not_remote
+		articles = self.not_sponsored.not_remote
 			.includes(:keyword_tags).references(:keyword_tags)
 			.includes(:exchanges).references(:exchanges)
 			.includes(:author).references(:author)
 			.where("keyword_tags.slug = 'editors-pick'")
 			.where.not(:id => editor_at_exchange_articles)
 			.order(published_at: :desc)
+		if page > 0
+			if page == 1
+				articles = articles.page(1).per(per_page-1)
+			else
+				offset = (page-1) * per_page - 1
+				articles = articles.page(1).per(per_page).offset(offset)
+			end
+		end
+		articles
 	end
 
 	def limited_exchanges(exchange_limit)

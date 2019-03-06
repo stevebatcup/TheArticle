@@ -4,13 +4,13 @@ class ArticlesController < ApplicationController
 		params[:per_page] ||= articles_per_page
 		if params[:tagged]
 			if params[:tagged] == 'editors-picks'
-				@articles = Article.editors_picks.page(params[:page]).per(params[:per_page].to_i)
+				@articles = Article.editors_picks(params[:page].to_i, params[:per_page].to_i)
 				if params[:page].to_i == 1
-					@total = Article.editors_picks.size
+					@total = Article.editors_picks(0).size
 					leading_article = Article.leading_editor_article
 					if leading_article.present?
 						@articles = @articles.all.to_a.unshift(leading_article)
-						@articles.delete_at(params[:per_page].to_i - 1)
+						# @articles.delete_at(params[:per_page].to_i - 1)
 					end
 				end
 			end
