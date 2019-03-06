@@ -110,8 +110,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				@scope.whitelisted = true
 				@shareArticleConfirm()
 
-	shareArticleConfirm: () =>
-		# $event.preventDefault() if $event?
+	shareArticleConfirm: =>
 		data =
 			url: @scope.thirdPartyArticle.url
 			article: @scope.thirdPartyArticle.article.data
@@ -129,10 +128,11 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 
 		@http.post("/submit_third_party_article", { share: data }).then (response) =>
 			if response.data.status is 'success'
-				$('.close_share_modal').first().click()
 				flashMsg = if (@scope.whitelisted) and (!_.isEmpty(@scope.thirdPartyArticle.article.data)) then "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>." else "Your post has been sent to review."
 				@flash flashMsg
-				@resetArticleData()
+				@timeout =>
+					$('.close_share_modal').first().click()
+				, 250
 			else
 				@scope.thirdPartyArticle.article.error = response.data.message
 
