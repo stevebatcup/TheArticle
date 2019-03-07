@@ -94,4 +94,11 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'live.thearticle.com' }
   # config.action_mailer.default_url_options = { host: 'www.thearticle.com' }
+
+  config.middleware.use ExceptionNotification::Rack,
+    email: {
+      email_prefix: 'Exception thrown on TheArticle: ',
+      sender_address: %{"TheArticle" <info@thearticle.com>},
+      exception_recipients: %w{hello@maawol.com}
+    }
 end
