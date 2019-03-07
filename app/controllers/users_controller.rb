@@ -25,39 +25,41 @@ class UsersController < ApplicationController
 		end
 	end
 
+	def update_photo
+		if params[:mode] == 'coverPhoto'
+			current_user.cover_photo = params[:photo]
+			if current_user.save
+				@status = :success
+			else
+				@status = :error
+				@message = current_user.errors.full_messages.first
+			end
+		elsif params[:mode] == 'profilePhoto'
+			current_user.profile_photo = params[:photo]
+			if current_user.save
+				@status = :success
+			else
+				@status = :error
+				@message = current_user.errors.full_messages.first
+			end
+		end
+	end
+
 	def update
 		profile_params = params[:profile]
-		if profile_params[:mode] == 'coverPhoto'
-			current_user.cover_photo = profile_params[:photo]
-			if current_user.save
-				@status = :success
-			else
-				@status = :error
-				@message = current_user.errors.full_messages.first
-			end
-		elsif profile_params[:mode] == 'profilePhoto'
-			current_user.profile_photo = profile_params[:photo]
-			if current_user.save
-				@status = :success
-			else
-				@status = :error
-				@message = current_user.errors.full_messages.first
-			end
+		if current_user.update_attributes({
+				display_name: profile_params[:display_name],
+				username: profile_params[:username],
+		    location: profile_params[:location][:value],
+		    lat: profile_params[:location][:lat],
+		    lng: profile_params[:location][:lng],
+		    country_code: profile_params[:location][:country_code],
+				bio: profile_params[:bio]
+			})
+			@status = :success
 		else
-			if current_user.update_attributes({
-					display_name: profile_params[:display_name],
-					username: profile_params[:username],
-			    location: profile_params[:location][:value],
-			    lat: profile_params[:location][:lat],
-			    lng: profile_params[:location][:lng],
-			    country_code: profile_params[:location][:country_code],
-					bio: profile_params[:bio]
-				})
-				@status = :success
-			else
-				@status = :error
-				@message = current_user.errors.full_messages.first
-			end
+			@status = :error
+			@message = current_user.errors.full_messages.first
 		end
 	end
 

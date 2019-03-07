@@ -73,10 +73,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.middleware.use ExceptionNotification::Rack,
-    email: {
-      email_prefix: 'Exception thrown on TheArticle: ',
-      sender_address: %{"TheArticle" <info@thearticle.com>},
-      exception_recipients: %w{hello@maawol.com}
-    }
+  # config.middleware.use ExceptionNotification::Rack,
+  #   email: {
+  #     email_prefix: 'Exception thrown on TheArticle: ',
+  #     sender_address: %{"TheArticle" <info@thearticle.com>},
+  #     exception_recipients: %w{hello@maawol.com}
+  #   }
 end

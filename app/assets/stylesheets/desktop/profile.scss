@@ -132,8 +132,8 @@
 			}
 
 			.editing_photo_holder {
-				width: 70%;
-				margin: 20px auto;
+				max-width: 100%;
+				display: none;
 			}
 		}
 	}

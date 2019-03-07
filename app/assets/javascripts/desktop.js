@@ -7,5 +7,6 @@
 //= require controllers/flash_notice
 //= require controllers/page_transitions
 //= require controllers/testing_feedback
+//= require controllers/photo_editor
 //= require_tree ./controllers/desktop
 //= require controllers/third_party_sharing

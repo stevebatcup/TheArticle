@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile',                            to: 'users#update'
+  put 'my-photo',                              to: 'users#update_photo'
 
   get 'user_followings',                       to: 'user_followings#index'
   get 'user_followings/:id',                   to: 'user_followings#index'

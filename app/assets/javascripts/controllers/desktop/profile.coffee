@@ -1,4 +1,4 @@
-class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageController, TheArticle.Feeds
+class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageController, TheArticle.Feeds, TheArticle.PhotoEditor
 
 	@register window.App
 	@$inject: [
@@ -41,6 +41,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.authActionMessage =
 			heading: ''
 			msg: ''
+		@scope.photoCrop =
+			cropper: {}
+			scaleX: 1
+			scaleY: 1
 		@scope.profile =
 			isMe: window.location.pathname is "/my-profile"
 			loaded: false
@@ -117,10 +121,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					image: ""
 					source: ""
 					uploading: false
+					width: 300
+					height: 300
 				coverPhoto:
 					image: ""
 					source: ""
 					uploading: false
+					width: 570
+					height: 114
 				confirmingPassword: ''
 			errors:
 				main: false
@@ -159,11 +167,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), 300, 300, 'circle'
+				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height, 'circle'
 
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 570, 114, 'square'
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), @scope.profile.data.coverPhoto.width, @scope.profile.data.coverPhoto.height, 'square'
 
 		$(document).on 'keyup', 'input#user_location', (e) =>
 			$input = $('input#user_location')
@@ -348,20 +356,22 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
 		type = $(element).data('type')
-		c = new Croppie element,
-			viewport:
+		@scope.photoCrop.cropper = new Cropper element,
+			checkOrientation: true
+			center: true
+			cropBoxResizable: false
+			viewMode: 3
+			minCropBoxHeight: height
+			minCropBoxWidth: width
+			dragMode: 'none'
+		@timeout =>
+			containerData = @scope.photoCrop.cropper.getContainerData()
+			@scope.photoCrop.cropper.setCropBoxData
 				width: width
 				height: height
-				type: shape
-			update: =>
-				newWidth = "#{(width*2)}"
-				newHeight = "#{(height*2)}"
-				c.result({type: 'canvas', size: {newWidth, newHeight}}).then (imgSource) =>
-					@scope.$apply =>
-						@scope.profile.data[type].sourceForUpload = imgSource
-		@timeout =>
-			c.setZoom(0.1)
-		, 200
+				left: (containerData.width / 2) - (width / 2)
+				top: (containerData.height / 2) - (height / 2)
+		, 150
 
 	cancelEditPhoto: (type) =>
 		@scope.profile.data[type].source = ''
@@ -370,21 +380,33 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()
+		@scope.photoCrop.cropper.crop()
 		@scope.profile.data[type].uploading = true
-		profile = new @MyProfile({photo: @scope.profile.data[type].sourceForUpload, mode: type })
-		profile.update().then (response) =>
-			@timeout =>
-				if response.status is 'error'
-					@savePhotoError response.message, type
-				else
-					@timeout =>
-						@scope.profile.data[type].image = @scope.profile.data[type].sourceForUpload
-						@scope.profile.data[type].uploading = false
-						@cancelEditPhoto(type)
-					, 750
-			, 800
-		, (error) =>
-			@savePhotoError error.statusText, type
+		settings =
+			width: @scope.profile.data[type].width,
+			height: @scope.profile.data[type].height,
+			imageSmoothingEnabled: true,
+			imageSmoothingQuality: 'high'
+		@scope.photoCrop.cropper.getCroppedCanvas(settings).toBlob (blob) =>
+			formData = new FormData()
+			formData.append('photo', blob)
+			formData.append('mode', type)
+			$.ajax '/my-photo',
+				method: "PUT"
+				data: formData
+				processData: false
+				contentType: false
+				success: (response) =>
+					if response.status is 'error'
+						@savePhotoError response.message, type
+					else
+						@timeout =>
+							@scope.profile.data[type].image = @scope.photoCrop.cropper.getCroppedCanvas().toDataURL('image/jpeg')
+							@scope.profile.data[type].uploading = false
+							@cancelEditPhoto(type)
+						, 750
+				error: (error) =>
+					@savePhotoError error.statusText, type
 
 	savePhotoError: (msg, type) =>
 		@scope.profile.data[type].uploading = false
