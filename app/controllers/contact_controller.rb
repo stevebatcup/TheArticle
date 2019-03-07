@@ -1,5 +1,6 @@
 class ContactController < ApplicationController
 	def new
+		foo
 	end
 
 	def create

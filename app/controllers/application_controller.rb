@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   http_basic_authenticate_with name: "londonbridge", password: "B37ys0m2w" if Rails.env == 'staging'
   # http_basic_authenticate_with name: "borehamwood", password: "N5T0d341Vh" if Rails.env == 'production'
 	before_action :set_device_type
+	before_action :prepare_exception_notifier
   protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   skip_before_action :verify_authenticity_token, if: :json_request?
@@ -150,4 +151,13 @@ private
 			end
 		end
 	end
+
+	def prepare_exception_notifier
+    request.env["exception_notifier.exception_data"] = {
+      current_user: user_signed_in? ? current_user : nil,
+      browser: browser.to_s,
+      device: browser.device.name,
+      platform: browser.platform.name
+    }
+  end
 end

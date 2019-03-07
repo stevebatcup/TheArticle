@@ -77,6 +77,8 @@ gem "wysiwyg-rails"
 
 gem "ogp", '0.2.1', :git => 'git@github.com:BigDilettante/ogp.git'
 
+gem 'exception_notification'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
