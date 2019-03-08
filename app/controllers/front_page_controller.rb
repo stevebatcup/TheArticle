@@ -15,7 +15,7 @@ class FrontPageController < ApplicationController
 			format.json do
 				page = params[:page] || 1
 				page = page.to_i
-				per_page = 10
+				per_page = 25
 				@my_exchange_ids = current_user.subscriptions.map(&:exchange_id)
 				@my_followings_ids = current_user.followings.map(&:followed_id)
 				@my_muted_follow_ids = current_user.follow_mutes.map(&:muted_id)

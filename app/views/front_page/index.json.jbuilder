@@ -28,6 +28,7 @@ items = []
 end
 
 # FEEDS
+categorisation_feed_items = []
 json.total @total_feeds if @total_feeds
 @feeds.each do |feed_item|
 	unless feed_item.actionable.nil?
@@ -35,8 +36,27 @@ json.total @total_feeds if @total_feeds
 		when 'Share'
 			items << share_as_json_data(feed_item.user, feed_item.actionable)
 		when 'Categorisation'
-			items << categorisation_as_json_data(feed_item.user, feed_item.actionable)
+			categorisation_feed_items << feed_item
 		end
+	end
+end
+
+# Grouping the categorisatios by article
+if categorisation_feed_items.any?
+	categorisation_articles = {}
+	categorisation_feed_items.each do |cfi|
+		article_id = cfi.actionable.article.id
+		categorisation_articles[article_id] ||= []
+		categorisation_articles[article_id] << cfi
+	end
+
+	categorisation_articles.values.each do |categorisation_article|
+		exchanges = []
+		categorisation_article.each do |ca|
+			exchanges << ca.actionable.exchange
+		end
+		# foo
+		items << categorisation_as_json_data(categorisation_article.first.user, categorisation_article.first.actionable, exchanges)
 	end
 end
 

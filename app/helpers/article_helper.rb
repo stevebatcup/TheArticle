@@ -27,11 +27,10 @@ module ArticleHelper
 		content_html.to_s.html_safe
 	end
 
-	def categorisation_as_json_data(user, categorisation)
-		exchange = categorisation.exchange
+	def categorisation_as_json_data(user, categorisation, exchanges)
 		article = categorisation.article
 		author = article.author
-		{
+		result = {
 			type: 'categorisation',
 			stamp: categorisation.article.published_at.to_i,
 			date: categorisation.article.published_at.strftime("%e %b"),
@@ -46,13 +45,17 @@ module ArticleHelper
 				  name: author.display_name,
 				  path: contributor_path(slug: author.slug)
 				},
-				exchange: {
-					name: exchange.name,
-					path: exchange_path(slug: exchange.slug),
-					isSponsored: exchange.slug == 'sponsored',
-				}
+				exchanges: []
 			}
 		}
+		exchanges.each do |exchange|
+			result[:article][:exchanges].push({
+				name: exchange.name,
+				path: exchange_path(slug: exchange.slug),
+				isSponsored: exchange.slug == 'sponsored',
+			})
+		end
+		result
 	end
 
 	def convert_rating_to_dots(rating)
