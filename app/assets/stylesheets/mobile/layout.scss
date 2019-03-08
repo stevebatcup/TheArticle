@@ -929,6 +929,7 @@ div.new_article {
 	text-align: center;
 	box-shadow: 2px 2px 5px #333;
 	font-size: 19px;
+	z-index: 1000000000;
 
 	svg {
 		font-size: 25px;

@@ -20,12 +20,16 @@ class Article < ApplicationRecord
 	end
 
 	def recalculate_ratings_caches
-		unless ratings.nil?
+		if ratings.nil?
+			self.ratings_well_written_cache = nil
+			self.ratings_valid_points_cache = nil
+			self.ratings_agree_cache = nil
+		else
 			self.ratings_well_written_cache = ratings[:well_written]
 			self.ratings_valid_points_cache = ratings[:valid_points]
 			self.ratings_agree_cache = ratings[:agree]
-			self.save
 		end
+		self.save
 	end
 
 	def has_ratings?

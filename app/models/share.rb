@@ -44,6 +44,7 @@ class Share < ApplicationRecord
 		self.feeds.destroy_all
 		self.opinions.destroy_all
 		self.concern_reports.destroy_all
+		recalculate_article_ratings
 	end
 
 	def current_user_can_interact(current_user)

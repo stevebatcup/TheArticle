@@ -2,7 +2,7 @@ TheArticle.DirectiveModule.directive("fileread", [
 	->
 		return {
 			scope: {
-				fileread: "="
+				fileread: '='
 			}
 			link: (scope, element, attributes) ->
 				element.bind "change", (changeEvent) ->
@@ -10,6 +10,11 @@ TheArticle.DirectiveModule.directive("fileread", [
 					reader.onload = (loadEvent) ->
 						scope.$apply ->
 							scope.fileread = loadEvent.target.result
-					reader.readAsDataURL changeEvent.target.files[0]
+					file = changeEvent.target.files[0]
+					if file.type.match('image.*')
+						reader.readAsDataURL file
+					else
+						scope.$apply ->
+							scope.$parent.imageUploadError("Please make sure to upload an image file")
 		}
 ])

@@ -199,6 +199,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			if value.length > 2
 				@autocompleteLocations $input
 
+	imageUploadError: (error) =>
+		@scope.profile.errors.photo = error
+
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
 		@requiresSignIn(action)

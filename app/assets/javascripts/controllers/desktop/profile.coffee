@@ -179,6 +179,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			if value.length > 2
 				@autocompleteLocations $input
 
+	imageUploadError: (error) =>
+		@scope.profile.errors.photo = error
+
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
 		@requiresSignIn(action)
@@ -355,7 +358,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
-		console.log $(element).attr("src").length
+		@scope.profile.errors.photo = ""
 		type = $(element).data('type')
 		@scope.photoCrop.cropper = new Cropper element,
 			checkOrientation: true
