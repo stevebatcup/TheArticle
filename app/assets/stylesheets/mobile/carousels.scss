@@ -209,6 +209,11 @@
 @media only screen
   and (min-device-width: 320px)
   and (max-device-width: 320px) {
+  	.slick-dots {
+  		li {
+  			margin: 0 3px;
+  		}
+  	}
   	.slick-carousel.journalists {
   		.slick-track {
   			height: 200px !important;

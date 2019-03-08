@@ -6,6 +6,6 @@ class ContributorsController < ApplicationController
 
 	def show
 		@contributor = Author.find_by(slug: params[:slug])
-		@contributors_for_carousel = Author.with_complete_profile(@contributor.id).shuffle
+		@contributors_for_carousel = Author.with_complete_profile(@contributor.id).limit(25).shuffle
 	end
 end

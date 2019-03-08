@@ -36,7 +36,7 @@
 									<span><%= @article.author.user.username %></span>
 								</a>
 						<% end %>
-						<% if @article.author.twitter_handle %>
+						<% if @article.author.twitter_handle.present? %>
 							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
 							 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
 									<i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>

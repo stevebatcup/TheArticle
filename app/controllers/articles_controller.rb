@@ -26,7 +26,12 @@ class ArticlesController < ApplicationController
 			end
 		elsif params[:author]
 			@contributor = Author.find_by(id: params[:author])
-			@articles = @contributor.articles.includes(:exchanges).references(:exchanges).page(params[:page]).per(params[:per_page].to_i)
+			@articles = @contributor.articles
+															.includes(:exchanges)
+															.references(:exchanges)
+															.order("published_at DESC")
+															.page(params[:page])
+															.per(params[:per_page].to_i)
 			if params[:page].to_i == 1
 				@total = @contributor.articles.size
 			end
