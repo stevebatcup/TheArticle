@@ -13,14 +13,18 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 		@setDefaultHttpHeaders()
 		@bindEvents()
 		@scope.suggestions = []
+		@scope.forYous = []
+		@scope.populars = []
 		@getSuggestions()
 
 	getSuggestions: (isMe) =>
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
+				@scope.forYous.push suggestion
 			angular.forEach response.data.suggestions.populars, (suggestion) =>
 				@scope.suggestions.push suggestion
+				@scope.populars.push suggestion
 
 	toggleFollowUserFromCard: (member) =>
 		@followUser member.id, =>

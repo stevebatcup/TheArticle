@@ -1,4 +1,4 @@
-<% page_title @contributor.display_name %>
+<% page_title @contributor.display_name.html_safe %>
 <% meta_tag :description, truncate(@contributor.blurb, length: 120) %>
 <% if @contributor.image? %>
 	<% meta_tag :image, @contributor.image.url(:detail) %>
@@ -59,7 +59,7 @@
 					<% if @contributor.youtube_url.present? %>
 						<h6><a href="<%= @contributor.youtube_url %>" target="_blank" class="text-white youtube_url">
 							<i class="fab fa-youtube text-colour-2-light"></i>
-							<span><%= @contributor.display_name %> on YouTube</span>
+							<span><%= @contributor.display_name.html_safe %> on YouTube</span>
 						</a></h6>
 					<% end %>
 
@@ -85,7 +85,7 @@
 	<%=
 		render partial: 'articles/listings', locals: {
 			block_id: 'contributorArticles',
-			title: "Articles by #{@contributor.display_name}"
+			title: "Articles by #{@contributor.display_name.html_safe}"
 		}
 	%>
 	<div class="ajax_loading contributor_articles" ng-show="contributorArticles.loading">Loading articles</div>

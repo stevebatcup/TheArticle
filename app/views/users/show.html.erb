@@ -435,7 +435,7 @@
 
 		<div class="col-md-0 col-3 pr-0 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
 			<% if user_signed_in? && !current_user.profile_is_deactivated? %>
-			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3">
+			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3" ng-if="suggestions.listForSidebox.length > 0">
 				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
 					<div class="card-header">
 						<h5 class="card-title">Who to follow on TheArticle</h5>

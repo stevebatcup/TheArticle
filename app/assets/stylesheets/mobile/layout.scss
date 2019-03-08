@@ -938,3 +938,13 @@ div.new_article {
 		top: 5px;
 	}
 }
+
+nav#suggestions_options {
+	ul.nav {
+		li {
+			a.active {
+				border-bottom-color: $green !important;
+			}
+		}
+	}
+}
