@@ -318,4 +318,8 @@ class User < ApplicationRecord
   def has_muted_own_share?(share)
     self.interaction_mutes.find_by(share_id: share.id).present?
   end
+
+  def has_full_profile?
+    self.username.present? && self.display_name.present? && self.location.present? && self.bio.present?
+  end
 end

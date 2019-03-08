@@ -14,7 +14,7 @@
 					<% end %>
 				</div>
 				<div class="col-10 col-md-8 col-lg-5 pl-0 pl-md-2 pl-lg-3 pt-0 my-md-auto">
-					<h1 class="text-white mb-0"><%= @contributor.display_name %></h1>
+					<h1 class="text-white mb-0"><%= @contributor.display_name.html_safe %></h1>
 
 					<% if @contributor.title.present? %>
 						<h6 class="text-white mb-2 mt-1"><%= @contributor.title %></h6>

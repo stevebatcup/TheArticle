@@ -82,6 +82,7 @@
 				</div>
 			</div>
 
+			<% unless current_user.has_full_profile? %>
 			<div class="call-to-action-card card">
 				<div class="card-header">
 					<h5 class="card-title">Fill out your profile</h5>
@@ -91,6 +92,7 @@
 					<a href="<%= my_profile_path %>" class="btn btn-success btn-block">My Profile</a>
 				</div>
 			</div>
+			<% end %>
 		</section>
 
 		<section class="col-md-8 col-lg-6" id="feed">
