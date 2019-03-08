@@ -8,7 +8,7 @@
 	</div>
 
 	<a ng-repeat="exchange in article.exchanges" href="{{ exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ exchange.slug }}">
-    <i ng-if="exchange.isSponsored" class="fas fa-star"></i>
+    <span ng-if="exchange.isSponsored"><i class="fas fa-star"></i></span>
 	  {{ exchange.name }}
 	</a>
 

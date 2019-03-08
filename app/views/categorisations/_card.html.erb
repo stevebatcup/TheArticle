@@ -21,7 +21,7 @@
 			<a href="{{ item.article.exchange.path }}"
 					ng-init='rand = initRandExchangeIndex()'
 					class="exchange-badge bg-colour-{{ rand }}-dark exchange-{{ item.article.exchange.slug }}">
-		    <i ng-if="item.article.exchange.isSponsored" class="fas fa-star"></i>
+		    <span ng-if="item.article.exchange.isSponsored"><i class="fas fa-star"></i></span>
 			  {{ item.article.exchange.name }}
 			</a>
 

@@ -43,8 +43,8 @@
 							<a class="follow_exchange" href='#'
 							    ng-click="toggleFollowExchange(<%= exchange.id %>, $event)"
 							    ng-class="{'followed': inFollowedExchanges(<%= exchange.id %>)}">
-						    <i ng-if="!inFollowedExchanges(<%= exchange.id %>)" class="fas fa-plus"></i>
-						    <i ng-if="inFollowedExchanges(<%= exchange.id %>)" class="fas fa-check text-black"></i>
+						    <span ng-if="!inFollowedExchanges(<%= exchange.id %>)"><i class="fas fa-plus"></i></span>
+						    <span ng-if="inFollowedExchanges(<%= exchange.id %>)"><i class="fas fa-check text-black"></i></span>
 						  </a>
 						</h5>
 					</div>
