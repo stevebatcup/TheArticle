@@ -249,8 +249,13 @@
 					}
 
 					.editing_photo_holder {
-						width: 70vw;
-						margin: 20px auto;
+						max-width: 100%;
+					}
+				}
+
+				.buttons {
+					button {
+						font-size: 0.8em;
 					}
 				}
 			}

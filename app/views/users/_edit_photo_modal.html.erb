@@ -86,9 +86,9 @@
 			        </div>
 			      </div>
 
-						<div class="buttons d-flex justify-content-between pt-4 px-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
+						<div class="buttons d-flex justify-content-between pt-4 px-md-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
 							<button ng-click="cancelEditPhoto('<%= type %>Photo')"
-											class="btn btn-danger w-50 mr-3"
+											class="btn btn-danger w-50 mr-2 mr-md-3"
 											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
 											ng-disabled="profile.data.<%= type %>Photo.uploading != false">
 											<i class="fas fa-times"></i>
@@ -104,7 +104,7 @@
 							</button>
 
 							<button ng-click="saveCroppedPhoto($event, '<%= type %>Photo')"
-											class="btn btn-success w-50 ml-3"
+											class="btn btn-success w-50 ml-2 ml-md-3"
 											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
 											ng-disabled="profile.data.<%= type %>Photo.uploading != false">
 											<i class="fas fa-upload"></i>

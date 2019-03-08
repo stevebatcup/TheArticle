@@ -5,7 +5,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	  '$scope'
 	  '$rootScope'
 	  '$http'
-	  '$rootElement'
+	  '$element'
 	  '$timeout'
 	  '$compile'
 	  '$sce'
@@ -121,14 +121,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					image: ""
 					source: ""
 					uploading: false
-					width: 300
-					height: 300
+					width: 0
+					height: 0
 				coverPhoto:
 					image: ""
 					source: ""
 					uploading: false
-					width: 570
-					height: 114
+					width: 0
+					height: 0
 				confirmingPassword: ''
 			errors:
 				main: false
@@ -144,7 +144,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@rootScope.isSignedIn = true
 			@getMyProfile @getProfileCallback
 		else
-			id = @rootElement.data('id')
+			id = @element.data('id')
 			@getProfile id, @getProfileCallback
 			@getMyProfile null, true
 
@@ -355,9 +355,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
 	showProfilePhotoCropper: (element, width, height, shape) =>
+		console.log $(element).attr("src").length
 		type = $(element).data('type')
 		@scope.photoCrop.cropper = new Cropper element,
 			checkOrientation: true
+			checkCrossOrigin: true
 			center: true
 			cropBoxResizable: false
 			viewMode: 3
@@ -375,16 +377,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	cancelEditPhoto: (type) =>
 		@scope.profile.data[type].source = ''
+		@scope.photoCrop.cropper.destroy()
 		$("#edit#{type}Modal").modal('hide')
-		window.location.reload()
+		$("#{type}_holder").attr("src", "")
 
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()
 		@scope.photoCrop.cropper.crop()
 		@scope.profile.data[type].uploading = true
 		settings =
-			width: @scope.profile.data[type].width,
-			height: @scope.profile.data[type].height,
+			width: (@scope.profile.data[type].width * 2),
+			height: (@scope.profile.data[type].height * 2),
 			imageSmoothingEnabled: true,
 			imageSmoothingQuality: 'high'
 		@scope.photoCrop.cropper.getCroppedCanvas(settings).toBlob (blob) =>
@@ -435,7 +438,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	getProfile: (id, callback=null) =>
-		@Profile.get({id: @rootElement.data('user-id')}).then (profile) =>
+		@Profile.get({id: @element.data('user-id')}).then (profile) =>
 			@timeout =>
 				@rootScope.isSignedIn = profile.isSignedIn
 				@scope.profile.data = profile
