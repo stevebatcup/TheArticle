@@ -47,11 +47,11 @@ module ShareHelper
 			iDisagreeWithPost: user_signed_in? ? share.disagrees.map(&:user_id).include?(current_user.id) : false,
 			ratings: {
 				wellWritten: convert_rating_to_dots(share.rating_well_written),
-				wellWrittenText: text_rating(:well_written, share.rating_well_written.to_s),
+				wellWrittenText: text_rating(:well_written, share.rating_well_written),
 				validPoints: convert_rating_to_dots(share.rating_valid_points),
-				validPointsText: text_rating(:valid_points, share.rating_valid_points.to_s),
+				validPointsText: text_rating(:valid_points, share.rating_valid_points),
 				agree: convert_rating_to_dots(share.rating_agree),
-				agreeText: text_rating(:agree, share.rating_agree.to_s),
+				agreeText: text_rating(:agree, share.rating_agree),
 			},
 			user: {
 				id: user.id,
@@ -91,6 +91,7 @@ module ShareHelper
 	end
 
 	def text_rating(category, rating)
-		rating_labels[category][rating]
+		key = convert_rating_to_dots(rating).to_s
+		rating_labels[category][key]
 	end
 end

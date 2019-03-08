@@ -58,13 +58,15 @@ class ArticlesController < ApplicationController
 			@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 			@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 			@articles_in_same_exchange = []
-			if @exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
-				@articles_in_same_exchange = @exchange_for_more.articles
-																											.includes(:exchanges).references(:exchanges)
-																											.includes(:author).references(:author)
-																											.where.not(id: @article.id)
-																											.order("published_at DESC")
-																											.limit(6)
+			unless @article.is_sponsored?
+				if @exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
+					@articles_in_same_exchange = @exchange_for_more.articles
+																												.includes(:exchanges).references(:exchanges)
+																												.includes(:author).references(:author)
+																												.where.not(id: @article.id)
+																												.order("published_at DESC")
+																												.limit(6)
+				end
 			end
 			@article_share = {
 				'comments' => '',
