@@ -265,6 +265,13 @@ header {
 				background-size: 32%;
 				font-size: 2.2em;
 			}
+
+			nav#main_nav_right {
+				li.signed_in {
+					position: relative;
+					top: -6px;
+				}
+			}
 		}
 	}
 
@@ -397,19 +404,32 @@ html.svg #copyright {
 	background-size: 14% !important;
 }
 
-html.svg header#main_header nav li.nav-item #nav_link_mission {
-	background-size: 1em;
-	background-image: asset_url('nav/mission.svg') !important;
-}
+html.svg header#main_header nav li.nav-item {
+	#nav_link_exchanges {
+		background-image: asset_url('nav/exchanges.svg');
 
-html.svg header#main_header nav li.nav-item #nav_link_exchanges {
-	background-image: asset_url('nav/exchanges.svg') !important;
-}
+		&:hover {
+			background-image: asset_url('nav/exchanges-green.svg') !important;
+		}
+	}
 
-html.svg header#main_header nav li.nav-item #nav_link_join {
-	background-image: asset_url('nav/join.svg') !important;
-}
+	#nav_link_join {
+		background-image: asset_url('nav/join.svg') !important;
 
+		&:hover {
+			background-image: asset_url('nav/join-green.svg') !important;
+		}
+	}
+
+	#nav_link_mission {
+		background-size: 1em;
+		background-image: asset_url('nav/mission.svg') !important;
+
+		&:hover {
+			background-image: asset_url('nav/mission-green.svg') !important;
+		}
+	}
+}
 
 /**** LISTINGS ******/
 .article-listing {

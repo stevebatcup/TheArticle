@@ -11,20 +11,21 @@ module ThirdPartyArticleService
 					conn.basic_auth('londonbridge', 'B37ys0m2w')
 					response = conn.get URI.parse(url).request_uri
 				else
-					response = Faraday.get(url)
+					conn = Faraday.new(nil, { ssl: { verify: false }})
+					response = conn.get(url)
 					response.body.force_encoding('utf-8')
 				end
 				OGP::OpenGraph.new(response.body)
 			rescue Faraday::SSLError => e
-				raise IOError.new(standard_error_msg)
+				raise IOError.new("#{standard_error_msg}")
 			rescue NoMethodError => e
-				raise IOError.new(standard_error_msg)
-			rescue Faraday::ConnectionFailed, ArgumentError, URI::InvalidURIError
+				raise IOError.new("#{standard_error_msg}")
+			rescue Faraday::ConnectionFailed, ArgumentError, URI::InvalidURIError => e
 				raise IOError.new("Please enter a valid web URL")
 			rescue OGP::MissingAttributeError
 				raise IOError.new("Please enter a valid article URL")
 			rescue Exception => e
-				raise IOError.new(standard_error_msg)
+				raise IOError.new("#{standard_error_msg}")
 			end
 		end
 
@@ -116,7 +117,8 @@ module ThirdPartyArticleService
 				title: quarantined_share.heading,
 				snippet: quarantined_share.snippet,
 				url: quarantined_share.url,
-				image: quarantined_share.image
+				image: quarantined_share.image,
+				domain: get_domain_from_url(quarantined_share.url)
 			})
 			create_share(article.id,
 				User.find(quarantined_share.user_id),

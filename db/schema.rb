@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_04_145915) do
+ActiveRecord::Schema.define(version: 2019_03_08_164751) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -346,14 +346,14 @@ ActiveRecord::Schema.define(version: 2019_03_04_145915) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "quarantined_third_party_shares", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "quarantined_third_party_shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.integer "user_id"
     t.string "url"
     t.integer "status"
     t.integer "article_id"
     t.string "heading"
-    t.text "snippet"
-    t.text "post"
+    t.text "snippet", limit: 4294967295
+    t.text "post", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image", limit: 1000

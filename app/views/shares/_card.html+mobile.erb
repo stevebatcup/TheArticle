@@ -182,7 +182,7 @@
 			</div>
 
 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_followed'">
-				You follow {{item.user.displayName}} but they do not follow you so you cannot interact with this post. Start a discussion on your own profile by <a href='{{item.article.path}}'>visiting the article</a> and sharing your own thoughts and rating.
+				You follow {{item.user.displayName}} but they do not follow you so you cannot interact with this post. Start a discussion on your own profile by <a href='{{item.article.path}}' target="{{ item.article.isRemote ? '_blank' : '_self' }}">visiting the article</a> and sharing your own thoughts and rating.
 			</p>
 
 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_following'">
