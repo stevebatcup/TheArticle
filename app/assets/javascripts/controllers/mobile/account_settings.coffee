@@ -42,6 +42,9 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 		@resetContainerHeight()
 		@getUser()
 		@rootScope.$broadcast 'setup_app_page', { title: "Settings" }
+		@timeout =>
+			@resetPages()
+		, 750
 
 	bindEvents: ->
 		super
