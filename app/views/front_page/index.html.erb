@@ -59,25 +59,25 @@
 				</div>
 			</div>
 
-			<div class="card w-100 mb-4">
+			<div class="card w-100 mb-4" id="trending_exchanges_card">
 				<div class="card-header">
 					<h5 class="card-title">Trending exchanges</h5>
 				</div>
 				<div class="card-body">
 					<% @trending_exchanges.each do |exchange| %>
-						<div class="d-flex align-items-center justify-content-start mb-2 feed-listing">
-								<a href="<%= exchange_path(slug: exchange.slug) %>">
-									<img ng-src="<%= exchange.image %>" class="rounded feed_image" alt="<%=exchange.name%>" />
-								</a>
+						<div class="exchange_item d-flex align-items-center justify-content-start mb-4">
+							<a href="<%= exchange_path(slug: exchange.slug) %>">
+								<img ng-src="<%= exchange.image.url(:listing) %>" class="mr-3" alt="<%=exchange.name%>" />
+							</a>
 
-								<div class="inner">
-									<h4 class="card-title mb-0">
-										<a href="<%= exchange_path(slug: exchange.slug) %>">
-											<span><%= exchange.name %></span>
-										</a>
-									</h4>
-								</div>
+							<div class="inner">
+								<h5 class="card-title mb-0">
+									<a href="<%= exchange_path(slug: exchange.slug) %>">
+										<span><%= exchange.name %></span>
+									</a>
+								</h5>
 							</div>
+						</div>
 					<% end %>
 				</div>
 			</div>

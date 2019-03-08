@@ -10,11 +10,11 @@
 			<div class="row">
 				<div class="col-2 col-md-2 my-md-auto">
 					<% if @contributor.image? %>
-						<img src="<%= @contributor.image.url(:detail) %>" alt="<%= @contributor.display_name.capitalize %>" />
+						<img src="<%= @contributor.image.url(:detail) %>" alt="<%= @contributor.display_name %>" />
 					<% end %>
 				</div>
 				<div class="col-10 col-md-8 col-lg-5 pl-0 pl-md-2 pl-lg-3 pt-0 my-md-auto">
-					<h1 class="text-white mb-0"><%= @contributor.display_name.capitalize %></h1>
+					<h1 class="text-white mb-0"><%= @contributor.display_name %></h1>
 
 					<% if @contributor.title.present? %>
 						<h6 class="text-white mb-2 mt-1"><%= @contributor.title %></h6>
@@ -59,7 +59,7 @@
 					<% if @contributor.youtube_url.present? %>
 						<h6><a href="<%= @contributor.youtube_url %>" target="_blank" class="text-white youtube_url">
 							<i class="fab fa-youtube text-colour-2-light"></i>
-							<span><%= @contributor.display_name.capitalize %> on YouTube</span>
+							<span><%= @contributor.display_name %> on YouTube</span>
 						</a></h6>
 					<% end %>
 
@@ -85,7 +85,7 @@
 	<%=
 		render partial: 'articles/listings', locals: {
 			block_id: 'contributorArticles',
-			title: "Articles by #{@contributor.display_name.capitalize}"
+			title: "Articles by #{@contributor.display_name}"
 		}
 	%>
 	<div class="ajax_loading contributor_articles" ng-show="contributorArticles.loading">Loading articles</div>

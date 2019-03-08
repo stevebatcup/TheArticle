@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   before_create :assign_default_profile_photo_id
   after_create :assign_default_settings
+  before_save :downcase_username
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
@@ -60,6 +61,10 @@ class User < ApplicationRecord
   include Adminable
 
   attr_writer :login
+
+  def downcase_username
+    self.username = self.username.downcase
+  end
 
   def login
     @login || self.username || self.email
@@ -133,7 +138,7 @@ class User < ApplicationRecord
   end
 
   def default_display_name
-  	"#{first_name} #{last_name}".gsub(/[^a-z_\'\- ]/i, '')
+  	"#{first_name.strip} #{last_name.strip}".gsub(/[^a-z_\'\- ]/i, '')
   end
 
   def generate_usernames(amount=1)
@@ -142,7 +147,7 @@ class User < ApplicationRecord
     i = 0
     amount.times do
       begin
-        username = "#{first_name.capitalize}#{last_name.capitalize}#{i > 0 ? i : ''}"
+        username = "#{first_name.downcase.strip}#{last_name.downcase.strip}#{i > 0 ? i : ''}"
         username = username.gsub(/[^0-9a-z_ ]/i, '')
         i += 1
       end while !self.class.is_username_available?("@#{username}") || items.include?(username)

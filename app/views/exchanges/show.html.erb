@@ -37,11 +37,15 @@
 												'btn-outline-light': !inFollowedExchanges(<%= @exchange.id %>),
 												'btn-light': inFollowedExchanges(<%= @exchange.id %>)
 											}">
-							<i class="fas fa-plus-square" ng-if="!inFollowedExchanges(<%= @exchange.id %>)"></i>
-							<span ng-if="!inFollowedExchanges(<%= @exchange.id %>)">Follow</span>
+							<span ng-if="!inFollowedExchanges(<%= @exchange.id %>)">
+								<i class="fas fa-plus-square"></i>
+								Follow
+							</span>
 
-							<i class="fas fa-check" ng-if="inFollowedExchanges(<%= @exchange.id %>)"></i>
-							<span ng-if="inFollowedExchanges(<%= @exchange.id %>)">Following</span>
+							<span ng-if="inFollowedExchanges(<%= @exchange.id %>)">
+								<i class="fas fa-check"></i>
+								Following
+							</span>
 						</button>
 					<% end %>
 				</div>
@@ -62,11 +66,15 @@
 												'btn-outline-light': !inFollowedExchanges(<%= @exchange.id %>),
 												'btn-light': inFollowedExchanges(<%= @exchange.id %>)
 											}">
-							<i class="fas fa-plus-square" ng-if="!inFollowedExchanges(<%= @exchange.id %>)"></i>
-							<span ng-if="!inFollowedExchanges(<%= @exchange.id %>)">Follow</span>
+							<span ng-if="!inFollowedExchanges(<%= @exchange.id %>)">
+								<i class="fas fa-plus-square"></i>
+								Follow
+							</span>
 
-							<i class="fas fa-check" ng-if="inFollowedExchanges(<%= @exchange.id %>)"></i>
-							<span ng-if="inFollowedExchanges(<%= @exchange.id %>)">Following</span>
+							<span ng-if="inFollowedExchanges(<%= @exchange.id %>)">
+								<i class="fas fa-check"></i>
+								Following
+							</span>
 						</button>
 					</div>
 				</div>
