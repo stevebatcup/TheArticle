@@ -1084,12 +1084,16 @@ div.new_article {
   font-size: 1.7em;
   padding: 50px 0 50px 45px;
   margin: 30px auto;
-  background: asset_url('ajax-loader.gif') no-repeat left center;
+  background-image: asset_url('ajax-loader.gif');
+  background-position: left center;
+	background-repeat: no-repeat;
 }
 
-body.svg {
+html.svg {
 	.ajax_loading {
-		background: asset_url('ajax-loader.svg') no-repeat left center;
+		background-size: 70px;
+		background-image: asset_url('ajax-loader.svg') !important;
+		padding: 50px 0 50px 68px;
 	}
 }
 
