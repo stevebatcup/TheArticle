@@ -16,14 +16,9 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@setDefaultHttpHeaders()
 		@scope.whitelisted = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
-		@scope.ratingsTouched =
-			well_written: false
-			valid_points: false
-			agree: false
 		@scope.invalidUrl = false
 		@resetArticleData()
 		@bindListeners()
-		@bindWatchers()
 
 	resetArticleData: =>
 		@scope.thirdPartyArticle =
@@ -48,17 +43,6 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 			@readArticleUrl()
 		@rootScope.$on 'third_party_url_close', ($event, data) =>
 			@resetArticleData()
-
-	bindWatchers: =>
-		@scope.$watch 'thirdPartyArticle.article.share.rating_well_written', (newVal, oldVal) =>
-			if (newVal isnt oldVal) and (oldVal > 0)
-				@scope.ratingsTouched.well_written = true
-		@scope.$watch 'thirdPartyArticle.article.share.rating_valid_points', (newVal, oldVal) =>
-			if (newVal isnt oldVal) and (oldVal > 0)
-				@scope.ratingsTouched.valid_points = true
-		@scope.$watch 'thirdPartyArticle.article.share.rating_agree', (newVal, oldVal) =>
-			if (newVal isnt oldVal) and (oldVal > 0)
-				@scope.ratingsTouched.agree = true
 
 	keyPressedArticleUrl: ($event) =>
 		@readArticleUrl() if $event.keyCode is 13
@@ -118,13 +102,6 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 			rating_well_written: @scope.thirdPartyArticle.article.share.rating_well_written
 			rating_valid_points: @scope.thirdPartyArticle.article.share.rating_valid_points
 			rating_agree: @scope.thirdPartyArticle.article.share.rating_agree
-
-		if (@scope.ratingsTouched.well_written is false) and (@scope.thirdPartyArticle.article.share.rating_well_written is 1)
-			data['rating_well_written'] = 0
-		if (@scope.ratingsTouched.valid_points is false) and (@scope.thirdPartyArticle.article.share.rating_valid_points is 1)
-			data['rating_valid_points'] = 0
-		if (@scope.ratingsTouched.agree is false) and (@scope.thirdPartyArticle.article.share.rating_agree is 1)
-			data['rating_agree'] = 0
 
 		@http.post("/submit_third_party_article", { share: data }).then (response) =>
 			if response.data.status is 'success'

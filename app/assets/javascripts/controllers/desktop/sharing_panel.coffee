@@ -15,10 +15,6 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@setDefaultHttpHeaders()
 		@scope.formError = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
-		@scope.ratingsTouched =
-			well_written: false
-			valid_points: false
-			agree: false
 
 		@resetData()
 		@scope.alreadyRated = parseInt(@element.data('share-well_written')) > 0 or parseInt(@element.data('share-valid_points')) > 0 or parseInt(@element.data('share-agree')) > 0
@@ -45,16 +41,6 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			@scope.$apply =>
 				@setRatingsDefaultHeading()
 
-		@scope.$watch 'share.rating_well_written', (newVal, oldVal) =>
-			if (newVal isnt oldVal) and (oldVal > 0)
-				@scope.ratingsTouched.well_written = true
-		@scope.$watch 'share.rating_valid_points', (newVal, oldVal) =>
-			if (newVal isnt oldVal) and (oldVal > 0)
-				@scope.ratingsTouched.valid_points = true
-		@scope.$watch 'share.rating_agree', (newVal, oldVal) =>
-			if (newVal isnt oldVal) and (oldVal > 0)
-				@scope.ratingsTouched.agree = true
-
 		$(document).on 'hidden.bs.modal', "#sharingPanelModal", =>
 			@resetData()
 
@@ -73,13 +59,6 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			rating_well_written: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_well_written
 			rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
 			rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
-
-		# if (@scope.ratingsTouched.well_written is false) and (@scope.share.rating_well_written is 1)
-		# 	data['rating_well_written'] = 0
-		# if (@scope.ratingsTouched.valid_points is false) and (@scope.share.rating_valid_points is 1)
-		# 	data['rating_valid_points'] = 0
-		# if (@scope.ratingsTouched.agree is false) and (@scope.share.rating_agree is 1)
-		# 	data['rating_agree'] = 0
 
 		@http.post("/share", { share: data }).then (response) =>
 			if response.data.status is 'success'
