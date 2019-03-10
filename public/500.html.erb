@@ -112,8 +112,13 @@
 
 <%= render 'common/search-box' %>
 
-<main id="main_content" class="mb-4 <%= params[:controller] %>_<%= params[:action] %>" role="main">
-  <%= yield %>
+<main id="main_content" class="mb-4 404" role="main">
+  <div class="dialog">
+    <div>
+      <h1>We're sorry, but something went wrong.</h1>
+    </div>
+    <p>If you are the application owner check the logs for more information.</p>
+  </div>
 </main>
 
 <%# unless user_signed_in? %>

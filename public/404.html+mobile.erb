@@ -187,8 +187,13 @@
 
   <%= render 'common/search-box' %>
 
-  <main id="main_content" ng-class="{'app_page': appPage != false}" data-slideout-ignore>
-    <%= yield %>
+  <main id="main_content" ng-class="" data-slideout-ignore>
+    <div class="dialog container py-5 px-3" ng-controller="HomeController">
+      <div>
+        <h1>The page you were looking for doesn't exist.</h1>
+        <p>You may have mistyped the address or the page may have moved.</p>
+      </div>
+    </div>
   </main>
 
   <footer id="main_footer_top" class="main_footer bg-black text-white" ng-controller="FooterController">
