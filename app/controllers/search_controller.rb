@@ -71,7 +71,7 @@ class SearchController < ApplicationController
 				end
 			end
 			format.html do
-				if !params[:search].present?
+				if !params[:query].present?
 					redirect_to user_signed_in? ?  front_page_path : root_path
 				end
 				@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
