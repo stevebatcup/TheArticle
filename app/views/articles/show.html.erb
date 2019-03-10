@@ -195,21 +195,21 @@
 					<% end %>
 
 					<footer class="entry-footer pl-0 mt-5 d-flex justify-content-between">
-						<% unless @article.is_sponsored? %>
 						<div class="" id="twitter_follow_col">
-							<% if user_signed_in? && current_user.existing_article_rating(@article) %>
-								<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
-										href="#" ng-click="openSharingPanel($event, 'rerate')">
-											<span class="ml-2">Re-rate this article</span>
-								</a>
-							<% else %>
+							<% unless @article.is_sponsored? %>
+								<% if user_signed_in? && current_user.existing_article_rating(@article) %>
 									<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
-										href="#" ng-click="openSharingPanel($event, 'rate')">
-											<span class="ml-2">Rate this article</span>
+											href="#" ng-click="openSharingPanel($event, 'rerate')">
+												<span class="ml-2">Re-rate this article</span>
 									</a>
+								<% else %>
+										<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
+											href="#" ng-click="openSharingPanel($event, 'rate')">
+												<span class="ml-2">Rate this article</span>
+										</a>
+								<% end %>
 							<% end %>
 						</div>
-						<% end %>
 						<div class="pl-lg-5 d-flex share_links">
 							<%= render partial: 'common/share-buttons', locals: { article: @article } %>
 						</div>
@@ -260,7 +260,7 @@
 											<%= ta.title.html_safe %>
 										</a>
 									</h5>
-									<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
+									<% footerPaddingBottom = ta.is_sponsored? ? 'pb-3' : 'pb-0' %>
 									<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
 										<p class="author_link">
 											<a href="<%= contributor_path(slug: ta.author.slug) %>">

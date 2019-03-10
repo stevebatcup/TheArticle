@@ -47,7 +47,10 @@ class ArticlesController < ApplicationController
 													.includes(:author).references(:author)
 													.includes(:exchanges).references(:exchanges)
 													.first
-			@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
+			@sponsored_picks = []
+			unless @article.is_sponsored?
+				@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
+			end
 			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
 				@firstSideAdType = 'sidecolumn'
@@ -61,7 +64,9 @@ class ArticlesController < ApplicationController
 				@secondSideAdSlot = 1
 			end
 			@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
-			@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+			if @sponsored_picks.any? && Author.sponsors.any?
+				@trending_articles.insert(2, @sponsored_picks.first)
+			end
 			@articles_in_same_exchange = []
 			unless @article.is_sponsored?
 				if @exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
