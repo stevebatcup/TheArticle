@@ -1,0 +1,304 @@
+<%= render 'layouts/head' %>
+
+<% if user_signed_in? %>
+  <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
+      <main id="panel_for_side_menu">
+<% else %>
+  <nav id="sidebar" ng-controller="SidebarController" ng-cloak>
+    <div id="dismiss"><i class="fas fa-times"></i></div>
+
+    <ul class="list-unstyled">
+      <li>
+        <a class="" href="/" id="nav_home">Home</a>
+      </li>
+      <li>
+        <a class="join_button" href="#" ng-click="openRegisterForm($event)">Register</a>
+      </li>
+      <li>
+        <% if user_signed_in? %>
+          <a class="join_button" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
+        <% else %>
+          <a class="join_button" href="<%= new_user_session_path %>">Sign in</a>
+        <% end %>
+      </li>
+      <li>
+        <a class="search_trigger" href="#" id="nav_link_search">Search</a>
+      </li>
+      <li>
+        <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
+      </li>
+      <li>
+        <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
+      </li>
+      <li>
+        <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
+      </li>
+      <li>
+        <a class="" href="/write-for-us" id="nav_link_write_for_ud">Write for Us</a>
+      </li>
+      <li>
+        <a class="" href="/contact" id="nav_link_contact">Contact</a>
+      </li>
+    </ul>
+  </nav>
+<% end %>
+
+<!-- Page Content -->
+<div id="content">
+  <header id="main_header" ng-controller="HeaderBarController">
+
+    <div class="container bg-grey" ng-if="appPage" ng-cloak>
+      <div class="app_page_heading py-1">
+        <div class="d-flex justify-content-between">
+          <div ng-if="showBackPage" class="with_back">
+            <h4 class="pt-2">
+              <a ng-click="backPage($event)" href='#' class="text-black">
+                <i class="fas fa-chevron-left backer mr-2"></i>
+                {{appPageTitle}}
+              </a>
+            </h4>
+            <h6>{{ username }}</h6>
+          </div>
+
+          <div ng-if="!showBackPage">
+            <h4 class="pt-2" ng-if="!showBackPage">{{appPageTitle}}</h4>
+            <h6>{{ username }}</h6>
+          </div>
+
+          <a ng-click="openFrontPage()" href='#' class="d-block pt-2 text-green" id="close_app_page">
+            <i class="fas fa-times text-green"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" ng-if="!appPage" ng-cloak>
+      <div class="row">
+
+        <div class="col-3 align-items-center">
+          <a id="sidebarCollapse" class="text-black" href='#'>
+            <i class="fas fa-align-left" aria-hidden="true"></i>
+          </a>
+         </div>
+
+        <div id="logo" class="col-6 d-flex justify-content-center">
+          <a href="/?<%= 'force_home=1' if user_signed_in? %>">
+            <span class="text-hide">TheArticle</span>
+          </a>
+        </div>
+
+        <div class="col-3 align-items-center d-flex justify-content-end">
+          <% if user_signed_in? %>
+            <div ng-if="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+                <i class="fas fa-cog" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+                <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+                <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+              </div>
+            </div>
+
+            <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+                <i class="fas fa-cog" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
+                      ng-if="!profileDataForHeader.imFollowing">
+                    Follow
+                </a>
+                <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
+                      ng-if="profileDataForHeader.imFollowing">
+                    Unfollow
+                </a>
+
+                <a class="dropdown-item" href="#" ng-click="mute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="(!profileDataForHeader.isMuted) && (profileDataForHeader.imFollowing)">Mute</a>
+                <a class="dropdown-item" href="#" ng-click="unmute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isMuted">Unmute</a>
+
+                <a class="dropdown-item" href="#" ng-click="block($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="!profileDataForHeader.isBlocked">Block</a>
+                <a class="dropdown-item" href="#" ng-click="unblock($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isBlocked">Unblock</a>
+
+                <a class="dropdown-item" href="#" ng-click="reportProfile($event, profileDataForHeader)">Report</a>
+              </div>
+            </div>
+          <% else %>
+            <% if is_profile_page? %>
+            <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="sr-only">Toggle Dropdown</span>
+                <i class="fas fa-cog" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#" ng-click="requiresSignIn('follow a user')">Follow</a>
+                <a class="dropdown-item" href="#" ng-click="requiresSignIn('block a user')">Block</a>
+                <a class="dropdown-item" href="#" ng-click="requiresSignIn('report a user')">Report</a>
+              </div>
+            </div>
+            <% else %>
+              <a class="text-black pt-2" href="#" ng-click="openSigninForm($event)">
+                <i class="fas fa-user-circle mr-1 text-increase-5"></i>
+              </a>
+            <% end %>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <% if user_signed_in? %>
+  <nav id="member_options" ng-cloak>
+    <ul class="nav nav-pills nav-fill d-flex">
+      <li class="nav-item">
+        <a class="nav-link" id="front-page-tab" href="/my-home">
+          <i class="fas fa-home"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="follows-tab" href="/my-home?route=following">
+          <i class="fas fa-users"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="search-tab" href="/my-home?route=search">
+          <i class="fas fa-search"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="notifications-tab" href="/my-home?route=notifications">
+          <i class="fas fa-bell"></i>
+          <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
+            {{notificationBadgeCount}}
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="messaging-tab" href="/my-home?route=messaging">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <% end %>
+
+  <%= render 'common/search-box' %>
+
+  <main id="main_content" ng-class="" data-slideout-ignore>
+    <div class="dialog container py-5 px-3" ng-controller="HomeController">
+      <div>
+        <h1>We're sorry, but something went wrong.</h1>
+      </div>
+      <p>If you are the application owner check the logs for more information.</p>
+    </div>
+  </main>
+
+  <footer id="main_footer_top" class="main_footer bg-black text-white" ng-controller="FooterController">
+    <div class="container">
+      <div class="inner border-light border-bottom">
+        <div class="row py-2">
+          <nav class="navbar navbar-expand-lg col-12 d-flex justify-content-center" id="footer_nav">
+            <ul class="navbar-nav text-center" id="main_footer_links">
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/our-mission">Our Mission</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/terms-and-conditions">Terms & Conditions</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/privacy-policy">Privacy Policy</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/contributors">Contributors</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/sponsors">Sponsors</a>
+              </li>
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/write-for-us">Write for Us</a>
+              </li class="nav-item">
+              <li class="nav-item">
+                <a class="text-white nav-link" href="/contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <% if user_signed_in? %>
+                  <a class="text-white nav-link" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
+                <% else %>
+                  <a class="text-white nav-link" href="<%= new_user_session_path %>">Sign in</a>
+                <% end %>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="container pb-3">
+      <div class="inner border-light border-top">
+        <div class="row py-3">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <nav class="pt-2" id="social_links">
+              <ul class="row list-unstyled px-0 py-0 mx-0 my-0">
+                <li class="col-3 nav-item px-0 py-0" id="social_facebook">
+                  <a class="nav-link text-center text-white" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                  </a>
+                </li>
+                <li class="col-3 nav-item px-0 py-0" id="social_twitter">
+                  <a class="nav-link text-center text-white" href="https://twitter.com/TweetTheArticle" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                </li>
+                <li class="col-3 nav-item px-0 py-0" id="social_linked_in">
+                  <a class="nav-link text-center text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                </li>
+                <li class="col-3 nav-item px-0 py-0" id="social_rss">
+                  <a class="nav-link text-center text-white" href="/feed/rss" target="_blank">
+                    <i class="fas fa-rss"></i>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+       <% unless user_signed_in? %>
+       <div class="row py-3">
+          <div class="col-12 d-flex align-items-center justify-content-center"">
+            <a class="join_button btn btn-sm bg-grass text-white" href="#" ng-click="openRegisterForm($event)">Register now</a>
+          </div>
+        </div>
+        <% end %>
+
+        <div class="row pt-3 px-2 pb-5">
+          <div id="copyright" class="col-12 d-flex align-items-center">
+            <p class="text-light w-100 text-center pt-1">
+              <small style="font-size: 70%;">&copy; <%= Date.today.strftime("%Y") %> TheArticle. All rights reserved</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div class="overlay"></div>
+
+<% if user_signed_in? %>
+    </main>
+<% end %>
+
+<% if user_signed_in? %>
+  <script id="concernReport" type="script/x-mustache">
+    <%= render partial: 'concern_reports/modal' %>
+  </script>
+<% end %>
+
+<%= render 'layouts/foot' %>
