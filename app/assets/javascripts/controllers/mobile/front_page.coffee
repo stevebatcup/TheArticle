@@ -49,7 +49,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			loaded: false
 			totalItems: 0
 			moreToLoad: true
-		@getFeeds()
+		# @getFeeds()
 
 		@scope.myProfile = {}
 		@getMyProfile()

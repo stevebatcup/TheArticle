@@ -1087,6 +1087,12 @@ div.new_article {
   background: asset_url('ajax-loader.gif') no-repeat left center;
 }
 
+body.svg {
+	.ajax_loading {
+		background: asset_url('ajax-loader.svg') no-repeat left center;
+	}
+}
+
 select.short {
 	width: 150px;
 }

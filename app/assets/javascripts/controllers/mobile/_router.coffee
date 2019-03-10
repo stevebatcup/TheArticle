@@ -48,8 +48,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	openRoute: (route) =>
 		switch route
 			when 'front' then @openFrontPage()
-			when 'myprofile' then @openMyProfile()
-			when 'account' then @openAccountSettings()
 			when 'following' then @openFollows('following')
 			when 'followers' then @openFollows('followers')
 			when 'suggestions' then @openFollows('suggestions')
@@ -76,23 +74,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@timeout =>
 			$('#front-page-tab').click()
 		, 100
-
-	openMyProfile: =>
-		@resetAppTabs()
-		@scope.showProfile = true
-		@scope.myProfile = true
-		@scope.appPage = "My Profile"
-		@scope.appPageTitle = "My Profile"
-		@scope.slideout.close()
-
-	openAccountSettings: (subPage=null) =>
-		@resetAppTabs()
-		@scope.accountSettings = true
-		@scope.appPage = "Account settings"
-		@scope.appPageTitle = "Account settings"
-		@scope.slideout.close()
-		if subPage?
-			@rootScope.$broadcast 'account_subpage_selected', { page: subPage }
 
 	openFollows: (subTab) =>
 		@resetAppTabs()

@@ -22,7 +22,9 @@ class ProfileSuggestionsController < ApplicationController
 					end
 				end
 			end
-			format.html
+			format.html do
+				redirect_to my_profile_path if !browser.device.mobile?
+			end
 		end
 	end
 end
