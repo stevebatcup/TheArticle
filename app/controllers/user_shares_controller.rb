@@ -24,13 +24,15 @@ class UserSharesController < ApplicationController
 		if user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'opinion', source_id: params[:share_id])
 			user_feed_item.feeds.each do |feed|
 				if opinion = feed.actionable
-					opinionator = feed.user
-					@opinionators <<  {
-						displayName: opinionator.display_name,
-						username: opinionator.username,
-						image: opinionator.profile_photo.url(:square),
-						decision: opinion.decision.capitalize
-					}
+					if opinion.decision == params[:decision]
+						opinionator = feed.user
+						@opinionators <<  {
+							displayName: opinionator.display_name,
+							username: opinionator.username,
+							image: opinionator.profile_photo.url(:square),
+							decision: opinion.decision.capitalize
+						}
+					end
 				end
 			end
 			render json: { opinionators: @opinionators }

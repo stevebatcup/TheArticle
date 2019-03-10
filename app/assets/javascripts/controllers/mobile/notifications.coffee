@@ -56,11 +56,17 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			notificationId = $span.data('notification')
 			@showAllOthersNotificationCommentedOn(notificationId)
 
-		$(document).on 'click', '#feed.notifications_page .also_opinionated', (e) =>
+		$(document).on 'click', '#feed.notifications_page .also_agreed', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			notificationId = $span.data('notification')
-			@showAllOthersNotificationOpinionated(notificationId)
+			@showAllOthersNotificationOpinionated(notificationId, 'Agree')
+
+		$(document).on 'click', '#feed.notifications_page .also_disagreed', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			notificationId = $span.data('notification')
+			@showAllOthersNotificationOpinionated(notificationId, 'Disagree')
 
 		$(document).on 'click', '#feed.notifications_page .other_followers_of_user', (e) =>
 			e.preventDefault()
@@ -76,9 +82,10 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			$('body').append $content
 			$("#notificationCommentsModal").modal()
 
-	showAllOthersNotificationOpinionated: (id) =>
-		@http.get("/all-notification-opinions/#{id}").then (response) =>
+	showAllOthersNotificationOpinionated: (id, decision) =>
+		@http.get("/all-notification-opinions/#{id}?decision=#{decision.toLowerCase()}").then (response) =>
 			@scope.allOpinionators = response.data
+			@scope.allOpinionatorDescision = decision
 			tpl = $("#notificationOpinions").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -93,7 +100,6 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			$("#notificationFollowersModal").modal()
 
 	loadMore: =>
-		console.log 'loading more notifications'
 		@scope.notifications.page += 1
 		@getNotifications()
 
@@ -101,11 +107,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@Notification.query({page: @scope.notifications.page, per_page: @scope.notifications.perPage}).then (response) =>
 			angular.forEach response.notificationItems, (notification, index) =>
 				@scope.notifications.data.push notification
-			# console.log @scope.notifications.data
 			@scope.notifications.totalItems = response.total if @scope.notifications.page is 1
-			# console.log @scope.notifications.totalItems
 			@scope.notifications.moreToLoad = @scope.notifications.totalItems > (@scope.notifications.page * @scope.notifications.perPage)
-			# console.log @scope.notifications.moreToLoad
 			@scope.notifications.loaded = true
 
 	openCommentModal: (notification) =>
@@ -144,7 +147,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 				when 'follow'
 					@openFollowsTab notification
 				when 'categorisation'
-					path = notification.exchange.path
+					path = notification.article.path
 					window.location.href = path
 			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
 				notification.isSeen = true

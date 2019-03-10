@@ -12,6 +12,7 @@ module FeedHelper
 					opinion: opinion,
 					stamp: feed.created_at.to_i,
 					user: {
+						id: feed.user.id,
 						display_name: feed.user.display_name,
 						username: feed.user.username,
 					}
@@ -31,33 +32,33 @@ module FeedHelper
 		ownership = for_notification ? "your" : "a"
 
 		unless top_item.empty?
-			sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+			sentence_opener = "[usercode=#{top_item[:user][:id]}]"
 		end
 		if agree_count > 0 && disagree_count > 0
 			if top_item[:type] == :agree
 				if agree_count == 1
-					sentence = "#{sentence_opener} agreed with #{ownership} post, <a href='#' class='also_opinionated text-green'>#{pluralize(disagree_count, 'other')}</a> disagreed"
+					sentence = "#{sentence_opener} agreed with #{ownership} post and <a href='#' class='also_disagreed text-green'>#{pluralize(disagree_count, 'other')}</a> disagreed"
 				else
-					sentence = "#{sentence_opener} and <a href='#' class='also_opinionated text-green'>#{pluralize(agree_count - 1, 'other')}</a> agreed with #{ownership} post, #{pluralize(disagree_count, 'other')} disagreed"
+					sentence = "#{sentence_opener} and <a href='#' class='also_agreed text-green'>#{pluralize(agree_count - 1, 'other')}</a> agreed with #{ownership} post and <a href='#' class='also_disagreed text-green'>#{pluralize(disagree_count, 'other')}</a> disagreed"
 				end
 			else
 				if disagree_count == 1
-					sentence = "#{sentence_opener} disagreed with #{ownership} post, <a href='#' class='also_opinionated text-green'>#{pluralize(agree_count, 'other')}</a> agreed"
+					sentence = "#{sentence_opener} disagreed with #{ownership} post and <a href='#' class='also_agreed text-green'>#{pluralize(agree_count, 'other')}</a> agreed"
 				else
-					sentence = "#{sentence_opener} and <a href='#' class='also_opinionated text-green'>#{pluralize(disagree_count - 1, 'other')}</a> disagreed with #{ownership} post, #{pluralize(agree_count, 'other')} agreed"
+					sentence = "#{sentence_opener} and <a href='#' class='also_disagreed text-green'>#{pluralize(disagree_count - 1, 'other')}</a> disagreed with #{ownership} post and <a href='#' class='also_agreed text-green'>#{pluralize(agree_count, 'other')}</a> agreed"
 				end
 			end
 		elsif agree_count > 0
 			if agree_count == 1
 				sentence = "#{sentence_opener} agreed with #{ownership} post"
 			else
-				sentence = "#{sentence_opener} and <a href='#' class='also_opinionated text-green'>#{pluralize(agree_count - 1, 'other')}</a> agreed with #{ownership} post"
+				sentence = "#{sentence_opener} and <a href='#' class='also_agreed text-green'>#{pluralize(agree_count - 1, 'other')}</a> agreed with #{ownership} post"
 			end
 		elsif disagree_count > 0
 			if disagree_count == 1
 				sentence = "#{sentence_opener} disagreed with #{ownership} post"
 			else
-				sentence = "#{sentence_opener} and <a href='#' class='also_opinionated text-green'>#{pluralize(disagree_count - 1, 'other')}</a> disagreed with #{ownership} post"
+				sentence = "#{sentence_opener} and <a href='#' class='also_disagreed text-green'>#{pluralize(disagree_count - 1, 'other')}</a> disagreed with #{ownership} post"
 			end
 		end
 
@@ -65,7 +66,7 @@ module FeedHelper
 			sentence
 		else
 			unless top_item.empty?
-				opinion_as_json_data(top_item[:opinion], sentence)
+				opinion_as_json_data(top_item[:opinion], feed_sentencise_with_user(sentence))
 			end
 		end
 	end
@@ -81,6 +82,7 @@ module FeedHelper
 					comment: comment,
 					stamp: feed.created_at.to_i,
 					user: {
+						id: feed.user.id,
 						display_name: feed.user.display_name,
 						username: feed.user.username,
 					}
@@ -101,7 +103,7 @@ module FeedHelper
 
 		comments_count = results.length
 		unless top_item.empty?
-			sentence_opener = "<b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span>"
+			sentence_opener = "[usercode=#{top_item[:user][:id]}]"
 		end
 		ownership = for_notification ? "your" : "a"
 		if is_reply
@@ -111,14 +113,14 @@ module FeedHelper
 
 		if comments_count == 1
 			if is_reply
-				sentence = "#{sentence_opener} replied to a comment on #{poster_name}'s post"
+				sentence = "#{sentence_opener} replied to #{ownership} comment on #{poster_name}'s post"
 			else
 				sentence = "#{sentence_opener} commented on #{ownership} post"
 			end
 		else
 			others = pluralize(comments_count - 1, 'other')
 			if is_reply
-				sentence = "#{sentence_opener} and <a href='#' class='also_commented others_commented text-green'>#{others}</a> replied to a comment on #{poster_name}'s post"
+				sentence = "#{sentence_opener} and <a href='#' class='also_commented others_commented text-green'>#{others}</a> replied to #{ownership} comment on #{poster_name}'s post"
 			else
 				sentence = "#{sentence_opener} and <a href='#' class='also_commented others_commented text-green'>#{others}</a> commented on #{ownership} post"
 			end
@@ -128,7 +130,7 @@ module FeedHelper
 			sentence
 		else
 			unless top_item.empty?
-				comment_as_json_data(top_item[:comment], sentence)
+				comment_as_json_data(top_item[:comment], feed_sentencise_with_user(sentence))
 			end
 		end
 	end
@@ -144,6 +146,7 @@ module FeedHelper
 					subscription: subscription,
 					stamp: feed.created_at.to_i,
 					user: {
+						id: feed.user.id,
 						display_name: feed.user.display_name,
 						username: feed.user.username,
 					}
@@ -183,6 +186,7 @@ module FeedHelper
 					follow: follow,
 					stamp: feed.created_at.to_i,
 					user: {
+						id: feed.user.id,
 						display_name: feed.user.display_name,
 						username: feed.user.username,
 						path: "/profile/#{feed.user.slug}"
@@ -200,13 +204,13 @@ module FeedHelper
 
 		follow_count = results.length
 		unless top_item.empty?
-			sentence_opener = "<a href='#{top_item[:user][:path]}'><b>#{top_item[:user][:display_name]}</b> <span class='text-muted'>#{top_item[:user][:username]}</span></a>"
+			sentence_opener = "[usercode=#{top_item[:user][:id]}]"
 			followed_path = "/profile/#{top_item[:follow].followed.slug}"
 		end
 		if for_notification
 			followed_name = "you"
 		else
-			followed_name = "<a href='#{followed_path}'><b>#{top_item[:follow].followed.display_name}</b> <span class='text-muted'>#{top_item[:follow].followed.username}</span></a>"
+			followed_name = "[usercode=#{top_item[:follow].followed.id}]"
 		end
 		if follow_count == 1
 			sentence = "#{sentence_opener} followed #{followed_name}"
@@ -218,8 +222,23 @@ module FeedHelper
 			sentence
 		else
 			unless top_item.empty?
-				follow_as_json_data(top_item[:follow], current_user, sentence, 'front_page')
+				follow_as_json_data(top_item[:follow], current_user, feed_sentencise_with_user(sentence), 'front_page')
 			end
 		end
+	end
+
+	def feed_sentencise_with_user(sentence)
+		pattern = /\[usercode\=(\d+)\]/
+		sentence.scan(pattern).each do |m|
+			user_id = m[0]
+			if user = User.find(user_id)
+				user_sentence_prefix = "<a href='#{profile_path(slug: user.slug)}'><b>#{user.display_name}</b> <span class='text-muted'>#{user.username}</span></a>"
+				user_pattern =  "[usercode=#{user_id}]"
+				sentence = sentence.gsub(user_pattern, user_sentence_prefix)
+			else
+				sentence
+			end
+		end
+		sentence
 	end
 end

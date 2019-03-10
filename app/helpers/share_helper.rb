@@ -3,6 +3,7 @@ module ShareHelper
 		{
 			id: share.id,
 			isRatings: has_ratings,
+			actualDate: share.created_at.strftime("%e %b, %Y"),
 			date: share.created_at < 1.day.ago ? share.created_at.strftime("%e %b") : happened_at(share.created_at),
 			commentsLoaded: false,
 			opinionsLoaded: false,
@@ -18,6 +19,7 @@ module ShareHelper
 			agreeShowLimit: Opinion.show_limit,
 			disagreeShowLimit: Opinion.show_limit,
 			isInteractionMuted: user_signed_in? ? current_user.has_muted_own_share?(share) : false,
+			ownership: user_signed_in? && share.user.id == current_user.id ? "Your" : "#{share.user.display_name}'s",
 			user: {
 				id: share.user.id,
 				isMuted: user_signed_in? ? current_user.has_muted(share.user) : false,

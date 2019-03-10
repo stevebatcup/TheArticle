@@ -25,7 +25,7 @@
 			</ul>
 		</nav>
 
-		<div class="tab-content container pt-2 px-1">
+		<div class="tab-content container pt-2 px-0">
 			<div class="tab-pane fade show active"
 				id="follows_following"
 				role="tabpanel"
@@ -33,7 +33,7 @@
 				<p class="empty px-3 py-2" ng-if="follows.data.followings.length == 0">
 					You are currently not following anyone
 				</p>
-				<div ng-repeat="item in follows.data.followings" class="feed-listing">
+				<div ng-repeat="item in follows.data.followings" class="feed-listing bg-white">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 				<p class="empty px-3 py-2" ng-if="follows.data.followers.length == 0">
 					You are currently not being followed by anyone
 				</p>
-				<div ng-repeat="item in follows.data.followers" class="feed-listing">
+				<div ng-repeat="item in follows.data.followers" class="feed-listing bg-white">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 				<p class="empty px-3 py-2" ng-if="follows.data.connections.length == 0">
 					You currently have no connections
 				</p>
-				<div ng-repeat="item in follows.data.connections" class="feed-listing">
+				<div ng-repeat="item in follows.data.connections" class="feed-listing bg-white">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>

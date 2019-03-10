@@ -240,6 +240,7 @@ class Article < ApplicationRecord
     # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache
+    set_categorisations_notifications if self.categorisations.any?
   end
 
   def update_all_article_counts
@@ -304,6 +305,10 @@ class Article < ApplicationRecord
 				end
 			end
 		end
+	end
+
+	def set_categorisations_notifications
+		Categorisation.create_notifications_for_article(self)
 	end
 
 	def self.content_ad_slots(is_mobile=true, ad_page_type, ad_page_id)

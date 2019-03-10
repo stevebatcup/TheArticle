@@ -48,7 +48,14 @@ class NotificationsController < ApplicationController
 
 	def opinionators
 		@notification = Notification.find(params[:id])
-		@opinionators = @notification.feeds.map(&:user).uniq
+		opinionators = []
+		@notification.feeds.each do |feed|
+			opinion = feed.actionable
+			if opinion.decision == params[:decision]
+				opinionators << feed.user
+			end
+		end
+		@opinionators = opinionators.reverse.uniq
 	end
 
 	def followers

@@ -896,16 +896,18 @@ div.new_article {
 	li {
 		position: relative;
 
-		.badge {
-			position: absolute;
-			top: 5px;
-			right: -6px;
-			padding: 3px 2px 0px 2px;
-			font-size: 0.5em;
-			min-width: 15px;
-			min-height: 16px;
-			font-weight: 600;
-			font-family: verdana;
+		a#notifications-tab {
+			.badge {
+				position: absolute;
+				top: 4px;
+				right: 18px;
+				padding: 3px 2px 0px 2px;
+				font-size: 0.5em;
+				min-width: 15px;
+				min-height: 16px;
+				font-weight: 600;
+				font-family: verdana;
+			}
 		}
 	}
 }

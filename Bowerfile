@@ -2,21 +2,18 @@
 # Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
 
 asset 'bootstrap', '4.1.0'
-asset 'fontawesome', '5.0'
+asset 'fontawesome', '5.2'
 asset 'underscore'
 asset 'slick-carousel'
 asset 'angular', '1.6.6'
+asset 'angular-sanitize', '1.6.6'
 asset 'angular-flash-alert'
 asset 'mustache'
 asset 'slideout', 'https://github.com/mango/slideout.git'
 asset 'angular-wizard'
 asset 'ryanmullins-angular-hammer'
-asset 'angular-sanitize'
 asset 'remarkable-bootstrap-notify'
 asset 'angular1-confirm'
 asset 'angular-cookies'
 asset 'moment'
 asset 'cropperjs'
-
-asset 'croppie'
-asset 'exif-js'

@@ -1,47 +1,47 @@
-## PR Checklist
+<!-- Please don't delete this template -->
 
-Please check if your PR fulfills the following requirements:
+<!-- PULL REQUEST TEMPLATE -->
+<!-- (Update "[ ]" to "[x]" to check a box) -->
 
-- [ ] The commit message follows our [guidelines](https://github.com/fengyuanchen/cropperjs/blob/master/.github/CONTRIBUTING.md#commit-message-guidelines).
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+**Summary**
 
+**What kind of change does this PR introduce?** (check at least one)
 
-## PR Type
+- [ ] Bugfix
+- [ ] Feature
+- [ ] Code style update
+- [ ] Refactor
+- [ ] Docs
+- [ ] Build-related changes
+- [ ] Other, please describe:
 
-What kind of change does this PR introduce?
+If changing the UI of default theme, please provide the **before/after** screenshot:
 
-<!-- Please check the one that applies to this PR using "x". -->
+**Does this PR introduce a breaking change?** (check one)
 
-```
-[ ] Bugfix
-[ ] Feature
-[ ] Code style update
-[ ] Refactor
-[ ] Build related changes
-[ ] Documentation content changes
-[ ] Other, Please describe:
-```
+- [ ] Yes
+- [ ] No
 
+If yes, please describe the impact and migration path for existing applications:
 
-## What is the current behavior?
+**The PR fulfills these requirements:**
 
-<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
+- [ ] When resolving a specific issue, it's referenced in the PR's title (e.g. `fix #xxx[,#xxx]`, where "xxx" is the issue number)
 
-Issue Number: N/A
+You have tested in the following browsers: (Providing a detailed version will be better.)
 
+- [ ] Chrome
+- [ ] Firefox
+- [ ] Safari
+- [ ] Edge
+- [ ] IE
 
-## What is the new behavior?
+If adding a **new feature**, the PR's description includes:
 
+- [ ] A convincing reason for adding this feature
+- [ ] Related documents have been updated
+- [ ] Related tests have been updated
 
-## Does this PR introduce a breaking change?
+To avoid wasting your time, it's best to open a **feature request issue** first and wait for approval before working on it.
 
-```
-[ ] Yes
-[ ] No
-```
-
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
-
-
-## Other information
+**Other information:**

@@ -5,7 +5,6 @@ class Categorisation < ApplicationRecord
 	belongs_to	:exchange
 	before_create	:update_feeds
 	after_destroy	:delete_feed_and_notification
-	# after_create	:create_notification
 
 	def update_feeds
 		self.exchange.users.each do |user|
@@ -13,16 +12,29 @@ class Categorisation < ApplicationRecord
 		end
 	end
 
-  # def create_notification
-  #   self.exchange.users.each do |user|
-	 #    self.notifications.create({
-	 #      user_id: user.id,
-	 #      specific_type: nil,
-	 #      body: "An article has been added to the <b>#{self.exchange.name}</b> exchange",
-	 #      feed_id: nil
-	 #    })
-	 #  end
-  # end
+	def self.create_notifications_for_article(article)
+		list = []
+		user_ids = []
+
+		article.categorisations.each do |categorisation|
+			exchange = categorisation.exchange
+			exchange.users.each do |user|
+				unless user_ids.include?(user.id)
+					user_ids << user.id
+					list << { user: user, exchange: exchange, categorisation: categorisation }
+				end
+			end
+		end
+
+		list.each do |item|
+			item[:categorisation].notifications.create({
+				user_id: item[:user].id,
+				specific_type: nil,
+				body: "A new article has been added to the <a href='/exchange/#{item[:exchange].slug}' class='text-green'>#{item[:exchange].name}</a> exchange",
+				feed_id: nil
+			})
+		end
+	end
 
 	def delete_feed_and_notification
 		self.feeds.destroy_all

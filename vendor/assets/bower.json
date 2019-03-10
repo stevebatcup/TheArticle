@@ -2,22 +2,20 @@
   "name": "dsl-generated-dependencies",
   "dependencies": {
     "bootstrap": "4.1.0",
-    "fontawesome": "5.0",
+    "fontawesome": "5.2",
     "underscore": "latest",
     "slick-carousel": "latest",
     "angular": "1.6.6",
+    "angular-sanitize": "1.6.6",
     "angular-flash-alert": "latest",
     "mustache": "latest",
     "slideout": "https://github.com/mango/slideout.git",
     "angular-wizard": "latest",
     "ryanmullins-angular-hammer": "latest",
-    "angular-sanitize": "latest",
     "remarkable-bootstrap-notify": "latest",
     "angular1-confirm": "latest",
     "angular-cookies": "latest",
     "moment": "latest",
-    "cropperjs": "latest",
-    "croppie": "latest",
-    "exif-js": "latest"
+    "cropperjs": "latest"
   }
 }

@@ -16,7 +16,6 @@ import {
   EVENT_READY,
   MIME_TYPE_JPEG,
   NAMESPACE,
-  REGEXP_DATA_URL,
   REGEXP_DATA_URL_JPEG,
   REGEXP_TAG_NAME,
   WINDOW,
@@ -116,14 +115,9 @@ class Cropper {
       return;
     }
 
-    // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
-    if (REGEXP_DATA_URL.test(url)) {
-      if (REGEXP_DATA_URL_JPEG.test(url)) {
-        this.read(dataURLToArrayBuffer(url));
-      } else {
-        this.clone();
-      }
-
+    // Read ArrayBuffer from Data URL of JPEG images directly for better performance.
+    if (REGEXP_DATA_URL_JPEG.test(url)) {
+      this.read(dataURLToArrayBuffer(url));
       return;
     }
 
@@ -132,9 +126,14 @@ class Cropper {
 
     this.reloading = true;
     this.xhr = xhr;
-    xhr.ontimeout = clone;
+
+    // 1. Cross origin requests are only supported for protocol schemes:
+    // http, https, data, chrome, chrome-extension.
+    // 2. Access to XMLHttpRequest from a Data URL will be blocked by CORS policy
+    // in some browsers as IE11 and Safari.
     xhr.onabort = clone;
     xhr.onerror = clone;
+    xhr.ontimeout = clone;
 
     xhr.onprogress = () => {
       if (xhr.getResponseHeader('content-type') !== MIME_TYPE_JPEG) {
@@ -164,14 +163,16 @@ class Cropper {
 
   read(arrayBuffer) {
     const { options, imageData } = this;
+
+    // Reset the orientation value to its default value 1
+    // as some iOS browsers will render image with its orientation
     const orientation = resetAndGetOrientation(arrayBuffer);
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
 
     if (orientation > 1) {
-      // Generate a new Data URL with the orientation value set to 1
-      // as some iOS browsers will render image with its orientation
+      // Generate a new URL which has the default orientation value
       this.url = arrayBufferToDataURL(arrayBuffer, MIME_TYPE_JPEG);
       ({ rotate, scaleX, scaleY } = parseOrientation(orientation));
     }
@@ -230,7 +231,7 @@ class Cropper {
     image.onerror = null;
     this.sizing = true;
 
-    const IS_SAFARI = WINDOW.navigator && /(Macintosh|iPhone|iPod|iPad).*AppleWebKit/i.test(WINDOW.navigator.userAgent);
+    const IS_SAFARI = WINDOW.navigator && /^(?:.(?!chrome|android))*safari/i.test(WINDOW.navigator.userAgent);
     const done = (naturalWidth, naturalHeight) => {
       assign(this.imageData, {
         naturalWidth,

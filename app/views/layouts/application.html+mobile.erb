@@ -45,7 +45,7 @@
 
 <!-- Page Content -->
 <div id="content">
-  <header id="main_header" ng-controller="HeaderBarController">
+  <header id="main_header" ng-controller="HeaderBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
 
     <div class="container bg-grey" ng-if="appPage" ng-cloak>
       <div class="app_page_heading py-1">
@@ -152,7 +152,7 @@
 
   <% if user_signed_in? %>
   <nav id="member_options" ng-cloak>
-    <ul class="nav nav-pills nav-fill d-flex">
+    <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
       <li class="nav-item">
         <a class="nav-link" id="front-page-tab" href="/my-home">
           <i class="fas fa-home"></i>

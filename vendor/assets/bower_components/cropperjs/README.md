@@ -1,6 +1,6 @@
 # Cropper.js
 
-[![Build Status](https://travis-ci.org/fengyuanchen/cropperjs.svg)](https://travis-ci.org/fengyuanchen/cropperjs) [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Donate on Patreon](https://img.shields.io/badge/donate-on%20patreon-fa7664.svg)](https://www.patreon.com/chenfengyuan)
+[![Build Status](https://img.shields.io/travis/fengyuanchen/cropperjs.svg)](https://travis-ci.org/fengyuanchen/cropperjs) [![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Donate on Patreon](https://img.shields.io/badge/donate-on%20patreon-fa7664.svg)](https://www.patreon.com/chenfengyuan)
 
 > JavaScript image cropper.
 
@@ -57,7 +57,7 @@ dist/
 npm install cropperjs
 ```
 
-Include files:
+In browser:
 
 ```html
 <link  href="/path/to/cropper.css" rel="stylesheet">
@@ -99,6 +99,9 @@ img {
 ```
 
 ```js
+// import 'cropperjs/dist/cropper.css';
+import Cropper from 'cropperjs';
+
 const image = document.getElementById('image');
 const cropper = new Cropper(image, {
   aspectRatio: 16 / 9,
@@ -429,42 +432,42 @@ The minimum height of the crop box.
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "ready" event.
+A shortcut of the `ready` event.
 
 ### cropstart
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "cropstart" event.
+A shortcut of the `cropstart` event.
 
 ### cropmove
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "cropmove" event.
+A shortcut of the `cropmove` event.
 
 ### cropend
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "cropend" event.
+A shortcut of the `cropend` event.
 
 ### crop
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "crop" event.
+A shortcut of the `crop` event.
 
 ### zoom
 
 - Type: `Function`
 - Default: `null`
 
-A shortcut of the "zoom" event.
+A shortcut of the `zoom` event.
 
 [⬆ back to top](#table-of-contents)
 
@@ -493,7 +496,6 @@ Show the crop box manually.
 ```js
 new Cropper(image, {
   autoCrop: false,
-
   ready() {
     // Do something here
     // ...
@@ -695,9 +697,10 @@ Scale the ordinate of the image.
 Output the final cropped area position and size data (base on the natural size of the original image).
 
 > You can send the data to server-side to crop the image directly:
+>
 > 1. Rotate the image with the `rotate` property.
-> 1. Scale the image with the `scaleX` and `scaleY` properties.
-> 1. Crop the image with the `x`, `y`, `width` and `height` properties.
+> 2. Scale the image with the `scaleX` and `scaleY` properties.
+> 3. Crop the image with the `x`, `y`, `width` and `height` properties.
 
 ![A schematic diagram for data's properties](docs/images/data.jpg)
 
@@ -761,7 +764,8 @@ const imageData = cropper.getImageData();
 const canvasData = cropper.getCanvasData();
 
 if (imageData.rotate % 180 === 0) {
-  console.log(canvasData.naturalWidth === imageData.naturalWidth); // true
+  console.log(canvasData.naturalWidth === imageData.naturalWidth);
+  // > true
 }
 ```
 
@@ -902,9 +906,9 @@ This event fires when the target image has been loaded and the cropper instance 
 ```js
 let cropper;
 
-image.addEventListener('ready', () => {
+image.addEventListener('ready', function () {
   console.log(this.cropper === cropper);
-  // -> true
+  // > true
 });
 
 cropper = new Cropper(image);

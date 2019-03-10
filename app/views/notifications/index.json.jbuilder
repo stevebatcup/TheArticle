@@ -7,7 +7,7 @@ json.set! :notificationItems do
 		json.stamp notification.updated_at.to_i
 		json.happenedAt happened_at(notification.updated_at)
 		json.date notification.updated_at.strftime("%e %b")
-		json.body notification.body
+		json.body feed_sentencise_with_user(notification.body)
 		json.type notification.eventable_type.downcase
 		json.specificType notification.specific_type
 		json.isSeen notification.is_seen
@@ -18,6 +18,9 @@ json.set! :notificationItems do
 					json.image exchange.image.url(:detail)
 					json.name exchange.name
 					json.path exchange_path(slug: exchange.slug)
+				end
+				json.set! :article do
+					json.path article_path(notification.eventable.article)
 				end
 			end
 		end

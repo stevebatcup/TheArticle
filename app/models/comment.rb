@@ -52,6 +52,8 @@ class Comment < ActiveRecord::Base
       notification.body = ApplicationController.helpers.group_user_comment_feed_item(notification, false, true)
       notification.created_at = Time.now unless notification.persisted?
       notification.updated_at = Time.now
+      notification.is_new = true
+      notification.is_seen = false
       notification.save
 
       if is_reply
@@ -66,6 +68,10 @@ class Comment < ActiveRecord::Base
           reply_notification.eventable_id = self.id
           reply_notification.feeds << self.feeds.first
           reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
+          reply_notification.created_at = Time.now unless reply_notification.persisted?
+          reply_notification.updated_at = Time.now
+          reply_notification.is_new = true
+          reply_notification.is_seen = false
           reply_notification.save
         end
       end

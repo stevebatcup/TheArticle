@@ -2,7 +2,10 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   storage :fog
-  # process :auto_orient
+
+  def filename
+    "#{secure_token(10)}.jpg" if original_filename.present?
+  end
 
   def auto_orient
     manipulate! do |img|
@@ -29,4 +32,9 @@ class ProfilePhotoUploader < CarrierWave::Uploader::Base
     end
   end
 
+protected
+  def secure_token(length=16)
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+  end
 end

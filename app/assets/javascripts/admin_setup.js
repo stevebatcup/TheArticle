@@ -15,7 +15,6 @@
 //= require angular-wizard
 //= require hammerjs
 //= require ryanmullins-angular-hammer
-//= require croppie
 //= require angular-sanitize
 //= require remarkable-bootstrap-notify
 //= require angular1-confirm

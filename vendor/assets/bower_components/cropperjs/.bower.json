@@ -1,16 +1,16 @@
 {
   "name": "cropperjs",
   "homepage": "https://github.com/fengyuanchen/cropperjs",
-  "version": "1.4.3",
+  "version": "1.5.1",
   "main": [
-    "./dist/cropper.min.js",
-    "./dist/cropper.min.css"
+    "dist/cropper.min.js",
+    "dist/cropper.min.css"
   ],
-  "_release": "1.4.3",
+  "_release": "1.5.1",
   "_resolution": {
     "type": "version",
-    "tag": "v1.4.3",
-    "commit": "ed45be1b77df7a801fb488ff156879d16e5dcdd0"
+    "tag": "v1.5.1",
+    "commit": "a45ff7b54bb6e286a0fdac56594e633a626f5d28"
   },
   "_source": "https://github.com/fengyuanchen/cropperjs.git",
   "_target": "*",

@@ -22,7 +22,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 				loaded: false
 				totalItems: 0
 				moreToLoad: true
-			@getNotifications()
+			@getNotificationsBadgeUpdate()
 			@timeout =>
 				@getNotificationsBadgeUpdate()
 			, 2000
@@ -33,27 +33,14 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 				@bindFixedNavScrolling()
 			, 1000
 
-		if @scope.signedIn && !@isDevelopment()
+		if @scope.signedIn
 			@interval =>
 				@getNotificationsBadgeUpdate()
-			, 30000
-			@scope.$watch 'notificationBadgeCount', (newVal, oldVal) =>
-				if oldVal isnt newVal
-					@getNotifications()
+			, 10000
 
 	getNotificationsBadgeUpdate: =>
 		@http.get("/notification-count").then (response) =>
 			@scope.notificationBadgeCount = response.data.count
-
-	getNotifications: =>
-		@Notification.query({page: 1, per_page: 12, panel: true}).then (response) =>
-			@scope.notifications.data = response.notificationItems
-			# console.log @scope.notifications.data
-			@scope.notifications.totalItems = response.total if @scope.notifications.page is 1
-			# console.log @scope.notifications.totalItems
-			@scope.notifications.moreToLoad = @scope.notifications.totalItems > @scope.notifications.data.length
-			# console.log @scope.notifications.moreToLoad
-			@scope.notifications.loaded = true
 
 	bindProfileNavScrolling: =>
 		$win = $(window)

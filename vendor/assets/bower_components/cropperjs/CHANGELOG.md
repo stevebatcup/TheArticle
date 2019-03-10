@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.5.1 (Mar 10, 2018)
+
+- Revert the minimum container width from `300` to `200`.
+- Revert the minimum container height from `150` to `100`.
+
+## 1.5.0 (Mar 10, 2018)
+
+- Add `passive: false` and `capture: true` to wheel event for better performance.
+- Improve touch event binding.
+- Ignore the pointer events are not triggered by the primary button.
+- Fix typed array spreading error in IE or Safari 9.
+- Fix the RegExp for the Safari browser detecting to ignore Chrome (#478).
+
 ## 1.4.3 (Oct 24, 2018)
 
 - Ignore range error when the image does not have correct Exif information

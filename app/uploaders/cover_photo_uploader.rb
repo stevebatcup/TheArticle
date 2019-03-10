@@ -3,9 +3,9 @@ class CoverPhotoUploader < CarrierWave::Uploader::Base
 
   storage :fog
 
-  # def default_url(*args)
-  #    ActionController::Base.helpers.asset_path("default-profile-set/" + [model.default_profile_photo_id, ".jpg"].compact.join)
-  #  end
+  def filename
+    "#{secure_token(10)}.jpg" if original_filename.present?
+  end
 
   def store_dir
     "app/#{Rails.env}/users/cover-photo/#{model.id}"
@@ -34,4 +34,10 @@ class CoverPhotoUploader < CarrierWave::Uploader::Base
     end
   end
   process :fix_exif_rotation
+
+protected
+  def secure_token(length=16)
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+  end
 end

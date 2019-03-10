@@ -37,6 +37,10 @@ class Opinion < ApplicationRecord
 			notification.eventable_id = self.id
 			notification.feeds << self.feeds.first
 			notification.body = ApplicationController.helpers.group_user_opinion_feed_item(notification, true)
+			notification.created_at = Time.now unless notification.persisted?
+			notification.updated_at = Time.now
+			notification.is_new = true
+			notification.is_seen = false
 			notification.save
 		end
 	end

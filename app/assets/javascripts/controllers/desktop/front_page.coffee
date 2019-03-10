@@ -78,11 +78,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			exchangeId = $span.data('exchange')
 			@showAllMyFollowersOfExchange(exchangeId)
 
-		$(document).on 'click', '.also_opinionated', (e) =>
+		$(document).on 'click', '.also_agreed', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			shareId = $span.data('share')
-			@showAllShareOpinionators(shareId)
+			@showAllShareOpinionators(shareId, 'Agree')
+
+		$(document).on 'click', '.also_disagreed', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			shareId = $span.data('share')
+			@showAllShareOpinionators(shareId, 'Disagree')
 
 		$(document).on 'click', '.also_commented', (e) =>
 			e.preventDefault()

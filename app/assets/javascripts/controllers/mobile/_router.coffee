@@ -11,13 +11,9 @@ class TheArticle.Router extends TheArticle.MobilePageController
 
 	init: ->
 		@setDefaultHttpHeaders()
-		@scope.notificationBadgeCount = 0
 		@bindEvents()
 		@scope.root = @scope
 		@scope.showBackPage = false
-		@timeout =>
-			@getNotificationsBadgeUpdate()
-		, 2000
 
 		urlVars = @getUrlVars()
 		if route = urlVars['route']
@@ -34,10 +30,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			$(window).scrollTop(0)
 			@openRoute 'followers'
 
-		@interval =>
-			@getNotificationsBadgeUpdate()
-		, 30000
-
 	backPage: ($event) =>
 		$event.preventDefault()
 		@rootScope.$broadcast 'page_moving_back'
@@ -52,10 +44,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 					@rootScope.$broadcast 'load_more_feeds'
 				else if @scope.selectedAppTab is 'notifications-tab'
 					@rootScope.$broadcast 'load_more_notifications'
-
-	getNotificationsBadgeUpdate: =>
-		@http.get("/notification-count").then (response) =>
-			@scope.notificationBadgeCount = response.data.count
 
 	openRoute: (route) =>
 		switch route

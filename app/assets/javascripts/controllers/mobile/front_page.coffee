@@ -94,11 +94,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			exchangeId = $span.data('exchange')
 			@showAllMyFollowersOfExchange(exchangeId)
 
-		$(document).on 'click', '#feed.front_page_page .also_opinionated', (e) =>
+		$(document).on 'click', '#feed.front_page_page .also_agreed', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()
 			shareId = $span.data('share')
-			@showAllShareOpinionators(shareId)
+			@showAllShareOpinionators(shareId, 'Agree')
+
+		$(document).on 'click', '#feed.front_page_page .also_disagreed', (e) =>
+			e.preventDefault()
+			$span = $(e.currentTarget).parent()
+			shareId = $span.data('share')
+			@showAllShareOpinionators(shareId, 'Disagree')
 
 		$(document).on 'click', '#feed.front_page_page .also_commented', (e) =>
 			e.preventDefault()

@@ -61,7 +61,7 @@
       </header>
 
       <nav id="member_options" ng-show="!appPage" ng-cloak>
-        <ul class="nav nav-pills nav-fill d-flex">
+        <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
           <li class="nav-item">
             <a class="nav-link active" id="front-page-tab" data-toggle="tab" href="#content-front-page">
               <i class="fas fa-home"></i>

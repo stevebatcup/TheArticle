@@ -681,9 +681,10 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$('body').append $content
 			$("#myFollowersOfModal").modal()
 
-	showAllShareOpinionators: (share_id) =>
-		@http.get("/opinionators-of-share/#{share_id}").then (response) =>
+	showAllShareOpinionators: (share_id, decision) =>
+		@http.get("/opinionators-of-share/#{share_id}?decision=#{decision.toLowerCase()}").then (response) =>
 			@scope.opinionatorsOfShare = response.data
+			@scope.opinionatorsOfShareDecision = decision
 			tpl = $("#opinionatorsOfShare").html().trim()
 			$content = @compile(tpl)(@scope)
 			$('body').append $content
@@ -702,6 +703,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@http.post("/interaction-mute", {share_id: share.id}).then (response) =>
 			if response.data.status is 'success'
 				share.isInteractionMuted = true
+				@flash "You have opted out of notifications for this post"
 			else
 				@alert response.data.message, "Error turning off notifications"
 
@@ -710,6 +712,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@http.delete("/interaction-mute/#{share.id}").then (response) =>
 			if response.data.status is 'success'
 				share.isInteractionMuted = false
+				@flash "You have opted in to notifications for this post"
 			else
 				@alert response.data.message, "Error turning on notifications"
 
