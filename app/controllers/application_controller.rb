@@ -124,6 +124,8 @@ private
   def set_device_type
     if browser.device.mobile?
       request.variant = :mobile
+    elsif browser.device.tablet?
+      request.variant = :tablet
     else
       request.variant = :desktop
     end

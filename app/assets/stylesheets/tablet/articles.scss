@@ -1,0 +1,65 @@
+.article-listing {
+  &.post {
+    height: 360px;
+
+  	.img_mask {
+    	height: 37%;
+    }
+
+    .entry-content {
+      display: block;
+    }
+
+    h4 {
+    	font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+  }
+
+  &.exchange {
+    height: 196px;
+
+    .img_mask {
+      height: 70%;
+    }
+  }
+}
+
+.exchange-badge {
+  padding: 3px 9px 2px;
+  letter-spacing: 1.1px;
+  text-align: center;
+}
+
+.article-listing.sponsor {
+  .inner {
+    .entry-content {
+      height: initial !important;
+      opacity: 1 !important;
+    }
+
+    .sponsor_listing_img {
+      width: 34% !important;
+    }
+
+    .inner_inner {
+      position: static;
+    }
+  }
+}
+
+#featured_articles_sidebar .row .article-listing.post .img_mask {
+    height: 41% !important;
+}
+
+article.article-listing.exchange.profile_wizard {
+  height: 165px;
+
+  .img_mask {
+    height: 81%;
+  }
+
+  h6 {
+    font-size: 0.75em;
+  }
+}

@@ -82,16 +82,7 @@
 		</div>
 	</header>
 
-	<%if @exchange.is_editor_item? %>
-		<div class="my-5"></div>
-	<% else %>
-		<% if @articles_for_carousel.any? %>
-			<div class="container mt-4 mt-md-5 slick-carousel-title">
-			  <h1 class="bullet cloak">Trending articles on <%= @exchange.name %></h1>
-			</div>
-			<%= render partial: 'carousels/articles', locals: { articles: @articles_for_carousel } %>
-		<% end %>
-	<% end %>
+	<div class="my-5"></div>
 
 	<%=
 		render partial: 'articles/listings', locals: {

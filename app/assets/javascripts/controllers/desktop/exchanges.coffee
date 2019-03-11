@@ -38,11 +38,12 @@ class TheArticle.Exchanges extends TheArticle.DesktopPageController
 
 	bindEvents: ->
 		super
-		if @isEditorItem
-			@getArticles() if @scope.exchange
-		else
-		$('.slick-carousel.articles').first().on 'init', (e) =>
-			@getArticles() if @scope.exchange
+		@getArticles() if @scope.exchange
+		# if @isEditorItem
+		# 	@getArticles() if @scope.exchange
+		# else
+		# $('.slick-carousel.articles').first().on 'init', (e) =>
+		# 	@getArticles() if @scope.exchange
 
 	getUserExchanges: =>
 		url = "/user_exchanges?page=#{@scope.userExchanges.page}&per_page=#{@scope.userExchanges.perPage}"

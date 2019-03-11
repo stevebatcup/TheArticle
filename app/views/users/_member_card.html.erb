@@ -4,7 +4,7 @@
 	end
 %>
 
-<div class="pb-2 block_click bg-white" data-href="{{ item.path }}">
+<div class="pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
 	<div class="card-img-top cover_photo">
 		<% unless suggestions == true %><a href="{{item.path}}"><% end %>
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />

@@ -1,0 +1,533 @@
+<section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>" data-fixed-profile-nav=1 ng-cloak>
+	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
+		<div class="alert alert-danger">
+			<p>{{profile.loadError}}</p>
+		</div>
+	</div>
+	<div class="ajax_loading profile" ng-show="!profile.loaded">Loading profile...</div>
+
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
+	<section id="cover_photo" class="cover_photo row" ng-show="profile.loaded && !profile.loadError"
+						ng-style="profile.data.coverPhoto.image && {'background-image':'url('+profile.data.coverPhoto.image+')'}"
+						ng-click="editCoverPhoto()" ng-class="{'editable': profile.isMe}" ng-cloak>
+		<div class="col-12">
+			<a ng-click="editCoverPhoto()" href='#' class="align-middle" ng-if="profile.isMe && !profile.data.coverPhoto.image">
+				<i class="fas fa-image"></i>
+			</a>
+		</div>
+	</section>
+
+	<section id="top_bar" class="row" ng-cloak>
+		<!-- Tabs when blocked (either way) -->
+		<ul class="w-100 bg-white nav nav-tabs d-flex" ng-if="profile.data.iAmBlocked || profile.data.isBlocked">
+		  <li class="nav-item">
+		    <a id="activity-all-tab" class="with_badge nav-link active">
+		      <label>All</label>
+		    </a>
+		  </li>
+		</ul>
+
+		<!-- Tabs when not blocked -->
+		<ul class="w-100 bg-white nav nav-tabs nav-fill d-flex" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
+		  <li class="nav-item">
+		    <a id="activity-all-tab" class="with_badge nav-link active" ng-click="selectTab('all')" ng-class="{'active': selectedTab == 'all'}">
+		      <label>All</label>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		  	<a id="activity-following-tab" class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
+			  	<label>Following</label>
+			  	<span>{{ profile.follows.followings.length }}</span>
+			  </a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
+					<label>Followers</label>
+					<span>{{ profile.follows.followers.length }}</span>
+		    </a>
+		  </li>
+		  <li class="nav-item" ng-if="profile.isMe">
+		    <a id="activity-connected-tab" class="with_badge nav-link" ng-click="selectTab('connected')" ng-class="{'active': selectedTab == 'connected'}">
+					<label>Connected</label>
+					<span>{{ profile.follows.connections.length }}</span>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="activity-ratings-tab" class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
+		    	<label>Ratings</label>
+		    	<span>{{ profile.ratings.data.length }}</span>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="activity-shares-tab" class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
+					<label>Shares</label>
+					<span>{{ profile.shares.data.length }}</span>
+		    </a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="activity-exchanges-tab" class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
+					<label>Exchanges</label>
+					<span>{{ profile.exchanges.data.length }}</span>
+		    </a>
+		  </li>
+		</ul>
+
+	</section>
+
+	<div class="row" id="main_feed">
+		<section class="col-md-4 col-lg-3" ng-show="profile.loaded && !profile.loadError" id="left_col" ng-cloak>
+
+			<div id="basic_info">
+				<div class="pt-2">
+					<div class="d-flex justify-content-between pt-3 pb-3 pr-2">
+						<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}" ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
+						<div class="pt-2">
+							<h5 class="mb-1">{{ profile.data.displayName }}</h5>
+							<h6 class="text-muted mb-4">
+								{{ profile.data.originalUsername }}
+								<span ng-show="profile.data.isFollowingMe" class="badge follower-badge">Follows you</span>
+							</h6>
+						</div>
+					</div>
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)">
+						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
+					</p>
+
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
+						<i class="fas fa-map-marker-alt"></i>
+						<span class="pl-3">{{ profile.data.location }}</span>
+					</p>
+					<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
+						<a href='#' ng-click="editProfile('location')">
+							<i class="fas fa-map-marker-alt text-green"></i>
+							<span class="pl-3 text-green">Add Location</span>
+						</a>
+					</p>
+
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
+						{{ profile.data.bio }}
+					</p>
+					<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
+						<a href='#' ng-click="editProfile('bio')">
+							<i class="fas fa-plus text-green"></i>
+							<span class="pl-3 text-green">Add Bio</span>
+						</a>
+					</p>
+				</div>
+
+				<div class="px-0 navbar w-100" ng-cloak>
+					<div class="btn-group w-100" ng-show="profile.isMe">
+					  <button class="w-75 btn btn-success btn-sm" type="button" id="edit_profile_btn" ng-click="editProfile()">
+					    Edit profile
+					  </button>
+					  <button type="button" class="w-25 btn btn-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  	<span class="sr-only">Toggle Dropdown</span>
+					    <i class="fas fa-cog" aria-hidden="true"></i>
+					  </button>
+					  <div class="dropdown-menu">
+					    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+			        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+			        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+					  </div>
+					</div>
+
+
+					<div class="btn-group w-100 mt-2" ng-show="!profile.isMe">
+						<button class="w-75 btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+										ng-if="!profile.data.isBlocked && !profile.data.iAmBlocked && !profile.data.imFollowing">
+							<i class="fas fa-users mr-2"></i>
+							Follow
+						</button>
+						<button class="w-75 btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+											ng-if="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.data.imFollowing)">
+							<i class="fas fa-users mr-2"></i>
+							Following
+						</button>
+
+						<button class="w-75 btn btn-danger btn-disabled blocked-btn" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked">
+							<i class="fas fa-ban"></i>
+							Blocked
+						</button>
+
+						<button class="w-75 btn btn-danger blocked-btn"
+											ng-if="profile.data.isBlocked"
+											ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">
+							<i class="fas fa-ban"></i>
+							<span class="shown">Blocked</span>
+							<span class="hidden">Unblock</span>
+						</button>
+					  <button type="button" class="w-25 btn btn-sm"
+					  				data-toggle="dropdown"
+					  				aria-haspopup="true"
+					  				aria-expanded="false"
+					  				ng-class="{
+					  					'btn-success': !profile.data.isBlocked && !profile.data.iAmBlocked,
+					  					'btn-danger': profile.data.isBlocked,
+					  					'btn-danger': profile.data.iAmBlocked
+					  				}">
+					  	<span class="sr-only">Toggle Dropdown</span>
+					    <i class="fas fa-cog" aria-hidden="true"></i>
+					  </button>
+					  <div class="dropdown-menu dropdown-menu-right">
+					  	<a class="dropdown-item" href="#" ng-click="mute($event, profile.data.id, profile.data.originalUsername)" ng-if="(!profile.data.isMuted) && (profile.data.imFollowing)">Mute</a>
+					  	<a class="dropdown-item" href="#" ng-click="unmute($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isMuted">Unmute</a>
+
+					  	<a class="dropdown-item" href="#" ng-click="block($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isBlocked">Block</a>
+					  	<a class="dropdown-item" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isBlocked">Unblock</a>
+
+			        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report</a>
+					  </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
+				<% if user_signed_in? && !current_user.profile_is_deactivated? %>
+				<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3" ng-if="suggestions.listForSidebox.length > 0">
+					<div id="who_to_follow" class="" ng-controller="SuggestionsController">
+						<div class="card-header">
+							<h5 class="card-title">Who to follow on TheArticle</h5>
+						</div>
+						<div class="card-body pt-0 px-0">
+
+							<div class="">
+								<div class="show active"
+									id="suggestions_for_you"
+									role="tabpanel"
+									aria-labelledby="suggestions-sub-tab-for_you">
+									<div ng-repeat="item in suggestions.listForSidebox" class="feed-listing mb-3">
+										<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+									</div>
+								</div>
+
+								<div ng-if="suggestions.total > 3" class="px-3 pt-2 pb-1" id="show_all_suggestions">
+									<a href="#" ng-click="openSuggestionsModal($event)" class="text-green">See all suggestions</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<% end %>
+
+				<section id="trending_articles" class="callout card w-100">
+					<div class="card-header">
+						<h5 class="card-title">Latest articles</h5>
+					</div>
+					<div class="card-body pt-1">
+						<% @trending_articles.each do |ta| %>
+							<article class="row mt-3 px-0<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+								<div class="col-12">
+									<% if(ta.is_sponsored?) %>
+										<a href='/sponsors' class="sponsored">
+											<i class="fas fa-star"></i>
+											SPONSORED
+										</a>
+									<% end %>
+									<h5 class="pb-0 mb-0">
+										<a href="<%= article_path(ta) %>">
+											<%= ta.title.html_safe %>
+										</a>
+									</h5>
+									<% footerPaddingBottom = ta.is_sponsored? ? 'pb-4' : 'pb-0' %>
+									<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
+										<p class="author_link">
+											<a href="<%= contributor_path(slug: ta.author.slug) %>">
+												by <span><%= ta.author.display_name %></span>
+											</a>
+											<span class="entry-date">
+												<%= article_date(ta) %>
+											</span>
+										</p>
+									</footer>
+								</div>
+							</article>
+						<% end %>
+					</div>
+				</section>
+			</div>
+		</section>
+
+		<section class="col-md-8 col-lg-9" id="feed" ng-show="profile.loaded && !profile.loadError">
+			<!-- Feed when blocking them -->
+			<div class="container" id="activity-tabs" ng-if="profile.data.isBlocked" ng-cloak>
+				<div class="results_block row">
+					<div class="col-12 feed-listing feed-blocked">
+						<div class="inner">
+							<h4 class="mb-3">You blocked <b>{{profile.data.originalUsername}}</b></h4>
+							<p><a class="text-green" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">Unblock</a> {{profile.data.originalUsername}} if you wish to see their posts</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Feed when i am blocked -->
+			<div class="container" id="activity-tabs" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked" ng-cloak>
+				<div class="results_block row">
+					<div class="col-12 feed-listing feed-blocked">
+						<div class="inner">
+							<h4 class="mb-3">You have been blocked</h4>
+							<p>You cannot follow {{profile.data.originalUsername}} or see their posts.  If you have commented on any of their posts, these comments will have been deleted.</p>
+
+							<p><a href="/help?section=blocking">Read more about what it means to be blocked</a>.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Feed when not blocked either way -->
+			<div class="container" id="activity-tabs" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
+
+				<div class="" ng-if="selectedTab == 'all'">
+					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="profile.isMe">
+	          <textarea name="third_party_article_url"
+	                      id="third_party_article_url_phantom"
+	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
+	                      ng-focus="expandThirdPartySharingTextarea($event)"
+	                      ng-blur="contractThirdPartySharingTextarea($event)"
+	                      ng-paste="openThirdPartySharingPanelFromPaste($event)"
+	                      placeholder="What are you reading?"
+	                      class="form-control w-100"></textarea>
+					</div>
+
+					<div ng-if="profile.isMe && profile.data.deactivated" class="row feed-listing feed-deactivated">
+						<div class="card">
+							<div class="inner">
+								<p>This profile has been deactivated and is not visible to other users. You will need to reactivate it if you want to follow other users or share/rate articles.</p>
+
+								<p>To reactivate your profile please enter your password.</p>
+
+								<div class="form-group">
+									<label for="confirming_password_reactivate">Password</label><br />
+									<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="profile.data.confirmingPassword" class="form-control" required />
+								</div>
+
+								<p class="alert alert-danger" ng-if="profile.errors.reactivate">{{profile.errors.reactivate}}</p>
+
+								<button class="btn btn-success btn-block" ng-click="reactivateProfile($event)">Reactivate profile</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="results_block row" ng-class="{'empty': profile.digest.length == 0}">
+
+						<p class="col-12 empty_resource" ng-if="profile.digest.length == 0">
+							<span ng-if="profile.isMe">You have no recent activity</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has no recent activity</span>
+						</p>
+
+						<div ng-repeat="item in profile.digest" class="col-12 feed-listing pb-3 px-0"
+									ng-class="{
+										'feed-share': _.contains(['opinionAction', 'commentAction', 'share', 'rating', 'recentFollowingSummary', 'recentFollowedSummary'], item.type),
+										'feed-exchange': item.type == 'exchange'
+									}">
+								<div ng-if="item.type == 'recentFollowingSummary' && item.sentence.length > 0">
+									<%= render 'follows/summary_card' %>
+								</div>
+								<div ng-if="item.type == 'recentFollowedSummary' && item.sentence.length > 0">
+									<%= render 'follows/summary_card' %>
+								</div>
+								<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
+								<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
+								<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
+								<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
+								<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="(selectedTab == 'following')">
+					<div class="results_block row" ng-class="{'empty': profile.follows.followings.length == 0}">
+						<p class="col-12 empty_resource" ng-show="profile.follows.followings.length == 0">
+							<span ng-if="profile.isMe">You are not following any other members</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not following anyone</span>
+						</p>
+
+						<div ng-repeat="item in profile.follows.followings" class="col-md-6 col-lg-4 feed-listing px-1 feed-follow">
+							<%= render 'member_card' %>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="(selectedTab == 'followers')"">
+					<div class="results_block row" ng-class="{'empty': profile.follows.followers.length == 0}">
+
+						<p class="col-12 empty_resource" ng-show="profile.follows.followers.length == 0">
+							<span ng-if="profile.isMe">You are currently not being followed by any other members</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not being followed by anyone</span>
+						</p>
+
+						<ul class="col-12 nav nav-pills d-flex mb-3 follow_filters"
+									ng-show="(profile.follows.followers.length > 0) && !profile.isMe">
+					    <li class="nav-item">
+					      <a class="nav-link"
+					          ng-class="{'active': profile.follows.followersMode == 'all'}"
+					          href='#' ng-click="selectFollowersTab($event, 'all')">
+					        <label>All</label>
+					      </a>
+					    </li>
+					    <li class="nav-item">
+					      <a class="nav-link"
+					          ng-class="{'active': profile.follows.followersMode == 'youKnow'}"
+					          href='#' ng-click="selectFollowersTab($event, 'youKnow')">
+					        <label>{{profile.follows.imFollowingCount}} Followers you know</label>
+					      </a>
+					    </li>
+					  </ul>
+
+						<div ng-repeat="item in profile.follows.followers"
+									class="col-md-6 col-lg-4 feed-listing px-1 feed-follow"
+									ng-if="(profile.follows.followersMode == 'all') || (item.imFollowing)">
+								<%= render 'member_card' %>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="(selectedTab == 'connected')"">
+					<div class="results_block row" ng-class="{'empty': profile.follows.connections.length == 0}">
+
+						<p class="col-12 empty_resource" ng-show="profile.follows.connections.length == 0">
+							<span ng-if="profile.isMe">You currently have no connections</span>
+						</p>
+
+						<div ng-repeat="item in profile.follows.connections" class="col-md-6 col-lg-4 feed-listing px-1 feed-follow">
+							<%= render 'member_card' %>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="selectedTab == 'ratings'">
+					<div class="results_block row" ng-class="{'empty': profile.ratings.data.length == 0}">
+
+						<p class="col-12 empty_resource" ng-if="profile.ratings.data.length == 0">
+							<span ng-if="profile.isMe">You have not rated an article yet</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
+						</p>
+
+						<div class="col-12 mb-2 px-0" ng-if="profile.ratings.data.length > 0">
+							<div class="inner member_ratings summary px-3">
+								<h4 class="d-flex justify-content-between mb-3">
+									<span>Average ratings</span>
+									<small class="text-green">{{ profile.data.ratingsSummary.articleCount }}</small>
+								</h4>
+
+								<ul class="bars">
+									<li class="row justify-content-start d-flex align-items-start mb-2">
+										<span class="col-5 text">Well written: </span>
+										<span class="bar col-5">
+											<span class="inner" style="width: {{profile.data.ratingsSummary.wellWritten}}"></span>
+										</span>
+										<span class="col-2 clear-rating">{{profile.data.ratingsSummary.wellWritten}}</span>
+									</li>
+									<li class="row justify-content-start d-flex align-items-start mb-2">
+										<span class="col-5 text">Interesting points: </span>
+										<span class="bar col-5">
+											<span class="inner" style="width: {{profile.data.ratingsSummary.validPoints}};"></span>
+										</span>
+										<span class="col-2 clear-rating">{{profile.data.ratingsSummary.validPoints}}</span>
+									</li>
+									<li class="row justify-content-start d-flex align-items-start mb-2">
+										<span class="col-5 text">Agree with arguments: </span>
+										<span class="bar col-5">
+											<span class="inner" style="width: {{profile.data.ratingsSummary.agree}};"></span>
+										</span>
+										<span class="col-2 clear-rating">{{profile.data.ratingsSummary.agree}}</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+
+						<div ng-repeat="item in profile.ratings.data" class="col-12 feed-listing feed-share pb-3 px-0">
+							<%= render 'shares/card' %>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="(selectedTab == 'shares')">
+					<div class="results_block row" ng-class="{'empty': profile.shares.data.length == 0}">
+
+						<p class="col-12 empty_resource" ng-show="profile.shares.data.length == 0">
+							<span ng-if="profile.isMe">You have not shared an article yet</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not shared an article yet</span>
+						</p>
+
+						<div ng-repeat="item in profile.shares.data" class="col-12 feed-listing feed-share pb-3 px-0">
+							<%= render 'shares/card' %>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="" ng-if="(selectedTab == 'exchanges')">
+					<div class="results_block row" ng-class="{'empty': profile.exchanges.data.length == 0}">
+
+						<p class="col-12 empty_resource" ng-show="profile.exchanges.data.length == 0">
+							<span ng-if="profile.isMe">You are not following an exchange yet</span>
+							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not followed an exchange yet</span>
+						</p>
+
+						<div ng-repeat="item in profile.exchanges.data" class="col-12 feed-listing feed-exchange align-items-start pb-3 px-0">
+							<%= render 'exchanges/card' %>
+						</div>
+
+						<div ng-if="profile.exchanges.data.length > 3">
+							<a href="#" ng-click="openExchangesModal($event)">See all exchanges</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</section>
+
+<% if user_signed_in? %>
+	<script id="editProfileForm" type="script/x-mustache">
+		<%= render partial: 'edit_profile_modal', locals: {} %>
+	</script>
+
+	<script id="editProfilePhoto" type="script/x-mustache">
+		<%= render partial: 'edit_photo_modal', locals: { type: "profile" } %>
+	</script>
+
+	<script id="editCoverPhoto" type="script/x-mustache">
+		<%= render partial: 'edit_photo_modal', locals: { type: "cover" } %>
+	</script>
+
+	<script id="allProfileSuggestions" type="script/x-mustache">
+		<%= render partial: 'profile_suggestions/all_modal' %>
+	</script>
+
+	<script id="allUserExchanges" type="script/x-mustache">
+		<%= render partial: 'user_exchanges/all_modal' %>
+	</script>
+
+	<script id="deleteOthersComment" type="script/x-mustache">
+		<%= render partial: 'comments/delete_others_modal' %>
+	</script>
+
+	<script id="confirmBlock" type="script/x-mustache">
+		<%= render partial: 'blocks/confirm_modal' %>
+	</script>
+
+	<script id="thirdPartySharing" type="script/x-mustache">
+		<%= render partial: 'third_party_articles/sharing_modal' %>
+	</script>
+
+	<script id="confirmNonWhiteListed" type="script/x-mustache">
+		<%= render partial: 'third_party_articles/confirm_non_whitelisted_modal' %>
+	</script>
+<% end %>
+
+<script id="requiresConnectionInfoBox" type="script/x-mustache">
+	<%= render partial: 'follows/no_connection_modal' %>
+</script>
+

@@ -1,0 +1,54 @@
+.show-profile {
+
+	#top_bar {
+		ul.nav {
+			li {
+				a {
+					font-size: 0.9em;
+				}
+			}
+		}
+	}
+
+	#left_col {
+		padding-right: 15px;
+
+		#basic_info {
+			img {
+				top: 0;
+				left: -4px;
+				width: 4em;
+				height: 4em;
+				margin-bottom: 0;
+			}
+
+			h6 {
+				font-size: 0.85em;
+
+				.badge {
+					clear: both;
+					margin-top: 3px;
+				}
+			}
+		}
+
+		#callouts {
+			#who_to_follow {
+				height: initial;
+
+				.feed-listing {
+					height: initial;
+
+					.shared_followers {
+						margin-top: 0;
+						font-size: 0.6em;
+
+						p {
+					    width: 67%;
+						}
+					}
+				}
+			}
+		}
+	}
+}

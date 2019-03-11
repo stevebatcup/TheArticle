@@ -1,0 +1,70 @@
+header#main_header {
+  li.nav-item {
+    font-size: 0.85em;
+    margin-right: 0 !important;
+
+    a#nav_link_mission{
+      padding-left: 1.2rem !important;
+    }
+  }
+
+  nav#main_nav_right {
+    li.nav-item {
+      margin-left: 0;
+
+      a {
+        padding: 0;
+      }
+
+      a.nav-icon#nav_link_my_profile {
+        max-width: 130px;
+        padding-left: 0;
+        padding-right: 0;
+        font-size: 0.75em;
+
+        img {
+          width: 22px;
+          height: 22px;
+          position: relative;
+          top: 1px;
+        }
+      }
+
+      .dropdown-menu#my_profile_menu {
+        width: 190px;
+        left: -27px;
+
+        a {
+          padding-left: 10px;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
+
+html.svg #logo {
+  background-size: 65%;
+}
+
+footer.main_footer nav#footer_nav .nav-link {
+  font-size: 0.67em;
+}
+
+.slick-carousel.exchanges {
+  .slick-carousel-item {
+    .img {
+      height: 50%;
+    }
+
+    .entry-content {
+      height: 50%;
+    }
+  }
+}
+
+.modal-dialog.wide {
+  max-width: 720px !important;
+  width: 720px !important;
+}
+
