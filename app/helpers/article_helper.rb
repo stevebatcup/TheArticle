@@ -8,7 +8,7 @@ module ArticleHelper
 	end
 
 	def article_excerpt_for_listing(article, length=125)
-		strip_tags(truncate(article.excerpt, length: length, escape: false).html_safe)
+		strip_tags(truncate(article.excerpt, length: length, escape: false, separator: /\s/, omission: ' [...]').html_safe)
 	end
 
 	def article_path(article)
