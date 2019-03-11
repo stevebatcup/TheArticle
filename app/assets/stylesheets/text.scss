@@ -7,6 +7,10 @@
        asset_url('gabriela.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
+.text_shadow {
+  text-shadow: 1px 1px 2px #2d2d2d;
+}
+
 .gabriela {
 	font-family: Gabriela, verdana, sans-serif;
 }

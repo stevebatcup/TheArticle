@@ -342,6 +342,27 @@ a.btn {
 		text-transform: none !important;
 	}
 
+	&.btn-success {
+		background-color: $green !important;
+		border-color: $green !important;
+	}
+
+	&.btn-outline-success {
+		color: $green !important;
+		border-color: $green !important;
+	}
+
+	&.btn-disabled {
+		cursor: default !important;
+	}
+
+	&btn-clear {
+		border: none;
+		background: none;
+		color: #fff;
+		font-size: 28px;
+	}
+
 	&:hover {
 		color: #333;
 	}
@@ -351,14 +372,6 @@ button.gabriela,
 a.gabriela {
 	@extend .gabriela;
 	padding-top: 0.37rem !important;
-}
-
-button.btn.btn-clear,
-a.btn.btn-clear {
-	border: none;
-	background: none;
-	color: #fff;
-	font-size: 28px;
 }
 
 footer.main_footer {
@@ -1165,10 +1178,6 @@ select.short {
 
 .ng-confirm .ng-confirm-box div.ng-confirm-title-c {
 	font-size: 1.2em;
-}
-
-.btn-disabled {
-	cursor: default !important;
 }
 
 .blocked-btn {

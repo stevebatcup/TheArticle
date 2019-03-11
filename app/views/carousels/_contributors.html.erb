@@ -4,17 +4,17 @@
 			<div class="inner" style="background-image: url('<%= contributor.image.url(:listing) %>')" alt="<%= contributor.display_name %>" />
 				<div class="mask">
 					<div class="px-2 px-md-2 inner_inner">
-						<h3 class="shadow text-white mb-0 filter_target">
+						<h3 class="text_shadow text-white mb-0 filter_target">
 							<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
 								<%= contributor.display_name %>
 							</a>
 						</h3>
-						<h4 class="shadow text-white mb-0 mx-0 mt-1">
+						<h4 class="text_shadow text-white mb-0 mx-0 mt-1">
 							<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
 								<%= contributor.title.html_safe %>
 							</a>
 						</h4>
-						<p class="shadow text-white entry-content mb-0 mx-auto mt-2 mobile_hide" data-href="<%= contributor_path(slug: contributor.slug) %>">
+						<p class="text_shadow text-white entry-content mb-0 mx-auto mt-2 mobile_hide" data-href="<%= contributor_path(slug: contributor.slug) %>">
 							<%= truncate(contributor.blurb, length: 200) %>
 						</p>
 					</div>

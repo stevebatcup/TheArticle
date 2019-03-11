@@ -18,12 +18,12 @@ class ApplicationController < ActionController::Base
 	end
 
 	def default_meta_description
-		"In a post-truth world, thoughtful analysis has never been more necessary. And at TheArticle, we provide it by funding journalism for informed debate"
+		"Eclectic, enjoyable, essential reading. We are the only publisher that's also a social media platform so you get personalised debate with no pay wall."
 	end
 	helper_method	:default_meta_description
 
 	def default_page_title
-		"Funding journalism for informed debate"
+		"TheArticle. Every Angle."
 	end
 	helper_method	:default_page_title
 

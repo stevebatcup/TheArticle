@@ -4,8 +4,7 @@ module SeoHelper
   end
 
 	def yield_page_title(default_text='')
-    title = content_for?(:page_title) ? content_for(:page_title) : default_text
-    "#{title} | TheArticle"
+    title = content_for?(:page_title) ? "#{content_for(:page_title)} | TheArticle" : default_text
   end
 
   def meta_tag(tag, text)

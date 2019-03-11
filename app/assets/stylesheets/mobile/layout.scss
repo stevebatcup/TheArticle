@@ -351,10 +351,6 @@ a.btn {
 	padding: 0.25rem 1.2rem !important;
 	outline: none;
 
-	&:focus {
-		outline: none;
-	}
-
 	&.join_button {
 		text-transform: none !important;
 		font-size: 1.2em;
@@ -363,20 +359,34 @@ a.btn {
 	&.btn-lower {
 		text-transform: none !important;
 	}
+
+	&btn-clear,
+	&.btn-clear {
+		border: none;
+		background: none;
+		color: #fff;
+		font-size: 28px;
+	}
+
+	&.btn-success {
+		background-color: $green !important;
+		border-color: $green !important;
+	}
+
+	&.btn-outline-success {
+		color: $green !important;
+		border-color: $green !important;
+	}
+
+	&:focus {
+		outline: none;
+	}
 }
 
 button.gabriela,
 a.gabriela {
 	@extend .gabriela;
 	padding-top: 0.37rem !important;
-}
-
-button.btn.btn-clear,
-a.btn.btn-clear {
-	border: none;
-	background: none;
-	color: #fff;
-	font-size: 28px;
 }
 
 /**** FOOTER ****/

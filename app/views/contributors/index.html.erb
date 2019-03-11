@@ -35,7 +35,7 @@
 						<div class="mask">
 							<div class="inner_inner">
 								<div class="px-2 px-md-2 py-0">
-									<h3 class="shadow text-white mb-0 filter_target">
+									<h3 class="text_shadow text-white mb-0 filter_target">
 										<% if contributor.post_count > 0 %>
 											<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
 												<%= contributor.display_name; %>
@@ -44,7 +44,7 @@
 											<%= contributor.display_name; %>
 										<% end %>
 									</h3>
-									<h4 class="shadow text-white mb-0 mx-0 mt-1">
+									<h4 class="text_shadow text-white mb-0 mx-0 mt-1">
 										<% if contributor.post_count > 0 %>
 											<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
 												<%= contributor.title %>
@@ -53,7 +53,7 @@
 											<%= contributor.title %>
 										<% end %>
 									</h4>
-									<p class="shadow text-white entry-content mb-0 mx-0 mt-2 mobile_hide"
+									<p class="text_shadow text-white entry-content mb-0 mx-0 mt-2 mobile_hide"
 											data-href="<%= contributor_path(slug: contributor.slug) %>">
 										<%= truncate(contributor.blurb, length: 230); %>
 									</p>

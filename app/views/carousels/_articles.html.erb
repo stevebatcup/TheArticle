@@ -11,13 +11,13 @@
         	<% end %>
           <div class="inner">
 	        	<%= render partial: 'common/exchange-badges', locals: { article: article } %>
-	        	<h2 class="shadow">
+	        	<h2 class="text_shadow">
 	            <a href="<%=  article_path(article) %>">
 	              <%= article.title.html_safe %>
 	            </a>
 	          </h2>
 	        	<footer class="entry-footer">
-	        		<p class="author_link shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name.html_safe %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+	        		<p class="author_link text_shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name.html_safe %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
 	        	</footer>
         	</div>
       	</div>
