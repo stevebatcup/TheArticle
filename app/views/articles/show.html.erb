@@ -303,8 +303,8 @@
 					<div class="sidebar_inner" id="featured_articles_sidebar">
 						<h2 class="bullet underline" style="display: none;">Sponsored picks</h2>
 						<div class="row">
-							<% @sponsored_picks.each do |sp| %>
-								<%= render partial: 'articles/sponsored-item-for-sidebar', locals: { article: sp } %>
+							<% @sponsored_picks.each_with_index do |sp, i| %>
+								<%= render partial: 'articles/sponsored-item-for-sidebar', locals: { article: sp, counter: i+1 } %>
 							<% end %>
 						</div>
 					</div>

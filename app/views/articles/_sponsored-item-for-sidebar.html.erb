@@ -1,4 +1,4 @@
-<article id="article-listing-post-<%= article.id %>" data-id="<%= article.id %>" class="article-listing col-12 post hoveraction block_click sponsored_article" data-href="<%=  article_path(article) %>">
+<article id="article-listing-post-<%= article.id %>" data-id="<%= article.id %>" class="article-listing col-12 post hoveraction block_click sponsored_article" data-href="<%=  article_path(article) %>" style="display: none;" data-index="<%= counter %>">
 	<div class="inner">
 		<div class="img_mask">
 			<% if article.is_newly_published? %>
