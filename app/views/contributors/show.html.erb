@@ -85,7 +85,7 @@
 	<%=
 		render partial: 'articles/listings', locals: {
 			block_id: 'contributorArticles',
-			title: "Articles by #{@contributor.display_name.html_safe}"
+			title: "Articles by #{@contributor.display_name}"
 		}
 	%>
 	<div class="ajax_loading contributor_articles" ng-show="contributorArticles.loading">Loading articles</div>

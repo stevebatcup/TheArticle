@@ -733,4 +733,20 @@ class TheArticle.Feeds extends TheArticle.PageController
 						when 'undisagree'
 							feedItem.iDisagreeWithPost = false
 
+	formatExchangeList: (exchanges) =>
+		sentence = ""
+		total = exchanges.length
+		angular.forEach exchanges, (exchange, i) =>
+			sentence += "<a href='#{exchange.path}' class='text-green'>#{exchange.name}</a>"
+			if total > 1
+				if i is (total - 2)
+					sentence += " and "
+				else if i < (total - 2)
+					sentence += ", "
+		if total is 1
+			sentence += " exchange"
+		else
+			sentence += " exchanges"
+		sentence
+
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)
