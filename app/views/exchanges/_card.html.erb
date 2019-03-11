@@ -20,15 +20,9 @@
 	</div>
 
 	<div class="exchange_box">
-		<div class="inner justify-content-start d-flex align-items-start">
-			<div class="img_mask">
-				<a ng-if="item.image" href="{{ item.path }}">
-					<img ng-src="{{ item.image }}" alt="{{ item.title }}" />
-				</a>
-			</div>
-
-			<div class="pl-3">
-				<h4 class="entry-title mb-2" id="article-post-title-{{ item.id }}">
+		<div class="inner row align-items-start">
+			<div class="pr-3 pt-2 col-8">
+				<h4 class="entry-title mb-1" id="article-post-title-{{ item.id }}">
 					<a href="{{ item.path }}">{{item.name}}</a>
 				</h4>
 
@@ -45,7 +39,12 @@
 					<span ng-show="!item.imFollowing">Follow</span>
 				</button>
 				<% end %>
+			</div>
 
+			<div class="img_mask col-4">
+				<a ng-if="item.image" href="{{ item.path }}">
+					<img ng-src="{{ item.image }}" alt="{{ item.title }}" class="rounded w-100" />
+				</a>
 			</div>
 		</div>
 

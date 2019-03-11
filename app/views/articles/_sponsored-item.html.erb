@@ -1,4 +1,4 @@
-<article id="article-listing-post-<%= article.id %>" data-id="<%= article.id %>" class="article-listing col-12 post hoveraction block_click sponsored_article" data-href="<%=  article_path(article) %>">
+<article id="article-listing-post-<%= article.id %>" data-id="<%= article.id %>" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click sponsored_article" data-href="<%=  article_path(article) %>">
 	<div class="inner">
 		<div class="img_mask">
 			<% if article.is_newly_published? %>
@@ -13,8 +13,8 @@
 		</div>
 
 		<a href="/sponsors" class="exchange-badge exchange-sponsored">
-      <i class="fas fa-star"></i>
-      Sponsored
+	    <i class="fas fa-star"></i>
+	    Sponsored
 		</a>
 
 		<header class="entry-header pt-0 px-3">
@@ -31,4 +31,4 @@
 			<p class="author_link"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%= article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
 		</footer>
 	</div>
-</article><!-- #post-## -->
+</article>

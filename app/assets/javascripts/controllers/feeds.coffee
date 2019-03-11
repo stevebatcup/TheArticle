@@ -184,7 +184,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		item.share.commentsLoaded = false
 		@showComments(null, item)
 
-	showCommentsSuccess: (item, focusTextBox, $event) =>
+	showCommentsSuccess: (item, focusTextBox, $event=null) =>
 		item.share.showComments = true
 		item.share.showAgrees = false
 		item.share.showDisagrees = false
@@ -192,6 +192,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 			@timeout =>
 				$($event.target).closest('.feed-share').find('textarea.comment_textarea').focus()
 			, 500
+		if $event?
+			$target = $($event.currentTarget)
+			if $target.closest('.modal').length > 0
+				@timeout =>
+					$modalBody = $target.closest('.modal-body')
+					pos = $modalBody.scrollTop()
+					$modalBody.scrollTop pos + 160
+				, 200
 
 	showAllComments: ($event, item) =>
 		$event.preventDefault()

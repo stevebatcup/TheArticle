@@ -53,37 +53,37 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				followers: []
 				page: 1
 				perPage: 10
-				moreToLoad: false
+				moreToLoad: true
 				totalItems: 0
 			shares:
 				data: []
 				page: 1
 				perPage: 10
-				moreToLoad: false
+				moreToLoad: true
 				totalItems: 0
 			ratings:
 				data: []
 				page: 1
 				perPage: 10
-				moreToLoad: false
+				moreToLoad: true
 				totalItems: 0
 			exchanges:
 				data: []
 				page: 1
 				perPage: 10
-				moreToLoad: false
+				moreToLoad: true
 				totalItems: 0
 			opinionActions:
 				data: []
 				page: 1
 				perPage: 10
-				moreToLoad: false
+				moreToLoad: true
 				totalItems: 0
 			commentActions:
 				data: []
 				page: 1
 				perPage: 10
-				moreToLoad: false
+				moreToLoad: true
 				totalItems: 0
 			form:
 				edited: false
@@ -295,7 +295,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			if "@#{@scope.profile.form.data.username.value}" is @scope.profile.form.data.originalUsername
 				callback.call(@) if callback?
 			else
-				@http.get("/username-availability?username=@#{@scope.profile.form.data.username.value}").then (response) =>
+				@http.get("/username-availability?username=@#{@scope.profile.form.data.username.value.toLowerCase()}").then (response) =>
 					if response.data is false
 						@scope.profile.errors.username = "Username has already been taken"
 						return false
@@ -303,7 +303,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						callback.call(@) if callback?
 
 	updateProfile: =>
-		@scope.profile.data.originalUsername = "@#{@scope.profile.form.data.username.value}"
+		@scope.profile.data.originalUsername = "@#{@scope.profile.form.data.username.value.toLowerCase()}"
 		profile = new @MyProfile @setProfileData(@scope.profile.form.data)
 		profile.update().then (response) =>
 			if response.status is 'error'
@@ -311,7 +311,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			else
 				@timeout =>
 					$('#editProfileFormModal').modal('hide')
-					window.location.reload()
+					window.location = window.location.pathname
 				, 750
 		, (error) =>
 			@updateProfileError error.statusText
@@ -362,7 +362,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			checkOrientation: true
 			center: true
 			cropBoxResizable: false
-			viewMode: 3
+			viewMode: 1
 			minCropBoxHeight: height
 			minCropBoxWidth: width
 			dragMode: 'none'
@@ -410,6 +410,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@scope.photoCrop.cropper.destroy()
 		$("#edit#{type}Modal").modal('hide')
 		$("#{type}_holder").attr("src", "")
+		$("##{type}_uploader").val('')
 
 	savePhotoError: (msg, type) =>
 		@scope.profile.data[type].uploading = false
@@ -617,7 +618,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		, false
 
 	validateUsername: (callback=null, save=false) =>
-		url = "/username-availability?username=@#{@scope.profile.form.data.username.value}"
+		url = "/username-availability?username=@#{@scope.profile.form.data.username.value.toLowerCase()}"
 		url += "&save=1" if save is true
 		@http.get(url).then (response) =>
 			if response.data is false

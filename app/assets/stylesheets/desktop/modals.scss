@@ -8,14 +8,15 @@
 		button.close_share_modal {
 			position: relative;
 			top: -4px;
+			padding-right: 6px !important;
 		}
 	}
 
 	.modal-dialog.scrollable {
 		.modal-body {
 			overflow-y: auto;
-			height: 88%;
-			height: 88vh;
+			height: 85%;
+			height: 85vh;
 		}
 	}
 
@@ -39,8 +40,8 @@
 	}
 
 	.modal-dialog.medium {
-		max-width: 600px;
-		width: 600px;
+		max-width: 620px;
+		width: 620px;
 	}
 
 	.modal-header {

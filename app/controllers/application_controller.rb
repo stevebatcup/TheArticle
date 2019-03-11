@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def default_meta_description
-		"Eclectic, enjoyable, essential reading. We are the only publisher that's also a social media platform so you get personalised debate with no pay wall."
+		"Eclectic, enjoyable, essential reading. We are the only publisher that is also a social media platform so you get personalised debate with no pay wall."
 	end
 	helper_method	:default_meta_description
 

@@ -222,7 +222,7 @@
 						<h1 class="bullet underline">Sponsored picks</h1>
 						<div class="row">
 							<% @sponsored_picks.each do |sp| %>
-								<%= render partial: 'articles/item', locals: { article: sp } %>
+								<%= render partial: 'articles/sponsored-item', locals: { article: sp } %>
 							<% end %>
 						</div>
 					</div>

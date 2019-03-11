@@ -1,0 +1,2 @@
+class ThirdPartyShareErrorLog < ApplicationRecord
+end

@@ -17,11 +17,11 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		if $('#sidebar').length
 			sideBarHeight = $('#sidebar').outerHeight()
 			contentHeight = $('#content_box').outerHeight() + $('#img_box').outerHeight()
-			if sideBarHeight > 2300
-				$('h2', '#featured_articles_sidebar').show()
-				$('[data-index=1]', '#featured_articles_sidebar').show()
-				if sideBarHeight > 2700
-					$('[data-index=2]', '#featured_articles_sidebar').show()
+			if sideBarHeight > 1705
+				articleCount = Math.floor((sideBarHeight - 1705) / 376)
+				$('h2', '#featured_articles_sidebar').show() if articleCount > 0
+				for i in [0...articleCount]
+					$("[data-index=#{i+1}]", '#featured_articles_sidebar').show()
 			else if sideBarHeight - contentHeight >= 400
 				$('#featured_articles_content_bar').show()
 

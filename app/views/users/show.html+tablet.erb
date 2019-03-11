@@ -39,48 +39,54 @@
 		      <label>All</label>
 		    </a>
 		  </li>
-		  <li class="nav-item">
-		  	<a id="activity-following-tab" class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
-			  	<label>Following</label>
-			  	<span>{{ profile.follows.followings.length }}</span>
-			  </a>
-		  </li>
-		  <li class="nav-item">
-		    <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
-					<label>Followers</label>
-					<span>{{ profile.follows.followers.length }}</span>
-		    </a>
-		  </li>
-		  <li class="nav-item" ng-if="profile.isMe">
-		    <a id="activity-connected-tab" class="with_badge nav-link" ng-click="selectTab('connected')" ng-class="{'active': selectedTab == 'connected'}">
-					<label>Connected</label>
-					<span>{{ profile.follows.connections.length }}</span>
-		    </a>
-		  </li>
-		  <li class="nav-item">
-		    <a id="activity-ratings-tab" class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
-		    	<label>Ratings</label>
-		    	<span>{{ profile.ratings.data.length }}</span>
-		    </a>
-		  </li>
-		  <li class="nav-item">
-		    <a id="activity-shares-tab" class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
-					<label>Shares</label>
-					<span>{{ profile.shares.data.length }}</span>
-		    </a>
-		  </li>
-		  <li class="nav-item">
-		    <a id="activity-exchanges-tab" class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
-					<label>Exchanges</label>
-					<span>{{ profile.exchanges.data.length }}</span>
-		    </a>
-		  </li>
+	    <li class="nav-item">
+	    	<a id="activity-following-tab" class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
+	  	  	<label>Following</label>
+	  	  	<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
+	  	  	<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.followings.length }}</span>
+	  	  </a>
+	    </li>
+	    <li class="nav-item">
+	      <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
+	  			<label>Followers</label>
+	  	  	<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
+	  			<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.followers.length }}</span>
+	      </a>
+	    </li>
+	    <li class="nav-item" ng-if="profile.isMe">
+	      <a id="activity-connected-tab" class="with_badge nav-link" ng-click="selectTab('connected')" ng-class="{'active': selectedTab == 'connected'}">
+	  			<label>Connected</label>
+	  	  	<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
+	  			<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.connections.length }}</span>
+	      </a>
+	    </li>
+	    <li class="nav-item">
+	      <a id="activity-ratings-tab" class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
+	      	<label>Ratings</label>
+	  	  	<span class="ajax_loading_label" ng-show="profile.ratings.moreToLoad">&nbsp;</span>
+	      	<span ng-show="!profile.ratings.moreToLoad">{{ profile.ratings.totalItems }}</span>
+	      </a>
+	    </li>
+	    <li class="nav-item">
+	      <a id="activity-shares-tab" class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
+	  			<label>Shares</label>
+	  	  	<span class="ajax_loading_label" ng-show="profile.shares.moreToLoad">&nbsp;</span>
+	  			<span ng-show="!profile.shares.moreToLoad">{{ profile.shares.totalItems }}</span>
+	      </a>
+	    </li>
+	    <li class="nav-item">
+	      <a id="activity-exchanges-tab" class="with_badge nav-link" ng-click="selectTab('exchanges')" ng-class="{'active': selectedTab == 'exchanges'}">
+	  			<label>Exchanges</label>
+	  	  	<span class="ajax_loading_label" ng-show="profile.exchanges.moreToLoad">&nbsp;</span>
+	  			<span ng-show="!profile.exchanges.moreToLoad">{{ profile.exchanges.totalItems }}</span>
+	      </a>
+	    </li>
 		</ul>
 
 	</section>
 
 	<div class="row" id="main_feed">
-		<section class="col-md-4 col-lg-3" ng-show="profile.loaded && !profile.loadError" id="left_col" ng-cloak>
+		<section class="col-md-0 col-lg-3" ng-show="profile.loaded && !profile.loadError" id="left_col" ng-cloak>
 
 			<div id="basic_info">
 				<div class="pt-2">
@@ -252,7 +258,7 @@
 			</div>
 		</section>
 
-		<section class="col-md-8 col-lg-9" id="feed" ng-show="profile.loaded && !profile.loadError">
+		<section class="col-md-12 col-lg-6 pr-0" id="feed" ng-show="profile.loaded && !profile.loadError">
 			<!-- Feed when blocking them -->
 			<div class="container" id="activity-tabs" ng-if="profile.data.isBlocked" ng-cloak>
 				<div class="results_block row">
@@ -283,6 +289,114 @@
 			<div class="container" id="activity-tabs" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 
 				<div class="" ng-if="selectedTab == 'all'">
+					<div class="d-md-block d-lg-none" id="portrait_basic_info">
+						<div class="row">
+							<div class="col-md-2">
+								<img ng-src="{{ profile.data.profilePhoto.image }}" class="rounded-circle" alt="{{ profile.data.displayName }}" ng-click="editProfilePhoto()" ng-class="{'editable': profile.isMe}" />
+							</div>
+
+							<div class="col-md-4 navbar pb-0 pt-1">
+								<h5 class="mb-1">{{ profile.data.displayName }}</h5>
+								<h6 class="text-muted mb-2">
+									{{ profile.data.originalUsername }}
+									<span ng-show="profile.data.isFollowingMe" class="badge follower-badge">Follows you</span>
+								</h6>
+
+								<div class="btn-group w-100" ng-show="profile.isMe">
+								  <button class="w-75 btn btn-success btn-sm" type="button" id="edit_profile_btn" ng-click="editProfile()">
+								    Edit profile
+								  </button>
+								  <button type="button" class="w-25 btn btn-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								  	<span class="sr-only">Toggle Dropdown</span>
+								    <i class="fas fa-cog" aria-hidden="true"></i>
+								  </button>
+								  <div class="dropdown-menu">
+								    <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+						        <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+						        <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+								  </div>
+								</div>
+
+								<div class="btn-group w-100 mt-2" ng-show="!profile.isMe">
+									<button class="w-75 btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+													ng-if="!profile.data.isBlocked && !profile.data.iAmBlocked && !profile.data.imFollowing">
+										<i class="fas fa-users mr-2"></i>
+										Follow
+									</button>
+									<button class="w-75 btn btn-success" ng-click="toggleFollowUser(<%= @user.id %>)"
+														ng-if="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.data.imFollowing)">
+										<i class="fas fa-users mr-2"></i>
+										Following
+									</button>
+
+									<button class="w-75 btn btn-danger btn-disabled blocked-btn" ng-if="profile.data.iAmBlocked && !profile.data.isBlocked">
+										<i class="fas fa-ban"></i>
+										Blocked
+									</button>
+
+									<button class="w-75 btn btn-danger blocked-btn"
+														ng-if="profile.data.isBlocked"
+														ng-click="unblock($event, profile.data.id, profile.data.originalUsername)">
+										<i class="fas fa-ban"></i>
+										<span class="shown">Blocked</span>
+										<span class="hidden">Unblock</span>
+									</button>
+								  <button type="button" class="w-25 btn btn-sm"
+								  				data-toggle="dropdown"
+								  				aria-haspopup="true"
+								  				aria-expanded="false"
+								  				ng-class="{
+								  					'btn-success': !profile.data.isBlocked && !profile.data.iAmBlocked,
+								  					'btn-danger': profile.data.isBlocked,
+								  					'btn-danger': profile.data.iAmBlocked
+								  				}">
+								  	<span class="sr-only">Toggle Dropdown</span>
+								    <i class="fas fa-cog" aria-hidden="true"></i>
+								  </button>
+								  <div class="dropdown-menu dropdown-menu-right">
+								  	<a class="dropdown-item" href="#" ng-click="mute($event, profile.data.id, profile.data.originalUsername)" ng-if="(!profile.data.isMuted) && (profile.data.imFollowing)">Mute</a>
+								  	<a class="dropdown-item" href="#" ng-click="unmute($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isMuted">Unmute</a>
+
+								  	<a class="dropdown-item" href="#" ng-click="block($event, profile.data.id, profile.data.originalUsername)" ng-if="!profile.data.isBlocked">Block</a>
+								  	<a class="dropdown-item" href="#" ng-click="unblock($event, profile.data.id, profile.data.originalUsername)" ng-if="profile.data.isBlocked">Unblock</a>
+
+						        <a class="dropdown-item" href="#" ng-click="reportProfile($event, profile.data)">Report</a>
+								  </div>
+								</div>
+							</div>
+
+							<div class="col-md-6 pt-2" ng-cloak>
+								<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" class="pt-1">
+									<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
+								</p>
+
+								<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
+									<i class="fas fa-map-marker-alt"></i>
+									<span class="pl-3">{{ profile.data.location }}</span>
+								</p>
+								<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
+									<a href='#' ng-click="editProfile('location')">
+										<i class="fas fa-map-marker-alt text-green"></i>
+										<span class="pl-3 text-green">Add Location</span>
+									</a>
+								</p>
+							</div>
+						</div>
+
+						<div class="row">
+							<p class="mt-3 px-2 mb-0" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
+								{{ profile.data.bio }}
+							</p>
+							<p class="mt-3 px-2 mb-0" ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
+								<a href='#' ng-click="editProfile('bio')">
+									<i class="fas fa-plus text-green"></i>
+									<span class="pl-3 text-green">Add Bio</span>
+								</a>
+							</p>
+						</div>
+					</div>
+
+
 					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="profile.isMe">
 	          <textarea name="third_party_article_url"
 	                      id="third_party_article_url_phantom"
@@ -348,7 +462,7 @@
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} is not following anyone</span>
 						</p>
 
-						<div ng-repeat="item in profile.follows.followings" class="col-md-6 col-lg-4 feed-listing px-1 feed-follow">
+						<div ng-repeat="item in profile.follows.followings" class="col-md-4 col-lg-6 feed-listing px-1 feed-follow">
 							<%= render 'member_card' %>
 						</div>
 
@@ -382,7 +496,7 @@
 					  </ul>
 
 						<div ng-repeat="item in profile.follows.followers"
-									class="col-md-6 col-lg-4 feed-listing px-1 feed-follow"
+									class="col-md-4 col-lg-6 feed-listing px-1 feed-follow"
 									ng-if="(profile.follows.followersMode == 'all') || (item.imFollowing)">
 								<%= render 'member_card' %>
 						</div>
@@ -397,7 +511,7 @@
 							<span ng-if="profile.isMe">You currently have no connections</span>
 						</p>
 
-						<div ng-repeat="item in profile.follows.connections" class="col-md-6 col-lg-4 feed-listing px-1 feed-follow">
+						<div ng-repeat="item in profile.follows.connections" class="col-md-4 col-lg-6 feed-listing px-1 feed-follow">
 							<%= render 'member_card' %>
 						</div>
 
@@ -486,6 +600,71 @@
 				</div>
 			</div>
 		</section>
+
+		<div class="col-md-0 col-lg-3 mt-3" id="callouts" ng-show="profile.loaded && !profile.loadError" ng-cloak>
+			<% if user_signed_in? && !current_user.profile_is_deactivated? %>
+			<section ng-if="profile.isMe" class="pb-3 card w-100 callout mb-3" ng-if="suggestions.listForSidebox.length > 0">
+				<div id="who_to_follow" class="" ng-controller="SuggestionsController">
+					<div class="card-header">
+						<h5 class="card-title">Who to follow on TheArticle</h5>
+					</div>
+					<div class="card-body pt-0 px-0">
+
+						<div class="">
+							<div class="show active"
+								id="suggestions_for_you"
+								role="tabpanel"
+								aria-labelledby="suggestions-sub-tab-for_you">
+								<div ng-repeat="item in suggestions.listForSidebox" class="feed-listing mb-3">
+									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+								</div>
+							</div>
+
+							<div ng-if="suggestions.total > 3" class="px-3 pt-2 pb-1" id="show_all_suggestions">
+								<a href="#" ng-click="openSuggestionsModal($event)" class="text-green">See all suggestions</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<% end %>
+
+			<section id="trending_articles" class="callout card w-100">
+				<div class="card-header">
+					<h5 class="card-title">Latest articles</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @trending_articles.each do |ta| %>
+						<article class="row mt-3 px-0<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+							<div class="col-12">
+								<% if(ta.is_sponsored?) %>
+									<a href='/sponsors' class="sponsored">
+										<i class="fas fa-star"></i>
+										SPONSORED
+									</a>
+								<% end %>
+								<h5 class="pb-0 mb-0">
+									<a href="<%= article_path(ta) %>">
+										<%= ta.title.html_safe %>
+									</a>
+								</h5>
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-4' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
+									<p class="author_link">
+										<a href="<%= contributor_path(slug: ta.author.slug) %>">
+											by <span><%= ta.author.display_name %></span>
+										</a>
+										<span class="entry-date">
+											<%= article_date(ta) %>
+										</span>
+									</p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
+				</div>
+			</section>
+		</div>
 	</div>
 </section>
 

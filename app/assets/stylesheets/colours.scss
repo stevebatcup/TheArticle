@@ -45,35 +45,51 @@ button.btn-standard {
 	color: $grey;
 }
 
-.bg-green,
-.bg-colour-1 {
+.bg-green {
 	background-color: $green;
 	border-color: $green_dark;
 }
-.text-green,
-.text-colour-1 {
+.text-green {
 	color: $green;
 }
-.bg-green-light,
-.bg-colour-1-light {
+.bg-green-light {
 	background-color: $green_light;
 	border-color: $green_dark;
 }
-.text-green-light,
-.text-colour-1-light {
+.text-green-light {
 	color: $green_light;
 }
-.bg-green-dark,
-.bg-colour-1-dark {
+.bg-green-dark {
 	background-color: $green_dark;
 }
-.text-green-dark,
-.text-colour-1-dark {
+.text-green-dark {
 	color: $green_dark;
 }
-a.btn.bg-colour-1:hover,
-button.btn.bg-colour-1:hover {
-	background-color: $green_dark;
+
+
+.bg-lilac,
+.bg-colour-1 {
+	background-color: #38419c;
+}
+.text-lilac ,
+.text-colour-1 {
+	color: #38419c;
+}
+.bg-lilac-light,
+.bg-colour-1-light {
+	background-color: #6a70b4;
+}
+.text-lilac-light,
+.text-colour-1-light {
+	color: #6a70b4;
+}
+.bg-lilac-dark,
+.bg-colour-1-dark {
+	background-color: #252a62;
+}
+.text-lilac-dark,
+.text-colour-1-dark {
+	color: #252a62;
 }
 
 .bg-blue,
@@ -276,86 +292,56 @@ button.btn.bg-colour-1:hover {
 	color: #c30079;
 }
 
-
-.bg-lilac,
-.bg-colour-10 {
-	background-color: #38419c;
-}
-.text-lilac ,
-.text-colour-10 {
-	color: #38419c;
-}
-.bg-lilac-light,
-.bg-colour-10-light {
-	background-color: #6a70b4;
-}
-.text-lilac-light,
-.text-colour-10-light {
-	color: #6a70b4;
-}
-.bg-lilac-dark,
-.bg-colour-10-dark {
-	background-color: #252a62;
-}
-.text-lilac-dark,
-.text-colour-10-dark {
-	color: #252a62;
-}
-
 .bg-grass,
-.bg-colour-11 {
+.bg-colour-10 {
 	background-color: #417505;
 }
 .text-grass ,
-.text-colour-11 {
+.text-colour-10 {
 	color: #417505;
 }
 .bg-grass-light,
-.bg-colour-11-light {
+.bg-colour-10-light {
 	background-color: #6f9147;
 }
 .text-grass-light,
-.text-colour-11-light {
+.text-colour-10-light {
 	color: #6f9147;
 }
 .bg-grass-dark,
-.bg-colour-11-dark {
+.bg-colour-10-dark {
 	background-color: #366005;
 }
 .text-grass-dark,
-.text-colour-11-dark {
+.text-colour-10-dark {
 	color: #366005;
 }
 
 .bg-bronze,
-.bg-colour-12 {
+.bg-colour-11 {
 	background-color: #b76200;
 }
 .text-bronze ,
-.text-colour-12 {
+.text-colour-11 {
 	color: #b76200;
 }
 .bg-bronze-light,
-.bg-colour-12-light {
+.bg-colour-11-light {
 	background-color: #d07b30;
 }
 .text-bronze-light,
-.text-colour-12-light {
+.text-colour-11-light {
 	color: #d07b30;
 }
 .bg-bronze-dark,
-.bg-colour-12-dark {
+.bg-colour-11-dark {
 	background-color: #9d5600;
 }
 .text-bronze-dark,
-.text-colour-12-dark {
+.text-colour-11-dark {
 	color: #9d5600;
 }
 
 .text-orange {
 	color: orange;
-}
-
-.shadow {
-	text-shadow: 1px 1px 2px lighten(#202020, 5%);
 }

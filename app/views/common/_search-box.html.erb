@@ -5,7 +5,7 @@
         <div class="input-group">
           <input placeholder="Search TheArticle..." class="text-white form-control" type="text" value="" name="query" ng-model="search.query" id="search_query" autocomplete="off">
           <span class="input-group-btn">
-            <button class="btn-link btn-sm btn bg-colour-1 text-white gabriela" type="submit" id="search_submitter">
+            <button class="btn-link btn-sm btn bg-green text-white gabriela" type="submit" id="search_submitter">
               GO <i class="fas fa-angle-right"></i>
             </button>
           </span>
@@ -129,10 +129,10 @@
                 <i class="fas fa-search larger text-green mr-2"></i>
               </a>
                <a href='{{item.path}}' class="searcher d-flex align-items-center mb-2">
-                <img ng-src="{{ item.image }}" alt="{{ item.term }}" class="ml-1 ml-md-2 mr-2 mr-md-4" />
+                <img ng-src="{{ item.image }}" alt="" class="ml-1 ml-md-2 mr-2 mr-md-4" />
                 <span class="sinner">
                   {{ item.articleCount }} by<br />
-                  <b>{{ item.term }}</b>
+                  <b ng-bind-html="item.term"></b>
                 </span>
               </a>
               <a href='#' ng-click="removeSeachItem(item, 'contributors')" class="closer">

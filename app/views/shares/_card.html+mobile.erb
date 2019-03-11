@@ -206,9 +206,9 @@
 		    <form class="comment-form">
 		    	<div class="d-flex w-100">
 		    		<% if user_signed_in? %>
-							<img src="<%= current_user.profile_photo.url(:square) %>" alt="<%= current_user.display_name %>" />
+							<img src="<%= current_user.profile_photo.url(:square) %>" alt="<%= current_user.display_name %>" class="rounded-circle" />
 						<% end %>
-		        <textarea class="comment_textarea ml-3 form-control" name="comment" rows="4" placeholder="Add your Comment" ng-model="commentForSubmission.value"></textarea>
+		        <textarea class="comment_textarea ml-2 form-control" name="comment" rows="4" placeholder="Add your Comment" ng-model="commentForSubmission.value"></textarea>
 		      </div>
 		      <div class="d-flex justify-content-end">
 				    <a class="cancel_reply text-green mr-4 mt-4" href='#' style="display: none;" ng-click="cancelReply($event, item.share.id)">Cancel reply</a>

@@ -96,14 +96,6 @@
 											Cancel
 							</button>
 
-							<button type="button" class="btn btn-primary"
-											ng-click="resetPhoto()" title="Reset"
-											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
-											ng-disabled="profile.data.<%= type %>Photo.uploading != false">
-							    <span class="fas fa-sync-alt"></span>
-							    Reset
-							</button>
-
 							<button ng-click="saveCroppedPhoto($event, '<%= type %>Photo')"
 											class="btn btn-success w-50 ml-2 ml-md-3"
 											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"

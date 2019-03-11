@@ -3,8 +3,9 @@ require 'ogp'
 
 module ThirdPartyArticleService
 	class << self
-		def scrape_url(url)
+		def scrape_url(url, current_user)
 			standard_error_msg = "Unable to build preview"
+			bad_url_error_msg = "Sorry we are not able to find details of an article at that URL"
 			begin
 				if url.include?('railstaging.thearticle.com')
 					conn = Faraday.new('http://railstaging.thearticle.com')
@@ -17,16 +18,30 @@ module ThirdPartyArticleService
 				end
 				OGP::OpenGraph.new(response.body)
 			rescue Faraday::SSLError => e
+				self::log_error(e, standard_error_msg, url, current_user)
 				raise IOError.new("#{standard_error_msg}")
 			rescue NoMethodError => e
+				self::log_error(e, standard_error_msg, url, current_user)
 				raise IOError.new("#{standard_error_msg}")
 			rescue Faraday::ConnectionFailed, ArgumentError, URI::InvalidURIError => e
-				raise IOError.new("Please enter a valid web URL")
-			rescue OGP::MissingAttributeError
-				raise IOError.new("Please enter a valid article URL")
+				self::log_error(e, bad_url_error_msg, url, current_user)
+				raise IOError.new(bad_url_error_msg)
+			rescue OGP::MissingAttributeError => e
+				self::log_error(e, bad_url_error_msg, url, current_user)
+				raise IOError.new(bad_url_error_msg)
 			rescue Exception => e
+				self::log_error(e, standard_error_msg, url, current_user)
 				raise IOError.new("#{standard_error_msg}")
 			end
+		end
+
+		def log_error(e, error_shown, url, current_user)
+			ThirdPartyShareErrorLog.create({
+				url: url,
+				user_id: current_user.id,
+				error_show_to_user: error_shown,
+				exception_message: e.message
+			})
 		end
 
 		def get_domain_from_url(url)

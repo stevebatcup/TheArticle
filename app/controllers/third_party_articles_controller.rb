@@ -5,7 +5,7 @@ class ThirdPartyArticlesController < ApplicationController
 		respond_to do |format|
 			format.json do
 				begin
-					@articleOG = ThirdPartyArticleService.scrape_url(article_params[:url])
+					@articleOG = ThirdPartyArticleService.scrape_url(article_params[:url], current_user)
 					@status = :success
 				rescue IOError => e
 					@message = e.message

@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card pb-0">
 	<div class="user_info d-flex justify-content-between align-items-start" ng-if="item.user">
 
 		<div class="user_info_inner d-flex align-items-start">
@@ -20,14 +20,8 @@
 	</div>
 
 	<div class="exchange_box">
-		<div class="inner d-flex align-items-start w-100">
-			<div class="img_mask">
-				<a ng-if="item.image" href="{{ item.path }}">
-					<img ng-src="{{ item.image }}" alt="{{ item.title }}" />
-				</a>
-			</div>
-
-			<div class="pl-3 detail">
+		<div class="inner row w-100 mx-0">
+			<div class="detail px-0 pt-2 col-7">
 				<h4 class="entry-title mb-2" id="article-post-title-{{ item.id }}">
 					<a href="{{ item.path }}">{{item.name}}</a>
 				</h4>
@@ -35,19 +29,26 @@
 				<div class="">
 					{{ item.excerpt }}
 				</div>
+			</div>
 
-				<% if user_signed_in? %>
-				<button class="mt-1 btn btn-block mt-3"
+			<div class="img_mask col-5 pr-0">
+				<a ng-if="item.image" href="{{ item.path }}">
+					<img ng-src="{{ item.image }}" alt="{{ item.title }}" class="w-100 rounded" />
+				</a>
+			</div>
+		</div>
+
+		<% if user_signed_in? %>
+			<div class="row mx-0">
+				<button class="mt-1 btn btn-block mt-3 col-12"
 								ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
 								ng-click="toggleFollowExchangeFromCard(item, $event)">
 					<i class="fas fa-plus-square mr-1"></i>
 					<span ng-show="item.imFollowing">Following</span>
 					<span ng-show="!item.imFollowing">Follow</span>
 				</button>
-				<% end %>
-
 			</div>
-		</div>
+		<% end %>
 
 	</div>
 </div>

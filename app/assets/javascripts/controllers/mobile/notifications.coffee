@@ -14,6 +14,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	  'Share'
 	  'Comment'
 	  'Opinion'
+	  'MyProfile'
 	]
 
 	init: ->
@@ -43,6 +44,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@bindEvents()
 		@getNotifications()
 		@listenForActions()
+		@scope.myProfile = {}
+		@getMyProfile()
 
 	bindEvents: =>
 		@scope.$on 'load_more_notifications', =>
@@ -151,5 +154,9 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 					window.location.href = path
 			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
 				notification.isSeen = true
+
+	getMyProfile: (callback=null) =>
+		@MyProfile.get().then (profile) =>
+			@scope.myProfile = profile
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

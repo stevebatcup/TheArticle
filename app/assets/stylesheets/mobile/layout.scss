@@ -886,6 +886,13 @@ html.svg {
 		background-image: asset_url('ajax-loader.svg') !important;
 		padding: 30px 0 30px 60px;
 	}
+
+	.ajax_loading_label {
+		background-image: asset_url('ajax-loader.svg');
+		background-position: center -4px;
+		background-repeat: no-repeat;
+		background-size: 34px;
+	}
 }
 
 .ng-confirm .ng-confirm-box div.ng-confirm-title-c {

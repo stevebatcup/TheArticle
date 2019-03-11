@@ -995,6 +995,7 @@ div.new_article {
 		width: 230px;
 		left: 20px;
 		top: 52px;
+		z-index: 10000;
 
 		.dropdown-header {
 			line-height: 1.4em;
@@ -1107,6 +1108,13 @@ html.svg {
 		background-size: 70px;
 		background-image: asset_url('ajax-loader.svg') !important;
 		padding: 50px 0 50px 68px;
+	}
+
+	.ajax_loading_label {
+		background-image: asset_url('ajax-loader.svg');
+		background-position: center -4px;
+		background-repeat: no-repeat;
+		background-size: 34px;
 	}
 }
 

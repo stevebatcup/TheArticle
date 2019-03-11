@@ -15,6 +15,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  'Comment'
 	  'Opinion'
 	  'FollowGroup'
+	  'MyProfile'
 	]
 
 	init: ->
@@ -45,6 +46,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			moreToLoad: true
 		@getNotifications()
 		@listenForActions()
+		@scope.myProfile = {}
+		@getMyProfile()
 
 	bindEvents: =>
 		super
@@ -179,5 +182,9 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			if notification.isSeen is false
 				@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
 					notification.isSeen = true
+
+	getMyProfile: (callback=null) =>
+		@MyProfile.get().then (profile) =>
+			@scope.myProfile = profile
 
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

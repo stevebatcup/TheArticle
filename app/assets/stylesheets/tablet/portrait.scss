@@ -40,6 +40,10 @@
         a.nav-icon#nav_link_my_profile {
           max-width: 150px;
         }
+
+        .dropdown-menu#my_profile_menu {
+          left: -77px;
+        }
       }
     }
   }
@@ -92,6 +96,42 @@
         padding: 10px 14px;
         font-size: 0.75em;
         line-height: 1.15em;
+      }
+    }
+  }
+
+  .show-profile {
+    #cover_photo {
+      height: 144px;
+      line-height: 8.1em;
+    }
+
+    #portrait_basic_info {
+      padding-top: 23px;
+
+      .navbar {
+        display: block;
+
+        .btn {
+          font-size: 0.8em;
+        }
+      }
+
+      img {
+        top: 0;
+        left: -4px;
+        width: 100%;
+        height: inherit;
+        margin-bottom: 0;
+      }
+
+      h6 {
+        font-size: 0.85em;
+
+        .badge {
+          clear: both;
+          margin-top: 3px;
+        }
       }
     }
   }
