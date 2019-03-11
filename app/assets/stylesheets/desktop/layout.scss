@@ -480,7 +480,7 @@ html.svg header#main_header nav li.nav-item {
 		.entry-content {
 			display: none;
 			font-size: 0.8em;
-			line-height: 1.2em;
+			line-height: 1.4em;
 
 			p {
 				margin-bottom: 0;
@@ -595,11 +595,13 @@ html.svg header#main_header nav li.nav-item {
 			position: relative;
 
 			h4.entry-title {
-				line-height: 1.25em;
+				line-height: 1.2em;
+				padding-top: 5px;
 			}
 
 			.entry-content {
-				font-size: 0.85em;
+				padding-top: 6px;
+				font-size: 0.9em;
 				line-height: 1.35em;
 			}
 
@@ -627,7 +629,7 @@ html.svg header#main_header nav li.nav-item {
 
 		&.hovered {
 			.img_mask {
-				height: 40%;
+				height: 27%;
 			}
 
 			.entry-content {
