@@ -7,7 +7,7 @@ module ArticleHelper
 		article.published_at.strftime("%d %b %Y").upcase
 	end
 
-	def article_excerpt_for_listing(article, length=130)
+	def article_excerpt_for_listing(article, length=125)
 		strip_tags(truncate(article.excerpt, length: length, escape: false).html_safe)
 	end
 
