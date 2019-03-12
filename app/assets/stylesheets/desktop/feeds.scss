@@ -404,8 +404,6 @@
 	}
 
 	.card {
-		height: 100%;
-
 		h6 {
 			color: $grey;
 		}
@@ -548,7 +546,7 @@
 
 
 #feed {
-	overflow-y: auto;
+	// overflow-y: auto;
 	min-height: 80vh;
 
 	.ratings_summary {
