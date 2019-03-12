@@ -237,7 +237,7 @@
 
 	<% unless @article.is_sponsored? %>
 		<div id="more_on_exchange">
-			<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
+			<% listings_heading = @exchange_for_more.is_editor_item? ? "More #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
 			<%=
 				render partial: 'articles/listings', locals: {
 					block_id: 'exchangeArticles',

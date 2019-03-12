@@ -20,15 +20,16 @@ class TheArticle.Article extends TheArticle.MobilePageController
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
-		@scope.exchange = @element.data('exchange-id-for-more')
-		@scope.exchangeArticles =
-			page: 1
-			items: []
-			totalItemCount: 0
-			firstLoaded: false
-			loading: false
-			moreToLoad: true
-		@getArticlesInSameExchange()
+		if $('#more_on_exchange').length > 0
+			@scope.exchange = @element.data('exchange-id-for-more')
+			@scope.exchangeArticles =
+				page: 1
+				items: []
+				totalItemCount: 0
+				firstLoaded: false
+				loading: false
+				moreToLoad: true
+			@getArticlesInSameExchange()
 
 	bindEvents: ->
 		super
