@@ -3,6 +3,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$timeout'
 	  '$compile'
@@ -38,12 +39,23 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 		@scope.suggestions.listForSidebox = _.shuffle(@scope.suggestions.forYous.concat(@scope.suggestions.populars)).slice(0, 3)
 
 	toggleFollowSuggestion: (member) =>
-		@followSuggestion member.id, =>
-			member.imFollowing = true
-			@flash "You are now following <b>#{member.displayName}</b>"
+		if member.imFollowing
+			@unfollowSuggestion member.id, =>
+					member.imFollowing = false
+					@flash "You are no longer following <b>#{member.displayName}</b>"
+					@rootScope.$broadcast 'update_follows_from_suggestions'
+		else
+			@followSuggestion member.id, =>
+				member.imFollowing = true
+				@flash "You are now following <b>#{member.displayName}</b>"
+				@rootScope.$broadcast 'update_follows_from_suggestions'
 
 	followSuggestion: (userId, callback) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
+			callback.call(@)
+
+	unfollowSuggestion: (userId, callback) =>
+		@http.delete("/user_followings/#{userId}").then (response) =>
 			callback.call(@)
 
 	openSuggestionsModal: ($event) =>

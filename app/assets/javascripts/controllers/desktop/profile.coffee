@@ -180,6 +180,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			if value.length > 2
 				@autocompleteLocations $input
 
+		@scope.$on 'update_follows_from_suggestions', (e) =>
+			@resetFollows()
+
 	imageUploadError: (error) =>
 		@scope.profile.errors.photo = error
 
@@ -291,6 +294,19 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				item.type = 'opinionAction'
 				@scope.profile.digest.push item
 			@reorderDigest()
+
+	resetFollows: =>
+		@scope.profile.follows =
+			followings: []
+			followers: []
+			connections: []
+			imFollowingCount: 0
+			followersMode: 'all'
+			page: 1
+			perPage: 10
+			moreToLoad: true
+			totalItems: 0
+		@getFollows()
 
 	loadMoreFollows: =>
 		@scope.profile.follows.page += 1
