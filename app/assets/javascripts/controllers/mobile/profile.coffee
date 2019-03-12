@@ -362,7 +362,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			checkOrientation: true
 			center: true
 			cropBoxResizable: false
-			viewMode: 1
+			viewMode: if type is 'coverPhoto' then 0 else 1
 			minCropBoxHeight: height
 			minCropBoxWidth: width
 			dragMode: 'none'
@@ -373,7 +373,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				height: height
 				left: (containerData.width / 2) - (width / 2)
 				top: (containerData.height / 2) - (height / 2)
-		, 150
+			if type is 'coverPhoto'
+				@scope.photoCrop.cropper.zoomTo .5,
+					x: containerData.width / 2
+					y: containerData.height / 2
+		, 1
 
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()

@@ -5,7 +5,7 @@ module ThirdPartyArticleService
 	class << self
 		def scrape_url(url, current_user)
 			standard_error_msg = "Unable to build preview"
-			bad_url_error_msg = "Sorry we are not able to find details of an article at that URL"
+			bad_url_error_msg = "We're sorry but there is a problem sharing this URL. This might be, for example, because it is not an article URL or because the article's publication does not allow shares. Please press cancel to proceed."
 			begin
 				if url.include?('railstaging.thearticle.com')
 					conn = Faraday.new('http://railstaging.thearticle.com')
