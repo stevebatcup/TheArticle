@@ -67,17 +67,7 @@ class ArticlesController < ApplicationController
 			if @sponsored_picks.any? && Author.sponsors.any?
 				@trending_articles.insert(2, @sponsored_picks.first)
 			end
-			@articles_in_same_exchange = []
-			unless @article.is_sponsored?
-				if @exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
-					@articles_in_same_exchange = @exchange_for_more.articles
-																												.includes(:exchanges).references(:exchanges)
-																												.includes(:author).references(:author)
-																												.where.not(id: @article.id)
-																												.order("published_at DESC")
-																												.limit(6)
-				end
-			end
+			@exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
 			@article_share = {
 				'comments' => '',
 				'rating_well_written' => nil,

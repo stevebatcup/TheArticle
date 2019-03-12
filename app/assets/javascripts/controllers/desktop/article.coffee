@@ -9,17 +9,27 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	  '$timeout'
 	  '$compile'
 	  '$cookies'
+	  'ExchangeArticle'
 	]
 
 	init: ->
 		@rootScope.isSignedIn = !!@element.data('signed-in')
 		@bindEvents()
-		@scope.articlesInSameExchange =
-			firstLoaded: true
 
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
+
+		if $('#more_on_exchange').length > 0
+			@scope.exchange = @element.data('exchange-id-for-more')
+			@scope.exchangeArticles =
+				page: 1
+				items: []
+				totalItemCount: 0
+				firstLoaded: false
+				loading: false
+				moreToLoad: true
+			@getArticlesInSameExchange()
 
 	bindEvents: ->
 		super
@@ -32,5 +42,22 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 						@rootScope.$broadcast 'copy_started_comments', { comments: data.startedComments }
 					, 500
 			, 350
+
+	loadMore: =>
+		@getArticlesInSameExchange()
+
+	getArticlesInSameExchange: =>
+		@scope.exchangeArticles.loading = true
+		vars = { exchange: @scope.exchange, page: @scope.exchangeArticles.page, perPage: @element.data('per-page') }
+		@ExchangeArticle.query(vars).then (response) =>
+			@timeout =>
+				@scope.exchangeArticles.totalItemCount = response.total if @scope.exchangeArticles.page is 1
+				angular.forEach response.articles, (article) =>
+					@scope.exchangeArticles.items.push article
+				@scope.exchangeArticles.moreToLoad = @scope.exchangeArticles.totalItemCount > @scope.exchangeArticles.items.length
+				@scope.exchangeArticles.firstLoaded = true if @scope.exchangeArticles.page is 1
+				@scope.exchangeArticles.loading = false
+				@scope.exchangeArticles.page += 1
+			, 300
 
 TheArticle.ControllerModule.controller('ArticleController', TheArticle.Article)

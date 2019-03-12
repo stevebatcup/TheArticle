@@ -10,7 +10,9 @@
 </div>
 <% end %>
 
-<section ng-controller="ArticleController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+<section ng-controller="ArticleController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+					data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
+					data-per-page="<%= articles_per_page %>">
 	<div class="container mb-3">
 		<article id="post-<%= @article.id %>" class="article_detail">
 			<header class="entry-header">
@@ -233,58 +235,19 @@
 		</article>
 	</div>
 
-	<% if @articles_in_same_exchange.any? %>
-		<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
-		<div id="article_more_on" class="mb-5 bg-grey py-4 py-md-5">
-			<div class="container">
-				<h2 class="h1 bullet mb-2 mb-md-3"><%= listings_heading %></h2>
-				<div class="row">
-					<% @articles_in_same_exchange.each do |article| %>
-						<article class="article-listing post col-12 col-md-6 col-lg-4 post hoveraction block_click"
-										data-href="<%= article_path(article) %>"
-										id="article-listing-post-<%= article.id %>"
-										data-id="<%= article.id %>">
-							<div class="inner">
-								<div class="img_mask">
-									<% if article.is_newly_published? %>
-										<div ng-if="article.isNew" class="new_article"><span>New</span></div>
-									<% end %>
-
-									<a href="<%= article_path(article) %>">
-										<img src="<%= article.image.url(:cover_mobile) %>" alt="<%= article.title.html_safe %>" />
-									</a>
-								</div>
-
-								<% article.exchanges.each_with_index do |e, i| %>
-									<a href="<%= exchange_badge_url(e) %>" class="exchange-badge bg-colour-<%= i+1 %>-dark exchange-<%= e.slug %>">
-									  <%= e.name %>
-									</a>
-								<% end %>
-
-								<header class="entry-header pt-0 px-3">
-									<h4 class="entry-title mb-0" id="article-post-title-<%= article.id %>">
-										<a href="<%= article_path(article) %>">
-											<%= article.title.html_safe %>
-										</a>
-									</h4>
-								</header>
-
-								<div class="entry-content py-0 px-3">
-									<%= article_excerpt_for_listing(article).html_safe %>
-								</div>
-
-								<footer class="entry-footer pt-1 px-3 pb-2">
-									<p class="author_link"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span>
-										<%= article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
-								</footer>
-							</div>
-						</article>
-					<% end %>
-				</div>
-			</div>
+	<% unless @article.is_sponsored? %>
+		<div id="more_on_exchange">
+			<% listings_heading = @exchange_for_more.is_editor_item? ? "More from #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
+			<%=
+				render partial: 'articles/listings', locals: {
+					block_id: 'exchangeArticles',
+					title: listings_heading,
+					is_editor_exchange: @exchange_for_more.is_editor_item?
+				}
+			%>
+			<div class="ajax_loading exchange_articles" ng-show="exchangeArticles.loading">Loading articles</div>
 		</div>
 	<% end %>
-
 
 	<%= if @trending_exchanges.any?
 		render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
