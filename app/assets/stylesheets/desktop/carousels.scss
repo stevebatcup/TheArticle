@@ -131,14 +131,25 @@
 			position: relative;
 
 			.shared_followers {
-				.single, .double {
-					display: none;
+				width: 85% !important;
+				margin: 7px auto;
+
+				.double {
+					width: 69px;
+					position: relative;
+					top: 4px;
+					left: 14px;
+				}
+
+				.single {
+					width: 60px;
+					position: relative;
+					top: 4px;
+					left: -3px;
 				}
 
 				p {
-					width: 100%;
-					line-height: 1.8em;
-					top: 1px;
+					font-size: 0.85em;
 				}
 			}
 
