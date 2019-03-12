@@ -39,14 +39,14 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			if $(post).is(':visible')
 				id = $(post).data('id')
 				if id?
-					title = document.getElementById("article-post-title-#{id}")
-					offsetHeight = title.offsetHeight
-					lineHeight = parseInt $(title).css('lineHeight'), 10
-					lines = offsetHeight / lineHeight
-					if lines >= 4 and !$(post).hasClass('relined')
-						$description = $(post).find('.entry-content')
-						$description.text @truncateNearestWord($description.text(), 50) + " [...]"
-						$(post).addClass('relined')
+					if title = document.getElementById("article-post-title-#{id}")
+						offsetHeight = title.offsetHeight
+						lineHeight = parseInt $(title).css('lineHeight'), 10
+						lines = offsetHeight / lineHeight
+						if lines >= 4 and !$(post).hasClass('relined')
+							$description = $(post).find('.entry-content')
+							$description.text @truncateNearestWord($description.text(), 50) + " [...]"
+							$(post).addClass('relined')
 
 	isTablet: =>
 		$('body').hasClass('tablet')
