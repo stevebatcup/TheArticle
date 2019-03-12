@@ -236,6 +236,7 @@
 	</div>
 
 	<% unless @article.is_sponsored? %>
+		<% if @exchange_for_more.present? %>
 		<div id="more_on_exchange">
 			<% listings_heading = @exchange_for_more.is_editor_item? ? "More #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
 			<%=
@@ -247,6 +248,7 @@
 			%>
 			<div class="ajax_loading exchange_articles" ng-show="exchangeArticles.loading">Loading articles</div>
 		</div>
+		<% end %>
 	<% end %>
 
 	<%= if @trending_exchanges.any?
