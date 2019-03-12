@@ -28,6 +28,10 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		$('#open_feedback_form').on 'click', (e) =>
 			@openFeedbackForm(e)
 
+		if @isTablet()
+			$(window).on "orientationchange", (e) =>
+				@resetCarousels()
+
 	reLinePosts: =>
 		$('.article-listing.post').each (index, post) =>
 			if $(post).is(':visible')
@@ -51,13 +55,28 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		$(document).on 'mouseout', '.hoveraction', (e) =>
 			$(e.currentTarget).removeClass('hovered')
 
+	resetCarousels: =>
+		$('.slick-carousel').slick('unslick')
+		@timeout =>
+			@setupCarousels()
+		, 200
+
 	bindCarousels: =>
-		windowWidith = $(window).width()
 		$('.slick-carousel').on 'init', (e) =>
 			window.setTimeout =>
 				$(e.currentTarget).find('.inner').addClass('shown')
-				$('.cloak').fadeIn('slow').removeClass('cloak')
+				$('.cloak').fadeIn('slow').removeClass('cloak').addClass('was_cloaked')
 			, 300
+
+		$('.slick-carousel').on 'destroy', (e) =>
+			$(e.currentTarget).find('.inner').removeClass('shown')
+			$('.was_cloaked').fadeOut('slow').removeClass('was_cloaked').addClass('cloak')
+
+		@setupCarousels()
+
+	setupCarousels: =>
+		windowWidith = $(window).width()
+		console.log windowWidith
 
 		$('.slick-carousel.articles').slick
 			infinite: true

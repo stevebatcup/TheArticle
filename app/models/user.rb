@@ -95,7 +95,7 @@ class User < ApplicationRecord
   end
 
   def self.active
-    where(status: :active)
+    where(status: :active, has_completed_wizard: true)
   end
 
   def has_active_status?
@@ -173,7 +173,7 @@ class User < ApplicationRecord
   end
 
   def self.popular_users(excludes=[], popular_follow_count=5, amount=10)
-    self.joins(:followers)
+    self.active.joins(:followers)
           .where.not(id: excludes)
           .group("users.id")
           .order("count(follows.user_id) DESC")

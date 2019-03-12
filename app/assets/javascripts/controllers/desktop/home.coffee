@@ -45,8 +45,8 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	bindEvents: =>
 		super
 		$('.slick-carousel.articles').first().on 'init', (e) =>
-			@getEditorsPicks()
-			@getSponsoredPicks()
+			@getEditorsPicks() unless $('.listings_editorspicks').length > 0
+			@getSponsoredPicks() unless $('.listings_sponsoredpicks').length > 0
 
 		$('.see_more_articles').on 'click', (e) =>
 			$clicked = $(e.currentTarget)

@@ -13,7 +13,7 @@ class UsersController < ApplicationController
 
 		if (@user == current_user) && !params[:me]
 			redirect_to_my_profile
-		elsif !@user.has_active_status?
+		elsif @user.nil? || !@user.has_active_status?
 			flash[:notice] = "That profile is unavailable"
 			redirect_to_my_profile
 		end

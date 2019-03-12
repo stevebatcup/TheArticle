@@ -7,6 +7,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	  '$http'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	]
 
 	init: ->
@@ -41,9 +42,9 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	toggleFollowSuggestion: (member) =>
 		if member.imFollowing
 			@unfollowSuggestion member.id, =>
-					member.imFollowing = false
-					@flash "You are no longer following <b>#{member.displayName}</b>"
-					@rootScope.$broadcast 'update_follows_from_suggestions'
+				member.imFollowing = false
+				@flash "You are no longer following <b>#{member.displayName}</b>"
+				@rootScope.$broadcast 'update_follows_from_suggestions'
 		else
 			@followSuggestion member.id, =>
 				member.imFollowing = true
@@ -52,7 +53,10 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 
 	followSuggestion: (userId, callback) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
-			callback.call(@)
+			if response.data.status is 'success'
+				callback.call(@)
+			else if response.data.status is 'error'
+				@alert response.data.message, "Error following user"
 
 	unfollowSuggestion: (userId, callback) =>
 		@http.delete("/user_followings/#{userId}").then (response) =>

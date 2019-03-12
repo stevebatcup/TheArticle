@@ -23,7 +23,7 @@ module User::Suggestable
 
     # Following same exchanges
     self.exchanges.each do |exchange|
-      exchange.users.where.not(id: existing_ids).limit(10).each do |exchange_user|
+      exchange.users.active.where.not(id: existing_ids).limit(10).each do |exchange_user|
         results << { user_id: exchange_user.id, reason: "exchange_#{exchange.id}" }
         existing_ids << exchange_user.id
       end

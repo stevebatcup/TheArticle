@@ -12,7 +12,7 @@ if @articleOG
 		else
 			description_length = 150
 		end
-		if description_length > 0
+		if description_length > 0 && @articleOG.description
 			description = @articleOG.description.encode('utf-8', invalid: :replace, undef: :replace, replace: '')
 			json.snippet truncate(sanitize(description), length: description_length)
 		else

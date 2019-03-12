@@ -36,6 +36,9 @@ class UserFollowingsController < ApplicationController
 		elsif other_user.is_followed_by(current_user)
 			@status = :error
 			@message = "You are already following #{other_user.display_name}"
+		elsif other_user.has_completed_wizard == false
+			@status = :error
+			@message = "Sorry you cannot follow #{other_user.display_name} just yet"
 		end
 
 		if @status != :error
