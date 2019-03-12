@@ -60,15 +60,27 @@ if categorisation_feed_items.any?
 	end
 end
 
-if @page == 1
-	items << {
-		type: 'suggestion',
-		stamp: items.any? ? items.last[:stamp]+1 : Time.now.to_i
-	}
-end
-
 if items.any?
-	json.feedItems items.sort! { |a, b| b[:stamp] <=> a[:stamp] }
+	items = items.sort! { |a, b| b[:stamp] <=> a[:stamp] }
+
+	# add in the suggestions
+	if @page == 1
+		insertIndex = 10
+		if items.size > insertIndex
+			suggestionItem = {
+				type: 'suggestion',
+				stamp: items[insertIndex][:stamp]+1
+			}
+			items.insert(insertIndex, suggestionItem)
+		else
+			suggestionItem = {
+				type: 'suggestion',
+				stamp: items.last[:stamp]+1
+			}
+			items.push suggestionItem
+		end
+	end
+	json.feedItems items
 end
 
 
