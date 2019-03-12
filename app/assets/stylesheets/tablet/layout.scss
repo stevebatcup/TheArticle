@@ -82,3 +82,25 @@ footer.main_footer nav#footer_nav .nav-link {
   width: 720px !important;
 }
 
+.member_ratings {
+  label {
+    font-size: 0.75em;
+    margin-top: 2px;
+  }
+
+  ul.dots {
+    li {
+      margin-right: 0;
+
+      .dots {
+        .dot {
+          margin-right: 3px !important;
+        }
+      }
+    }
+  }
+
+  h6.feed {
+    font-size: 0.65em !important;
+  }
+}
