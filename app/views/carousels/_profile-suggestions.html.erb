@@ -1,8 +1,8 @@
-<div id="who_to_follow" class="bg-white" ng-controller="SuggestionsController">
+<div id="who_to_follow" class="bg-white pb-4">
 	<div class="pt-3 pb-2 px-4">
 		<h4 class="card-title pl-2">Who to follow on TheArticle</h4>
 	</div>
-	<div class="suggestions slick-carousel slide w-100" data-slideout-ignore>
+	<div class="suggestions slick-carousel slide w-100 mb-2" data-slideout-ignore>
 		<div ng-repeat="item in suggestions" class="profile-suggestion mb-3 slick-carousel-item feed-listing">
 				<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image" alt="{{item.displayName}}" />
 
@@ -28,8 +28,6 @@
 				<i class="fas fa-users mr-2"></i>
 				Unfollow
 			</button>
-
-
 		</div>
 	</div>
 </div>

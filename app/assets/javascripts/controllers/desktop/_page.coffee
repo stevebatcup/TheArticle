@@ -78,8 +78,6 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 
 	setupCarousels: =>
 		windowWidith = $(window).width()
-		console.log windowWidith
-
 		$('.slick-carousel.articles').slick
 			infinite: true
 			slidesToShow: if windowWidith <= 768 then 2 else 3

@@ -18,7 +18,7 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 		@scope.populars = []
 		@getSuggestions()
 
-	getSuggestions: (isMe) =>
+	getSuggestions: =>
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion

@@ -82,6 +82,37 @@
 				</div>
 			</div>
 
+			<section id="feed_journalist_spotlight" class="callout card w-100 mt-4">
+				<div class="card-header">
+					<h5 class="card-title">Contributor spotlight</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @contributors_for_spotlight.each do |contributor| %>
+						<article class="row my-4">
+							<div class="col-5">
+								<a href="<%= contributor_path(slug: contributor.slug) %>">
+									<% if contributor.image? %>
+										<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
+									<% end %>
+								</a>
+							</div>
+							<div class="col-7 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
+								<h5 class="mb-1">
+									<a href="<%= contributor_path(slug: contributor.slug) %>">
+										<%= contributor.display_name %></a>
+								</h5>
+								<% if contributor.title %>
+									<p class="mb-0">
+										<%= contributor.title %>
+									</p>
+								<% end %>
+							</div>
+						</article>
+					<% end %>
+					<a class="btn btn-block btn-standard mt-2 mb-2" href="/contributors">See More</a>
+				</div>
+			</section>
+
 			<% unless current_user.has_full_profile? %>
 			<div class="call-to-action-card card">
 				<div class="card-header">
@@ -130,7 +161,7 @@
 							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
 							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
 							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
-							<div ng-if="item.type == 'suggestion'"><%= render 'profile_suggestions/card' %></div>
+							<div ng-if="item.type == 'suggestion'"><%= render 'carousels/profile-suggestions' %></div>
 					</div>
 				</div>
 			</div>
@@ -170,37 +201,6 @@
 							</div>
 						</article>
 					<% end %>
-				</div>
-			</section>
-
-			<section id="feed_journalist_spotlight" class="callout card w-100 mt-4">
-				<div class="card-header">
-					<h5 class="card-title">Contributor spotlight</h5>
-				</div>
-				<div class="card-body pt-1">
-					<% @contributors_for_spotlight.each do |contributor| %>
-						<article class="row my-4">
-							<div class="col-5">
-								<a href="<%= contributor_path(slug: contributor.slug) %>">
-									<% if contributor.image? %>
-										<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
-									<% end %>
-								</a>
-							</div>
-							<div class="col-7 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
-								<h5 class="mb-1">
-									<a href="<%= contributor_path(slug: contributor.slug) %>">
-										<%= contributor.display_name %></a>
-								</h5>
-								<% if contributor.title %>
-									<p class="mb-0">
-										<%= contributor.title %>
-									</p>
-								<% end %>
-							</div>
-						</article>
-					<% end %>
-					<a class="btn btn-block btn-standard mt-2 mb-2" href="/contributors">See More</a>
 				</div>
 			</section>
 		</div>

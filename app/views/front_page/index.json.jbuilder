@@ -60,7 +60,7 @@ if categorisation_feed_items.any?
 	end
 end
 
-if (@page == 1) && browser.device.mobile?
+if @page == 1
 	items << {
 		type: 'suggestion',
 		stamp: items.any? ? items.last[:stamp]+1 : Time.now.to_i

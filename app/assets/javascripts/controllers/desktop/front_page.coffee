@@ -42,6 +42,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			heading: ''
 			msg: ''
 
+		@scope.suggestions = []
 		@scope.feeds =
 			data: []
 			page: 1
@@ -96,6 +97,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			shareId = $span.data('share')
 			@showAllShareCommenters(shareId)
 
+		if @isTablet()
+			$(window).on "orientationchange", (e) =>
+				@resetSuggestionsCarousel()
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>
@@ -122,13 +127,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 						@showAgrees(null, feed)
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
-				if response.suggestions.length > 0
-					if (index is 1)
-						@scope.feeds.data.push response.suggestions[0]
-					else if (index is 4)
-						@scope.feeds.data.push response.suggestions[1]
 			# console.log @scope.feeds.data
-			@scope.feeds.totalItems = response.total if @scope.feeds.page is 1
+			if @scope.feeds.page is 1
+				@scope.feeds.totalItems = response.total
+				@getSuggestions()
 			# console.log @scope.feeds.totalItems
 			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
 			# console.log @scope.feeds.moreToLoad
@@ -144,5 +146,33 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
+
+	getSuggestions: =>
+		@http.get('/follow-suggestions').then (response) =>
+			angular.forEach response.data.suggestions.forYous, (suggestion) =>
+				@scope.suggestions.push suggestion
+			angular.forEach response.data.suggestions.populars, (suggestion) =>
+				@scope.suggestions.push suggestion
+			@timeout =>
+				@setupSuggestionsCarousel()
+			, 500
+
+	setupSuggestionsCarousel: =>
+		slidesToShow = if $('#who_to_follow').outerWidth() <= 600 then 1 else 2
+		$('.slick-carousel.suggestions').slick
+			infinite: true
+			slidesToShow: slidesToShow
+			slidesToScroll: 1
+			adaptiveHeight: true
+			speed: 500
+			dots: true
+			centerMode: true
+			arrows: true
+
+	resetSuggestionsCarousel: =>
+		$('.slick-carousel.suggestions').slick('unslick')
+		@timeout =>
+			@setupSuggestionsCarousel()
+		, 350
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)
