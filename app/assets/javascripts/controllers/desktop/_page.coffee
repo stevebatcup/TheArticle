@@ -5,7 +5,9 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 
 	bindEvents: =>
 		@bindCookieAcceptance()
-		setTimeout @bindCarousels, 700
+		@timeout =>
+		 @bindCarousels
+		, 700
 		@bindContactForm()
 		@bindListingHovers() unless @isTablet()
 		@bindBlockClicks()
