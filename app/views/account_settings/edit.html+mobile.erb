@@ -240,50 +240,14 @@
 				</div>
 			</div>
 
-			<!-- USERNAME -->
-			<div class="slidepage-page right" data-page="username" data-title="Edit username" data-level="3">
-				<div class="nav_menu_form container pt-3">
-					<p class="sidenote">This will be displayed on your public profile</p>
-					<div class="form-group">
-				    <span ng-show="!errors.username && !usernameAvailable">
-				    	<label for="username">Username</label>
-				    </span>
-			    	<label ng-show="errors.username" class="alert-no-bg alert-danger">
-			    		{{errors.username}}
-			    	</label>
-			    	<label ng-show="usernameAvailable" class="alert-no-bg alert-success">
-			    		Available!
-			    	</label>
-
-						<br />
-						<p ng-show="user.error" class="alert alert-danger">{{user.error}}</p>
-						<div class="input-group mb-2">
-						  <div class="input-group-prepend">
-						    <div class="input-group-text">@</div>
-						  </div>
-						</div>
-				    <p><small class="form-text alert-no-bg"
-				    			ng-class="{
-				    			'alert-success': usernameAvailable,
-				    			'alert-danger': errors.username.length > 0
-				    		}">
-				    	<%= profile_url(slug: '') %>{{user.username.toLowerCase()}}
-				    </small></p>
-					</div>
-
-					<div class="actions d-flex justify-content-between align-items-start">
-						<button class="btn btn-danger w-40" ng-click="cancelUsername($event)">Cancel</button>
-						<button class="btn btn-success w-40" ng-click="saveUsername($event)">Save</button>
-					</div>
-				</div>
-			</div>
-
 
 			<!-- EMAIL -->
 			<div class="slidepage-page right" data-page="email" data-title="Edit email" data-level="3">
 				<div class="nav_menu_form container pt-3">
 					<p class="sidenote">This will not be displayed on your public profile</p>
 					<div class="form-group">
+						<label for="email">Email</label>
+					  <%= email_field :user, :email, class: "form-control", required: '', 'ng-model':  'user.email' %>
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.email">{{errors.email}}</p>
@@ -303,15 +267,18 @@
 
 					<div class="form-group">
 						<label for="confirming_password_password_1">Existing password</label><br />
+						<input type="password" name="confirming_old_password" id="confirming_old_password" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
 					<div class="form-group">
 						<label for="password">New password</label>
 						<em>(6 characters minimum)</em>
+					  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password' %>
 					</div>
 
 					<div class="form-group">
 						<label for="confirming_password_password_2">Confirm new password</label><br />
+						<input type="password" name="password_confirmation" id="password_confirmation" ng-model="user.newPasswordConfirmation" class="form-control" required />
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.password">{{errors.password}}</p>
@@ -374,6 +341,7 @@
 
 					<div class="form-group">
 						<label for="confirming_password_delete">Password</label><br />
+						<input type="password" name="confirming_password_delete" id="confirming_password_delete" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.deleteAccount">{{errors.deleteAccount}}</p>
@@ -424,6 +392,7 @@
 
 					<div class="form-group">
 						<label for="confirming_password_deactivate">Password</label><br />
+						<input type="password" name="confirming_password_deactivate" id="confirming_password_deactivate" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.deactivate">{{errors.deactivate}}</p>
@@ -455,6 +424,7 @@
 
 					<div class="form-group">
 						<label for="confirming_password_reactivate">Password</label><br />
+						<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="user.confirmingPassword" class="form-control" required />
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.reactivate">{{errors.reactivate}}</p>
