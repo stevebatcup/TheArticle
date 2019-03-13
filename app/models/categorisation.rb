@@ -12,11 +12,11 @@ class Categorisation < ApplicationRecord
 		end
 	end
 
-	def self.create_notifications_for_article(article)
+	def self.create_notifications(categorisations)
 		list = []
 		user_ids = []
 
-		article.categorisations.each do |categorisation|
+		categorisations.each do |categorisation|
 			exchange = categorisation.exchange
 			exchange.users.each do |user|
 				unless user_ids.include?(user.id)

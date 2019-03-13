@@ -233,14 +233,14 @@ class Article < ApplicationRecord
 		update_author(json)
 		update_image(json)
 		update_keyword_tags(json)
-		update_exchanges(json)
 
     self.save
+
+		update_exchanges(json)
 
     # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache
-    set_categorisations_notifications if self.categorisations.any?
   end
 
   def update_all_article_counts
@@ -295,20 +295,23 @@ class Article < ApplicationRecord
 
 	def update_exchanges(json)
 		if json["exchanges"].any?
+			new_categorisations = []
 			json["exchanges"].each do |exchange_wp_id|
 				exchange = Exchange.find_or_create_by(wp_id: exchange_wp_id)
 				exchange_json = self.class.get_from_wp_api("exchanges/#{exchange_wp_id}")
 		    exchange.update_wp_cache(exchange_json)
 		    existing_categorisation_exchange_ids = self.categorisations.map(&:exchange_id)
 		    unless existing_categorisation_exchange_ids.include?(exchange.id)
-					self.categorisations << Categorisation.new({exchange_id: exchange.id, created_at: Time.now})
+		    	categorisation_item = Categorisation.new({exchange_id: exchange.id, created_at: Time.now})
+					new_categorisations << categorisation_item
+					self.categorisations << categorisation_item
 				end
 			end
-		end
-	end
 
-	def set_categorisations_notifications
-		Categorisation.create_notifications_for_article(self)
+			if new_categorisations.any?
+				Categorisation.create_notifications(new_categorisations)
+			end
+		end
 	end
 
 	def self.content_ad_slots(is_mobile=true, ad_page_type, ad_page_id)
