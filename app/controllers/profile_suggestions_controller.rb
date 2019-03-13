@@ -17,8 +17,9 @@ class ProfileSuggestionsController < ApplicationController
 					else
 						suggestions = current_user.pending_suggestions
 						current_user.generate_suggestions(false, 10) if suggestions.empty?
-						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%')
-						@populars = suggestions.where("reason LIKE ?", 'popular_with_%')
+						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').limit(5)
+						populars_limit = 5 + (5- @for_yous.size)
+						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit)
 					end
 				end
 			end

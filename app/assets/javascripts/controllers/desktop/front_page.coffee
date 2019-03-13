@@ -158,7 +158,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			, 500
 
 	setupSuggestionsCarousel: =>
-		slidesToShow = if $('#who_to_follow').outerWidth() <= 600 then 1 else 2
+		slidesToShow = if $('#who_to_follow').outerWidth() <= 480 then 1 else 2
 		$('.slick-carousel.suggestions').slick
 			infinite: true
 			slidesToShow: slidesToShow
@@ -174,5 +174,22 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@timeout =>
 			@setupSuggestionsCarousel()
 		, 350
+
+	toggleFollowSuggestion: (user, $event) =>
+		$event.preventDefault()
+		if user.imFollowing
+			@unfollowUserFromSuggestion(user)
+		else
+			@followUserFromSuggestion(user)
+
+	followUserFromSuggestion: (user) =>
+		@followUser user.id, =>
+			user.imFollowing = true
+		, true
+
+	unfollowUserFromSuggestion: (user) =>
+		@unfollowUser user.id, =>
+			user.imFollowing = false
+		, true
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

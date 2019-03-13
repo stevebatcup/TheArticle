@@ -76,7 +76,7 @@ module ProfileHelper
 		  									<img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' />
 			  								<img src='#{members[1].profile_photo.url(:square)}'' class='rounded-circle under' />
 			  							</div>
-			  							<p>Followed by <b>#{members[0].display_name}</b>, <b>#{members[1].display_name}</b> and #{other_count} other #{pluralize(other_count, 'person')} you know</p>"
+			  							<p>Followed by <b>#{members[0].display_name}</b>, <b>#{members[1].display_name}</b> and #{other_count} other #{pluralize_without_count(other_count, 'person')} you know</p>"
 			end
 		end
 

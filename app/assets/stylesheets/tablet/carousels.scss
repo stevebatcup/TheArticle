@@ -1,0 +1,34 @@
+.slick-carousel {
+	&.suggestions {
+		.slick-track {
+			height: 290px;
+		}
+
+		.slick-carousel-item {
+			font-size: 1.5em;
+
+			.card-body {
+				padding: 7px 12px !important;
+
+				img.feed_image.with_cover_image {
+					width: 70px;
+					height: 70px;
+				}
+
+				p.card-text {
+					font-size: 0.75em;
+				}
+			}
+
+			.shared_followers {
+				.double {
+					width: 52px;
+				}
+
+				p {
+					width: 80%;
+				}
+			}
+		}
+	}
+}

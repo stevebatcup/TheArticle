@@ -83,19 +83,32 @@
     }
   }
 
-  .slick-carousel.exchanges {
-    .slick-track {
-      height: 330px !important;
+  .slick-carousel {
+    &.exchanges {
+      .slick-track {
+        height: 330px !important;
 
-      .img {
-        height: 84%;
+        .img {
+          height: 84%;
+        }
+
+        .entry-content {
+          height: 52%;
+          padding: 10px 14px;
+          font-size: 0.75em;
+          line-height: 1.15em;
+        }
       }
+    }
 
-      .entry-content {
-        height: 52%;
-        padding: 10px 14px;
-        font-size: 0.75em;
-        line-height: 1.15em;
+    &.suggestions {
+      .slick-track {
+        height: 330px !important;
+      }
+      .shared_followers {
+        p {
+          width: 75% !important;
+        }
       }
     }
   }
