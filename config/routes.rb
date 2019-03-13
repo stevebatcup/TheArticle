@@ -145,4 +145,5 @@ Rails.application.routes.draw do
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
     req.path.exclude? 'amazonaws.com'
   }
+  post '*unmatched_route', to: 'application#render_404'
 end
