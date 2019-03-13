@@ -1,11 +1,11 @@
 ThinkingSphinx::Index.define :article, :with => :real_time do
   # fields
   indexes title
-  indexes author.display_name, as: :author_name
-  indexes strip_content, as: :content
-  indexes publish_month, as: :published
-  indexes exchange_names, as: :exchange_name
+  indexes excerpt
   indexes keyword_tags_names,  as: :tag_name
+  # indexes author.display_name, as: :author_name
+  # indexes publish_month, as: :published
+  # indexes exchange_names, as: :exchange_name
 
   # attributes
   has published_at, type: :timestamp
