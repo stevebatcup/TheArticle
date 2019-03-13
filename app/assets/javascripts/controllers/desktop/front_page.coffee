@@ -160,14 +160,15 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	setupSuggestionsCarousel: =>
 		slidesToShow = if $('#who_to_follow').outerWidth() <= 480 then 1 else 2
 		$('.slick-carousel.suggestions').slick
-			infinite: true
 			slidesToShow: slidesToShow
 			slidesToScroll: 1
-			adaptiveHeight: true
-			speed: 500
-			dots: true
+			speed: 300
+			dots: false
 			centerMode: true
 			arrows: true
+		# goto = Math.floor(@scope.suggestions.length / 2)
+		# console.log goto
+		# $('.slick-carousel.suggestions').slick('slickGoTo', goto)
 
 	resetSuggestionsCarousel: =>
 		$('.slick-carousel.suggestions').slick('unslick')
@@ -185,11 +186,21 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	followUserFromSuggestion: (user) =>
 		@followUser user.id, =>
 			user.imFollowing = true
+			# update the old fashioned way
+			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
+				if Number($(slide).data('user-id')) is user.id
+					$(slide).find('.follow_btn').addClass("btn-success").removeClass("btn-outline-success").find('span').text("Following")
+			@flash "You are now following #{user.username}"
 		, true
 
 	unfollowUserFromSuggestion: (user) =>
 		@unfollowUser user.id, =>
 			user.imFollowing = false
+			# update the old fashioned way
+			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
+				if Number($(slide).data('user-id')) is user.id
+					$(slide).find('.follow_btn').removeClass("btn-success").addClass("btn-outline-success").find('span').text("Follow")
+			@flash "You are no longer following #{user.username}"
 		, true
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

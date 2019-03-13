@@ -159,16 +159,31 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
 
-	followUserFromSuggestion: ($event, user) =>
+	toggleFollowSuggestion: (user, $event) =>
 		$event.preventDefault()
+		if user.imFollowing
+			@unfollowUserFromSuggestion(user)
+		else
+			@followUserFromSuggestion(user)
+
+	followUserFromSuggestion: (user) =>
 		@followUser user.id, =>
 			user.imFollowing = true
+			# update the old fashioned way
+			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
+				if Number($(slide).data('user-id')) is user.id
+					$(slide).find('.follow_btn').addClass("btn-success").removeClass("btn-outline-success").find('span').text("Following")
+			@flash "You are now following #{user.username}"
 		, true
 
-	unfollowUserFromSuggestion: ($event, user) =>
-		$event.preventDefault()
+	unfollowUserFromSuggestion: (user) =>
 		@unfollowUser user.id, =>
 			user.imFollowing = false
+			# update the old fashioned way
+			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
+				if Number($(slide).data('user-id')) is user.id
+					$(slide).find('.follow_btn').removeClass("btn-success").addClass("btn-outline-success").find('span').text("Follow")
+			@flash "You are no longer following #{user.username}"
 		, true
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)
