@@ -287,7 +287,6 @@
 					<p class="sidenote">This will not be displayed on your public profile</p>
 					<div class="form-group">
 						<label for="email">Email</label>
-					  <%= email_field :user, :email, class: "form-control", required: '', 'ng-model':  'user.email' %>
 					</div>
 
 					<p class="alert alert-danger" ng-if="errors.email">{{errors.email}}</p>
