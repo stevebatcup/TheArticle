@@ -17,6 +17,7 @@ module Admin
           if share.update_attribute(:status, :approved)
             ThirdPartyArticleService.add_domain_from_url(share.url) if params[:whitelist_domain]
             ThirdPartyArticleService.approve_quarantined_share(share)
+            NoticeMailer.approve_third_party_share(share).deliver_now
             @status = :success
           else
             @status = :error

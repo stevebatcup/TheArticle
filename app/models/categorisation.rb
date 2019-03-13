@@ -12,11 +12,11 @@ class Categorisation < ApplicationRecord
 		end
 	end
 
-	def self.create_notifications(categorisations)
+	def self.build_notifications_for_article(article)
 		list = []
 		user_ids = []
 
-		categorisations.each do |categorisation|
+		article.categorisations.each do |categorisation|
 			exchange = categorisation.exchange
 			exchange.users.each do |user|
 				unless user_ids.include?(user.id)
@@ -27,7 +27,7 @@ class Categorisation < ApplicationRecord
 		end
 
 		list.each do |item|
-			item[:categorisation].notifications.create({
+			item[:categorisation].notifications.build({
 				user_id: item[:user].id,
 				specific_type: nil,
 				body: "A new article has been added to the <a href='/exchange/#{item[:exchange].slug}' class='text-green'>#{item[:exchange].name}</a> exchange",

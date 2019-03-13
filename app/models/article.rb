@@ -232,11 +232,11 @@ class Article < ApplicationRecord
 
 		update_author(json)
 		update_image(json)
+		update_exchanges(json)
 		update_keyword_tags(json)
 
     self.save
 
-		update_exchanges(json)
 
     # update counter cache columns
     update_all_article_counts
@@ -295,21 +295,18 @@ class Article < ApplicationRecord
 
 	def update_exchanges(json)
 		if json["exchanges"].any?
-			new_categorisations = []
 			json["exchanges"].each do |exchange_wp_id|
 				exchange = Exchange.find_or_create_by(wp_id: exchange_wp_id)
 				exchange_json = self.class.get_from_wp_api("exchanges/#{exchange_wp_id}")
-		    exchange.update_wp_cache(exchange_json)
-		    existing_categorisation_exchange_ids = self.categorisations.map(&:exchange_id)
-		    unless existing_categorisation_exchange_ids.include?(exchange.id)
-		    	categorisation_item = Categorisation.new({exchange_id: exchange.id, created_at: Time.now})
-					new_categorisations << categorisation_item
-					self.categorisations << categorisation_item
+				exchange.update_wp_cache(exchange_json)
+				existing_categorisation_exchange_ids = self.categorisations.map(&:exchange_id)
+				unless existing_categorisation_exchange_ids.include?(exchange.id)
+					self.categorisations << Categorisation.new({exchange_id: exchange.id, created_at: Time.now})
 				end
 			end
 
-			if new_categorisations.any?
-				Categorisation.create_notifications(new_categorisations)
+			if (!self.persisted?) && (self.categorisations.any?) # if new article: create notifications
+				Categorisation.build_notifications_for_article(self)
 			end
 		end
 	end

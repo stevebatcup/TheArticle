@@ -49,16 +49,25 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		profile_params = params[:profile]
+		send_username_changed_email = false
+		params_for_update = params[:profile].clone
+		if params[:profile][:username] && (params[:profile][:username] != current_user.username)
+			send_username_changed_email = true
+			params_for_update[:slug] = params[:profile][:username].downcase.gsub(/@/i, '')
+		else
+			params_for_update[:slug] = current_user.slug
+		end
 		if current_user.update_attributes({
-				display_name: profile_params[:display_name],
-				username: profile_params[:username],
-		    location: profile_params[:location][:value],
-		    lat: profile_params[:location][:lat],
-		    lng: profile_params[:location][:lng],
-		    country_code: profile_params[:location][:country_code],
-				bio: profile_params[:bio]
+				display_name: params_for_update[:display_name],
+				username: params_for_update[:username],
+				slug: params_for_update[:slug],
+		    location: params_for_update[:location][:value],
+		    lat: params_for_update[:location][:lat],
+		    lng: params_for_update[:location][:lng],
+		    country_code: params_for_update[:location][:country_code],
+				bio: params_for_update[:bio]
 			})
+			UserMailer.username_updated(current_user).deliver_now if send_username_changed_email
 			@status = :success
 		else
 			@status = :error

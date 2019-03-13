@@ -72,7 +72,7 @@ class UserMailer < Devise::Mailer
       USER_URL: confirmation_url(user, confirmation_token: token),
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
-    body = mandrill_template("confirm-email-address-change", merge_vars)
+    body = mandrill_template("confirm-email-address-change-sent-to-new-email-1", merge_vars)
     send_mail(user.unconfirmed_email, "#{user.first_name} #{user.last_name}", subject, body)
   end
 
@@ -93,7 +93,7 @@ class UserMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y"),
       EMAIL_ADDRESS: user.email
     }
-    body = mandrill_template("email-address-change-confirmed", merge_vars)
+    body = mandrill_template("email-address-change-confirmed-old-and-new-email", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
     send_mail(old_email, "#{user.first_name} #{user.last_name}", subject, body)
   end
