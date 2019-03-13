@@ -20,6 +20,11 @@ class PasswordsController < Devise::PasswordsController
     end
   end
 
+  def update
+    super
+    UserMailer.password_change_confirmed(self.resource).deliver_now
+  end
+
 
 protected
 	def after_resetting_password_path_for(resource)
