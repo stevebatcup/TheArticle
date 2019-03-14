@@ -1,4 +1,4 @@
-#register_interstitial_box {
+.register_interstitial_box {
 	background: $green;
 	color: #fff;
 
@@ -45,7 +45,7 @@
 		text-align: center;
 	}
 
-	button#register_interstitial_box_register {
+	button.register_interstitial_box_register {
 		background: transparent;
 		border: 1px solid #fff;
 		color: #fff;
@@ -57,12 +57,12 @@
 		cursor: pointer;
 
 		&:hover {
-			color: #efefef;
-			border-color: #efefef;
+			color: #efefef !important;
+			border-color: #efefef !important;
 		}
 	}
 
-	p#register_interstitial_box_no_thanks {
+	p.register_interstitial_box_no_thanks {
 		font-size: 0.9em;
 		text-align: center;
 		a {
@@ -70,7 +70,7 @@
 			cursor: pointer;
 
 			&:hover {
-				color: #efefef;
+				color: #efefef !important;
 			}
 		}
 	}

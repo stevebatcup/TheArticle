@@ -1,27 +1,36 @@
 <div id="trendingCarousel" class="articles slick-carousel slide w-100" data-slideout-ignore>
-	<% articles.each do |article| %>
-		<% unless article.nil? %>
-    <div class="slick-carousel-item block_click<%=  article.is_sponsored ? ' sponsored_article' : '' %>"
-				style="<%= article.image? ? "background-image: url('#{article.image.url(:carousel)}');" : '' %>"
-  			id="<%=  article.slug %>"
-        data-href="<%=  article_path(article) %>">
-        <div class="mask">
-        	<% if article.is_newly_published? %>
-        		<div class="new_article"><span>New</span></div>
-        	<% end %>
-          <div class="inner">
-	        	<%= render partial: 'common/exchange-badges', locals: { article: article } %>
-	        	<h2 class="text_shadow">
-	            <a href="<%=  article_path(article) %>">
-	              <%= article.title.html_safe %>
-	            </a>
-	          </h2>
-	        	<footer class="entry-footer">
-	        		<p class="author_link text_shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name.html_safe %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
-	        	</footer>
+  <% interstitial_index = browser.device.mobile? ? 2 : (articles.length - 2) %>
+	<% articles.each_with_index do |article, index| %>
+    <% if index == interstitial_index %>
+      <div class="slick-carousel-item">
+        <div class="inner h-100">
+          <%= render partial: 'promotional/register_interstitial' %>
+        </div>
+      </div>
+    <% else %>
+  		<% unless article.nil? %>
+        <div class="slick-carousel-item block_click<%=  article.is_sponsored ? ' sponsored_article' : '' %>"
+    				style="<%= article.image? ? "background-image: url('#{article.image.url(:carousel)}');" : '' %>"
+      			id="<%=  article.slug %>"
+            data-href="<%=  article_path(article) %>">
+          <div class="mask">
+          	<% if article.is_newly_published? %>
+          		<div class="new_article"><span>New</span></div>
+          	<% end %>
+            <div class="inner">
+  	        	<%= render partial: 'common/exchange-badges', locals: { article: article } %>
+  	        	<h2 class="text_shadow">
+  	            <a href="<%=  article_path(article) %>">
+  	              <%= article.title.html_safe %>
+  	            </a>
+  	          </h2>
+  	        	<footer class="entry-footer">
+  	        		<p class="author_link text_shadow"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%=  article.author.display_name.html_safe %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+  	        	</footer>
+          	</div>
         	</div>
-      	</div>
-    </div>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>

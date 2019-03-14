@@ -241,6 +241,42 @@
 			}
 		}
 	}
+
+	.register_interstitial_box {
+		padding: 6px 0 !important;
+		font-size: 0.8em;
+
+		ol {
+			width: 88%;
+			margin: 10px auto 10px;
+
+			li {
+				font-size: 0.9em;
+				margin-bottom: 8px;
+
+				svg {
+					font-size: 19px;
+				}
+
+				img {
+					width: 19px;
+				}
+			}
+		}
+
+		h3 {
+			margin-top: 5px;
+			margin-bottom: 0;
+		}
+
+		button.register_interstitial_box_register {
+			margin: 12px auto 0;
+		}
+
+		p.register_interstitial_box_no_thanks {
+			display: none;
+		}
+	}
 }
 
 @media only screen

@@ -28,7 +28,6 @@ class TheArticle.Home extends TheArticle.MobilePageController
 		@openSigninForm() if 'forgotten_password' of vars
 		@openRegisterForm() if 'register' of vars
 		@disableBackButton() if 'signed_out' of vars
-		@showRegistrationInterstitial() if $('#registerInterstitial').length
 
 	bindEvents: =>
 		super
@@ -39,6 +38,17 @@ class TheArticle.Home extends TheArticle.MobilePageController
 			$clicked = $(e.currentTarget)
 			nextSection = Number($clicked.data('section')) + 1
 			$clicked.hide().parent().find("a[data-section=#{nextSection}]").show()
+
+		if $('#mobile_register_interstitial_top').length > 0
+			@bindScrollInterstitialEvent()
+
+	bindScrollInterstitialEvent: =>
+		pos = $('#mobile_register_interstitial_top').position().top + $('#mobile_register_interstitial_top').outerHeight()
+		$win = $(window)
+		$win.on 'scroll', =>
+			scrollTop = $win.scrollTop()
+			if scrollTop >= (pos + 10)
+				$('#mobile_register_interstitial_top').remove() if $('#mobile_register_interstitial_top').length > 0
 
 	loadMore: (resource) =>
 		resource = "get" + resource.charAt(0).toUpperCase() + resource.slice(1)

@@ -4,7 +4,7 @@ class User < ApplicationRecord
   # :lockable, :timeoutable and :omniauthable, :rememberable
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable,
-         :confirmable, :trackable
+         :confirmable, :trackable, :timeoutable
 
   validates_presence_of	:first_name, :last_name, on: :create
   enum  status: [:active, :deactivated, :deleted]

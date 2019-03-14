@@ -266,4 +266,39 @@
 			margin: 0 2px;
 		}
 	}
+
+	.register_interstitial_box {
+		padding: 7px 0 !important;
+
+		ol {
+			width: 75%;
+			margin: 20px auto 17px;
+
+			li {
+				font-size: 0.9em;
+				margin-bottom: 8px;
+
+				svg {
+					font-size: 27px;
+				}
+
+				img {
+					width: 27px;
+				}
+			}
+		}
+
+		h3 {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+
+		button.register_interstitial_box_register {
+			margin: 17px auto;
+		}
+
+		p.register_interstitial_box_no_thanks {
+			display: none;
+		}
+	}
 }

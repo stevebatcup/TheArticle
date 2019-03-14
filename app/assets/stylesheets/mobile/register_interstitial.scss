@@ -1,4 +1,10 @@
-#register_interstitial_box {
+body.fixed-header {
+	#mobile_register_interstitial_top {
+		margin-top: -1.7em;
+	}
+}
+
+.register_interstitial_box {
 	background: $green;
 	color: #fff;
 	height: 100%;
@@ -45,7 +51,7 @@
 		text-align: center;
 	}
 
-	button#register_interstitial_box_register {
+	button.register_interstitial_box_register {
 		background: transparent;
 		border: 1px solid #fff;
 		color: #fff;
@@ -62,7 +68,7 @@
 		}
 	}
 
-	p#register_interstitial_box_no_thanks {
+	p.register_interstitial_box_no_thanks {
 		font-size: 1em;
 		text-align: center;
 		width: 70%;

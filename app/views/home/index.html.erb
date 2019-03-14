@@ -1,6 +1,14 @@
 <% meta_tag :image, asset_url("social-logo-square.png") %>
 
 <section ng-controller="HomeController" data-per-page="<%= articles_per_page %>" ng-cloak <%= ' data-force-profile-wizard=1' if user_signed_in? && !current_user.has_completed_wizard? %>>
+
+	<% if !user_signed_in? && !cookies[:shown_registration_interstitial] && browser.device.mobile? %>
+		<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
+		<div id="mobile_register_interstitial_top">
+		  <%= render partial: 'promotional/register_interstitial' %>
+		</div>
+	<% end %>
+
 	<div class="container mt-4 mt-md-5 slick-carousel-title">
 	  <h1 class="bullet cloak">Trending articles</h1>
 	</div>
@@ -50,8 +58,9 @@
 </script>
 <% end %>
 
-<% unless user_signed_in? %>
-<script id="registerInterstitial" type="script/x-mustache">
-  <%= render partial: 'promotional/register_modal' %>
-</script>
+<% if !user_signed_in? && !cookies[:shown_registration_interstitial] && !browser.device.mobile? %>
+	<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
+	<script id="registerInterstitial" type="script/x-mustache">
+	  <%= render partial: 'promotional/register_modal' %>
+	</script>
 <% end %>

@@ -32,6 +32,11 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 				moreToLoad: true
 			@getArticlesInSameExchange()
 
+		if $('#registerInterstitial').length > 0
+			@timeout =>
+				@showRegistrationInterstitial()
+			, 20000
+
 	bindEvents: ->
 		super
 		@scope.$on 'swap_share_panel', (e, data) =>
