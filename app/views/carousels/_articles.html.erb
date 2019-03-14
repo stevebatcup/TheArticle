@@ -1,7 +1,7 @@
 <div id="trendingCarousel" class="articles slick-carousel slide w-100" data-slideout-ignore>
   <% interstitial_index = browser.device.mobile? ? 2 : (articles.length - 2) %>
 	<% articles.each_with_index do |article, index| %>
-    <% if index == interstitial_index %>
+    <% if (index == interstitial_index) && (!user_signed_in?) %>
       <div class="slick-carousel-item">
         <div class="inner h-100">
           <%= render partial: 'promotional/register_interstitial' %>

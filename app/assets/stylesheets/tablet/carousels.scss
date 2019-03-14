@@ -31,4 +31,51 @@
 			}
 		}
 	}
+
+	.register_interstitial_box {
+		padding: 5px 0 !important;
+		height: 100%;
+
+		h2 {
+			font-size: 1.3em !important;
+			line-height: 1.2em !important;
+		}
+
+		ol {
+			width: 89%;
+			margin: 17px auto 17px;
+
+			li {
+				font-size: 0.9em;
+				margin-bottom: 14px;
+				line-height: 1.2em;
+
+				svg {
+					font-size: 20px;
+					margin-right: 10px;
+				}
+
+				img {
+					width: 20px;
+					margin-right: 10px;
+				}
+			}
+		}
+
+		h3 {
+			margin-top: 5px;
+			margin-bottom: 5px;
+			font-size: 0.8em;
+			width: 90%;
+		}
+
+		button.register_interstitial_box_register {
+			// margin: 17px auto;
+			width: 80%;
+		}
+
+		p.register_interstitial_box_no_thanks {
+			display: none;
+		}
+	}
 }
