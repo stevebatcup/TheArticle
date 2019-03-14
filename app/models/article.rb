@@ -311,7 +311,7 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.content_ad_slots(is_mobile=true, ad_page_type, ad_page_id)
+	def self.content_ad_slots(is_mobile=true, ad_page_type, ad_page_id, ad_publisher_id)
 		if is_mobile
 			ads = [
 				{
@@ -319,6 +319,7 @@ class Article < ApplicationRecord
 					ad_type_id: 4,
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
+					ad_publisher_id: ad_publisher_id,
 					ad_classes: 'unruly_video ads_box text-center my-2'
 				},
 				{
@@ -326,6 +327,7 @@ class Article < ApplicationRecord
 					ad_type_id: 1,
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
+					ad_publisher_id: ad_publisher_id,
 					ad_classes: 'ads_box text-center my-2'
 				},
 				{
@@ -333,6 +335,7 @@ class Article < ApplicationRecord
 					ad_type_id: 1,
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
+					ad_publisher_id: ad_publisher_id,
 					ad_classes: 'ads_box text-center my-2'
 				}
 			]
@@ -343,6 +346,7 @@ class Article < ApplicationRecord
 					ad_type_id: 4,
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
+					ad_publisher_id: ad_publisher_id,
 					ad_classes: 'unruly_video ads_box text-center'
 				}
 			]

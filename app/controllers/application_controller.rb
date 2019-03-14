@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
 	def show_ads?
 		if is_development? || is_staging?
-			false
+			true
 		elsif self.class == ProfileWizardController
 			false
 		else
@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_profile_page?
 
 	def is_article_page?
-		ad_page_type == 'article'
+		(params[:controller].to_sym == :articles) and (params[:action].to_sym == :show)
 	end
 	helper_method	:is_article_page?
 
@@ -69,9 +69,22 @@ class ApplicationController < ActionController::Base
 	helper_method	:articles_per_page
 
 	def ad_page_type
-		@ad_page_type ||= 'ros'
+		@ad_page_type ||= begin
+			if is_article_page?
+				'article'
+			elsif (params[:controller].to_sym == :home) and (params[:action].to_sym == :index)
+				'homepage'
+			else
+				'ros'
+			end
+		end
 	end
 	helper_method	:ad_page_type
+
+	def ad_publisher_id
+		@ad_publisher_id ||= 89927887
+	end
+	helper_method	:ad_publisher_id
 
 	def ad_page_id
 		if is_article_page?

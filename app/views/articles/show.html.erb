@@ -236,7 +236,7 @@
 					<div class="sidebar_inner mt-0">
 						<div class="ads_box mx-auto align-middle">
 							<% if show_ads? %>
-								<!-- /21757645549/thearticle_<%= ad_page_type %>/<%= @firstSideAdType %> -->
+								<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/<%= @firstSideAdType %> -->
 								<div id='div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'>
 									<script>
 										googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'); });
@@ -281,7 +281,7 @@
 					<div class="sidebar_inner">
 						<div class="ads_box mx-auto align-middle">
 							<% if show_ads? %>
-								<!-- /21757645549/thearticle_<%= ad_page_type %>/<%= @secondSideAdType %> -->
+								<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/<%= @secondSideAdType %> -->
 								<div id='div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'>
 									<script>
 										googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'); });
