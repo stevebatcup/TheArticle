@@ -1,0 +1,28 @@
+<div id="register_interstitial_box" class="container py-3 py-md-4" ng-controller="RegisterInterstitialController">
+	<div class="inner">
+		<h2>Sign up to <br />TheArticle so you can:</h2>
+
+		<ol>
+			<li id="register_interstitial_box_feed" class="d-flex justify-content-start align-items-start">
+				<i class="fas fa-user-alt"></i>
+				<span>Create your own content feed about the things which matter to you</span>
+			</li>
+			<li id="register_interstitial_box_share" class="d-flex justify-content-start align-items-start">
+				<i class="fas fa-share-square"></i>
+				<span>Rate, review and share the articles you read</span>
+			</li>
+			<li id="register_interstitial_box_network" class="d-flex justify-content-start align-items-start">
+				<%= image_tag asset_url('nav/exchanges-white.svg') %>
+				<span>Build your own social network to chat and discuss</span>
+			</li>
+		</ol>
+
+		<h3>ALL OF THIS IS FREE, FOR PEOPLE WHO LOVE TO DEBATE NOT TROLL</h3>
+
+		<button id="register_interstitial_box_register" class="btn" ng-click="register($event)">REGISTER</button>
+
+		<p id="register_interstitial_box_no_thanks">
+			<a href='#' ng-click="noThanks($event)">NO THANKS, JUST GIVE ME THE BASIC SITE</a>
+		</p>
+	</div>
+</div>

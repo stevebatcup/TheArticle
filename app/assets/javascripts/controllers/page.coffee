@@ -352,3 +352,10 @@ class TheArticle.PageController extends TheArticle.NGController
 		$('body').append $content
 		$("#testDomainFeedbackFormModal").modal()
 
+	showRegistrationInterstitial: =>
+		tpl = $("#registerInterstitial").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#registerInterstitialModal").modal
+			backdrop: 'static'
+			keyboard: false

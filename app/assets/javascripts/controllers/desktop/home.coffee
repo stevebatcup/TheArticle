@@ -33,6 +33,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 		@goodbye() if 'account_deleted' of vars
 		@disableBackButton() if 'signed_out' of vars
 		@showProfileWizardModal() if @element.data('force-profile-wizard')
+		@showRegistrationInterstitial() if $('#registerInterstitial').length
 
 	showProfileWizardModal: =>
 		tpl = $("#profileWizard").html().trim()

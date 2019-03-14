@@ -49,3 +49,9 @@
   <%= render partial: 'profile_wizard/new_modal' %>
 </script>
 <% end %>
+
+<% unless user_signed_in? %>
+<script id="registerInterstitial" type="script/x-mustache">
+  <%= render partial: 'promotional/register_modal' %>
+</script>
+<% end %>

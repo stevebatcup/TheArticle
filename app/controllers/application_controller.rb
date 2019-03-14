@@ -108,7 +108,7 @@ class ApplicationController < ActionController::Base
 	end
 
 	def is_testing_environment?
-		request.host.include?('localhost') || request.host.include?('live.thearticle.com')
+		request.host.include?('live.thearticle.com')
 	end
 	helper_method	:is_testing_environment?
 

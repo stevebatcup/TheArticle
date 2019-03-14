@@ -1,0 +1,81 @@
+#register_interstitial_box {
+	background: $green;
+	color: #fff;
+	height: 100%;
+
+	h2 {
+		font-family: Montserrat;
+		color: #fff;
+		margin-bottom: 10px;
+		text-align: center;
+	}
+
+	ol {
+		width: 93%;
+		padding: 0;
+		margin: 30px auto 18px;
+
+		li {
+			font-size: 1em;
+			list-style: none;
+			margin-bottom: 14px;
+
+			img {
+				width: 32px;
+				margin-right: 13px;
+				position: relative;
+				top: 5px;
+			}
+
+			svg {
+				font-size: 32px;
+				margin-right: 13px;
+				position: relative;
+				top: 5px;
+			}
+		}
+	}
+
+	h3 {
+		font-family: Montserrat;
+		font-size: 1em;
+		color: #fff;
+		margin: 10px auto;
+		width: 90%;
+		text-align: center;
+	}
+
+	button#register_interstitial_box_register {
+		background: transparent;
+		border: 1px solid #fff;
+		color: #fff;
+		width: 70%;
+		display: block;
+		text-align: center;
+		margin: 20px auto 20px;
+		font-size: 1.2em;
+		cursor: pointer;
+
+		&:hover {
+			color: #efefef;
+			border-color: #efefef;
+		}
+	}
+
+	p#register_interstitial_box_no_thanks {
+		font-size: 1em;
+		text-align: center;
+		width: 70%;
+		margin: 5px auto 0;
+
+		a {
+			color: #ffffff;
+			cursor: pointer;
+
+			&:hover {
+				color: #efefef;
+			}
+		}
+	}
+
+}

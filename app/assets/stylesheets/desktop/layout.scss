@@ -213,15 +213,15 @@ header {
 
 					&#nav_link_mission {
 						background-size: 0.95em;
-						background-image: url('nav/mission.png');
+						background-image: asset_url('nav/mission.png');
 					}
 
 					&#nav_link_exchanges {
-						background-image: url('nav/exchanges.png');
+						background-image: asset_url('nav/exchanges.png');
 					}
 
 					&#nav_link_join {
-						background-image: url('nav/join.png');
+						background-image: asset_url('nav/join.png');
 						background-position: left 11px;
 						padding-left: 1.8rem;
 					}

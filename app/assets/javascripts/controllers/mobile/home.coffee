@@ -28,6 +28,7 @@ class TheArticle.Home extends TheArticle.MobilePageController
 		@openSigninForm() if 'forgotten_password' of vars
 		@openRegisterForm() if 'register' of vars
 		@disableBackButton() if 'signed_out' of vars
+		@showRegistrationInterstitial() if $('#registerInterstitial').length
 
 	bindEvents: =>
 		super
