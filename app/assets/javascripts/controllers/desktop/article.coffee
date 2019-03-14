@@ -13,6 +13,7 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	]
 
 	init: ->
+		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = !!@element.data('signed-in')
 		@bindEvents()
 
