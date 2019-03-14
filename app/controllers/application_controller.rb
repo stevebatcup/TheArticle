@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
 	def show_ads?
 		if is_development? || is_staging?
-			false
+			true
 		elsif self.class == ProfileWizardController
 			false
 		else
@@ -47,6 +47,15 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	helper_method	:show_ads?
+
+	def gtm_id
+		if is_article_page?
+			'GTM-NM24T5N'
+		else
+			'GTM-MWRLCT6'
+		end
+	end
+	helper_method	:gtm_id
 
 	def is_profile_page?
 		self.class == UsersController && params[:action] == 'show'
