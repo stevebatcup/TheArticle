@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_11_175148) do
+ActiveRecord::Schema.define(version: 2019_03_15_121956) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
+    t.index ["user_id"], name: "index_blocks_on_user_id"
   end
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
@@ -199,13 +201,15 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
     t.integer "source_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["source_id"], name: "index_feed_users_on_source_id"
+    t.index ["user_id", "source_id"], name: "index_feed_users_on_user_id_and_source_id"
+    t.index ["user_id"], name: "index_feed_users_on_user_id"
   end
 
   create_table "feed_users_feeds", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "feed_user_id"
     t.bigint "feed_id"
-    t.index ["feed_id"], name: "index_feed_users_feeds_on_feed_id"
-    t.index ["feed_user_id"], name: "index_feed_users_feeds_on_feed_user_id"
+    t.index ["feed_user_id", "feed_id"], name: "index_feed_users_feeds_on_feed_user_id_and_feed_id"
   end
 
   create_table "feedback_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -233,8 +237,7 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
   create_table "feeds_notifications", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "feed_id"
     t.bigint "notification_id"
-    t.index ["feed_id"], name: "index_feeds_notifications_on_feed_id"
-    t.index ["notification_id"], name: "index_feeds_notifications_on_notification_id"
+    t.index ["notification_id", "feed_id"], name: "index_feeds_notifications_on_notification_id_and_feed_id"
   end
 
   create_table "follow_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -257,6 +260,8 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "follow_group_id"
+    t.index ["followed_id"], name: "index_follows_on_followed_id"
+    t.index ["user_id"], name: "index_follows_on_user_id"
   end
 
   create_table "interaction_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -282,6 +287,8 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["muted_id"], name: "index_mutes_on_muted_id"
+    t.index ["user_id"], name: "index_mutes_on_user_id"
   end
 
   create_table "notification_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -325,6 +332,9 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "opinion_group_id"
+    t.index ["share_id"], name: "index_opinions_on_share_id"
+    t.index ["user_id", "share_id", "decision"], name: "index_opinions_on_user_id_and_share_id_and_decision"
+    t.index ["user_id"], name: "index_opinions_on_user_id"
   end
 
   create_table "pages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -621,8 +631,4 @@ ActiveRecord::Schema.define(version: 2019_03_11_175148) do
   add_foreign_key "articles_keyword_tags", "keyword_tags"
   add_foreign_key "exchanges_users", "exchanges"
   add_foreign_key "exchanges_users", "users"
-  add_foreign_key "feed_users_feeds", "feed_users"
-  add_foreign_key "feed_users_feeds", "feeds"
-  add_foreign_key "feeds_notifications", "feeds"
-  add_foreign_key "feeds_notifications", "notifications"
 end
