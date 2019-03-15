@@ -18,6 +18,8 @@ class Follow < ApplicationRecord
 					source_id: self.followed_id
 				})
 			end
+			user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+			user_feed_item.updated_at = Time.now
 			user_feed_item.feeds << feed
 			user_feed_item.save
 		end

@@ -196,27 +196,27 @@ class User < ApplicationRecord
   end
 
   def has_muted(user)
-    self.mutes.where(status: :active).map(&:muted_id).include?(user.id)
-  end
-
-  def has_blocked(user)
-    self.blocks.where(status: :active).map(&:blocked_id).include?(user.id)
-  end
-
-  def blocked_list
-    self.blocks.where(status: :active)
-  end
-
-  def blocked_id_list
-    blocked_list.map(&:blocked_id)
+    muted_id_list.include?(user.id)
   end
 
   def muted_list
-    self.mutes.where(status: :active)
+    @muted_list ||= self.mutes.where(status: :active)
   end
 
   def muted_id_list
-    muted_list.map(&:muted_id)
+    @muted_id_list ||= muted_list.map(&:muted_id)
+  end
+
+  def has_blocked(user)
+    blocked_id_list.include?(user.id)
+  end
+
+  def blocked_list
+    @blocked_list ||= self.blocks.where(status: :active)
+  end
+
+  def blocked_id_list
+    @blocked_id_list ||= blocked_list.map(&:blocked_id)
   end
 
   def is_comment_disallowed?(comment)

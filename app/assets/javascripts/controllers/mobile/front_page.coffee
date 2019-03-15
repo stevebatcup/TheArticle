@@ -24,6 +24,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@disableBackButton() if 'from_wizard' of vars
 		@scope.showWelcome = false
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
+		@scope.startTime = @element.data('latest-time')
 
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
@@ -46,6 +47,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.feeds =
 			data: []
 			page: 1
+			loading: true
 			loaded: false
 			totalItems: 0
 			moreToLoad: true
@@ -113,12 +115,12 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@showAllShareCommenters(shareId)
 
 	loadMore: =>
-		console.log 'loading more feeds'
 		@scope.feeds.page += 1
 		@getFeeds()
 
 	getFeeds: =>
-		@Feed.query({page: @scope.feeds.page}).then (response) =>
+		@scope.feeds.loading = true
+		@Feed.query({ page: @scope.feeds.page, start_time: @scope.startTime }).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				@scope.feeds.data.push feed
 				if feed.share?
@@ -128,12 +130,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 						@showAgrees(null, feed)
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
-				if response.suggestions.length > 0
-					if (index is 1)
-						@scope.feeds.data.push response.suggestions[0]
-					else if (index is 4)
-						@scope.feeds.data.push response.suggestions[1]
-			# console.log @scope.feeds.data
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
 				@timeout =>
@@ -147,10 +143,12 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 						centerMode: if $(window).width() <= 320 then false else true
 						arrows: false
 				, 1000
+			@scope.startTime = response.nextActivityTime
 			# console.log @scope.feeds.totalItems
 			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
 			# console.log @scope.feeds.moreToLoad
 			@scope.feeds.loaded = true
+			@scope.feeds.loading = false
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>

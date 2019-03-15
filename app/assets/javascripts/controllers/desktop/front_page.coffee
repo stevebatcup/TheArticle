@@ -24,6 +24,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@disableBackButton() if 'from_wizard' of vars
 		@scope.showWelcome = false
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
+		@scope.startTime = @element.data('latest-time')
 
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
@@ -47,6 +48,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			data: []
 			page: 1
 			loaded: false
+			loading: true
 			totalItems: 0
 			moreToLoad: true
 		@getFeeds()
@@ -117,7 +119,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@getFeeds()
 
 	getFeeds: =>
-		@Feed.query({page: @scope.feeds.page}).then (response) =>
+		@scope.feeds.loading = true
+		@Feed.query({ page: @scope.feeds.page, start_time: @scope.startTime }).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				@scope.feeds.data.push feed
 				if feed.share?
@@ -127,14 +130,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 						@showAgrees(null, feed)
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
-			# console.log @scope.feeds.data
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
 				@getSuggestions()
-			# console.log @scope.feeds.totalItems
-			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
+			@scope.startTime = response.nextActivityTime
+			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
 			# console.log @scope.feeds.moreToLoad
 			@scope.feeds.loaded = true
+			@scope.feeds.loading = false
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>

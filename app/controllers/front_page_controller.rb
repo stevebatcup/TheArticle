@@ -11,26 +11,25 @@ class FrontPageController < ApplicationController
 				@contributors_for_spotlight = Author.contributors_for_spotlight(3)
 				@recent_articles = Article.recent
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
+				@latest_activity_time = Feed.latest_activity_time_for_user(current_user)
 			end
 			format.json do
 				page = params[:page] || 1
-				page = page.to_i
-				per_page = 25
+				@page = page.to_i
+				start_time = params[:start_time] || Time.now.to_i
 				@my_exchange_ids = current_user.subscriptions.map(&:exchange_id)
 				@my_followings_ids = current_user.followings.map(&:followed_id)
 				@my_muted_follow_ids = current_user.follow_mutes.map(&:muted_id)
 				@my_muted_exchange_ids = current_user.exchange_mutes.map(&:muted_id)
-				@feeds = Feed.fetch_for_followings_of_user(current_user, page, per_page)
-				@feeds += Feed.fetch_categorisations_for_user(current_user, page, per_page)
-				@user_feeds = current_user.feed_users.order(updated_at: :desc).page(page).per(per_page)
-				if page == 1
-					total_feeds = Feed.fetch_for_followings_of_user(current_user, 1, 0).size
-					total_categorisations = Feed.fetch_categorisations_for_user(current_user, 1, 0).size
-					total_user_feeds = current_user.feed_users.size
+				@feeds = Feed.fetch_for_followings_of_user(current_user, false, start_time)
+				@feeds += Feed.fetch_categorisations_for_user(current_user, false, start_time)
+				@user_feeds = Feed.fetch_feed_user_feeds(current_user, false, start_time)
+				if @page == 1
+					total_feeds = Feed.fetch_for_followings_of_user(current_user, true, start_time).size
+					total_categorisations = Feed.fetch_categorisations_for_user(current_user, true, start_time).length
+					total_user_feeds = Feed.fetch_feed_user_feeds(current_user, true, start_time).length
 					@total_feeds = total_feeds + total_categorisations + total_user_feeds
 				end
-				@page = page
-				@suggestions = []#current_user.paginated_pending_suggestions(page, 2)
 			end
 		end
 	end

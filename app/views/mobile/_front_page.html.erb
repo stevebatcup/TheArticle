@@ -1,7 +1,8 @@
 <div class="tab-pane fade pt-2 show active" id="content-front-page"
 	role="tabpanel"
 	aria-labelledby="front-page-tab"
-	 ng-controller="FrontPageController" ng-cloak>
+	 ng-controller="FrontPageController"
+	 data-latest-time="<%= @latest_activity_time.to_i %>" ng-cloak>
 		<div class="container">
 			<div class="alert alert-success mb-3 mt-3" ng-show="showWelcome">
 				<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
@@ -24,8 +25,6 @@
                       class="form-control w-100"></textarea>
 				</div>
 
-				<div class="ajax_loading feeds" ng-if="!feeds.loaded">Loading feeds...</div>
-
 				<div ng-if="feeds.loaded" class="results_block row"
 							ng-class="{'empty': feeds.data.length == 0}">
 					<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
@@ -41,14 +40,17 @@
 								}">
 							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
 							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
-							<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
+							<div ng-if="(item.type == 'exchange') && (item.isVisible != false)"><%= render 'exchanges/card' %></div>
 							<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
 							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
-							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
+							<div ng-if="(item.type == 'follow') && (item.isVisible != false)"><%= render 'follows/card' %></div>
 							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
 							<div ng-if="item.type == 'suggestion'"><%= render 'carousels/profile-suggestions' %></div>
 					</div>
 				</div>
+
+				<div class="ajax_loading feeds" ng-if="feeds.loading">Loading feeds...</div>
+
 			</section>
 	</div>
 </div>

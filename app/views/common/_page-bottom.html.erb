@@ -5,27 +5,29 @@
 				<h2 class="bullet">
 					<%= spotlight_heading %>
 				</h2>
-				<% contributors.each do |contributor| %>
-					<article class="row my-4">
-						<div class="col-4 col-md-2 col-lg-4">
-							<a href="<%= contributor_path(slug: contributor.slug) %>">
-								<% if contributor.image? %>
-									<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
-								<% end %>
-							</a>
-						</div>
-						<div class="col-8 col-md-10 col-lg-8 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
-							<h5 class="mb-1">
+				<% unless contributors.nil? %>
+					<% contributors.each do |contributor| %>
+						<article class="row my-4">
+							<div class="col-4 col-md-2 col-lg-4">
 								<a href="<%= contributor_path(slug: contributor.slug) %>">
-									<%= contributor.display_name %></a>
-							</h5>
-							<% if contributor.title %>
-								<p class="mb-0">
-									<%= contributor.title %>
-								</p>
-							<% end %>
-						</div>
-					</article>
+									<% if contributor.image? %>
+										<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
+									<% end %>
+								</a>
+							</div>
+							<div class="col-8 col-md-10 col-lg-8 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
+								<h5 class="mb-1">
+									<a href="<%= contributor_path(slug: contributor.slug) %>">
+										<%= contributor.display_name %></a>
+								</h5>
+								<% if contributor.title %>
+									<p class="mb-0">
+										<%= contributor.title %>
+									</p>
+								<% end %>
+							</div>
+						</article>
+					<% end %>
 				<% end %>
 				<a class="btn btn-standard mt-md-4 mb-4" href="/contributors">See More</a>
 			</div>

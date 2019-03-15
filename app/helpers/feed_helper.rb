@@ -184,7 +184,7 @@ module FeedHelper
 			if follow = feed.actionable
 				result = {
 					follow: follow,
-					stamp: feed.created_at.to_i,
+					stamp: feed.updated_at.to_i,
 					user: {
 						id: feed.user.id,
 						display_name: feed.user.display_name,
