@@ -153,13 +153,13 @@
 									'feed-exchange': item.type == 'exchange',
 									'feed-follow': item.type == 'follow',
 									'feed-suggestion': item.type == 'suggestion'
-								}">
+								}" ng-show="item.isVisible != false">
 							<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
 							<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
-							<div ng-if="(item.type == 'exchange') && (item.isVisible != false)"><%= render 'exchanges/card' %></div>
+							<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
 							<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
 							<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
-							<div ng-if="(item.type == 'follow') && (item.isVisible != false)"><%= render 'follows/card' %></div>
+							<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
 							<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
 							<div ng-if="item.type == 'suggestion'"><%= render 'carousels/profile-suggestions' %></div>
 					</div>
