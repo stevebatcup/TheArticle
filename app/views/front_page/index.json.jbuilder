@@ -6,18 +6,21 @@ items = []
 		if user_feed_item.action_type == 'opinion'
 			if item = group_user_opinion_feed_item(user_feed_item)
 				item[:feedStamp] = user_feed_item.created_at.to_i
+				item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
 				item[:isVisible] = true
 				items << item
 			end
 		elsif user_feed_item.action_type == 'comment'
 			if item = group_user_comment_feed_item(user_feed_item)
 				item[:feedStamp] = user_feed_item.updated_at.to_i
+				item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? user_feed_item.updated_at.strftime("%e %b") : happened_at(user_feed_item.updated_at)
 				item[:isVisible] = true
 				items << item
 			end
 		elsif (user_feed_item.action_type == 'follow')
 			if item = group_user_follow_feed_item(user_feed_item, current_user)
 				item[:feedStamp] = user_feed_item.updated_at.to_i
+				item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
 			end
 			unless @my_followings_ids.include?(user_feed_item.source_id) || @my_muted_follow_ids.include?(user_feed_item.source_id)
 				item[:isVisible] = false
@@ -28,6 +31,7 @@ items = []
 		elsif user_feed_item.action_type == 'subscription'
 			if item = group_user_subscription_feed_item(user_feed_item)
 				item[:feedStamp] = user_feed_item.created_at.to_i
+				item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
 			end
 			if @my_exchange_ids.include?(user_feed_item.source_id) || @my_muted_exchange_ids.include?(user_feed_item.source_id)
 				item[:isVisible] = false
@@ -48,6 +52,7 @@ json.total @total_feeds if @total_feeds
 		when 'Share'
 			item = share_as_json_data(feed_item.user, feed_item.actionable)
 			item[:feedStamp] = feed_item.created_at.to_i
+			item[:feedDate] = feed_item.created_at < 1.day.ago ? feed_item.created_at.strftime("%e %b") : happened_at(feed_item.created_at)
 			item[:isVisible] = true
 			items << item
 		when 'Categorisation'
@@ -70,8 +75,10 @@ if categorisation_feed_items.any?
 		categorisation_article.each do |ca|
 			exchanges << ca.actionable.exchange
 		end
-		item = categorisation_as_json_data(categorisation_article.first.user, categorisation_article.first.actionable, exchanges)
-		item[:feedStamp] = categorisation_article.first.actionable.article.published_at.to_i
+		ca_feed = categorisation_article.first
+		item = categorisation_as_json_data(ca_feed.user, ca_feed.actionable, exchanges)
+		item[:feedStamp] = ca_feed.actionable.article.published_at.to_i
+		item[:feedDate] = ca_feed.actionable.article.published_at < 1.day.ago ? ca_feed.actionable.article.published_at.strftime("%e %b") : happened_at(ca_feed.actionable.article.published_at)
 		item[:isVisible] = true
 		items << item
 	end

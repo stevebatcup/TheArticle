@@ -4,7 +4,7 @@
 			<p>
 					<b>New article</b> added to the
 					<span ng-bind-html="formatExchangeList(item.article.exchanges)"></span>
-				 &bullet; {{item.date}}
+				 &bullet; <time ng-if="item.feedDate">{{item.feedDate}}</time><time ng-if="!item.feedDate">{{item.date}}</time>
 			</p>
 		</div>
 	</div>

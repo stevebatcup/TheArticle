@@ -8,7 +8,7 @@
 			<div>
 				<h4 class="mb-3">
 					<span ng-bind-html="item.sentence" data-followed="{{item.followed.id}}"></span>
-					&bullet; <span><time>{{item.date}}</time></span>
+					&bullet; <time ng-if="item.feedDate">{{item.feedDate}}</time><time ng-if="!item.feedDate">{{item.date}}</time>
 				</h4>
 			</div>
 		</div>
