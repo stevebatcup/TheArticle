@@ -44,6 +44,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			msg: ''
 
 		@scope.suggestions = []
+		@scope.suggestionsLoaded = false
 		@scope.feeds =
 			data: []
 			page: 1
@@ -132,6 +133,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 						@showDisagrees(null, feed)
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
+			if @scope.feeds.data.length >= 10 and @scope.suggestionsLoaded is false
 				@getSuggestions()
 			@scope.startTime = response.nextActivityTime
 			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
@@ -151,6 +153,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
 
 	getSuggestions: =>
+		@scope.feeds.data.push { type: 'suggestion' }
+		@scope.suggestionsLoaded = true
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
@@ -158,7 +162,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				@scope.suggestions.push suggestion
 			@timeout =>
 				@setupSuggestionsCarousel()
-			, 500
+			, 1500
 
 	setupSuggestionsCarousel: =>
 		slidesToShow = if $('#who_to_follow').outerWidth() <= 480 then 1 else 2

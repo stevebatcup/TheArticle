@@ -86,31 +86,7 @@ end
 
 if items.any?
 	items = items.sort! { |a, b| b[:feedStamp] <=> a[:feedStamp] }
-	lastActivityOffset = 1
-
-	# add in the suggestions
-	if @page == 1
-		insertIndex = 10
-		lastActivityOffset = 2
-		if items.size > insertIndex
-			suggestionItem = {
-				type: 'suggestion',
-				stamp: items[insertIndex][:stamp]+1,
-				feedStamp: items[insertIndex][:stamp]+1,
-				isVisible: true
-			}
-			items.insert(insertIndex, suggestionItem)
-		else
-			suggestionItem = {
-				type: 'suggestion',
-				stamp: items.last[:stamp]+1,
-				feedStamp: items.last[:stamp]+1,
-				isVisible: true
-			}
-			items.push suggestionItem
-		end
-	end
 	json.feedItems items
 	json.countItems items.size
-	json.nextActivityTime Feed.latest_activity_time_for_user(current_user, items.last[:feedStamp] - lastActivityOffset).to_i
+	json.nextActivityTime Feed.latest_activity_time_for_user(current_user, items.last[:feedStamp] - 1).to_i
 end

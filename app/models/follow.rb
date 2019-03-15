@@ -43,6 +43,8 @@ class Follow < ApplicationRecord
 						source_id: share_id
 					})
 				end
+				user_feed_item.created_at = opinion_feed.actionable.created_at unless user_feed_item.persisted?
+				user_feed_item.updated_at = opinion_feed.actionable.created_at
 				user_feed_item.feeds << opinion_feed
 				user_feed_item.save
 			end
@@ -60,6 +62,8 @@ class Follow < ApplicationRecord
 						source_id: share_id
 					})
 				end
+				user_feed_item.created_at = comment_feed.actionable.created_at unless user_feed_item.persisted?
+				user_feed_item.updated_at = comment_feed.actionable.created_at
 				user_feed_item.feeds << comment_feed
 				user_feed_item.save
 			end
@@ -77,6 +81,8 @@ class Follow < ApplicationRecord
 						source_id: exchange_id
 					})
 				end
+				user_feed_item.created_at = subscription_feed.actionable.created_at unless user_feed_item.persisted?
+				user_feed_item.updated_at = subscription_feed.actionable.created_at
 				user_feed_item.feeds << subscription_feed
 				user_feed_item.save
 			end
