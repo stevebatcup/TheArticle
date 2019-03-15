@@ -12,6 +12,7 @@ class FrontPageController < ApplicationController
 				@recent_articles = Article.recent
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				@latest_activity_time = Feed.latest_activity_time_for_user(current_user)
+				ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 15)
 			end
 			format.json do
 				page = params[:page] || 1
