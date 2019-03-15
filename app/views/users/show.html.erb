@@ -180,7 +180,7 @@
 						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 					</p>
 
-					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)" class="pr-3">
 						<i class="fas fa-map-marker-alt"></i>
 						<span class="pl-3">{{ profile.data.location }}</span>
 					</p>
@@ -191,7 +191,7 @@
 						</a>
 					</p>
 
-					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
+					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)" class="pr-3">
 						{{ profile.data.bio }}
 					</p>
 					<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">

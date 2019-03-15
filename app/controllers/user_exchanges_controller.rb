@@ -21,12 +21,18 @@ class UserExchangesController < ApplicationController
 
 	def create
 		@exchange = Exchange.find(params[:id])
-		current_user.exchanges << @exchange
-		if current_user.save
-			flash[:notice] = "You are now following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
-			@status = :success
-		else
+		if current_user.exchanges.map(&:id).include?(params[:id])
 			@status = :error
+			@message = "You are already following the <b>#{@exchange.name}</b> exchange"
+			flash[:notice] = @message if params[:set_flash]
+		else
+			current_user.exchanges << @exchange
+			if current_user.save
+				flash[:notice] = "You are now following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
+				@status = :success
+			else
+				@status = :error
+			end
 		end
 	end
 
