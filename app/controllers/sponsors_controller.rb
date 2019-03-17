@@ -4,7 +4,10 @@ class SponsorsController < ApplicationController
 	end
 
 	def show
-		@sponsor = Author.find_by(slug: params[:slug])
-		@sponsors_for_carousel = Author.with_complete_profile(@sponsor.id).shuffle
+		if @sponsor = Author.find_by(slug: params[:slug])
+			@sponsors_for_carousel = Author.with_complete_profile(@sponsor.id).shuffle
+		else
+			render_404
+		end
 	end
 end

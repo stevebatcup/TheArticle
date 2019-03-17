@@ -5,7 +5,10 @@ class ContributorsController < ApplicationController
 	end
 
 	def show
-		@contributor = Author.find_by(slug: params[:slug])
-		@contributors_for_carousel = Author.with_complete_profile(@contributor.id).limit(25).shuffle
+		if @contributor = Author.find_by(slug: params[:slug])
+			@contributors_for_carousel = Author.with_complete_profile(@contributor.id).limit(25).shuffle
+		else
+			render_404
+		end
 	end
 end

@@ -1,43 +1,50 @@
 class ArticlesController < ApplicationController
 	def index
-		params[:page] ||= 1
-		params[:per_page] ||= articles_per_page
-		if params[:tagged]
-			if params[:tagged] == 'editors-picks'
-				@articles = Article.editors_picks(params[:page].to_i, params[:per_page].to_i)
-				if params[:page].to_i == 1
-					@total = Article.editors_picks(0).size
-					leading_article = Article.leading_editor_article
-					if leading_article.present?
-						@articles = @articles.all.to_a.unshift(leading_article)
-						# @articles.delete_at(params[:per_page].to_i - 1)
+		respond_to do |format|
+			format.html do
+				render_404
+			end
+			format.json do
+				params[:page] ||= 1
+				params[:per_page] ||= articles_per_page
+				if params[:tagged]
+					if params[:tagged] == 'editors-picks'
+						@articles = Article.editors_picks(params[:page].to_i, params[:per_page].to_i)
+						if params[:page].to_i == 1
+							@total = Article.editors_picks(0).size
+							leading_article = Article.leading_editor_article
+							if leading_article.present?
+								@articles = @articles.all.to_a.unshift(leading_article)
+								# @articles.delete_at(params[:per_page].to_i - 1)
+							end
+						end
 					end
+				elsif params[:exchange]
+					exchange = Exchange.find_by(slug: params[:exchange])
+					@articles = exchange.articles.not_sponsored
+															.includes(:author).references(:author)
+															.includes(:exchanges).references(:exchanges)
+															.order("published_at DESC")
+															.page(params[:page]).per(params[:per_page].to_i)
+					if params[:page].to_i == 1
+						@total = exchange.articles.not_sponsored.size
+					end
+				elsif params[:author]
+					@contributor = Author.find_by(id: params[:author])
+					@articles = @contributor.articles
+																	.includes(:exchanges)
+																	.references(:exchanges)
+																	.order("published_at DESC")
+																	.page(params[:page])
+																	.per(params[:per_page].to_i)
+					if params[:page].to_i == 1
+						@total = @contributor.articles.size
+					end
+				elsif params[:sponsored_picks]
+					@articles = Author.get_sponsors_single_posts('sponsored-pick', 6)
+					ordered = @articles.map(&:published_at)
 				end
 			end
-		elsif params[:exchange]
-			exchange = Exchange.find_by(slug: params[:exchange])
-			@articles = exchange.articles.not_sponsored
-													.includes(:author).references(:author)
-													.includes(:exchanges).references(:exchanges)
-													.order("published_at DESC")
-													.page(params[:page]).per(params[:per_page].to_i)
-			if params[:page].to_i == 1
-				@total = exchange.articles.not_sponsored.size
-			end
-		elsif params[:author]
-			@contributor = Author.find_by(id: params[:author])
-			@articles = @contributor.articles
-															.includes(:exchanges)
-															.references(:exchanges)
-															.order("published_at DESC")
-															.page(params[:page])
-															.per(params[:per_page].to_i)
-			if params[:page].to_i == 1
-				@total = @contributor.articles.size
-			end
-		elsif params[:sponsored_picks]
-			@articles = Author.get_sponsors_single_posts('sponsored-pick', 6)
-			ordered = @articles.map(&:published_at)
 		end
 	end
 

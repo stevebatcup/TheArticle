@@ -6,9 +6,12 @@ class ExchangesController < ApplicationController
 	end
 
 	def show
-		@exchange = Exchange.find_by(slug: params[:slug])
-		# @articles_for_carousel = @exchange.articles_for_carousel
-		@contributors_for_spotlight = Author.contributors_for_spotlight
-		@recent_articles = Article.recent
+		if @exchange = Exchange.find_by(slug: params[:slug])
+			# @articles_for_carousel = @exchange.articles_for_carousel
+			@contributors_for_spotlight = Author.contributors_for_spotlight
+			@recent_articles = Article.recent
+		else
+			render_404
+		end
 	end
 end
