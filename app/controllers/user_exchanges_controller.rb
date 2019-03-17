@@ -11,10 +11,13 @@ class UserExchangesController < ApplicationController
 				else
 					@user = current_user
 				end
-				if page == 1
-					@total = @user.subscriptions.size
+
+				if @user
+					@total = @user.subscriptions.size if page == 1
+					@subscriptions = @user.subscriptions.page(page).per(per_page).order(created_at: :desc)
+				else
+					render_404
 				end
-				@subscriptions = @user.subscriptions.page(page).per(per_page).order(created_at: :desc)
 			end
 		end
 	end
