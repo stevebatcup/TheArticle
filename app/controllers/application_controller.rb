@@ -67,6 +67,11 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:is_article_page?
 
+	def is_author_page?
+		(params[:controller].to_sym == :contributors) and (params[:action].to_sym == :show)
+	end
+	helper_method	:is_author_page?
+
 	def is_tablet?
 		browser.device.tablet?
 	end
