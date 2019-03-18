@@ -24,7 +24,7 @@ module User::Followable
   end
 
   def followers_count
-    self.followers.size
+    self.followers.active.size
     # Rails.cache.fetch("followers_count_#{self.id}") do
     # end
   end

@@ -159,4 +159,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 
+	openMyProfile: ($event, panel) =>
+		$event.preventDefault()
+		window.location.href = "/my-profile?panel=#{panel}"
+
 TheArticle.ControllerModule.controller('NotificationsController', TheArticle.Notifications)

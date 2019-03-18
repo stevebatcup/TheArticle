@@ -32,6 +32,7 @@ class SessionsController < Devise::SessionsController
 	def destroy
 		super
 		flash.delete(:notice)
+		cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now }
 	end
 
 protected

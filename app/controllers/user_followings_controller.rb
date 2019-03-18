@@ -13,7 +13,7 @@ class UserFollowingsController < ApplicationController
 					@total = Follow.both_directions_for_user(user).size
 				end
 				@userFollowings = user.followings.order("created_at DESC").page(page).per(per_page).map(&:followed)
-				@userFollowers = user.followers.order("created_at DESC").page(page).per(per_page)
+				@userFollowers = user.followers.active.order("created_at DESC").page(page).per(per_page)
 			end
 		end
 	end

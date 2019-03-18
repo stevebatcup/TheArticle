@@ -8,28 +8,30 @@ class Follow < ApplicationRecord
 	after_destroy	:delete_feed_and_regenerate_notification
 
 	def update_feeds
-		# feed for this follow (to appear on my followers homepage)
-		feed = self.feeds.build({user_id: self.user_id})
-		self.user.followers.each do |follower|
-			unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'follow', source_id: self.followed_id)
-				user_feed_item = FeedUser.new({
-					user_id: follower.id,
-					action_type: 'follow',
-					source_id: self.followed_id
-				})
+		if self.user.has_active_status? && self.user.has_completed_wizard
+			# feed for this follow (to appear on my followers homepage)
+			feed = self.feeds.build({user_id: self.user_id})
+			self.user.followers.each do |follower|
+				unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'follow', source_id: self.followed_id)
+					user_feed_item = FeedUser.new({
+						user_id: follower.id,
+						action_type: 'follow',
+						source_id: self.followed_id
+					})
+				end
+				user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+				user_feed_item.updated_at = Time.now
+				user_feed_item.feeds << feed
+				user_feed_item.save
 			end
-			user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-			user_feed_item.updated_at = Time.now
-			user_feed_item.feeds << feed
-			user_feed_item.save
-		end
 
-		# feeds for opinions/comments made by newly followed user (to appear on the followers homepage)
-		current_user = User.find(self.user_id)
-		interactor = User.find(self.followed_id)
-		build_retrospective_opinion_feed(interactor, current_user)
-		build_retrospective_comment_feed(interactor, current_user)
-		build_retrospective_subscription_feed(interactor, current_user)
+			# feeds for opinions/comments made by newly followed user (to appear on the followers homepage)
+			current_user = User.find(self.user_id)
+			interactor = User.find(self.followed_id)
+			build_retrospective_opinion_feed(interactor, current_user)
+			build_retrospective_comment_feed(interactor, current_user)
+			build_retrospective_subscription_feed(interactor, current_user)
+		end
 	end
 
 	def build_retrospective_opinion_feed(opinionator, current_user)
@@ -90,22 +92,24 @@ class Follow < ApplicationRecord
 	end
 
 	def create_notification
-		notification = Notification.where(eventable_type: 'Follow')
-										.where(user_id: self.followed_id)
-										.where("DATE(created_at) = CURDATE()")
-										.first()
-		if notification.nil?
-			notification = Notification.new({
-				eventable_type: 'Follow',
-				user_id: self.followed_id,
-				created_at: Time.now,
-				updated_at: Time.now
-			})
+		if self.user.has_active_status? && self.user.has_completed_wizard
+			notification = Notification.where(eventable_type: 'Follow')
+											.where(user_id: self.followed_id)
+											.where("DATE(created_at) = CURDATE()")
+											.first()
+			if notification.nil?
+				notification = Notification.new({
+					eventable_type: 'Follow',
+					user_id: self.followed_id,
+					created_at: Time.now,
+					updated_at: Time.now
+				})
+			end
+			notification.eventable_id = self.id
+			notification.feeds << self.feeds.first
+			notification.body = ApplicationController.helpers.group_user_follow_feed_item(notification, self.user, true)
+			notification.save
 		end
-		notification.eventable_id = self.id
-		notification.feeds << self.feeds.first
-		notification.body = ApplicationController.helpers.group_user_follow_feed_item(notification, self.user, true)
-		notification.save
 	end
 
 	def delete_feed_and_regenerate_notification
