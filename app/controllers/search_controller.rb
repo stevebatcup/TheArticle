@@ -15,11 +15,11 @@ class SearchController < ApplicationController
 						# profiles
 						if user_signed_in?
 							ids_to_exclude = [current_user.id] + current_user.blocks.map(&:blocked_id)
-							@profiles = User.search(without: { sphinx_internal_id: ids_to_exclude },
-																					conditions: { display_name: "*#{@query}*", status: 'active', has_completed_wizard: true },
+							@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: ids_to_exclude },
+																					conditions: { status: 'active', has_completed_wizard: true },
 																					page: 1, per_page: 5)
 						else
-							@profiles = User.search(conditions: { display_name: "*#{@query}*", status: 'active', has_completed_wizard: true },
+							@profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
 																			page: 1, per_page: 5)
 						end
 					else
@@ -48,11 +48,11 @@ class SearchController < ApplicationController
 					exchanges = Exchange.search("*#{@query}*").to_a
 					posts = Share.search("*#{@query}*").to_a
 					if user_signed_in?
-						profiles = User.search(without: { sphinx_internal_id: current_user.id },
-																		conditions: { display_name: "*#{@query}*", status: 'active', has_completed_wizard: true },
+						profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },
+																		conditions: { status: 'active', has_completed_wizard: true },
 																		page: 1, per_page: 5).to_a
 					else
-						profiles = User.search(conditions: { display_name: "*#{@query}*", status: 'active', has_completed_wizard: true },
+						profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
 																		page: 1, per_page: 5).to_a
 					end
 					@results = (articles + contributors + profiles + exchanges + posts)
