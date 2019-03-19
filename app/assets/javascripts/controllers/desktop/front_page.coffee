@@ -25,6 +25,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@scope.showWelcome = false
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		@scope.startTime = @element.data('latest-time')
+		@scope.selectedTab = 'articles'
+		@scope.tabSets =
+			articles: []
+			posts: []
+			follows: []
 
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
@@ -45,10 +50,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 		@scope.suggestions = []
 		@scope.suggestionsLoaded = false
+		@scope.suggestionsCarouselReady = false
 		@scope.feeds =
 			data: []
 			page: 1
-			loaded: false
+			firstLoaded: false
 			loading: true
 			totalItems: 0
 			moreToLoad: true
@@ -104,6 +110,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			$(window).on "orientationchange", (e) =>
 				@resetSuggestionsCarousel()
 
+	selectTab: (tab='all') =>
+		@scope.selectedTab = tab
+		if (tab is 'follows') and (@scope.suggestionsCarouselReady is false)
+			@setupSuggestionsCarousel()
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>
@@ -131,15 +142,22 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 						@showAgrees(null, feed)
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
+				if _.contains(['exchange', 'categorisation'], feed.type)
+					@scope.tabSets.articles.push feed.id
+				else if _.contains(['share', 'rating', 'commentAction', 'opinionAction'], feed.type)
+					@scope.tabSets.posts.push feed.id
+				else if _.contains(['follow'], feed.type)
+					@scope.tabSets.follows.push feed.id
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
-			if @scope.feeds.data.length >= 10 and @scope.suggestionsLoaded is false
+			if @scope.feeds.page is 3
 				@getSuggestions()
 			@scope.startTime = response.nextActivityTime
 			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
-			# console.log @scope.feeds.moreToLoad
-			@scope.feeds.loaded = true
+			@scope.feeds.firstLoaded = true
 			@scope.feeds.loading = false
+			if (@scope.feeds.moreToLoad) and !(@scope.feeds.page % 4 is 0)
+				@loadMore()
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
@@ -160,12 +178,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				@scope.suggestions.push suggestion
 			angular.forEach response.data.suggestions.populars, (suggestion) =>
 				@scope.suggestions.push suggestion
-			@timeout =>
-				@setupSuggestionsCarousel()
-			, 1500
 
 	setupSuggestionsCarousel: =>
-		slidesToShow = if $('#who_to_follow').outerWidth() <= 480 then 1 else 2
+		console.log 'setupSuggestionsCarousel'
+		slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 		$('.slick-carousel.suggestions').slick
 			slidesToShow: slidesToShow
 			slidesToScroll: 1
@@ -173,6 +189,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			dots: false
 			centerMode: true
 			arrows: true
+		@scope.suggestionsCarouselReady = true
 		# goto = Math.floor(@scope.suggestions.length / 2)
 		# console.log goto
 		# $('.slick-carousel.suggestions').slick('slickGoTo', goto)

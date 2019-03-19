@@ -706,3 +706,33 @@
 		}
 	}
 }
+
+#home_feed_tabs {
+	li {
+		a.nav-link {
+
+			label {
+				cursor: pointer;
+			}
+
+			&.active,
+			&:hover {
+				border-top: none;
+				border-right: none;
+				border-left: none;
+			}
+
+			&.active,
+			&.active:hover {
+				border-bottom: 3px solid $green;
+				color: $green;
+			}
+
+			&:hover {
+				color: desaturate($green_light, 25%);
+				border-bottom: none;
+				cursor: pointer;
+			}
+		}
+	}
+}

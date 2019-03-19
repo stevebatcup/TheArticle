@@ -5,7 +5,7 @@ class Feed < ApplicationRecord
 	belongs_to	:actionable, polymorphic: true
 
 	def self.pagination_by_hours
-		5
+		6
 	end
 
 	def self.types_for_followings
