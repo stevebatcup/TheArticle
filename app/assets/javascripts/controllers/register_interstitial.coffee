@@ -18,6 +18,7 @@ class TheArticle.RegisterInterstitial extends TheArticle.PageController
 	noThanks: ($event) =>
 		$event.preventDefault()
 		$('#registerInterstitialModal').modal('hide')
+		$('#mobile_register_interstitial_top').remove()
 
 	register: ($event) =>
 		$event.preventDefault()
