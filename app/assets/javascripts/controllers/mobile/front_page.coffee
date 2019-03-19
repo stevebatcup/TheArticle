@@ -25,12 +25,19 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.showWelcome = false
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		@scope.startTime = @element.data('latest-time')
+		@scope.selectedTab = 'articles'
+		@scope.tabSets =
+			articles: []
+			posts: []
+			follows: []
 
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
 		, 500
 
-		@scope.showSuggestions = false
+		@scope.suggestions = []
+		@scope.suggestionsLoaded = false
+		@scope.suggestionsCarouselReady = false
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
@@ -48,7 +55,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			data: []
 			page: 1
 			loading: true
-			loaded: false
+			firstLoaded: false
 			totalItems: 0
 			moreToLoad: true
 		@getFeeds()
@@ -114,6 +121,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			shareId = $span.data('share')
 			@showAllShareCommenters(shareId)
 
+	selectTab: (tab='all') =>
+		if @scope.feeds.firstLoaded
+			@scope.selectedTab = tab
+			if (tab is 'follows') and (@scope.suggestionsCarouselReady is false)
+				@setupSuggestionsCarousel()
+		else
+			return false
+
 	loadMore: =>
 		@scope.feeds.page += 1
 		@getFeeds()
@@ -130,25 +145,21 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 						@showAgrees(null, feed)
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
+				if _.contains(['exchange', 'categorisation'], feed.type)
+					@scope.tabSets.articles.push feed.id
+				else if _.contains(['share', 'rating', 'commentAction', 'opinionAction'], feed.type)
+					@scope.tabSets.posts.push feed.id
+				else if _.contains(['follow'], feed.type)
+					@scope.tabSets.follows.push feed.id
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
-				@timeout =>
-					$('.slick-carousel.suggestions').slick
-						infinite: true
-						slidesToShow: 1
-						slidesToScroll: 1
-						adaptiveHeight: true
-						speed: 500
-						dots: true
-						centerMode: if $(window).width() <= 320 then false else true
-						arrows: false
-				, 1000
+			if @scope.feeds.page is 4
+				@getSuggestions()
 			@scope.startTime = response.nextActivityTime
-			# console.log @scope.feeds.totalItems
-			@scope.feeds.moreToLoad = @scope.feeds.totalItems > @scope.feeds.data.length
-			# console.log @scope.feeds.moreToLoad
-			@scope.feeds.loaded = true
+			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
 			@scope.feeds.loading = false
+			if (@scope.feeds.moreToLoad) and !(@scope.feeds.page % 4 is 0)
+				@loadMore()
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
@@ -156,6 +167,27 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
+
+	getSuggestions: =>
+		@scope.feeds.data.push { type: 'suggestion' }
+		@scope.suggestionsLoaded = true
+		@http.get('/follow-suggestions').then (response) =>
+			@scope.feeds.firstLoaded = true
+			angular.forEach response.data.suggestions.forYous, (suggestion) =>
+				@scope.suggestions.push suggestion
+			angular.forEach response.data.suggestions.populars, (suggestion) =>
+				@scope.suggestions.push suggestion
+
+	setupSuggestionsCarousel: =>
+		slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
+		$('.slick-carousel.suggestions').slick
+			slidesToShow: slidesToShow
+			slidesToScroll: 1
+			speed: 300
+			dots: false
+			centerMode: true
+			arrows: true
+		@scope.suggestionsCarouselReady = true
 
 	toggleFollowSuggestion: (user, $event) =>
 		$event.preventDefault()

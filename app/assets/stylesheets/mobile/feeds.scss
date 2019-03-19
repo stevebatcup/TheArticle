@@ -731,3 +731,39 @@ input#suggestion_search {
 		color: inherit;
 	}
 }
+
+#home_feed_tabs {
+	li {
+		a.nav-link {
+			label {
+				cursor: pointer;
+				font-size: 1em;
+				font-weight: bold;
+				margin-bottom: 0;
+			}
+
+			&.active {
+				border-top: none;
+				border-right: none;
+				border-left: none;
+			}
+
+			&.active {
+				border-bottom: 3px solid $green;
+				color: $green;
+			}
+
+
+			&.disabled {
+				cursor: default !important;
+				color: inherit !important;
+
+				label {
+					font-weight: normal !important;
+					color: inherit !important;
+				}
+			}
+
+		}
+	}
+}

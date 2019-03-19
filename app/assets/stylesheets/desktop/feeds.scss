@@ -713,6 +713,8 @@
 
 			label {
 				cursor: pointer;
+				font-size: 1em;
+				font-weight: bold;
 			}
 
 			&.active,
@@ -732,6 +734,17 @@
 				color: desaturate($green_light, 25%);
 				border-bottom: none;
 				cursor: pointer;
+			}
+
+			&.disabled,
+			&.disabled:hover {
+				cursor: default !important;
+				color: inherit !important;
+
+				label {
+					font-weight: normal !important;
+					color: inherit !important;
+				}
 			}
 		}
 	}

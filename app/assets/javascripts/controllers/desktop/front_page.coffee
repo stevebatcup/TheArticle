@@ -114,9 +114,12 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@scope.suggestionsCarouselReady = false
 
 	selectTab: (tab='all') =>
-		@scope.selectedTab = tab
-		if (tab is 'follows') and (@scope.suggestionsCarouselReady is false)
-			@setupSuggestionsCarousel()
+		if @scope.feeds.firstLoaded
+			@scope.selectedTab = tab
+			if (tab is 'follows') and (@scope.suggestionsCarouselReady is false)
+				@setupSuggestionsCarousel()
+		else
+			return false
 
 	bindScrollEvent: =>
 		$win = $(window)
@@ -153,11 +156,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@scope.tabSets.follows.push feed.id
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
-			if @scope.feeds.page is 3
+			if @scope.feeds.page is 4
 				@getSuggestions()
 			@scope.startTime = response.nextActivityTime
 			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
-			@scope.feeds.firstLoaded = true
 			@scope.feeds.loading = false
 			if (@scope.feeds.moreToLoad) and !(@scope.feeds.page % 4 is 0)
 				@loadMore()
@@ -177,6 +179,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@scope.feeds.data.push { type: 'suggestion' }
 		@scope.suggestionsLoaded = true
 		@http.get('/follow-suggestions').then (response) =>
+			@scope.feeds.firstLoaded = true
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
 			angular.forEach response.data.suggestions.populars, (suggestion) =>
