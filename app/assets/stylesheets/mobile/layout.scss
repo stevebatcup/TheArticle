@@ -43,6 +43,11 @@ a:active {
 	font-size: 1.5em;
 }
 
+.text-decrease-1 {
+	font-size: 0.8em;
+}
+
+
 h1 {
 	font-size: 1.6em;
 }
@@ -258,14 +263,14 @@ html.svg #logo {
 
 	ul {
 		text-align: center;
-    padding-top: 7vh;
+    padding-top: 4vh;
     display: none;
 
 	  li {
-			font-size: 2em;
+			font-size: 1.7em;
 
 			a {
-				padding: 10px;
+				padding: 6px 0;
 				font-size: 1em;
 				display: block;
 				color: #fff !important;

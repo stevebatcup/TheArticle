@@ -61,8 +61,16 @@ html.svg #logo {
   background-size: 65%;
 }
 
-footer.main_footer nav#footer_nav .nav-link {
-  font-size: 0.67em;
+footer.main_footer {
+  button.btn.join_button, a.btn.join_button {
+    font-size: 0.9em;
+  }
+
+  nav#footer_nav {
+    .nav-link {
+      font-size: 0.67em;
+    }
+  }
 }
 
 .slick-carousel.exchanges {
