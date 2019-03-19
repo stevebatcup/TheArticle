@@ -180,7 +180,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				@scope.suggestions.push suggestion
 
 	setupSuggestionsCarousel: =>
-		console.log 'setupSuggestionsCarousel'
 		slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 		$('.slick-carousel.suggestions').slick
 			slidesToShow: slidesToShow
