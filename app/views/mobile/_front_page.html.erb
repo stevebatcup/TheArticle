@@ -103,7 +103,7 @@
 							</p>
 
 							<div ng-repeat="item in feeds.data"
-										 class="col-12 feed-listing pb-3 px-0 type-{{item.type}}"
+										 class="col-12 feed-listing feed-follow pb-3 px-0 type-{{item.type}}"
 										 ng-show="(item.isVisible != false) && _.contains(['follow', 'suggestion'], item.type)">
 									<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
 									<div ng-if="(item.type == 'suggestion') && (suggestions.length > 2)"><%= render 'carousels/profile-suggestions' %></div>
