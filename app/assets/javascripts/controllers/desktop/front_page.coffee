@@ -108,7 +108,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 		if @isTablet()
 			$(window).on "orientationchange", (e) =>
-				@resetSuggestionsCarousel()
+				if @scope.selectedTab is 'follows'
+					@resetSuggestionsCarousel()
+				else
+					@scope.suggestionsCarouselReady = false
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab

@@ -210,7 +210,7 @@
 									 class="col-12 feed-listing feed-share pb-3 px-0"
 									 ng-show="(item.isVisible != false) && _.contains(['follow', 'suggestion'], item.type)">
 								<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
-								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 0)"><%= render 'carousels/profile-suggestions' %></div>
+								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 2)"><%= render 'carousels/profile-suggestions' %></div>
 						</div>
 					</div>
 				</div>
