@@ -69,7 +69,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 							preference: key
 							status: newVal
 					@http.put("/communication-preferences", data).then (response) =>
-						console.log response
+						console.log(response) if console?
 
 	getUser: =>
 		@AccountSettings.get({me: true}).then (settings) =>
@@ -155,7 +155,6 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 	cancelYourDetails: ($event) =>
 		$event.preventDefault() if $event?
 		@scope.user.firstName = @scope.userDup.firstName
-		console.log @scope.userDup.firstName
 		@scope.user.lastName = @scope.userDup.lastName
 		@scope.user.gender = @scope.userDup.gender
 		@scope.user.ageBracket = @scope.userDup.ageBracket

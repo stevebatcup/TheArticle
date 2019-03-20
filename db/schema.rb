@@ -10,13 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_15_121956) do
+ActiveRecord::Schema.define(version: 2019_03_20_155228) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.string "reason"
     t.boolean "by_admin"
     t.datetime "created_at"
+  end
+
+  create_table "api_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "service"
+    t.integer "user_id"
+    t.string "request_type"
+    t.string "request_method"
+    t.json "request_data"
+    t.json "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["request_method"], name: "index_api_logs_on_request_method"
+    t.index ["service"], name: "index_api_logs_on_service"
+    t.index ["user_id"], name: "index_api_logs_on_user_id"
   end
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|

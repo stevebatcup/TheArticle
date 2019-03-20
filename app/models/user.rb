@@ -59,6 +59,7 @@ class User < ApplicationRecord
   include Followable
   include Opinionable
   include Adminable
+  include Mailable
 
   attr_writer :login
 
@@ -271,6 +272,7 @@ class User < ApplicationRecord
   end
 
   def delete_account(reason="User deleted account", by_admin=false)
+    MailchimperService.remove_from_mailchimp_list(self)
     clear_user_data(true)
     poisoned_email = self.class.poison_email(self.email, self.id)
     poisoned_username = self.class.poison_username(self.username, self.id)

@@ -73,7 +73,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 							preference: key
 							status: newVal
 					@http.put("/communication-preferences", data).then (response) =>
-						console.log response
+						console.log(response) if console?
 
 	backPage: ($event) =>
 		$event.preventDefault()
