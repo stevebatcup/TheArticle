@@ -140,6 +140,8 @@ Rails.application.routes.draw do
     root to: "users#index"
   end
 
+  get 'feed', to: 'articles#index', :defaults => { :format => 'rss' }
+
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|

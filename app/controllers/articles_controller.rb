@@ -4,6 +4,10 @@ class ArticlesController < ApplicationController
 			format.html do
 				render_404
 			end
+			format.rss do
+				@articles = Article.latest.limit(100)
+				render :layout => false
+			end
 			format.json do
 				params[:page] ||= 1
 				params[:per_page] ||= articles_per_page

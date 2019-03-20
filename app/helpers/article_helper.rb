@@ -15,6 +15,10 @@ module ArticleHelper
 		article.remote_article_url.present? ? article.remote_article_url : "/#{article.slug}"
 	end
 
+	def full_article_url(article)
+		"#{request.base_url}/#{article.slug}"
+	end
+
 	def adified_content(article)
 		content_html =  Nokogiri::HTML.fragment(article.content)
 		ad_slots = Article.content_ad_slots(request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id)
