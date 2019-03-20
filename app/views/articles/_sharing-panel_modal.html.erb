@@ -113,10 +113,10 @@
           </div>
           <div class="w-md-50 px-md-3 py-md-4 text-center">
         		<button class="btn btn-success px-4 btn-block" ng-click="submitShare()"
-                    ng-disabled="(sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0"
+                    ng-disabled="((sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0) || (sharing == true)"
                     ng-class="{
-                      'disabled': (sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0}
-                    ">Submit</button>
+                      'disabled': ((sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0) || (sharing == true)
+                    }">Submit</button>
           </div>
       	</div>
 

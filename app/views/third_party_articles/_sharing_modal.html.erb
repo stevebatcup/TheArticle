@@ -114,7 +114,9 @@
             <div class="button_box justify-content-end d-flex py-3">
               <button class="btn btn-success px-4 btn-block"
                       ng-click="shareArticle()"
-                      ng-show="!invalidUrl">Share</button>
+                      ng-show="!invalidUrl"
+                      ng-disabled="sharing == true"
+                      ng-class="{ 'disabled': sharing == true }">Share</button>
               <button class="btn btn-danger px-4 btn-block"
                       ng-show="invalidUrl"
                       data-dismiss="modal">Cancel</button>

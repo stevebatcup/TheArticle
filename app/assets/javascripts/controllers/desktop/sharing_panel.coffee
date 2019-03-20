@@ -15,6 +15,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@setDefaultHttpHeaders()
 		@scope.formError = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
+		@scope.sharing = false
 
 		@resetData()
 		@scope.alreadyRated = parseInt(@element.data('share-well_written')) > 0 or parseInt(@element.data('share-valid_points')) > 0 or parseInt(@element.data('share-agree')) > 0
@@ -51,6 +52,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@scope.share["rating_#{section}"] = rating
 
 	submitShare: =>
+		@scope.sharing = true
 		@scope.formError = false
 		data =
 			article_id: @element.data('article-id')
@@ -64,6 +66,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
 				@cookies.put('ok_to_flash', true)
+				@scope.sharing = false
 				window.location.reload()
 			else
 				@scope.formError = response.data.message

@@ -17,6 +17,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@scope.whitelisted = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
 		@scope.invalidUrl = false
+		@scope.sharing = false
 		@resetArticleData()
 		@bindListeners()
 
@@ -78,6 +79,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 	cancelNonWhiteListArticle: ($event) =>
 		$event.preventDefault()
 		$('[data-dismiss=modal]').click()
+		@scope.sharing = false
 
 	confirmNonWhiteListArticle: ($event) =>
 		$event.preventDefault()
@@ -85,6 +87,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@shareArticleConfirm()
 
 	shareArticle: =>
+		@scope.sharing = true
 		@scope.thirdPartyArticle.article.error = false
 		@http.get("check_third_party_whitelist?url=#{@scope.thirdPartyArticle.url}").then (response) =>
 			if response.data.status is 'missing'
@@ -109,10 +112,11 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				@flash flashMsg
 				@timeout =>
 					$('.close_share_modal').first().click()
+					@scope.sharing = false
 				, 250
 			else
 				@scope.thirdPartyArticle.article.error = response.data.message
-
+				@scope.sharing = false
 
 
 TheArticle.ControllerModule.controller('ThirdPartySharingController', TheArticle.ThirdPartySharing)
