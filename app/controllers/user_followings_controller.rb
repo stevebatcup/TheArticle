@@ -68,7 +68,8 @@ class UserFollowingsController < ApplicationController
 
 	def my_followers_of
 		@followed = User.find(params[:id])
-		@followers = current_user.followings.map(&:followed).select! do |my_following|
+		@followers = current_user.followings.map(&:followed)
+		@followers.select! do |my_following|
 			@followed.is_followed_by(my_following)
 		end
 	end

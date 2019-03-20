@@ -22,7 +22,7 @@ items = []
 				item[:feedStamp] = user_feed_item.updated_at.to_i
 				item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? user_feed_item.updated_at.strftime("%e %b") : happened_at(user_feed_item.updated_at)
 			end
-			unless @my_followings_ids.include?(user_feed_item.source_id) || @my_muted_follow_ids.include?(user_feed_item.source_id)
+			if @my_followings_ids.include?(user_feed_item.source_id) || @my_muted_follow_ids.include?(user_feed_item.source_id)
 				item[:isVisible] = false
 			else
 				item[:isVisible] = true

@@ -54,9 +54,11 @@ class Feed < ApplicationRecord
 
 	def self.fetch_feed_user_feeds(current_user, count_only=false, last_activity_time=nil)
 		results = current_user.feed_users
+													.select("COUNT(feeds.id) AS feed_count, feed_users.*")
 													.left_outer_joins(:feeds)
 													.where("feeds.id IS NOT NULL")
 													.group("feed_users.id")
+													.having("(action_type = 'follow' AND feed_count > 1) OR (action_type != 'follow')")
 													.order(updated_at: :desc)
 		if last_activity_time.present?
 			last_activity_date = DateTime.strptime(last_activity_time.to_s,'%s')

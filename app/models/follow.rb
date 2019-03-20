@@ -12,17 +12,19 @@ class Follow < ApplicationRecord
 			# feed for this follow (to appear on my followers homepage)
 			feed = self.feeds.build({user_id: self.user_id})
 			self.user.followers.each do |follower|
-				unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'follow', source_id: self.followed_id)
-					user_feed_item = FeedUser.new({
-						user_id: follower.id,
-						action_type: 'follow',
-						source_id: self.followed_id
-					})
+				unless self.followed.is_followed_by(follower)
+					unless user_feed_item = FeedUser.find_by(user_id: follower.id, action_type: 'follow', source_id: self.followed_id)
+						user_feed_item = FeedUser.new({
+							user_id: follower.id,
+							action_type: 'follow',
+							source_id: self.followed_id
+						})
+					end
+					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+					user_feed_item.updated_at = Time.now
+					user_feed_item.feeds << feed
+					user_feed_item.save
 				end
-				user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-				user_feed_item.updated_at = Time.now
-				user_feed_item.feeds << feed
-				user_feed_item.save
 			end
 
 			# feeds for opinions/comments made by newly followed user (to appear on the followers homepage)
