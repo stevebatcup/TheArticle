@@ -124,7 +124,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>
-			if @scope.feeds.moreToLoad is true
+			if (@scope.feeds.moreToLoad is true) and (!@scope.feeds.loading)
 				scrollTop = $win.scrollTop()
 				docHeight = @getDocumentHeight()
 				if (scrollTop + $win.height()) >= (docHeight - 600)

@@ -87,7 +87,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				true
 
 		@scope.$on 'load_more_feeds', =>
-			if @scope.feeds.moreToLoad is true
+			if (@scope.feeds.moreToLoad is true) and (!@scope.feeds.loading)
 				@scope.feeds.moreToLoad = false
 				@loadMore()
 
