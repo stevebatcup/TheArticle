@@ -37,7 +37,9 @@ module FollowHelper
 			  else
 			  	profile = rf.user
 			  end
-		  	names << link_to(profile.display_name, profile_path(slug: profile.slug), class: 'text-green')
+			  if profile.has_active_status? && profile.has_completed_wizard
+			  	names << link_to(profile.display_name, profile_path(slug: profile.slug), class: 'text-green')
+			  end
 		    break if index >= (name_limit - 1)
 		  end
 		  if names.any?
