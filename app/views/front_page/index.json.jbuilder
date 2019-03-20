@@ -30,8 +30,8 @@ items = []
 			items << item
 		elsif user_feed_item.action_type == 'subscription'
 			if item = group_user_subscription_feed_item(user_feed_item)
-				item[:feedStamp] = user_feed_item.created_at.to_i
-				item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
+				item[:feedStamp] = user_feed_item.updated_at.to_i
+				item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? user_feed_item.updated_at.strftime("%e %b") : happened_at(user_feed_item.updated_at)
 			end
 			if @my_exchange_ids.include?(user_feed_item.source_id) || @my_muted_exchange_ids.include?(user_feed_item.source_id)
 				item[:isVisible] = false
