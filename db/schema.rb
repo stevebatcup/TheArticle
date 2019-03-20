@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 2019_03_20_155228) do
     t.integer "user_id"
     t.string "request_type"
     t.string "request_method"
-    t.json "request_data"
-    t.json "response"
+    t.text "request_data"
+    t.text "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_method"], name: "index_api_logs_on_request_method"
