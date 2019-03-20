@@ -1,10 +1,6 @@
 <section ng-controller="FrontPageController" class="container front-page"
 			data-user-id="<%= current_user.id %>"
 			data-latest-time="<%= @latest_activity_time.to_i %>">
-	<div class="alert alert-success mb-3 mt-3" ng-show="showWelcome" ng-cloak>
-		<h4 class="alert-success mt-3">Thank you for registering on TheArticle.</h4>
-		<p class="alert-success">Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. Instructions for confirming email address here. </p>
-	</div>
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">

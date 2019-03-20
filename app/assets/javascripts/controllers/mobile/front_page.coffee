@@ -22,7 +22,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@bindEvents()
 		vars = @getUrlVars()
 		@disableBackButton() if 'from_wizard' of vars
-		@scope.showWelcome = false
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		@scope.startTime = @element.data('latest-time')
 		@scope.selectedTab = 'articles'
@@ -137,7 +136,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.feeds.loading = true
 		@Feed.query({ page: @scope.feeds.page, start_time: @scope.startTime }).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
-				@scope.feeds.data.push feed
+				if _.contains(['share', 'rating', 'commentAction', 'opinionAction'], feed.type)
+					unless _.contains(@scope.tabSets.posts, feed.share.id)
+						@scope.feeds.data.push feed
+						@scope.tabSets.posts.push feed.share.id
+				else
+					@scope.feeds.data.push feed
+
 				if feed.share?
 					if feed.share.showComments is true
 						@showComments(null, feed, false)
@@ -145,12 +150,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 						@showAgrees(null, feed)
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
-				if _.contains(['exchange', 'categorisation'], feed.type)
-					@scope.tabSets.articles.push feed.id
-				else if _.contains(['share', 'rating', 'commentAction', 'opinionAction'], feed.type)
-					@scope.tabSets.posts.push feed.id
-				else if _.contains(['follow'], feed.type)
-					@scope.tabSets.follows.push feed.id
+
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
 			if @scope.feeds.page is 4
