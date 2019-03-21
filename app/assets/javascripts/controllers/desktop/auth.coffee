@@ -83,6 +83,7 @@ class TheArticle.Auth extends TheArticle.PageController
 		else
 			@http.get("/email-availability?email=#{@scope.register.email}").then (response) =>
 				if response.data is true
+					gtag('event', 'sign_up', { 'method': 'Email' })
 					$('form#new_user').submit()
 				else
 					@scope.register.errors.email = "Sorry that email address already exists."
@@ -115,6 +116,7 @@ class TheArticle.Auth extends TheArticle.PageController
 				login: login
 				password: @scope.signInDetails.password.value
 		@http.post("/users/sign_in", data).then (response) =>
+			gtag('event', 'login', { 'method': 'Email' })
 			window.location.href = response.data.redirect
 		, (response) =>
 			@scope.signInDetails.login.error = response.data.status
