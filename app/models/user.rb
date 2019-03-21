@@ -1,10 +1,10 @@
 class User < ApplicationRecord
   # POPULAR_FOLLOW_COUNT = 5
   # Include default devise modules. Others available are:
-  # :lockable, :timeoutable and :omniauthable, :rememberable
+  # :lockable and :omniauthable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :validatable,
-         :confirmable, :trackable, :timeoutable
+         :confirmable, :trackable, :rememberable
 
   validates_presence_of	:first_name, :last_name, on: :create
   enum  status: [:active, :deactivated, :deleted]
@@ -62,6 +62,10 @@ class User < ApplicationRecord
   include Mailable
 
   attr_writer :login
+
+  def remember_me
+    true
+  end
 
   def downcase_username
     self.username = self.username.downcase

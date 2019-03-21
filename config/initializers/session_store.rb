@@ -1,0 +1,1 @@
+Rails.application.config.session_store :cookie_store, key: '__session_cookie_for_the_article__'
