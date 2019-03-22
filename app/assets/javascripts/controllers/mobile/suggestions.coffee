@@ -28,8 +28,8 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 				@scope.populars.push suggestion
 
 	toggleFollowUserFromCard: (member) =>
+		member.imFollowing = true
 		@followUser member.id, =>
-			member.imFollowing = true
 			@timeout =>
 				@scope.suggestions.forYous = _.filter @scope.suggestions.forYous, (item) =>
 					item.id isnt member.id

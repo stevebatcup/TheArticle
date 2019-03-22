@@ -112,6 +112,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				bio: ""
 				isNew: true
 				imFollowing: false
+				followingsCount: 0
+				followersCount: 0
+				connectionsCount: 0
 				profilePhoto:
 					image: ""
 					source: ""
@@ -423,14 +426,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	toggleFollowUser: =>
 		if @scope.isSignedIn
 			if @scope.profile.data.imFollowing
+				@scope.profile.data.imFollowing = false
 				@unfollowUser @scope.profile.data.id, =>
-					@scope.profile.data.imFollowing = false
 					@cookies.put('ok_to_flash', true)
 					window.location.reload()
 				, true
 			else
+				@scope.profile.data.imFollowing = true
 				@followUser @scope.profile.data.id, =>
-					@scope.profile.data.imFollowing = true
 					@cookies.put('ok_to_flash', true)
 					window.location.reload()
 				, false, true

@@ -1,4 +1,4 @@
-<nav id="mobile_side_menu" class="menu" ng-cloak>
+<nav id="mobile_side_menu" class="menu" ng-cloak ng-controller="SidebarController">
   <section class="menu-section">
     <div id="sidebar_logo" class="justify-content-center">
       <a href="/?force_home=1">
@@ -27,7 +27,7 @@
           <% else %>
             <a href="<%= front_page_path(route: 'following') %>">
           <% end %>
-          Following <span class="text-muted pl-1"><%= current_user.followings_count %></span></a>
+          Following <span class="text-muted pl-1">{{followCounts.followings}}</span></a>
         </span>
         <span class="pl-1">
           <% if use_app_links %>
@@ -35,7 +35,7 @@
           <% else %>
             <a href="<%= front_page_path(route: 'followers') %>">
           <% end %>
-          Followers <span class="text-muted pl-1"><%= current_user.followers_count %></span></a>
+          Followers <span class="text-muted pl-1">{{followCounts.followers}}</span></a>
         </span>
       </p>
     </div>

@@ -50,12 +50,11 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	toggleFollowUser: (userId) =>
 		if @scope.profileDataForHeader.imFollowing
-			@unfollowUser userId, =>
-				@scope.profileDataForHeader.imFollowing = false
+			@scope.profileDataForHeader.imFollowing = false
+			@unfollowUser userId, null
 		else
-			@followUser userId, =>
-				@scope.profileDataForHeader.imFollowing = true
-			, false
+			@scope.profileDataForHeader.imFollowing = true
+			@followUser userId, null, false
 
 	backPage: ($event) =>
 		$event.preventDefault()

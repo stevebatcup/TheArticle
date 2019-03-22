@@ -3,10 +3,25 @@ module User::Followable
     base.extend ClassMethods
   end
 
+  def follow_counts_as_hash
+    {
+      followings: self.followings_count,
+      followers: self.followers_count,
+      connections: self.connections_count
+    }
+  end
+
+  def recalculate_follow_counts
+    self.followings_count = self.followings.size
+    self.followers_count = self.followers.active.size
+    self.connections_count = connects.size
+    self.save
+  end
+
   def connects
     @connects ||= begin
       list = []
-      self.followers.each do |follower|
+      self.followers.active.each do |follower|
         list << follower if follower.is_followed_by(self)
       end
       list
@@ -15,18 +30,6 @@ module User::Followable
 
   def is_followed_by(user)
     self.followers.map(&:id).include?(user.id)
-  end
-
-  def followings_count
-    self.followings.size
-    # Rails.cache.fetch("followings_count_#{self.id}") do
-    # end
-  end
-
-  def followers_count
-    self.followers.active.size
-    # Rails.cache.fetch("followers_count_#{self.id}") do
-    # end
   end
 
   def recent_followings(hours=24)

@@ -45,13 +45,13 @@
 		</div>
 		<div class="stats p-2 flex-fill" ng-click="openFollowsPanel('followers')">
 			<label>Followers</label>
-			<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
-			<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.followers.length }}</span>
+			<span class="ajax_loading_label" ng-show="!profile.loaded">&nbsp;</span>
+			<span ng-show="profile.loaded">{{ profile.data.followersCount }}</span>
 		</div>
 		<div class="stats p-2 flex-fill" ng-click="openFollowsPanel('following')">
 			<label>Following</label>
-			<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
-			<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.followings.length }}</span>
+			<span class="ajax_loading_label" ng-show="!profile.loaded">&nbsp;</span>
+			<span ng-show="profile.loaded">{{ profile.data.followingsCount }}</span>
 		</div>
 	</section>
 

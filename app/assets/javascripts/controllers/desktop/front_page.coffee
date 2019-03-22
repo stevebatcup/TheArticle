@@ -7,6 +7,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	  '$http'
 	  '$element'
 	  '$timeout'
+	  '$interval'
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
@@ -66,6 +67,15 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
+
+		@scope.followCounts =
+			followers: 0
+			followings: 0
+			connections: 0
+		@updateMyFollowCounts()
+		@interval =>
+			@updateMyFollowCounts()
+		, 10000
 
 	bindEvents: =>
 		super
@@ -213,8 +223,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@followUserFromSuggestion(user)
 
 	followUserFromSuggestion: (user) =>
+		user.imFollowing = true
 		@followUser user.id, =>
-			user.imFollowing = true
 			# update the old fashioned way
 			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
 				if Number($(slide).data('user-id')) is user.id
@@ -223,8 +233,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		, true
 
 	unfollowUserFromSuggestion: (user) =>
+		user.imFollowing = false
 		@unfollowUser user.id, =>
-			user.imFollowing = false
 			# update the old fashioned way
 			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
 				if Number($(slide).data('user-id')) is user.id

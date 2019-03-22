@@ -2,18 +2,23 @@ class UserFollowingsController < ApplicationController
 	def index
 		respond_to do |format|
 			format.json do
-				page = (params[:page] || 1).to_i
-				per_page = (params[:per_page] || 6).to_i
 				if params[:id]
 					user = User.find(params[:id])
 				else
 					user = current_user
 				end
-				if page == 1
-					@total = Follow.both_directions_for_user(user).size
+
+				if params[:counts]
+					render json: { counts: user.follow_counts_as_hash  }
+				else
+					page = (params[:page] || 1).to_i
+					per_page = (params[:per_page] || 6).to_i
+					if page == 1
+						@total = Follow.both_directions_for_user(user).size
+					end
+					@userFollowings = user.followings.order("created_at DESC").page(page).per(per_page).map(&:followed)
+					@userFollowers = user.followers.active.order("created_at DESC").page(page).per(per_page)
 				end
-				@userFollowings = user.followings.order("created_at DESC").page(page).per(per_page).map(&:followed)
-				@userFollowers = user.followers.active.order("created_at DESC").page(page).per(per_page)
 			end
 		end
 	end

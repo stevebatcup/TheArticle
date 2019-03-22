@@ -8,6 +8,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 	  '$rootElement'
 	  '$element'
 	  '$timeout'
+	  '$interval'
 	  '$compile'
 	  '$ngConfirm'
 	  'AccountSettings'
@@ -44,6 +45,15 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 		@resetContainerHeight()
 		@bindEvents()
 		@getUser()
+
+		@scope.followCounts =
+			followers: 0
+			followings: 0
+			connections: 0
+		@updateMyFollowCounts()
+		@interval =>
+			@updateMyFollowCounts()
+		, 10000
 
 	bindEvents: ->
 		@listenForBack()

@@ -7,6 +7,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  '$http'
 	  '$element'
 	  '$timeout'
+	  '$interval'
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
@@ -48,6 +49,15 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 		@listenForActions()
 		@scope.myProfile = {}
 		@getMyProfile()
+
+		@scope.followCounts =
+			followers: 0
+			followings: 0
+			connections: 0
+		@updateMyFollowCounts()
+		@interval =>
+			@updateMyFollowCounts()
+		, 10000
 
 	bindEvents: =>
 		super
@@ -159,12 +169,11 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 
 	toggleFollowUserFromCard: (member) =>
 		if member.imFollowing
-			@unfollowUser member.id , =>
-				member.imFollowing = false
+			member.imFollowing = false
+			@unfollowUser member.id, null
 		else
-			@followUser member.id, =>
-				member.imFollowing = true
-			, false
+			member.imFollowing = true
+			@followUser member.id, null, false
 
 	callNotificationAction: (notification, $event) =>
 		$event.preventDefault

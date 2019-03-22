@@ -197,8 +197,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@followUserFromSuggestion(user)
 
 	followUserFromSuggestion: (user) =>
+		user.imFollowing = true
 		@followUser user.id, =>
-			user.imFollowing = true
 			# update the old fashioned way
 			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
 				if Number($(slide).data('user-id')) is user.id
@@ -207,8 +207,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		, true
 
 	unfollowUserFromSuggestion: (user) =>
+		user.imFollowing = false
 		@unfollowUser user.id, =>
-			user.imFollowing = false
 			# update the old fashioned way
 			$('[data-user-id]', '.slick-carousel.suggestions').each (index, slide) =>
 				if Number($(slide).data('user-id')) is user.id

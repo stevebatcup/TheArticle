@@ -36,11 +36,11 @@
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'followers')">
 						<label>Followers</label>
-						<span><%= current_user.followers_count %></span>
+						<span>{{followCounts.followers}}</span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'following')">
 						<label>Following</label>
-						<span><%= current_user.followings_count %></span>
+						<span>{{followCounts.followings}}</span>
 					</div>
 				</div>
 			</div>
@@ -771,7 +771,7 @@
 								<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
 									<p class="author_link">
 										<a href="<%= contributor_path(slug: ta.author.slug) %>">
-											by <span><%= ta.author.display_name %></span>
+											by <span><%= ta.author.display_name.html_safe %></span>
 										</a>
 										<span class="entry-date">
 											<%= article_date(ta) %>

@@ -169,12 +169,11 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	toggleFollowSuggestion: (member, $event=null) =>
 		$event.preventDefault() if $event
 		if member.imFollowing
-			@unfollowUser member.id ,=>
-				member.imFollowing = false
+			member.imFollowing = false
+			@unfollowUser member.id, null
 		else
-			@followUser member.id, =>
-				member.imFollowing = true
-			, true
+			member.imFollowing = true
+			@followUser member.id, null, true
 
 	submitWizard: =>
 		new @MyProfile(@scope.user).create().then (response) =>

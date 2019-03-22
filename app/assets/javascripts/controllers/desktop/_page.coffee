@@ -142,3 +142,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			$("#sharingPanelModal").modal()
 		else
 			@requiresSignIn("share or rate an article")
+
+	updateMyFollowCounts: ->
+		@http.get("/user_followings?counts=1").then (response) =>
+			@scope.followCounts = response.data.counts

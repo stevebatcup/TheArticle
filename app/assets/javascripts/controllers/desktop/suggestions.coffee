@@ -42,13 +42,13 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 
 	toggleFollowSuggestion: (member) =>
 		if member.imFollowing
+			member.imFollowing = false
 			@unfollowSuggestion member.id, =>
-				member.imFollowing = false
 				@flash "You are no longer following <b>#{member.displayName}</b>"
 				@rootScope.$broadcast 'update_follows_from_suggestions'
 		else
+			member.imFollowing = true
 			@followSuggestion member.id, =>
-				member.imFollowing = true
 				@flash "You are now following <b>#{member.displayName}</b>"
 				@rootScope.$broadcast 'update_follows_from_suggestions'
 

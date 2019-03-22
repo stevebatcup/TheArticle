@@ -118,6 +118,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				bio: ""
 				isNew: true
 				imFollowing: false
+				followingsCount: 0
+				followersCount: 0
+				connectionsCount: 0
 				profilePhoto:
 					image: ""
 					source: ""
@@ -575,14 +578,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		if @rootScope.isSignedIn
 			userId = @scope.profile.data.id
 			if @scope.profile.data.imFollowing
+				@scope.profile.data.imFollowing = false
 				@unfollowUser userId, =>
-					@scope.profile.data.imFollowing = false
 					@cookies.put('ok_to_flash', true)
 					window.location.reload()
 				, true
 			else
+				@scope.profile.data.imFollowing = true
 				@followUser userId, =>
-					@scope.profile.data.imFollowing = true
 					@cookies.put('ok_to_flash', true)
 					window.location.reload()
 				, false, true
@@ -592,8 +595,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	toggleFollowUserFromCard: (member) =>
 		if @rootScope.isSignedIn
 			if member.imFollowing
+				member.imFollowing = false
 				@unfollowUser member.id, =>
-					member.imFollowing = false
 					@flash "You are no longer following <b>#{member.username}</b>"
 					if @scope.profile.isMe
 						@scope.profile.follows.followings = _.filter @scope.profile.follows.followings, (item) =>
@@ -603,8 +606,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					else
 						@buildFollowersImFollowingCount()
 			else
+				member.imFollowing = true
 				@followUser member.id, =>
-					member.imFollowing = true
 					@flash "You are now following <b>#{member.username}</b>"
 					if @scope.profile.isMe
 						@scope.profile.follows.followings.push member

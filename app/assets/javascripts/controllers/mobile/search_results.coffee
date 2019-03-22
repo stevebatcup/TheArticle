@@ -128,12 +128,12 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 	toggleFollowUserFromCard: (member, $event) =>
 		$event.preventDefault()
 		if member.imFollowing
+			member.imFollowing = false
 			@unfollowUser member.id, =>
-				member.imFollowing = false
 				@flash "You are no longer following <b>#{member.username}</b>"
 		else
+			member.imFollowing = true
 			@followUser member.id, =>
-				member.imFollowing = true
 				@flash "You are now following <b>#{member.username}</b>"
 			, false
 

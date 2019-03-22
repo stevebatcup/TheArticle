@@ -56,22 +56,22 @@
 		  <li class="nav-item">
 		  	<a id="activity-following-tab" class="nav-link" ng-click="selectTab('following')" ng-class="{'active': selectedTab == 'following'}">
 			  	<label>Following</label>
-			  	<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
-			  	<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.followings.length }}</span>
+			  	<span class="ajax_loading_label" ng-show="!profile.loaded">&nbsp;</span>
+			  	<span ng-show="profile.loaded">{{ profile.data.followingsCount }}</span>
 			  </a>
 		  </li>
 		  <li class="nav-item">
 		    <a id="activity-followers-tab" class="with_badge nav-link" ng-click="selectTab('followers')" ng-class="{'active': selectedTab == 'followers'}">
 					<label>Followers</label>
-			  	<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
-					<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.followers.length }}</span>
+			  	<span class="ajax_loading_label" ng-show="!profile.loaded">&nbsp;</span>
+					<span ng-show="profile.loaded">{{ profile.data.followersCount }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item" ng-if="profile.isMe">
 		    <a id="activity-connected-tab" class="with_badge nav-link" ng-click="selectTab('connected')" ng-class="{'active': selectedTab == 'connected'}">
 					<label>Connected</label>
-			  	<span class="ajax_loading_label" ng-show="profile.follows.moreToLoad">&nbsp;</span>
-					<span ng-show="!profile.follows.moreToLoad">{{ profile.follows.connections.length }}</span>
+			  	<span class="ajax_loading_label" ng-show="!profile.loaded">&nbsp;</span>
+					<span ng-show="profile.loaded">{{ profile.data.connectionsCount }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">

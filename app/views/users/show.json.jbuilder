@@ -20,6 +20,10 @@ json.set! :profile do
 	userPath = profile_path(slug: @user.slug)
 	json.path userPath
 
+	json.followingsCount @user.followings_count
+	json.followersCount @user.followers_count
+	json.connectionsCount @user.connections_count
+
 	# photos
 	profileImage = @user.profile_photo.url(:square)
 	json.profilePhoto do

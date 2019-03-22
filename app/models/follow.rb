@@ -3,9 +3,18 @@ class Follow < ApplicationRecord
 	belongs_to	:user
 	belongs_to :followed, :class_name => "User"
 	belongs_to	:follow_group, optional: true
+
 	after_create	:update_feeds
 	after_create	:create_notification
 	after_destroy	:delete_feed_and_regenerate_notification
+
+	after_create	:update_follow_counts_for_both_users
+	after_destroy	:update_follow_counts_for_both_users
+
+	def update_follow_counts_for_both_users
+		self.user.recalculate_follow_counts
+		self.followed.recalculate_follow_counts
+	end
 
 	def update_feeds
 		if self.user.has_active_status? && self.user.has_completed_wizard
