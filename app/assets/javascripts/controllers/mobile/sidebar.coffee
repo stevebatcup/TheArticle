@@ -18,6 +18,7 @@ class TheArticle.Sidebar extends TheArticle.MobilePageController
 
 	updateMyFollowCounts: ->
 		@http.get("/user_followings?counts=1").then (response) =>
-			@scope.followCounts = response.data.counts
+			if response.data? and (response.data.status is 'success')
+				@scope.followCounts = response.data.counts
 
 TheArticle.ControllerModule.controller('SidebarController', TheArticle.Sidebar)
