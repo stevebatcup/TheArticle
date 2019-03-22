@@ -18,12 +18,6 @@ xml.tag! 'urlset', 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xm
 	  end
   end
 
-	xml.url do
-	  xml.loc "#{base_url}exchanges"
-	  xml.lastmod  Time.now.strftime("%Y-%m-%d")
-	  xml.changefreq 'daily'
-	  xml.priority 0.8
-	end
   @exchanges.each do |exchange|
 	  xml.url do
 	    xml.loc "#{base_url}exchange/#{exchange.slug}"
@@ -51,12 +45,6 @@ xml.tag! 'urlset', 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xm
 	  end
   end
 
-	xml.url do
-	  xml.loc "#{base_url}contributors"
-	  xml.lastmod  Time.now.strftime("%Y-%m-%d")
-	  xml.changefreq 'daily'
-	  xml.priority 0.5
-	end
   @authors.each do |author|
 	  xml.url do
 	    xml.loc "#{base_url}contributor/#{author.slug}"
@@ -66,12 +54,6 @@ xml.tag! 'urlset', 'xmlns' => 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xm
 	  end
   end
 
-	xml.url do
-	  xml.loc "#{base_url}sponsors"
-	  xml.lastmod  Time.now.strftime("%Y-%m-%d")
-	  xml.changefreq 'daily'
-	  xml.priority 0.5
-	end
   @sponsors.each do |sponsor|
 	  xml.url do
 	    xml.loc "#{base_url}sponsor/#{sponsor.slug}"
