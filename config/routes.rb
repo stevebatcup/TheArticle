@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   get 'contributors',                          to: 'contributors#index'
   get 'contributor/:slug',                     to: 'contributors#show', as: :contributor
+  get 'contributors/:slug',                    to: 'contributors#show'
   get 'sponsors',                              to: 'sponsors#index'
   get 'sponsor/:slug',                         to: 'sponsors#show', as: :sponsor
 

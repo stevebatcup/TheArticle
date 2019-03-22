@@ -5,10 +5,14 @@ class ContributorsController < ApplicationController
 	end
 
 	def show
-		if @contributor = Author.find_by(slug: params[:slug])
-			@contributors_for_carousel = Author.with_complete_profile(@contributor.id).limit(25).shuffle
+		if request.path.include?("contributors")
+			redirect_to contributor_path(slug: params[:slug]), :status => 301
 		else
-			render_404
+			if @contributor = Author.find_by(slug: params[:slug])
+				@contributors_for_carousel = Author.with_complete_profile(@contributor.id).limit(25).shuffle
+			else
+				render_404
+			end
 		end
 	end
 end
