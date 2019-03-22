@@ -9,7 +9,9 @@ class UserFollowingsController < ApplicationController
 				end
 
 				if params[:counts]
-					render json: { counts: user.follow_counts_as_hash  }
+					unless user.nil?
+						render json: { counts: user.follow_counts_as_hash  }
+					end
 				else
 					page = (params[:page] || 1).to_i
 					per_page = (params[:per_page] || 6).to_i
