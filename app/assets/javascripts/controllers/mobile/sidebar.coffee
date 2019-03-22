@@ -1,17 +1,20 @@
 class TheArticle.Sidebar extends TheArticle.MobilePageController
 
 	@register window.App
-	@$inject: ['$scope', '$rootScope', '$http', '$timeout', '$interval', '$compile']
+	@$inject: ['$scope', '$element', '$http', '$timeout', '$interval', '$compile']
 
 	init: ->
-		@scope.followCounts =
-			followers: 0
-			followings: 0
-			connections: 0
-		@updateMyFollowCounts()
-		@interval =>
+		@scope.signedIn = !!@element.data('signed-in')
+
+		if @scope.signedIn
+			@scope.followCounts =
+				followers: 0
+				followings: 0
+				connections: 0
 			@updateMyFollowCounts()
-		, 10000
+			@interval =>
+				@updateMyFollowCounts()
+			, 10000
 
 	updateMyFollowCounts: ->
 		@http.get("/user_followings?counts=1").then (response) =>

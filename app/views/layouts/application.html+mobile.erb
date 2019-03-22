@@ -4,7 +4,7 @@
   <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
       <main id="panel_for_side_menu">
 <% else %>
-  <nav id="sidebar" ng-controller="SidebarController" ng-cloak>
+  <nav id="sidebar" ng-controller="SidebarController" data-signed-in="0" ng-cloak>
     <div id="dismiss"><i class="fas fa-times"></i></div>
 
     <ul class="list-unstyled">
