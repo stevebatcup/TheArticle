@@ -6,7 +6,8 @@ class SitemapController < ApplicationController
 				@articles = Article.not_remote.order(published_at: :desc)
 				@exchanges = Exchange.order(slug: :desc)
 				@keyword_tags = KeywordTag.order(article_count: :desc)
-				@authors = Author.order(article_count: :desc)
+				@authors = Author.contributors.order(article_count: :desc)
+				@sponsors = Author.sponsors.order(article_count: :desc)
 			end
 		end
 	end
