@@ -8,9 +8,9 @@ class SearchController < ApplicationController
 						if @query.present?
 							@recent_searches = @who_to_follow = @trending_articles = @trending_exchanges = []
 							# topics
-							@topics = KeywordTag.search("*#{@query}*", page: 1, per_page: 5, order: 'article_count DESC')
+							@topics = KeywordTag.search("*#{@query}*", conditions: { name: '!Sponsored pick' }, page: 1, per_page: 5, order: 'article_count DESC')
 							# exchanges
-							@exchanges = Exchange.search("*#{@query}*", page: 1, per_page: 5)
+							@exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 5)
 							# contributors
 							@contributors = Author.search(conditions: { display_name: "*#{@query}*" }, page: 1, per_page: 5)
 							# profiles
@@ -50,7 +50,7 @@ class SearchController < ApplicationController
 						articles = Article.search("*#{@query}*", order: 'published_at DESC').to_a
 						contributors = Author.search(conditions: { display_name: "*#{@query}*" },
 																					order: 'article_count DESC').to_a
-						exchanges = Exchange.search("*#{@query}*").to_a
+						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }).to_a
 						posts = Share.search("*#{@query}*").to_a
 						if user_signed_in?
 							profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },

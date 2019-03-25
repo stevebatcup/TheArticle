@@ -11,7 +11,6 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	]
 
 	init: ->
-		console.log 'init'
 		@setDefaultHttpHeaders()
 		@bindEvents()
 		@scope.suggestions =
@@ -27,6 +26,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 		@scope.suggestions.mode = tab
 
 	getSuggestions: =>
+		console.log 'getSuggestions'
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.forYous.push suggestion
