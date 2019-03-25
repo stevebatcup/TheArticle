@@ -46,32 +46,36 @@ class SearchController < ApplicationController
 						render :index_suggestions
 					end
 				elsif params[:mode] == :full
-					articles = Article.search("*#{@query}*", order: 'published_at DESC').to_a
-					contributors = Author.search(conditions: { display_name: "*#{@query}*" },
-																				order: 'article_count DESC').to_a
-					exchanges = Exchange.search("*#{@query}*").to_a
-					posts = Share.search("*#{@query}*").to_a
-					if user_signed_in?
-						profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },
-																		conditions: { status: 'active', has_completed_wizard: true },
-																		page: 1, per_page: 5).to_a
-					else
-						profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
-																		page: 1, per_page: 5).to_a
+					begin
+						articles = Article.search("*#{@query}*", order: 'published_at DESC').to_a
+						contributors = Author.search(conditions: { display_name: "*#{@query}*" },
+																					order: 'article_count DESC').to_a
+						exchanges = Exchange.search("*#{@query}*").to_a
+						posts = Share.search("*#{@query}*").to_a
+						if user_signed_in?
+							profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },
+																			conditions: { status: 'active', has_completed_wizard: true },
+																			page: 1, per_page: 5).to_a
+						else
+							profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
+																			page: 1, per_page: 5).to_a
+						end
+						@results = (articles + contributors + profiles + exchanges + posts)
+						search_log = SearchLog.new({
+							term: @query,
+							all_results_count: @results.size,
+							articles_results_count: articles.size,
+							contributors_results_count: contributors.size,
+							profiles_results_count: profiles.size,
+							exchanges_results_count: exchanges.size,
+							posts_results_count: posts.size
+						})
+						search_log.user_id = current_user.id if user_signed_in?
+						search_log.save
+						render :index_results
+					rescue Exception => e
+						render :index_results
 					end
-					@results = (articles + contributors + profiles + exchanges + posts)
-					search_log = SearchLog.new({
-						term: @query,
-						all_results_count: @results.size,
-						articles_results_count: articles.size,
-						contributors_results_count: contributors.size,
-						profiles_results_count: profiles.size,
-						exchanges_results_count: exchanges.size,
-						posts_results_count: posts.size
-					})
-					search_log.user_id = current_user.id if user_signed_in?
-					search_log.save
-					render :index_results
 				end
 			end
 			format.html do
