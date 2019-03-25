@@ -10,7 +10,10 @@ class UserFollowingsController < ApplicationController
 
 				if params[:counts]
 					unless user.nil?
-						render json: { status: :success, counts: user.follow_counts_as_hash  }
+						Rails.logger.silence do
+							counts = user.follow_counts_as_hash
+							render json: { status: :success, counts: counts  }
+						end
 					else
 						render json: nil
 					end

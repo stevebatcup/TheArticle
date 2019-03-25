@@ -182,11 +182,13 @@ private
 	end
 
 	def prepare_exception_notifier
-    request.env["exception_notifier.exception_data"] = {
-      current_user: user_signed_in? ? current_user : nil,
-      browser: browser.to_s,
-      device: browser.device.name,
-      platform: browser.platform.name
-    }
+		ActiveRecord::Base.logger.silence do
+	    request.env["exception_notifier.exception_data"] = {
+	      current_user: user_signed_in? ? current_user : nil,
+	      browser: browser.to_s,
+	      device: browser.device.name,
+	      platform: browser.platform.name
+	    }
+	  end
   end
 end

@@ -14,8 +14,10 @@ class NotificationsController < ApplicationController
 			end
 			format.json do
 				if params[:count]
-					@count = current_user.notification_counter_cache
-					render 'count'
+					Rails.logger.silence do
+						@count = current_user.notification_counter_cache
+						render 'count'
+					end
 				else
 					page = (params[:page] || 1).to_i
 					per_page = (params[:per_page] || 20).to_i
