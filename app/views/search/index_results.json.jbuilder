@@ -45,6 +45,7 @@ begin
 				username: result.username,
 				bio: bio_excerpt(result, browser.device.mobile? ? 18 : 28),
 				profilePhoto: result.profile_photo.url(:square),
+				coverPhoto: result.cover_photo.url(:mobile),
 				imFollowing: user_signed_in? ? result.is_followed_by(current_user) : false,
 				isFollowingMe: user_signed_in? ? current_user.is_followed_by(result) : false,
 				isBlocked: user_signed_in? ? current_user.has_blocked(result) : false,
