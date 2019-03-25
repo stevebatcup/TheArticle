@@ -83,11 +83,20 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			@timeout =>
 				angular.forEach response.articles, (article) =>
 					@scope.sponsoredPicks.items.push article
+				@addNativeAdSlot()
 				@scope.sponsoredPicks.firstLoaded = true
 				@scope.sponsoredPicks.loading = false
 			, timeoutDelay
 		, (response) =>
 			@refreshPage() if response.status is 401
+
+	addNativeAdSlot: =>
+		middleIndex = Math.floor(@scope.sponsoredPicks.items.length / 2)
+		nativeAd =
+			id: 999999
+			isNative: true
+			isSponsored: true
+		@scope.sponsoredPicks.items.splice(middleIndex, 0, nativeAd)
 
 	goodbye: =>
 		@alert "Your account has been deleted.  We are sorry to see you go.", "Account deleted"

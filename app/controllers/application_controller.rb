@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
 	def show_ads?
 		if is_development? || is_staging?
-			false
+			true
 		elsif self.class == ProfileWizardController
 			false
 		else

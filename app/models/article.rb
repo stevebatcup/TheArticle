@@ -69,7 +69,7 @@ class Article < ApplicationRecord
 	  published_at.strftime("%B %Y")
 	end
 
-	def self.recent
+	def self.recent(with_sponsored=true)
 		sponsors = Author.sponsors.to_a
 		limit = sponsors.any? ? 5 : 6
 		articles = Rails.cache.fetch("recent_unsponsored_articles") do
@@ -79,7 +79,7 @@ class Article < ApplicationRecord
 					.limit(limit)
 					.all.to_a
 		end
-		if sponsors.any?
+		if sponsors.any? && with_sponsored
 			sponsored_articles = self.sponsored
 																.includes(:author).references(:author)
 																.order(Arel.sql('RAND()'))

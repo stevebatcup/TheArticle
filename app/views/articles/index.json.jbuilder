@@ -13,6 +13,7 @@ else
 			json.publishedAt article_date(article)
 			json.image article.image.url(image_size) if article.image?
 			json.isSponsored article.is_sponsored
+			json.isNative false
 			json.author do
 				author = article.author
 				json.name author.display_name.html_safe

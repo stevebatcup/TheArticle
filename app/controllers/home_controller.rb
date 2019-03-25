@@ -10,7 +10,8 @@ class HomeController < ApplicationController
 		@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick').to_a if browser.device.mobile?
 		@articles_for_carousel = Article.for_carousel(article_carousel_sponsored_position)
 		@contributors_for_spotlight = Author.contributors_for_spotlight
-		@recent_articles = Article.recent
+		@recent_articles = Article.recent(false).to_a
+		@recent_articles.insert(3, { id: 999998, nativeAd: true })
 
 		if user_signed_in? && !current_user.has_completed_wizard?
 			current_user.display_name = current_user.default_display_name

@@ -1,8 +1,19 @@
 <div class="container listings_<%= block_id.downcase %>" ng-if="<%= block_id %>.firstLoaded">
 	<h2 class="h1 bullet mb-2 mb-md-3"><%= title.html_safe %></h2>
 	<div class="row">
-		<article ng-repeat="article in <%= block_id %>.items" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.isSponsored ? ' sponsored_article' : '' }}" data-href="{{  article.path }}">
-			<%= render partial: 'articles/item' %>
+		<article ng-repeat="article in <%= block_id %>.items" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.isSponsored ? ' sponsored_article' : '' }}"
+				data-href="{{ article.isNative ? '#' : article.path }}">
+			<div ng-if="!article.isNative"><%= render partial: 'articles/item' %></div>
+			<div ng-if="article.isNative">
+				<% if show_ads? %>
+					<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/sponsored_feed -->
+					<div id='div-gpt-ad-<%= ad_page_id %>-6'>
+						<script>
+							googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-6'); });
+						</script>
+					</div>
+				<% end %>
+			</div>
 		</article>
 		<% if block_id == 'exchangeArticles' && is_editor_exchange %>
 			<%= render "exchanges/editor_exchange_callout_3" %>

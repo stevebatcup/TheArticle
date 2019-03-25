@@ -39,33 +39,44 @@
 				<div class="col-12 col-md-6 pt-4 pt-md-5" id="home_latest_articles">
 					<div class="container">
 						<h2 class="bullet mb-4">Latest articles</h2>
-						<% recent_articles.each do |recent_article| %>
-							<article class="row mt-3<%= recent_article.is_sponsored ? ' sponsored_article' : '' %>">
-								<div class="col-12">
-									<% if recent_article.is_sponsored %>
-										<a href='/sponsors' class="sponsored">
-											<i class="fas fa-star"></i>
-											SPONSORED
-										</a>
-									<% end %>
-									<h5 class="">
-										<a href="<%= article_path(recent_article) %>">
-											<%= recent_article.title.html_safe if recent_article.title %>
-										</a>
-									</h5>
-									<% footer_padding_bottom = recent_article.is_sponsored ? 'pb-2' : 'pb-0' %>
-									<footer class="entry-footer pl-0 pt-1 <%= footer_padding_bottom %>">
-										<p class="author_link">
-											<a href="<%= contributor_path(slug: recent_article.author.slug) %>">
-												by <span><%= recent_article.author.display_name %></span>
-											</a>&nbsp
-											<span class="entry-date">
-												<%= article_date(recent_article) %>
-											</span>
-										</p>
-									</footer>
-								</div>
-							</article>
+						<% recent_articles.each_with_index do |recent_article, index| %>
+							<% if recent_article.is_a?(Article) %>
+								<article class="row mt-3<%= recent_article.is_sponsored ? ' sponsored_article' : '' %>">
+									<div class="col-12">
+										<% if recent_article.is_sponsored %>
+											<a href='/sponsors' class="sponsored">
+												<i class="fas fa-star"></i>
+												SPONSORED
+											</a>
+										<% end %>
+										<h5 class="">
+											<a href="<%= article_path(recent_article) %>">
+												<%= recent_article.title.html_safe if recent_article.title %>
+											</a>
+										</h5>
+										<% footer_padding_bottom = recent_article.is_sponsored ? 'pb-2' : 'pb-0' %>
+										<footer class="entry-footer pl-0 pt-1 <%= footer_padding_bottom %>">
+											<p class="author_link">
+												<a href="<%= contributor_path(slug: recent_article.author.slug) %>">
+													by <span><%= recent_article.author.display_name %></span>
+												</a>&nbsp
+												<span class="entry-date">
+													<%= article_date(recent_article) %>
+												</span>
+											</p>
+										</footer>
+									</div>
+								</article>
+							<% else %>
+								<% if show_ads? %>
+									<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/mostread_feed -->
+									<div id='div-gpt-ad-<%= ad_page_id %>-5'>
+										<script>
+											googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-5'); });
+										</script>
+									</div>
+								<% end %>
+							<% end %>
 						<% end %>
 					</div>
 				</div>
