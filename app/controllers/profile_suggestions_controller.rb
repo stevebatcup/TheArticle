@@ -17,9 +17,10 @@ class ProfileSuggestionsController < ApplicationController
 					else
 						suggestions = current_user.pending_suggestions
 						current_user.generate_suggestions(false, 10) if suggestions.empty?
-						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').limit(15)
+						already_following_ids = current_user.followings.map(&:followed_id)
+						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(15)
 						populars_limit = 15 + (15- @for_yous.size)
-						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit)
+						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(populars_limit)
 					end
 				end
 			end
