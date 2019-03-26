@@ -29,7 +29,8 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 		vars = @getUrlVars()
 		@openSigninForm() if 'sign_in' of vars
 		@openSigninForm() if 'forgotten_password' of vars
-		@openRegisterForm() if 'register' of vars
+		deviceType = if @isTablet() then 'tablet' else 'desktop'
+		@openRegisterForm(null, 'homepage_redirect', deviceType) if 'register' of vars
 		@goodbye() if 'account_deleted' of vars
 		@disableBackButton() if 'signed_out' of vars
 		@showProfileWizardModal() if @element.data('force-profile-wizard')

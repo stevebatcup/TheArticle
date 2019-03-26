@@ -95,7 +95,7 @@
               </a>
             </li>
             <li class="nav-item mr-1">
-              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0 pr-0" href="#" ng-click="openRegisterForm($event)" id="nav_link_join">Register</a>
+              <a class="nav-link nav-icon-text text-black pl-md-4 pb-0 pr-0" href="#" ng-click="openRegisterForm($event, 'header_bar', '<%= device_type_for_events %>')" id="nav_link_join">Register</a>
             </li>
             <li class="nav-item">
               <a class="nav-link nav-icon-text text-black pl-md-3 pl-lg-4 pb-0" href="#" id="nav_link_sign_in" ng-click="openSigninForm($event)">
@@ -161,7 +161,7 @@
 
       <% unless user_signed_in? %>
       <div class="col-md-0 col-lg-2 d-flex align-items-center justify-content-end"">
-        <a class="join_button btn btn-sm bg-grass text-white" href="#" ng-click="openRegisterForm($event)">Register now</a>
+        <a class="join_button btn btn-sm bg-grass text-white" href="#" ng-click="openRegisterForm($event, 'footer_bar', '<%= device_type_for_events %>')">Register now</a>
       </div>
       <% end %>
     </div>

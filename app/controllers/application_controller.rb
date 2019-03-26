@@ -126,6 +126,18 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:is_testing_environment?
 
+	def device_type_for_events
+		@device_type_for_events ||= begin
+			if browser.device.tablet?
+				'tablet'
+			elsif browser.device.mobile?
+				'mobile'
+			else
+				'desktop'
+			end
+		end
+	end
+	helper_method	:device_type_for_events
 
 protected
 
