@@ -4,7 +4,11 @@ class WpConnectorController < ApplicationController
 
   def model_save
     model = params[:model].classify.constantize
-    render_json_200_or_404 model.schedule_create_or_update(wp_id_from_params)
+    if ['post', 'article'].include?(params[:model].downcase)
+      render_json_200_or_404 model.schedule_create_or_update(wp_id_from_params, params[:publish_date])
+    else
+      render_json_200_or_404 model.schedule_create_or_update(wp_id_from_params)
+    end
   end
 
   def model_delete

@@ -13,6 +13,20 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
+	def self.schedule_create_or_update(wp_id, publish_date)
+		if publish_date > Time.now
+			unless fa = FutureArticle.find_by(wp_id: wp_id)
+				fa = FutureArticle.new({wp_id: wp_id})
+			end
+			fa.created_at = Time.now unless fa.persisted?
+			fa.updated_at = Time.now
+			fa.publish_date = publish_date
+			fa.save
+		else
+			super(wp_id)
+		end
+	end
+
 	def nullify_ratings_caches
 		self.ratings_well_written_cache = nil
 		self.ratings_valid_points_cache = nil

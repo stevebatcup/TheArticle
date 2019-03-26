@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_22_102313) do
+ActiveRecord::Schema.define(version: 2019_03_26_125608) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -276,6 +276,13 @@ ActiveRecord::Schema.define(version: 2019_03_22_102313) do
     t.integer "follow_group_id"
     t.index ["followed_id"], name: "index_follows_on_followed_id"
     t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
+  create_table "future_articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "wp_id"
+    t.datetime "publish_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "interaction_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
