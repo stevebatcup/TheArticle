@@ -3,8 +3,8 @@
 	<div class="row">
 		<article ng-repeat="article in <%= block_id %>.items" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.isSponsored ? ' sponsored_article' : '' }}"
 				data-href="{{ article.isNative ? '#' : article.path }}">
-			<div ng-if="!article.isNative"><%= render partial: 'articles/item' %></div>
-			<div ng-if="article.isNative">
+			<div ng-if="!article.isNative" class="h-100"><%= render partial: 'articles/item' %></div>
+			<div ng-if="article.isNative" class="h-100">
 				<% if show_ads? %>
 					<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/sponsored_feed -->
 					<div id='div-gpt-ad-<%= ad_page_id %>-6'>
