@@ -142,6 +142,7 @@ Rails.application.routes.draw do
   end
 
   get 'feed', to: 'articles#index', :defaults => { :format => 'rss' }
+  get 'feed/rss', to: 'articles#index', :defaults => { :format => 'rss' }
   get "/sitemap.xml" => "sitemap#index", :format => "xml", :as => :sitemap
 
   PageRouter.load

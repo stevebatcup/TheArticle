@@ -328,4 +328,11 @@ class User < ApplicationRecord
   def has_full_profile?
     self.username.present? && self.display_name.present? && self.location.present? && self.bio.present?
   end
+
+  def pending_any_confirmation
+    if (!confirmed? || pending_reconfirmation?)
+      yield
+    end
+  end
+
 end
