@@ -385,7 +385,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			checkCrossOrigin: true
 			center: true
 			cropBoxResizable: false
-			viewMode: if type is 'coverPhoto' then 0 else 1
+			viewMode: if type is 'coverPhoto' then 3 else 1
 			dragMode: 'none'
 		@timeout =>
 			containerData = @scope.photoCrop.cropper.getContainerData()
