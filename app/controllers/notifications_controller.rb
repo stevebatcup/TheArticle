@@ -28,7 +28,8 @@ class NotificationsController < ApplicationController
 																				.per(per_page)
 					unless params[:panel].present?
 						@notifications.each do |notification|
-							notification.update_attribute(:is_new, false)
+							Notification.record_timestamps = false
+							notification.update_attribute(:is_new, false) if notification.is_new
 						end
 						current_user.update_notification_counter_cache
 					end
