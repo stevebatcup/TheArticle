@@ -594,7 +594,8 @@ html.svg header#main_header nav li.nav-item {
 		height: 316px;
 		cursor: pointer;
 
-		.inner {
+		.inner,
+		iframe {
 			background-color: $grey_light;
 			position: relative;
 
