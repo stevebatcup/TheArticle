@@ -24,14 +24,18 @@ class ArticlesController < ApplicationController
 						end
 					end
 				elsif params[:exchange]
-					exchange = Exchange.find_by(slug: params[:exchange])
-					@articles = exchange.articles.not_sponsored
-															.includes(:author).references(:author)
-															.includes(:exchanges).references(:exchanges)
-															.order("published_at DESC")
-															.page(params[:page]).per(params[:per_page].to_i)
-					if params[:page].to_i == 1
-						@total = exchange.articles.not_sponsored.size
+					if exchange = Exchange.find_by(slug: params[:exchange])
+						@articles = exchange.articles.not_sponsored
+																.includes(:author).references(:author)
+																.includes(:exchanges).references(:exchanges)
+																.order("published_at DESC")
+																.page(params[:page]).per(params[:per_page].to_i)
+						if params[:page].to_i == 1
+							@total = exchange.articles.not_sponsored.size
+						end
+					else
+						@articles = []
+						@total = 0
 					end
 				elsif params[:author]
 					@contributor = Author.find_by(id: params[:author])
