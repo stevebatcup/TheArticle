@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_125608) do
+ActiveRecord::Schema.define(version: 2019_03_29_141137) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -168,6 +168,16 @@ ActiveRecord::Schema.define(version: 2019_03_26_125608) do
     t.index ["reported_id"], name: "index_concern_reports_on_reported_id"
     t.index ["reporter_id"], name: "index_concern_reports_on_reporter_id"
     t.index ["sourceable_type", "sourceable_id"], name: "index_concern_reports_on_sourceable_type_and_sourceable_id"
+  end
+
+  create_table "daily_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_type"
+    t.integer "action_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_daily_user_mail_items_on_created_at"
+    t.index ["user_id"], name: "index_daily_user_mail_items_on_user_id"
   end
 
   create_table "email_alias_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -487,6 +497,16 @@ ActiveRecord::Schema.define(version: 2019_03_26_125608) do
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "weekly_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "action_type"
+    t.integer "action_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_weekly_user_mail_items_on_created_at"
+    t.index ["user_id"], name: "index_weekly_user_mail_items_on_user_id"
   end
 
   create_table "white_listed_third_party_publishers", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

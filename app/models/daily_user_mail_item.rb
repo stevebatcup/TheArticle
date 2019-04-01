@@ -1,0 +1,2 @@
+class DailyUserMailItem < ApplicationRecord
+end

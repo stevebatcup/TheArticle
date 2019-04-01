@@ -59,6 +59,27 @@ module User::Followable
     self.follow_mutes.create({muted_id: id})
   end
 
+  def send_followed_mail_if_opted_in(follower)
+    preference = self.notification_settings.find_by(key: :email_followers)
+    if preference
+      if preference.value == 'as_it_happens'
+        FollowsMailer.as_it_happens(self, follower).deliver_now
+      elsif preference.value == 'daily'
+        DailyUserMailItem.create({
+          user_id: self.id,
+          action_type: 'follow',
+          action_id: follower.id
+        })
+      elsif preference.value == 'weekly'
+        WeeklyUserMailItem.create({
+          user_id: self.id,
+          action_type: 'follow',
+          action_id: follower.id
+        })
+      end
+    end
+  end
+
   module ClassMethods
   end
 end

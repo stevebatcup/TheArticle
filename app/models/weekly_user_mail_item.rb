@@ -1,0 +1,2 @@
+class WeeklyUserMailItem < ApplicationRecord
+end
