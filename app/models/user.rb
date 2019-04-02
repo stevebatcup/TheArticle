@@ -169,8 +169,11 @@ class User < ApplicationRecord
     self.lat = params[:location][:lat]
     self.lng = params[:location][:lng]
     self.country_code = params[:location][:country_code]
+    existing_exchange_ids = self.exchanges.map(&:id)
     params[:selected_exchanges].each do |eid|
-      self.exchanges << Exchange.find(eid)
+      unless existing_exchange_ids.include?(eid)
+        self.exchanges << Exchange.find(eid)
+      end
     end
     self.exchanges << Exchange.editor_item
     self.has_completed_wizard = 1
