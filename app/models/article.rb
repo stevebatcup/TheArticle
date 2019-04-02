@@ -86,7 +86,7 @@ class Article < ApplicationRecord
 	def self.recent
 		sponsors = Author.sponsors.to_a
 		limit = sponsors.any? ? 5 : 6
-		articles = Rails.cache.fetch("recent_unsponsored_articles") do
+		articles = Rails.cache.fetch("recent_unsponsored_articles", expires_in: 15.minutes) do
 			self.not_sponsored.not_remote
 					.includes(:author).references(:author)
 					.order(published_at: :desc)
@@ -100,7 +100,6 @@ class Article < ApplicationRecord
 																.limit(1)
 			articles.insert(3, sponsored_articles.first) if sponsored_articles.any?
 		end
-
 		articles
 	end
 
