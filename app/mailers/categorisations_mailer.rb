@@ -52,7 +52,7 @@ class CategorisationsMailer < Devise::Mailer
   	  path = article_url(slug: article.slug)
   	  exchange = article.exchanges.first
   	  html << "
-  	  <tr><td>
+  	  <tr><td style='padding-bottom: 19px;'>
   	  	<table cellpadding='0' cellspacing='0' width='100%' style='width: 100%; text-align: left;'>
   	  		<tr>
   	  			<td>

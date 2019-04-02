@@ -22,7 +22,7 @@ module User::Mailable
       end
     end
     CategorisationsMailer.weekly(self, articles).deliver_now if articles.any?
-    # items.destroy_all
+    items.destroy_all
   end
 
   def send_daily_categorisations_mail
@@ -34,7 +34,7 @@ module User::Mailable
       end
     end
     CategorisationsMailer.daily(self, articles).deliver_now if articles.any?
-    # items.destroy_all
+    items.destroy_all
   end
 
 	module ClassMethods
