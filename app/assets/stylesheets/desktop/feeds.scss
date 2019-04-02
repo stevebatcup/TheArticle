@@ -9,6 +9,10 @@
 		}
 	}
 
+	&.feed-third-party {
+		background: $green_light;
+	}
+
 	&:last-child {
 		padding-bottom: 0 !important;
 		margin-bottom: 0 !important;

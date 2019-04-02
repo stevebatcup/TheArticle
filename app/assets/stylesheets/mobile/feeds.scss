@@ -29,6 +29,11 @@ input#suggestion_search {
 		}
 	}
 
+	&.feed-third-party {
+		background: $green_light !important;
+		margin-top: -17px;
+	}
+
 	&.comment {
 		border-bottom: none;
 	}

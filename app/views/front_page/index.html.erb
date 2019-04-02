@@ -153,7 +153,8 @@
 			</ul>
 
 			<div class="container" id="activity-tabs">
-				<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing">
+				<div class="mb-2 mt-3 px-3 py-3 results_block row feed-listing feed-third-party d-flex align-items-start justify-content-between">
+					<img class="rounded-circle" alt="" src="<%= current_user.profile_photo.url(:square) %>" style="width: 34px; height: 34px;" />
           <textarea name="third_party_article_url"
                       id="third_party_article_url_phantom"
                       ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
@@ -161,7 +162,7 @@
                       ng-blur="contractThirdPartySharingTextarea($event)"
                       ng-paste="openThirdPartySharingPanelFromPaste($event)"
                       placeholder="What are you reading?"
-                      class="form-control w-100"></textarea>
+                      class="form-control" style="width: 91%"></textarea>
 				</div>
 
 				<!-- Articles Tab -->
