@@ -251,7 +251,6 @@ class Article < ApplicationRecord
 
     self.save
 
-
     # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache

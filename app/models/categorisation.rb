@@ -5,6 +5,30 @@ class Categorisation < ApplicationRecord
 	belongs_to	:exchange
 	before_create	:update_feeds
 	after_destroy	:delete_feed_and_notification
+	after_create	:handle_email_notifications
+
+	def handle_email_notifications
+		self.exchange.users.each do |user|
+	    preference = user.notification_settings.find_by(key: :email_exchanges)
+	    if preference
+	      if preference.value == 'as_it_happens'
+	      	CategorisationEmailAsItHappensJob.set(wait_until: 20.seconds.from_now).perform_later(user, self.article, self.exchange)
+	      elsif preference.value == 'daily'
+	        DailyUserMailItem.create({
+	          user_id: user.id,
+	          action_type: 'categorisation',
+	          action_id: self.id
+	        })
+	      elsif preference.value == 'weekly'
+	        WeeklyUserMailItem.create({
+	          user_id: user.id,
+	          action_type: 'categorisation',
+	          action_id: self.id
+	        })
+	      end
+	    end
+		end
+	end
 
 	def update_feeds
 		self.exchange.users.each do |user|
@@ -44,4 +68,5 @@ class Categorisation < ApplicationRecord
 	def self.table_name
 		'articles_exchanges'
 	end
+
 end

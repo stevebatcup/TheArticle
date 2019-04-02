@@ -80,6 +80,30 @@ module User::Followable
     end
   end
 
+  def send_weekly_follows_mail
+    followers = []
+    follow_items = WeeklyUserMailItem.where(user_id: self.id, action_type: "follow").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)")
+    follow_items.each do |item|
+      if user = User.active.find_by(id: item.action_id)
+        followers << user
+      end
+    end
+    FollowsMailer.daily_and_weekly(self, followers).deliver_now if followers.any?
+    follow_items.destroy_all
+  end
+
+  def send_daily_follows_mail
+    followers = []
+    follow_items = DailyUserMailItem.where(user_id: self.id, action_type: "follow").where("DATE(created_at) = CURDATE()")
+    follow_items.each do |item|
+      if user = User.active.find_by(id: item.action_id)
+        followers << user
+      end
+    end
+    FollowsMailer.daily_and_weekly(self, followers).deliver_now if followers.any?
+    follow_items.destroy_all
+  end
+
   module ClassMethods
   end
 end

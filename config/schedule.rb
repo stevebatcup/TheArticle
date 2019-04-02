@@ -30,3 +30,11 @@ end
 every	2.minutes do
 	rake "articles:fetch_scheduled_posts >> /var/www/thearticle/rails/shared/log/scheduled_articles.log 2>&1"
 end
+
+# every	1.day, at: '20:00 am' do
+# 	rake "notifications:daily_follows >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+# end
+
+# every	:wednesday, at: '20:00 am' do
+# 	rake "notifications:weekly_follows >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+# end
