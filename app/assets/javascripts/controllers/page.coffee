@@ -272,6 +272,8 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
 		$event.preventDefault() if $event
+		if 'articleRegisterInterstitialTimeout' of @scope
+			@timeout.cancel(@scope.articleRegisterInterstitialTimeout)
 		$('[data-dismiss=modal]', '#signinBoxModal').click()
 		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 		if gtag?

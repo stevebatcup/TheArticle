@@ -62,7 +62,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	getEditorsPicks: =>
 		@scope.editorsPicks.loading = true
 		timeoutDelay = if @scope.editorsPicks.page is 1 then 1500 else 1000
-		vars = { tagged: 'editors-picks', page: @scope.editorsPicks.page, perPage: @rootElement.data('per-page') }
+		vars = { tagged: 'editors-picks', page: @scope.editorsPicks.page, perPage: @element.data('per-page') }
 		@EditorsPick.query(vars).then (response) =>
 			@timeout =>
 				@scope.editorsPicks.totalItemCount = response.total if @scope.editorsPicks.page is 1

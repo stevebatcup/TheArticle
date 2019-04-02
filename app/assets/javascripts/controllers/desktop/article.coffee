@@ -3,9 +3,9 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
-	  '$rootScope'
 	  '$timeout'
 	  '$compile'
 	  '$cookies'
@@ -33,7 +33,7 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 			@getArticlesInSameExchange()
 
 		if $('#registerInterstitial').length > 0
-			@timeout =>
+			@rootScope.articleRegisterInterstitialTimeout = @timeout =>
 				@showRegistrationInterstitial()
 			, 20000
 

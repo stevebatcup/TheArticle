@@ -33,7 +33,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 			@getArticlesInSameExchange()
 
 		if $('#registerInterstitial').length > 0
-			@timeout =>
+			@rootScope.articleRegisterInterstitialTimeout = @timeout =>
 				@showRegistrationInterstitial()
 			, 20000
 
