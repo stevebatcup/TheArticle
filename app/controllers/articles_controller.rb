@@ -30,8 +30,15 @@ class ArticlesController < ApplicationController
 																.includes(:exchanges).references(:exchanges)
 																.order("published_at DESC")
 																.page(params[:page]).per(params[:per_page].to_i)
+						if params[:exclude_id]
+							@articles = @articles.where.not("articles.id = ?", params[:exclude_id])
+						end
 						if params[:page].to_i == 1
-							@total = exchange.articles.not_sponsored.size
+							if params[:exclude_id]
+								@total = exchange.articles.where.not("articles.id = ?", params[:exclude_id]).not_sponsored.size
+							else
+								@total = exchange.articles.not_sponsored.size
+							end
 						end
 					else
 						@articles = []

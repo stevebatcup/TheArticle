@@ -31,6 +31,8 @@ class Author < ApplicationRecord
 		self.joins(:articles)
 				.where(author_role: contributor_role)
 				.where("email NOT LIKE ?", '@thearticle.com')
+				.where("authors.image IS NOT NULL")
+				.where("authors.article_count > 0")
 				.order(Arel.sql('RAND()'))
 				.distinct
 				.limit(limit)

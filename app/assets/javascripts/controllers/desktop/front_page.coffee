@@ -18,6 +18,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	]
 
 	init: ->
+		$('footer#main_footer_top, footer#main_footer_bottom').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
 		@bindEvents()

@@ -10,7 +10,9 @@
 </div>
 <% end %>
 
-<section ng-controller="ArticleController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+<section ng-controller="ArticleController"
+					data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+					data-article-id="<%= @article.id %>"
 					data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
 					data-per-page="<%= articles_per_page %>">
 	<div class="container mb-3">

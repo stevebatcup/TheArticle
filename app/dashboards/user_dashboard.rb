@@ -11,8 +11,9 @@ class UserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     first_name: Field::String,
     last_name: Field::String,
+    full_name: Field::String,
     created_at: Field::DateTime,
-    human_created_at: Field::DateTime,
+    human_created_at: Field::String,
     subscriptions: Field::HasMany,
     author_id: AuthorSelectField.with_options(
       choices: Author.contributors.order(:display_name)
@@ -77,18 +78,17 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
-    :human_created_at,
-    :first_name,
-    :last_name,
+    :full_name,
     :display_name,
     :email,
+    :human_created_at,
     :status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :id,
     :title,
     :first_name,
     :last_name,

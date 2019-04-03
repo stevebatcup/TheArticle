@@ -18,6 +18,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 	]
 
 	init: ->
+		$('footer#main_footer_top').hide()
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')

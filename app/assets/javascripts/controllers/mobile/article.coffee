@@ -15,6 +15,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = !!@element.data('signed-in')
+		@scope.articleId = @element.data('article-id')
 		@bindEvents()
 
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
@@ -54,7 +55,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 
 	getArticlesInSameExchange: =>
 		@scope.exchangeArticles.loading = true
-		vars = { exchange: @scope.exchange, page: @scope.exchangeArticles.page, perPage: @element.data('per-page') }
+		vars = { exchange: @scope.exchange, page: @scope.exchangeArticles.page, perPage: @element.data('per-page'), exclude_id: @scope.articleId }
 		@ExchangeArticle.query(vars).then (response) =>
 			@timeout =>
 				@scope.exchangeArticles.totalItemCount = response.total if @scope.exchangeArticles.page is 1

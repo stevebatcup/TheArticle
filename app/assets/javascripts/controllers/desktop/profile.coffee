@@ -18,6 +18,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	]
 
 	init: ->
+		$('footer#main_footer_top, footer#main_footer_bottom').hide()
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
