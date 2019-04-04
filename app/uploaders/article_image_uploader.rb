@@ -3,6 +3,10 @@ class ArticleImageUploader < CarrierWave::Uploader::Base
 
   storage :fog
 
+  def filename
+    "#{model.title.downcase.gsub(/[^a-z ]/i, '').parameterize.truncate(75, omission: '')}.jpg" if original_filename.present?
+  end
+
   version :carousel do
     process resize_to_fill: [590, 490]
 

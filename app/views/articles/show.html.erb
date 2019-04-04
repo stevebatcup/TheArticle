@@ -223,7 +223,7 @@
 
 					<% if @sponsored_picks.any? %>
 					<div id="featured_articles_content_bar" class="mt-5" style="display: none;">
-						<h1 class="bullet underline">Sponsored picks</h1>
+						<h2 class="h1 bullet underline">Sponsored picks</h2>
 						<div class="row">
 							<% @sponsored_picks.each do |sp| %>
 								<%= render partial: 'articles/sponsored-item', locals: { article: sp } %>
