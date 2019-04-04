@@ -54,7 +54,7 @@ class Categorisation < ApplicationRecord
 			item[:categorisation].notifications.build({
 				user_id: item[:user].id,
 				specific_type: nil,
-				body: "A new article has been added to the <a href='/exchange/#{item[:exchange].slug}' class='text-green'>#{item[:exchange].name}</a> exchange",
+				body: "New article in <a href='/exchange/#{item[:exchange].slug}' class='text-green'>#{item[:exchange].name}</a>: #{article.title.html_safe}",
 				feed_id: nil
 			})
 		end

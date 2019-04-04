@@ -71,7 +71,7 @@ class ArticlesController < ApplicationController
 													.first
 			@sponsored_picks = []
 			unless @article.is_sponsored?
-				@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
+				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
 			end
 			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
