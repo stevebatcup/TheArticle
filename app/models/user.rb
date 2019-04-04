@@ -89,8 +89,8 @@ class User < ApplicationRecord
     self.display_name = "#{first_name} #{last_name}"
     self.slug = self.username.downcase
 
-    self.notification_settings.build({ key: 'email_followers', value: 'never' })
-    self.notification_settings.build({ key: 'email_exchanges', value: 'never' })
+    self.notification_settings.build({ key: 'email_followers', value: 'daily' })
+    self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
     self.notification_settings.build({ key: 'email_responses', value: 'never' })
     self.notification_settings.build({ key: 'email_replies', value: 'never' })
 
