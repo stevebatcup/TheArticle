@@ -11,7 +11,7 @@ class FollowsMailer < Devise::Mailer
   )
 
   def as_it_happens(followed, follower)
-    subject = "TheArticle – you have been followed by #{follower.display_name}"
+    subject = "You have been followed by #{follower.display_name}"
     merge_vars = {
       FIRST_NAME: followed.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -24,7 +24,7 @@ class FollowsMailer < Devise::Mailer
   end
 
   def daily_and_weekly(followed, followers)
-    subject = "TheArticle – you have new followers"
+    subject = "You have new followers"
     merge_vars = {
       FIRST_NAME: followed.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -38,7 +38,7 @@ class FollowsMailer < Devise::Mailer
     html = "<ul style='padding:0; margin:0;'>"
     followers.each do |follower|
       path = profile_url(slug: follower.slug)
-      html << "<li style='list-style:none;'><a href='#{path}'>#{follower.display_name}</a> (<a href='#{path}'>#{follower.username}</a>)</li>"
+      html << "<li style='list-style:none; line-height: 2.2'><a href='#{path}'>#{follower.display_name}</a> (<a href='#{path}'>#{follower.username}</a>)</li>"
     end
     html << "</ul>"
     html

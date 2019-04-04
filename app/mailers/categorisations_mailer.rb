@@ -11,7 +11,7 @@ class CategorisationsMailer < Devise::Mailer
   )
 
   def as_it_happens(user, article, exchange)
-    subject = "TheArticle – a new article has been added to the #{exchange.name} exchange"
+    subject = "A new article has been added to the #{exchange.name} exchange"
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -25,7 +25,7 @@ class CategorisationsMailer < Devise::Mailer
   end
 
   def daily(user, articles)
-    subject = "TheArticle – your daily update"
+    subject = "Your daily update"
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -36,7 +36,7 @@ class CategorisationsMailer < Devise::Mailer
   end
 
   def weekly(user, articles)
-    subject = "TheArticle – your weekly update"
+    subject = "Your weekly update"
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
