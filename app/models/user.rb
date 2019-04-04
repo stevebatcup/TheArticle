@@ -175,7 +175,8 @@ class User < ApplicationRecord
         self.exchanges << Exchange.find(eid)
       end
     end
-    self.exchanges << Exchange.editor_item
+    editor_exchange = Exchange.editor_item
+    self.exchanges << editor_exchange unless existing_exchange_ids.include?(editor_exchange.id)
     self.has_completed_wizard = 1
     self.save
   end
