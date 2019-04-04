@@ -1,5 +1,13 @@
 module Admin
   class UsersController < Admin::ApplicationController
+
+    def order
+      @order ||= Administrate::Order.new(
+        params.fetch(resource_name, {}).fetch(:order, :created_at),
+        params.fetch(resource_name, {}).fetch(:direction, :desc),
+      )
+    end
+
     def set_records_per_page
       respond_to do |format|
         format.json do
