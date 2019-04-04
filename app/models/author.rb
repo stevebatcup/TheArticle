@@ -137,6 +137,14 @@ class Author < ApplicationRecord
 		update_author_role(json)
 		self.save
 
+    # set local user
+    if local_user = User.find_by(username: json["thearticle_username"])
+    	if self.user != local_user
+    		self.user = local_user
+    		self.save
+    	end
+    end
+
 		# update counter cache column
 		update_article_count
 
@@ -144,13 +152,6 @@ class Author < ApplicationRecord
     ["sponsors_single_posts"].each do |cache_key|
     	# puts "busting cache: #{cache_key}_*"
       Rails.cache.delete_matched("#{cache_key}_*")
-    end
-
-    if local_user = User.find_by(username: json["thearticle_username"])
-    	if self.user != local_user
-    		self.user = local_user
-    		self.save
-    	end
     end
 	end
 
