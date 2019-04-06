@@ -11,9 +11,10 @@ class UserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     first_name: Field::String,
     last_name: Field::String,
-    full_name: Field::String,
+    full_name: Field::String.with_options(searchable: false),
+    username: Field::String,
     created_at: Field::DateTime,
-    human_created_at: Field::String,
+    human_created_at: Field::String.with_options(searchable: false),
     subscriptions: Field::HasMany,
     author_id: AuthorSelectField.with_options(
       choices: Author.contributors.order(:display_name)
@@ -81,6 +82,7 @@ class UserDashboard < Administrate::BaseDashboard
     :id,
     :full_name,
     :display_name,
+    :username,
     :email,
     :human_created_at,
     :status
