@@ -243,12 +243,23 @@ class Article < ApplicationRecord
 		self.robots_nofollow = json["seo_fields"]["nofollow"]
 		self.robots_noindex = json["seo_fields"]["noindex"]
 
+		is_new_article = !self.persisted?
+
 		update_author(json)
 		update_image(json)
 		update_exchanges(json)
 		update_keyword_tags(json)
 
     self.save
+
+    # categorisation email
+    if is_new_article && self.categorisations.any?
+    	handled_users = []
+    	self.categorisations.shuffle.each do |cat|
+		    cat_users = cat.handle_email_notifications(handled_users)
+		    cat_users.each { |cu| handled_users << cu }
+		  end
+	  end
 
     # update counter cache columns
     update_all_article_counts
