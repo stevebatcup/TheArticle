@@ -167,7 +167,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 			if @scope.feeds.page is 1
 				@scope.feeds.totalItems = response.total
-			if @scope.feeds.page is 4
 				@getSuggestions()
 			@scope.startTime = response.nextActivityTime
 			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
