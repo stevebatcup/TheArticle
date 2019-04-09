@@ -10,7 +10,9 @@
 </div>
 <% end %>
 
-<section ng-controller="ArticleController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+<section ng-controller="ArticleController"
+						data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
+						data-article-id="<%= @article.id %>"
 						data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
 						data-per-page="<%= articles_per_page %>">
 	<div class="container mt-md-4 mb-3 mb-md-2">
@@ -64,7 +66,7 @@
 						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
-							<li>Well written:
+							<li>Well argued:
 								<% rating_wwc = @article.ratings_well_written_cache %>
 								<span class="rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>">
 									<%= readable_article_rating(rating_wwc) %>
@@ -112,7 +114,7 @@
 						<% if @article.has_ratings? %>
 						<ul class="bars">
 							<li class="row justify-content-start d-flex align-items-start mb-2">
-								<span class="col-4 text">Well written: </span>
+								<span class="col-4 text">Well argued: </span>
 								<span class="bar col-6">
 									<span class="inner" style="width: <%= rating_wwc.to_i %>%;"></span>
 								</span>
@@ -144,7 +146,7 @@
 								<ul class="dots">
 									<li class="mb-2">
 										<div class="justify-content-start d-flex align-items-start">
-											<label class="mr-4">Well written: </label>
+											<label class="mr-4">Well argued: </label>
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_well_written']) >= i ? 'filled' : 'empty' %>
@@ -221,7 +223,7 @@
 
 					<% if @sponsored_picks.any? %>
 					<div id="featured_articles_content_bar" class="mt-5" style="display: none;">
-						<h1 class="bullet underline">Sponsored picks</h1>
+						<h2 class="h1 bullet underline">Sponsored picks</h2>
 						<div class="row">
 							<% @sponsored_picks.each do |sp| %>
 								<%= render partial: 'articles/sponsored-item', locals: { article: sp } %>

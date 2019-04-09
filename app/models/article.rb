@@ -13,6 +13,20 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
+	def self.schedule_create_or_update(wp_id, publish_date)
+		if publish_date > Time.now
+			unless fa = FutureArticle.find_by(wp_id: wp_id)
+				fa = FutureArticle.new({wp_id: wp_id})
+			end
+			fa.created_at = Time.now unless fa.persisted?
+			fa.updated_at = Time.now
+			fa.publish_date = publish_date
+			fa.save
+		else
+			super(wp_id)
+		end
+	end
+
 	def nullify_ratings_caches
 		self.ratings_well_written_cache = nil
 		self.ratings_valid_points_cache = nil
@@ -72,7 +86,7 @@ class Article < ApplicationRecord
 	def self.recent(with_sponsored=true)
 		sponsors = Author.sponsors.to_a
 		limit = sponsors.any? ? 5 : 6
-		articles = Rails.cache.fetch("recent_unsponsored_articles") do
+		articles = Rails.cache.fetch("recent_unsponsored_articles", expires_in: 15.minutes) do
 			self.not_sponsored.not_remote
 					.includes(:author).references(:author)
 					.order(published_at: :desc)
@@ -86,7 +100,6 @@ class Article < ApplicationRecord
 																.limit(1)
 			articles.insert(3, sponsored_articles.first) if sponsored_articles.any?
 		end
-
 		articles
 	end
 
@@ -230,6 +243,8 @@ class Article < ApplicationRecord
 		self.robots_nofollow = json["seo_fields"]["nofollow"]
 		self.robots_noindex = json["seo_fields"]["noindex"]
 
+		is_new_article = !self.persisted?
+
 		update_author(json)
 		update_image(json)
 		update_exchanges(json)
@@ -237,6 +252,30 @@ class Article < ApplicationRecord
 
     self.save
 
+    # categorisation emails and user-feeds
+    if is_new_article && self.categorisations.any?
+    	handled_users = []
+    	self.categorisations.shuffle.each do |cat|
+		    cat_users = cat.handle_email_notifications(handled_users)
+		    cat_users.each { |cu| handled_users << cu }
+		  end
+
+		  self.categorisations.each do |cat|
+		  	cat.feeds.each do |cat_feed|
+					unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.id)
+						user_feed_item = FeedUser.new({
+							user_id: cat_feed.user.id,
+							action_type: 'categorisation',
+							source_id: self.id
+						})
+					end
+					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+					user_feed_item.updated_at = Time.now
+					user_feed_item.feeds << cat_feed
+					user_feed_item.save
+				end
+			end
+	  end
 
     # update counter cache columns
     update_all_article_counts

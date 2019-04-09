@@ -5,7 +5,7 @@ class NotificationsController < ApplicationController
 		respond_to do |format|
 			format.html do
 				redirect_to front_page_path(route: :notifications) if browser.device.mobile?
-				@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
+				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
 				@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 				@contributors_for_spotlight = Author.contributors_for_spotlight(3)
@@ -14,8 +14,10 @@ class NotificationsController < ApplicationController
 			end
 			format.json do
 				if params[:count]
-					@count = current_user.notification_counter_cache
-					render 'count'
+					Rails.logger.silence do
+						@count = current_user.notification_counter_cache
+						render 'count'
+					end
 				else
 					page = (params[:page] || 1).to_i
 					per_page = (params[:per_page] || 20).to_i
@@ -26,7 +28,8 @@ class NotificationsController < ApplicationController
 																				.per(per_page)
 					unless params[:panel].present?
 						@notifications.each do |notification|
-							notification.update_attribute(:is_new, false)
+							Notification.record_timestamps = false
+							notification.update_attribute(:is_new, false) if notification.is_new
 						end
 						current_user.update_notification_counter_cache
 					end

@@ -9,19 +9,7 @@
 	}
 
 	.slick-arrow {
-		z-index: 99;
-
-		&:before {
-			font-size: 30px;
-		}
-
-		&.slick-prev {
-			left: 2vw;
-		}
-
-		&.slick-next {
-			right: 2vw;
-		}
+		display: none !important;
 	}
 
 	&.articles,
@@ -127,12 +115,12 @@
 
 	&.suggestions {
 		.slick-track {
-			height: 152px;
+			height: 180px;
 		}
 
 		.slick-carousel-item {
-			margin: 0 10px;
-			font-size: 0.9em;
+			margin: 0 5px;
+			font-size: 0.85em;
 			height: 100%;
 			padding: 0 0 0;
 			border: 1px solid #ccc;
@@ -142,11 +130,19 @@
 				padding: 7px !important;
 			}
 
+			.follower-badge {
+				display: none;
+			}
+
+			p.card-text {
+				margin-top: 3px;
+			}
+
 			img.feed_image.with_cover_image {
 				top: -34px;
-				width: 55px;
-				height: 55px;
-				margin: 0 10px -20px 0;
+				width: 45px;
+				height: 45px;
+				margin: 0 8px -20px 0;
 			}
 
 			.shared_followers {

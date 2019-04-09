@@ -213,7 +213,8 @@
 		<div class="" id="feed" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
 
-				<div class="mb-1 py-2 results_block container feed-listing" ng-if="profile.isMe">
+				<div class="mb-1 py-2 results_block container feed-listing feed-third-party d-flex align-items-start justify-content-between" ng-if="profile.isMe">
+					<img class="rounded-circle" alt="" ng-src="{{ profile.data.profilePhoto.image }}" style="width: 34px; height: 34px;" />
 	        <textarea name="third_party_article_url"
 	                    id="third_party_article_url_phantom"
 	                    ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
@@ -221,7 +222,7 @@
 	                    ng-blur="contractThirdPartySharingTextarea($event)"
 	                    ng-paste="openThirdPartySharingPanelFromPaste($event)"
 	                    placeholder="What are you reading?"
-	                    class="form-control w-100"></textarea>
+	                    class="form-control" style="width: 88%"></textarea>
 				</div>
 
 				<div ng-if="profile.isMe && profile.data.deactivated" class="row feed-listing feed-deactivated">
@@ -282,7 +283,7 @@
 
 						<ul class="bars">
 							<li class="mb-2">
-								<label class="text">Well written: </label>
+								<label class="text">Well argued: </label>
 								<span class="justify-content-start d-flex align-items-start">
 									<span class="bar w-75 mr-2">
 										<span class="inner" style="width: {{profile.data.ratingsSummary.wellWritten}}"></span>

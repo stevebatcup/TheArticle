@@ -10,7 +10,10 @@ class UserFollowingsController < ApplicationController
 
 				if params[:counts]
 					unless user.nil?
-						render json: { status: :success, counts: user.follow_counts_as_hash  }
+						Rails.logger.silence do
+							counts = user.follow_counts_as_hash
+							render json: { status: :success, counts: counts  }
+						end
 					else
 						render json: nil
 					end
@@ -58,6 +61,7 @@ class UserFollowingsController < ApplicationController
 				current_user.accept_suggestion_of_user_id(params[:id])
 				# Rails.cache.delete("followings_count_#{current_user.id}")
 				# Rails.cache.delete("followers_count_#{params[:id]}")
+				other_user.send_followed_mail_if_opted_in(current_user)
 			else
 				@status = :error
 				@message = current_user.errors.full_messages

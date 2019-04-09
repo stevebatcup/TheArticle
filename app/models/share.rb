@@ -7,13 +7,25 @@ class Share < ApplicationRecord
 	has_many	:opinion_groups, dependent: :destroy
 	belongs_to	:user
 	belongs_to	:article
-	before_create	:update_feed
+
 	before_save :percentagise_ratings
+	after_create	:update_feeds
 	after_save	:recalculate_article_ratings
 	after_destroy	:delete_associated_data
 
-	def update_feed
-		self.feeds.build({user_id: self.user_id})
+	def update_feeds
+		feed = self.feeds.create({user_id: self.user_id})
+		self.user.followers.each do |follower|
+			user_feed_item = FeedUser.new({
+				user_id: follower.id,
+				action_type: 'share',
+				source_id: self.id,
+				created_at: Time.now,
+				updated_at: Time.now
+			})
+			user_feed_item.feeds << feed
+			user_feed_item.save
+		end
 	end
 
 	def percentagise_ratings

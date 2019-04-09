@@ -3,6 +3,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 	@register window.App
 	@$inject: [
 		'$scope'
+		'$rootScope'
 		'$http'
 		'$element'
 		'$timeout'

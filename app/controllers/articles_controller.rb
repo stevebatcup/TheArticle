@@ -24,14 +24,25 @@ class ArticlesController < ApplicationController
 						end
 					end
 				elsif params[:exchange]
-					exchange = Exchange.find_by(slug: params[:exchange])
-					@articles = exchange.articles.not_sponsored
-															.includes(:author).references(:author)
-															.includes(:exchanges).references(:exchanges)
-															.order("published_at DESC")
-															.page(params[:page]).per(params[:per_page].to_i)
-					if params[:page].to_i == 1
-						@total = exchange.articles.not_sponsored.size
+					if exchange = Exchange.find_by(slug: params[:exchange])
+						@articles = exchange.articles.not_sponsored
+																.includes(:author).references(:author)
+																.includes(:exchanges).references(:exchanges)
+																.order("published_at DESC")
+																.page(params[:page]).per(params[:per_page].to_i)
+						if params[:exclude_id]
+							@articles = @articles.where.not("articles.id = ?", params[:exclude_id])
+						end
+						if params[:page].to_i == 1
+							if params[:exclude_id]
+								@total = exchange.articles.where.not("articles.id = ?", params[:exclude_id]).not_sponsored.size
+							else
+								@total = exchange.articles.not_sponsored.size
+							end
+						end
+					else
+						@articles = []
+						@total = 0
 					end
 				elsif params[:author]
 					@contributor = Author.find_by(id: params[:author])
@@ -60,7 +71,7 @@ class ArticlesController < ApplicationController
 													.first
 			@sponsored_picks = []
 			unless @article.is_sponsored?
-				@sponsored_picks = Author.get_sponsors_single_posts(nil, 3)
+				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
 			end
 			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1

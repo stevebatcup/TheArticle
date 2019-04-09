@@ -31,13 +31,12 @@ module ArticleHelper
 		content_html.to_s.html_safe
 	end
 
-	def categorisation_as_json_data(user, categorisation, exchanges)
-		article = categorisation.article
+	def categorisation_as_json_data(user, article, exchanges)
 		author = article.author
 		result = {
 			type: 'categorisation',
-			stamp: categorisation.article.published_at.to_i,
-			date: categorisation.article.published_at.strftime("%e %b"),
+			stamp: article.published_at.to_i,
+			date: article.published_at.strftime("%e %b"),
 			article: {
 				id: article.id,
 				snippet: article_excerpt_for_listing(article, 160),

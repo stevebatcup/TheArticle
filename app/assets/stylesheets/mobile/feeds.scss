@@ -29,6 +29,11 @@ input#suggestion_search {
 		}
 	}
 
+	&.feed-third-party {
+		background: #d2ead4 !important;
+		margin-top: -17px;
+	}
+
 	&.comment {
 		border-bottom: none;
 	}
@@ -629,8 +634,8 @@ input#suggestion_search {
 
 #feed {
 	#who_to_follow {
-		margin-left: -15px;
-    margin-right: -15px;
+		// margin-left: -15px;
+  //   margin-right: -15px;
     padding-bottom: 7px;
     margin-bottom: 0px;
 

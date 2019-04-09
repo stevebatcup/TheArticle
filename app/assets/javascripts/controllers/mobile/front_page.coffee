@@ -17,18 +17,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	]
 
 	init: ->
+		$('footer#main_footer_top').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
 		@bindEvents()
 		vars = @getUrlVars()
 		@disableBackButton() if 'from_wizard' of vars
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
-		@scope.startTime = @element.data('latest-time')
 		@scope.selectedTab = 'articles'
-		@scope.tabSets =
-			articles: []
-			posts: []
-			follows: []
 
 		@timeout =>
 			@alert "It looks like you have already completed the profile wizard!", "Wizard completed" if 'wizard_already_complete' of vars
@@ -51,14 +47,30 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			msg: ''
 
 		@scope.feeds =
-			data: []
-			page: 1
-			loading: true
-			firstLoaded: false
-			totalItems: 0
-			moreToLoad: true
-		@getFeeds()
-
+			articles:
+				data: []
+				page: 1
+				firstLoaded: false
+				loading: true
+				totalItems: 0
+				moreToLoad: true
+			posts:
+				data: []
+				page: 1
+				firstLoaded: false
+				loading: true
+				totalItems: 0
+				moreToLoad: true
+				share_ids: []
+			follows:
+				data: []
+				page: 1
+				firstLoaded: false
+				loading: true
+				totalItems: 0
+				moreToLoad: true
+		@getFeeds('articles')
+		@getSuggestions()
 		@scope.myProfile = {}
 		@getMyProfile()
 
@@ -86,9 +98,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				true
 
 		@scope.$on 'load_more_feeds', =>
-			if (@scope.feeds.moreToLoad is true) and (!@scope.feeds.loading)
-				@scope.feeds.moreToLoad = false
-				@loadMore()
+			if (@scope.feeds[@scope.selectedTab].moreToLoad is true) and (!@scope.feeds[@scope.selectedTab].loading)
+				@scope.feeds[@scope.selectedTab].moreToLoad = false
+				@loadMore(@scope.selectedTab)
 
 		$(document).on 'click', '#feed.front_page_page .other_followers_of_user', (e) =>
 			e.preventDefault()
@@ -120,28 +132,26 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			shareId = $span.data('share')
 			@showAllShareCommenters(shareId)
 
-	selectTab: (tab='all') =>
-		if @scope.feeds.firstLoaded
-			@scope.selectedTab = tab
-			if (tab is 'follows') and (@scope.suggestionsCarouselReady is false)
-				@setupSuggestionsCarousel()
-		else
-			return false
+	selectTab: (section='all') =>
+		@scope.selectedTab = section
+		if @scope.feeds[section].firstLoaded is false
+			@getFeeds(section)
 
-	loadMore: =>
-		@scope.feeds.page += 1
-		@getFeeds()
+	loadMore: (section='articles') =>
+		@scope.feeds[section].page += 1
+		@getFeeds(section)
 
-	getFeeds: =>
-		@scope.feeds.loading = true
-		@Feed.query({ page: @scope.feeds.page, start_time: @scope.startTime }).then (response) =>
+	getFeeds: (section='articles')=>
+		@scope.feeds[section].loading = true
+		@Feed.query({ page: @scope.feeds[section].page, section: section }).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
-				if _.contains(['share', 'rating', 'commentAction', 'opinionAction'], feed.type)
-					unless _.contains(@scope.tabSets.posts, feed.share.id)
-						@scope.feeds.data.push feed
-						@scope.tabSets.posts.push feed.share.id
-				else
-					@scope.feeds.data.push feed
+				if section is 'posts'
+					if _.contains(@scope.feeds.posts.share_ids, feed.share.id)
+						feed.isVisible = false
+					else
+						@scope.feeds.posts.share_ids.push feed.share.id
+
+				@scope.feeds[section].data.push feed
 
 				if feed.share?
 					if feed.share.showComments is true
@@ -151,28 +161,29 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					else if feed.share.showDisagrees is true
 						@showDisagrees(null, feed)
 
-			if @scope.feeds.page is 1
-				@scope.feeds.totalItems = response.total
-			if @scope.feeds.page is 4
-				@getSuggestions()
-			@scope.startTime = response.nextActivityTime
-			@scope.feeds.moreToLoad = (@scope.feeds.totalItems > @scope.feeds.data.length) and (@scope.startTime > 0)
-			@scope.feeds.loading = false
-			if (@scope.feeds.moreToLoad) and !(@scope.feeds.page % 4 is 0)
-				@loadMore()
+			@scope.feeds[section].loading = false
+			@scope.feeds[section].firstLoaded = true
+
+			if @scope.feeds[section].page is 1
+				@scope.feeds[section].totalItems = response.total
+				if (section is 'follows') and (@scope.suggestionsCarouselReady is false)
+					@scope.feeds.follows.data.push { type: 'suggestion' }
+					@timeout =>
+						@setupSuggestionsCarousel()
+					, 750
+
+			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 
 	updateAllSharesWithOpinion: (shareId, action, user) =>
-		@updateAllWithOpinion(@scope.feeds.data, shareId, action, user)
+		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
 	getSuggestions: =>
-		@scope.feeds.data.push { type: 'suggestion' }
 		@scope.suggestionsLoaded = true
 		@http.get('/follow-suggestions').then (response) =>
-			@scope.feeds.firstLoaded = true
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
 			angular.forEach response.data.suggestions.populars, (suggestion) =>

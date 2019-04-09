@@ -37,5 +37,7 @@ module TheArticle
     # config.session_store :cookie_store
     # config.middleware.use ActionDispatch::Cookies
     # config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
+
+    config.time_zone = 'Europe/London'
   end
 end

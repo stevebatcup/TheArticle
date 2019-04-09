@@ -4,6 +4,7 @@ class TheArticle.Sidebar extends TheArticle.MobilePageController
 	@$inject: ['$scope', '$element', '$http', '$timeout', '$interval', '$compile']
 
 	init: ->
+		@setDefaultHttpHeaders()
 		@scope.signedIn = !!@element.data('signed-in')
 
 		if @scope.signedIn

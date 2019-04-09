@@ -12,7 +12,7 @@ module User::Adminable
 	end
 
 	def human_created_at
-		self.created_at.strftime("dsfsdf")
+		self.created_at.strftime("%b %e, %Y")
 	end
 
 	def is_blacklisted?

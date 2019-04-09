@@ -5,6 +5,8 @@ class TheArticle.ContentPage extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$http'
 	  '$compile'
+	  '$timeout',
+	  '$ngConfirm'
 	]
 
 	init: ->

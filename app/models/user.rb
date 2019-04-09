@@ -89,8 +89,8 @@ class User < ApplicationRecord
     self.display_name = "#{first_name} #{last_name}"
     self.slug = self.username.downcase
 
-    self.notification_settings.build({ key: 'email_followers', value: 'never' })
-    self.notification_settings.build({ key: 'email_exchanges', value: 'never' })
+    self.notification_settings.build({ key: 'email_followers', value: 'daily' })
+    self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
     self.notification_settings.build({ key: 'email_responses', value: 'never' })
     self.notification_settings.build({ key: 'email_replies', value: 'never' })
 
@@ -169,10 +169,14 @@ class User < ApplicationRecord
     self.lat = params[:location][:lat]
     self.lng = params[:location][:lng]
     self.country_code = params[:location][:country_code]
+    existing_exchange_ids = self.exchanges.map(&:id)
     params[:selected_exchanges].each do |eid|
-      self.exchanges << Exchange.find(eid)
+      unless existing_exchange_ids.include?(eid)
+        self.exchanges << Exchange.find(eid)
+      end
     end
-    self.exchanges << Exchange.editor_item
+    editor_exchange = Exchange.editor_item
+    self.exchanges << editor_exchange unless existing_exchange_ids.include?(editor_exchange.id)
     self.has_completed_wizard = 1
     self.save
   end
@@ -328,4 +332,11 @@ class User < ApplicationRecord
   def has_full_profile?
     self.username.present? && self.display_name.present? && self.location.present? && self.bio.present?
   end
+
+  def pending_any_confirmation
+    if (!confirmed? || pending_reconfirmation?)
+      yield
+    end
+  end
+
 end

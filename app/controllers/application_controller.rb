@@ -126,6 +126,18 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:is_testing_environment?
 
+	def device_type_for_events
+		@device_type_for_events ||= begin
+			if browser.device.tablet?
+				'tablet'
+			elsif browser.device.mobile?
+				'mobile'
+			else
+				'desktop'
+			end
+		end
+	end
+	helper_method	:device_type_for_events
 
 protected
 
@@ -182,11 +194,13 @@ private
 	end
 
 	def prepare_exception_notifier
-    request.env["exception_notifier.exception_data"] = {
-      current_user: user_signed_in? ? current_user : nil,
-      browser: browser.to_s,
-      device: browser.device.name,
-      platform: browser.platform.name
-    }
+		ActiveRecord::Base.logger.silence do
+	    request.env["exception_notifier.exception_data"] = {
+	      current_user: user_signed_in? ? current_user : nil,
+	      browser: browser.to_s,
+	      device: browser.device.name,
+	      platform: browser.platform.name
+	    }
+	  end
   end
 end

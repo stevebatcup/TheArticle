@@ -44,5 +44,6 @@ en:
     label:
       user:
         id: User ID
+        full_name: Account name
         human_created_at: Signed up
         has_completed_wizard: Has completed registration

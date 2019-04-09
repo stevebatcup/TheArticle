@@ -31,6 +31,8 @@ class Author < ApplicationRecord
 		self.joins(:articles)
 				.where(author_role: contributor_role)
 				.where("email NOT LIKE ?", '@thearticle.com')
+				.where("authors.image IS NOT NULL")
+				.where("authors.article_count > 0")
 				.order(Arel.sql('RAND()'))
 				.distinct
 				.limit(limit)
@@ -135,15 +137,22 @@ class Author < ApplicationRecord
 		update_author_role(json)
 		self.save
 
+    # set local user
+    if local_user = User.find_by(username: json["thearticle_username"])
+    	if self.user != local_user
+    		self.user = local_user
+    		self.save
+    	end
+    end
+
 		# update counter cache column
 		update_article_count
 
     # bust caches
     ["sponsors_single_posts"].each do |cache_key|
-    	puts "busting cache: #{cache_key}_*"
+    	# puts "busting cache: #{cache_key}_*"
       Rails.cache.delete_matched("#{cache_key}_*")
     end
-
 	end
 
 	def update_author_role(json)

@@ -270,10 +270,18 @@ class TheArticle.PageController extends TheArticle.NGController
 				window.location.reload()
 			, true
 
-	openRegisterForm: ($event=null) =>
+	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
 		$event.preventDefault() if $event
+		if 'articleRegisterInterstitialTimeout' of @scope
+			@timeout.cancel(@scope.articleRegisterInterstitialTimeout)
 		$('[data-dismiss=modal]', '#signinBoxModal').click()
 		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+		if gtag?
+			gtagData =
+				from: from
+				url: window.location.pathname
+				deviceType: deviceType
+			gtag('event', 'open_register_form', gtagData)
 		@timeout =>
 			tpl = $("#registerBox").html().trim()
 			$content = @compile(tpl)(@scope)

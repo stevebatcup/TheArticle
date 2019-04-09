@@ -1,0 +1,2 @@
+class FutureArticle < ApplicationRecord
+end

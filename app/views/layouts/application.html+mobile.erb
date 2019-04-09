@@ -12,7 +12,7 @@
         <a class="" href="/" id="nav_home">Home</a>
       </li>
       <li>
-        <a class="join_button" href="#" ng-click="openRegisterForm($event)">Register</a>
+        <a class="join_button" href="#" ng-click="openRegisterForm($event, 'sidebar', '<%= device_type_for_events %>')">Register</a>
       </li>
       <li>
         <% if user_signed_in? %>
@@ -276,7 +276,7 @@
        <% unless user_signed_in? %>
        <div class="row py-3">
           <div class="col-12 d-flex align-items-center justify-content-center"">
-            <a class="join_button btn btn-sm bg-grass text-white" href="#" ng-click="openRegisterForm($event)">Register now</a>
+            <a class="join_button btn btn-sm bg-grass text-white" href="#" ng-click="openRegisterForm($event, 'footer_bar', '<%= device_type_for_events %>')">Register now</a>
           </div>
         </div>
         <% end %>
