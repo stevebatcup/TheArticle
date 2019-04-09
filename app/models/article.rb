@@ -252,13 +252,29 @@ class Article < ApplicationRecord
 
     self.save
 
-    # categorisation email
+    # categorisation emails and user-feeds
     if is_new_article && self.categorisations.any?
     	handled_users = []
     	self.categorisations.shuffle.each do |cat|
 		    cat_users = cat.handle_email_notifications(handled_users)
 		    cat_users.each { |cu| handled_users << cu }
 		  end
+
+		  self.categorisations.each do |cat|
+		  	cat.feeds.each do |cat_feed|
+					unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.id)
+						user_feed_item = FeedUser.new({
+							user_id: cat_feed.user.id,
+							action_type: 'categorisation',
+							source_id: self.id
+						})
+					end
+					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+					user_feed_item.updated_at = Time.now
+					user_feed_item.feeds << cat_feed
+					user_feed_item.save
+				end
+			end
 	  end
 
     # update counter cache columns

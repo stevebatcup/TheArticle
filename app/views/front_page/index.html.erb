@@ -1,6 +1,5 @@
 <section ng-controller="FrontPageController" class="container front-page"
-			data-user-id="<%= current_user.id %>"
-			data-latest-time="<%= @latest_activity_time.to_i %>">
+			data-user-id="<%= current_user.id %>">
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">
@@ -129,24 +128,24 @@
 			  <li class="nav-item">
 			    <a id="activity-articles-tab" class="nav-link active"
 			    		ng-click="selectTab('articles')"
-			    		ng-class="{'active': selectedTab == 'articles', 'disabled': !feeds.firstLoaded}"
-			    		ng-disabled="!feeds.firstLoaded">
+			    		ng-class="{'active': selectedTab == 'articles', 'disabled': !feeds.articles.firstLoaded}"
+			    		ng-disabled="!feeds.articles.firstLoaded">
 			      <label>Articles</label>
 			    </a>
 			  </li>
 			  <li class="nav-item">
 			    <a id="activity-posts-tab" class="nav-link"
 			    		ng-click="selectTab('posts')"
-			    		ng-class="{'active': selectedTab == 'posts', 'disabled': !feeds.firstLoaded}"
-			    		ng-disabled="!feeds.firstLoaded">
+			    		ng-class="{'active': selectedTab == 'posts', 'disabled': !feeds.articles.firstLoaded}"
+			    		ng-disabled="!feeds.articles.firstLoaded">
 			      <label>Posts</label>
 			    </a>
 			  </li>
 			  <li class="nav-item">
 			    <a id="activity-follows-tab" class="nav-link"
 			    		ng-click="selectTab('follows')"
-			    		ng-class="{'active': selectedTab == 'follows', 'disabled': !feeds.firstLoaded}"
-			    		ng-disabled="!feeds.firstLoaded">
+			    		ng-class="{'active': selectedTab == 'follows', 'disabled': !feeds.articles.firstLoaded}"
+			    		ng-disabled="!feeds.articles.firstLoaded">
 			      <label>Follow activity</label>
 			    </a>
 			  </li>
@@ -165,18 +164,19 @@
                       class="form-control" style="width: 91%"></textarea>
 				</div>
 
+				<div class="ajax_loading feeds" ng-if="!feeds[selectedTab].firstLoaded">
+					Loading <span>{{selectedTab}}</span> feeds...</div>
+
 				<!-- Articles Tab -->
 				<div class="" ng-show="(selectedTab == 'articles')">
 
-					<div class="ajax_loading feeds" ng-if="!feeds.firstLoaded">Loading feeds...</div>
-
-					<div ng-if="feeds.firstLoaded" class="results_block row"
-							ng-class="{'empty': feeds.data.length == 0}">
-						<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
+					<div ng-if="feeds.articles.firstLoaded" class="results_block row"
+							ng-class="{'empty': feeds.articles.data.length == 0}">
+						<p class="col-12 empty_resource" ng-if="feeds.articles.data.length == 0">
 							<span>There is no activity to show here</span>
 						</p>
 
-						<div ng-repeat="item in feeds.data" class="col-12 feed-listing pb-3 px-0"
+						<div ng-repeat="item in feeds.articles.data" class="col-12 feed-listing pb-3 px-0"
 									ng-class="{'feed-share': item.type == 'categorisation', 'feed-exchange': item.type == 'exchange'}" ng-show="(item.isVisible != false) && _.contains(['exchange', 'categorisation'], item.type)">
 								<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
 								<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
@@ -187,13 +187,13 @@
 
 				<!-- Posts Tab -->
 				<div class="" ng-show="(selectedTab == 'posts')">
-					<div ng-if="feeds.firstLoaded" class="results_block row"
-							ng-class="{'empty': feeds.data.length == 0}">
-						<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
+					<div ng-if="feeds.posts.firstLoaded" class="results_block row"
+							ng-class="{'empty': feeds.posts.data.length == 0}">
+						<p class="col-12 empty_resource" ng-if="feeds.posts.data.length == 0">
 							<span>There is no activity to show here</span>
 						</p>
 
-						<div ng-repeat="item in feeds.data"
+						<div ng-repeat="item in feeds.posts.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0"
 									 ng-show="(item.isVisible != false) && _.contains(['share', 'rating', 'commentAction', 'opinionAction'], item.type)">
 								<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
@@ -207,13 +207,13 @@
 
 				<!-- Follow activity Tab -->
 				<div class="" ng-show="(selectedTab == 'follows')">
-					<div ng-if="feeds.firstLoaded" class="results_block row"
-							ng-class="{'empty': feeds.data.length == 0}">
-						<p class="col-12 empty_resource" ng-if="feeds.data.length == 0">
+					<div ng-if="feeds.follows.firstLoaded" class="results_block row"
+							ng-class="{'empty': feeds.follows.data.length == 0}">
+						<p class="col-12 empty_resource" ng-if="feeds.follows.data.length == 0">
 							<span>There is no activity to show here</span>
 						</p>
 
-						<div ng-repeat="item in feeds.data"
+						<div ng-repeat="item in feeds.follows.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0"
 									 ng-show="(item.isVisible != false) && _.contains(['follow', 'suggestion'], item.type)">
 								<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>

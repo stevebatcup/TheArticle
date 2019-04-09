@@ -39,7 +39,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		$win.on 'scroll', =>
 			scrollTop = $win.scrollTop()
 			docHeight = @getDocumentHeight()
-			if (scrollTop + $win.height()) >= (docHeight - 300)
+			if (scrollTop + $win.height()) >= (docHeight - 320)
 				if @scope.selectedAppTab is 'front-page-tab'
 					@rootScope.$broadcast 'load_more_feeds'
 				else if @scope.selectedAppTab is 'notifications-tab'
