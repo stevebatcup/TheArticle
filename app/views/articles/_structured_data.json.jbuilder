@@ -1,7 +1,7 @@
 json.set! "@context", "http:\/\/schema.org"
-json.set! "@type", "WebPage"
+json.set! "@type", "NewsArticle"
 json.mainEntityOfPage do
-	json.set! "@type", "WebPage"
+	json.set! "@type", "NewsArticle"
 	json.set! "@id", article_url(slug: article.slug)
 end
 json.headline "TheArticle"
