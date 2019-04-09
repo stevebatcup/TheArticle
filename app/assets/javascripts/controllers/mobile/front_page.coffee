@@ -170,7 +170,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					@scope.feeds.follows.data.push { type: 'suggestion' }
 					@timeout =>
 						@setupSuggestionsCarousel()
-					, 1750
+						console.log 'setupSuggestionsCarousel'
+					, 5000
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
 
