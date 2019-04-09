@@ -70,6 +70,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				totalItems: 0
 				moreToLoad: true
 		@getFeeds('articles')
+		@getFeeds('follows')
 		@getSuggestions()
 		@scope.myProfile = {}
 		@getMyProfile()
@@ -136,6 +137,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.selectedTab = section
 		if @scope.feeds[section].firstLoaded is false
 			@getFeeds(section)
+		if (@scope.suggestionsCarouselReady is false) and (@scope.selectedTab is 'follows')
+			@timeout =>
+				@setupSuggestionsCarousel()
+			, 150
 
 	loadMore: (section='articles') =>
 		@scope.feeds[section].page += 1
@@ -166,12 +171,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 			if @scope.feeds[section].page is 1
 				@scope.feeds[section].totalItems = response.total
-				if (section is 'follows') and (@scope.suggestionsCarouselReady is false)
-					@scope.feeds.follows.data.push { type: 'suggestion' }
-					@timeout =>
-						@setupSuggestionsCarousel()
-						console.log 'setupSuggestionsCarousel'
-					, 5000
+				@scope.feeds.follows.data.push { type: 'suggestion' } if (section is 'follows')
+
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
 
