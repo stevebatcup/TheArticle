@@ -18,7 +18,8 @@ namespace :feeds do
 	end
 
 	task :convert_categorisations => :environment do
-		Feed.where(actionable_type: 'Categorisation').each do |feed|
+		Feed.where("id > 262433").where(actionable_type: 'Categorisation').each do |feed|
+			# puts feed.id
 			if categorisation = Categorisation.find_by(id: feed.actionable_id)
 				unless user_feed_item = FeedUser.find_by(action_type: 'categorisation', source_id: categorisation.article_id, user_id: feed.user_id)
 					user_feed_item = FeedUser.new({
