@@ -35,8 +35,8 @@ items = []
 				end
 			end
 			item = categorisation_as_json_data(user_feed_item.user, article, exchanges)
-			item[:feedStamp] = user_feed_item.created_at.to_i
-			item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
+			item[:feedStamp] = article.published_at.to_i
+			item[:feedDate] = article.published_at < 1.day.ago ? article.published_at.strftime("%e %b") : happened_at(article.published_at)
 			item[:isVisible] = true
 			items << item
 		elsif (user_feed_item.action_type == 'follow')
