@@ -11,24 +11,21 @@ namespace :feeds do
 		end
 	end
 
-	task :convert_categorisations => :environment do
+	task :regenerate_subscription_feeds => :environment do
 		page = (ENV['page'] || 1).to_i - 1
-		feed_limit = ((ENV['limit'] || 2).to_i)
-		Feed.where(actionable_type: 'Categorisation').limit(feed_limit).offset(page*feed_limit).each do |feed|
-			# puts feed.id
-			if categorisation = Categorisation.find_by(id: feed.actionable_id)
-				unless user_feed_item = FeedUser.find_by(action_type: 'categorisation', source_id: categorisation.article_id, user_id: feed.user_id)
-					user_feed_item = FeedUser.new({
-						user_id: feed.user_id,
-						action_type: 'categorisation',
-						source_id: categorisation.article_id,
-						created_at: feed.created_at,
-						updated_at: feed.created_at
-					})
-				end
-				user_feed_item.feeds << feed unless user_feed_item.feeds.include?(feed)
-				user_feed_item.save
-			end
+		sub_limit = ((ENV['limit'] || 100).to_i)
+		if ENV['user_id'].present?
+			puts "run by user_id #{ENV['user_id']}"
+			subs = Subscription.order(id: :asc).where(user_id: ENV['user_id'])
+		else
+			puts "run by limits"
+			subs = Subscription.order(id: :asc).limit(sub_limit).offset(page*sub_limit)
+		end
+		subs.each do |subscription|
+			puts "handling subscription #{subscription.id}...."
+			subscription.delete_retrospective_feeds
+			subscription.build_retrospective_feeds
+			puts ""
 		end
 	end
 
