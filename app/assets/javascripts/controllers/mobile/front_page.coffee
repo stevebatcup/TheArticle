@@ -83,7 +83,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
-			$(window).scrollTop(0)
+			$(window).scrollTop(170)
 			$showing = $(e.target)
 			$hiding = $(e.relatedTarget)
 			@rootScope.selectedAppTab = $showing.attr('id')
