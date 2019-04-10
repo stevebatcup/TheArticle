@@ -82,8 +82,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@cookies.remove('ok_to_flash')
 
 	bindEvents: =>
+		$(document).on 'shown.bs.tab', 'a[data-toggle="tab"]', (e) =>
+			@timeout =>
+				$(window).scrollTop(0)
+			, 50
+
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
-			$(window).scrollTop(170)
+			# $(window).scrollTop(170)
 			$showing = $(e.target)
 			$hiding = $(e.relatedTarget)
 			@rootScope.selectedAppTab = $showing.attr('id')
@@ -134,14 +139,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			shareId = $span.data('share')
 			@showAllShareCommenters(shareId)
 
-	selectTab: (section='all') =>
-		@scope.selectedTab = section
-		if @scope.feeds[section].firstLoaded is false
-			@getFeeds(section)
-		if (@scope.suggestionsCarouselReady is false) and (@scope.selectedTab is 'follows')
-			@timeout =>
-				@setupSuggestionsCarousel()
-			, 150
+	selectTab: (section='all', canClick=false) =>
+		if canClick
+			@scope.selectedTab = section
+			if @scope.feeds[section].firstLoaded is false
+				@getFeeds(section)
+			if (@scope.suggestionsCarouselReady is false) and (@scope.selectedTab is 'follows')
+				@timeout =>
+					@setupSuggestionsCarousel()
+				, 150
+		else
+			return false
 
 	loadMore: (section='articles') =>
 		@scope.feeds[section].page += 1
@@ -173,7 +181,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			if @scope.feeds[section].page is 1
 				@scope.feeds[section].totalItems = response.total
 				@scope.feeds.follows.data.push { type: 'suggestion' } if (section is 'follows')
-
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
 

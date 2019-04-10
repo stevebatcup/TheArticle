@@ -71,6 +71,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				totalItems: 0
 				moreToLoad: true
 		@getFeeds('articles')
+		@getFeeds('posts')
+		@getFeeds('follows')
 		@getSuggestions()
 
 		@scope.myProfile = {}
@@ -135,10 +137,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				else
 					@scope.suggestionsCarouselReady = false
 
-	selectTab: (section='all') =>
-		@scope.selectedTab = section
-		if @scope.feeds[section].firstLoaded is false
-			@getFeeds(section)
+	selectTab: (section='all', canClick=false) =>
+		if canClick
+			@scope.selectedTab = section
+			if @scope.feeds[section].firstLoaded is false
+				@getFeeds(section)
+			if (@scope.suggestionsCarouselReady is false) and (@scope.selectedTab is 'follows')
+				@timeout =>
+					@setupSuggestionsCarousel()
+				, 150
+		else
+			return false
 
 	bindScrollEvent: =>
 		$win = $(window)
@@ -179,11 +188,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 			if @scope.feeds[section].page is 1
 				@scope.feeds[section].totalItems = response.total
-				if (section is 'follows') and (@scope.suggestionsCarouselReady is false)
-					@scope.feeds.follows.data.push { type: 'suggestion' }
-					@timeout =>
-						@setupSuggestionsCarousel()
-					, 250
+				@scope.feeds.follows.data.push { type: 'suggestion' } if (section is 'follows')
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
 
@@ -199,12 +204,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
 	getSuggestions: =>
-		@scope.suggestionsLoaded = true
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
 			angular.forEach response.data.suggestions.populars, (suggestion) =>
 				@scope.suggestions.push suggestion
+			@timeout =>
+				@scope.suggestionsLoaded = true
+			, 500
 
 	setupSuggestionsCarousel: =>
 		slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
