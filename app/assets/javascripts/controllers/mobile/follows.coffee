@@ -18,7 +18,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 		# console.log @scope.isMe
 		@scope.follows =
 			page: 1
-			perPage: 10
+			perPage: 50
 			loaded: false
 			totalItems: 0
 			moreToLoad: false
@@ -29,7 +29,9 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 				alsoKnowsMes: []
 		@scope.panelTab = 'following'
 		@bindEvents()
-		@getFollows()
+		@timeout =>
+			@getFollows()
+		, 200
 
 	bindEvents: =>
 		@scope.$on 'follows_panel_open', (data, tab) =>

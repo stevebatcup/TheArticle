@@ -209,6 +209,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		else
 			@followUserFromSuggestion(user)
 
+	toggleFollowUserFromCard: (member) =>
+		member.imFollowing = true
+		@followUser member.id, =>
+			@timeout =>
+				@scope.suggestions.forYous = _.filter @scope.suggestions.forYous, (item) =>
+					item.id isnt member.id
+				@scope.suggestions.populars = _.filter @scope.suggestions.populars, (item) =>
+					item.id isnt member.id
+			, 750
+		, true
+
 	followUserFromSuggestion: (user) =>
 		user.imFollowing = true
 		@followUser user.id, =>
