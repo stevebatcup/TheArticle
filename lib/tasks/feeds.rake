@@ -21,9 +21,15 @@ namespace :feeds do
 			puts "run by limits"
 			subs = Subscription.order(id: :asc).limit(sub_limit).offset(page*sub_limit)
 		end
+
 		subs.each do |subscription|
-			puts "handling subscription #{subscription.id}...."
+			puts "deleting subscription feeds #{subscription.id}...."
 			subscription.delete_retrospective_feeds
+			puts ""
+		end
+
+		subs.each do |subscription|
+			puts "building subscription feeds #{subscription.id}...."
 			subscription.build_retrospective_feeds
 			puts ""
 		end

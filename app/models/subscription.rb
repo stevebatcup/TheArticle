@@ -26,11 +26,11 @@ class Subscription < ApplicationRecord
 			if categorisation.article
 				feed = Feed.new({actionable_id: categorisation.id, actionable_type: 'Categorisation'})
 				self.user.feeds << feed
-				unless user_feed_item = FeedUser.find_by(user_id: self.user.id, action_type: 'categorisation', source_id: categorisation.article.id)
+				unless user_feed_item = FeedUser.find_by(user_id: self.user.id, action_type: 'categorisation', source_id: categorisation.article_id)
 					user_feed_item = FeedUser.new({
 						user_id: self.user.id,
 						action_type: 'categorisation',
-						source_id: categorisation.article.id
+						source_id: categorisation.article_id
 					})
 				end
 				user_feed_item.created_at = Time.now unless user_feed_item.persisted?
