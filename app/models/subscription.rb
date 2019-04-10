@@ -24,7 +24,19 @@ class Subscription < ApplicationRecord
 	def build_retrospective_feeds
 		self.exchange.categorisations.each do |categorisation|
 			if categorisation.article
-				self.user.feeds << Feed.new({actionable_id: categorisation.id, actionable_type: 'Categorisation'})
+				feed = Feed.new({actionable_id: categorisation.id, actionable_type: 'Categorisation'})
+				self.user.feeds << feed
+				unless user_feed_item = FeedUser.find_by(user_id: self.user.id, action_type: 'categorisation', source_id: categorisation.article.id)
+					user_feed_item = FeedUser.new({
+						user_id: self.user.id,
+						action_type: 'categorisation',
+						source_id: categorisation.article.id
+					})
+				end
+				user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+				user_feed_item.updated_at = categorisation.article.published_at
+				user_feed_item.feeds << feed
+				user_feed_item.save
 			end
 		end
 		self.user.save
@@ -32,6 +44,18 @@ class Subscription < ApplicationRecord
 
 	def delete_feed
 		self.feeds.where({user_id: self.user_id}).destroy_all
+		delete_retrospective_feeds
+	end
+
+	def delete_retrospective_feeds
+		self.exchange.categorisations.each do |categorisation|
+			if feed = self.user.feeds.where(actionable_id: categorisation.id, actionable_type: 'Categorisation').first
+				feed.destroy
+			end
+			if user_feed_item = FeedUser.find_by(user_id: self.user.id, action_type: 'categorisation', source_id: categorisation.article.id)
+				user_feed_item.destroy
+			end
+		end
 	end
 
 	def self.table_name
