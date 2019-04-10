@@ -82,13 +82,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@cookies.remove('ok_to_flash')
 
 	bindEvents: =>
-		$(document).on 'shown.bs.tab', 'a[data-toggle="tab"]', (e) =>
-			@timeout =>
-				$(window).scrollTop(0)
-			, 50
-
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
-			# $(window).scrollTop(170)
+			$(window).scrollTop(0)
 			$showing = $(e.target)
 			$hiding = $(e.relatedTarget)
 			@rootScope.selectedAppTab = $showing.attr('id')
@@ -148,6 +143,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				@timeout =>
 					@setupSuggestionsCarousel()
 				, 150
+			if $('body').hasClass('fixed-nav')
+				@timeout =>
+					$(window).scrollTop(40)
+				, 100
 		else
 			return false
 
