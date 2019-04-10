@@ -145,7 +145,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				, 150
 			if $('body').hasClass('fixed-nav')
 				@timeout =>
-					$(window).scrollTop(40)
+					$(window).scrollTop(133)
 				, 100
 		else
 			return false
