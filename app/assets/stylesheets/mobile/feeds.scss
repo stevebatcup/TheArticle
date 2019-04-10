@@ -772,3 +772,9 @@ input#suggestion_search {
 		}
 	}
 }
+
+body.fixed-nav #home_feed_tabs {
+    position: fixed;
+    top: 40px;
+    width: 100vw;
+}

@@ -100,11 +100,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				true
 
 		@scope.$on 'load_more_feeds', =>
-			if @scope.selectedTab.moreToLoad is 'follows'
-				console.log 'load_more_feeds'
 			if (@scope.feeds[@scope.selectedTab].moreToLoad is true) and (!@scope.feeds[@scope.selectedTab].loading)
-				if @scope.selectedTab.moreToLoad is 'follows'
-					console.log 'loading_more_feeds'
 				@scope.feeds[@scope.selectedTab].moreToLoad = false
 				@loadMore(@scope.selectedTab)
 
