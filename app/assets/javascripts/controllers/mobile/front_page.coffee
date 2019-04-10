@@ -70,6 +70,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				totalItems: 0
 				moreToLoad: true
 		@getFeeds('articles')
+		@getFeeds('posts')
 		@getFeeds('follows')
 		@getSuggestions()
 		@scope.myProfile = {}
@@ -184,12 +185,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
 	getSuggestions: =>
-		@scope.suggestionsLoaded = true
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
 			angular.forEach response.data.suggestions.populars, (suggestion) =>
 				@scope.suggestions.push suggestion
+			@timeout =>
+				@scope.suggestionsLoaded = true
+			, 500
 
 	setupSuggestionsCarousel: =>
 		slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2

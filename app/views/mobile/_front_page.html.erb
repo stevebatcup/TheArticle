@@ -15,16 +15,16 @@
 			<li class="nav-item">
 			  <a id="activity-posts-tab" class="pb-2 pt-3 nav-link"
 			  		ng-click="selectTab('posts')"
-			  		ng-class="{'active': selectedTab == 'posts', 'disabled': !feeds.articles.firstLoaded}"
-			  		ng-disabled="!feeds.articles.firstLoaded">
+			  		ng-class="{'active': selectedTab == 'posts', 'disabled': !feeds.posts.firstLoaded}"
+			  		ng-disabled="!feeds.posts.firstLoaded">
 			    <label>Posts</label>
 			  </a>
 			</li>
 			<li class="nav-item">
 			  <a id="activity-follows-tab" class="pb-2 pt-3 nav-link"
 			  		ng-click="selectTab('follows')"
-			  		ng-class="{'active': selectedTab == 'follows', 'disabled': !feeds.articles.firstLoaded}"
-			  		ng-disabled="!feeds.articles.firstLoaded">
+			  		ng-class="{'active': selectedTab == 'follows', 'disabled': !suggestionsLoaded}"
+			  		ng-disabled="!suggestionsLoaded">
 			    <label>Follow activity</label>
 			  </a>
 			</li>
