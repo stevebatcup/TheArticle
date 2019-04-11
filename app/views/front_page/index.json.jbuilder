@@ -75,3 +75,71 @@ if items.any?
 	json.countItems items.size
 end
 json.total @total_feeds if @total_feeds
+
+if @latest_articles && @latest_articles.any?
+	json.set! :latestArticles do
+		json.array! @latest_articles do |article|
+			image_size = browser.device.mobile? ? :cover_mobile : :listing_desktop
+			json.id article.id
+			json.title strip_tags(article.title)
+			json.excerpt article_excerpt_for_listing(article).html_safe
+			json.path article_path(article)
+			json.isNew article.is_newly_published?
+			json.publishedAt article_date(article)
+			json.image article.image.url(image_size) if article.image?
+			json.isSponsored article.is_sponsored
+			json.author do
+				author = article.author
+				json.name author.display_name.html_safe
+				json.path contributor_path(slug: author.slug)
+			end
+			json.exchanges article.exchanges do |exchange|
+				json.slug exchange.slug
+				json.path exchange_badge_url(exchange)
+				json.isSponsored false
+				json.name exchange.name
+			end
+		end
+	end
+end
+
+if @sponsored_picks && @sponsored_picks.any?
+	json.set! :sponsoredPicks do
+		json.array! @sponsored_picks do |article|
+			image_size = browser.device.mobile? ? :cover_mobile : :listing_desktop
+			json.id article.id
+			json.title strip_tags(article.title)
+			json.excerpt article_excerpt_for_listing(article).html_safe
+			json.path article_path(article)
+			json.isNew article.is_newly_published?
+			json.publishedAt article_date(article)
+			json.image article.image.url(image_size) if article.image?
+			json.isSponsored article.is_sponsored
+			json.author do
+				author = article.author
+				json.name author.display_name.html_safe
+				json.path contributor_path(slug: author.slug)
+			end
+			json.exchanges article.exchanges do |exchange|
+				json.slug exchange.slug
+				json.path exchange_badge_url(exchange)
+				json.isSponsored true
+				json.name exchange.name
+			end
+		end
+	end
+end
+
+if @trending_exchanges && @trending_exchanges.any?
+	json.userExchanges current_user.subscriptions.all.map(&:id)
+	json.set! :trendingExchanges do
+		json.array! @trending_exchanges do |exchange|
+			json.id exchange.id
+			json.image exchange.image.url(:detail)
+			json.slug exchange.slug
+			json.path exchange_badge_url(exchange)
+			json.name exchange.name
+		end
+	end
+
+end

@@ -4,11 +4,7 @@ class Feed < ApplicationRecord
 	has_and_belongs_to_many	:notifications
 	belongs_to	:actionable, polymorphic: true
 
-	def self.per_page
-		10
-	end
-
-	def self.fetch_user_feeds(current_user, count_only=false, page=1, section='articles')
+	def self.fetch_user_feeds(current_user, count_only=false, page=1, per_page=10, section='articles')
 		case section
 		when 'articles'
 			actions = ['categorisation', 'subscription']

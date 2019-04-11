@@ -64,13 +64,13 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		, 200
 
 	bindCarousels: =>
-		$('.slick-carousel').on 'init', (e) =>
+		$(document).on 'init', '.slick-carousel', (e) =>
 			window.setTimeout =>
 				$(e.currentTarget).find('.inner').addClass('shown')
 				$('.cloak').fadeIn('slow').removeClass('cloak').addClass('was_cloaked')
 			, 300
 
-		$('.slick-carousel').on 'destroy', (e) =>
+		$(document).on 'destroy', '.slick-carousel', (e) =>
 			$(e.currentTarget).find('.inner').removeClass('shown')
 			$('.was_cloaked').fadeOut('slow').removeClass('was_cloaked').addClass('cloak')
 

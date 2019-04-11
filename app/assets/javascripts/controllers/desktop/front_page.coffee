@@ -44,9 +44,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			heading: ''
 			msg: ''
 
-		@scope.suggestions = []
-		@scope.suggestionsLoaded = false
-		@scope.suggestionsCarouselReady = false
 		@scope.feeds =
 			articles:
 				data: []
@@ -70,10 +67,23 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				loading: true
 				totalItems: 0
 				moreToLoad: true
-		@getFeeds('articles')
-		@getFeeds('posts')
-		@getFeeds('follows')
-		@getSuggestions()
+		@scope.sections = ['articles', 'posts', 'follows']
+
+		@scope.suggestions = []
+		@scope.suggestionsLoaded = false
+		@scope.suggestionsCarouselReady = []
+		@scope.sponsoredPicksCarouselReady = []
+		@scope.trendingExchangesCarouselReady = []
+
+		@scope.latestArticlesCarouselReady = []
+
+		@scope.perPage = 16
+		angular.forEach @scope.sections, (section) =>
+			if section is 'articles'
+				@getSuggestions =>
+					@getFeeds(section)
+			else
+				@getFeeds(section)
 
 		@scope.myProfile = {}
 		@getMyProfile()
@@ -95,6 +105,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	bindEvents: =>
 		super
 		@bindScrollEvent()
+
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$hiding = $(e.relatedTarget)
 			if $hiding.hasClass('search_trigger')
@@ -142,10 +153,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@scope.selectedTab = section
 			if @scope.feeds[section].firstLoaded is false
 				@getFeeds(section)
-			if (@scope.suggestionsCarouselReady is false) and (@scope.selectedTab is 'follows')
-				@timeout =>
-					@setupSuggestionsCarousel()
-				, 150
+
+			key = @sectionPageKey(section)
+			@setupSuggestionsCarousels(section) unless @scope.suggestionsCarouselReady[key] is true
+			@setupLatestArticlesCarousels(section) unless @scope.latestArticlesCarouselReady[key] is true
+			@setupSponsoredPicksCarousels(section) unless @scope.sponsoredPicksCarouselReady[key] is true
+			@setupTrendingExchangesCarousels(section) unless @scope.trendingExchangesCarouselReady[key] is true
+
 		else
 			return false
 
@@ -165,7 +179,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	getFeeds: (section='articles')=>
 		@scope.feeds[section].loading = true
-		@Feed.query({ page: @scope.feeds[section].page, section: section }).then (response) =>
+		@Feed.query({ page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				if section is 'posts'
 					if _.contains(@scope.feeds.posts.share_ids, feed.share.id)
@@ -185,12 +199,146 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 			@scope.feeds[section].loading = false
 			@scope.feeds[section].firstLoaded = true
-
 			if @scope.feeds[section].page is 1
 				@scope.feeds[section].totalItems = response.total
-				@scope.feeds.follows.data.push { type: 'suggestion' } if (section is 'follows')
-
+				if section is 'articles'
+					@scope.latestArticles = response.latestArticles
+					@scope.sponsoredPicks = response.sponsoredPicks
+					@scope.trendingExchanges = response.trendingExchanges
+					@scope.userExchanges = response.userExchanges
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
+
+			@buildSuggestionsCarousel(section)
+			@buildLatestArticlesCarousels(section)
+			@buildSponsoredPicksCarousels(section)
+			@buildTrendingExchangesCarousels(section)
+
+	buildSuggestionsCarousel: (section) =>
+		page = @scope.feeds[section].page
+		feedItem = { type: 'suggestion', isVisible: true, page: "#{section}_#{page}" }
+		offset = ((page - 1) * @scope.perPage) + 2
+		if @scope.feeds[section].data.length >= offset
+			@scope.feeds[section].data.splice(offset, 0, feedItem)
+		else
+			@scope.feeds[section].data.push feedItem
+		@setupSuggestionsCarousels(section) if section is 'articles'
+
+	setupSuggestionsCarousels: (section) =>
+		@timeout =>
+			slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
+			key = @sectionPageKey(section)
+			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
+				slidesToShow: slidesToShow
+				slidesToScroll: 1
+				speed: 300
+				dots: false
+				centerMode: true
+				arrows: true
+			@scope.suggestionsCarouselReady[key] = true
+		, 100
+
+	buildLatestArticlesCarousels: (section) =>
+		page = @scope.feeds[section].page
+		feedItem = { type: 'latestArticles', isVisible: true, page: "#{section}_#{page}" }
+		offset = ((page - 1) * @scope.perPage) + 6
+		if @scope.feeds[section].data.length >= offset
+			@scope.feeds[section].data.splice(offset, 0, feedItem)
+		else
+			@scope.feeds[section].data.push feedItem
+		@setupLatestArticlesCarousels(section) if section is 'articles'
+
+	setupLatestArticlesCarousels: (section) =>
+		@timeout =>
+			key = @sectionPageKey(section)
+			$(".slick-carousel.latest_articles[data-page=#{key}]", ".section_#{section}").slick
+				infinite: true
+				slidesToShow: 1
+				slidesToScroll: 1
+				adaptiveHeight: false
+				speed: 300
+				dots: false
+				centerMode: true,
+				centerPadding: '60px'
+			@scope.latestArticlesCarouselReady[key] = true
+		, 100
+
+	buildSponsoredPicksCarousels: (section) =>
+		page = @scope.feeds[section].page
+		feedItem = { type: 'sponsoredPicks', isVisible: true, page: "#{section}_#{page}" }
+		offset = ((page - 1) * @scope.perPage) + 10
+		if @scope.feeds[section].data.length >= offset
+			@scope.feeds[section].data.splice(offset, 0, feedItem)
+		else
+			@scope.feeds[section].data.push feedItem
+		@setupSponsoredPicksCarousels(section) if section is 'articles'
+
+	setupSponsoredPicksCarousels: (section) =>
+		@timeout =>
+			key = @sectionPageKey(section)
+			$(".slick-carousel.sponsored_picks[data-page=#{key}]", ".section_#{section}").slick
+				infinite: true
+				slidesToShow: 1
+				slidesToScroll: 1
+				adaptiveHeight: false
+				speed: 300
+				dots: false
+				centerMode: true,
+				centerPadding: '60px'
+			@scope.sponsoredPicksCarouselReady[key] = true
+		, 100
+
+	buildTrendingExchangesCarousels: (section) =>
+		page = @scope.feeds[section].page
+		feedItem = { type: 'trendingExchanges', isVisible: true, page: "#{section}_#{page}" }
+		offset = ((page - 1) * @scope.perPage) + 14
+		if @scope.feeds[section].data.length >= offset
+			@scope.feeds[section].data.splice(offset, 0, feedItem)
+		else
+			@scope.feeds[section].data.push feedItem
+		@setupTrendingExchangesCarousels(section) if section is 'articles'
+
+	setupTrendingExchangesCarousels: (section) =>
+		@timeout =>
+			key = @sectionPageKey(section)
+			$(".slick-carousel.trending_exchanges[data-page=#{key}]", ".section_#{section}").slick
+				infinite: true
+				slidesToShow: 1
+				slidesToScroll: 1
+				adaptiveHeight: false
+				speed: 300
+				dots: false
+				centerMode: true,
+				centerPadding: '60px'
+			@scope.trendingExchangesCarouselReady[key] = true
+		, 100
+
+	toggleFollowExchange: (exchangeId, $event=null) =>
+		$event.preventDefault() if $event?
+		console.log @scope.userExchanges
+		if @inFollowedExchanges(exchangeId)
+			@unfollowExchange(exchangeId)
+		else
+			@followExchange(exchangeId)
+
+	inFollowedExchanges: (exchangeId) =>
+		_.contains @scope.userExchanges, exchangeId
+
+	followExchange: (exchangeId) =>
+		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
+			@scope.userExchanges.push exchangeId
+			@flash "You are now following the <b>#{response.data.exchange}</b> exchange"
+
+	unfollowExchange: (exchangeId) =>
+		@http.delete("/user_exchanges/#{exchangeId}").then (response) =>
+			if response.data.status is 'success'
+				@scope.userExchanges = _.filter @scope.userExchanges, (item) =>
+					 item isnt exchangeId
+				@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
+			else
+				@alert response.data.message, "Error unfollowing exchange"
+
+	sectionPageKey: (section) =>
+		"#{section}_#{@scope.feeds[section].page}"
 
 	getMyProfile: (callback=null) =>
 		@MyProfile.get().then (profile) =>
@@ -203,7 +351,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
-	getSuggestions: =>
+	getSuggestions: (callback)=>
 		@http.get('/follow-suggestions').then (response) =>
 			angular.forEach response.data.suggestions.forYous, (suggestion) =>
 				@scope.suggestions.push suggestion
@@ -211,23 +359,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				@scope.suggestions.push suggestion
 			@timeout =>
 				@scope.suggestionsLoaded = true
+				callback.call(@)
 			, 500
-
-	setupSuggestionsCarousel: =>
-		slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
-		$('.slick-carousel.suggestions').slick
-			slidesToShow: slidesToShow
-			slidesToScroll: 1
-			speed: 300
-			dots: false
-			centerMode: true
-			arrows: true
-		@scope.suggestionsCarouselReady = true
 
 	resetSuggestionsCarousel: =>
 		$('.slick-carousel.suggestions').slick('unslick')
 		@timeout =>
-			@setupSuggestionsCarousel()
+			@setupSuggestionsCarousels()
 		, 350
 
 	toggleFollowSuggestion: (user, $event) =>

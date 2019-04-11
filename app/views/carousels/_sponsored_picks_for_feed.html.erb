@@ -1,0 +1,16 @@
+<div class="bg-white pb-3 h-100">
+	<div class="pt-3 pb-1 px-2">
+		<h4 class="bullet card-title">Sponsored picks</h4>
+	</div>
+	<div class="sponsored_picks sponsored_picks_carousel slick-carousel slide w-100"
+				data-page="{{item.page}}"
+				data-slideout-ignore>
+	  <article ng-repeat="article in sponsoredPicks"
+	  				class="mx-2 article-listing post sponsored_article slick-carousel-item block_click"
+	  				id="carousel-latest-article-listing-{{ article.id }}"
+	  				data-id="{{ article.id }}"
+	  				data-href="{{  article.path }}">
+	  	<%= render partial: 'articles/item' %>
+	  </article>
+	</div>
+</div>
