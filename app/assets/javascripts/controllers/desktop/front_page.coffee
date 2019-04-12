@@ -201,13 +201,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@scope.userExchanges = response.userExchanges
 					@getFeeds('posts')
 					@getFeeds('follows')
-			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].data.length)
+			feedLength = @getLengthOfFeedWithExtras(section)
+			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > feedLength)
 
 			@buildSuggestionsCarousel(section)
 			@buildLatestArticlesCarousels(section)
 			@buildSponsoredPicksCarousels(section)
 			@buildTrendingExchangesCarousels(section)
 			@buildFeaturedSponsoredPost(section)
+
+	getLengthOfFeedWithExtras: (section) =>
+		@scope.feeds[section].data.length + (@scope.feeds[section].page * 5)
 
 	buildSuggestionsCarousel: (section) =>
 		page = @scope.feeds[section].page
@@ -322,7 +326,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			sPIndex = remainder - 1
 		else
 			sPIndex = page - 1
-		# console.log "Page #{@scope.feeds[section].page} | sPIndex #{sPIndex}"
 		feedItem = { type: 'featuredSponsoredPick', isVisible: true, article: @scope.sponsoredPicks[sPIndex] }
 		offset = ((page - 1) * @scope.perPage) + 21
 		offset += 5 if page > 1
@@ -333,7 +336,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	toggleFollowExchange: (exchangeId, $event=null) =>
 		$event.preventDefault() if $event?
-		console.log @scope.userExchanges
 		if @inFollowedExchanges(exchangeId)
 			@unfollowExchange(exchangeId)
 		else
