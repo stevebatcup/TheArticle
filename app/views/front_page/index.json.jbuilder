@@ -49,6 +49,8 @@ items = []
 				else
 					item[:isVisible] = true
 				end
+			else
+				(@total_feeds -= 1) if @total_feeds
 			end
 			items << item
 		elsif user_feed_item.action_type == 'subscription'
@@ -61,6 +63,8 @@ items = []
 				else
 					item[:isVisible] = true
 				end
+			else
+				(@total_feeds -= 1) if @total_feeds
 			end
 			items << item
 		end
