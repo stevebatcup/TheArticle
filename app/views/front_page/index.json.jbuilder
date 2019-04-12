@@ -135,7 +135,7 @@ if @trending_exchanges && @trending_exchanges.any?
 	json.set! :trendingExchanges do
 		json.array! @trending_exchanges do |exchange|
 			json.id exchange.id
-			json.image exchange.image.url(:detail)
+			json.image exchange.image.url(:listing)
 			json.slug exchange.slug
 			json.path exchange_badge_url(exchange)
 			json.name exchange.name
