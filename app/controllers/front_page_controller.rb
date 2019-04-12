@@ -22,10 +22,6 @@ class FrontPageController < ApplicationController
 					@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 20)
 					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				end
-				@my_exchange_ids = current_user.subscriptions.map(&:exchange_id)
-				@my_followings_ids = current_user.followings.map(&:followed_id)
-				@my_muted_follow_ids = current_user.follow_mutes.map(&:muted_id)
-				@my_muted_exchange_ids = current_user.exchange_mutes.map(&:muted_id)
 				@feeds = Feed.fetch_user_feeds(current_user, false, @page, @per_page, @section)
 				@total_feeds = Feed.fetch_user_feeds(current_user, true, @page, @per_page, @section).length if @page == 1
 			end
