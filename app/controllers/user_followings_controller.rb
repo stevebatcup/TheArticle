@@ -61,7 +61,7 @@ class UserFollowingsController < ApplicationController
 				current_user.accept_suggestion_of_user_id(params[:id])
 				# Rails.cache.delete("followings_count_#{current_user.id}")
 				# Rails.cache.delete("followers_count_#{params[:id]}")
-				other_user.send_followed_mail_if_opted_in(current_user)
+				other_user.send_followed_mail_if_opted_in(current_user) if (current_user.has_active_status? && current_user.has_completed_wizard)
 			else
 				@status = :error
 				@message = current_user.errors.full_messages
