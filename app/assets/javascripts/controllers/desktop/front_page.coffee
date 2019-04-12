@@ -180,7 +180,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					else
 						@scope.feeds.posts.share_ids.push feed.share.id
 
-				@scope.feeds[section].data.push feed
+				@scope.feeds[section].data.push(feed) unless feed.isVisible is false
 
 				if feed.share?
 					if feed.share.showComments is true
@@ -202,6 +202,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@getFeeds('posts')
 					@getFeeds('follows')
 			feedLength = @getLengthOfFeedWithExtras(section)
+			console.log("feed length for #{section}: #{feedLength}") if console?
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > feedLength)
 
 			@buildSuggestionsCarousel(section)
