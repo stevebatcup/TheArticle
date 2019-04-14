@@ -74,7 +74,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@scope.suggestionsCarouselReady = []
 		@scope.sponsoredPicksCarouselReady = []
 		@scope.trendingExchangesCarouselReady = []
-
 		@scope.latestArticlesCarouselReady = []
 
 		@scope.perPage = 16
@@ -152,7 +151,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@initLatestArticlesCarousels(section) unless @scope.latestArticlesCarouselReady[key] is true
 			@initSponsoredPicksCarousels(section) unless @scope.sponsoredPicksCarouselReady[key] is true
 			@initTrendingExchangesCarousels(section) unless @scope.trendingExchangesCarouselReady[key] is true
-
 		else
 			return false
 

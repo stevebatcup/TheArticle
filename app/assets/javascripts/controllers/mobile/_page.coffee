@@ -68,7 +68,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			$('.overlay').removeClass('show_menu').removeClass('active')
 
 	bindCarousels: =>
-		$('.slick-carousel').on 'init', (e) =>
+		$(document).on 'init', '.slick-carousel', (e) =>
 			window.setTimeout =>
 				$(e.currentTarget).find('.inner').addClass('shown')
 				$('.cloak').fadeIn('slow').removeClass('cloak')

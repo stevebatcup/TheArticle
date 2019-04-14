@@ -119,7 +119,7 @@ if @sponsored_picks && @sponsored_picks.any?
 end
 
 if @trending_exchanges && @trending_exchanges.any?
-	json.userExchanges current_user.subscriptions.all.map(&:id)
+	json.userExchanges current_user.subscriptions.all.map(&:exchange_id)
 	json.set! :trendingExchanges do
 		json.array! @trending_exchanges do |exchange|
 			json.id exchange.id
