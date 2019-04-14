@@ -16,7 +16,7 @@
 	&.trending_exchanges,
 	&.sponsored_picks {
 		.slick-track {
-			height: 395px;
+			height: 352px;
 
 			article {
 				height: 100%;
@@ -30,6 +30,16 @@
 						img {
 							height: 100%;
 						}
+					}
+
+					header {
+						h4 {
+							font-size: 1em !important;
+						}
+					}
+
+					.entry-content {
+						display: none !important;
 					}
 
 					footer {
