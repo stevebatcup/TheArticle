@@ -47,11 +47,24 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@scope.myProfile = {}
 		@getMyProfile()
 
+	bindScrollEvent: =>
+		$win = $(window)
+		$win.on 'scroll', =>
+			scrollTop = $win.scrollTop()
+			docHeight = @getDocumentHeight()
+			if (scrollTop + $win.height()) >= (docHeight - 320)
+				if @scope.notifications.moreToLoad is true
+					@scope.notifications.moreToLoad = false
+					@loadMore()
+
 	bindEvents: =>
-		@scope.$on 'load_more_notifications', =>
-			if @scope.notifications.moreToLoad is true
-				@scope.notifications.moreToLoad = false
-				@loadMore()
+		super
+		@bindScrollEvent()
+
+		# @scope.$on 'load_more_notifications', =>
+		# 	if @scope.notifications.moreToLoad is true
+		# 		@scope.notifications.moreToLoad = false
+		# 		@loadMore()
 
 		$(document).on 'click', '#feed.notifications_page .others_commented', (e) =>
 			e.preventDefault()

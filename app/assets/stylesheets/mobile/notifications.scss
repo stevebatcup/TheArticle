@@ -4,7 +4,8 @@
 
 .notifications {
 	.notification {
-		min-height: 75px;
+		height: 82px;
+		padding: 3px 0;
 
 		.inner {
 			height: 100%;
@@ -12,7 +13,7 @@
 			margin: -1px 0;
 			position: relative;
 			background: darken($grey_light, 5%);
-			// border-radius: 2px;
+			border-radius: 0 !important;
 
 			&.seen {
 				background: #fff;

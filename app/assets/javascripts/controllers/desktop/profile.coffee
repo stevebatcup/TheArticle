@@ -184,8 +184,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			if value.length > 2
 				@autocompleteLocations $input
 
-		@scope.$on 'update_follows_from_suggestions', (e) =>
+		@scope.$on 'update_follows_from_suggestions', (e, data) =>
 			@resetFollows()
+			if data.action is 'follow'
+				@scope.profile.data.followingsCount += 1
+			else
+				@scope.profile.data.followingsCount -= 1
 
 	imageUploadError: (error) =>
 		@scope.profile.errors.photo = error

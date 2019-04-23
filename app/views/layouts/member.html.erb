@@ -78,7 +78,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#content-notifications">
+            <a class="nav-link" id="notifications-tab" href="/notifications">
               <i class="fas fa-bell"></i>
               <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
                 {{notificationBadgeCount}}
@@ -99,12 +99,11 @@
         <div class="tab-content" id="app_tabs" ng-show="!appPage">
           <%= render 'mobile/front_page' %>
           <%= render 'mobile/follows' %>
-          <%= render 'mobile/notifications' %>
           <%= render 'mobile/messaging' %>
         </div>
       </main>
 
-      <footer id="main_footer_top" class="main_footer bg-black text-white">
+      <footer id="main_footer_top" class="main_footer bg-black text-white" ng-cloak>
         <div class="container pb-3">
           <div class="inner">
             <div class="row py-3">

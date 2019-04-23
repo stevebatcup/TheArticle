@@ -172,7 +172,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="notifications-tab" href="/my-home?route=notifications">
+        <a class="nav-link <%= 'active' if params[:controller] == 'notifications' %>" id="notifications-tab" href="/notifications">
           <i class="fas fa-bell"></i>
           <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
             {{notificationBadgeCount}}
@@ -194,7 +194,7 @@
     <%= yield %>
   </main>
 
-  <footer id="main_footer_top" class="main_footer bg-black text-white" ng-controller="FooterController">
+  <footer id="main_footer_top" class="main_footer bg-black text-white" ng-controller="FooterController" ng-cloak>
     <div class="container">
       <div class="inner border-light border-bottom">
         <div class="row py-2">
