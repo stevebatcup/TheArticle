@@ -26,15 +26,23 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			items:  []
 			loading: false
 			firstLoaded: false
+
 		vars = @getUrlVars()
-		@openSigninForm() if 'sign_in' of vars
-		@openSigninForm() if 'forgotten_password' of vars
 		deviceType = if @isTablet() then 'tablet' else 'desktop'
-		@openRegisterForm(null, 'homepage_redirect', deviceType) if 'register' of vars
-		@goodbye() if 'account_deleted' of vars
-		@disableBackButton() if 'signed_out' of vars
-		@showProfileWizardModal() if @element.data('force-profile-wizard')
-		@showRegistrationInterstitial() if $('#registerInterstitial').length
+		if 'sign_in' of vars
+			@openSigninForm()
+		else if 'forgotten_password' of vars
+			@openSigninForm()
+		else if 'register' of vars
+			@openRegisterForm(null, 'homepage_redirect', deviceType)
+		else if 'account_deleted' of vars
+			@goodbye()
+		else if 'signed_out' of vars
+			@disableBackButton()
+		else if @element.data('force-profile-wizard')
+			@showProfileWizardModal()
+		else if $('#registerInterstitial').length
+			@showRegistrationInterstitial()
 
 	showProfileWizardModal: =>
 		tpl = $("#profileWizard").html().trim()
