@@ -87,4 +87,14 @@ json.set! :profile do
 	json.isMe user_signed_in? ? @user == current_user : false
 
 	json.deactivated @user.profile_is_deactivated?
+
+	if @user.author
+		json.author do
+			json.articleCount @user.author.article_count
+			json.articleCountSentence pluralize(@user.author.article_count, 'article')
+			json.path contributor_path(slug: @user.author.slug)
+		end
+	else
+		json.author false
+	end
 end

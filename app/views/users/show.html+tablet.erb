@@ -111,25 +111,37 @@
 						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 					</p>
 
-					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
-						<i class="fas fa-map-marker-alt"></i>
-						<span class="pl-3">{{ profile.data.location }}</span>
-					</p>
-					<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
-						<a href='#' ng-click="editProfile('location')">
-							<i class="fas fa-map-marker-alt text-green"></i>
-							<span class="pl-3 text-green">Add Location</span>
-						</a>
-					</p>
+					<div id="basic_info_location">
+						<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
+							<i class="fas fa-map-marker-alt"></i>
+							<span class="pl-3">{{ profile.data.location }}</span>
+						</p>
+						<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
+							<a href='#' ng-click="editProfile('location')">
+								<i class="fas fa-map-marker-alt text-green"></i>
+								<span class="pl-3 text-green">Add Location</span>
+							</a>
+						</p>
+					</div>
 
-					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
-						{{ profile.data.bio }}
-					</p>
-					<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
-						<a href='#' ng-click="editProfile('bio')">
-							<i class="fas fa-plus text-green"></i>
-							<span class="pl-3 text-green">Add Bio</span>
-						</a>
+					<div id="basic_info_bio">
+						<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
+							{{ profile.data.bio }}
+						</p>
+						<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
+							<a href='#' ng-click="editProfile('bio')">
+								<i class="fas fa-plus text-green"></i>
+								<span class="pl-3 text-green">Add Bio</span>
+							</a>
+						</p>
+					</div>
+
+					<p ng-if="profile.data.author" id="user_author_info" class="d-flex">
+						<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" class="mr-2" />
+						<span>
+							Contributor:
+							<a class="text-green" ng-href="{{profile.data.author.path}}">{{ profile.data.author.articleCountSentence }}</a>
+						</span>
 					</p>
 				</div>
 

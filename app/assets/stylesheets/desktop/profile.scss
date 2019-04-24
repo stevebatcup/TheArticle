@@ -63,7 +63,7 @@
 	}
 
 	#basic_info {
-		img {
+		img.rounded-circle {
 			width: 7.5em;
 			height: 7.5em;
 	    border: 3px solid #fff;
@@ -78,8 +78,18 @@
       }
 		}
 
-		a {
-			color: inherit;
+		#basic_info_bio,
+		#basic_info_location {
+			a {
+				color: inherit;
+			}
+		}
+
+		#user_author_info {
+			img {
+				width: 25px;
+				height: 25px;
+			}
 		}
 	}
 }
