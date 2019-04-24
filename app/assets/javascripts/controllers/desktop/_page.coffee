@@ -135,11 +135,16 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 	openSharingPanel: ($event=null, mode=null) =>
 		$event.preventDefault() if $event?
 		if @rootScope.isSignedIn
-			@rootScope.sharingPanelMode = mode if mode?
-			tpl = $("#sharingPanel").html().trim()
-			$content = @compile(tpl)(@scope)
-			$('body').append $content
-			$("#sharingPanelModal").modal()
+			if @rootScope.profileDeactivated
+				@confirm "You will need to reactivate your profile to share or rate an article", =>
+					window.location.href = "/account-settings?reactivate=1"
+				, null, "Please reactivate profile", ['Cancel', 'Reactivate']
+			else
+				@rootScope.sharingPanelMode = mode if mode?
+				tpl = $("#sharingPanel").html().trim()
+				$content = @compile(tpl)(@scope)
+				$('body').append $content
+				$("#sharingPanelModal").modal()
 		else
 			@requiresSignIn("share or rate an article")
 

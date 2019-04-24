@@ -20,6 +20,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		$('footer#main_footer_top').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
+		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
 		@bindEvents()
 		vars = @getUrlVars()
 		@disableBackButton() if 'from_wizard' of vars

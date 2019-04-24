@@ -1,7 +1,8 @@
 <div class="tab-pane fade show active" id="content-front-page"
 	role="tabpanel"
 	aria-labelledby="front-page-tab"
-	 ng-controller="FrontPageController" ng-cloak>
+	data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
+	ng-controller="FrontPageController" ng-cloak>
 
 	 <ul class="bg-white nav nav-tabs nav-fill d-flex" id="home_feed_tabs">
 			<li class="nav-item">

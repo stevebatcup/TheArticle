@@ -44,7 +44,13 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 		@rootScope.$broadcast 'setup_app_page', { title: "Settings" }
 		@timeout =>
 			@resetPages()
-		, 750
+			vars = @getUrlVars()
+			if 'reactivate' of vars
+				@forwardToPage(null, 'manage_profile')
+				@timeout =>
+					@forwardToPage(null, 'reactivate_profile')
+				, 400
+		, 600
 
 	bindEvents: ->
 		super

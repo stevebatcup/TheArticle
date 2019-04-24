@@ -21,6 +21,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		$('footer#main_footer_top, footer#main_footer_bottom').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
+		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
 		@bindEvents()
 		vars = @getUrlVars()
 		@disableBackButton() if 'from_wizard' of vars

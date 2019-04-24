@@ -9,12 +9,14 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 	  '$timeout'
 	  '$compile'
 	  '$cookies'
+	  '$ngConfirm'
 	  'ExchangeArticle'
 	]
 
 	init: ->
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = !!@element.data('signed-in')
+		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
 		@scope.articleId = @element.data('article-id')
 		@bindEvents()
 

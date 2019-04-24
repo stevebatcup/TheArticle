@@ -229,6 +229,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						location:
 							text: profile.location
 						bio: profile.bio
+					@rootScope.profileDeactivated = profile.deactivated
 					@scope.profile.loaded = true
 					@buildDigestFromProfileData(@scope.profile.data)
 					@reorderDigest()
@@ -604,6 +605,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			@http.put("/reactivate?auth=#{@scope.profile.data.confirmingPassword}").then (response) =>
 				if response.data.status is 'success'
 					@scope.profile.data.deactivated = false
+					@rootScope.profileDeactivated = false
 					@scope.profile.data.confirmingPassword = ''
 					@flash "Your profile has been reactivated"
 				else if response.data.status is 'error'

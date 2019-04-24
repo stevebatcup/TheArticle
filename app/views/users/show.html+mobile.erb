@@ -5,7 +5,11 @@
 	<p class="d-none"><%= description %></p>
 <% end %>
 
-<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>"  data-fixed-profile-nav=1 ng-cloak>
+<section ng-controller="ProfileController"
+				class="show-profile"
+				data-user-id="<%= @user.id %>"
+				data-fixed-profile-nav=1
+				ng-cloak>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>
@@ -219,7 +223,7 @@
 		<div class="" id="feed" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
 
-				<div class="mb-1 py-2 results_block container feed-listing feed-third-party d-flex align-items-start justify-content-between" ng-if="profile.isMe">
+				<div class="mb-1 py-2 results_block container feed-listing feed-third-party d-flex align-items-start justify-content-between" ng-if="(profile.isMe) && (!profileDeactivated)">
 					<img class="rounded-circle" alt="" ng-src="{{ profile.data.profilePhoto.image }}" style="width: 34px; height: 34px;" />
 	        <textarea name="third_party_article_url"
 	                    id="third_party_article_url_phantom"

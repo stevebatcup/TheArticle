@@ -404,7 +404,7 @@
 					</div>
 
 
-					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="profile.isMe">
+					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="(profile.isMe) && (!profileDeactivated)">
 	          <textarea name="third_party_article_url"
 	                      id="third_party_article_url_phantom"
 	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"

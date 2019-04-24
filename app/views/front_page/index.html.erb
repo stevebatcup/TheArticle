@@ -1,5 +1,6 @@
 <section ng-controller="FrontPageController" class="container front-page"
-			data-user-id="<%= current_user.id %>">
+			data-user-id="<%= current_user.id %>"
+			data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>">
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">
