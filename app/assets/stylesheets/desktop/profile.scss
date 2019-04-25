@@ -1,6 +1,6 @@
 .cover_photo {
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: 100%;
 	background-position: center center;
 	overflow: hidden;
 	background-color: #aeaeae;
@@ -38,7 +38,7 @@
 	}
 
 	#cover_photo {
-		height: 228px;
+		height: 191px;
 		line-height: 13em;
 		color: #fff;
 

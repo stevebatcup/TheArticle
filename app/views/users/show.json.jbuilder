@@ -41,7 +41,7 @@ json.set! :profile do
 		json.sourceForUpload ""
 		json.uploading false
 		json.width browser.device.mobile? ? 330 : 570
-		json.height browser.device.mobile? ? 55 : 114
+		json.height browser.device.mobile? ? 66 : 114
 	end
 
 	recentFollowingSummary = following_summary(@user, @user.recent_followings(48))

@@ -172,11 +172,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height, 'circle'
+				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height
 
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), @scope.profile.data.coverPhoto.width, @scope.profile.data.coverPhoto.height, 'square'
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), @scope.profile.data.coverPhoto.width, @scope.profile.data.coverPhoto.height
 
 		$(document).on 'keyup', 'input#user_location', (e) =>
 			$input = $('input#user_location')
@@ -382,12 +382,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.profile.digest.sort (a,b) =>
 			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
-	showProfilePhotoCropper: (element, width, height, shape) =>
+	showProfilePhotoCropper: (element, width, height) =>
 		@scope.profile.errors.photo = ""
 		type = $(element).data('type')
 		@scope.photoCrop.cropper = new Cropper element,
 			checkOrientation: true
 			checkCrossOrigin: true
+			minCropBoxWidth: width
+			minCropBoxHeight: height
 			center: true
 			cropBoxResizable: false
 			viewMode: if type is 'coverPhoto' then 3 else 1
@@ -403,7 +405,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				@scope.photoCrop.cropper.zoomTo .5,
 					x: containerData.width / 2
 					y: containerData.height / 2
-		, 1
+		, 350
 
 	cancelEditPhoto: (type) =>
 		@scope.profile.data[type].source = ''
@@ -418,7 +420,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.profile.data[type].uploading = true
 		settings =
 			width: (@scope.profile.data[type].width * 2),
+			minWidth: (@scope.profile.data[type].width * 2),
 			height: (@scope.profile.data[type].height * 2),
+			minHeight: (@scope.profile.data[type].height * 2),
 			imageSmoothingEnabled: true,
 			imageSmoothingQuality: 'high'
 		@scope.photoCrop.cropper.getCroppedCanvas(settings).toBlob (blob) =>

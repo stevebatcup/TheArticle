@@ -178,11 +178,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), 275, 275, 'circle'
+				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height
 
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), 330, 55, 'square'
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), @scope.profile.data.coverPhoto.width, @scope.profile.data.coverPhoto.height
 
 		# Broadcast from HeaderBarController
 		@scope.$on 'edit_profile', =>
@@ -361,15 +361,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		$('body').append $content
 		$("#editcoverPhotoModal").modal()
 
-	showProfilePhotoCropper: (element, width, height, shape) =>
+	showProfilePhotoCropper: (element, width, height) =>
+		@scope.profile.errors.photo = ""
 		type = $(element).data('type')
 		@scope.photoCrop.cropper = new Cropper element,
 			checkOrientation: true
+			checkCrossOrigin: true
+			minCropBoxWidth: width
+			minCropBoxHeight: height
 			center: true
 			cropBoxResizable: false
 			viewMode: if type is 'coverPhoto' then 3 else 1
-			minCropBoxHeight: height
-			minCropBoxWidth: width
 			dragMode: 'none'
 		@timeout =>
 			containerData = @scope.photoCrop.cropper.getContainerData()
@@ -382,15 +384,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				@scope.photoCrop.cropper.zoomTo .5,
 					x: containerData.width / 2
 					y: containerData.height / 2
-		, 1
+		, 350
 
 	saveCroppedPhoto: ($event, type) =>
 		$event.preventDefault()
 		@scope.photoCrop.cropper.crop()
 		@scope.profile.data[type].uploading = true
 		settings =
-			width: (@scope.profile.data[type].width * 2),
-			height: (@scope.profile.data[type].height * 2),
+			width: (@scope.profile.data[type].width * 10),
+			minWidth: (@scope.profile.data[type].width * 10),
+			height: (@scope.profile.data[type].height * 10),
+			minHeight: (@scope.profile.data[type].height * 10),
 			imageSmoothingEnabled: true,
 			imageSmoothingQuality: 'high'
 		@scope.photoCrop.cropper.getCroppedCanvas(settings).toBlob (blob) =>
