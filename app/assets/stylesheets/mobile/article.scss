@@ -5,8 +5,9 @@
 		display: block;
 
 		& > div {
-			height: auto !important;
-			width: auto !important;
+			overflow-y: visible;
+			// height: auto !important;
+			// width: auto !important;
 		}
 	}
 

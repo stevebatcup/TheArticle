@@ -359,7 +359,7 @@ class Article < ApplicationRecord
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
 					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center my-2'
+					ad_classes: 'unruly_video ads_box text-center'
 				},
 				{
 					position: 7,
