@@ -345,8 +345,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		_.contains @scope.userExchanges, exchangeId
 
 	followExchange: (exchangeId) =>
+		@scope.userExchanges.push exchangeId
+		# update the old fashioned way
+		$('[data-exchange-id]', '.slick-carousel.exchanges').each (index, slide) =>
+			if Number($(slide).data('exchange-id')) is exchangeId
+				colour = $(slide).data('colour')
+				$(slide).find('a.follow_exchange').removeClass('followed').addClass('followed').html("<i class='fas fa-check text-colour-#{colour}'></i>")
 		@http.post("/user_exchanges", {id: exchangeId}).then (response) =>
-			@scope.userExchanges.push exchangeId
 			@flash "You are now following the <b>#{response.data.exchange}</b> exchange"
 
 	unfollowExchange: (exchangeId) =>
@@ -354,6 +359,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			if response.data.status is 'success'
 				@scope.userExchanges = _.filter @scope.userExchanges, (item) =>
 					 item isnt exchangeId
+				# update the old fashioned way
+				$('[data-exchange-id]', '.slick-carousel.exchanges').each (index, slide) =>
+					if Number($(slide).data('exchange-id')) is exchangeId
+						$(slide).find('a.follow_exchange').removeClass('followed').html("<i class='fas fa-plus'></i>")
 				@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
 			else
 				@alert response.data.message, "Error unfollowing exchange"

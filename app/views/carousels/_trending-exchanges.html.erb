@@ -4,7 +4,7 @@
 
 <div id="exchangesCarousel" class="exchanges slick-carousel slide w-100" ng-controller="ExchangesController" data-carousel-only='1' data-slideout-ignore data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
 	<% exchanges.each_with_index do |exchange, index| %>
-    <div class="slick-carousel-item">
+    <div class="slick-carousel-item" data-exchange-id="<%= exchange.id %>" data-colour="<%= index+1 %>">
       <% if exchange.image? %>
         <a href="<%= exchange_path(slug: exchange.slug) %>">
           <div class="img" style="background-image: url('<%= exchange.image.url %>')"></div>
@@ -17,8 +17,12 @@
           <a class="follow_exchange" href='#'
               ng-click="toggleFollowExchange(<%= exchange.id %>, $event)"
               ng-class="{'followed': inFollowedExchanges(<%= exchange.id %>)}">
-            <span ng-if="!inFollowedExchanges(<%= exchange.id %>)"><i class="fas fa-plus"></i></span>
-            <span ng-if="inFollowedExchanges(<%= exchange.id %>)"><i class="fas fa-check text-colour-<%= index+1 %>"></i></span>
+            <span ng-show="!inFollowedExchanges(<%= exchange.id %>)">
+              <i class="fas fa-plus"></i>
+            </span>
+            <span ng-show="inFollowedExchanges(<%= exchange.id %>)">
+              <i class="fas fa-check text-colour-<%= index+1 %>"></i>
+            </span>
           </a>
         </h4>
       </div>

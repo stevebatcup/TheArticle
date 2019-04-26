@@ -73,10 +73,19 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 				@unfollowExchange exchangeId, (response) =>
 					@scope.userExchanges.ids = _.filter @scope.userExchanges.ids, (item) =>
 						item isnt exchangeId
+					# update the old fashioned way
+					$('[data-exchange-id]', '.slick-carousel.exchanges').each (index, slide) =>
+						if Number($(slide).data('exchange-id')) is exchangeId
+							$(slide).find('a.follow_exchange').removeClass('followed').html("<i class='fas fa-plus'></i>")
 					@flash "You are no longer following the <b>#{response.data.exchange}</b> exchange"
 			else
+				@scope.userExchanges.ids.push exchangeId
+				# update the old fashioned way
+				$('[data-exchange-id]', '.slick-carousel.exchanges').each (index, slide) =>
+					if Number($(slide).data('exchange-id')) is exchangeId
+						colour = $(slide).data('colour')
+						$(slide).find('a.follow_exchange').removeClass('followed').addClass('followed').html("<i class='fas fa-check text-colour-#{colour}'></i>")
 				@followExchange exchangeId, (response) =>
-					@scope.userExchanges.ids.push exchangeId
 					@flash "You are now following the <b>#{response.data.exchange}</b> exchange"
 
 	inFollowedExchanges: (exchangeId) =>
