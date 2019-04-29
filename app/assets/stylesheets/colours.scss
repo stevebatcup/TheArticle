@@ -66,302 +66,386 @@ button.btn-standard {
 	color: $green_dark;
 }
 
-bg-orange,
-.bg-colour-1 {
-	background-color: #ce7e07;
-}
-.text-orange ,
-.text-colour-1 {
-	color: #ce7e07;
-}
-.bg-orange-light,
-.bg-colour-1-light {
-	background-color: #ffb64a;
-}
-.text-orange-light,
-.text-colour-1-light {
-	color: #ffb64a;
-}
-.bg-orange-dark,
-.bg-colour-1-dark {
-	background-color: #7d510f;
-}
-.text-orange-dark,
-.text-colour-1-dark {
-	color: #7d510f;
-}
-
-.bg-blue,
-.bg-colour-2 {
-	background-color: #62aaff;
-}
-.text-blue ,
-.text-colour-2 {
-	color: #62aaff;
-}
-.bg-blue-light,
-.bg-colour-2-light {
-	background-color: #90c4ff;
-}
-.text-blue-light,
-.text-colour-2-light {
-	color: #90c4ff;
-}
-.bg-blue-dark,
-.bg-colour-2-dark {
-	background-color: $blue_dark;
-}
-.text-blue-dark,
-.text-colour-2-dark {
-	color: $blue_dark;
-}
-
+/* PURPLE - 1 & 13 */
 .bg-purple,
-.bg-colour-3 {
-	background-color: #9400ff;
+.bg-colour-1,
+.bg-colour-13 {
+	background-color: #6f309b;
 }
 .text-purple ,
-.text-colour-3 {
-	color: #9400ff;
+.text-colour-1,
+.text-colour-13 {
+	color: #6f309b;
 }
 .bg-purple-light,
-.bg-colour-3-light {
+.bg-colour-1-light,
+.bg-colour-13-light {
 	background-color: #b868ff;
 }
 .text-purple-light,
-.text-colour-3-light {
+.text-colour-1-light,
+.text-colour-13-light {
 	color: #b868ff;
 }
 .bg-purple-dark,
-.bg-colour-3-dark {
+.bg-colour-1-dark,
+.bg-colour-13-dark {
 	background-color: #6c00ac;
 }
 .text-purple-dark,
-.text-colour-3-dark {
+.text-colour-1-dark,
+.text-colour-13-dark {
 	color: #6c00ac;
 }
 
+/* BLUE - 2 & 14 */
+.bg-blue,
+.bg-colour-2,
+.bg-colour-14 {
+	background-color: #62aaff;
+}
+.text-blue ,
+.text-colour-2,
+.text-colour-14 {
+	color: #62aaff;
+}
+.bg-blue-light,
+.bg-colour-2-light,
+.bg-colour-14-light {
+	background-color: #90c4ff;
+}
+.text-blue-light,
+.text-colour-2-light,
+.text-colour-14-light {
+	color: #90c4ff;
+}
+.bg-blue-dark,
+.bg-colour-2-dark,
+.bg-colour-14-dark {
+	background-color: $blue_dark;
+}
+.text-blue-dark,
+.text-colour-2-dark,
+.text-colour-14-dark {
+	color: $blue_dark;
+}
+
+/* ORANGEBROWN - 3 & 15 */
+bg-orange,
+.bg-colour-3,
+.bg-colour-15 {
+	background-color: #ae7200;
+}
+.text-orange ,
+.text-colour-3,
+.text-colour-15 {
+	color: #ae7200;
+}
+.bg-orange-light,
+.bg-colour-3-light,
+.bg-colour-15-light {
+	background-color: #ffb64a;
+}
+.text-orange-light,
+.text-colour-3-light,
+.text-colour-15-light {
+	color: #ffb64a;
+}
+.bg-orange-dark,
+.bg-colour-3-dark,
+.bg-colour-15-dark {
+	background-color: #7d510f;
+}
+.text-orange-dark,
+.text-colour-3-dark,
+.text-colour-15-dark {
+	color: #7d510f;
+}
+
+/* SALMON - 4 & 16 */
 .bg-salmon,
-.bg-colour-4 {
+.bg-colour-4,
+.bg-colour-16 {
 	background-color: $salmon;
 }
 .text-salmon ,
-.text-colour-4 {
+.text-colour-4,
+.text-colour-16 {
 	color: $salmon;
 }
 .bg-salmon-light,
-.bg-colour-4-light {
+.bg-colour-4-light,
+.bg-colour-16-light {
 	background-color: #ff999a;
 }
 .text-salmon-light,
-.text-colour-4-light {
+.text-colour-4-light,
+.text-colour-16-light {
 	color: #ff999a;
 }
 .bg-salmon-dark,
-.bg-colour-4-dark {
+.bg-colour-4-dark,
+.bg-colour-16-dark {
 	background-color: #ce5454;
 }
 .text-salmon-dark,
-.text-colour-4-dark {
+.text-colour-4-dark,
+.text-colour-16-dark {
 	color: #ce5454;
 }
 
+/* CYAN - 5 & 17 */
 .bg-cyan,
-.bg-colour-5 {
+.bg-colour-5,
+.bg-colour-17 {
 	background-color: #00e4c3;
 }
 .text-cyan ,
-.text-colour-5 {
+.text-colour-5,
+.text-colour-17 {
 	color: #00e4c3;
 }
 .bg-cyan-light,
-.bg-colour-5-light {
+.bg-colour-5-light,
+.bg-colour-17-light {
 	background-color: #98f2de;
 }
 .text-cyan-light,
-.text-colour-5-light {
+.text-colour-5-light,
+.text-colour-17-light {
 	color: #98f2de;
 }
 .bg-cyan-dark,
-.bg-colour-5-dark {
+.bg-colour-5-dark,
+.bg-colour-17-dark {
 	background-color: #00b39a;
 }
 .text-cyan-dark,
-.text-colour-5-dark {
+.text-colour-5-dark,
+.text-colour-17-dark {
 	color: #00b39a;
 }
 
+/* RED - 6 & 18 */
 .bg-red,
-.bg-colour-6 {
+.bg-colour-6,
+.bg-colour-18 {
 	background-color: $red;
 }
 .text-red ,
-.text-colour-6 {
+.text-colour-6,
+.text-colour-18 {
 	color: $red;
 }
 .bg-red-light,
-.bg-colour-6-light {
+.bg-colour-6-light,
+.bg-colour-18-light {
 	background-color: #ca6c78;
 }
 .text-red-light,
-.text-colour-6-light {
+.text-colour-6-light,
+.text-colour-18-light {
 	color: #ca6c78;
 }
 .bg-red-dark,
-.bg-colour-6-dark {
+.bg-colour-6-dark,
+.bg-colour-18-dark {
 	background-color: #980034;
 }
 .text-red-dark,
-.text-colour-6-dark {
+.text-colour-6-dark,
+.text-colour-18-dark {
 	color: #980034;
 }
 
+/* GOLD - 7 & 19 */
 .bg-gold,
-.bg-colour-7 {
+.bg-colour-7,
+.bg-colour-19 {
 	background-color: #ffaf00;
 }
 .text-gold ,
-.text-colour-7 {
+.text-colour-7,
+.text-colour-19 {
 	color: #ffaf00;
 }
 .bg-gold-light,
-.bg-colour-7-light {
+.bg-colour-7-light,
+.bg-colour-19-light {
 	background-color: $gold_light;
 }
 .text-gold-light,
-.text-colour-7-light {
+.text-colour-7-light,
+.text-colour-19-light {
 	color: $gold_light;
 }
 .bg-gold-dark,
-.bg-colour-7-dark {
+.bg-colour-7-dark,
+.bg-colour-19-dark {
 	background-color: $gold_dark;
 }
 .text-gold-dark,
-.text-colour-7-dark {
+.text-colour-7-dark,
+.text-colour-19-dark {
 	color: $gold_dark;
 }
 
+/* SLATE - 8 & 20 */
 .bg-slate,
-.bg-colour-8 {
+.bg-colour-8,
+.bg-colour-20 {
 	background-color: #a1ced0;
 }
 .text-slate ,
-.text-colour-8 {
+.text-colour-8,
+.text-colour-20 {
 	color: #a1ced0;
 }
 .bg-slate-light,
-.bg-colour-8-light {
+.bg-colour-8-light,
+.bg-colour-20-light {
 	background-color: #c9ebec;
 }
 .text-slate-light,
-.text-colour-8-light {
+.text-colour-8-light,
+.text-colour-20-light {
 	color: #c9ebec;
 }
 .bg-slate-dark,
-.bg-colour-8-dark {
+.bg-colour-8-dark,
+.bg-colour-20-dark {
 	background-color: #6d9fa1;
 }
 .text-slate-dark,
-.text-colour-8-dark {
+.text-colour-8-dark,
+.text-colour-20-dark {
 	color: #6d9fa1;
 }
 
+/* PINK - 9 & 21 */
 .bg-pink,
-.bg-colour-9 {
+.bg-colour-9,
+.bg-colour-21 {
 	background-color: #ff0092;
 }
 .text-pink ,
-.text-colour-9 {
+.text-colour-9,
+.text-colour-21 {
 	color: #ff0092;
 }
 .bg-pink-light,
-.bg-colour-9-light {
+.bg-colour-9-light,
+.bg-colour-21-light {
 	background-color: #ff8cc0;
 }
 .text-pink-light,
-.text-colour-9-light {
+.text-colour-9-light,
+.text-colour-21-light {
 	color: #ff8cc0;
 }
 .bg-pink-dark,
-.bg-colour-9-dark {
+.bg-colour-9-dark,
+.bg-colour-21-dark {
 	background-color: #c30079;
 }
 .text-pink-dark,
-.text-colour-9-dark {
+.text-colour-9-dark,
+.text-colour-21-dark {
 	color: #c30079;
 }
 
+/* GRASS - 10 & 22 */
 .bg-grass,
-.bg-colour-10 {
+.bg-colour-10,
+.bg-colour-22 {
 	background-color: #417505;
 }
 .text-grass ,
-.text-colour-10 {
+.text-colour-10,
+.text-colour-22 {
 	color: #417505;
 }
 .bg-grass-light,
-.bg-colour-10-light {
+.bg-colour-10-light,
+.bg-colour-22-light {
 	background-color: #6f9147;
 }
 .text-grass-light,
-.text-colour-10-light {
+.text-colour-10-light,
+.text-colour-22-light {
 	color: #6f9147;
 }
 .bg-grass-dark,
-.bg-colour-10-dark {
+.bg-colour-10-dark,
+.bg-colour-22-dark {
 	background-color: #366005;
 }
 .text-grass-dark,
-.text-colour-10-dark {
+.text-colour-10-dark,
+.text-colour-22-dark {
 	color: #366005;
 }
 
+/* BRONZE - 11 & 23 */
 .bg-bronze,
-.bg-colour-11 {
+.bg-colour-11,
+.bg-colour-23 {
 	background-color: #b76200;
 }
 .text-bronze ,
-.text-colour-11 {
+.text-colour-11,
+.text-colour-23 {
 	color: #b76200;
 }
 .bg-bronze-light,
-.bg-colour-11-light {
+.bg-colour-11-light,
+.bg-colour-23-light {
 	background-color: #d07b30;
 }
 .text-bronze-light,
-.text-colour-11-light {
+.text-colour-11-light,
+.text-colour-23-light {
 	color: #d07b30;
 }
 .bg-bronze-dark,
-.bg-colour-11-dark {
+.bg-colour-11-dark,
+.bg-colour-23-dark {
 	background-color: #9d5600;
 }
 .text-bronze-dark,
-.text-colour-11-dark {
+.text-colour-11-dark,
+.text-colour-23-dark {
 	color: #9d5600;
 }
 
+/* LILAC - 12 & 24 */
 .bg-lilac,
-.bg-colour-12 {
+.bg-colour-12,
+.bg-colour-24 {
 	background-color: #38419c;
 }
 .text-lilac ,
-.text-colour-12 {
+.text-colour-12,
+.text-colour-24 {
 	color: #38419c;
 }
 .bg-lilac-light,
-.bg-colour-12-light {
+.bg-colour-12-light,
+.bg-colour-24-light {
 	background-color: #6a70b4;
 }
 .text-lilac-light,
-.text-colour-12-light {
+.text-colour-12-light,
+.text-colour-24-light {
 	color: #6a70b4;
 }
 .bg-lilac-dark,
-.bg-colour-12-dark {
+.bg-colour-12-dark,
+.bg-colour-24-dark {
 	background-color: #252a62;
 }
 .text-lilac-dark,
-.text-colour-12-dark {
+.text-colour-12-dark,
+.text-colour-24-dark {
 	color: #252a62;
 }
