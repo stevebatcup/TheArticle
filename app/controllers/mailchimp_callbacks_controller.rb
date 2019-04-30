@@ -27,7 +27,6 @@ class MailchimpCallbacksController < ApplicationController
 				request_method: :update_profile
 			}
 			if user = User.find_by(email: mailchimp_params[:email])
-				user.skip_reconfirmation!
 				new_data = {
 					first_name: mailchimp_params[:merges][:FNAME],
 					last_name: mailchimp_params[:merges][:LNAME],
@@ -44,6 +43,30 @@ class MailchimpCallbacksController < ApplicationController
 			api_log_data[:response] = response
 			ApiLog.webhook(api_log_data)
 			render	json: response
+
+		elsif params[:type] == "upemail"
+			api_log_data = {
+				service: MailchimperService::MAILCHIMP_SERVICE_FOR_API_LOG,
+				request_data: mailchimp_params,
+				request_method: :update_email
+			}
+			if user = User.find_by(email: mailchimp_params[:old_email])
+				user.skip_reconfirmation!
+				user.update_attribute(:email, mailchimp_params[:new_email])
+				api_log_data[:user_id] = user.id
+				response = { status: :success }
+			else
+				response = { status: :error, message: "User not found" }
+			end
+			api_log_data[:response] = response
+			ApiLog.webhook(api_log_data)
+			render	json: response
+
+			# "fired_at": "2009-03-26 22:15:09",
+			# "data[list_id]": "a6b5da1054",
+			# "data[new_id]": "51da8c3259",
+			# "data[new_email]": "api+new@mailchimp.com",
+			# "data[old_email]": "api+old@mailchimp.com"
 		end
 
 	end
@@ -51,7 +74,7 @@ class MailchimpCallbacksController < ApplicationController
 private
 
 	def mailchimp_params
-		params.require(:data).permit(:email, merges: [ :FNAME, :LNAME, :EMAIL, offers_key, weekly_key ])
+		params.require(:data).permit(:email, :new_email, :old_email, merges: [ :FNAME, :LNAME, :EMAIL, offers_key, weekly_key ])
 	end
 
 	def offers_key
