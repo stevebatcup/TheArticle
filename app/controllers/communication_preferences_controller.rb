@@ -7,7 +7,7 @@ class CommunicationPreferencesController < ApplicationController
 		if preference
 			if preference.update_attribute(:status, preferences_params[:status])
 				@status = :success
-				MailchimperService.update_mailchimp_list(current_user)
+				MailchimperService.update_mailchimp_list(current_user, current_user.email)
 			else
 				@status = :error
 				@message = preference.errors.full_messages.first

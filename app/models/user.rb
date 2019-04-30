@@ -315,6 +315,7 @@ class User < ApplicationRecord
   def after_confirmation
     old_email = self.email_before_last_save
     if old_email != self.email
+      MailchimperService.update_mailchimp_list(self, old_email)
       UserMailer.email_change_confirmed(self, old_email).deliver_now
     else
       UserMailer.first_confirmed(self).deliver_now

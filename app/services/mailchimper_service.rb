@@ -30,6 +30,24 @@ module MailchimperService
 			}
 		end
 
+		def user_is_subscribed?(user)
+			standard_error = "Sorry there has been an error finding your details, please try again."
+			begin
+				if results = mailchimp_api.helper.search_members(user.email)
+					if results['exact_matches']['members']
+						member = results['exact_matches']['members'][0]
+						member['status'] == 'subscribed'
+					else
+						false
+					end
+				else
+					false
+				end
+			rescue Exception => e
+				raise Exception.new(standard_error)
+			end
+		end
+
 		def subscribe_to_mailchimp_list(user)
 			standard_error = "Sorry there has been an error submitting your details, please try again."
 			begin
@@ -54,13 +72,16 @@ module MailchimperService
 	    end
 		end
 
-		def update_mailchimp_list(user)
+		def update_mailchimp_list(user, email_on_mailchimp)
 			unless user.status.to_sym == :deleted
+				subscribe_to_mailchimp_list(user) unless MailchimperService.user_is_subscribed?(user)
 				begin
+					vars = merge_vars(user)
+					vars[:EMAIL] = user.email
 					request_data = [
 						mailchimp_list_id,
-						{ email: user.email },
-						merge_vars(user),
+						{ email: email_on_mailchimp },
+						vars,
 						'html', # email_type
 						true		# replace_interests
 					]
