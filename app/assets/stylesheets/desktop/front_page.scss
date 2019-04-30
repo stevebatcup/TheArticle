@@ -67,6 +67,33 @@ main.search_index {
 			}
 		}
 	}
+
+	.latest_articles_carousel,
+	.sponsored_picks_carousel {
+		.article-listing {
+			margin-bottom: 0 !important;
+
+			.inner {
+				// background: #fff !important;
+
+				h4 {
+					font-size: 1.4em;
+					margin-left: 10px;
+				}
+
+				footer {
+					// background: #fff !important;
+				}
+			}
+
+		}
+	}
+
+	.trending_exchanges_carousel {
+		.entry-content h4 {
+			font-size: 1.2em !important;
+		}
+	}
 }
 
 #trending_exchanges_card {

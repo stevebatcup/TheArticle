@@ -737,6 +737,10 @@ input#suggestion_search {
 	}
 }
 
+#activity-tabs {
+	padding-bottom: 75px;
+}
+
 #home_feed_tabs {
 	li {
 		a.nav-link {
@@ -771,4 +775,11 @@ input#suggestion_search {
 
 		}
 	}
+}
+
+body.fixed-nav #home_feed_tabs {
+  position: fixed;
+  top: 40px;
+  width: 100vw;
+  z-index: 100;
 }

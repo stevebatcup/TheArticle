@@ -12,6 +12,51 @@
 		display: none !important;
 	}
 
+	&.latest_articles,
+	&.trending_exchanges,
+	&.sponsored_picks {
+		.slick-track {
+			height: 352px;
+
+			article {
+				height: 100%;
+
+				.inner.shown {
+					height: 100%;
+
+					.img_mask {
+						height: 180px;
+
+						img {
+							height: 100%;
+						}
+					}
+
+					header {
+						h4 {
+							font-size: 1em !important;
+						}
+					}
+
+					.entry-content {
+						display: none !important;
+					}
+
+					footer {
+						position: absolute;
+						bottom: -3px;
+						left: 2px;
+						width: 100%;
+
+						p {
+							margin-bottom: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	&.articles,
 	&.exchanges,
 	&.journalists {

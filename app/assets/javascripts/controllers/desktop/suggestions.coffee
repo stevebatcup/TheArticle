@@ -45,12 +45,12 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 			member.imFollowing = false
 			@unfollowSuggestion member.id, =>
 				@flash "You are no longer following <b>#{member.displayName}</b>"
-				@rootScope.$broadcast 'update_follows_from_suggestions'
+				@rootScope.$broadcast 'update_follows_from_suggestions', { action: 'unfollow' }
 		else
 			member.imFollowing = true
 			@followSuggestion member.id, =>
 				@flash "You are now following <b>#{member.displayName}</b>"
-				@rootScope.$broadcast 'update_follows_from_suggestions'
+				@rootScope.$broadcast 'update_follows_from_suggestions', { action: 'follow' }
 
 	followSuggestion: (userId, callback) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>

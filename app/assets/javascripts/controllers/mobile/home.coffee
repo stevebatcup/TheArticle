@@ -24,12 +24,18 @@ class TheArticle.Home extends TheArticle.MobilePageController
 			firstLoaded: false
 
 			moreToLoad: true
+
 		vars = @getUrlVars()
-		@goodbye() if 'account_deleted' of vars
-		@openSigninForm() if 'sign_in' of vars
-		@openSigninForm() if 'forgotten_password' of vars
-		@openRegisterForm(null, 'homepage_redirect', 'mobile') if 'register' of vars
-		@disableBackButton() if 'signed_out' of vars
+		if 'sign_in' of vars
+			@openSigninForm()
+		else if 'forgotten_password' of vars
+			@openSigninForm()
+		else if 'register' of vars
+			@openRegisterForm(null, 'homepage_redirect', 'mobile')
+		else if 'account_deleted' of vars
+			@goodbye()
+		else if 'signed_out' of vars
+			@disableBackButton()
 
 	bindEvents: =>
 		super

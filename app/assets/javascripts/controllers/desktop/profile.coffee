@@ -172,11 +172,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height, 'circle'
+				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height
 
 		@scope.$watch 'profile.data.coverPhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
-				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), @scope.profile.data.coverPhoto.width, @scope.profile.data.coverPhoto.height, 'square'
+				@showProfilePhotoCropper document.getElementById('coverPhoto_holder'), @scope.profile.data.coverPhoto.width, @scope.profile.data.coverPhoto.height
 
 		$(document).on 'keyup', 'input#user_location', (e) =>
 			$input = $('input#user_location')
@@ -184,8 +184,12 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			if value.length > 2
 				@autocompleteLocations $input
 
-		@scope.$on 'update_follows_from_suggestions', (e) =>
+		@scope.$on 'update_follows_from_suggestions', (e, data) =>
 			@resetFollows()
+			if data.action is 'follow'
+				@scope.profile.data.followingsCount += 1
+			else
+				@scope.profile.data.followingsCount -= 1
 
 	imageUploadError: (error) =>
 		@scope.profile.errors.photo = error
@@ -378,12 +382,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.profile.digest.sort (a,b) =>
 			new Date(b.stamp*1000) - new Date(a.stamp*1000)
 
-	showProfilePhotoCropper: (element, width, height, shape) =>
+	showProfilePhotoCropper: (element, width, height) =>
 		@scope.profile.errors.photo = ""
 		type = $(element).data('type')
 		@scope.photoCrop.cropper = new Cropper element,
 			checkOrientation: true
 			checkCrossOrigin: true
+			minCropBoxWidth: width
+			minCropBoxHeight: height
 			center: true
 			cropBoxResizable: false
 			viewMode: if type is 'coverPhoto' then 3 else 1
@@ -399,7 +405,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				@scope.photoCrop.cropper.zoomTo .5,
 					x: containerData.width / 2
 					y: containerData.height / 2
-		, 1
+		, 350
 
 	cancelEditPhoto: (type) =>
 		@scope.profile.data[type].source = ''
@@ -414,7 +420,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@scope.profile.data[type].uploading = true
 		settings =
 			width: (@scope.profile.data[type].width * 2),
+			minWidth: (@scope.profile.data[type].width * 2),
 			height: (@scope.profile.data[type].height * 2),
+			minHeight: (@scope.profile.data[type].height * 2),
 			imageSmoothingEnabled: true,
 			imageSmoothingQuality: 'high'
 		@scope.photoCrop.cropper.getCroppedCanvas(settings).toBlob (blob) =>
@@ -455,6 +463,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						location:
 							text: profile.location
 						bio: profile.bio
+					@rootScope.profileDeactivated = profile.deactivated
 					@scope.profile.loaded = true
 					@buildDigestFromProfileData(@scope.profile.data)
 					@reorderDigest()
@@ -636,6 +645,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@http.put("/reactivate?auth=#{@scope.profile.data.confirmingPassword}").then (response) =>
 				if response.data.status is 'success'
 					@scope.profile.data.deactivated = false
+					@rootScope.profileDeactivated = false
 					@scope.profile.data.confirmingPassword = ''
 					@flash "Your profile has been reactivated"
 				else if response.data.status is 'error'

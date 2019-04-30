@@ -24,6 +24,16 @@ h2.bullet {
 	background-size: 0.7em;
 }
 
+
+h4.bullet {
+	background-image: asset_url('heading.png');
+	background-repeat: no-repeat;
+	padding-left: 1.5em;
+	background-position: left 0.05em;
+	background-size: 1em;
+}
+
+
 h1.double-bullet {
 	background-image: asset_url('heading-bg-large.png');
 	background-repeat: no-repeat;

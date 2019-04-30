@@ -1,3 +1,10 @@
+<% if @user != (user_signed_in? ? current_user : nil) %>
+	<% description = "View #{@user.display_name.html_safe}'s' full profile on TheArticle, see what #{@user.display_name.html_safe} is reading and the articles they have rated. Do you agree? Join the debate." %>
+	<% meta_tag :description, description.html_safe %>
+	<% page_title @user.display_name.html_safe %>
+	<p class="d-none"><%= description %></p>
+<% end %>
+
 <section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>" data-fixed-profile-nav=1 ng-cloak>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
@@ -104,25 +111,37 @@
 						<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 					</p>
 
-					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
-						<i class="fas fa-map-marker-alt"></i>
-						<span class="pl-3">{{ profile.data.location }}</span>
-					</p>
-					<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
-						<a href='#' ng-click="editProfile('location')">
-							<i class="fas fa-map-marker-alt text-green"></i>
-							<span class="pl-3 text-green">Add Location</span>
-						</a>
-					</p>
+					<div id="basic_info_location">
+						<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
+							<i class="fas fa-map-marker-alt"></i>
+							<span class="pl-3">{{ profile.data.location }}</span>
+						</p>
+						<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
+							<a href='#' ng-click="editProfile('location')">
+								<i class="fas fa-map-marker-alt text-green"></i>
+								<span class="pl-3 text-green">Add Location</span>
+							</a>
+						</p>
+					</div>
 
-					<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
-						{{ profile.data.bio }}
-					</p>
-					<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
-						<a href='#' ng-click="editProfile('bio')">
-							<i class="fas fa-plus text-green"></i>
-							<span class="pl-3 text-green">Add Bio</span>
-						</a>
+					<div id="basic_info_bio">
+						<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
+							{{ profile.data.bio }}
+						</p>
+						<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
+							<a href='#' ng-click="editProfile('bio')">
+								<i class="fas fa-plus text-green"></i>
+								<span class="pl-3 text-green">Add Bio</span>
+							</a>
+						</p>
+					</div>
+
+					<p ng-if="profile.data.author" id="user_author_info" class="d-flex">
+						<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" class="mr-2" />
+						<span>
+							Contributor:
+							<a class="text-green" ng-href="{{profile.data.author.path}}">{{ profile.data.author.articleCountSentence }}</a>
+						</span>
 					</p>
 				</div>
 
@@ -397,7 +416,7 @@
 					</div>
 
 
-					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="profile.isMe">
+					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="(profile.isMe) && (!profileDeactivated)">
 	          <textarea name="third_party_article_url"
 	                      id="third_party_article_url_phantom"
 	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"

@@ -53,8 +53,8 @@
 			<% if browser.device.mobile? %>
 				<div class="row">
 					<div class="col-11 pt-3">
-						<p class="h6 w-100 pr-2 mb-0 text-white l-height-1">
-							<small><%=  @exchange.description %></small>
+						<p class="h6 w-100 pr-2 mb-0 text-white l-height-1 exchange_description">
+							<small><%=  @exchange.description.html_safe %></small>
 						</p>
 					</div>
 				</div>

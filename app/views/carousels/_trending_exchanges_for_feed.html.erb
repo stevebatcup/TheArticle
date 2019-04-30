@@ -1,0 +1,30 @@
+<div class="bg-white pb-3 h-100">
+	<div class="pt-3 pb-1 px-2">
+		<h4 class="bullet card-title">Trending exchanges</h4>
+	</div>
+	<div class="trending_exchanges exchanges trending_exchanges_carousel slick-carousel slide w-100"
+				data-page="{{item.page}}"
+				data-slideout-ignore
+				 data-carousel-only='1'>
+	  <div ng-repeat="exchange in trendingExchanges"
+	  				class="mx-2 exchange-listing post slick-carousel-item"
+	  				id="carousel-latest-exchange-listing-{{ exchange.id }}"
+	  				data-id="{{ exchange.id }}">
+	  	        <a href="{{ exchange.path }}">
+          			<div class="img" style="background-image: url('{{ exchange.image }}')"></div>
+        			</a>
+    					<div class="inner entry-content bg-colour-{{ $index+1 }}">
+    			    	<h4 class="d-flex justify-content-between align-items-start">
+    			        <a class="exchange-link" href="{{ exchange.path }}">{{ exchange.name }}</a>
+
+    			        <a class="follow_exchange" href='#'
+    			            ng-click="toggleFollowExchange(exchange.id, $event)"
+    			            ng-class="{'followed': inFollowedExchanges(exchange.id)}">
+    			          <span ng-if="!inFollowedExchanges(exchange.id)"><i class="fas fa-plus"></i></span>
+    			          <span ng-if="inFollowedExchanges(exchange.id)"><i class="fas fa-check text-colour-{{ $index+1 }}"></i></span>
+    			        </a>
+    			      </h4>
+    			    </div>
+	  </div>
+	</div>
+</div>

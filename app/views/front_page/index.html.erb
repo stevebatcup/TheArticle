@@ -1,5 +1,6 @@
 <section ng-controller="FrontPageController" class="container front-page"
-			data-user-id="<%= current_user.id %>">
+			data-user-id="<%= current_user.id %>"
+			data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>">
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">
@@ -127,7 +128,7 @@
 			<ul class="bg-white nav nav-tabs nav-fill d-flex mt-3" id="home_feed_tabs">
 			  <li class="nav-item">
 			    <a id="activity-articles-tab" class="nav-link active"
-			    		ng-click="selectTab('articles')"
+			    		ng-click="selectTab('articles', feeds.articles.firstLoaded)"
 			    		ng-class="{'active': selectedTab == 'articles', 'disabled': !feeds.articles.firstLoaded}"
 			    		ng-disabled="!feeds.articles.firstLoaded">
 			      <label>Articles</label>
@@ -135,17 +136,17 @@
 			  </li>
 			  <li class="nav-item">
 			    <a id="activity-posts-tab" class="nav-link"
-			    		ng-click="selectTab('posts')"
-			    		ng-class="{'active': selectedTab == 'posts', 'disabled': !feeds.articles.firstLoaded}"
-			    		ng-disabled="!feeds.articles.firstLoaded">
+			    		ng-click="selectTab('posts', feeds.posts.firstLoaded)"
+			    		ng-class="{'active': selectedTab == 'posts', 'disabled': !feeds.posts.firstLoaded}"
+			    		ng-disabled="!feeds.posts.firstLoaded">
 			      <label>Posts</label>
 			    </a>
 			  </li>
 			  <li class="nav-item">
 			    <a id="activity-follows-tab" class="nav-link"
-			    		ng-click="selectTab('follows')"
-			    		ng-class="{'active': selectedTab == 'follows', 'disabled': !feeds.articles.firstLoaded}"
-			    		ng-disabled="!feeds.articles.firstLoaded">
+			    		ng-click="selectTab('follows', suggestionsLoaded)"
+			    		ng-class="{'active': selectedTab == 'follows', 'disabled': !suggestionsLoaded}"
+			    		ng-disabled="!suggestionsLoaded">
 			      <label>Follow activity</label>
 			    </a>
 			  </li>
@@ -168,7 +169,7 @@
 					Loading <span>{{selectedTab}}</span> feeds...</div>
 
 				<!-- Articles Tab -->
-				<div class="" ng-show="(selectedTab == 'articles')">
+				<div class="section_articles" ng-show="(selectedTab == 'articles')">
 
 					<div ng-if="feeds.articles.firstLoaded" class="results_block row"
 							ng-class="{'empty': feeds.articles.data.length == 0}">
@@ -177,16 +178,21 @@
 						</p>
 
 						<div ng-repeat="item in feeds.articles.data" class="col-12 feed-listing pb-3 px-0"
-									ng-class="{'feed-share': item.type == 'categorisation', 'feed-exchange': item.type == 'exchange'}" ng-show="(item.isVisible != false) && _.contains(['exchange', 'categorisation'], item.type)">
+									ng-class="{'feed-share': _.contains(['categorisation', 'featuredSponsoredPick'], item.type), 'feed-exchange': item.type == 'exchange'}" ng-show="(item.isVisible != false) && _.contains(['exchange', 'categorisation', 'suggestion', 'latestArticles', 'sponsoredPicks', 'trendingExchanges', 'featuredSponsoredPick'], item.type)">
 								<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
 								<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
+								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 2)"><%= render 'carousels/profile-suggestions' %></div>
+								<div ng-if="item.type == 'latestArticles'"><%= render 'carousels/latest_articles_for_feed' %></div>
+								<div ng-if="item.type == 'sponsoredPicks'"><%= render 'carousels/sponsored_picks_for_feed' %></div>
+								<div ng-if="item.type == 'trendingExchanges'"><%= render 'carousels/trending_exchanges_for_feed' %></div>
+								<div ng-if="item.type == 'featuredSponsoredPick'"><%= render 'categorisations/card' %></div>
 						</div>
 					</div>
 				</div>
 
 
 				<!-- Posts Tab -->
-				<div class="" ng-show="(selectedTab == 'posts')">
+				<div class="section_posts" ng-show="(selectedTab == 'posts')">
 					<div ng-if="feeds.posts.firstLoaded" class="results_block row"
 							ng-class="{'empty': feeds.posts.data.length == 0}">
 						<p class="col-12 empty_resource" ng-if="feeds.posts.data.length == 0">
@@ -195,18 +201,23 @@
 
 						<div ng-repeat="item in feeds.posts.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0"
-									 ng-show="(item.isVisible != false) && _.contains(['share', 'rating', 'commentAction', 'opinionAction'], item.type)">
+									 ng-show="(item.isVisible != false) && _.contains(['share', 'rating', 'commentAction', 'opinionAction', 'suggestion', 'latestArticles', 'sponsoredPicks', 'trendingExchanges', 'featuredSponsoredPick'], item.type)">
 								<div ng-if="item.type == 'share'"><%= render 'shares/card' %></div>
 								<div ng-if="item.type == 'rating'"><%= render 'shares/card' %></div>
 								<div ng-if="item.type == 'commentAction'"><%= render 'comments/card' %></div>
 								<div ng-if="item.type == 'opinionAction'"><%= render 'opinions/card' %></div>
+								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 2)"><%= render 'carousels/profile-suggestions' %></div>
+								<div ng-if="item.type == 'latestArticles'"><%= render 'carousels/latest_articles_for_feed' %></div>
+								<div ng-if="item.type == 'sponsoredPicks'"><%= render 'carousels/sponsored_picks_for_feed' %></div>
+								<div ng-if="item.type == 'trendingExchanges'"><%= render 'carousels/trending_exchanges_for_feed' %></div>
+								<div ng-if="item.type == 'featuredSponsoredPick'"><%= render 'categorisations/card' %></div>
 						</div>
 					</div>
 				</div>
 
 
 				<!-- Follow activity Tab -->
-				<div class="" ng-show="(selectedTab == 'follows')">
+				<div class="section_follows" ng-show="(selectedTab == 'follows')">
 					<div ng-if="feeds.follows.firstLoaded" class="results_block row"
 							ng-class="{'empty': feeds.follows.data.length == 0}">
 						<p class="col-12 empty_resource" ng-if="feeds.follows.data.length == 0">
@@ -215,9 +226,13 @@
 
 						<div ng-repeat="item in feeds.follows.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0"
-									 ng-show="(item.isVisible != false) && _.contains(['follow', 'suggestion'], item.type)">
+									 ng-show="(item.isVisible != false) && _.contains(['follow', 'suggestion', 'latestArticles', 'sponsoredPicks', 'trendingExchanges', 'featuredSponsoredPick'], item.type)">
 								<div ng-if="item.type == 'follow'"><%= render 'follows/card' %></div>
 								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 2)"><%= render 'carousels/profile-suggestions' %></div>
+								<div ng-if="item.type == 'latestArticles'"><%= render 'carousels/latest_articles_for_feed' %></div>
+								<div ng-if="item.type == 'sponsoredPicks'"><%= render 'carousels/sponsored_picks_for_feed' %></div>
+								<div ng-if="item.type == 'trendingExchanges'"><%= render 'carousels/trending_exchanges_for_feed' %></div>
+								<div ng-if="item.type == 'featuredSponsoredPick'"><%= render 'categorisations/card' %></div>
 						</div>
 					</div>
 				</div>

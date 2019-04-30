@@ -1,37 +1,38 @@
 namespace :feeds do
-	task :convert_shares => :environment do
-		Feed.where(actionable_type: 'Share').each do |feed|
-			feed.user.followers.each do |follower|
-				unless FeedUser.find_by(action_type: 'share', source_id: feed.actionable_id, user_id: follower.id)
-					user_feed_item = FeedUser.new({
-						user_id: follower.id,
-						action_type: 'share',
-						source_id: feed.actionable_id,
-						created_at: feed.created_at,
-						updated_at: feed.created_at
-					})
-					user_feed_item.feeds << feed
-					user_feed_item.save
-				end
+	task :fix_cat_dates => :environment do
+		page = (ENV['page'] || 1).to_i - 1
+		feed_limit = ((ENV['limit'] || 2).to_i)
+		# puts ".limit(#{feed_limit}).offset(#{page*feed_limit})"
+		FeedUser.where(action_type: 'categorisation').order(id: :desc).limit(feed_limit).offset(page*feed_limit).each do |feed|
+			if article = Article.find(feed.source_id)
+				puts "fixing for article #{article.id}"
+				feed.update_attribute(:updated_at, article.published_at)
 			end
 		end
 	end
 
-	task :convert_categorisations => :environment do
-		Feed.where(actionable_type: 'Categorisation').each do |feed|
-			if categorisation = Categorisation.find_by(id: feed.actionable_id)
-				unless user_feed_item = FeedUser.find_by(action_type: 'categorisation', source_id: categorisation.article_id, user_id: feed.user_id)
-					user_feed_item = FeedUser.new({
-						user_id: feed.user_id,
-						action_type: 'categorisation',
-						source_id: categorisation.article_id,
-						created_at: feed.created_at,
-						updated_at: feed.created_at
-					})
-				end
-				user_feed_item.feeds << feed
-				user_feed_item.save
-			end
+	task :regenerate_subscription_feeds => :environment do
+		page = (ENV['page'] || 1).to_i - 1
+		sub_limit = ((ENV['limit'] || 100).to_i)
+		if ENV['user_id'].present?
+			puts "run by user_id #{ENV['user_id']}"
+			subs = Subscription.order(id: :asc).where(user_id: ENV['user_id'])
+		else
+			puts "run by limits"
+			subs = Subscription.order(id: :asc).limit(sub_limit).offset(page*sub_limit)
+		end
+
+		subs.each do |subscription|
+			puts "deleting subscription feeds #{subscription.id}...."
+			subscription.delete_retrospective_feeds
+			puts ""
+		end
+
+		subs.each do |subscription|
+			puts "building subscription feeds #{subscription.id}...."
+			subscription.build_retrospective_feeds
+			puts ""
 		end
 	end
+
 end

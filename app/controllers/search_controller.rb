@@ -25,8 +25,6 @@ class SearchController < ApplicationController
 							end
 						else
 							@topics = @exchanges = @contributors = @profiles = []
-							# recent
-							# who to follow
 							if user_signed_in? && current_user.followings.any?
 								@recent_searches = current_user.search_logs.order(created_at: :desc).limit(5).pluck(:term).uniq
 								@profile_suggestions_mode = :people_might_know
@@ -36,9 +34,7 @@ class SearchController < ApplicationController
 								@profile_suggestions_mode = :who_to_follow
 								@who_to_follow = User.popular_users.limit(5)
 							end
-							# trending articles
-							@trending_articles = Article.trending.limit(5)
-							# trending exchanges
+							@trending_articles = Article.trending.order(published_at: :desc).limit(5)
 							@trending_exchanges = Exchange.trending_list.limit(5).to_a.shuffle
 						end
 						render :index_suggestions

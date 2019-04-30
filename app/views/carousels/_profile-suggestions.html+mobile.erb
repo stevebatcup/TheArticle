@@ -1,8 +1,10 @@
-<div id="who_to_follow" class="bg-white" ng-controller="SuggestionsController">
+<div id="who_to_follow" class="bg-white">
 	<div class="pt-3 pb-2 pl-2">
-		<h4 class="card-title pl-2">Who to follow on TheArticle</h4>
+		<h4 class="bullet card-title">Who to follow on TheArticle</h4>
 	</div>
-	<div class="suggestions slick-carousel slide w-100 mb-0" data-slideout-ignore>
+	<div class="suggestions slick-carousel slide w-100 mb-2"
+				data-page="{{item.page}}"
+				data-slideout-ignore>
 		<div ng-repeat="item in suggestions" class="profile-suggestion mb-3 slick-carousel-item feed-listing" data-user-id="{{item.id}}">
 			<%= render partial: 'users/member_card', locals: { suggestions: true } %>
 		</div>

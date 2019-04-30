@@ -145,6 +145,8 @@ Rails.application.routes.draw do
   get 'feed/rss', to: 'articles#index', :defaults => { :format => 'rss' }
   get "/sitemap.xml" => "sitemap#index", :format => "xml", :as => :sitemap
 
+  post "mailchimp-callback", to: 'mailchimp_callbacks#update'
+
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|

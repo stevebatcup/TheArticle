@@ -53,12 +53,14 @@ module FollowHelper
 			  		sentence << names.slice(0, names.length - 1).join(", ") + " and #{names.last}"
 					end
 			  end
+			  {
+			  	sentence: sentence,
+			  	stamp: stamp,
+			  	date: date
+			  }
+			 else
+			 	{}
 			end
-		  {
-		  	sentence: sentence,
-		  	stamp: stamp,
-		  	date: date
-		  }
 		else
 			{}
 		end

@@ -645,23 +645,28 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@openThirdPartySharingPanel(url)
 
 	openThirdPartySharingPanel: (url) =>
-		if $("#thirdPartySharingModal").length > 0
-			$("#thirdPartySharingModal").modal('show')
+		if @rootScope.profileDeactivated
+			@confirm "You will need to reactivate your profile to share or rate an article", =>
+				window.location.href = "/account-settings?reactivate=1"
+			, null, "Please reactivate profile", ['Cancel', 'Reactivate']
 		else
-			tpl = $("#thirdPartySharing").html().trim()
-			$content = @compile(tpl)(@scope)
-			$('body').append $content
-			$("#thirdPartySharingModal").modal()
+			if $("#thirdPartySharingModal").length > 0
+				$("#thirdPartySharingModal").modal('show')
+			else
+				tpl = $("#thirdPartySharing").html().trim()
+				$content = @compile(tpl)(@scope)
+				$('body').append $content
+				$("#thirdPartySharingModal").modal()
 
-		$(document).off 'shown.bs.modal', '#thirdPartySharingModal'
-		$(document).off 'hide.bs.modal', '#thirdPartySharingModal'
-		$(document).on 'shown.bs.modal', '#thirdPartySharingModal', =>
-			@timeout =>
-				@rootScope.$broadcast 'third_party_url_sharing', { url: url }
-			, 500
-		$(document).on 'hide.bs.modal', '#thirdPartySharingModal', =>
-			@rootScope.$broadcast 'third_party_url_close', { url: url }
-			$('textarea#third_party_article_url_phantom').val('')
+			$(document).off 'shown.bs.modal', '#thirdPartySharingModal'
+			$(document).off 'hide.bs.modal', '#thirdPartySharingModal'
+			$(document).on 'shown.bs.modal', '#thirdPartySharingModal', =>
+				@timeout =>
+					@rootScope.$broadcast 'third_party_url_sharing', { url: url }
+				, 500
+			$(document).on 'hide.bs.modal', '#thirdPartySharingModal', =>
+				@rootScope.$broadcast 'third_party_url_close', { url: url }
+				$('textarea#third_party_article_url_phantom').val('')
 
 	muteFollowed: ($event, item) =>
 		$event.preventDefault()

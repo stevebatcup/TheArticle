@@ -1,5 +1,15 @@
-<section ng-controller="ProfileController" class="show-profile" data-user-id="<%= @user.id %>"  data-fixed-profile-nav=1 ng-cloak>
+<% if @user != (user_signed_in? ? current_user : nil) %>
+	<% description = "View #{@user.display_name.html_safe}'s' full profile on TheArticle, see what #{@user.display_name.html_safe} is reading and the articles they have rated. Do you agree? Join the debate." %>
+	<% meta_tag :description, description.html_safe %>
+	<% page_title @user.display_name.html_safe %>
+	<p class="d-none"><%= description %></p>
+<% end %>
 
+<section ng-controller="ProfileController"
+				class="show-profile"
+				data-user-id="<%= @user.id %>"
+				data-fixed-profile-nav=1
+				ng-cloak>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>
@@ -99,26 +109,38 @@
 			<i class="fas fa-calendar-alt"></i> <span class="pl-3">Joined {{profile.data.joinedAt}}</span>
 		</p>
 
-		<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
-			<i class="fas fa-map-marker-alt"></i>
-			<span class="pl-3">{{ profile.data.location }}</span>
-		</p>
-		<p ng-if="!profile.data.location || profile.data.location.length == 0 && profile.isMe">
-			<a href='#' ng-click="editProfile('location')">
-				<i class="fas fa-map-marker-alt text-green"></i>
-				<span class="pl-3 text-green">Add Location</span>
-			</a>
+		<div id="more_info_location">
+			<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.location.length > 0)">
+				<i class="fas fa-map-marker-alt"></i>
+				<span class="pl-3">{{ profile.data.location }}</span>
+			</p>
+			<p ng-if="!profile.data.location || profile.data.location.length == 0 && profile.isMe">
+				<a href='#' ng-click="editProfile('location')">
+					<i class="fas fa-map-marker-alt text-green"></i>
+					<span class="pl-3 text-green">Add Location</span>
+				</a>
+			</p>
+		</div>
+
+		<p ng-if="profile.data.author" id="user_author_info" class="d-flex">
+			<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" class="" />
+			<span class="pl-3">
+				Contributor:
+				<a class="text-green" ng-href="{{profile.data.author.path}}">{{ profile.data.author.articleCountSentence }}</a>
+			</span>
 		</p>
 
-		<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
-			{{ profile.data.bio }}
-		</p>
-		<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
-			<a href='#' ng-click="editProfile('bio')">
-				<i class="fas fa-plus-square text-green"></i>
-				<span class="pl-3 text-green">Add Bio</span>
-			</a>
-		</p>
+		<div id="more_info_bio">
+			<p ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked) && (profile.data.bio.length > 0)">
+				{{ profile.data.bio }}
+			</p>
+			<p ng-if="(!profile.data.bio || profile.data.bio.length == 0) && profile.isMe">
+				<a href='#' ng-click="editProfile('bio')">
+					<i class="fas fa-plus-square text-green"></i>
+					<span class="pl-3 text-green">Add Bio</span>
+				</a>
+			</p>
+		</div>
 	</section>
 
 	<section class="my-4" id="public_activity" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
@@ -213,7 +235,7 @@
 		<div class="" id="feed" ng-if="(!profile.data.iAmBlocked) && (!profile.data.isBlocked)" ng-cloak>
 			<div class="pt-4 results_block" ng-if="selectedTab == 'all'" ng-class="{'empty': profile.digest.length == 0}">
 
-				<div class="mb-1 py-2 results_block container feed-listing feed-third-party d-flex align-items-start justify-content-between" ng-if="profile.isMe">
+				<div class="mb-1 py-2 results_block container feed-listing feed-third-party d-flex align-items-start justify-content-between" ng-if="(profile.isMe) && (!profileDeactivated)">
 					<img class="rounded-circle" alt="" ng-src="{{ profile.data.profilePhoto.image }}" style="width: 34px; height: 34px;" />
 	        <textarea name="third_party_article_url"
 	                    id="third_party_article_url_phantom"

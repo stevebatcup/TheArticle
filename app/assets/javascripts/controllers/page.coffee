@@ -126,42 +126,45 @@ class TheArticle.PageController extends TheArticle.NGController
 		$form = $('#contact_form')
 		$('#send_message', $form).on 'click', (e) =>
 			e.preventDefault()
-			$('p#contact_error', $form).text('').hide()
-			error = false
-			$('.has_error', $form).removeClass('has_error')
-			if $form.find('input[name=first_name]').val().length is 0
-				$form.find('input[name=first_name]').addClass('has_error')
-				error = "Please fill in your first name"
-			if $form.find('input[name=last_name]').val().length is 0
-				$form.find('input[name=last_name]').addClass('has_error')
-				error = "Please fill in your last name" unless error
-			if !@isValidEmailAddress $form.find('input[name=email]').val()
-				$form.find('input[name=email]').addClass('has_error')
-				error = "Please fill in a valid email address" unless error
-			if $form.find('input[name=subject]').val().length is 0
-				$form.find('input[name=subject]').addClass('has_error')
-				error = "Please fill in a subject for your message" unless error
-			if $form.find('textarea[name=message]').val().length is 0
-				$form.find('textarea[name=message]').addClass('has_error')
-				error = "Please fill in the message field" unless error
-
-			if error
-				$('p#contact_error', $form).text(error).show()
+			if $form.find('textarea[name=catchme]').val().length > 0
+				window.location.href = 'https://www.google.com/search?q=spambot+spambot+spambot'
 			else
-				@postJSON "/contact",
-					first_name: $form.find('input[name=first_name]').val()
-					last_name: $form.find('input[name=last_name]').val()
-					email: $form.find('input[name=email]').val()
-					subject: $form.find('input[name=subject]').val()
-					message: $form.find('textarea[name=message]').val()
-				, (response) =>
-					$('body, html').scrollTop(0)
-					msg = "Thank you for your message. A member of the team will be in touch with you shortly."
-					$('.contact_ready').hide()
-					$('#contact_success').text(msg).show()
-				, (response) =>
-					msg = "Sorry there has been an error sending your message, please try again."
-					$('p#contact_error', $form).text(msg).show()
+				$('p#contact_error', $form).text('').hide()
+				error = false
+				$('.has_error', $form).removeClass('has_error')
+				if $form.find('input[name=first_name]').val().length is 0
+					$form.find('input[name=first_name]').addClass('has_error')
+					error = "Please fill in your first name"
+				if $form.find('input[name=last_name]').val().length is 0
+					$form.find('input[name=last_name]').addClass('has_error')
+					error = "Please fill in your last name" unless error
+				if !@isValidEmailAddress $form.find('input[name=email]').val()
+					$form.find('input[name=email]').addClass('has_error')
+					error = "Please fill in a valid email address" unless error
+				if $form.find('input[name=subject]').val().length is 0
+					$form.find('input[name=subject]').addClass('has_error')
+					error = "Please fill in a subject for your message" unless error
+				if $form.find('textarea[name=message]').val().length is 0
+					$form.find('textarea[name=message]').addClass('has_error')
+					error = "Please fill in the message field" unless error
+
+				if error
+					$('p#contact_error', $form).text(error).show()
+				else
+					@postJSON "/contact",
+						first_name: $form.find('input[name=first_name]').val()
+						last_name: $form.find('input[name=last_name]').val()
+						email: $form.find('input[name=email]').val()
+						subject: $form.find('input[name=subject]').val()
+						message: $form.find('textarea[name=message]').val()
+					, (response) =>
+						$('body, html').scrollTop(0)
+						msg = "Thank you for your message. A member of the team will be in touch with you shortly."
+						$('.contact_ready').hide()
+						$('#contact_success').text(msg).show()
+					, (response) =>
+						msg = "Sorry there has been an error sending your message, please try again."
+						$('p#contact_error', $form).text(msg).show()
 
 	bindSearchFilters: =>
 		$('input[name=search_filter]', 'form.filter_list_form').on 'keyup', (e) =>

@@ -1,6 +1,6 @@
 .cover_photo {
 	background-repeat: no-repeat;
-	background-size: cover;
+	background-size: 100%;
 	background-position: center center;
 	overflow: hidden;
 	background-color: #aeaeae;
@@ -38,7 +38,7 @@
 	}
 
 	#cover_photo {
-		height: 228px;
+		height: 191px;
 		line-height: 13em;
 		color: #fff;
 
@@ -63,7 +63,7 @@
 	}
 
 	#basic_info {
-		img {
+		img.rounded-circle {
 			width: 7.5em;
 			height: 7.5em;
 	    border: 3px solid #fff;
@@ -78,8 +78,18 @@
       }
 		}
 
-		a {
-			color: inherit;
+		#basic_info_bio,
+		#basic_info_location {
+			a {
+				color: inherit;
+			}
+		}
+
+		#user_author_info {
+			img {
+				width: 25px;
+				height: 25px;
+			}
 		}
 	}
 }

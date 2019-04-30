@@ -197,6 +197,18 @@
 		}
 	}
 
+	&.latest_articles,
+	&.trending_exchanges,
+	&.sponsored_picks {
+		.slick-arrow.slick-prev {
+			left: -14px;
+		}
+
+		.slick-arrow.slick-next {
+			right: -14px;
+		}
+	}
+
 	&.journalists {
 		cursor: pointer;
 

@@ -55,6 +55,14 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 			@updateMyFollowCounts()
 		, 10000
 
+		vars = @getUrlVars()
+		if 'reactivate' of vars
+			@forwardToPage(null, 'manage_profile')
+			@timeout =>
+				@forwardToPage(null, 'reactivate_profile')
+			, 400
+
+
 	bindEvents: ->
 		@listenForBack()
 		@scope.$on 'page_moved_forward', ($event, data) =>

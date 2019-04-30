@@ -270,7 +270,7 @@ class Article < ApplicationRecord
 						})
 					end
 					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-					user_feed_item.updated_at = Time.now
+					user_feed_item.updated_at = self.published_at
 					user_feed_item.feeds << cat_feed
 					user_feed_item.save
 				end
@@ -359,7 +359,8 @@ class Article < ApplicationRecord
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
 					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center my-2'
+					ad_classes: 'unruly_video ads_box text-center',
+					ad_name: 'unruly'
 				},
 				{
 					position: 7,
@@ -367,7 +368,8 @@ class Article < ApplicationRecord
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
 					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'ads_box text-center my-2'
+					ad_classes: 'ads_box text-center my-2',
+					ad_name: 'sidecolumn'
 				},
 				{
 					position: 11,
@@ -375,7 +377,8 @@ class Article < ApplicationRecord
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
 					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'ads_box text-center my-2'
+					ad_classes: 'ads_box text-center my-2',
+					ad_name: 'sidecolumn'
 				}
 			]
 		else
@@ -386,7 +389,8 @@ class Article < ApplicationRecord
 					ad_page_id: ad_page_id,
 					ad_page_type: ad_page_type,
 					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center'
+					ad_classes: 'unruly_video ads_box text-center',
+					ad_name: 'unruly'
 				}
 			]
 		end

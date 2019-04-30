@@ -42,8 +42,8 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			if (scrollTop + $win.height()) >= (docHeight - 320)
 				if @scope.selectedAppTab is 'front-page-tab'
 					@rootScope.$broadcast 'load_more_feeds'
-				else if @scope.selectedAppTab is 'notifications-tab'
-					@rootScope.$broadcast 'load_more_notifications'
+				# else if @scope.selectedAppTab is 'notifications-tab'
+				# 	@rootScope.$broadcast 'load_more_notifications'
 
 	openRoute: (route) =>
 		switch route
@@ -52,7 +52,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 			when 'followers' then @openFollows('followers')
 			when 'suggestions' then @openFollows('suggestions')
 			when 'search' then @openSearch()
-			when 'notifications' then @openNotifications()
 			when 'messaging' then @openMessaging()
 			else @openFrontPage()
 
@@ -82,14 +81,6 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@timeout =>
 			$('#follows-tab').click()
 			$("#follows-sub-tab-#{subTab}").click()
-		, 100
-
-	openNotifications: =>
-		@resetAppTabs()
-		@scope.notifications = true
-		@rootScope.selectedAppTab = 'notifications-tab'
-		@timeout =>
-			$('#notifications-tab').click()
 		, 100
 
 	openMessaging: =>

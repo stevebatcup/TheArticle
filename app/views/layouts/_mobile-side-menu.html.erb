@@ -62,12 +62,7 @@
         <a href="/follow-suggestions">Follow suggestions</a>
       </li>
       <li>
-        <% if use_app_links %>
-          <a href='#notifications' ng-click="openNotifications()">
-        <% else %>
-          <a href="<%= front_page_path(route: 'notifications') %>">
-        <% end %>
-        Notifications</a>
+        <a href="/notifications">Notifications</a>
       </li>
       <li>
         <a href="/account-settings">Account settings</a>
