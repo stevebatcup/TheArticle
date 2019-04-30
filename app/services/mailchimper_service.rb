@@ -1,10 +1,10 @@
 require 'mailchimp'
 
 module MailchimperService
+	GROUPING_LABEL_WEEKLY = 'Opted into weekly roundup'
+	GROUPING_LABEL_OFFERS = 'Opted into offers and promotions'
+	MAILCHIMP_SERVICE_FOR_API_LOG = "mailchimp"
 	class << self
-		MAILCHIMP_SERVICE_FOR_API_LOG = "mailchimp"
-		GROUPING_LABEL_WEEKLY = 'Opted into weekly roundup'
-		GROUPING_LABEL_OFFERS = 'Opted into offers and promotions'
 		# GROUPING_LABEL_COUNTRY = 'Country'
 
 		def mailchimp_api
@@ -17,8 +17,8 @@ module MailchimperService
 
 		def mailchimp_groupings(user)
 			[
-				{ name: GROUPING_LABEL_WEEKLY, groups: [user.opted_into_weekly_newsletters? ? "Yes" : "No"] },
-				{ name: GROUPING_LABEL_OFFERS, groups: [user.opted_into_offers? ? "Yes" : "No"] },
+				{ name: MailchimperService::GROUPING_LABEL_WEEKLY, groups: [user.opted_into_weekly_newsletters? ? "Yes" : "No"] },
+				{ name: MailchimperService::GROUPING_LABEL_OFFERS, groups: [user.opted_into_offers? ? "Yes" : "No"] },
 			]
 		end
 
@@ -93,7 +93,7 @@ module MailchimperService
 		def log_mailchimp_request(user, method_type, request_data, response)
 			ApiLog.request(
 				user_id: user.id,
-	  		service: MAILCHIMP_SERVICE_FOR_API_LOG,
+	  		service: MailchimperService::MAILCHIMP_SERVICE_FOR_API_LOG,
 	  		request_method: method_type,
 	  		request_data: request_data,
 	  		response: response,
