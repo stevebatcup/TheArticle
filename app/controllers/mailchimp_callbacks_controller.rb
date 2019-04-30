@@ -5,21 +5,18 @@ class MailchimpCallbacksController < ApplicationController
 
 	def update
 		if params[:type] == "unsubscribe"
-		# "fired_at": "2009-03-26 21:40:57",
-		# "data[action]": "unsub",
-		# "data[reason]": "manual",
-		# "data[id]": "8a25ff1d98",
-		# "data[list_id]": "a6b5da1054",
-		# "data[email]": "api+unsub@mailchimp.com",
-		# "data[email_type]": "html",
-		# "data[merges][EMAIL]": "api+unsub@mailchimp.com",
-		# "data[merges][FNAME]": "Mailchimp",
-		# "data[merges][LNAME]": "API",
-		# "data[merges][INTERESTS]": "Group1,Group2",
-		# "data[ip_opt]": "10.20.10.30",
-		# "data[campaign_id]": "cb398d21d2",
-		# "data[reason]": "hard"
-
+			api_log_data = {
+				service: MailchimperService::MAILCHIMP_SERVICE_FOR_API_LOG,
+				request_data: mailchimp_params,
+				request_method: :unsubscribe
+			}
+			if user = User.find_by(email: mailchimp_params[:email])
+				user.unsubscribe_all_emails
+				api_log_data[:user_id] = user.id
+				response = { status: :success }
+			else
+				response = { status: :error, message: "User not found" }
+			end
 		elsif params[:type] == "profile"
 			sleep(10) # allow the update email call to finish first
 			api_log_data = {
@@ -41,10 +38,6 @@ class MailchimpCallbacksController < ApplicationController
 			else
 				response = { status: :error, message: "User not found" }
 			end
-			api_log_data[:response] = response
-			ApiLog.webhook(api_log_data)
-			render	json: response
-
 		elsif params[:type] == "upemail"
 			api_log_data = {
 				service: MailchimperService::MAILCHIMP_SERVICE_FOR_API_LOG,
@@ -61,17 +54,11 @@ class MailchimpCallbacksController < ApplicationController
 			else
 				response = { status: :error, message: "User not found" }
 			end
-			api_log_data[:response] = response
-			ApiLog.webhook(api_log_data)
-			render	json: response
-
-			# "fired_at": "2009-03-26 22:15:09",
-			# "data[list_id]": "a6b5da1054",
-			# "data[new_id]": "51da8c3259",
-			# "data[new_email]": "api+new@mailchimp.com",
-			# "data[old_email]": "api+old@mailchimp.com"
 		end
 
+		api_log_data[:response] = response
+		ApiLog.webhook(api_log_data)
+		render	json: response
 	end
 
 private

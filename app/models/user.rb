@@ -99,14 +99,6 @@ class User < ApplicationRecord
     self.save
   end
 
-  def set_opted_into_weekly_newsletters(status)
-    self.communication_preferences.find_by(preference: :newsletters_weekly).update_attribute(:status, status)
-  end
-
-  def set_opted_into_offers(status)
-    self.communication_preferences.find_by(preference: :newsletters_offers).update_attribute(:status, status)
-  end
-
   def self.active
     where(status: :active, has_completed_wizard: true)
   end
