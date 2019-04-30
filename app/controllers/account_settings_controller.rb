@@ -22,6 +22,7 @@ class AccountSettingsController < ApplicationController
 		if current_user.update(params_for_update)
 			@status = :success
 			UserMailer.username_updated(current_user).deliver_now if send_username_changed_email
+			MailchimperService.update_mailchimp_list(current_user, current_user.email)
 		else
 			@status = :error
 			@message = current_user.errors.full_messages.first
