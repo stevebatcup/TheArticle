@@ -27,38 +27,23 @@ class MailchimpCallbacksController < ApplicationController
 				request_method: :update_profile
 			}
 			if user = User.find_by(email: mailchimp_params[:email])
+				user.skip_reconfirmation!
+				new_data = {
+					first_name: mailchimp_params[:merges][:FNAME],
+					last_name: mailchimp_params[:merges][:LNAME],
+					email: mailchimp_params[:merges][:EMAIL]
+				}
+				user.update_attributes(new_data)
+				user.set_opted_into_weekly_newsletters(params[:data][:merges][weekly_key] == "Yes" ? true : false)
+				user.set_opted_into_offers(params[:data][:merges][offers_key] == "Yes" ? true : false)
 				api_log_data[:user_id] = user.id
+				response = { status: :success }
+			else
+				response = { status: :error, message: "User not found" }
 			end
+			api_log_data[:response] = response
 			ApiLog.webhook(api_log_data)
-			render	json: { status: :success }
-			# 	new_data = {
-			# 		first_name: params[:data][:merges][:FNAME],
-			# 		last_name: params[:data][:merges][:LNAME],
-			# 		email: params[:data][:merges][:EMAIL],
-			# 	}
-			# 	user.update_atttributes(new_data)
-			# 	user.set_opted_into_weekly_newsletters(params[:data][:merges][weekly_key] == "Yes" ? true : false)
-			#
-			# 	user.set_opted_into_offers(params[:data][:merges][offers_key] == "Yes" ? true : false)
-			# end
-			# "fired_at": "2009-03-26 21:31:21",
-			# "data[id]": "8a25ff1d98",
-			# "data[list_id]": "a6b5da1054",
-			# "data[email]": "api@mailchimp.com",
-			# "data[email_type]": "html",
-			# "data[merges][EMAIL]": "api@mailchimp.com",
-			# "data[merges][FNAME]": "Mailchimp",
-			# "data[merges][LNAME]": "API",
-			# "data[merges][INTERESTS]": "Group1,Group2",
-			# "data[ip_opt]": "10.20.10.30"
-
-		elsif params[:type] == "upemail"
-			# "fired_at": "2009-03-26 22:15:09",
-			# "data[list_id]": "a6b5da1054",
-			# "data[new_id]": "51da8c3259",
-			# "data[new_email]": "api+new@mailchimp.com",
-			# "data[old_email]": "api+old@mailchimp.com"
-
+			render	json: response
 		end
 
 	end

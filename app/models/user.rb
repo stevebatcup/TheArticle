@@ -100,11 +100,11 @@ class User < ApplicationRecord
   end
 
   def set_opted_into_weekly_newsletters(status)
-    self.communication_preferences.where(preference: :newsletters_weekly).update_attribute(status)
+    self.communication_preferences.find_by(preference: :newsletters_weekly).update_attribute(:status, status)
   end
 
   def set_opted_into_offers(status)
-    self.communication_preferences.where(preference: :newsletters_offers).update_attribute(status)
+    self.communication_preferences.find_by(preference: :newsletters_offers).update_attribute(:status, status)
   end
 
   def self.active
