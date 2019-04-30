@@ -1,4 +1,8 @@
 class MailchimpCallbacksController < ApplicationController
+	def show
+		render	json: { status: :success }
+	end
+
 	def update
 		if params[:type] == "unsubscribe"
 		# "fired_at": "2009-03-26 21:40:57",
