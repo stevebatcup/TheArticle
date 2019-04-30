@@ -146,6 +146,7 @@ Rails.application.routes.draw do
   get "/sitemap.xml" => "sitemap#index", :format => "xml", :as => :sitemap
 
   post "mailchimp-callback", to: 'mailchimp_callbacks#update'
+  get "mailchimp-callback", to: 'mailchimp_callbacks#show'
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
