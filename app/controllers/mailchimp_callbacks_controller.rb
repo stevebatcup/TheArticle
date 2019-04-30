@@ -21,6 +21,7 @@ class MailchimpCallbacksController < ApplicationController
 		# "data[reason]": "hard"
 
 		elsif params[:type] == "profile"
+			sleep(10) # allow the update email call to finish first
 			api_log_data = {
 				service: MailchimperService::MAILCHIMP_SERVICE_FOR_API_LOG,
 				request_data: mailchimp_params,
