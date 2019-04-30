@@ -51,7 +51,9 @@ class MailchimpCallbacksController < ApplicationController
 				request_data: mailchimp_params,
 				request_method: :update_email
 			}
-			if user = User.find_by(email: mailchimp_params[:old_email])
+			if mailchimp_params[:old_email] == mailchimp_params[:new_email]
+				response = { status: :error, message: "Email address not updated" }
+			elsif user = User.find_by(email: mailchimp_params[:old_email])
 				user.skip_reconfirmation!
 				user.update_attribute(:email, mailchimp_params[:new_email])
 				api_log_data[:user_id] = user.id
