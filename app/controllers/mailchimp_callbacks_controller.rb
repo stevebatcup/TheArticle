@@ -17,17 +17,24 @@ class MailchimpCallbacksController < ApplicationController
 		# "data[reason]": "hard"
 
 		elsif params[:type] == "profile"
-			ApiLog.webhook(params)
-			# if user = User.find_by(email: params[:data][:email])
+			api_log_data = {
+				service: MailchimperService::MAILCHIMP_SERVICE_FOR_API_LOG,
+				request_data: mailchimp_params,
+				request_method: :update_profile
+			}
+			if user = User.find_by(email: mailchimp_params[:email])
+				api_log_data[:user_id] = user.id
+			end
+			ApiLog.webhook(api_log_data)
+			render	json: { status: :success }
 			# 	new_data = {
 			# 		first_name: params[:data][:merges][:FNAME],
 			# 		last_name: params[:data][:merges][:LNAME],
 			# 		email: params[:data][:merges][:EMAIL],
 			# 	}
 			# 	user.update_atttributes(new_data)
-			# 	weekly_key = MailchimperService.GROUPING_LABEL_WEEKLY
 			# 	user.set_opted_into_weekly_newsletters(params[:data][:merges][weekly_key] == "Yes" ? true : false)
-			# 	offers_key = MailchimperService.GROUPING_LABEL_OFFERS
+			#
 			# 	user.set_opted_into_offers(params[:data][:merges][offers_key] == "Yes" ? true : false)
 			# end
 			# "fired_at": "2009-03-26 21:31:21",
@@ -50,5 +57,19 @@ class MailchimpCallbacksController < ApplicationController
 
 		end
 
+	end
+
+private
+
+	def mailchimp_params
+		params.require(:data).permit(:email, merges: [ :FNAME, :LNAME, :EMAIL, offers_key, weekly_key ])
+	end
+
+	def offers_key
+		MailchimperService::GROUPING_LABEL_OFFERS
+	end
+
+	def weekly_key
+		MailchimperService::GROUPING_LABEL_WEEKLY
 	end
 end
