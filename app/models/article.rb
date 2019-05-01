@@ -4,8 +4,8 @@ class Article < ApplicationRecord
 	belongs_to :author, optional: true
 	has_many :shares
 
-  has_many  :categorisations
-  has_many  :exchanges, through: :categorisations
+  has_many  :categorisations, dependent: :destroy
+  has_many  :exchanges, through: :categorisations, dependent: :destroy
 
   before_create	:nullify_ratings_caches
 	after_destroy :update_all_article_counts
@@ -395,5 +395,23 @@ class Article < ApplicationRecord
 			]
 		end
 		ads
+	end
+
+	def self.purge(wp_id) # delete article from WP
+		article = unscoped.where(wp_id: wp_id).first!
+		# shares
+		share_ids = article.shares.map(&:id)
+		Feed.where(actionable_type: 'Share').where(actionable_id: share_ids).destroy_all
+		FeedUser.where(action_type: 'share').where(source_id: share_ids).destroy_all
+		article.shares.destroy_all
+		# categorisations
+		cat_ids = article.categorisations.map(&:id)
+		Feed.where(actionable_type: 'Categorisation').where(actionable_id: cat_ids).destroy_all
+		FeedUser.where(action_type: 'categorisation').where(source_id: article.id).destroy_all
+		article.categorisations.destroy_all
+		# article
+		article.destroy
+  rescue
+		logger.warn "Could not purge Article with id #{wp_id}, no record with that id was found."
 	end
 end
