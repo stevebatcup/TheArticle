@@ -153,7 +153,7 @@ class User < ApplicationRecord
     amount.times do
       begin
         username = "#{first_name.downcase.strip}#{last_name.downcase.strip}#{i > 0 ? i : ''}"
-        username = username.gsub(/[^0-9a-z_ ]/i, '')
+        username = username.gsub(/[^0-9a-z_]/i, '')
         i += 1
       end while !self.class.is_username_available?("@#{username}") || items.include?(username)
       items << username
