@@ -4,7 +4,7 @@ module User::Suggestable
   end
 
   def pending_suggestions
-    self.profile_suggestions.where(status: :pending)
+    self.profile_suggestions.includes(:suggested).where(status: :pending).where(users: { has_completed_wizard: true, status: User.statuses["active"] })
   end
 
   def paginated_pending_suggestions(page, per_page)
