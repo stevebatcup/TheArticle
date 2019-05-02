@@ -399,19 +399,23 @@ class Article < ApplicationRecord
 
 	def self.purge(wp_id) # delete article from WP
 		article = unscoped.where(wp_id: wp_id).first!
-		# shares
-		share_ids = article.shares.map(&:id)
-		Feed.where(actionable_type: 'Share').where(actionable_id: share_ids).destroy_all
-		FeedUser.where(action_type: 'share').where(source_id: share_ids).destroy_all
-		article.shares.destroy_all
-		# categorisations
-		cat_ids = article.categorisations.map(&:id)
-		Feed.where(actionable_type: 'Categorisation').where(actionable_id: cat_ids).destroy_all
-		FeedUser.where(action_type: 'categorisation').where(source_id: article.id).destroy_all
-		article.categorisations.destroy_all
-		# article
-		article.destroy
+		article.purge_self
   rescue
 		logger.warn "Could not purge Article with id #{wp_id}, no record with that id was found."
+	end
+
+	def purge_self
+		# shares
+		share_ids = self.shares.map(&:id)
+		Feed.where(actionable_type: 'Share').where(actionable_id: share_ids).destroy_all
+		FeedUser.where(action_type: 'share').where(source_id: share_ids).destroy_all
+		self.shares.destroy_all
+		# categorisations
+		cat_ids = self.categorisations.map(&:id)
+		Feed.where(actionable_type: 'Categorisation').where(actionable_id: cat_ids).destroy_all
+		FeedUser.where(action_type: 'categorisation').where(source_id: self.id).destroy_all
+		self.categorisations.destroy_all
+		# article
+		self.destroy
 	end
 end
