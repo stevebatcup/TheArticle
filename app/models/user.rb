@@ -85,9 +85,10 @@ class User < ApplicationRecord
   end
 
   def assign_default_settings
-    self.username = generate_usernames.first
+    uname = generate_usernames.first
+    self.slug = uname.downcase
+    self.username = "@#{uname}"
     self.display_name = "#{first_name} #{last_name}"
-    self.slug = self.username.downcase
 
     self.notification_settings.build({ key: 'email_followers', value: 'daily' })
     self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
