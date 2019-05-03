@@ -1,6 +1,14 @@
 module Admin
   class ArticlesController < Admin::ApplicationController
-    def valid_action?(name, resource = resource_class)
+
+    def order
+      @order ||= Administrate::Order.new(
+        params.fetch(resource_name, {}).fetch(:order, :id),
+        params.fetch(resource_name, {}).fetch(:direction, :desc),
+      )
+    end
+
+   def valid_action?(name, resource = resource_class)
       %w[new create show].exclude?(name.to_s) && super
     end
 
