@@ -1,21 +1,25 @@
 module Admin
   class ArticlesController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = Article.
-    #     page(params[:page]).
-    #     per(10)
-    # end
+    def valid_action?(name, resource = resource_class)
+      %w[new create show].exclude?(name.to_s) && super
+    end
 
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   Article.find_by!(slug: param)
-    # end
+    def show_action?(name, resource = resource_class)
+      %w[new create show].exclude?(name.to_s) && super
+    end
 
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+    def scoped_resource
+      Article.not_remote
+    end
+
+    def purge
+      if article = Article.find_by(id: params[:id])
+        article.purge_self
+        @status = :success
+        redirect_to "/admin/articles?page=#{params[:page]}"
+      else
+        @status = :error
+      end
+    end
   end
 end

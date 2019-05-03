@@ -13,6 +13,8 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
+  include Adminable
+
 	def self.schedule_create_or_update(wp_id, publish_date)
 		if publish_date > Time.now
 			unless fa = FutureArticle.find_by(wp_id: wp_id)
@@ -65,7 +67,6 @@ class Article < ApplicationRecord
 			end
 		end
 	end
-
 
 	def exchange_names
 		exchanges.collect(&:name).join(" ")

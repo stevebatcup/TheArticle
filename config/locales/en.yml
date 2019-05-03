@@ -42,6 +42,15 @@ en:
         white_listed_third_party_publisher: Publication whitelist
 
     label:
+      article:
+        admin_title: Title
+        admin_author: Author
+        admin_exchange_list: Exchanges
+        admin_tag_list: Keyword tags
+        admin_share_count: Shares
+        admin_published_at: Published
+        id: RID
+        wp_id: WID
       user:
         id: User ID
         full_name: Account name

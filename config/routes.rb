@@ -125,6 +125,8 @@ Rails.application.routes.draw do
     get 'reactivate_user', to: 'users#reactivate'
     delete 'delete_user', to: 'users#destroy'
     delete 'destroy_user', to: 'users#destroy', destroy: true
+    resources :articles
+    delete 'purge_article', to: 'articles#purge', destroy: true
     resources :concern_reports
     resources :user_concern_reports
     resources :comment_concern_reports
