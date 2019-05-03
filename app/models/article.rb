@@ -121,7 +121,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
-		Rails.cache.fetch("article_carousel") do
+		Rails.cache.fetch("article_carousel", expires_in: 10.minutes) do
 			articles = self.trending
 				.includes(:exchanges).references(:exchanges)
 	      .where.not(image: nil)
