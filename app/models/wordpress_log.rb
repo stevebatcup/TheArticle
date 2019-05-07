@@ -3,7 +3,7 @@ class WordpressLog < ApiLog
 	# serialize :request_data, JSON
 
 	def admin_type
-		self.request_method.gsub(/_article/, '').capitalize
+		self.request_method.humanize
 	end
 
 	def request_data_hash
@@ -11,10 +11,16 @@ class WordpressLog < ApiLog
 	end
 
 	def admin_date
-		Time.parse(request_data_hash['modified_gmt'])
+		if request_data_hash['modified_gmt']
+			Time.parse(request_data_hash['modified_gmt']).strftime("%H:%I on %B %e, %Y")
+		else
+			nil
+		end
 	end
 
 	def admin_article_title
-		request_data_hash["title"]["rendered"]
+		if request_data_hash['title']
+			request_data_hash["title"]["rendered"]
+		end
 	end
 end
