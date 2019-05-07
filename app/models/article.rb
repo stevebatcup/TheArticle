@@ -225,11 +225,6 @@ class Article < ApplicationRecord
 	end
 
 	def update_wp_cache(json)
-    # bust caches
-    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
-    	Rails.cache.delete(cache_key)
-    end
-
 		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
 		self.content = json["content"]["rendered"]
@@ -253,29 +248,9 @@ class Article < ApplicationRecord
 
     self.save
 
-    # categorisation emails and user-feeds
     if is_new_article && self.categorisations.any?
-    	handled_users = []
-    	self.categorisations.shuffle.each do |cat|
-		    cat_users = cat.handle_email_notifications(handled_users)
-		    cat_users.each { |cu| handled_users << cu }
-		  end
-
-		  self.categorisations.each do |cat|
-		  	cat.feeds.each do |cat_feed|
-					unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.id)
-						user_feed_item = FeedUser.new({
-							user_id: cat_feed.user.id,
-							action_type: 'categorisation',
-							source_id: self.id
-						})
-					end
-					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-					user_feed_item.updated_at = self.published_at
-					user_feed_item.feeds << cat_feed
-					user_feed_item.save
-				end
-			end
+    	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
+    	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
 	  end
 
     # update counter cache columns
@@ -291,7 +266,42 @@ class Article < ApplicationRecord
     	response: nil
     }
     ApiLog.webhook log_data
+
+    # bust caches
+    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
+    	Rails.cache.delete(cache_key)
+    end
   end
+
+  def update_categorisation_feeds
+	  self.categorisations.each do |cat|
+			cat.update_feeds
+	  end
+		log_data = {
+			service: :wordpress,
+			user_id: 0,
+			request_method: :update_exchange_feeds,
+			request_data: { article_id: self.id },
+			response: nil
+		}
+		ApiLog.webhook log_data
+  end
+
+  def send_categorisation_email_notifications
+  	handled_users = []
+  	self.categorisations.shuffle.each do |cat|
+	    cat_users = cat.handle_email_notifications(handled_users)
+	    cat_users.each { |cu| handled_users << cu }
+	  end
+	  log_data = {
+	  	service: :wordpress,
+	  	user_id: 0,
+	  	request_method: :send_email_notifications,
+	  	request_data: { article_id: self.id },
+	  	response: nil
+	  }
+	  ApiLog.webhook log_data
+	end
 
   def update_all_article_counts
     Author.update_article_counts

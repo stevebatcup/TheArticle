@@ -3,7 +3,6 @@ class Categorisation < ApplicationRecord
   has_many :notifications, as: :eventable
 	belongs_to	:article
 	belongs_to	:exchange
-	before_create	:update_feeds
 	after_destroy	:delete_feed_and_notification
 
 	def handle_email_notifications(excluded_users=[])
@@ -37,7 +36,21 @@ class Categorisation < ApplicationRecord
 
 	def update_feeds
 		self.exchange.users.each do |user|
-			self.feeds.build({user_id: user.id})
+			self.feeds.create({user_id: user.id})
+		end
+
+		self.feeds.each do |cat_feed|
+			unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.article_id)
+				user_feed_item = FeedUser.new({
+					user_id: cat_feed.user.id,
+					action_type: 'categorisation',
+					source_id: self.article_id
+				})
+			end
+			user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+			user_feed_item.updated_at = self.article.published_at
+			user_feed_item.feeds << cat_feed
+			user_feed_item.save
 		end
 	end
 
