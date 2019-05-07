@@ -1,58 +1,33 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  helpers:
-    admin_indexes:
-      titles:
-        user_concern_report: "Concern reports > profiles"
-        comment_concern_report: "Concern reports > Comments"
-        share_concern_report: "Concern reports > Posts"
-        quarantined_third_party_share: Quarantined posts
-        watch_list_user: Watchlist
-        black_list_user: Blacklist
-        white_listed_third_party_publisher: Publication whitelist
+ helpers:
+  admin_indexes:
+   titles:
+    user_concern_report: "Concern reports > profiles"
+    comment_concern_report: "Concern reports > Comments"
+    share_concern_report: "Concern reports > Posts"
+    quarantined_third_party_share: Quarantined posts
+    watch_list_user: Watchlist
+    black_list_user: Blacklist
+    white_listed_third_party_publisher: Publication whitelist
+    wordpress_log: Wordpress logs
 
-    label:
-      article:
-        admin_title: Title
-        admin_author: Author
-        admin_exchange_list: Exchanges
-        admin_tag_list: Keyword tags
-        admin_share_count: Shares
-        admin_published_at: Published
-        id: RID
-        wp_id: WID
-      user:
-        id: User ID
-        full_name: Account name
-        human_created_at: Signed up
-        has_completed_wizard: Has completed registration
+  label:
+   article:
+    admin_title: Title
+    admin_author: Author
+    admin_exchange_list: Exchanges
+    admin_tag_list: Keyword tags
+    admin_share_count: Shares
+    admin_published_at: Published
+    id: RID
+    wp_id: WID
+   user:
+    id: User ID
+    full_name: Account name
+    human_created_at: Signed up
+    has_completed_wizard: Has completed registration
+   wordpress_log:
+    admin_type: Type
+    admin_article_title: Article
+    admin_date: Date
+

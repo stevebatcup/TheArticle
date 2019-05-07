@@ -281,6 +281,16 @@ class Article < ApplicationRecord
     # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache
+
+    # log this action
+    log_data = {
+    	service: :wordpress,
+    	user_id: 0,
+    	request_method: is_new_article ? :publish_article : :update_article,
+    	request_data: json,
+    	response: nil
+    }
+    ApiLog.webhook log_data
   end
 
   def update_all_article_counts
