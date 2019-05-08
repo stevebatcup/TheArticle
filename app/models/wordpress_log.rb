@@ -11,11 +11,7 @@ class WordpressLog < ApiLog
 	end
 
 	def admin_date
-		if request_data_hash['modified_gmt']
-			Time.parse(request_data_hash['modified_gmt']).strftime("%H:%I on %B %e, %Y")
-		else
-			nil
-		end
+		self.created_at.strftime("%H:%M on %B %e, %Y")
 	end
 
 	def admin_article_title
