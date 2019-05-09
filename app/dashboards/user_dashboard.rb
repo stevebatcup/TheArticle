@@ -36,8 +36,6 @@ class UserDashboard < Administrate::BaseDashboard
     notification_settings: Field::HasMany,
     communication_preferences: Field::HasMany,
     email_alias_logs: Field::HasMany,
-    status: Field::String.with_options(searchable: false),
-    status_for_admin: Field::String.with_options(searchable: false),
     title: Field::String,
     slug: Field::String,
     has_completed_wizard: Field::Boolean,
@@ -71,6 +69,8 @@ class UserDashboard < Administrate::BaseDashboard
     signup_ip_region: Field::String,
     signup_ip_country: Field::String,
     notification_counter_cache: Field::Number,
+    admin_account_status: Field::String.with_options(searchable: false),
+    admin_profile_status: Field::String.with_options(searchable: false)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -85,7 +85,8 @@ class UserDashboard < Administrate::BaseDashboard
     :username,
     :email,
     :human_created_at,
-    :status
+    :admin_account_status,
+    :admin_profile_status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
