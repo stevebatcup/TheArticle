@@ -16,6 +16,7 @@ class ProfileWizardController < ApplicationController
 		begin
 			current_user.complete_profile_from_wizard(params[:profile])
 			ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
+			PendingFollow.process_for_user(current_user)
 			sign_in(current_user)
 			@status = :success
 			@redirect = "#{front_page_path}?from_wizard=1"
