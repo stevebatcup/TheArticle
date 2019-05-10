@@ -145,8 +145,8 @@
 			  <li class="nav-item">
 			    <a id="activity-follows-tab" class="nav-link"
 			    		ng-click="selectTab('follows', suggestionsLoaded)"
-			    		ng-class="{'active': selectedTab == 'follows', 'disabled': !suggestionsLoaded}"
-			    		ng-disabled="!suggestionsLoaded">
+			    		ng-class="{'active': selectedTab == 'follows', 'disabled': !feeds.follows.firstLoaded}"
+			    		ng-disabled="!feeds.follows.firstLoaded">
 			      <label>Follow activity</label>
 			    </a>
 			  </li>

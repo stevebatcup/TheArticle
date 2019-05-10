@@ -199,6 +199,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@scope.trendingExchanges = response.trendingExchanges
 					@scope.userExchanges = response.userExchanges
 					@getFeeds('posts')
+				else if section is 'posts'
 					@getFeeds('follows')
 			feedLength = @getLengthOfFeedWithExtras(section)
 			# console.log("feed length for #{section}: #{feedLength}") if console?
