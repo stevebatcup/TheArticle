@@ -50,8 +50,8 @@
 	<section class="container d-flex" class="d-flex" id="stats_info" ng-show="(!profile.data.isBlocked) && (!profile.data.iAmBlocked) && (profile.loaded) && (!profile.loadError) && (mode == 'view')" ng-cloak>
 		<div class="stats p-2 flex-fill" ng-click="showRatings($event)">
 			<label>Ratings</label>
-			<span class="ajax_loading_label" ng-show="profile.ratings.moreToLoad">&nbsp;</span>
-			<span ng-show="!profile.ratings.moreToLoad">{{ profile.data.ratingsCount }}</span>
+			<span class="ajax_loading_label" ng-show="!profile.loaded">&nbsp;</span>
+			<span ng-show="profile.loaded">{{ profile.data.ratingsCount }}</span>
 		</div>
 		<div class="stats p-2 flex-fill" ng-click="openFollowsPanel('followers')">
 			<label>Followers</label>
