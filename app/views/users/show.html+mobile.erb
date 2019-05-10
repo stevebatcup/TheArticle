@@ -51,7 +51,7 @@
 		<div class="stats p-2 flex-fill" ng-click="showRatings($event)">
 			<label>Ratings</label>
 			<span class="ajax_loading_label" ng-show="profile.ratings.moreToLoad">&nbsp;</span>
-			<span ng-show="!profile.ratings.moreToLoad">{{ profile.ratings.totalItems }}</span>
+			<span ng-show="!profile.ratings.moreToLoad">{{ profile.data.ratingsCount }}</span>
 		</div>
 		<div class="stats p-2 flex-fill" ng-click="openFollowsPanel('followers')">
 			<label>Followers</label>

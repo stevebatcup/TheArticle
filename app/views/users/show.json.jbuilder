@@ -22,7 +22,13 @@ json.set! :profile do
 
 	json.followingsCount @user.followings_count
 	json.followersCount @user.followers_count
+	if user_signed_in? && (current_user != @user)
+		json.imFollowingCount current_user.im_following_same_count(@user)
+	end
 	json.connectionsCount @user.connections_count
+
+	json.sharesCount @user.share_onlys.size
+	json.ratingsCount @user.ratings_count
 
 	# photos
 	profileImage = @user.profile_photo.url(:square)

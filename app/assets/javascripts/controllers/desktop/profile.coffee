@@ -55,7 +55,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				followings: []
 				followers: []
 				connections: []
-				imFollowingCount: 0
 				followersMode: 'all'
 				page: 1
 				perPage: 10
@@ -111,6 +110,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				orginalUsername: ""
 				recentFollowingSummary: ""
 				recentFollowedSummary: ""
+				imFollowingCount: 0
+				ratingsCount: 0
+				sharessCount: 0
 				ratingsSummary: []
 				commentActions: []
 				joined: ""
@@ -308,7 +310,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			followings: []
 			followers: []
 			connections: []
-			imFollowingCount: 0
 			followersMode: 'all'
 			page: 1
 			perPage: 10
@@ -331,7 +332,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.follows.moreToLoad = @scope.profile.follows.totalItems > (@scope.profile.follows.page * @scope.profile.follows.perPage)
 			@scope.profile.follows.loaded = true
 			@buildConnections()
-			@buildFollowersImFollowingCount() unless @scope.profile.isMe
 			if @scope.profile.follows.moreToLoad is true
 				@timeout =>
 					@loadMoreFollows()
@@ -347,7 +347,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		results = []
 		angular.forEach @scope.profile.follows.followers, (item) =>
 			results.push(item) if item.imFollowing
-		@scope.profile.follows.imFollowingCount = results.length
+		@scope.profile.data.imFollowingCount = results.length
 
 	loadMoreExchanges: =>
 		@scope.profile.exchanges.page += 1

@@ -85,14 +85,14 @@
 		    <a id="activity-ratings-tab" class="with_badge nav-link" ng-click="selectTab('ratings')" ng-class="{'active': selectedTab == 'ratings'}">
 		    	<label>Ratings</label>
 			  	<span class="ajax_loading_label" ng-show="profile.ratings.moreToLoad">&nbsp;</span>
-		    	<span ng-show="!profile.ratings.moreToLoad">{{ profile.ratings.totalItems }}</span>
+		    	<span ng-show="!profile.ratings.moreToLoad">{{ profile.data.ratingsCount }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
 		    <a id="activity-shares-tab" class="with_badge nav-link" ng-click="selectTab('shares')" ng-class="{'active': selectedTab == 'shares'}">
 					<label>Shares</label>
 			  	<span class="ajax_loading_label" ng-show="profile.shares.moreToLoad">&nbsp;</span>
-					<span ng-show="!profile.shares.moreToLoad">{{ profile.shares.totalItems }}</span>
+					<span ng-show="!profile.shares.moreToLoad">{{ profile.data.sharesCount }}</span>
 		    </a>
 		  </li>
 		  <li class="nav-item">
@@ -348,7 +348,7 @@
 					      <a class="nav-link"
 					          ng-class="{'active': profile.follows.followersMode == 'youKnow'}"
 					          href='#' ng-click="selectFollowersTab($event, 'youKnow')">
-					        <label>{{profile.follows.imFollowingCount}} Followers you know</label>
+					        <label>{{profile.data.imFollowingCount}} Followers you know</label>
 					      </a>
 					    </li>
 					  </ul>
