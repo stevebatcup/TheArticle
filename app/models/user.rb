@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many  :exchanges, through: :subscriptions
 
   before_create :assign_default_profile_photo_id
+  before_create :strip_whitespace
   after_create :assign_default_settings
   before_save :downcase_username
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
@@ -63,6 +64,12 @@ class User < ApplicationRecord
 
   attr_writer :login
 
+  def strip_whitespace
+    self.first_name = self.first_name.strip unless self.first_name.nil?
+    self.last_name = self.last_name.strip unless self.last_name.nil?
+    self.email = self.email.strip unless self.email.nil?
+  end
+
   def remember_me
     true
   end
@@ -88,7 +95,7 @@ class User < ApplicationRecord
     uname = generate_usernames.first
     self.slug = uname.downcase
     self.username = "@#{uname}"
-    self.display_name = "#{first_name} #{last_name}"
+    self.display_name = "#{first_name.strip} #{last_name.strip}"
 
     self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
     self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
@@ -121,7 +128,7 @@ class User < ApplicationRecord
   end
 
   def account_name
-    "#{self.first_name} #{self.last_name}"
+    "#{self.first_name.strip} #{self.last_name.strip}"
   end
 
   def set_ip_data(request)
