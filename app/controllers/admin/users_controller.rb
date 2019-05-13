@@ -17,7 +17,7 @@ module Admin
         elsif params.fetch(:user).fetch(:order) == 'admin_account_status'
           resources = resources.reorder("status #{dir}")
         elsif params.fetch(:user).fetch(:order) == 'admin_profile_status'
-          resources = resources.reorder("IF(status = 2, 2,(IF(has_completed_wizard = 1, (IF(status=1, 0, 3)), 2))) #{dir}")
+          resources = resources.reorder("IF(status = 2, 1,(IF(has_completed_wizard = 1, (IF(status=1, 0, 3)), 2))) #{dir}")
         end
       end
       resources = resources.page(params[:page]).per(records_per_page)
