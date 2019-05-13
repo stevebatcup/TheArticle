@@ -42,10 +42,14 @@ module User::Adminable
 	end
 
 	def admin_profile_status
-		if has_completed_wizard
-			profile_is_deactivated? ? 'deactivated' : 'live'
+		if status.to_sym == :deleted
+			'deleted'
 		else
-			'incomplete'
+			if has_completed_wizard
+				profile_is_deactivated? ? 'deactivated' : 'live'
+			else
+				'incomplete'
+			end
 		end
 	end
 
