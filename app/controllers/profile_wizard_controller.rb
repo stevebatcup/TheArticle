@@ -25,4 +25,16 @@ class ProfileWizardController < ApplicationController
 			@error = e.message
 		end
 	end
+
+	def save_exchanges
+		current_user.subscriptions.destroy_all
+		exchanges = []
+		params[:ids].each do |eid|
+			exchanges << Exchange.find(eid)
+		end
+		editor_exchange = Exchange.editor_item
+		exchanges << editor_exchange
+		current_user.exchanges = exchanges
+		current_user.save
+	end
 end

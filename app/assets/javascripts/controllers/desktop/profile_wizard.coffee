@@ -168,6 +168,9 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 	validateExchanges: =>
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3
 
+	saveChosenExchanges: =>
+		@http.post("/exchanges_from_wizard", {ids: @scope.user.selectedExchanges})
+
 	toggleFollowSuggestion: (member, $event=null) =>
 		$event.preventDefault() if $event?
 		if member.imFollowing

@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   delete 'user_exchanges/:id',                 to: 'user_exchanges#destroy'
   get 'my-followers-of-exchange/:id',          to: 'user_exchanges#my_followers_of'
   get 'mute-exchange/:id',                     to: 'user_exchanges#mute'
+  post 'exchanges_from_wizard',                to: 'profile_wizard#save_exchanges'
 
   post 'interaction-mute',                     to: 'interaction_mutes#create'
   delete 'interaction-mute/:share_id',         to: 'interaction_mutes#destroy'
