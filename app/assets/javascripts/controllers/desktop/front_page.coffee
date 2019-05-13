@@ -142,18 +142,31 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				@resetCarousels()
 
 	selectTab: (section='all', canClick=false) =>
-		if canClick
-			@scope.selectedTab = section
-			if @scope.feeds[section].firstLoaded is false
-				@getFeeds(section)
+		unless @scope.selectedTab is section
+			if canClick
+				@scope.selectedTab = section
+				if @scope.feeds[section].firstLoaded is false
+					@getFeeds(section)
 
-			key = @sectionPageKey(section)
-			@initSuggestionsCarousels(section) unless @scope.suggestionsCarouselReady[key] is true
-			@initLatestArticlesCarousels(section) unless @scope.latestArticlesCarouselReady[key] is true
-			@initSponsoredPicksCarousels(section) unless @scope.sponsoredPicksCarouselReady[key] is true
-			@initTrendingExchangesCarousels(section) unless @scope.trendingExchangesCarouselReady[key] is true
-		else
-			return false
+				key = @sectionPageKey(section)
+
+				unless @scope.suggestionsCarouselReady[key] is true
+					console.log "initting suggestions #{key}" if console?
+					@initSuggestionsCarousels(section)
+
+				unless @scope.latestArticlesCarouselReady[key] is true
+					console.log "initting latest-articles #{key}" if console?
+					@initLatestArticlesCarousels(section)
+
+				unless @scope.sponsoredPicksCarouselReady[key] is true
+					console.log "initting sponsored-picks #{key}" if console?
+					@initSponsoredPicksCarousels(section)
+
+				unless @scope.trendingExchangesCarouselReady[key] is true
+					console.log "initting trending-exchanges #{key}" if console?
+					@initTrendingExchangesCarousels(section)
+			else
+				return false
 
 	bindScrollEvent: =>
 		$win = $(window)
