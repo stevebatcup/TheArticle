@@ -149,22 +149,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@getFeeds(section)
 
 				key = @sectionPageKey(section)
-
-				unless @scope.suggestionsCarouselReady[key] is true
-					console.log "initting suggestions #{key}" if console?
-					@initSuggestionsCarousels(section)
-
-				unless @scope.latestArticlesCarouselReady[key] is true
-					console.log "initting latest-articles #{key}" if console?
-					@initLatestArticlesCarousels(section)
-
-				unless @scope.sponsoredPicksCarouselReady[key] is true
-					console.log "initting sponsored-picks #{key}" if console?
-					@initSponsoredPicksCarousels(section)
-
-				unless @scope.trendingExchangesCarouselReady[key] is true
-					console.log "initting trending-exchanges #{key}" if console?
-					@initTrendingExchangesCarousels(section)
+				@initSuggestionsCarousels(section) unless @scope.suggestionsCarouselReady[key] is true
+				@initLatestArticlesCarousels(section) unless @scope.latestArticlesCarouselReady[key] is true
+				@initSponsoredPicksCarousels(section) unless @scope.sponsoredPicksCarouselReady[key] is true
+				@initTrendingExchangesCarousels(section) unless @scope.trendingExchangesCarouselReady[key] is true
 			else
 				return false
 
@@ -242,6 +230,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@timeout =>
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 			key = @sectionPageKey(section)
+			console.log "initting suggestions #{key}" if console?
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
 				slidesToShow: slidesToShow
 				slidesToScroll: 1
@@ -266,6 +255,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	initLatestArticlesCarousels: (section) =>
 		@timeout =>
 			key = @sectionPageKey(section)
+			console.log "initting latest-articles #{key}" if console?
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 540 then 1 else 2
 			$(".slick-carousel.latest_articles[data-page=#{key}]", ".section_#{section}").slick
 				infinite: true
@@ -293,6 +283,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	initSponsoredPicksCarousels: (section) =>
 		@timeout =>
 			key = @sectionPageKey(section)
+			console.log "initting sponsored-picks #{key}" if console?
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 540 then 1 else 2
 			$(".slick-carousel.sponsored_picks[data-page=#{key}]", ".section_#{section}").slick
 				infinite: true
@@ -320,6 +311,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	initTrendingExchangesCarousels: (section) =>
 		@timeout =>
 			key = @sectionPageKey(section)
+			console.log "initting trending-exchanges #{key}" if console?
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 540 then 1 else 2
 			$(".slick-carousel.trending_exchanges[data-page=#{key}]", ".section_#{section}").slick
 				infinite: true
