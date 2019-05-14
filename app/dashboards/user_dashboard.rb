@@ -125,7 +125,7 @@ class UserDashboard < Administrate::BaseDashboard
     # :notification_settings,
     # :communication_preferences,
     # :email_alias_logs,
-    :admin_account_status,
+    # :admin_account_status,
     :title,
     :first_name,
     :last_name,
