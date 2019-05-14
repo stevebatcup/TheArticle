@@ -20,7 +20,7 @@ namespace :notifications do
 	task :daily_categorisations => :environment do
 		items = DailyUserMailItem.select(:user_id).where(action_type: "categorisation").where("DATE(created_at) = CURDATE()").group(:user_id)
 		items.each do |item|
-			if user = User.active.find_by(id: item.user_id)
+			if user = User.where(status: :active).find_by(id: item.user_id)
 				user.send_daily_categorisations_mail
 			end
 		end
@@ -29,7 +29,7 @@ namespace :notifications do
 	task :weekly_categorisations => :environment do
 		items = WeeklyUserMailItem.select(:user_id).where(action_type: "categorisation").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)").group(:user_id)
 		items.each do |item|
-			if user = User.active.find_by(id: item.user_id)
+			if user = User.where(status: :active).find_by(id: item.user_id)
 				user.send_weekly_categorisations_mail
 			end
 		end
