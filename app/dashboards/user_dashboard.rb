@@ -99,7 +99,7 @@ class UserDashboard < Administrate::BaseDashboard
     :display_name,
     :username,
     :email,
-    :status,
+    :admin_account_status,
     :has_completed_wizard,
   ].freeze
 
@@ -125,7 +125,7 @@ class UserDashboard < Administrate::BaseDashboard
     # :notification_settings,
     # :communication_preferences,
     # :email_alias_logs,
-    :status,
+    :admin_account_status,
     :title,
     :first_name,
     :last_name,
