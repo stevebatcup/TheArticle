@@ -53,6 +53,23 @@ $contrast: 5%;
 	#ratings_box {
 		margin: 10px 0 15px;
 		padding: 20px 20px 5px;
+
+		#share_on_twitter_item {
+			input[type=checkbox] {
+				// width: 22px;
+				height: 22px;
+				margin-right: 5px;
+			}
+
+			svg {
+				margin: 1px 7px 0px 0;
+				height: 22px;
+			}
+
+			span {
+				font-weight: normal;
+			}
+		}
 	}
 
 	.button_box {

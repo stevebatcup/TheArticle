@@ -3,6 +3,7 @@
     <div class="modal-content"
           ng-controller="SharingPanelController"
           data-article-id="<%= article.id %>"
+          data-article-title="<%= article.title.html_safe %>"
           data-share-comments="<%= article_share['comments'] %>"
           data-share-well_written="<%= convert_rating_to_dots(article_share['rating_well_written']) %>"
           data-share-valid_points="<%= convert_rating_to_dots(article_share['rating_valid_points']) %>"
@@ -104,6 +105,12 @@
               </li>
             </ul>
       		</div>
+
+          <label id="share_on_twitter_item" class="d-flex">
+            <input type="checkbox" ng-model="share.share_on_twitter" />
+            <i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>
+            <span class="text">Also share on Twitter</span>
+          </label>
       	</div>
         <% end %>
 

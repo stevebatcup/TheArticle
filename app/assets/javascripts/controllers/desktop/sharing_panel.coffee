@@ -28,6 +28,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			rating_well_written: @element.data('share-well_written')
 			rating_valid_points: @element.data('share-valid_points')
 			rating_agree: @element.data('share-agree')
+			share_on_twitter: false
 
 	setRatingsDefaultHeading: =>
 		notYetRatedHeading = "Add a rating?"
@@ -67,9 +68,31 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 				$('.close_share_modal').first().click()
 				@cookies.put('ok_to_flash', true)
 				@scope.sharing = false
-				window.location.reload()
+				if @scope.share.share_on_twitter
+					@openTweetWindow =>
+						window.location.reload()
+				else
+					window.location.reload()
 			else
 				@scope.formError = response.data.message
+
+	openTweetWindow: (callback=null) =>
+		articleUrl = window.location.toString()
+		wellWritten = "#{@scope.share.rating_well_written}/5"
+		interesting = "#{@scope.share.rating_valid_points}/5"
+		agree = "#{@scope.share.rating_agree}/5"
+		ratingTweet = "I rated \"#{@element.data('article-title')}\" on TheArticle. Well written: #{wellWritten}, Interesting: #{interesting}, Agree: #{agree}."
+		width = 600
+		height = 300
+		left = (screen.width/2)-(width/2)
+		top = (screen.height/2)-(height/2)
+		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
+		twitterWindow = window.open(url, 'twitterWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
+		timer = setInterval =>
+			if twitterWindow.closed
+				clearInterval(timer)
+				callback.call(@) if callback?
+		, 1000
 
 	expandCommentsBox: ($event) =>
 		$textarea = $($event.target)
