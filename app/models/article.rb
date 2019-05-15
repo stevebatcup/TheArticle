@@ -20,8 +20,8 @@ class Article < ApplicationRecord
 			unless fa = FutureArticle.find_by(wp_id: wp_id)
 				fa = FutureArticle.new({wp_id: wp_id})
 			end
-			fa.created_at = Time.now unless fa.persisted?
-			fa.updated_at = Time.now
+			fa.created_at = Time.zone.now unless fa.persisted?
+			fa.updated_at = Time.zone.now
 			fa.publish_date = publish_date
 			fa.save
 		else

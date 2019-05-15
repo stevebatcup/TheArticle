@@ -39,5 +39,6 @@ module TheArticle
     # config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
 
     config.time_zone = 'Europe/London'
+    config.active_record.default_timezone = :local
   end
 end
