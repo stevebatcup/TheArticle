@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-	after_action  :generate_profile_suggestions, :only => [:create]
+	# after_action  :generate_profile_suggestions, :only => [:create]
 	layout	:profile_wizard_layout_for_mobile
 
 	def new
