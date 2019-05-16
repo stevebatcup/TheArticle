@@ -81,7 +81,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		wellWritten = "#{@scope.share.rating_well_written}/5"
 		interesting = "#{@scope.share.rating_valid_points}/5"
 		agree = "#{@scope.share.rating_agree}/5"
-		ratingTweet = "I rated \"#{@element.data('article-title')}\" on TheArticle. Well written: #{wellWritten}, Interesting: #{interesting}, Agree: #{agree}."
+		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{@scope.share.comments}"
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		twitterWindow = window.open(url, 'twitterWindow')
 		timer = setInterval =>

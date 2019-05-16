@@ -81,7 +81,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		wellWritten = "#{@scope.share.rating_well_written}/5"
 		interesting = "#{@scope.share.rating_valid_points}/5"
 		agree = "#{@scope.share.rating_agree}/5"
-		ratingTweet = "I rated \"#{@element.data('article-title')}\" on TheArticle. Well written: #{wellWritten}, Interesting: #{interesting}, Agree: #{agree}."
+		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{@scope.share.comments}"
 		width = 600
 		height = 300
 		left = (screen.width/2)-(width/2)
