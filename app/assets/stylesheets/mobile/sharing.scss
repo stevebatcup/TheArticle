@@ -55,7 +55,8 @@ $contrast: 5%;
 			padding: 10px 10px 2px;
 
 
-			#share_on_twitter_item {
+			#share_on_twitter_item,
+			#share_on_facebook_item {
 				input[type=checkbox] {
 					height: 25px;
 					margin-right: 5px;
@@ -65,6 +66,9 @@ $contrast: 5%;
 				svg {
 					margin: 1px 7px 0px 0;
 					height: 22px;
+					width: 16px;
+					position: relative;
+					top: -1px;
 				}
 
 				span {
