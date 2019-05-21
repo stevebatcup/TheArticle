@@ -70,9 +70,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 				@cookies.put('ok_to_flash', true)
 				@scope.sharing = false
 				if @scope.share.share_on_twitter
-					@openTweetWindow(@scope.share.share_on_facebook)
-				else if @scope.share.share_on_facebook
-					@openFacebookWindow()
+					@openTweetWindow(false)
 				else
 					window.location.reload()
 			else
