@@ -370,3 +370,28 @@ class TheArticle.PageController extends TheArticle.NGController
 		$("#registerInterstitialModal").modal
 			backdrop: 'static'
 			keyboard: false
+
+	getCurrentWord: ($textbox) =>
+		stopCharacters = [' ', '\n', '\r', '\t']
+		start = $textbox[0].selectionStart
+		end = $textbox[0].selectionEnd
+		text = $textbox.val()
+		while start > 0
+			if stopCharacters.indexOf(text[start-1]) is -1
+				start--
+			else
+				break
+		start++
+		while end < text.length
+			if stopCharacters.indexOf(text[end-1]) is -1
+				end++
+			else
+				break
+		currentWord = text.substr(start-1, end - (start-1))
+
+	setUserTagging: ($textbox) =>
+		word = @getCurrentWord($textbox)
+		if word.match /^\@(.)+/
+			@http.get("/profile/search-by-username/#{word}").then (response) =>
+				console.log response.results
+
