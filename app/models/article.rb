@@ -375,15 +375,6 @@ class Article < ApplicationRecord
 		if is_mobile
 			ads = [
 				{
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				},
-				{
 					position: 7,
 					ad_type_id: 1,
 					ad_page_id: ad_page_id,
@@ -403,17 +394,7 @@ class Article < ApplicationRecord
 				}
 			]
 		else
-			ads = [
-				{
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				}
-			]
+			ads = []
 		end
 		ads
 	end
