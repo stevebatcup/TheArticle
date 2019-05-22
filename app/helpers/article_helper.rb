@@ -32,7 +32,11 @@ module ArticleHelper
 		end
 
 		# unruly video ads
-		content_html.css('p')[3].before ActionController::Base.render(partial: 'common/unruly_script')
+		if content_html.at_css('p')
+			if content_html.css('p')[3]
+				content_html.css('p')[3].before ActionController::Base.render(partial: 'common/unruly_script')
+			end
+		end
 
 		content_html.to_s.html_safe
 	end
