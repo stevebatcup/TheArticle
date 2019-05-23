@@ -17,7 +17,7 @@
     "angular-cookies": "latest",
     "moment": "latest",
     "cropperjs": "latest",
-    "tinymce": "latest",
+    "tinymce": "4.6.4",
     "tinymce-mention": "latest"
   }
 }

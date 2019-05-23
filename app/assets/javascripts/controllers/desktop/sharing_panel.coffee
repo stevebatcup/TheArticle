@@ -23,31 +23,36 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@setRatingsDefaultHeading()
 		@bindEvents()
 
-		# @timeout =>
-		# 	tinymce.init
-		# 		selector: 'textarea#comments'
-		# 		height: 250
-		# 		menubar: false
-		# 		toolbar: false
-		# 		statusbar: false
-		# 		mentions:
-		# 			highlighter: (text) =>
-		# 				text.replace new RegExp('(' + this.query + ')', 'ig'), ($1, match) =>
-		# 					"<b>#{match}</b>"
-		# 			render: (item) =>
-		# 				return "<li><a href='javascript:;'><span>#{item.name}</span></a></li>"
-		# 			source: (query, process, delimiter) =>
-		# 				if delimiter is '@'
-		# 					@http.get("/profile/search-by-username/#{query}").then (response) =>
-		# 						console.log response.data.results
-		# 						process(response.data.results) if response.data.results?
-		# 		plugins: [
-		# 			"mention"
-		# 		]
-		# 		content_css: [
-		# 			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i'
-		# 		]
-		# , 500
+		@timeout =>
+			tinymce.init
+				selector: 'textarea#comments'
+				height: 250
+				statusbar: false
+				menubar: false
+				toolbar: false
+				mentions:
+					items: 6
+					delay: 0
+					queryBy: 'username'
+					render: (item) =>
+						return "<li><a href='javascript:;'><span>#{item.username} (#{item.displayname})</span></a></li>"
+					insert: (item) =>
+						'<span class="mentioned_user" style="font-weight:bold;" data-user="' + item.id + '">' + item.displayname + '</span>';
+					highlighter: (text) ->
+						text.replace new RegExp('(' + this.query + ')', 'ig'), ($1, match) ->
+							'<i>' + match + '</i>'
+					source: (query, process, delimiter) =>
+						if delimiter is '@'
+							if query.length > 1
+								@http.get("/profile/search-by-username/#{query}").then (response) =>
+									process(response.data.results) if response.data.results?
+							else
+								[]
+				plugins : "link, paste"
+				external_plugins:
+					'mention' : 'http://stevendevooght.github.io/tinyMCE-mention/javascripts/tinymce/plugins/mention/plugin.js'
+				content_css: 'http://stevendevooght.github.io/tinyMCE-mention/stylesheets/rte-content.css'
+		, 500
 
 
 	resetData: =>
@@ -76,17 +81,6 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 
 		@scope.$on 'copy_started_comments', (e, data) =>
 			@scope.share.comments = data.comments
-
-		# $(document).on 'focus', '.nicEdit-main', (e) =>
-		# 	$box = $(e.currentTarget)
-		# 	$box.addClass('expanded') unless $box.hasClass('expanded')
-		# 	if !$box.data('dirty')
-		# 		$box.text ''
-		# 		$box.data('dirty', 1).attr('data-dirty', 1)
-
-		# $(document).on 'blur', '.nicEdit-main', (e) =>
-		# 	$box = $(e.currentTarget)
-		# 	$box.removeClass('expanded') if $box.hasClass('expanded')
 
 	toggleDots: (section, rating) =>
 		@scope.share["rating_#{section}"] = rating
