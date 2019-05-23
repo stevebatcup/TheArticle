@@ -77,7 +77,7 @@ class UsersController < ApplicationController
 
 	def search_by_username
 		@results = User.search(conditions: { username: "*#{params[:username]}*", status: 'active', has_completed_wizard: true },
-														page: 1, per_page: 5).to_a
+														page: 1, per_page: 6).to_a
 	end
 
 private

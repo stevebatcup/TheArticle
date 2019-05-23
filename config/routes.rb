@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile',                            to: 'users#update'
   put 'my-photo',                              to: 'users#update_photo'
+  get 'profile/search-by-username',            to: 'users#search_by_username'
   get 'profile/search-by-username/:username',  to: 'users#search_by_username'
 
   get 'user_followings',                       to: 'user_followings#index'
