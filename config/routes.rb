@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   delete 'user_exchanges/:id',                 to: 'user_exchanges#destroy'
   get 'my-followers-of-exchange/:id',          to: 'user_exchanges#my_followers_of'
   get 'mute-exchange/:id',                     to: 'user_exchanges#mute'
+  post 'exchanges_from_wizard',                to: 'profile_wizard#save_exchanges'
 
   post 'interaction-mute',                     to: 'interaction_mutes#create'
   delete 'interaction-mute/:share_id',         to: 'interaction_mutes#destroy'
@@ -51,6 +52,7 @@ Rails.application.routes.draw do
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
   put 'my-profile',                            to: 'users#update'
   put 'my-photo',                              to: 'users#update_photo'
+  get 'profile/search-by-username/:username',  to: 'users#search_by_username'
 
   get 'user_followings',                       to: 'user_followings#index'
   get 'user_followings/:id',                   to: 'user_followings#index'
@@ -125,6 +127,8 @@ Rails.application.routes.draw do
     get 'reactivate_user', to: 'users#reactivate'
     delete 'delete_user', to: 'users#destroy'
     delete 'destroy_user', to: 'users#destroy', destroy: true
+    resources :articles
+    delete 'purge_article', to: 'articles#purge', destroy: true
     resources :concern_reports
     resources :user_concern_reports
     resources :comment_concern_reports
@@ -134,6 +138,7 @@ Rails.application.routes.draw do
     resources :black_list_users
     resources :concern_reports
     resources :quarantined_third_party_shares
+    resources :wordpress_logs
     get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
     get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
     get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'

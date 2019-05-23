@@ -37,6 +37,22 @@ module User::Adminable
 		ConcernReport.unscoped.where(reported_id: self.id).size
 	end
 
+	def admin_account_status
+		[:active, :deactivated].include?(self.status.to_sym) ? 'active' : 'deleted'
+	end
+
+	def admin_profile_status
+		if status.to_sym == :deleted
+			'deleted'
+		else
+			if has_completed_wizard
+				profile_is_deactivated? ? 'deactivated' : 'live'
+			else
+				'incomplete'
+			end
+		end
+	end
+
 	module ClassMethods
 	end
 end

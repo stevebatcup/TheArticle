@@ -32,6 +32,14 @@ module User::Followable
     self.followers.map(&:id).include?(user.id)
   end
 
+  def im_following_same_count(other_user)
+    items = other_user.followers.to_a
+    items.select! do |f|
+      f.is_followed_by(self)
+    end
+    items.size
+  end
+
   def recent_followings(hours=24)
     self.followings.where("created_at >= DATE_SUB(CURTIME(), INTERVAL #{hours} HOUR)").order("created_at DESC")
   end

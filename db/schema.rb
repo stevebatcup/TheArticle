@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_29_141137) do
+ActiveRecord::Schema.define(version: 2019_05_10_100950) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -248,7 +248,7 @@ ActiveRecord::Schema.define(version: 2019_03_29_141137) do
   end
 
   create_table "feeds", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "user_id"
+    t.integer "user_id"
     t.integer "actionable_id"
     t.string "actionable_type"
     t.datetime "created_at", null: false
@@ -376,6 +376,12 @@ ActiveRecord::Schema.define(version: 2019_03_29_141137) do
     t.text "meta_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "pending_follows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "followed_id"
+    t.integer "follow_id"
   end
 
   create_table "profile_suggestions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

@@ -39,9 +39,10 @@ class Comment < ActiveRecord::Base
   end
 
   def create_notification
-    unless self.commentable.user_id == self.user_id
-      is_reply = !self.parent.nil?
+    is_reply = !self.parent.nil?
 
+    unless self.commentable.user_id == self.user_id
+      # Notification for original sharer
       notification = Notification.find_or_create_by({
         eventable_type: 'Comment',
         specific_type: "comment",
@@ -57,26 +58,28 @@ class Comment < ActiveRecord::Base
       notification.is_new = true
       notification.is_seen = false
       notification.save
+    end
 
-      if is_reply
-        unless self.commentable.user_id == self.parent.user_id
-          reply_notification = Notification.find_or_create_by({
-            eventable_type: 'Comment',
-            specific_type: "reply",
-            share_id: self.commentable.id,
-            user_id: self.parent.user_id,
-            feed_id: nil
-          })
-          reply_notification.eventable_id = self.id
-          reply_notification.feeds << self.feeds.first
-          reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
-          reply_notification.created_at = Time.now unless reply_notification.persisted?
-          reply_notification.updated_at = Time.now
-          reply_notification.is_new = true
-          reply_notification.is_seen = false
-          reply_notification.save
-        end
+    if is_reply
+      unless self.commentable.user_id == self.parent.user_id
+        # Reply notification for commenter
+        reply_notification = Notification.find_or_create_by({
+          eventable_type: 'Comment',
+          specific_type: "reply",
+          share_id: self.commentable.id,
+          user_id: self.parent.user_id,
+          feed_id: nil
+        })
+        reply_notification.eventable_id = self.id
+        reply_notification.feeds << self.feeds.first
+        reply_notification.body = ApplicationController.helpers.group_user_comment_feed_item(reply_notification, true, true)
+        reply_notification.created_at = Time.now unless reply_notification.persisted?
+        reply_notification.updated_at = Time.now
+        reply_notification.is_new = true
+        reply_notification.is_seen = false
+        reply_notification.save
       end
+
     end
   end
 

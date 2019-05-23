@@ -76,7 +76,7 @@ class CategorisationsMailer < Devise::Mailer
 											    position: relative;
 											    top: -4px;
 											    white-space: nowrap;
-											    background-color: #7d510f;
+											    background-color: #6c00ac;
 											    text-decoration: none;'>
 								#{exchange.name}</a>
 			        	<h2 class='text_shadow'

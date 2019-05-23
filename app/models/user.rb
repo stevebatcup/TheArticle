@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many  :exchanges, through: :subscriptions
 
   before_create :assign_default_profile_photo_id
+  before_create :strip_whitespace
   after_create :assign_default_settings
   before_save :downcase_username
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
@@ -63,6 +64,12 @@ class User < ApplicationRecord
 
   attr_writer :login
 
+  def strip_whitespace
+    self.first_name = self.first_name.strip unless self.first_name.nil?
+    self.last_name = self.last_name.strip unless self.last_name.nil?
+    self.email = self.email.strip unless self.email.nil?
+  end
+
   def remember_me
     true
   end
@@ -85,11 +92,12 @@ class User < ApplicationRecord
   end
 
   def assign_default_settings
-    self.username = generate_usernames.first
-    self.display_name = "#{first_name} #{last_name}"
-    self.slug = self.username.downcase
+    uname = generate_usernames.first
+    self.slug = uname.downcase
+    self.username = "@#{uname}"
+    self.display_name = "#{first_name.strip} #{last_name.strip}"
 
-    self.notification_settings.build({ key: 'email_followers', value: 'daily' })
+    self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
     self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
     self.notification_settings.build({ key: 'email_responses', value: 'never' })
     self.notification_settings.build({ key: 'email_replies', value: 'never' })
@@ -120,7 +128,7 @@ class User < ApplicationRecord
   end
 
   def account_name
-    "#{self.first_name} #{self.last_name}"
+    "#{self.first_name.strip} #{self.last_name.strip}"
   end
 
   def set_ip_data(request)
@@ -153,7 +161,7 @@ class User < ApplicationRecord
     amount.times do
       begin
         username = "#{first_name.downcase.strip}#{last_name.downcase.strip}#{i > 0 ? i : ''}"
-        username = username.gsub(/[^0-9a-z_ ]/i, '')
+        username = username.gsub(/[^0-9a-z_]/i, '')
         i += 1
       end while !self.class.is_username_available?("@#{username}") || items.include?(username)
       items << username
@@ -169,14 +177,6 @@ class User < ApplicationRecord
     self.lat = params[:location][:lat]
     self.lng = params[:location][:lng]
     self.country_code = params[:location][:country_code]
-    existing_exchange_ids = self.exchanges.map(&:id)
-    params[:selected_exchanges].each do |eid|
-      unless existing_exchange_ids.include?(eid)
-        self.exchanges << Exchange.find(eid)
-      end
-    end
-    editor_exchange = Exchange.editor_item
-    self.exchanges << editor_exchange unless existing_exchange_ids.include?(editor_exchange.id)
     self.has_completed_wizard = 1
     self.save
   end

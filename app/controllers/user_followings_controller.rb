@@ -70,6 +70,11 @@ class UserFollowingsController < ApplicationController
 	end
 
 	def destroy
+		if (!current_user.has_completed_wizard) && (pending_follow = PendingFollow.find_by(followed_id: params[:id]))
+			pending_follow.destroy
+			@status = :success
+		end
+
 		other_user = User.find(params[:id])
 		if current_user.followings.where(followed_id: params[:id]).first.destroy
 			flash[:notice] = "You are no longer following <b>#{other_user.display_name}</b>" if params[:set_flash]

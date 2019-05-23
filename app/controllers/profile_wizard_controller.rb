@@ -15,7 +15,8 @@ class ProfileWizardController < ApplicationController
 	def create
 		begin
 			current_user.complete_profile_from_wizard(params[:profile])
-			ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
+			# ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 25)
+			PendingFollow.process_for_user(current_user)
 			sign_in(current_user)
 			@status = :success
 			@redirect = "#{front_page_path}?from_wizard=1"
@@ -23,5 +24,17 @@ class ProfileWizardController < ApplicationController
 			@status = :error
 			@error = e.message
 		end
+	end
+
+	def save_exchanges
+		current_user.subscriptions.destroy_all
+		exchanges = []
+		params[:ids].each do |eid|
+			exchanges << Exchange.find(eid)
+		end
+		editor_exchange = Exchange.editor_item
+		exchanges << editor_exchange
+		current_user.exchanges = exchanges
+		current_user.save
 	end
 end

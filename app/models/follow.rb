@@ -4,16 +4,26 @@ class Follow < ApplicationRecord
 	belongs_to :followed, :class_name => "User"
 	belongs_to	:follow_group, optional: true
 
-	after_create	:update_feeds
-	after_create	:create_notification
-	after_destroy	:delete_feed_and_regenerate_notification
+	after_create	:process_user_data_if_ready
 
-	after_create	:update_follow_counts_for_both_users
+	after_destroy	:delete_feed_and_regenerate_notification
 	after_destroy	:update_follow_counts_for_both_users
 
 	def update_follow_counts_for_both_users
-		self.user.recalculate_follow_counts
-		self.followed.recalculate_follow_counts
+		if self.user.has_completed_wizard
+			self.user.recalculate_follow_counts
+			self.followed.recalculate_follow_counts
+		end
+	end
+
+	def process_user_data_if_ready
+		if self.user.has_completed_wizard
+			update_feeds
+			create_notification
+			update_follow_counts_for_both_users
+		else
+			PendingFollow.create(user_id: self.user_id, followed_id: self.followed_id, follow_id: self.id)
+		end
 	end
 
 	def update_feeds
@@ -103,7 +113,7 @@ class Follow < ApplicationRecord
 	end
 
 	def create_notification
-		if self.user.has_active_status? && self.user.has_completed_wizard
+		if self.user.has_active_status?
 			notification = Notification.where(eventable_type: 'Follow')
 											.where(user_id: self.followed_id)
 											.where("DATE(created_at) = CURDATE()")

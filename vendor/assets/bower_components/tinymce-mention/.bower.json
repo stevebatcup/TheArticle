@@ -1,0 +1,41 @@
+{
+  "name": "tinymce-mention",
+  "version": "4.0.1",
+  "description": "Mention/Autocomplete plugin for tinyMCE WYSIWYG editor.",
+  "main": "mention/plugin.min.js",
+  "keywords": [
+    "tinyMCE",
+    "autocomplete",
+    "mention"
+  ],
+  "authors": [
+    "Steven Devooght"
+  ],
+  "license": "MIT",
+  "homepage": "http://cognistreamer.github.io/tinyMCE-mention",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "gulpfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "tinymce-dist": "~4.1.7",
+    "jquery": "1.8.3"
+  },
+  "devDependencies": {
+    "qunit": "~1.16.0"
+  },
+  "_release": "4.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "4.0.1",
+    "commit": "48050e79f8d92d0c30047f34175fdc4bc8e62916"
+  },
+  "_source": "https://github.com/CogniStreamer/tinyMCE-mention.git",
+  "_target": "*",
+  "_originalSource": "tinymce-mention"
+}

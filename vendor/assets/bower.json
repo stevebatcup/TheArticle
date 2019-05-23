@@ -16,6 +16,8 @@
     "angular1-confirm": "latest",
     "angular-cookies": "latest",
     "moment": "latest",
-    "cropperjs": "latest"
+    "cropperjs": "latest",
+    "tinymce": "latest",
+    "tinymce-mention": "latest"
   }
 }

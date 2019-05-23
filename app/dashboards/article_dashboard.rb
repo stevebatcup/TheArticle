@@ -34,6 +34,12 @@ class ArticleDashboard < Administrate::BaseDashboard
     robots_nofollow: Field::Boolean,
     robots_noindex: Field::Boolean,
     is_sponsored: Field::Boolean,
+    admin_title: SanitizedStringField.with_options(searchable: false),
+    admin_author: SanitizedStringField.with_options(searchable: false),
+    admin_exchange_list: Field::String.with_options(searchable: false),
+    admin_tag_list: Field::String.with_options(searchable: false),
+    admin_share_count: Field::String.with_options(searchable: false),
+    admin_published_at: Field::String.with_options(searchable: false),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -42,52 +48,26 @@ class ArticleDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :keyword_tags,
-    :author,
-    :shares,
-    :categorisations,
+    :id,
+    :wp_id,
+    :admin_title,
+    :admin_author,
+    :admin_published_at,
+    :admin_exchange_list,
+    :admin_tag_list,
+    :admin_share_count,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :keyword_tags,
-    :author,
-    :shares,
-    :categorisations,
-    :exchanges,
-    :id,
-    :wp_id,
-    :title,
-    :content,
-    :image,
-    :image_caption,
-    :wp_image_id,
-    :slug,
-    :remote_article_url,
-    :remote_article_image_url,
-    :excerpt,
-    :created_at,
-    :updated_at,
-    :published_at,
-    :canonical_url,
-    :page_title,
-    :meta_description,
-    :social_image,
-    :robots_nofollow,
-    :robots_noindex,
-    :is_sponsored,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :keyword_tags,
     :author,
-    :shares,
-    :categorisations,
-    :exchanges,
     :wp_id,
     :title,
     :content,

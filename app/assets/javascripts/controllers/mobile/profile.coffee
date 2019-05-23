@@ -104,6 +104,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				displayName: ""
 				username: ""
 				orginalUsername: ""
+				ratingsCount: 0
+				sharessCount: 0
 				followers: []
 				followings: []
 				ratingsSummary: []

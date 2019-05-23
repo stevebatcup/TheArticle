@@ -22,12 +22,22 @@ module ArticleHelper
 	def adified_content(article)
 		content_html =  Nokogiri::HTML.fragment(article.content)
 		ad_slots = Article.content_ad_slots(request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id)
+
+		# static ads
 		ad_slots.each do |slot|
 			ad_html = ActionController::Base.render(partial: 'common/ad', locals: slot)
 			if position = content_html.css('p')[slot[:position]]
 				position.before ad_html
 			end
 		end
+
+		# unruly video ads
+		if content_html.at_css('p')
+			if content_html.css('p')[3]
+				content_html.css('p')[3].before ActionController::Base.render(partial: 'common/unruly_script')
+			end
+		end
+
 		content_html.to_s.html_safe
 	end
 

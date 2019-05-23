@@ -1,0 +1,38 @@
+/*
+Errno::ENOENT: No such file or directory @ rb_sysopen - scripts/sass/desktop.scss
+
+Backtrace:
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin/compiler.rb:454:in `read'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin/compiler.rb:454:in `update_stylesheet'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin/compiler.rb:294:in `watch'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/plugin.rb:109:in `method_missing'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/exec/sass_scss.rb:358:in `watch_or_update'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/exec/base.rb:50:in `parse'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/lib/sass/exec/base.rb:18:in `parse!'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/sass-3.7.2/bin/sass:13:in `<top (required)>'
+/Users/steve/.rbenv/versions/2.5.0/bin/sass:23:in `load'
+/Users/steve/.rbenv/versions/2.5.0/bin/sass:23:in `<top (required)>'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/cli/exec.rb:74:in `load'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/cli/exec.rb:74:in `kernel_load'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/cli/exec.rb:28:in `run'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/cli.rb:463:in `exec'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/vendor/thor/lib/thor/command.rb:27:in `run'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/vendor/thor/lib/thor/invocation.rb:126:in `invoke_command'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/vendor/thor/lib/thor.rb:387:in `dispatch'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/cli.rb:27:in `dispatch'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/vendor/thor/lib/thor/base.rb:466:in `start'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/cli.rb:18:in `start'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/exe/bundle:30:in `block in <top (required)>'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/lib/bundler/friendly_errors.rb:124:in `with_friendly_errors'
+/Users/steve/.rbenv/versions/2.5.0/lib/ruby/gems/2.5.0/gems/bundler-1.17.1/exe/bundle:22:in `<top (required)>'
+/Users/steve/.rbenv/versions/2.5.0/bin/bundle:23:in `load'
+/Users/steve/.rbenv/versions/2.5.0/bin/bundle:23:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Errno::ENOENT: No such file or directory @ rb_sysopen - scripts/sass/desktop.scss"; }

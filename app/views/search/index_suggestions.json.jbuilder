@@ -23,7 +23,7 @@ begin
 	if @contributors.any?
 		json.set! :contributors do
 			json.array! @contributors do |contributor|
-				unless contributor.is_sponsor?
+				unless (contributor.is_sponsor?) || (contributor.articles.size < 1)
 					json.term contributor.display_name.html_safe
 					json.image contributor.image.url(:listing)
 					json.articleCount pluralize(contributor.articles.size, "article")

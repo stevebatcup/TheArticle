@@ -34,7 +34,7 @@ module User::Mailable
     articles = []
     items = WeeklyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)")
     items.each do |item|
-      if categorisation = Categorisation.find(item.action_id)
+      if categorisation = Categorisation.find_by(id: item.action_id)
         articles << categorisation.article unless articles.include?(categorisation.article)
       end
     end
@@ -46,7 +46,7 @@ module User::Mailable
     articles = []
     items = DailyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("DATE(created_at) = CURDATE()")
     items.each do |item|
-      if categorisation = Categorisation.find(item.action_id)
+      if categorisation = Categorisation.find_by(id: item.action_id)
         articles << categorisation.article unless articles.include?(categorisation.article)
       end
     end

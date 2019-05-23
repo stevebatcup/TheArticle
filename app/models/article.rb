@@ -4,8 +4,8 @@ class Article < ApplicationRecord
 	belongs_to :author, optional: true
 	has_many :shares
 
-  has_many  :categorisations
-  has_many  :exchanges, through: :categorisations
+  has_many  :categorisations, dependent: :destroy
+  has_many  :exchanges, through: :categorisations, dependent: :destroy
 
   before_create	:nullify_ratings_caches
 	after_destroy :update_all_article_counts
@@ -13,13 +13,15 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
+  include Adminable
+
 	def self.schedule_create_or_update(wp_id, publish_date)
 		if publish_date > Time.now
 			unless fa = FutureArticle.find_by(wp_id: wp_id)
 				fa = FutureArticle.new({wp_id: wp_id})
 			end
-			fa.created_at = Time.now unless fa.persisted?
-			fa.updated_at = Time.now
+			fa.created_at = Time.zone.now unless fa.persisted?
+			fa.updated_at = Time.zone.now
 			fa.publish_date = publish_date
 			fa.save
 		else
@@ -65,7 +67,6 @@ class Article < ApplicationRecord
 			end
 		end
 	end
-
 
 	def exchange_names
 		exchanges.collect(&:name).join(" ")
@@ -120,7 +121,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.for_carousel(sponsored_starting_position=2)
-		Rails.cache.fetch("article_carousel") do
+		Rails.cache.fetch("article_carousel", expires_in: 10.minutes) do
 			articles = self.trending
 				.includes(:exchanges).references(:exchanges)
 	      .where.not(image: nil)
@@ -224,11 +225,6 @@ class Article < ApplicationRecord
 	end
 
 	def update_wp_cache(json)
-    # bust caches
-    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
-    	Rails.cache.delete(cache_key)
-    end
-
 		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
 		self.content = json["content"]["rendered"]
@@ -252,35 +248,60 @@ class Article < ApplicationRecord
 
     self.save
 
-    # categorisation emails and user-feeds
     if is_new_article && self.categorisations.any?
-    	handled_users = []
-    	self.categorisations.shuffle.each do |cat|
-		    cat_users = cat.handle_email_notifications(handled_users)
-		    cat_users.each { |cu| handled_users << cu }
-		  end
-
-		  self.categorisations.each do |cat|
-		  	cat.feeds.each do |cat_feed|
-					unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.id)
-						user_feed_item = FeedUser.new({
-							user_id: cat_feed.user.id,
-							action_type: 'categorisation',
-							source_id: self.id
-						})
-					end
-					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-					user_feed_item.updated_at = self.published_at
-					user_feed_item.feeds << cat_feed
-					user_feed_item.save
-				end
-			end
+    	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
+    	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
 	  end
 
     # update counter cache columns
     update_all_article_counts
     update_is_sponsored_cache
+
+    # log this action
+    log_data = {
+    	service: :wordpress,
+    	user_id: 0,
+    	request_method: is_new_article ? :publish_article : :update_article,
+    	request_data: json,
+    	response: nil
+    }
+    ApiLog.webhook log_data
+
+    # bust caches
+    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
+    	Rails.cache.delete(cache_key)
+    end
   end
+
+  def update_categorisation_feeds
+	  self.categorisations.each do |cat|
+			cat.update_feeds
+	  end
+		log_data = {
+			service: :wordpress,
+			user_id: 0,
+			request_method: :update_exchange_feeds,
+			request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "title" => { "rendered" => self.title } },
+			response: nil
+		}
+		ApiLog.webhook log_data
+  end
+
+  def send_categorisation_email_notifications
+  	handled_users = []
+  	self.categorisations.shuffle.each do |cat|
+	    cat_users = cat.handle_email_notifications(handled_users)
+	    cat_users.each { |cu| handled_users << cu }
+	  end
+	  log_data = {
+	  	service: :wordpress,
+	  	user_id: 0,
+	  	request_method: :send_email_notifications,
+	  	request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "title" => { "rendered" => self.title } },
+	  	response: nil
+	  }
+	  ApiLog.webhook log_data
+	end
 
   def update_all_article_counts
     Author.update_article_counts
@@ -354,15 +375,6 @@ class Article < ApplicationRecord
 		if is_mobile
 			ads = [
 				{
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				},
-				{
 					position: 7,
 					ad_type_id: 1,
 					ad_page_id: ad_page_id,
@@ -382,18 +394,30 @@ class Article < ApplicationRecord
 				}
 			]
 		else
-			ads = [
-				{
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				}
-			]
+			ads = []
 		end
 		ads
+	end
+
+	def self.purge(wp_id) # delete article from WP
+		article = unscoped.where(wp_id: wp_id).first!
+		article.purge_self
+  rescue
+		logger.warn "Could not purge Article with id #{wp_id}, no record with that id was found."
+	end
+
+	def purge_self
+		# shares
+		share_ids = self.shares.map(&:id)
+		Feed.where(actionable_type: 'Share').where(actionable_id: share_ids).destroy_all
+		FeedUser.where(action_type: 'share').where(source_id: share_ids).destroy_all
+		self.shares.destroy_all
+		# categorisations
+		cat_ids = self.categorisations.map(&:id)
+		Feed.where(actionable_type: 'Categorisation').where(actionable_id: cat_ids).destroy_all
+		FeedUser.where(action_type: 'categorisation').where(source_id: self.id).destroy_all
+		self.categorisations.destroy_all
+		# article
+		self.destroy
 	end
 end

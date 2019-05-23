@@ -81,7 +81,9 @@
 	    	<div class="row">
 					<div class="col-12 text-center px-md-4">
 						<h4 class="text-center" ng-show="!exchangesOk">Select 3 or more to continue</h4>
-		        <input type="submit" wz-next value="Continue" class="btn text-white bg-green-dark pt-1 btn-block my-3"  ng-show="exchangesOk" />
+		        <input type="submit" wz-next value="Continue" class="btn text-white bg-green-dark pt-1 btn-block my-3"
+		        				ng-show="exchangesOk"
+		        				ng-click="saveChosenExchanges($event)" />
 		      </div>
 		    </div>
       </div>

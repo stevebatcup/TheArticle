@@ -4,7 +4,7 @@ module User::Suggestable
   end
 
   def pending_suggestions
-    self.profile_suggestions.where(status: :pending)
+    self.profile_suggestions.includes(:suggested).where(status: :pending).where(users: { has_completed_wizard: true, status: User.statuses["active"] })
   end
 
   def paginated_pending_suggestions(page, per_page)
@@ -60,7 +60,11 @@ module User::Suggestable
       end
     end
 
-    # TODO: Same location
+    # de-dupe
+    existing_ids.uniq!
+    results.select! do |result|
+      existing_ids.include?(result[:user_id])
+    end
 
     save_suggestions results.shuffle.slice(0..limit)
   end
