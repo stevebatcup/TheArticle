@@ -25,7 +25,14 @@ class ProfileSuggestionsController < ApplicationController
 				end
 			end
 			format.html do
-				redirect_to my_profile_path if !browser.device.mobile?
+				if !browser.device.mobile?
+					@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+					@trending_articles = Article.latest.limit(Author.sponsors.any? ? 8 : 9).all.to_a
+					@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+					@contributors_for_spotlight = Author.contributors_for_spotlight(3)
+					@recent_articles = Article.recent
+					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
+				end
 			end
 		end
 	end

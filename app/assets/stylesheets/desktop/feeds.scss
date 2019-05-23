@@ -714,6 +714,7 @@
 #home_feed_tabs {
 	li {
 		a.nav-link {
+			color: inherit !important;
 
 			label {
 				cursor: pointer;
