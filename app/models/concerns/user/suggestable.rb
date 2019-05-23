@@ -39,7 +39,7 @@ module User::Suggestable
       end
     else
       # Popular with people you follow
-      self.followings.limit(10).each do |following|
+      self.followings.limit(25).each do |following|
         following_user = following.followed
         following_user.followings.where.not(followed_id: existing_ids).limit(2).each do |their_following|
           results << { user_id: their_following.followed.id, reason: "popular_with_following_#{following_user.id}" }
