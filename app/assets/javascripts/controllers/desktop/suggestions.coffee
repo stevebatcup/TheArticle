@@ -5,7 +5,9 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$rootScope'
 	  '$http'
+	  '$element'
 	  '$timeout'
+	  '$interval'
 	  '$compile'
 	  '$ngConfirm'
 	]
@@ -20,6 +22,17 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 			forYous: []
 			populars: []
 		@getSuggestions()
+
+		if @element.data('full-page-suggestions')
+			@scope.followCounts =
+				followers: 0
+				followings: 0
+				connections: 0
+			@updateMyFollowCounts()
+			@interval =>
+				@updateMyFollowCounts()
+			, 10000
+
 
 	selectSuggestionTab: ($event, tab) =>
 		$event.preventDefault()
