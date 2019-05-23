@@ -231,3 +231,16 @@ $contrast: 5%;
 		}
 	}
 }
+
+#rte-container {
+	width: 800px;
+	height: 364px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -182px 0 0 -400px;
+}
+
+.rte-autocomplete {
+	z-index: 10000;
+}
