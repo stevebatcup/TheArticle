@@ -76,7 +76,7 @@
           googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
 
           <% if is_staging? %>
-             googletag.pubads().setTargeting('env', ['stage']);
+             googletag.pubads().setTargeting('env', 'stage');
           <% end %>
 
           <% if is_article_page? %>
