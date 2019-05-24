@@ -18,14 +18,21 @@ class ProfileSuggestionsController < ApplicationController
 						suggestions = current_user.pending_suggestions
 						current_user.generate_suggestions(false, 10) if suggestions.empty?
 						already_following_ids = current_user.followings.map(&:followed_id)
-						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(15)
-						populars_limit = 15 + (15- @for_yous.size)
+						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(50)
+						populars_limit = 50 + (50- @for_yous.size)
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(populars_limit)
 					end
 				end
 			end
 			format.html do
-				redirect_to my_profile_path if !browser.device.mobile?
+				if !browser.device.mobile?
+					@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+					@trending_articles = Article.latest.limit(Author.sponsors.any? ? 8 : 9).all.to_a
+					@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+					@contributors_for_spotlight = Author.contributors_for_spotlight(3)
+					@recent_articles = Article.recent
+					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
+				end
 			end
 		end
 	end

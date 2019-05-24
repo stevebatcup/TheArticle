@@ -5,7 +5,9 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 	  '$scope'
 	  '$rootScope'
 	  '$http'
+	  '$element'
 	  '$timeout'
+	  '$interval'
 	  '$compile'
 	  '$ngConfirm'
 	]
@@ -20,6 +22,17 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 			forYous: []
 			populars: []
 		@getSuggestions()
+
+		if @element.data('full-page-suggestions')
+			@scope.followCounts =
+				followers: 0
+				followings: 0
+				connections: 0
+			@updateMyFollowCounts()
+			@interval =>
+				@updateMyFollowCounts()
+			, 10000
+
 
 	selectSuggestionTab: ($event, tab) =>
 		$event.preventDefault()
@@ -39,6 +52,9 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 
 	buildListForSidebox: =>
 		@scope.suggestions.listForSidebox = _.shuffle(@scope.suggestions.forYous.concat(@scope.suggestions.populars)).slice(0, 3)
+
+	toggleFollowUserFromCard: (member) =>
+		@toggleFollowSuggestion(member)
 
 	toggleFollowSuggestion: (member) =>
 		if member.imFollowing

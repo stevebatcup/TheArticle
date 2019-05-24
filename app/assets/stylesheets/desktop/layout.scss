@@ -300,7 +300,8 @@ main#main_content {
 	&.users_show,
 	&.notifications_index,
 	&.account_settings_edit,
-	&.search_index {
+	&.search_index,
+	&.profile_suggestions_index {
 		background: $grey_light;
 	}
 }

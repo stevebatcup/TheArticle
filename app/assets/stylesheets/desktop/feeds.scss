@@ -362,7 +362,7 @@
 
 	&.feed-follow.col-6 {
 		padding: 0 10px 10px;
-		height: 300px;
+		height: 311px;
 
 		.block_click {
 			height: 100%;
@@ -498,7 +498,7 @@
 		margin-top: 8px;
 		position: relative;
 		overflow: hidden;
-		margin-left: 7px;
+		margin-left: 5px;
 
 		div {
 			float: left;
@@ -540,7 +540,7 @@
 			line-height: 1.3em;
 			float: left;
 			width: 75%;
-			margin-left: 7px;
+			margin-left: 4px;
 			margin-bottom: 5px;
 			position: relative;
 			top: 5px;
@@ -714,6 +714,7 @@
 #home_feed_tabs {
 	li {
 		a.nav-link {
+			color: inherit !important;
 
 			label {
 				cursor: pointer;
