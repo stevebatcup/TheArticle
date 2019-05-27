@@ -1,6 +1,7 @@
 <%
 	if local_assigns[:locals]
 		suggestions = [:suggestions].nil? ? false : true
+		full_page = [:full_page].nil? ? false : true
 	end
 %>
 <div class="py-2 px-2 mb-2">
@@ -25,32 +26,9 @@
 					</h6>
 				</div>
 
-				<% if user_signed_in? %>
-					<button class="btn btn-sm follow_btn mt-2"
-									ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
-									ng-click="<%= suggestions ? 'toggleFollowSuggestion(item, $event)' : 'toggleFollowUserFromCard(item, $event)' %>"
-									ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock) && (!item.isBlocked) && (!item.isBlockingMe)">
-						<i class="fas fa-users mr-2"></i>
-						<span ng-show="item.imFollowing">Following</span>
-						<span ng-show="!item.imFollowing">Follow</span>
-					</button>
-
-					<button class="btn btn-sm mt-2 btn-info"
-									ng-click="unmute(item, $event)"
-									ng-if="item.isMute">
-						Unmute
-					</button>
-
-					<button class="btn btn-sm mt-2 btn-info"
-									ng-click="unblock(item, $event)"
-									ng-if="item.isBlock">
-						Unblock
-					</button>
-				<% else %>
-					<button class="btn btn-sm follow_btn btn-outline-success"
-									 ng-click="actionRequiresSignIn($event, 'follow ' + item.displayName)">
-						<i class="fas fa-users mr-2"></i>
-						Follow
+				<% if suggestions == true || full_page == true %>
+					<button class="ignore_suggestion" ng-click="ignoreSuggestion(item, $event)">
+						<i class="fas fa-times text-grey-dark text-increase-1 mt-1"></i>
 					</button>
 				<% end %>
 			</div>
@@ -67,4 +45,35 @@
 	</div>
 
 	<div class="shared_followers w-100" ng-if="item.sharedFollowers.length > 0" ng-bind-html="item.sharedFollowers"></div>
+
+	<% if user_signed_in? %>
+		<div class="container follow_btn_container">
+			<button class="btn btn-block btn-sm follow_btn mt-2"
+							ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
+							ng-click="<%= suggestions ? 'toggleFollowSuggestion(item, $event)' : 'toggleFollowUserFromCard(item, $event)' %>"
+							ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock) && (!item.isBlocked) && (!item.isBlockingMe)">
+				<i class="fas fa-users mr-2"></i>
+				<span ng-show="item.imFollowing">Following</span>
+				<span ng-show="!item.imFollowing">Follow</span>
+			</button>
+
+			<button class="btn btn-block btn-sm mt-2 btn-info"
+							ng-click="unmute(item, $event)"
+							ng-if="item.isMute">
+				Unmute
+			</button>
+
+			<button class="btn btn-block btn-sm mt-2 btn-info"
+							ng-click="unblock(item, $event)"
+							ng-if="item.isBlock">
+				Unblock
+			</button>
+		</div>
+	<% else %>
+		<button class="btn btn-block btn-sm follow_btn btn-outline-success"
+						 ng-click="actionRequiresSignIn($event, 'follow ' + item.displayName)">
+			<i class="fas fa-users mr-2"></i>
+			Follow
+		</button>
+	<% end %>
 </div>

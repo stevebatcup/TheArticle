@@ -50,7 +50,13 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 				@scope.suggestions.mode = 'populars'
 
 	buildListForSidebox: =>
-		@scope.suggestions.listForSidebox = _.shuffle(@scope.suggestions.forYous.concat(@scope.suggestions.populars)).slice(0, 3)
+		if @scope.suggestions.populars.length is 0
+			list = @scope.suggestions.forYous
+		else if @scope.suggestions.populars.length < 3
+			list = @scope.suggestions.populars.concat(@scope.suggestions.forYous)
+		else
+			list = @scope.suggestions.populars
+		@scope.suggestions.listForSidebox = list.slice(0, 3)
 
 	toggleFollowUserFromCard: (member) =>
 		@toggleFollowSuggestion(member)

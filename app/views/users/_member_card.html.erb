@@ -1,10 +1,15 @@
 <%
 	if local_assigns[:locals]
 		suggestions = [:suggestions].nil? ? false : true
+		full_page = [:full_page].nil? ? false : true
 	end
 %>
 
+<% if suggestions == true %>
+<div class="pb-2 bg-white h-100">
+<% else %>
 <div class="pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
+<% end %>
 	<div class="card-img-top cover_photo">
 		<% unless suggestions == true %><a href="{{item.path}}"><% end %>
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />
@@ -40,12 +45,21 @@
 				</button>
 			<% end %>
 		</div>
-		<h5 class="card-title d-flex justify-content-between mb-0">
-			<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
-				<span>{{ item.displayName }}</span>
-				<% unless suggestions == true %></a><% end %>
-			<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
-		</h5>
+
+		<div class="d-flex align-items-start justify-content-between">
+			<h5 class="card-title d-flex justify-content-between mb-0">
+				<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
+					<span>{{ item.displayName }}</span>
+					<% unless suggestions == true %></a><% end %>
+				<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
+			</h5>
+
+			<% if suggestions == true || full_page == true %>
+				<button class="ignore_suggestion" ng-click="ignoreSuggestion(item, $event)">
+					<i class="fas fa-times text-grey-dark"></i>
+				</button>
+			<% end %>
+		</div>
 
 		<h6 class="text-muted">
 			<small>

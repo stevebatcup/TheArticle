@@ -389,10 +389,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	getSuggestions: (callback)=>
 		@http.get('/follow-suggestions').then (response) =>
-			angular.forEach response.data.suggestions.forYous, (suggestion) =>
-				@scope.suggestions.push suggestion
-			angular.forEach response.data.suggestions.populars, (suggestion) =>
-				@scope.suggestions.push suggestion
+			if response.data.suggestions.populars.length is 0
+				list = response.data.suggestions.forYous
+			else if response.data.suggestions.populars.length < 15
+				list = response.data.suggestions.populars.concat(response.data.suggestions.forYous)
+			else
+				list = response.data.suggestions.populars
+			@scope.suggestions = list.slice(0, 15)
+
 			@timeout =>
 				@scope.suggestionsLoaded = true
 				callback.call(@)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_10_100950) do
+ActiveRecord::Schema.define(version: 2019_05_27_134230) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -388,6 +388,7 @@ ActiveRecord::Schema.define(version: 2019_05_10_100950) do
     t.integer "user_id"
     t.integer "suggested_id"
     t.string "reason"
+    t.integer "author_article_count", default: 0
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

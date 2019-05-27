@@ -481,7 +481,9 @@ input#suggestion_search {
 
 	.follow_btn {
 		outline: none;
-    font-size: 0.6em;
+    font-size: 0.8em;
+    width: 80%;
+    margin: 15px auto 5px !important;
     padding-left: 0.5em !important;
     padding-right: 0.5em !important;
 
@@ -555,6 +557,7 @@ input#suggestion_search {
 		position: relative;
 		overflow: hidden;
 		line-height: 3.3em;
+		left: 3.7em;
 
 		div {
 			float: left;

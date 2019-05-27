@@ -160,7 +160,7 @@
 
 	&.suggestions {
 		.slick-track {
-			height: 180px;
+			height: 190px;
 		}
 
 		.slick-carousel-item {
@@ -194,7 +194,8 @@
 				width: 100% !important;
 				margin:0;
 				position: absolute;
-				bottom: 7px;
+				bottom: 42px;
+				left: 4.5em;
 
 				.double {
 					// width: 69px;
@@ -225,10 +226,16 @@
 				}
 			}
 
-			.follow_btn {
-				// width: 76%;
-				// position: absolute;
-				// bottom: 18px;
+			.follow_btn_container {
+				width: 100%;
+				position: absolute;
+				bottom: 7px;
+				left: 0;
+
+				button {
+					width: 100%;
+					margin: 0 auto;
+				}
 				// left: 12%;
 			}
 		}

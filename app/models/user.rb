@@ -340,4 +340,20 @@ class User < ApplicationRecord
     end
   end
 
+  def is_author?
+    self.author.present?
+  end
+
+  def self.authors
+    where("author_id > 0")
+  end
+
+  def self.authors_by_article_count(existing_ids, limit=12)
+    self.authors.includes(:author)
+          .references(:author)
+          .where.not(id: existing_ids)
+          .order("authors.article_count desc")
+          .limit(limit)
+  end
+
 end

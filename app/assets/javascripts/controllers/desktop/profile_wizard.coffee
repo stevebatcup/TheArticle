@@ -71,13 +71,10 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 			@getFollowSuggestions()
 
 	getFollowSuggestions: =>
-		@http.get('/follow-suggestions?show_accepted=true').then (response) =>
+		@http.get('/follow-suggestions?&from_wizard=1').then (response) =>
 			@scope.followSuggestions = []
 			if _.some(response.data.suggestions.forYous)
 				response.data.suggestions.forYous.forEach (suggestion) =>
-					@scope.followSuggestions.push suggestion
-			if _.some(response.data.suggestions.populars)
-				response.data.suggestions.populars.forEach (suggestion) =>
 					@scope.followSuggestions.push suggestion
 
 	autocompleteLocations: ($input) =>
