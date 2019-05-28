@@ -93,4 +93,17 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 			$("#allProfileSuggestionsModal").modal()
 		, 350
 
+	ignoreSuggestion: (member, $event) =>
+		$event.preventDefault()
+		@ignoreSuggestedMember member.id, =>
+			@timeout =>
+				@scope.suggestions.forYous = _.filter @scope.suggestions.forYous, (item) =>
+					item.id isnt member.id
+				@scope.suggestions.populars = _.filter @scope.suggestions.populars, (item) =>
+					item.id isnt member.id
+				@scope.suggestions.listForSidebox = _.filter @scope.suggestions.listForSidebox, (item) =>
+					item.id isnt member.id
+			, 300
+
+
 TheArticle.ControllerModule.controller('SuggestionsController', TheArticle.Suggestions)

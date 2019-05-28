@@ -474,7 +474,7 @@
 								role="tabpanel"
 								aria-labelledby="suggestions-sub-tab-for_you">
 								<div ng-repeat="item in suggestions.listForSidebox" class="feed-listing feed-follow mb-3">
-									<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+									<%= render partial: 'users/member_card', locals: { suggestions: true, show_ignore_btn: true } %>
 								</div>
 							</div>
 

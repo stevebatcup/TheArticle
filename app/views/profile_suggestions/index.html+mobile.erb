@@ -36,7 +36,7 @@
 			aria-labelledby="suggestions-sub-tab-for_you">
 			<p class="py-3 px-3 mb-0" ng-if="forYous.length == 0">There are currently no suggestions of members for you</p>
 			<div ng-repeat="item in forYous" class="feed-listing bg-white">
-				<%= render 'users/member_card', locals: { full_page: true } %>
+				<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 			</div>
 		</div>
 
@@ -46,7 +46,7 @@
 			aria-labelledby="suggestions-sub-tab-popular">
 			<p class="py-3 px-3 mb-0" ng-if="populars.length == 0">There are currently no suggestions of members who are popular with people you follow</p>
 			<div ng-repeat="item in populars" class="feed-listing bg-white">
-				<%= render 'users/member_card', locals: { full_page: true } %>
+				<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 			</div>
 		</div>
 	</div>

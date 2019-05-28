@@ -36,4 +36,13 @@ class ProfileSuggestionsController < ApplicationController
 			end
 		end
 	end
+
+	def update
+		if suggestion = ProfileSuggestion.find_by(user_id: current_user.id, suggested_id: params[:id])
+			suggestion.ignore
+			render json: { status: :success }
+		else
+			render json: { status: :error, message: "Cannot find suggestion" }
+		end
+	end
 end

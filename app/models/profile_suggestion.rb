@@ -6,4 +6,8 @@ class ProfileSuggestion < ApplicationRecord
   def self.delete_suggested(user)
   	self.where(suggested_id: user.id).destroy_all
   end
+
+  def ignore
+  	update_attribute(:status, :ignored)
+  end
 end

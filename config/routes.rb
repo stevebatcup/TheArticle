@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   delete 'user_followings/:id',                to: 'user_followings#destroy'
   get 'follow-suggestions',                    to: 'profile_suggestions#index'
   get 'suggestion-search',                     to: 'profile_suggestions#index'
+  post 'ignore-suggestion',                    to: 'profile_suggestions#update'
   get 'connects',                              to: 'connects#index'
   get 'my-followers-of-user/:id',              to: 'user_followings#my_followers_of'
   get 'mute-followed/:id',                     to: 'user_followings#mute'

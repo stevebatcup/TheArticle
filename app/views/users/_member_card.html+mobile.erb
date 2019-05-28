@@ -1,7 +1,7 @@
 <%
 	if local_assigns[:locals]
-		suggestions = [:suggestions].nil? ? false : true
-		full_page = [:full_page].nil? ? false : true
+		suggestions = local_assigns[:locals][:suggestions].nil? ? false : true
+		show_ignore_btn = local_assigns[:locals][:show_ignore_btn].nil? ? false : true
 	end
 %>
 <div class="py-2 px-2 mb-2">
@@ -26,8 +26,10 @@
 					</h6>
 				</div>
 
-				<% if suggestions == true || full_page == true %>
-					<button class="ignore_suggestion" ng-click="ignoreSuggestion(item, $event)">
+				<% if show_ignore_btn == true %>
+					<button class="ignore_suggestion"
+									ng-click="ignoreSuggestion(item, $event)"
+									ng-show="!item.imFollowing">
 						<i class="fas fa-times text-grey-dark text-increase-1 mt-1"></i>
 					</button>
 				<% end %>

@@ -6,7 +6,7 @@
 				data-page="{{item.page}}"
 				data-slideout-ignore>
 		<div ng-repeat="item in suggestions" class="mb-3 slick-carousel-item feed-listing feed-follow" data-user-id="{{item.id}}">
-			<%= render partial: 'users/member_card', locals: { suggestions: true } %>
+			<%= render partial: 'users/member_card', locals: { suggestions: true, show_ignore_btn: true } %>
 		</div>
 	</div>
 </div>

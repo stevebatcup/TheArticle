@@ -71,10 +71,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 		@scope.suggestions = []
 		@scope.suggestionsLoaded = false
-		@scope.suggestionsCarouselReady = []
-		@scope.sponsoredPicksCarouselReady = []
-		@scope.trendingExchangesCarouselReady = []
-		@scope.latestArticlesCarouselReady = []
+		@scope.suggestionsCarouselReady = {}
+		@scope.sponsoredPicksCarouselReady = {}
+		@scope.trendingExchangesCarouselReady = {}
+		@scope.latestArticlesCarouselReady = {}
 
 		@scope.perPage = 16
 		@getSuggestions =>
@@ -219,12 +219,16 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	initSuggestionsCarousels: (section) =>
 		@timeout =>
 			key = @sectionPageKey(section)
+			slideCount = $('.slick-carousel-item', ".section_#{section} .slick-carousel.suggestions[data-page=#{key}]").length
+			initialSlide = Math.floor(slideCount / 2)
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
+				infinite: false
 				slidesToShow: 1
 				slidesToScroll: 1
 				speed: 300
 				dots: false
 				centerMode: true
+				initialSlide: initialSlide
 				arrows: true
 			@scope.suggestionsCarouselReady[key] = true
 		, 100
@@ -424,4 +428,28 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@flash "You are no longer following #{user.username}"
 		, true
 
+	ignoreSuggestion: (member, $event) =>
+		$event.preventDefault()
+		@ignoreSuggestedMember member.id, =>
+			@timeout =>
+				$carousels = $(".slick-carousel.suggestions")
+				slideIndex = $($event.currentTarget).closest('[data-slick-index]').data('slick-index')
+				$carousels.each (cIndex, carousel) =>
+					$carousel = $(carousel)
+					section = $carousel.closest('[data-section]').data('section')
+					if $carousel.find('.slick-track').length
+						$carousel.slick('slickRemove', slideIndex)
+						# reindex
+						indx = 0
+						$carousel.find(".slick-carousel-item").each (t, v) =>
+							$(v).attr("data-slick-index", indx)
+							indx++
+						unless $carousel.is(':visible')
+							$carousel.slick('unslick')
+							_.each @scope.suggestionsCarouselReady, (bool, scrKey) =>
+								if scrKey.indexOf(section) > -1
+									@scope.suggestionsCarouselReady[scrKey] = false
+					else
+						$(".slick-carousel-item[data-user-id=#{member.id}]", "[data-section=#{section}]").remove()
+			, 100
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)
