@@ -95,9 +95,11 @@
 					<div id="img_box" class="mb-4">
 						<% if @article.image? %>
 							<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
-							<p class="caption">
-								<%= @article.image_caption.html_safe %>
-							</p>
+							<% if @article.image_caption %>
+								<p class="caption">
+									<%= @article.image_caption.html_safe %>
+								</p>
+							<% end %>
 						<% end %>
 					</div>
 
