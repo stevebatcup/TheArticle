@@ -44,7 +44,7 @@ module User::Suggestable
 
     if is_new
       # Generally Popular profiles
-      self.class.popular_users(existing_ids).limit(10).each do |user|
+      self.class.popular_users(existing_ids).limit(30).each do |user|
         unless user.is_author?
           results << { user_id: user.id, reason: "popular_profile", author_article_count: 0 }
           existing_ids << user.id

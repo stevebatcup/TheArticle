@@ -6,22 +6,22 @@
 %>
 <div class="py-2 px-2 mb-2">
 	<div class="align-items-start d-flex">
-		<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
+		<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
 			<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image mr-2" alt="{{item.displayName}}" />
-		<% unless suggestions == true %></a><% end %>
+		<% if suggestions == false || show_ignore_btn == true %></a><% end %>
 
 		<div class="w-100">
 			<div class="d-flex align-items-start justify-content-between">
 				<div>
 					<h5 class="card-title d-flex justify-content-between mb-1">
-						<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
+						<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
 							<span>{{ item.displayName }}</span>
-						<% unless suggestions == true %></a><% end %>
+						<% if suggestions == false || show_ignore_btn == true %></a><% end %>
 					</h5>
 					<h6 class="text-muted mb-1">
-						<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
+						<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
 							<span>{{ item.username }}</span>
-						<% unless suggestions == true %></a><% end %>
+						<% if suggestions == false || show_ignore_btn == true %></a><% end %>
 						<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
 					</h6>
 				</div>
@@ -37,9 +37,9 @@
 
 			<div class="py-0 w-100">
 				<p class="card-text" ng-if="!item.isBlocked && !item.isBlockingMe">
-					<% unless suggestions == true %><a href="{{ item.path }}"><% end %>
+					<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
 						<small>{{ item.bio }}</small>
-					<% unless suggestions == true %></a><% end %>
+					<% if suggestions == false || show_ignore_btn == true %></a><% end %>
 				</p>
 			</div>
 

@@ -232,14 +232,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			key = @sectionPageKey(section)
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 			slideCount = $('.slick-carousel-item', ".section_#{section} .slick-carousel.suggestions[data-page=#{key}]").length
-			initialSlide = Math.floor(slideCount / 2)
+			initialSlide = Math.floor(slideCount / 2) + 1
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
 				infinite: false
 				slidesToShow: slidesToShow
 				slidesToScroll: slidesToShow
 				speed: 300
 				dots: false
-				centerMode: slidesToShow is 1
+				centerMode: true
 				initialSlide: initialSlide
 				arrows: true
 			@scope.suggestionsCarouselReady[key] = true
@@ -395,11 +395,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@http.get('/follow-suggestions').then (response) =>
 			if response.data.suggestions.populars.length is 0
 				list = response.data.suggestions.forYous
-			else if response.data.suggestions.populars.length < 15
+			else if response.data.suggestions.populars.length < 16
 				list = response.data.suggestions.populars.concat(response.data.suggestions.forYous)
 			else
 				list = response.data.suggestions.populars
-			@scope.suggestions = list.slice(0, 15)
+			@scope.suggestions = list.slice(0, 16)
 
 			@timeout =>
 				@scope.suggestionsLoaded = true
