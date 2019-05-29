@@ -36,7 +36,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def generate_profile_suggestions
   	unless resource.id.nil?
-	  	ProfileSuggestionsGeneratorJob.perform_later(resource, true, 10)
+	  	ProfileSuggestionsGeneratorJob.perform_later(resource, true, 50)
 	  end
   end
 

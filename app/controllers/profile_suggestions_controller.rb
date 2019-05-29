@@ -8,17 +8,17 @@ class ProfileSuggestionsController < ApplicationController
 				if params[:query]
 					@search_results = User.search_for_suggestions(current_user, params[:query])
 				else
-					if params[:show_accepted]
-						# SWITCHED OFF FOR LAUNCH #
-						# suggestions = current_user.profile_suggestions
-						# REPLACED WITH #
-						@suggestions = User.popular_users([current_user.id], 0, 150)
-						render 'index_launch'
-					else
-						suggestions = current_user.pending_suggestions
-						current_user.generate_suggestions(false, 10) if suggestions.empty?
-						already_following_ids = current_user.followings.map(&:followed_id)
-						@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(50)
+					suggestions = current_user.pending_suggestions
+					current_user.generate_suggestions(false, 10) if suggestions.empty?
+					already_following_ids = current_user.followings.map(&:followed_id)
+					@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(50).to_a
+					current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
+						insert_point = ((index+1) * 4) - 1
+						unless @for_yous[insert_point].nil?
+							@for_yous.insert(insert_point, author_suggestion)
+						end
+					end
+					unless @from_wizard
 						populars_limit = 50 + (50- @for_yous.size)
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').where.not(suggested_id: already_following_ids).limit(populars_limit)
 					end
@@ -34,6 +34,15 @@ class ProfileSuggestionsController < ApplicationController
 					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				end
 			end
+		end
+	end
+
+	def update
+		if suggestion = ProfileSuggestion.find_by(user_id: current_user.id, suggested_id: params[:id])
+			suggestion.ignore
+			render json: { status: :success }
+		else
+			render json: { status: :error, message: "Cannot find suggestion" }
 		end
 	end
 end

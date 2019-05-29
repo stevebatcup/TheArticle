@@ -5,6 +5,7 @@ json.set! :suggestions do
 				json.reason suggestion.reason
 				user = suggestion.suggested
 				json.id user.id
+				json.articleCount suggestion.author_article_count
 				json.path profile_path(slug: user.slug)
 				json.displayName user.display_name
 				json.username user.username

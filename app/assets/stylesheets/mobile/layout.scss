@@ -14,7 +14,6 @@ label.alert-success {
 	color: #155724 !important;
 }
 
-a:hover,
 a:active {
 	color: inherit !important;
 }
@@ -201,10 +200,6 @@ header {
 			font-size: 24px;
 		  padding: 0.4rem 0 0 0.1rem !important;
 		  display: block;
-
-		  &:hover {
-		  	color: #000 !important;
-		  }
 		}
 	}
 
@@ -716,7 +711,6 @@ form#filter_list_form {
   right: 0;
   letter-spacing: 1.9px;
 
-  &:hover,
   &:active {
   	color: #ededed !important;
   }

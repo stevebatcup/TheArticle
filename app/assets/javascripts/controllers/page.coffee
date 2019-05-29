@@ -395,3 +395,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			@http.get("/profile/search-by-username/#{word}").then (response) =>
 				console.log response.results
 
+	ignoreSuggestedMember: (memberId, callback=null) =>
+		@http.post("/ignore-suggestion", {id: memberId}).then (response) =>
+			if response.data.status is 'success'
+				callback.call(@) if callback?

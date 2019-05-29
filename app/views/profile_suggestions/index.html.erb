@@ -133,7 +133,7 @@
 						<div class="row">
 							<p class="mb-0 py-4 px-5 col-12" ng-if="suggestions.forYous.length == 0">There are currently no suggestions of members for you</p>
 							<div ng-repeat="item in suggestions.forYous" class="col-6 feed-listing feed-follow">
-								<%= render 'users/member_card' %>
+								<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 							</div>
 						</div>
 					</div>
@@ -145,7 +145,7 @@
 						<div class="row">
 							<p class="mb-0 py-4 px-5 col-12" ng-if="suggestions.populars.length == 0">There are currently no suggestions of members who are popular with people you follow</p>
 							<div ng-repeat="item in suggestions.populars" class="col-6 feed-listing feed-follow">
-								<%= render 'users/member_card' %>
+								<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 							</div>
 						</div>
 					</div>

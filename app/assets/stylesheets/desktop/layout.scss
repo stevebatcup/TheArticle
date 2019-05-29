@@ -4,6 +4,21 @@ body {
 	overflow-x: hidden;
 }
 
+a:hover {
+	color: $green !important;
+}
+
+a.btn:hover,
+button:hover {
+	background-color: $black;
+	color: #fff !important;
+	text-decoration: none !important;
+}
+
+.inherit_hover:hover {
+	color: inherit !important;
+}
+
 [data-href] {
 	cursor: pointer;
 

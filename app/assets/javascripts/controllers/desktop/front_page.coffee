@@ -72,10 +72,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 		@scope.suggestions = []
 		@scope.suggestionsLoaded = false
-		@scope.suggestionsCarouselReady = []
-		@scope.sponsoredPicksCarouselReady = []
-		@scope.trendingExchangesCarouselReady = []
-		@scope.latestArticlesCarouselReady = []
+		@scope.suggestionsCarouselReady = {}
+		@scope.sponsoredPicksCarouselReady = {}
+		@scope.trendingExchangesCarouselReady = {}
+		@scope.latestArticlesCarouselReady = {}
 
 		@scope.perPage = 16
 		@getSuggestions =>
@@ -229,14 +229,18 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	initSuggestionsCarousels: (section) =>
 		@timeout =>
-			slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 			key = @sectionPageKey(section)
+			slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
+			slideCount = $('.slick-carousel-item', ".section_#{section} .slick-carousel.suggestions[data-page=#{key}]").length
+			initialSlide = Math.floor(slideCount / 2) + 1
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
+				infinite: false
 				slidesToShow: slidesToShow
-				slidesToScroll: 1
+				slidesToScroll: slidesToShow
 				speed: 300
 				dots: false
 				centerMode: true
+				initialSlide: initialSlide
 				arrows: true
 			@scope.suggestionsCarouselReady[key] = true
 		, 100
@@ -389,10 +393,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 	getSuggestions: (callback)=>
 		@http.get('/follow-suggestions').then (response) =>
-			angular.forEach response.data.suggestions.forYous, (suggestion) =>
-				@scope.suggestions.push suggestion
-			angular.forEach response.data.suggestions.populars, (suggestion) =>
-				@scope.suggestions.push suggestion
+			if response.data.suggestions.populars.length is 0
+				list = response.data.suggestions.forYous
+			else if response.data.suggestions.populars.length < 16
+				list = response.data.suggestions.populars.concat(response.data.suggestions.forYous)
+			else
+				list = response.data.suggestions.populars
+			@scope.suggestions = list.slice(0, 16)
+
 			@timeout =>
 				@scope.suggestionsLoaded = true
 				callback.call(@)
@@ -427,5 +435,30 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					$(slide).find('.follow_btn').removeClass("btn-success").addClass("btn-outline-success").find('span').text("Follow")
 			@flash "You are no longer following #{user.username}"
 		, true
+
+	ignoreSuggestion: (member, $event) =>
+		$event.preventDefault()
+		@ignoreSuggestedMember member.id, =>
+			@timeout =>
+				$carousels = $(".slick-carousel.suggestions")
+				slideIndex = $($event.currentTarget).closest('[data-slick-index]').data('slick-index')
+				$carousels.each (cIndex, carousel) =>
+					$carousel = $(carousel)
+					section = $carousel.closest('[data-section]').data('section')
+					if $carousel.find('.slick-track').length
+						$carousel.slick('slickRemove', slideIndex)
+						# reindex
+						indx = 0
+						$carousel.find(".slick-carousel-item").each (t, v) =>
+							$(v).attr("data-slick-index", indx)
+							indx++
+						unless $carousel.is(':visible')
+							$carousel.slick('unslick')
+							_.each @scope.suggestionsCarouselReady, (bool, scrKey) =>
+								if scrKey.indexOf(section) > -1
+									@scope.suggestionsCarouselReady[scrKey] = false
+					else
+						$(".slick-carousel-item[data-user-id=#{member.id}]", "[data-section=#{section}]").remove()
+			, 100
 
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)

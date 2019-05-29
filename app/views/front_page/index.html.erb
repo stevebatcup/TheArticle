@@ -169,7 +169,7 @@
 					Loading <span>{{selectedTab}}</span>...</div>
 
 				<!-- Articles Tab -->
-				<div class="section_articles" ng-show="(selectedTab == 'articles')">
+				<div class="section_articles" data-section="articles" ng-show="(selectedTab == 'articles')">
 
 					<div ng-if="feeds.articles.firstLoaded" class="results_block row"
 							ng-class="{'empty': feeds.articles.data.length == 0}">
@@ -192,7 +192,7 @@
 
 
 				<!-- Posts Tab -->
-				<div class="section_posts" ng-show="(selectedTab == 'posts')">
+				<div class="section_posts" data-section="posts" ng-show="(selectedTab == 'posts')">
 					<div ng-if="feeds.posts.firstLoaded" class="results_block row"
 							ng-class="{'empty': feeds.posts.data.length == 0}">
 						<p class="col-12 empty_resource" ng-if="feeds.posts.data.length == 0">
@@ -217,7 +217,7 @@
 
 
 				<!-- Follow activity Tab -->
-				<div class="section_follows" ng-show="(selectedTab == 'follows')">
+				<div class="section_follows" data-section="follows" ng-show="(selectedTab == 'follows')">
 					<div ng-if="feeds.follows.firstLoaded" class="results_block row"
 							ng-class="{'empty': feeds.follows.data.length == 0}">
 						<p class="col-12 empty_resource" ng-if="feeds.follows.data.length == 0">
