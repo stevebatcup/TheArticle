@@ -69,6 +69,7 @@ module ShareHelper
 				image: share.article.remote_article_image_url.present? ? share.article.remote_article_image_url : share.article.image.url(:cover_mobile),
 				title: strip_tags(share.article.title),
 				publishedAt: article_date(share.article),
+				url: full_article_url(share.article),
 				path: article_path(share.article),
 				author: {
 				  name: author.nil? ? '' : author.display_name,

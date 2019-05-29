@@ -34,6 +34,9 @@
 				  	      ng-if="!item.share.isInteractionMuted">Turn off notifications</a>
 				  	<a class="dropdown-item" href="#" ng-click="interactionUnmute($event, item.share)"
 				  	      ng-if="item.share.isInteractionMuted">Turn on notifications</a>
+				  	<a class="dropdown-item" href="#"
+				  				ng-click="openTweetWindow($event, item)"
+				  	      ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">Share on Twitter</a>
 			      <a class="dropdown-item" href="#" ng-click="deleteMyPost($event, item.share)">Delete post</a>
 				  </div>
 				</nav>
