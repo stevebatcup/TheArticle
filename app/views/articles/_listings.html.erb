@@ -1,5 +1,7 @@
 <div class="container listings_<%= block_id.downcase %>" ng-if="<%= block_id %>.firstLoaded">
-	<h2 class="h1 bullet mb-2 mb-md-3"><%= title.html_safe %></h2>
+	<% unless title.nil? %>
+		<h2 class="h1 bullet mb-2 mb-md-3"><%= title.html_safe %></h2>
+	<% end %>
 	<div class="row">
 		<article ng-repeat="article in <%= block_id %>.items" id="article-listing-post-{{ article.id }}" data-id="{{ article.id }}" class="article-listing col-12 col-md-6 col-lg-4 post hoveraction block_click{{ article.isSponsored ? ' sponsored_article' : '' }}"
 				data-href="{{ article.isNative ? '#' : article.path }}">

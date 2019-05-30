@@ -311,6 +311,7 @@ header {
 }
 
 main#main_content {
+	&.home_index,
 	&.front_page_index,
 	&.users_show,
 	&.notifications_index,
@@ -318,6 +319,10 @@ main#main_content {
 	&.search_index,
 	&.profile_suggestions_index {
 		background: $grey_light;
+	}
+
+	&.home_index {
+		overflow: hidden;
 	}
 }
 
@@ -655,6 +660,24 @@ html.svg header#main_header nav li.nav-item {
 
 			.entry-content {
 				display: block !important;
+			}
+		}
+	}
+}
+
+.tab-content {
+	.article-listing.post {
+		.img_mask {
+			height: 53%;
+		}
+
+		.inner {
+			background: #fff;
+		}
+
+		&.sponsored_article {
+			.inner {
+				background-color: #f9f4d7;
 			}
 		}
 	}

@@ -646,7 +646,7 @@
 	.callout {
 
 		#who_to_follow {
-			height: 680px;
+			// height: 680px;
 			// overflow-y: auto;
 
 			nav#suggestions_options {
@@ -735,7 +735,8 @@
 	}
 }
 
-#home_feed_tabs {
+#home_feed_tabs,
+#home_article_tabs {
 	li {
 		a.nav-link {
 			color: inherit !important;
@@ -777,4 +778,52 @@
 			}
 		}
 	}
+}
+
+
+nav.tabbable {
+	position: relative;
+
+	.nav-scroller-scroll {
+		position: absolute;
+		top: 11px;
+		font-size: 25px;
+		display: block;
+
+		&.prev {
+			left: -24px;
+		}
+
+		&.next {
+			right: -24px;
+		}
+	}
+
+	#home_article_tabs {
+		overflow-x: auto;
+		overflow-y:hidden;
+		flex-wrap: nowrap;
+
+	  &::-webkit-scrollbar {
+	    display: none;
+	  }
+
+		li {
+			white-space: nowrap;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+
+			a {
+				-moz-user-select: none;
+				-webkit-user-select: none;
+			}
+		}
+	}
+}
+
+#home_tab_content {
+	// .tab-pane {
+	// 	overflow-y: auto;
+ //    height: 90vh;
+	// }
 }
