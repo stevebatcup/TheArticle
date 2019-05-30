@@ -24,12 +24,24 @@ class ArticlesController < ApplicationController
 						end
 					end
 				elsif params[:exchange]
-					if exchange = Exchange.find_by(slug: params[:exchange])
+					per_page = params[:per_page].to_i
+					if params[:include_sponsored]
+						sponsored_articles = Article.sponsored
+																			.includes(:author).references(:author)
+																			.includes(:exchanges).references(:exchanges)
+																			.order(created_at: :desc)
+						per_page = per_page - sponsored_articles.length
+					end
+
+					if params[:exchange] == 'latest-articles'
+						@articles = Article.latest.page(params[:page]).per(per_page)
+						@total = Article.all.size if params[:page].to_i == 1
+					elsif exchange = Exchange.find_by(slug: params[:exchange])
 						@articles = exchange.articles.not_sponsored
 																.includes(:author).references(:author)
 																.includes(:exchanges).references(:exchanges)
 																.order("published_at DESC")
-																.page(params[:page]).per(params[:per_page].to_i)
+																.page(params[:page]).per(per_page)
 						if params[:exclude_id]
 							@articles = @articles.where.not("articles.id = ?", params[:exclude_id])
 						end
@@ -44,6 +56,19 @@ class ArticlesController < ApplicationController
 						@articles = []
 						@total = 0
 					end
+
+					if params[:include_sponsored]
+						@articles = @articles.to_a
+						sponsored_articles.each_with_index do |sa, i|
+							key = ((i+1) * 5) - 1
+							if @articles[key]
+								@articles.insert(key, sa)
+							else
+								@articles.push(sa)
+							end
+						end
+					end
+
 				elsif params[:author]
 					@contributor = Author.find_by(id: params[:author])
 					@articles = @contributor.articles
