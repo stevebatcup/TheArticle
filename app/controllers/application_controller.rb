@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_tablet?
 
 	def articles_per_page
-		browser.device.mobile? ? 3 : 6
+		browser.device.mobile? ? 10 : 24
 	end
 	helper_method	:articles_per_page
 

@@ -132,4 +132,14 @@ class Exchange < ApplicationRecord
     end
     carousel_articles = carousel_articles + shifted
   end
+
+  def self.most_recent_articles(excludes=['sponsored'])
+    results = self.where("article_count > 0")
+    results = results.where.not(slug: excludes) if excludes.any?
+    results = results.all.to_a.sort_by do |exchange|
+      article = exchange.articles.order('created_at DESC').limit(1).first
+      article.created_at
+    end
+    results.reverse
+  end
 end
