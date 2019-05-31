@@ -788,13 +788,15 @@ nav.tabbable {
 		top: 11px;
 		font-size: 25px;
 		display: block;
+		-moz-user-select: none;
+		-webkit-user-select: none;
 
 		&.prev {
-			left: -24px;
+			left: -28px;
 		}
 
 		&.next {
-			right: -24px;
+			right: -28px;
 		}
 	}
 
