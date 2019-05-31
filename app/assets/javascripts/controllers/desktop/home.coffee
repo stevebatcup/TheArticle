@@ -69,13 +69,13 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			e.preventDefault()
 			$list = $(e.currentTarget).parent().find('ul')
 			scrolledLeft = $list.scrollLeft()
-			$list.scrollLeft(scrolledLeft+40)
+			$list.scrollLeft(scrolledLeft+85)
 
 		$('.nav-scroller-scroll.prev').on 'click', (e) =>
 			e.preventDefault()
 			$list = $(e.currentTarget).parent().find('ul')
 			scrolledLeft = $list.scrollLeft()
-			$list.scrollLeft(scrolledLeft-40)
+			$list.scrollLeft(scrolledLeft-85)
 
 		$('.see_more_articles').on 'click', (e) =>
 			$clicked = $(e.currentTarget)
