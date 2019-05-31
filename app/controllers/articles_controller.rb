@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
 
 					if params[:exchange] == 'latest-articles'
 						@articles = Article.latest.page(params[:page]).per(per_page)
-						@total = Article.all.size if params[:page].to_i == 1
+						@total = Article.not_sponsored.not_remote.size if params[:page].to_i == 1
 					elsif exchange = Exchange.find_by(slug: params[:exchange])
 						@articles = exchange.articles.not_sponsored
 																.includes(:author).references(:author)
@@ -63,8 +63,6 @@ class ArticlesController < ApplicationController
 							key = ((i+1) * 5) - 1
 							if @articles[key]
 								@articles.insert(key, sa)
-							else
-								@articles.push(sa)
 							end
 						end
 					end
