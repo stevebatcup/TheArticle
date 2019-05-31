@@ -10,20 +10,13 @@ class TheArticle.Home extends TheArticle.MobilePageController
 	  '$timeout'
 	  '$compile'
 	  '$ngConfirm'
-	  'EditorsPick'
-	  'SponsoredPick'
+	  'ExchangeArticle'
 	]
 
 	init: ->
 		@bindEvents()
-		@scope.editorsPicks =
-			page: 1
-			items:  []
-			totalItemCount: 0
-			loading: false
-			firstLoaded: false
-
-			moreToLoad: true
+		$('footer#main_footer_top').hide()
+		@initArticleData()
 
 		vars = @getUrlVars()
 		if 'sign_in' of vars
@@ -37,18 +30,51 @@ class TheArticle.Home extends TheArticle.MobilePageController
 		else if 'signed_out' of vars
 			@disableBackButton()
 
+	selectTab: (exchange) =>
+		@scope.selectedTab = exchange
+		if @scope.articles[exchange].moreToLoad
+			$('footer#main_footer_top').hide()
+		else
+			$('footer#main_footer_top').show()
+		@getArticles(exchange)
+
+	initArticleData: =>
+		@scope.articles = {}
+		$('.tab-pane').each (index, pane) =>
+			exchange = $(pane).data('exchange')
+			slug = $(pane).data('exchange-slug')
+			@scope.articles[exchange] =
+				slug: slug
+				page: 1
+				items:  []
+				articleCount: 0
+				totalItemCount: 0
+				loading: false
+				firstLoaded: false
+				moreToLoad: true
+		@scope.selectedTab = 'latestArticles'
+		@getArticles('latestArticles')
+
 	bindEvents: =>
 		super
-		$('.slick-carousel.articles').first().on 'init', (e) =>
-			@getEditorsPicks()
-
-		$('.see_more_articles').on 'click', (e) =>
-			$clicked = $(e.currentTarget)
-			nextSection = Number($clicked.data('section')) + 1
-			$clicked.hide().parent().find("a[data-section=#{nextSection}]").show()
-
 		if $('#mobile_register_interstitial_top').length > 0
 			@bindScrollInterstitialEvent()
+
+	bindScrollingArticles: =>
+		@timeout =>
+			articleHeight = $('article.post').first().outerHeight()
+			$win = $(window)
+			offset = 20
+			$win.on 'scroll', =>
+				section = @scope.articles[@scope.selectedTab]
+				if section.moreToLoad is true
+					scrollTop = $win.scrollTop()
+					docHeight = @getDocumentHeight()
+					pageScrollOffset = (articleHeight * 4) + 20
+					if (scrollTop + $win.height()) >= (docHeight - pageScrollOffset)
+						section.moreToLoad = false
+						@loadMore("articles.#{@scope.selectedTab}")
+		, 1000
 
 	bindScrollInterstitialEvent: =>
 		pos = $('#mobile_register_interstitial_top').position().top + $('#mobile_register_interstitial_top').outerHeight()
@@ -58,24 +84,26 @@ class TheArticle.Home extends TheArticle.MobilePageController
 			if scrollTop >= (pos + 10)
 				$('#mobile_register_interstitial_top').remove() if $('#mobile_register_interstitial_top').length > 0
 
-	loadMore: (resource) =>
-		resource = "get" + resource.charAt(0).toUpperCase() + resource.slice(1)
-		@[resource]()
+	loadMore: (str) =>
+		exchange = str.substring(str.indexOf(".")+1)
+		@scope.articles[exchange].page += 1
+		@getArticles(exchange)
 
-	getEditorsPicks: =>
-		@scope.editorsPicks.loading = true
-		timeoutDelay = if @scope.editorsPicks.page is 1 then 2500 else 1
-		vars = { tagged: 'editors-picks', page: @scope.editorsPicks.page, perPage: @element.data('per-page') }
-		@EditorsPick.query(vars).then (response) =>
+	getArticles: (exchange) =>
+		@scope.articles[exchange].loading = true
+		vars = { exchange: @scope.articles[exchange].slug, page: @scope.articles[exchange].page, per_page: @element.data('per-page'), include_sponsored: 1 }
+		@ExchangeArticle.query(vars).then (response) =>
 			@timeout =>
-				@scope.editorsPicks.totalItemCount = response.total if @scope.editorsPicks.page is 1
+				@scope.articles[exchange].totalItemCount = response.total if @scope.articles[exchange].page is 1
 				angular.forEach response.articles, (article) =>
-					@scope.editorsPicks.items.push article
-				@scope.editorsPicks.moreToLoad = @scope.editorsPicks.totalItemCount > @scope.editorsPicks.items.length
-				@scope.editorsPicks.firstLoaded = true if @scope.editorsPicks.page is 1
-				@scope.editorsPicks.loading = false
-				@scope.editorsPicks.page += 1
-			, timeoutDelay
+					@scope.articles[exchange].items.push article
+					@scope.articles[exchange].articleCount += 1 unless article.isSponsored
+				@scope.articles[exchange].moreToLoad = @scope.articles[exchange].totalItemCount > @scope.articles[exchange].articleCount
+				@scope.articles[exchange].firstLoaded = true if @scope.articles[exchange].page is 1
+				@scope.articles[exchange].loading = false
+				@bindScrollingArticles() if (@scope.articles[exchange].page is 1) and (exchange is 'latestArticles')
+				$('footer#main_footer_top').show() if !@scope.articles[exchange].moreToLoad
+			, 350
 		, (response) =>
 			@refreshPage() if response.status is 401
 

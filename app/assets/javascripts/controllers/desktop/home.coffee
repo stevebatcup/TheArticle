@@ -54,6 +54,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 				slug: slug
 				page: 1
 				items:  []
+				articleCount: 0
 				totalItemCount: 0
 				loading: false
 				firstLoaded: false
@@ -94,36 +95,13 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 				@scope.articles[exchange].totalItemCount = response.total if @scope.articles[exchange].page is 1
 				angular.forEach response.articles, (article) =>
 					@scope.articles[exchange].items.push article
-				@scope.articles[exchange].moreToLoad = @scope.articles[exchange].totalItemCount > @scope.articles[exchange].items.length
+					@scope.articles[exchange].articleCount += 1 unless article.isSponsored
+				@scope.articles[exchange].moreToLoad = @scope.articles[exchange].totalItemCount > @scope.articles[exchange].articleCount
 				@scope.articles[exchange].firstLoaded = true if @scope.articles[exchange].page is 1
 				@scope.articles[exchange].loading = false
-				@scope.articles[exchange].page += 1
-				console.log @scope.articles[exchange]
 			, 350
 		, (response) =>
 			@refreshPage() if response.status is 401
-
-	# getSponsoredPicks: =>
-	# 	@scope.sponsoredPicks.loading = true
-	# 	timeoutDelay = 2000
-	# 	vars = { sponsored_picks: 1 }
-	# 	@SponsoredPick.query(vars).then (response) =>
-	# 		@timeout =>
-	# 			angular.forEach response.articles, (article) =>
-	# 				@scope.sponsoredPicks.items.push article
-	# 			@scope.sponsoredPicks.firstLoaded = true
-	# 			@scope.sponsoredPicks.loading = false
-	# 		, timeoutDelay
-	# 	, (response) =>
-	# 		@refreshPage() if response.status is 401
-
-	addNativeAdSlot: =>
-		middleIndex = Math.floor(@scope.sponsoredPicks.items.length / 2)
-		nativeAd =
-			id: 999999
-			isNative: true
-			isSponsored: true
-		@scope.sponsoredPicks.items.splice(middleIndex, 0, nativeAd)
 
 	goodbye: =>
 		@alert "Your account has been deleted.  We are sorry to see you go.", "Account deleted"
