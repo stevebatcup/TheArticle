@@ -47,7 +47,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 		$win = $(window)
 		$navBar = $('section#top_bar')
 		$navBarPosition = Math.round $navBar.offset().top
-		offset = 35
+		offset = 1
 		$win.on 'scroll', =>
 			scrollTop = document.scrollingElement.scrollTop
 			if scrollTop  >= ($navBarPosition + offset)

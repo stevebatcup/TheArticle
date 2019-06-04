@@ -72,11 +72,26 @@ class UserMailer < Devise::Mailer
       FNAME: user.first_name,
       LNAME: user.last_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
+      MC_PREVIEW_TEXT: "Thanks for registering with TheArticle. We believe that thoughtful, intelligent, well-researched analysis of the news has never been more necessary. And at TheArticle, we provide it."
+    }
+    body = mandrill_template("registration-welcome-may2019", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+    WelcomeVerifyEmailJob.set(wait: 30.seconds).perform_later(user, token)
+  end
+
+
+  def send_welcome_verify(user, token)
+    subject = 'Verify your email address'
+    merge_vars = {
+      FNAME: user.first_name,
+      LNAME: user.last_name,
+      CURRENT_YEAR: Date.today.strftime("%Y"),
       USER_URL: confirmation_url(user, confirmation_token: token),
+      MC_PREVIEW_TEXT: "Now that you’re registered with TheArticle, we need you to verify your email address so that we can send you important updates."
     }
     body = mandrill_template("registration-verify-may2019", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
-    FirstWizardCheckJob.set(wait: 30.minute).perform_later(user.id)
+    FirstWizardCheckJob.set(wait: 30.minutes).perform_later(user.id)
   end
 
   def send_first_wizard_nudge(user)
@@ -84,7 +99,8 @@ class UserMailer < Devise::Mailer
     merge_vars = {
       FNAME: user.first_name,
       LNAME: user.last_name,
-      CURRENT_YEAR: Date.today.strftime("%Y")
+      CURRENT_YEAR: Date.today.strftime("%Y"),
+      MC_PREVIEW_TEXT: "With a completed profile you get access to extra features on TheArticle that we think you’ll really like. It’ll only take two minutes. Promise."
     }
     body = mandrill_template("first-profile-wizard-nudge", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
@@ -95,7 +111,8 @@ class UserMailer < Devise::Mailer
     merge_vars = {
       FNAME: user.first_name,
       LNAME: user.last_name,
-      CURRENT_YEAR: Date.today.strftime("%Y")
+      CURRENT_YEAR: Date.today.strftime("%Y"),
+      MC_PREVIEW_TEXT: "We’ve noticed that you didn’t complete your profile with TheArticle, which means you can’t yet access the full site."
     }
     body = mandrill_template("second-profile-wizard-nudge", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
