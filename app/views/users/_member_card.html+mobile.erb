@@ -1,4 +1,6 @@
 <%
+	suggestions = false
+	show_ignore_btn = false
 	if local_assigns[:locals]
 		suggestions = local_assigns[:locals][:suggestions].nil? ? false : true
 		show_ignore_btn = local_assigns[:locals][:show_ignore_btn].nil? ? false : true
