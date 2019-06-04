@@ -46,3 +46,7 @@ end
 every	:monday, at: '7:00 am' do
 	rake "notifications:weekly_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
+
+every	1.day, at: '6:00 pm' do
+	rake "profiles:second_wizard_nudge >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+end

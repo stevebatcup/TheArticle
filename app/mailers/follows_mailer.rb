@@ -17,7 +17,8 @@ class FollowsMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y"),
       FOLLOWER_DISPLAY_NAME: follower.display_name,
       FOLLOWER_USERNAME: follower.username,
-      FOLLOWER_URL: profile_url(slug: follower.slug)
+      FOLLOWER_URL: profile_url(slug: follower.slug),
+      MC_PREVIEW_TEXT: "Follow them back to become ‘mutually connected’ and engage with them on the site."
     }
     body = mandrill_template("follow-as-it-happens", merge_vars)
     send_mail(followed.email, "#{followed.first_name} #{followed.last_name}", subject, body)
@@ -28,7 +29,8 @@ class FollowsMailer < Devise::Mailer
     merge_vars = {
       FIRST_NAME: followed.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
-      FOLLOWER_HTML: build_follower_list_html(followers)
+      FOLLOWER_HTML: build_follower_list_html(followers),
+      MC_PREVIEW_TEXT: "Follow them back to become ‘mutually connected’ and engage with them on the site."
     }
     body = mandrill_template("follows-daily-and-weekly", merge_vars)
     send_mail(followed.email, "#{followed.first_name} #{followed.last_name}", subject, body)

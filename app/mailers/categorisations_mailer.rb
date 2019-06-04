@@ -18,7 +18,8 @@ class CategorisationsMailer < Devise::Mailer
       EXCHANGE_URL: exchange_url(slug: exchange.slug),
       EXCHANGE_NAME: exchange.name,
       ARTICLE_URL: article_url(slug: article.slug),
-      ARTICLE_HTML: build_html([article])
+      ARTICLE_HTML: build_html([article]),
+      MC_PREVIEW_TEXT: "A new article has been added to the #{exchange.name} exchange."
     }
     body = mandrill_template("article-added-to-exchange-as-it-happens", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
@@ -29,7 +30,8 @@ class CategorisationsMailer < Devise::Mailer
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
-      ARTICLES_HTML: build_html(articles)
+      ARTICLES_HTML: build_html(articles),
+      MC_PREVIEW_TEXT: "Over the past 24 hours, the following articles have been added to exchanges that you follow"
     }
     body = mandrill_template("article-added-to-exchange-daily", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
@@ -40,7 +42,8 @@ class CategorisationsMailer < Devise::Mailer
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
-      ARTICLES_HTML: build_html(articles)
+      ARTICLES_HTML: build_html(articles),
+      MC_PREVIEW_TEXT: "Over the last week, the following articles have been added to exchanges that you follow"
     }
     body = mandrill_template("article-added-to-exchange-weekly", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
