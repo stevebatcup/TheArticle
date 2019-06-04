@@ -76,7 +76,7 @@ class UserMailer < Devise::Mailer
     }
     body = mandrill_template("registration-verify-may2019", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
-    FirstWizardCheckJob.set(wait: 30.minute).perform_later(user.id)
+    FirstWizardCheckJob.set(wait: 30.minutes).perform_later(user.id)
   end
 
   def send_first_wizard_nudge(user)
