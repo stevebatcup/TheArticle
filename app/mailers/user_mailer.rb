@@ -87,7 +87,7 @@ class UserMailer < Devise::Mailer
       LNAME: user.last_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
       USER_URL: confirmation_url(user, confirmation_token: token),
-      MC_PREVIEW_TEXT: "Now that you’re registered with TheArticle, we need you to verify your email address so that we can send you important updates."
+      MC_PREVIEW_TEXT: "Now that you're registered with TheArticle, we need you to verify your email address so that we can send you important updates."
     }
     body = mandrill_template("registration-verify-may2019", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
@@ -100,7 +100,7 @@ class UserMailer < Devise::Mailer
       FNAME: user.first_name,
       LNAME: user.last_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
-      MC_PREVIEW_TEXT: "With a completed profile you get access to extra features on TheArticle that we think you’ll really like. It’ll only take two minutes. Promise."
+      MC_PREVIEW_TEXT: "With a completed profile you get access to extra features on TheArticle that we think you'll really like. It'll only take two minutes. Promise."
     }
     body = mandrill_template("first-profile-wizard-nudge", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
@@ -112,7 +112,7 @@ class UserMailer < Devise::Mailer
       FNAME: user.first_name,
       LNAME: user.last_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
-      MC_PREVIEW_TEXT: "We’ve noticed that you didn’t complete your profile with TheArticle, which means you can’t yet access the full site."
+      MC_PREVIEW_TEXT: "We've noticed that you didn't complete your profile with TheArticle, which means you can't yet access the full site."
     }
     body = mandrill_template("second-profile-wizard-nudge", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
