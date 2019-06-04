@@ -42,31 +42,31 @@
 			  <% end %>
       </ul>
     </nav>
+	</div>
 
-		<div class="tab-content pt-4" id="home_tab_content">
-			<div class="tab-pane fade" id="latestArticles" role="tabpanel"
-					 data-exchange="latestArticles"
-					 data-exchange-slug="latest-articles"
-					 ng-class="{'active show': selectedTab == 'latestArticles'}">
-				<div class="ajax_loading" ng-show="!articles.latestArticles.firstLoaded">Loading articles</div>
+	<div class="tab-content pt-4" id="home_tab_content">
+		<div class="tab-pane fade" id="latestArticles" role="tabpanel"
+				 data-exchange="latestArticles"
+				 data-exchange-slug="latest-articles"
+				 ng-class="{'active show': selectedTab == 'latestArticles'}">
+			<div class="ajax_loading" ng-show="!articles.latestArticles.firstLoaded">Loading articles</div>
+			<%= render partial: 'articles/listings', locals: {
+					block_id: "articles.latestArticles",
+					title: nil
+				} %>
+		</div>
+		<% @exchanges_for_tabs.each do |exchange| %>
+			<div class="tab-pane fade" id="<%= exchange.slug.underscore.camelize(:lower) %>" role="tabpanel"
+							data-exchange="<%= exchange.slug.underscore.camelize(:lower) %>"
+							data-exchange-slug="<%= exchange.slug %>"
+							ng-class="{'active show': selectedTab == '<%= exchange.slug.underscore.camelize(:lower) %>'}">
+				<div class="ajax_loading" ng-show="!articles.<%= exchange.slug.underscore.camelize(:lower) %>.firstLoaded">Loading articles</div>
 				<%= render partial: 'articles/listings', locals: {
-						block_id: "articles.latestArticles",
+						block_id: "articles.#{exchange.slug.underscore.camelize(:lower)}",
 						title: nil
 					} %>
 			</div>
-			<% @exchanges_for_tabs.each do |exchange| %>
-				<div class="tab-pane fade" id="<%= exchange.slug.underscore.camelize(:lower) %>" role="tabpanel"
-								data-exchange="<%= exchange.slug.underscore.camelize(:lower) %>"
-								data-exchange-slug="<%= exchange.slug %>"
-								ng-class="{'active show': selectedTab == '<%= exchange.slug.underscore.camelize(:lower) %>'}">
-					<div class="ajax_loading" ng-show="!articles.<%= exchange.slug.underscore.camelize(:lower) %>.firstLoaded">Loading articles</div>
-					<%= render partial: 'articles/listings', locals: {
-							block_id: "articles.#{exchange.slug.underscore.camelize(:lower)}",
-							title: nil
-						} %>
-				</div>
-			<% end %>
-		</div>
+		<% end %>
 	</div>
 
 </section>
