@@ -58,10 +58,46 @@ class UserMailer < Devise::Mailer
     merge_vars = {
       FNAME: user.first_name,
       LNAME: user.last_name,
+      CURRENT_YEAR: Date.today.strftime("%Y")
+    }
+    body = mandrill_template("registration-welcome-may2019", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+    WelcomeVerifyEmailJob.set(wait: 30.seconds).perform_later(user, token)
+  end
+
+
+  def send_welcome_verify(user, token)
+    subject = 'Verify your email address'
+    merge_vars = {
+      FNAME: user.first_name,
+      LNAME: user.last_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
       USER_URL: confirmation_url(user, confirmation_token: token),
     }
-    body = mandrill_template("welcome", merge_vars)
+    body = mandrill_template("registration-verify-may2019", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+    FirstWizardCheckJob.set(wait: 30.minute).perform_later(user.id)
+  end
+
+  def send_first_wizard_nudge(user)
+    subject = "#{user.first_name}, complete your profile"
+    merge_vars = {
+      FNAME: user.first_name,
+      LNAME: user.last_name,
+      CURRENT_YEAR: Date.today.strftime("%Y")
+    }
+    body = mandrill_template("first-profile-wizard-nudge", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+  end
+
+  def send_second_wizard_nudge(user)
+    subject = "#{user.first_name}, complete your profile"
+    merge_vars = {
+      FNAME: user.first_name,
+      LNAME: user.last_name,
+      CURRENT_YEAR: Date.today.strftime("%Y")
+    }
+    body = mandrill_template("second-profile-wizard-nudge", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
   end
 
