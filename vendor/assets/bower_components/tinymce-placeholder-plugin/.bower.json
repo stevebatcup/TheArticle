@@ -1,0 +1,27 @@
+{
+  "name": "tinymce-placeholder-plugin",
+  "homepage": "https://github.com/rguruprakash/tinymce-placeholder",
+  "description": "placeholder plugin for tinymce",
+  "main": "placeholder/plugin.js",
+  "authors": [
+    "rguruprakash"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "version": "1.0.1",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "8ded222ab6f8564a265e3d1fbcbab25d5d185c5b"
+  },
+  "_source": "https://github.com/rguruprakash/tinymce-placeholder.git",
+  "_target": "*",
+  "_originalSource": "tinymce-placeholder-plugin"
+}
