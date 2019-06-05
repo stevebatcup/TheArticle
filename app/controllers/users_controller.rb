@@ -20,9 +20,13 @@ class UsersController < ApplicationController
 
 		respond_to do |format|
 			format.html do
-				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
-				@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
-				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+				if params[:identifier] == :id
+					redirect_to profile_path(slug: @user.slug)
+				else
+					@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+					@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
+					@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+				end
 			end
 			format.json
 		end
@@ -77,7 +81,7 @@ class UsersController < ApplicationController
 
 	def search_by_username
 		@results = User.search(conditions: { username: "*#{params[:username]}*", status: 'active', has_completed_wizard: true },
-														page: 1, per_page: 5).to_a
+														page: 1, per_page: 6).to_a
 	end
 
 private

@@ -35,17 +35,21 @@ $contrast: 5%;
 				border: none !important;
 			}
 
-			textarea {
-				border: none;
-				width: 100%;
-				padding: 10px;
-				height: 3.5em;
-				background: $grey_light;
-				outline: none;
+			// textarea {
+			// 	border: none;
+			// 	width: 100%;
+			// 	padding: 10px;
+			// 	height: 3.5em;
+			// 	background: $grey_light;
+			// 	outline: none;
 
-				&.expanded {
-					height: 9em;
-				}
+			// 	&.expanded {
+			// 		height: 9em;
+			// 	}
+			// }
+
+			div.mce-edit-area {
+				background: $grey_light;
 			}
 		}
 	}
@@ -229,5 +233,26 @@ $contrast: 5%;
 			position: relative;
 			top: 2px;
 		}
+	}
+}
+
+#rte-container {
+	width: 800px;
+	height: 364px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -182px 0 0 -400px;
+}
+
+.rte-autocomplete {
+	z-index: 10000;
+
+	img {
+		width: 28px;
+		height: 28px;
+		margin-right: 7px;
+		left: -1px;
+		position: relative;
 	}
 }
