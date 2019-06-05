@@ -193,6 +193,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			else
 				@scope.profile.data.followingsCount -= 1
 
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "profile-by-id/#{userId}"
+
 	denoteUploading: (element) =>
 		type = $(element).data('type')
 		@scope.profile.data["#{type}Photo"].uploading = true
@@ -757,5 +762,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		top = (screen.height/2)-(height/2)
 		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
 
+	trustAsHtml: (html) =>
+		@sce.trustAsHtml(html)
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

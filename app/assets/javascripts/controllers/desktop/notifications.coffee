@@ -188,6 +188,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 				when 'categorisation'
 					path = notification.article.path
 					window.location.href = path
+				when 'mentioner'
+					window.location.href = notification.mentioner.path
 			if notification.isSeen is false
 				@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
 					notification.isSeen = true

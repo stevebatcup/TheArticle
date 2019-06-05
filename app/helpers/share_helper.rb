@@ -10,7 +10,7 @@ module ShareHelper
 			commentCount: user_signed_in? ? share.comment_count(current_user) : share.comment_count(nil),
 			agreeCount: share.agree_count,
 			disagreeCount: share.disagree_count,
-			post: share.post,
+			post: format_post(share.post),
 			isOpinionatable: (share.post.length > 0) || has_ratings,
 			showComments: false,
 			showAgrees: false,
@@ -97,5 +97,9 @@ module ShareHelper
 	def text_rating(category, rating)
 		key = convert_rating_to_dots(rating).to_s
 		rating_labels[category][key]
+	end
+
+	def format_post(post)
+		post
 	end
 end

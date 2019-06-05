@@ -9,9 +9,28 @@ class Share < ApplicationRecord
 	belongs_to	:article
 
 	before_save :percentagise_ratings
+	after_create	:notify_mentioned_users
 	after_create	:update_feeds
 	after_save	:recalculate_article_ratings
 	after_destroy	:delete_associated_data
+
+	def notify_mentioned_users
+		if self.post.length > 0
+			post_html =  Nokogiri::HTML.fragment(self.post)
+			post_html.css('span.mentioned_user').each do |span|
+				user_id = span.attributes["data-user"].value.to_i
+				Notification.create({
+					user_id: user_id,
+					eventable_id: self.user.id,
+					eventable_type: "Mentioner",
+					share_id: self.id,
+					body: "<b>#{self.user.display_name}</b> <span class='text-muted'>#{self.user.username}</span> has tagged you in their post",
+					created_at: Time.now,
+					updated_at: Time.now
+				})
+			end
+		end
+	end
 
 	def update_feeds
 		feed = self.feeds.create({user_id: self.user_id})
