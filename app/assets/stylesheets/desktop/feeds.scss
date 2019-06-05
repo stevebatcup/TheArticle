@@ -788,6 +788,12 @@
 
 nav.tabbable {
 	position: relative;
+	scrollbar-width: none;
+
+  &::-webkit-scrollbar,
+  &::-moz-scrollbar {
+    display: none !important;
+  }
 
 	.nav-scroller-scroll {
 		position: absolute;
@@ -796,6 +802,12 @@ nav.tabbable {
 		display: block;
 		-moz-user-select: none;
 		-webkit-user-select: none;
+		scrollbar-width: none;
+
+	  &::-webkit-scrollbar,
+	  &::-moz-scrollbar {
+	    display: none !important;
+	  }
 
 		&.prev {
 			left: -28px;
@@ -814,7 +826,7 @@ nav.tabbable {
 
 	  &::-webkit-scrollbar,
 	  &::-moz-scrollbar {
-	    display: none;
+	    display: none !important;
 	  }
 
 		li {
