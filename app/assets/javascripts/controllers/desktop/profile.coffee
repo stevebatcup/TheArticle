@@ -196,7 +196,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		$(document).on 'click', ".mentioned_user", (e) =>
 			$clicked = $(e.currentTarget)
 			userId = $clicked.data('user')
-			window.location.href = "profile-by-id/#{userId}"
+			window.location.href = "/profile-by-id/#{userId}"
 
 	imageUploadError: (error) =>
 		@scope.profile.errors.photo = error
