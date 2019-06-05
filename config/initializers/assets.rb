@@ -14,4 +14,18 @@ end
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-Rails.application.config.assets.precompile += %w( tablet.scss desktop.scss desktop.js mobile.scss mobile.js setup.js admin.scss admin_setup.js admin_angular.js vendor/modernizr.js bootstrap/dist/css/bootstrap.css bootstrap.css )
+Rails.application.config.assets.precompile += %w(
+	tablet.scss
+	desktop.scss
+	desktop.js
+	mobile.scss
+	mobile.js
+	setup.js
+	admin.scss
+	admin_setup.js
+	admin_angular.js
+	vendor/modernizr.js
+	bootstrap/dist/css/bootstrap.css
+	bootstrap.css
+	tinymce-content.scss
+)

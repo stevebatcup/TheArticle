@@ -20,9 +20,13 @@ class UsersController < ApplicationController
 
 		respond_to do |format|
 			format.html do
-				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
-				@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
-				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+				if params[:identifier] == :id
+					redirect_to profile_path(slug: @user.slug)
+				else
+					@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+					@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
+					@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
+				end
 			end
 			format.json
 		end

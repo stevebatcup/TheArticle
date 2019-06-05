@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Placeholder plugin test</title>
+  <script src="bower_components/tinymce/tinymce.js"></script>
+  <script src="../placeholder/plugin.js"></script>
+  <script type="text/javascript">
+    tinymce.init({
+      selector: "#editor",
+      plugins: [ "placeholder" ],
+    });
+
+    tinymce.init({
+      inline: true,
+      selector: "#editor-inline",
+      plugins: [ "placeholder" ],
+    });
+  </script>
+</head>
+<body>
+  <textarea id="editor" data-placeholder="placeholder text"></textarea> 
+
+  <!-- Inline editor -->
+  <h2> Inline editor </h2>
+  <div id="editor-inline" content-editable="true" data-placeholder="placeholder text"></div>
+</body>
+</html>

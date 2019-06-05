@@ -18,6 +18,7 @@
     "moment": "latest",
     "cropperjs": "latest",
     "tinymce": "4.6.4",
-    "tinymce-mention": "latest"
+    "angular-ui-tinymce": "latest",
+    "tinymce-placeholder-plugin": "latest"
   }
 }

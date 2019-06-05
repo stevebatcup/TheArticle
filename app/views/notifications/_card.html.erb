@@ -8,7 +8,8 @@
 				'fas fa-thumbs-down': item.type=='opinion' && item.specificType=='disagree',
 				'far fa-comment-alt': (item.type=='comment' || item.type=='reply'),
 				'fas fa-users': item.type=='follow',
-				'fas fa-layer-group': item.type=='categorisation'
+				'fas fa-layer-group': item.type=='categorisation',
+				'fas fa-share': item.type=='mentioner'
 			}"></i></span>
 			<span ng-bind-html="item.body" data-notification="{{item.id}}"></span>
 		</p>
