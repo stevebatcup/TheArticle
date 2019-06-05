@@ -790,8 +790,7 @@ nav.tabbable {
 	position: relative;
 	scrollbar-width: none;
 
-  &::-webkit-scrollbar,
-  &::-moz-scrollbar {
+  &::-webkit-scrollbar {
     display: none !important;
   }
 
@@ -804,8 +803,7 @@ nav.tabbable {
 		-webkit-user-select: none;
 		scrollbar-width: none;
 
-	  &::-webkit-scrollbar,
-	  &::-moz-scrollbar {
+	  &::-webkit-scrollbar {
 	    display: none !important;
 	  }
 
@@ -824,8 +822,7 @@ nav.tabbable {
 		flex-wrap: nowrap;
 		scrollbar-width: none;
 
-	  &::-webkit-scrollbar,
-	  &::-moz-scrollbar {
+	  &::-webkit-scrollbar {
 	    display: none !important;
 	  }
 
