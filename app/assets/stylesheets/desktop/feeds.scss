@@ -784,3 +784,48 @@
 	cursor: pointer;
 	color: $green;
 }
+
+
+nav.tabbable {
+	position: relative;
+
+	.nav-scroller-scroll {
+		position: absolute;
+		top: 11px;
+		font-size: 25px;
+		display: block;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+
+		&.prev {
+			left: -28px;
+		}
+
+		&.next {
+			right: -28px;
+		}
+	}
+
+	#home_article_tabs {
+		overflow-x: auto;
+		overflow-y:hidden;
+		flex-wrap: nowrap;
+		scrollbar-width: none;
+
+	  &::-webkit-scrollbar,
+	  &::-moz-scrollbar {
+	    display: none;
+	  }
+
+		li {
+			white-space: nowrap;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+
+			a {
+				-moz-user-select: none;
+				-webkit-user-select: none;
+			}
+		}
+	}
+}
