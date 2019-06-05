@@ -1,0 +1,17 @@
+{
+  "name": "tinymce-placeholder-plugin",
+  "homepage": "https://github.com/rguruprakash/tinymce-placeholder",
+  "description": "placeholder plugin for tinymce",
+  "main": "placeholder/plugin.js",
+  "authors": [
+    "rguruprakash"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

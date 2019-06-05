@@ -193,6 +193,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			else
 				@scope.profile.data.followingsCount -= 1
 
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "profile-by-id/#{userId}"
+
 	denoteUploading: (element) =>
 		type = $(element).data('type')
 		@scope.profile.data["#{type}Photo"].uploading = true

@@ -44,9 +44,7 @@
 		<% end %>
 	</div>
 
-	<p class="post" ng-if="item.share.post.length > 0">
-		{{item.share.post}}
-	</p>
+	<div class="post" ng-if="item.share.post.length > 0" ng-bind-html="trustAsHtml(item.share.post)"></div>
 
 	<div class="member_ratings pt-3 px-3" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
 		<ul class="dots">
