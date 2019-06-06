@@ -31,7 +31,7 @@ class ArticlesController < ApplicationController
 						set_offset = 3
 						sponsored_begin_offset = set + set_offset
 						sponsored_begin_offset = sponsored_begin_offset - per_page if sponsored_begin_offset > per_page
-						sponsored_limit = (sponsored_begin_offset == sponsored_frequency) ? sponsored_frequency - 1 : sponsored_frequency
+						sponsored_limit = sponsored_frequency
 						sponsored_articles = Article.sponsored
 																			.includes(:author).references(:author)
 																			.includes(:exchanges).references(:exchanges)
