@@ -30,7 +30,7 @@ class ArticlesController < ApplicationController
 						set = (params[:page].to_i % per_page)
 						set_offset = 3
 						sponsored_begin_offset = set + set_offset
-						sponsored_begin_offset = sponsored_begin_offset - per_page if sponsored_begin_offset > per_page
+						sponsored_begin_offset = sponsored_begin_offset - sponsored_frequency if sponsored_begin_offset > sponsored_frequency
 						# sponsored_limit = (sponsored_begin_offset == sponsored_frequency) ? sponsored_frequency - 1 : sponsored_frequency
 						sponsored_limit = sponsored_frequency
 						sponsored_articles = Article.sponsored
@@ -69,6 +69,7 @@ class ArticlesController < ApplicationController
 						@articles = @articles.to_a
 						sponsored_articles.each_with_index do |sa, i|
 							key = (sponsored_begin_offset + (i * sponsored_frequency)) - 1
+							key = key-1 if sponsored_begin_offset == 1
 							if @articles[key]
 								@articles.insert(key, sa)
 							else
