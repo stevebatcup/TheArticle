@@ -819,6 +819,10 @@ nav.tabbable {
 			a {
 				-moz-user-select: none;
 				-webkit-user-select: none;
+
+				label {
+					font-size: 1em;
+				}
 			}
 		}
 	}
