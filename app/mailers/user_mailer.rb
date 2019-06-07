@@ -86,6 +86,20 @@ class UserMailer < Devise::Mailer
       FNAME: user.first_name,
       LNAME: user.last_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
+      MC_PREVIEW_TEXT: "Thanks for registering with TheArticle. We believe that thoughtful, intelligent, well-researched analysis of the news has never been more necessary. And at TheArticle, we provide it."
+    }
+    body = mandrill_template("registration-welcome-may2019", merge_vars)
+    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+    WelcomeVerifyEmailJob.set(wait: 30.seconds).perform_later(user, token)
+  end
+
+
+  def send_welcome_verify(user, token)
+    subject = 'Verify your email address'
+    merge_vars = {
+      FNAME: user.first_name,
+      LNAME: user.last_name,
+      CURRENT_YEAR: Date.today.strftime("%Y"),
       USER_URL: confirmation_url(user, confirmation_token: token),
       MC_PREVIEW_TEXT: "Now that you're registered with TheArticle, we need you to verify your email address so that we can send you important updates."
     }

@@ -6,6 +6,7 @@
       </a>
     </div>
 
+    <% if user_signed_in? %>
     <div id="sidebar_me" class="d-flex">
         <a href='/my-profile'>
           <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
@@ -18,7 +19,9 @@
         </a>
       </p>
     </div>
+    <% end %>
 
+    <% if user_signed_in? %>
     <div id="follows_info" class="d-flex">
       <p>
         <span class="pr-1">
@@ -39,7 +42,9 @@
         </span>
       </p>
     </div>
+    <% end %>
 
+    <% if user_signed_in? %>
     <h3 class="menu-section-title">My pages</h3>
     <ul class="list-unstyled menu-section-list">
       <li>
@@ -71,6 +76,14 @@
         <a class="" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
       </li>
     </ul>
+
+    <% else %>
+    <ul class="list-unstyled menu-section-list">
+      <li><a href="/">Home</a></li>
+      <li><a class="join_button" href="<%= new_user_registration_path %>">Register</a></li>
+      <li><a class="join_button" href="<%= new_user_session_path %>">Sign in</a></li>
+    </ul>
+    <% end %>
 
     <h3 class="menu-section-title">Browse</h3>
     <ul class="list-unstyled menu-section-list">

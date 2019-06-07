@@ -21,10 +21,10 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		$('#open_feedback_form').on 'click', (e) =>
 			@openFeedbackForm(e)
 
-	bindBlockClicks: =>
-		$('.block_click').on 'click', (e) =>
-			@blockClick $(e.currentTarget), e
-		super
+	# bindBlockClicks: =>
+	# 	$(document).on 'click', '.block_click', (e) =>
+	# 		@blockClick $(e.currentTarget), e
+	# 	super
 
 	bindSideMenu: =>
 		if $("#mobile_side_menu").length > 0
