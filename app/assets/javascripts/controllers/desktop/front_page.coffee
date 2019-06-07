@@ -409,6 +409,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	resetCarousels: =>
 		window.location.reload()
 
+	toggleFollowUserFromCard: (user, $event) =>
+		@toggleFollowSuggestion(user, $event)
+
 	toggleFollowSuggestion: (user, $event) =>
 		$event.preventDefault()
 		if user.imFollowing

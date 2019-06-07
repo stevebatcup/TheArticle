@@ -1,12 +1,12 @@
 <%
 	suggestions = false
 	show_ignore_btn = false
-	if local_assigns[:locals]
-		suggestions = local_assigns[:locals][:suggestions].nil? ? false : true
-		show_ignore_btn = local_assigns[:locals][:show_ignore_btn].nil? ? false : true
+	if local_assigns
+		suggestions = local_assigns[:suggestions] || false
+		show_ignore_btn = local_assigns[:show_ignore_btn] || false
 	end
 %>
-<div class="py-2 px-2 mb-2">
+<div class="py-2 px-2 mb-2 block_click h-100" data-href="{{ item.path }}">
 	<div class="align-items-start d-flex">
 		<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
 			<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image mr-2" alt="{{item.displayName}}" />

@@ -192,10 +192,14 @@ class TheArticle.PageController extends TheArticle.NGController
 			@blockClick $clicked, e
 
 	blockClick: ($clicked, e) =>
-		if $clicked.prop('tagName') isnt "A" and $clicked.parent().prop('tagName') isnt "A"
+		console.log $clicked.prop('tagName')
+		$clickedTag = $clicked.prop('tagName')
+		$parent = $clicked.parent()
+		$parentTag = $parent.prop('tagName')
+		if $clickedTag isnt "A" and $parentTag isnt "A" and $clickedTag isnt "svg" and $parentTag isnt "svg"
 			e.preventDefault()
-			if $clicked.prop('tagName') isnt "BUTTON" and $clicked.parent().prop('tagName') isnt "BUTTON"
-				if $clicked.prop('tagName') is "DIV" and $clicked.data('href')
+			if $clickedTag isnt "BUTTON" and $parentTag isnt "BUTTON"
+				if $clickedTag is "DIV" and $clicked.data('href')
 					link = $clicked.data('href')
 				else
 					link = $clicked.closest('[data-href]').data('href')

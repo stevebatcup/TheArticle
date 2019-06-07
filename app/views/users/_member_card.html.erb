@@ -1,17 +1,13 @@
 <%
 	suggestions = false
 	show_ignore_btn = false
-	if local_assigns[:locals]
-		suggestions = local_assigns[:locals][:suggestions].nil? ? false : true
-		show_ignore_btn = local_assigns[:locals][:show_ignore_btn].nil? ? false : true
+	if local_assigns
+		suggestions = local_assigns[:suggestions] || false
+		show_ignore_btn = local_assigns[:show_ignore_btn] || false
 	end
 %>
 
-<% if show_ignore_btn == true %>
-<div class="pb-2 bg-white h-100">
-<% else %>
 <div class="pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
-<% end %>
 	<div class="card-img-top cover_photo">
 		<% if suggestions == false || show_ignore_btn == true %><a href="{{item.path}}"><% end %>
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />
