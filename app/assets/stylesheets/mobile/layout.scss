@@ -108,6 +108,25 @@ body.fixed-header {
 	}
 }
 
+main#main_content {
+	&.home_index {
+		background: $grey_light;
+		min-height: 100vh;
+
+		.article-listing {
+			.inner {
+				background: #fff;
+			}
+
+			&.sponsored_article  {
+				.inner {
+					background-color: #f9f4d7;
+				}
+			}
+		}
+	}
+}
+
 header.black_heading {
 	width: 100%;
 	background-color: #000;

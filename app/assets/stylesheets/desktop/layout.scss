@@ -15,6 +15,10 @@ button:hover {
 	text-decoration: none !important;
 }
 
+.container-desktop {
+	@extend .container
+}
+
 .inherit_hover:hover {
 	color: inherit !important;
 }
