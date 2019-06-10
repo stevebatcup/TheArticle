@@ -45,4 +45,10 @@ class ProfileSuggestionsController < ApplicationController
 			render json: { status: :error, message: "Cannot find suggestion" }
 		end
 	end
+
+private
+
+	def hide_footer?
+		true if browser.device.mobile? && params[:action] == 'index'
+	end
 end
