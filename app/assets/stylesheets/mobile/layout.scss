@@ -150,8 +150,12 @@ header.black_heading {
 }
 
 #ads_top {
-	// min-height: 20px;
-	// display: none;
+	position: fixed;
+	bottom: 0;
+	width: 100vw;
+	background: #fff;
+	z-index: 9999;
+	border-top: 1px solid #ccc;
 }
 
 .ads_box {
@@ -410,7 +414,9 @@ a.gabriela {
 }
 
 /**** FOOTER ****/
-footer {
+footer#main_footer_top {
+	padding-bottom: 75px;
+
 	#main_footer_links {
 		li a {
 			font-size: 1.1rem;
