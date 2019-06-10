@@ -23,6 +23,45 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		@setRatingsDefaultHeading()
 		@bindEvents()
 
+		@scope.tinymceOptions =
+			selector: 'textarea#comments'
+			height: 56
+			placeholder: "Add a comment..."
+			statusbar: false
+			menubar: false
+			toolbar: false
+			init_instance_callback: (editor) =>
+				editor.on 'focus', (e) =>
+					editor.theme.resizeTo('100%', 144)
+			mentions:
+				items: 6
+				delay: 0
+				queryBy: 'username'
+				render: (item) =>
+					return "<li><a href='javascript:;'>
+							<img src='#{item.image}' alt='' class='rounded-circle' />
+							<span class='text'>#{item.username} (#{item.displayname})</span>
+						</a></li>"
+				insert: (item) =>
+					'<span class="mentioned_user" style="font-weight:bold;" data-user="' + item.id + '">' + item.username + '</span>';
+				highlighter: (text) ->
+					text.replace new RegExp('(' + this.query + ')', 'ig'), ($1, match) ->
+						'<i>' + match + '</i>'
+				source: (query, process, delimiter) =>
+					if delimiter is '@'
+						if query.length > 1
+							@http.get("/profile/search-by-username/#{query}").then (response) =>
+								process(response.data.results) if response.data.results?
+						else
+							[]
+			plugins : "link, paste, placeholder"
+			external_plugins:
+				'mention' : 'http://stevendevooght.github.io/tinyMCE-mention/javascripts/tinymce/plugins/mention/plugin.js'
+			content_css: [
+				@element.data('tinymce-content-css-url'),
+				'//fonts.googleapis.com/css?family=Montserrat'
+			]
+
 	resetData: =>
 		@scope.share =
 			comments: @element.data('share-comments')

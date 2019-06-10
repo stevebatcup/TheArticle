@@ -236,3 +236,30 @@ $contrast: 5%;
 		border-top: 1px dashed $grey;
 	}
 }
+
+
+#rte-container {
+	width: 800px;
+	height: 364px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -182px 0 0 -400px;
+}
+
+.mce-panel {
+	border: none !important;
+}
+
+.rte-autocomplete {
+	z-index: 10000;
+	max-width: 89vw;
+
+	img {
+		width: 28px;
+		height: 28px;
+		margin-right: -8px;
+		left: -10px;
+		position: relative;
+	}
+}
