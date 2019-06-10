@@ -790,6 +790,11 @@ body.fixed-nav #home_feed_tabs {
   z-index: 100;
 }
 
+
+.mentioned_user {
+	cursor: pointer;
+	color: $green;
+}
 nav.tabbable {
 	position: relative;
 
