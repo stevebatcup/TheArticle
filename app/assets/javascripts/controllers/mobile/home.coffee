@@ -32,11 +32,11 @@ class TheArticle.Home extends TheArticle.MobilePageController
 
 	selectTab: (exchange) =>
 		@scope.selectedTab = exchange
-		if @scope.articles[exchange].moreToLoad
-			$('footer#main_footer_top').hide()
-		else
-			$('footer#main_footer_top').show()
 		@getArticles(exchange)
+		# if @scope.articles[exchange].moreToLoad
+		# 	$('footer#main_footer_top').hide()
+		# else
+		# 	$('footer#main_footer_top').show()
 
 	initArticleData: =>
 		@scope.articles = {}
@@ -102,7 +102,7 @@ class TheArticle.Home extends TheArticle.MobilePageController
 				@scope.articles[exchange].firstLoaded = true if @scope.articles[exchange].page is 1
 				@scope.articles[exchange].loading = false
 				@bindScrollingArticles() if (@scope.articles[exchange].page is 1) and (exchange is 'latestArticles')
-				$('footer#main_footer_top').show() if !@scope.articles[exchange].moreToLoad
+				# $('footer#main_footer_top').show() if !@scope.articles[exchange].moreToLoad
 			, 350
 		, (response) =>
 			@refreshPage() if response.status is 401
