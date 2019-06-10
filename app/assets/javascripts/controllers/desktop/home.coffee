@@ -9,23 +9,12 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	  '$timeout'
 	  '$compile'
 	  '$ngConfirm'
-	  'EditorsPick'
-	  'SponsoredPick'
+	  'ExchangeArticle'
 	]
 
 	init: ->
 		@bindEvents()
-		@scope.editorsPicks =
-			page: 1
-			items:  []
-			totalItemCount: 0
-			loading: false
-			firstLoaded: false
-			moreToLoad: true
-		@scope.sponsoredPicks =
-			items:  []
-			loading: false
-			firstLoaded: false
+		@initArticleData()
 
 		vars = @getUrlVars()
 		deviceType = if @isTablet() then 'tablet' else 'desktop'
@@ -44,6 +33,10 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 		else if $('#registerInterstitial').length
 			@showRegistrationInterstitial()
 
+	selectTab: (tab) =>
+		@scope.selectedTab = tab
+		@getArticles(tab)
+
 	showProfileWizardModal: =>
 		tpl = $("#profileWizard").html().trim()
 		$content = @compile(tpl)(@scope)
@@ -52,49 +45,61 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 			backdrop: 'static'
 			keyboard: false
 
+	initArticleData: =>
+		@scope.articles = {}
+		$('.tab-pane').each (index, pane) =>
+			exchange = $(pane).data('exchange')
+			slug = $(pane).data('exchange-slug')
+			@scope.articles[exchange] =
+				slug: slug
+				page: 1
+				items:  []
+				articleCount: 0
+				totalItemCount: 0
+				loading: false
+				firstLoaded: false
+				moreToLoad: true
+		@scope.selectedTab = 'latestArticles'
+		@getArticles('latestArticles')
+
 	bindEvents: =>
 		super
-		$('.slick-carousel.articles').first().on 'init', (e) =>
-			@getEditorsPicks() unless $('.listings_editorspicks').length > 0
-			@getSponsoredPicks() unless $('.listings_sponsoredpicks').length > 0
+
+		$('.nav-scroller-scroll.next').on 'click', (e) =>
+			e.preventDefault()
+			$list = $(e.currentTarget).parent().find('ul')
+			scrolledLeft = $list.scrollLeft()
+			$list.scrollLeft(scrolledLeft+85)
+
+		$('.nav-scroller-scroll.prev').on 'click', (e) =>
+			e.preventDefault()
+			$list = $(e.currentTarget).parent().find('ul')
+			scrolledLeft = $list.scrollLeft()
+			$list.scrollLeft(scrolledLeft-85)
 
 		$('.see_more_articles').on 'click', (e) =>
 			$clicked = $(e.currentTarget)
 			nextSection = Number($clicked.data('section')) + 1
 			$clicked.hide().parent().find("a[data-section=#{nextSection}]").show()
 
-	loadMore: (resource) =>
-		resource = "get" + resource.charAt(0).toUpperCase() + resource.slice(1)
-		@[resource]()
+	loadMore: (str) =>
+		exchange = str.substring(str.indexOf(".")+1)
+		@scope.articles[exchange].page += 1
+		@getArticles(exchange)
 
-	getEditorsPicks: =>
-		@scope.editorsPicks.loading = true
-		timeoutDelay = if @scope.editorsPicks.page is 1 then 1500 else 1000
-		vars = { tagged: 'editors-picks', page: @scope.editorsPicks.page, perPage: @element.data('per-page') }
-		@EditorsPick.query(vars).then (response) =>
+	getArticles: (exchange) =>
+		@scope.articles[exchange].loading = true
+		vars = { exchange: @scope.articles[exchange].slug, page: @scope.articles[exchange].page, per_page: @element.data('per-page'), include_sponsored: 1 }
+		@ExchangeArticle.query(vars).then (response) =>
 			@timeout =>
-				@scope.editorsPicks.totalItemCount = response.total if @scope.editorsPicks.page is 1
+				@scope.articles[exchange].totalItemCount = response.total if @scope.articles[exchange].page is 1
 				angular.forEach response.articles, (article) =>
-					@scope.editorsPicks.items.push article
-				@scope.editorsPicks.moreToLoad = @scope.editorsPicks.totalItemCount > @scope.editorsPicks.items.length
-				@scope.editorsPicks.firstLoaded = true if @scope.editorsPicks.page is 1
-				@scope.editorsPicks.loading = false
-				@scope.editorsPicks.page += 1
-			, timeoutDelay
-		, (response) =>
-			@refreshPage() if response.status is 401
-
-	getSponsoredPicks: =>
-		@scope.sponsoredPicks.loading = true
-		timeoutDelay = 2000
-		vars = { sponsored_picks: 1 }
-		@SponsoredPick.query(vars).then (response) =>
-			@timeout =>
-				angular.forEach response.articles, (article) =>
-					@scope.sponsoredPicks.items.push article
-				@scope.sponsoredPicks.firstLoaded = true
-				@scope.sponsoredPicks.loading = false
-			, timeoutDelay
+					@scope.articles[exchange].items.push article
+					@scope.articles[exchange].articleCount += 1 unless article.isSponsored
+				@scope.articles[exchange].moreToLoad = @scope.articles[exchange].totalItemCount > @scope.articles[exchange].articleCount
+				@scope.articles[exchange].firstLoaded = true if @scope.articles[exchange].page is 1
+				@scope.articles[exchange].loading = false
+			, 350
 		, (response) =>
 			@refreshPage() if response.status is 401
 

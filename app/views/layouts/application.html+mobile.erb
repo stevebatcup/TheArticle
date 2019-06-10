@@ -1,50 +1,8 @@
 <%= render 'layouts/head' %>
 
-<% if user_signed_in? %>
-  <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
-      <main id="panel_for_side_menu">
-<% else %>
-  <nav id="sidebar" ng-controller="SidebarController" data-signed-in="0" ng-cloak>
-    <div id="dismiss"><i class="fas fa-times"></i></div>
+<%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
 
-    <ul class="list-unstyled">
-      <li>
-        <a class="" href="/" id="nav_home">Home</a>
-      </li>
-      <li>
-        <a class="join_button" href="#" ng-click="openRegisterForm($event, 'sidebar', '<%= device_type_for_events %>')">Register</a>
-      </li>
-      <li>
-        <% if user_signed_in? %>
-          <a class="join_button" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
-        <% else %>
-          <a class="join_button" href="<%= new_user_session_path %>">Sign in</a>
-        <% end %>
-      </li>
-      <li>
-        <a class="search_trigger" href="#" id="nav_link_search">Search</a>
-      </li>
-      <li>
-        <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
-      </li>
-      <li>
-        <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
-      </li>
-      <li>
-        <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
-      </li>
-      <li>
-        <a class="" href="/write-for-us" id="nav_link_write_for_ud">Write for Us</a>
-      </li>
-      <li>
-        <a class="" href="/help">Help</a>
-      </li>
-      <li>
-        <a class="" href="/contact" id="nav_link_contact">Contact</a>
-      </li>
-    </ul>
-  </nav>
-<% end %>
+<main id="panel_for_side_menu">
 
 <!-- Page Content -->
 <div id="content">
@@ -190,11 +148,36 @@
 
   <%= render 'common/search-box' %>
 
-  <main id="main_content" ng-class="{'app_page': appPage != false}" data-slideout-ignore>
+  <main id="main_content" ng-class="{'app_page': appPage == true}" class="<%= params[:controller] %>_<%= params[:action] %>" data-slideout-ignore>
     <%= yield %>
   </main>
 
   <footer id="main_footer_top" class="main_footer bg-black text-white" ng-controller="FooterController" ng-cloak>
+    <% if show_ads? %>
+     <div id="ads_top" class="bg-white pt-1 pb-2 mx-auto my-0" ng-app="TheArticleNG">
+        <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/skin -->
+        <div id='div-gpt-ad-<%= ad_page_id %>-2' style='height:1px; width:1px;'>
+          <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-2'); });
+          </script>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+              <div id="ads_top_box" class="ads_box">
+                <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/topbanner -->
+                <div id='div-gpt-ad-<%= ad_page_id %>-3'>
+                  <script>
+                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-3'); });
+                  </script>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class="container">
       <div class="inner border-light border-bottom">
         <div class="row py-2">
@@ -295,9 +278,7 @@
 
 <div class="overlay"></div>
 
-<% if user_signed_in? %>
-    </main>
-<% end %>
+</main>
 
 <% if user_signed_in? %>
   <script id="concernReport" type="script/x-mustache">

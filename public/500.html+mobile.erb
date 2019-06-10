@@ -1,47 +1,7 @@
 <%= render 'layouts/head' %>
 
-<% if user_signed_in? %>
-  <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
-      <main id="panel_for_side_menu">
-<% else %>
-  <nav id="sidebar" ng-controller="SidebarController" ng-cloak>
-    <div id="dismiss"><i class="fas fa-times"></i></div>
-
-    <ul class="list-unstyled">
-      <li>
-        <a class="" href="/" id="nav_home">Home</a>
-      </li>
-      <li>
-        <a class="join_button" href="#" ng-click="openRegisterForm($event)">Register</a>
-      </li>
-      <li>
-        <% if user_signed_in? %>
-          <a class="join_button" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
-        <% else %>
-          <a class="join_button" href="<%= new_user_session_path %>">Sign in</a>
-        <% end %>
-      </li>
-      <li>
-        <a class="search_trigger" href="#" id="nav_link_search">Search</a>
-      </li>
-      <li>
-        <a class="" href="/our-mission" id="nav_link_mission">Our Mission</a>
-      </li>
-      <li>
-        <a class="" href="/exchanges" id="nav_link_exchanges">Exchanges</a>
-      </li>
-      <li>
-        <a class="" href="/contributors" id="nav_link_journalists">Contributors</a>
-      </li>
-      <li>
-        <a class="" href="/write-for-us" id="nav_link_write_for_ud">Write for Us</a>
-      </li>
-      <li>
-        <a class="" href="/contact" id="nav_link_contact">Contact</a>
-      </li>
-    </ul>
-  </nav>
-<% end %>
+<%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
+<main id="panel_for_side_menu">
 
 <!-- Page Content -->
 <div id="content">
@@ -188,7 +148,7 @@
   <%= render 'common/search-box' %>
 
   <main id="main_content" ng-class="" data-slideout-ignore>
-    <div class="dialog container py-5 px-3" ng-controller="HomeController">
+    <div class="dialog container py-5 px-3" ng-controller="ContentPageController">
       <div>
         <h1>We're sorry, but something went wrong.</h1>
       </div>
@@ -291,9 +251,7 @@
 
 <div class="overlay"></div>
 
-<% if user_signed_in? %>
-    </main>
-<% end %>
+</main>
 
 <% if user_signed_in? %>
   <script id="concernReport" type="script/x-mustache">

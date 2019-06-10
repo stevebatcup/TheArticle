@@ -1,6 +1,10 @@
 <% meta_tag :image, asset_url("social-logo-square.png") %>
 
-<section ng-controller="HomeController" data-per-page="<%= articles_per_page %>" ng-cloak <%= ' data-force-profile-wizard=1' if user_signed_in? && !current_user.has_completed_wizard? %>>
+<section ng-controller="HomeController"
+					data-per-page="<%= articles_per_page %>"
+					<%= ' data-force-profile-wizard=1' if user_signed_in? && !current_user.has_completed_wizard? %>
+					ng-cloak
+					class="mt-md-3">
 
 	<% if !user_signed_in? && !cookies[:shown_registration_interstitial] && browser.device.mobile? %>
 		<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
@@ -9,47 +13,62 @@
 		</div>
 	<% end %>
 
-	<div class="container mt-4 mt-md-5 slick-carousel-title">
-	  <h1 class="bullet cloak">Trending articles</h1>
+	<div class="container-desktop">
+		<nav class="tabbable">
+			<a class="nav-scroller-scroll prev">
+				<i class="fas fa-chevron-left"></i>
+			</a>
+			<a class="nav-scroller-scroll next">
+				<i class="fas fa-chevron-right"></i>
+			</a>
+      <ul class="bg-white nav nav-tabs pt-2" id="home_article_tabs" role="tablist">
+		    <li class="nav-item">
+		    	<a class="nav-link"
+		    		ng-click="selectTab('latestArticles')"
+		    		ng-class="{'active': selectedTab == 'latestArticles'}"
+		    		data-toggle="tab" href="#latestArticles" role="tab">
+		      	<label>Latest Articles</label>
+		    	</a>
+		    </li>
+			  <% @exchanges_for_tabs.each do |exchange| %>
+				  <li class="nav-item">
+				    <a class="nav-link"
+				    		ng-click="selectTab('<%= exchange.slug.underscore.camelize(:lower) %>')"
+				    		ng-class="{'active': selectedTab == '<%= exchange.slug.underscore.camelize(:lower) %>'}"
+				    		data-toggle="tab" href="#<%= exchange.slug.underscore.camelize(:lower) %>" role="tab">
+				      <label><%= exchange.name %></label>
+				    </a>
+				  </li>
+			  <% end %>
+      </ul>
+    </nav>
 	</div>
 
-	<%= if @articles_for_carousel.any?
-		render partial: 'carousels/articles', locals: { articles: @articles_for_carousel }
-	end %>
-
-
-	<%= render partial: 'articles/listings', locals: {
-			block_id: 'editorsPicks',
-			title: "Editor's picks"
-		} %>
-	<div class="ajax_loading editors_picks" ng-show="editorsPicks.loading">Loading Editor's picks</div>
-
-	<% if browser.device.mobile? %>
-		<div class="mb-5">
-			<div class="container mt-4 mt-md-5 slick-carousel-title">
-			  <h1 class="bullet">Sponsored picks</h1>
-			</div>
-			<%= render partial: 'carousels/articles', locals: { articles: @sponsored_picks } %>
+	<div class="tab-content pt-4" id="home_tab_content">
+		<div class="tab-pane fade" id="latestArticles" role="tabpanel"
+				 data-exchange="latestArticles"
+				 data-exchange-slug="latest-articles"
+				 ng-class="{'active show': selectedTab == 'latestArticles'}">
+			<div class="ajax_loading" ng-show="!articles.latestArticles.firstLoaded">Loading articles</div>
+			<%= render partial: 'articles/listings', locals: {
+					block_id: "articles.latestArticles",
+					title: nil
+				} %>
 		</div>
-	<% else %>
-		<%= render partial: 'articles/listings', locals: {
-			block_id: 'sponsoredPicks',
-			title: "Sponsored picks",
-		} %>
-	<% end %>
-	<div class="ajax_loading sponsored_picks" ng-show="sponsoredPicks.loading">Loading sponsored articles</div>
-
-	<div class="mb-3">
-		<%= if @trending_exchanges.any?
-			render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
-		end %>
+		<% @exchanges_for_tabs.each do |exchange| %>
+			<div class="tab-pane fade" id="<%= exchange.slug.underscore.camelize(:lower) %>" role="tabpanel"
+							data-exchange="<%= exchange.slug.underscore.camelize(:lower) %>"
+							data-exchange-slug="<%= exchange.slug %>"
+							ng-class="{'active show': selectedTab == '<%= exchange.slug.underscore.camelize(:lower) %>'}">
+				<div class="ajax_loading" ng-show="!articles.<%= exchange.slug.underscore.camelize(:lower) %>.firstLoaded">Loading articles</div>
+				<%= render partial: 'articles/listings', locals: {
+						block_id: "articles.#{exchange.slug.underscore.camelize(:lower)}",
+						title: nil
+					} %>
+			</div>
+		<% end %>
 	</div>
 
-	<%= render partial: 'common/page-bottom', locals: {
-			spotlight_heading: 'Contributor spotlight',
-			contributors: @contributors_for_spotlight,
-			recent_articles: @recent_articles
-		} %>
 </section>
 
 <% if user_signed_in? && !current_user.has_completed_wizard? %>

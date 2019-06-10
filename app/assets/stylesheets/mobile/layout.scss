@@ -14,7 +14,8 @@ label.alert-success {
 	color: #155724 !important;
 }
 
-a:active {
+a:active,
+a:hover {
 	color: inherit !important;
 }
 
@@ -103,6 +104,25 @@ body.fixed-header {
 
 		&.app_page {
 			padding-top: 4rem;
+		}
+	}
+}
+
+main#main_content {
+	&.home_index {
+		background: $grey_light;
+		min-height: 100vh;
+
+		.article-listing {
+			.inner {
+				background: #fff;
+			}
+
+			&.sponsored_article  {
+				.inner {
+					background-color: #f9f4d7;
+				}
+			}
 		}
 	}
 }
