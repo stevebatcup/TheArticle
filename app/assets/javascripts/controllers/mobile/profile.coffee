@@ -700,4 +700,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		top = (screen.height/2)-(height/2)
 		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
 
+	trustAsHtml: (html) =>
+		@sce.trustAsHtml(html)
+
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

@@ -27,5 +27,6 @@ Rails.application.config.assets.precompile += %w(
 	vendor/modernizr.js
 	bootstrap/dist/css/bootstrap.css
 	bootstrap.css
-	tinymce-content.scss
+	desktop/tinymce-content.scss
+	mobile/tinymce-content.scss
 )
