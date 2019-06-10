@@ -806,8 +806,7 @@ nav.tabbable {
 		flex-wrap: nowrap;
 		scrollbar-width: none;
 
-	  &::-webkit-scrollbar,
-	  &::-moz-scrollbar {
+	  &::-webkit-scrollbar {
 	    display: none;
 	  }
 
