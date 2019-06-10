@@ -33,13 +33,15 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_development?
 
 	def is_staging?
-		Rails.env == 'staging'
+		Rails.env.to_sym == :staging
 	end
 	helper_method	:is_staging?
 
 	def show_ads?
-		if is_development? || is_staging?
+		if is_development?
 			false
+		elsif is_staging?
+			true
 		elsif self.class == ProfileWizardController
 			false
 		else
