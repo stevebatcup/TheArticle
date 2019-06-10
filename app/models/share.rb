@@ -24,7 +24,7 @@ class Share < ApplicationRecord
 					eventable_id: self.user.id,
 					eventable_type: "Mentioner",
 					share_id: self.id,
-					body: "<b>#{self.user.display_name}</b> <span class='text-muted'>#{self.user.username}</span> has tagged you in their post",
+					body: "<b>#{self.user.display_name}</b> <span class='text-muted'>#{self.user.username}</span> mentioned you in a post",
 					created_at: Time.now,
 					updated_at: Time.now
 				})
