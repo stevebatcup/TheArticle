@@ -66,4 +66,10 @@ class NotificationsController < ApplicationController
 		@notification = Notification.find(params[:id])
 		@followers = @notification.feeds.map(&:user).uniq
 	end
+
+private
+
+	def hide_footer?
+		true if browser.device.mobile? && params[:action] == 'index'
+	end
 end

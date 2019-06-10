@@ -98,6 +98,10 @@ class AccountSettingsController < ApplicationController
 
 private
 
+	def hide_footer?
+		true if browser.device.mobile? && params[:action] == 'edit'
+	end
+
 	def user_params
 		params.require(:user).permit(:title, :first_name, :last_name, :username, :email, :existing_password, :new_password, :gender, :age_bracket)
 	end

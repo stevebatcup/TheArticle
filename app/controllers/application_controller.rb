@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
 	def show_ads?
 		if is_development?
-			false
+			true
 		elsif is_staging?
 			true
 		elsif self.class == ProfileWizardController
@@ -49,6 +49,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	helper_method	:show_ads?
+
+	def hide_footer?
+		false
+	end
+	helper_method	:hide_footer?
 
 	def gtm_id
 		if is_article_page?
