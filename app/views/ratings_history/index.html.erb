@@ -81,11 +81,6 @@
 					<div ng-if="ratings.firstLoaded" class="results_block row"
 							ng-class="{'empty': ratings.data.length == 0}">
 
-
-						<p class="col-12 empty_resource" ng-if="ratings.data.length == 0">
-							<span>There is no activity to show here</span>
-						</p>
-
 						<div class="article_box card col-12 feed-listing">
 							<div class="inner">
 								<h4 class="my-2">All ratings for article</h4>
@@ -150,6 +145,11 @@
 							</div>
 						</div>
 
+						<p class="col-12 empty_resource" ng-if="ratings.data.length == 0">
+							<span>This article has not yet been rated</span>
+						</p>
+
+
 						<div ng-repeat="rating in ratings.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0">
 
@@ -173,7 +173,7 @@
 								 		</div>
 								 	</div>
 
-								 	<p class="post" ng-if="rating.post.length > 0" ng-bind="trustAsHtml(rating.post)"></p>
+								 	<p class="post" ng-if="rating.post.length > 0" ng-bind-html="trustAsHtml(rating.post)"></p>
 
 								 	<div class="member_ratings pt-3 px-3 mb-0 mt-1" ng-if="rating.wellWritten > 0 || rating.validPoints > 0 || rating.agree > 0">
 								 		<ul class="dots">
