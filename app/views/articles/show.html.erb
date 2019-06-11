@@ -67,9 +67,11 @@
 					<div class="member_ratings pt-2 pb-2 px-3">
 						<div class="d-flex justify-content-between">
 							<h5>Member ratings</h5>
-							<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
-								<small>View ratings</small>
-							</a>
+							<% if @article.has_ratings? %>
+								<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
+									<small>View ratings</small>
+								</a>
+							<% end %>
 						</div>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
@@ -121,9 +123,11 @@
 					<div class="member_ratings bars pt-3 pb-2 px-3">
 						<div class="d-flex justify-content-between">
 							<h5>Member ratings</h5>
-							<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
-								<small>View ratings</small>
-							</a>
+							<% if @article.has_ratings? %>
+								<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
+									<small>View ratings</small>
+								</a>
+							<% end %>
 						</div>
 
 						<% if @article.has_ratings? %>
