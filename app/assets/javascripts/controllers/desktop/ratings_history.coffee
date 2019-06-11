@@ -10,6 +10,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 	  '$interval'
 	  '$compile'
 	  '$ngConfirm'
+	  '$sce'
 	  '$cookies'
 		'ArticleRating'
 	]
@@ -64,8 +65,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 				@scope.ratings.totalItems = response.total
 			@scope.ratings.moreToLoad = (@scope.ratings.totalItems > @scope.ratings.length)
 
-
-
-
+	trustAsHtml: (html) =>
+		@sce.trustAsHtml(html)
 
 TheArticle.ControllerModule.controller('RatingsHistoryController', TheArticle.RatingsHistory)
