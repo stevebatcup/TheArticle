@@ -68,7 +68,7 @@
 						<div class="d-flex justify-content-between">
 							<h5>Member ratings</h5>
 							<% if @article.has_ratings? %>
-								<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
+								<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
 									<small>View ratings</small>
 								</a>
 							<% end %>
@@ -124,7 +124,7 @@
 						<div class="d-flex justify-content-between">
 							<h5>Member ratings</h5>
 							<% if @article.has_ratings? %>
-								<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
+								<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
 									<small>View ratings</small>
 								</a>
 							<% end %>
