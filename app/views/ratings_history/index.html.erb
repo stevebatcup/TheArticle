@@ -57,7 +57,7 @@
 				</div>
 			</section>
 
-			<% unless current_user.has_full_profile? %>
+			<% unless user_signed_in? && current_user.has_full_profile? %>
 			<div class="call-to-action-card card">
 				<div class="card-header">
 					<h5 class="card-title">Fill out your profile</h5>
