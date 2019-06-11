@@ -49,11 +49,31 @@ class Follow < ApplicationRecord
 			# feeds for opinions/comments made by newly followed user (to appear on the followers homepage)
 			current_user = User.find(self.user_id)
 			interactor = User.find(self.followed_id)
+			build_retrospective_share_feed(interactor, current_user)
 			build_retrospective_opinion_feed(interactor, current_user)
 			build_retrospective_comment_feed(interactor, current_user)
 			build_retrospective_subscription_feed(interactor, current_user)
 		end
 	end
+
+	def build_retrospective_share_feed(sharer, current_user)
+		sharer.feeds.where(actionable_type: 'Share').each do |share_feed|
+			if share_feed.actionable
+				unless user_feed_item = FeedUser.find_by(user_id: current_user.id, action_type: 'share', source_id: share_feed.actionable_id)
+					user_feed_item = FeedUser.new({
+						user_id: current_user.id,
+						action_type: 'share',
+						source_id: share_feed.actionable_id
+					})
+				end
+				user_feed_item.created_at = share_feed.actionable.created_at unless user_feed_item.persisted?
+				user_feed_item.updated_at = share_feed.actionable.created_at
+				user_feed_item.feeds << share_feed
+				user_feed_item.save
+			end
+		end
+	end
+
 
 	def build_retrospective_opinion_feed(opinionator, current_user)
 		opinionator.feeds.where(actionable_type: 'Opinion').each do |opinion_feed|
