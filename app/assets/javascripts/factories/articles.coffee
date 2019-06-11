@@ -30,3 +30,11 @@ TheArticle.FactoryModule.factory("EditorsPick", ['RailsResource',
         name: 'contributorarticle'
         interceptAuth: true
 ])
+.factory("ArticleRating", ['RailsResource',
+  (RailsResource) ->
+    class ArticleRating extends RailsResource
+      @configure
+        url: '/ratings-history'
+        name: 'articlerating'
+        interceptAuth: true
+])

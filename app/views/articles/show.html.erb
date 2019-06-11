@@ -65,7 +65,12 @@
 				<div class="col-12 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
 					<% unless @article.is_sponsored? %>
 					<div class="member_ratings pt-2 pb-2 px-3">
-						<h5>Member ratings</h5>
+						<div class="d-flex justify-content-between">
+							<h5>Member ratings</h5>
+							<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
+								<small>View ratings</small>
+							</a>
+						</div>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
 							<li>Well argued:
@@ -114,7 +119,13 @@
 
 					<% unless @article.is_sponsored? %>
 					<div class="member_ratings bars pt-3 pb-2 px-3">
-						<h5>Member ratings</h5>
+						<div class="d-flex justify-content-between">
+							<h5>Member ratings</h5>
+							<a href="/ratings-history/<%= @article.id %>" class="text-green d-inline-block">
+								<small>View ratings</small>
+							</a>
+						</div>
+
 						<% if @article.has_ratings? %>
 						<ul class="bars">
 							<li class="row justify-content-start d-flex align-items-start mb-2">
