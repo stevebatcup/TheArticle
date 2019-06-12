@@ -166,6 +166,9 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	saveChosenExchanges: =>
 		@http.post("/exchanges_from_wizard", {ids: @scope.user.selectedExchanges})
 
+	toggleFollowUserFromCard: (member, $event=null) =>
+		@toggleFollowSuggestion(member, $event)
+
 	toggleFollowSuggestion: (member, $event=null) =>
 		$event.preventDefault() if $event
 		if member.imFollowing

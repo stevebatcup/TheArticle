@@ -14,7 +14,7 @@ class NoticeMailer < Devise::Mailer
 		  SHARE_URL: share.url
 		}
 		body = mandrill_template("third-party-post-rejected", merge_vars)
-		send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+		send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
 	end
 
 	def approve_third_party_share(share)
@@ -26,6 +26,6 @@ class NoticeMailer < Devise::Mailer
 		  SHARE_URL: share.url
 		}
 		body = mandrill_template("third-party-post-approved", merge_vars)
-		send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
+		send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
 	end
 end
