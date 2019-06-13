@@ -27,8 +27,20 @@ class Author < ApplicationRecord
 		AuthorRole.find_by(slug: 'contributor')
 	end
 
-	def self.contributors_for_spotlight(limit=6)
-		self.joins(:articles)
+	def self.fetch_for_exchange(exchange, limit=6)
+		self.joins(articles: :exchanges)
+				.where(author_role: contributor_role)
+				.where("email NOT LIKE ?", '@thearticle.com')
+				.where("authors.image IS NOT NULL")
+				.where("authors.article_count > 0")
+				.where("exchanges.id = ?", exchange.id)
+				.order(Arel.sql('RAND()'))
+				.distinct
+				.limit(limit)
+	end
+
+	def self.contributors_for_spotlight(limit=6, excludes=[])
+		authors = self.joins(:articles)
 				.where(author_role: contributor_role)
 				.where("email NOT LIKE ?", '@thearticle.com')
 				.where("authors.image IS NOT NULL")
@@ -36,6 +48,9 @@ class Author < ApplicationRecord
 				.order(Arel.sql('RAND()'))
 				.distinct
 				.limit(limit)
+
+		authors = authors.where.not("authors.id": excludes) if excludes.any?
+		authors
 	end
 
 	def self.prioritise_editors_in_list(list)
