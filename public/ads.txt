@@ -1,8 +1,3 @@
-video.unrulymedia.com, UNRX_9785bd03-3904-4c01-ba16-7b1c7a7a1242, DIRECT
-indexexchange.com, 182257, RESELLER
-appnexus.com, 6849, RESELLER
-rubiconproject.com, 15268, RESELLER
-google.com, pub-1024447897405384, DIRECT, f08c47fec0942fa0
 google.com, 89927887, DIRECT, f08c47fec0942fa0
 rubiconproject.com, 13662, DIRECT, 0bfd66d529a55807
 rubiconproject.com, 13662, RESELLER, 0bfd66d529a55807
