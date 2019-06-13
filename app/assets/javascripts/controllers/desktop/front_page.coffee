@@ -208,7 +208,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				else if section is 'posts'
 					@getFeeds('follows', true)
 
-			console.log("feed length for #{section}: #{@scope.feeds[section].itemsLoaded}") if console?
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 
 			@buildSuggestionsCarousel(section, autoGet)
