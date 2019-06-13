@@ -202,8 +202,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@getFeeds('posts', true)
 				else if section is 'posts'
 					@getFeeds('follows', true)
-			feedLength = @getLengthOfFeedWithExtras(section)
+			# feedLength = @getLengthOfFeedWithExtras(section)
 			# console.log("feed length for #{section}: #{feedLength}") if console?
+			feedLength = @scope.feeds[section].data.length
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > feedLength)
 
 			@buildSuggestionsCarousel(section, autoGet)
@@ -334,6 +335,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		if page > @scope.sponsoredPicks.length
 			remainder = (page % @scope.sponsoredPicks.length)
 			sPIndex = remainder - 1
+			console.log sPIndex
 		else
 			sPIndex = page - 1
 		feedItem = { type: 'featuredSponsoredPick', isVisible: true, article: @scope.sponsoredPicks[sPIndex] }
