@@ -334,7 +334,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		page = @scope.feeds[section].page
 		if page > @scope.sponsoredPicks.length
 			remainder = (page % @scope.sponsoredPicks.length)
-			sPIndex = remainder - 1
+			sPIndex = remainder
 			console.log sPIndex
 		else
 			sPIndex = page - 1
