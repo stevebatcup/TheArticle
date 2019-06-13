@@ -13,7 +13,7 @@ private
     end
   end
 
-  def send_mail(email_address, name, subject, body)
+  def send_mail(email_address, name, subject, body, user_id=nil)
     if requires_interception
       to = "monitoring@maawol.com"
       subject = "#{subject} [for #{email_address}]"
@@ -36,6 +36,7 @@ private
       merge: true
     }
     response = api.messages.send(data)
+    log_mandrill_request(user_id, "send_mail", data, response) unless user_id.nil?
   end
 
   def send_admin_mail(subject, body)
@@ -57,7 +58,7 @@ private
   end
 
   def log_mandrill_request(user_id, method, request_data, response)
-    response = response.is_a?(Mail::Message) ? {status: 'success'} : nil
+    response = response.is_a?(Mail::Message) ? {status: 'success'} : response.to_json
     ApiLog.request(
       user_id: user_id,
       service: MANDRILL_SERVICE_FOR_API_LOG,

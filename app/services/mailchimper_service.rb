@@ -72,9 +72,9 @@ module MailchimperService
 	    end
 		end
 
-		def update_mailchimp_list(user, email_on_mailchimp)
+		def update_mailchimp_list(user, email_on_mailchimp, updating_email=false)
 			unless user.status.to_sym == :deleted
-				subscribe_to_mailchimp_list(user) unless MailchimperService.user_is_subscribed?(user)
+				subscribe_to_mailchimp_list(user) unless (updating_email == true) || (MailchimperService.user_is_subscribed?(user))
 				begin
 					vars = merge_vars(user)
 					vars[:EMAIL] = user.email

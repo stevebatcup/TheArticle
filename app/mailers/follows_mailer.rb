@@ -21,7 +21,7 @@ class FollowsMailer < Devise::Mailer
       MC_PREVIEW_TEXT: "Follow them back to become ‘mutually connected’ and engage with them on the site."
     }
     body = mandrill_template("follow-as-it-happens", merge_vars)
-    send_mail(followed.email, "#{followed.first_name} #{followed.last_name}", subject, body)
+    send_mail(followed.email, "#{followed.first_name} #{followed.last_name}", subject, body, followed.id)
   end
 
   def daily_and_weekly(followed, followers)
@@ -33,7 +33,7 @@ class FollowsMailer < Devise::Mailer
       MC_PREVIEW_TEXT: "Follow them back to become ‘mutually connected’ and engage with them on the site."
     }
     body = mandrill_template("follows-daily-and-weekly", merge_vars)
-    send_mail(followed.email, "#{followed.first_name} #{followed.last_name}", subject, body)
+    send_mail(followed.email, "#{followed.first_name} #{followed.last_name}", subject, body, followed.id)
   end
 
   def build_follower_list_html(followers)
