@@ -19,3 +19,31 @@
 			</div>
 		</section>
 </div>
+
+<script id="requiresConnectionInfoBox" type="script/x-mustache">
+	<%= render partial: 'follows/no_connection_modal' %>
+</script>
+
+<script id="commentPost" type="script/x-mustache">
+	<%= render partial: 'shares/comment_post_modal' %>
+</script>
+
+<script id="opinionPost" type="script/x-mustache">
+	<%= render partial: 'shares/opinion_post_modal' %>
+</script>
+
+<script id="followsList" type="script/x-mustache">
+	<%= render partial: 'follow_groups/list_modal' %>
+</script>
+
+<script id="notificationComments" type="script/x-mustache">
+	<%= render partial: 'notifications/all_comments_modal' %>
+</script>
+
+<script id="notificationOpinions" type="script/x-mustache">
+	<%= render partial: 'notifications/all_opinions_modal' %>
+</script>
+
+<script id="notificationFollowers" type="script/x-mustache">
+	<%= render partial: 'notifications/all_followers_modal' %>
+</script>
