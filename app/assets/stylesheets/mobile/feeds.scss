@@ -760,13 +760,8 @@ input#suggestion_search {
 				border-top: none;
 				border-right: none;
 				border-left: none;
-			}
-
-			&.active {
 				border-bottom: 3px solid $green;
-				color: $green;
 			}
-
 
 			&.disabled {
 				cursor: default !important;
