@@ -138,7 +138,7 @@
         "@context" : "http://schema.org",
         "@type" : "Person",
         "name" : "<%= @contributor.display_name %>",
-        "url" : "<%= contributor_path(slug: @contributor.slug) %>",
+        "url" : "<%= contributor_url(slug: @contributor.slug) %>",
         "sameAs" : ["<%= @contributor.social_url_list.html_safe %>"]
       }
       </script>
