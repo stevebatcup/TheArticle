@@ -246,6 +246,7 @@ input#suggestion_search {
 				word-break: break-word;
 				text-overflow: ellipsis;
 				overflow-wrap: break-word;
+				white-space: pre-line;
 			}
 
 			.ratings {
