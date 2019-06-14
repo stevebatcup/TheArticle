@@ -113,6 +113,13 @@
 						}
 
 						.comment-item {
+
+							p.comment_body {
+								word-break: break-word;
+								text-overflow: ellipsis;
+								overflow-wrap: break-word;
+							}
+
 							.reply_area {
 								margin: -8px 0 6px 61px;
 								font-size: 1em;
