@@ -206,4 +206,16 @@ class Author < ApplicationRecord
 		role_id
 	end
 
+	def has_a_social_profile?
+		self.twitter_handle.present? || self.instagram_username.present? || self.facebook_url.present?
+	end
+
+	def social_url_list
+		list = []
+		list << "https://twitter.com/#{self.twitter_handle}" if self.twitter_handle.present?
+		list << "https://instagram.com/#{self.instagram_username}" if self.instagram_username.present?
+		list << self.facebook_url if self.facebook_url.present?
+		list.join('", "')
+	end
+
 end
