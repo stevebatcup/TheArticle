@@ -246,6 +246,7 @@ input#suggestion_search {
 				word-break: break-word;
 				text-overflow: ellipsis;
 				overflow-wrap: break-word;
+				white-space: pre-line;
 			}
 
 			.ratings {
@@ -759,13 +760,8 @@ input#suggestion_search {
 				border-top: none;
 				border-right: none;
 				border-left: none;
-			}
-
-			&.active {
 				border-bottom: 3px solid $green;
-				color: $green;
 			}
-
 
 			&.disabled {
 				cursor: default !important;

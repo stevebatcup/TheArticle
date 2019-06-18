@@ -27,15 +27,30 @@ class Author < ApplicationRecord
 		AuthorRole.find_by(slug: 'contributor')
 	end
 
-	def self.contributors_for_spotlight(limit=6)
-		self.joins(:articles)
+	def self.fetch_for_exchange(exchange, limit=6)
+		self.joins(articles: :exchanges)
 				.where(author_role: contributor_role)
-				.where("email NOT LIKE ?", '@thearticle.com')
+				.where("authors.email NOT LIKE ?", '%@thearticle.com')
+				.where("authors.image IS NOT NULL")
+				.where("authors.article_count > 0")
+				.where("exchanges.id = ?", exchange.id)
+				.order(Arel.sql('RAND()'))
+				.distinct
+				.limit(limit)
+	end
+
+	def self.contributors_for_spotlight(limit=6, excludes=[])
+		authors = self.joins(:articles)
+				.where(author_role: contributor_role)
+				.where("authors.email NOT LIKE ?", '%@thearticle.com')
 				.where("authors.image IS NOT NULL")
 				.where("authors.article_count > 0")
 				.order(Arel.sql('RAND()'))
 				.distinct
 				.limit(limit)
+
+		authors = authors.where.not("authors.id": excludes) if excludes.any?
+		authors
 	end
 
 	def self.prioritise_editors_in_list(list)
@@ -189,6 +204,18 @@ class Author < ApplicationRecord
 
 	def author_role_id
 		role_id
+	end
+
+	def has_a_social_profile?
+		self.twitter_handle.present? || self.instagram_username.present? || self.facebook_url.present?
+	end
+
+	def social_url_list
+		list = []
+		list << "https://twitter.com/#{self.twitter_handle}" if self.twitter_handle.present?
+		list << "https://instagram.com/#{self.instagram_username}" if self.instagram_username.present?
+		list << self.facebook_url if self.facebook_url.present?
+		list.join('", "')
 	end
 
 end

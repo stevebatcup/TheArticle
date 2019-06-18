@@ -50,6 +50,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				page: 1
 				firstLoaded: false
 				loading: true
+				itemsLoaded: 0
 				totalItems: 0
 				moreToLoad: true
 			posts:
@@ -57,6 +58,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				page: 1
 				firstLoaded: false
 				loading: true
+				itemsLoaded: 0
 				totalItems: 0
 				moreToLoad: true
 				share_ids: []
@@ -65,6 +67,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				page: 1
 				firstLoaded: false
 				loading: true
+				itemsLoaded: 0
 				totalItems: 0
 				moreToLoad: true
 		@scope.sections = ['articles', 'posts', 'follows']
@@ -169,7 +172,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					else
 						@scope.feeds.posts.share_ids.push feed.share.id
 
-				@scope.feeds[section].data.push(feed) unless feed.isVisible is false
+				unless feed.isVisible is false
+					@scope.feeds[section].data.push(feed)
+					@scope.feeds[section].itemsLoaded += 1
 
 				if feed.share?
 					if feed.share.showComments is true
@@ -191,18 +196,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					@getFeeds('posts', true)
 				else if section is 'posts'
 					@getFeeds('follows', true)
-			feedLength = @getLengthOfFeedWithExtras(section)
-			# console.log("feed length for #{section}: #{feedLength}") if console?
-			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > feedLength)
+
+			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 
 			@buildSuggestionsCarousel(section, autoGet)
 			@buildLatestArticlesCarousels(section, autoGet)
 			@buildSponsoredPicksCarousels(section, autoGet)
 			@buildTrendingExchangesCarousels(section, autoGet)
 			@buildFeaturedSponsoredPost(section, autoGet)
-
-	getLengthOfFeedWithExtras: (section) =>
-		@scope.feeds[section].data.length + (@scope.feeds[section].page * 5)
 
 	buildSuggestionsCarousel: (section, autoGet=false) =>
 		page = @scope.feeds[section].page
@@ -321,7 +322,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		page = @scope.feeds[section].page
 		if page > @scope.sponsoredPicks.length
 			remainder = (page % @scope.sponsoredPicks.length)
-			sPIndex = remainder - 1
+			sPIndex = remainder
 		else
 			sPIndex = page - 1
 		feedItem = { type: 'featuredSponsoredPick', isVisible: true, article: @scope.sponsoredPicks[sPIndex] }

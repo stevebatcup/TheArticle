@@ -113,6 +113,14 @@
 						}
 
 						.comment-item {
+
+							p.comment_body {
+								word-break: break-word;
+								text-overflow: ellipsis;
+								overflow-wrap: break-word;
+								white-space: pre-line;
+							}
+
 							.reply_area {
 								margin: -8px 0 6px 61px;
 								font-size: 1em;
@@ -507,7 +515,7 @@
 	}
 
 	&.wide {
-		max-height: 250px;
+		max-height: 310px;
 		height: fit-content;
 		height: -moz-fit-content;
 		margin-bottom: 12px;

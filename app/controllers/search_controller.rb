@@ -43,18 +43,18 @@ class SearchController < ApplicationController
 					end
 				elsif params[:mode] == :full
 					begin
-						articles = Article.search("*#{@query}*", order: 'published_at DESC').to_a
+						articles = Article.search("*#{@query}*", order: 'published_at DESC', page: 1, per_page: 200).to_a
 						contributors = Author.search(conditions: { display_name: "*#{@query}*" },
 																					order: 'article_count DESC').to_a
-						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }).to_a
+						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
 						posts = Share.search("*#{@query}*").to_a
 						if user_signed_in?
 							profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },
 																			conditions: { status: 'active', has_completed_wizard: true },
-																			page: 1, per_page: 5).to_a
+																			page: 1, per_page: 50).to_a
 						else
 							profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
-																			page: 1, per_page: 5).to_a
+																			page: 1, per_page: 50).to_a
 						end
 						@results = (articles + contributors + profiles + exchanges + posts)
 						search_log = SearchLog.new({

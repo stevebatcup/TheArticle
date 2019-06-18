@@ -25,7 +25,7 @@ begin
 			items << item
 
 		elsif result.class == Author
-			unless result.is_sponsor?
+			unless result.is_sponsor? || result.article_count < 1
 				items << {
 					type: :contributors,
 					id: result.id,

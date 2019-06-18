@@ -130,6 +130,19 @@
         <%= render(partial: 'articles/structured_data.json', locals: { article: @article }).html_safe %>
       </script>
     <% end %>
+
+
+    <% if @contributor.present? && @contributor.has_a_social_profile? %>
+      <script type="application/ld+json">
+      {
+        "@context" : "http://schema.org",
+        "@type" : "Person",
+        "name" : "<%= @contributor.display_name %>",
+        "url" : "<%= contributor_url(slug: @contributor.slug) %>",
+        "sameAs" : ["<%= @contributor.social_url_list.html_safe %>"]
+      }
+      </script>
+    <% end %>
   </head>
 
   <body class="<%= body_classes %>" ng-app="TheArticleNG" onunload="">

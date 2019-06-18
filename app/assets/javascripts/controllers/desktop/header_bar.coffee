@@ -13,6 +13,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 	]
 
 	init: ->
+		@scope.scrollTop = 0
 		@setDefaultHttpHeaders()
 		@scope.signedIn = !!@element.data('signed-in')
 		@bindEvents()
@@ -50,11 +51,17 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 		offset = 1
 		$win.on 'scroll', =>
 			scrollTop = document.scrollingElement.scrollTop
-			if scrollTop  >= ($navBarPosition + offset)
-				$('body').addClass('fixed-profile-nav')
-				$navBar.addClass('container')
+			dir = if scrollTop < @scope.scrollTop then 'up' else 'down'
+			@scope.scrollTop = scrollTop
+			if @scope.scrollTop  >= ($navBarPosition + offset)
+				if dir is 'up'
+					$('body').addClass('fixed-header')
+				else
+					$('body').addClass('fixed-profile-nav')
+					$navBar.addClass('container')
+					$('body').removeClass('fixed-header')
 			else
-				$('body').removeClass('fixed-profile-nav')
+				$('body').removeClass('fixed-profile-nav').removeClass('fixed-header')
 				$navBar.removeClass('container')
 
 	bindFixedNavScrolling: =>
