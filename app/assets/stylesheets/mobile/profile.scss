@@ -308,8 +308,23 @@ body.fixed-profile-nav {
     margin-top: 0 !important;
 	}
 
+
+	&.fixed-header {
+		header#main_header {
+			display: block;
+		}
+
+		#activity_tabs {
+			top: 83px;
+		}
+
+		// #member_options {
+		// 	display: block;
+		// }
+	}
+
 	#public_activity {
-		margin-top: 18.5em !important;
+		margin-top: 12.5em !important;
 	}
 
 	#mini_profile {
