@@ -196,6 +196,16 @@ body.fixed-profile-nav {
     padding-right: 0;
 	}
 
+	&.fixed-header {
+		header#main_header {
+			display: block;
+		}
+
+		#top_bar {
+			top: 112px;
+		}
+	}
+
 	#main_feed {
 		margin-top: 20em;
 	}

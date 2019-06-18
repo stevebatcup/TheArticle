@@ -10,6 +10,7 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		@scope.scrollTop = 0
 		@scope.myProfile = window.location.pathname is "/my-profile"
 		@scope.userProfile = false
 
@@ -70,11 +71,17 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		offset = 0
 		$win.on 'scroll', =>
 			scrollTop = document.scrollingElement.scrollTop
+			dir = if scrollTop < @scope.scrollTop then 'up' else 'down'
+			@scope.scrollTop = scrollTop
 			if scrollTop  >= ($navBarPosition + offset)
-				$('body').addClass('fixed-profile-nav')
-				$navBar.addClass('container')
+				if dir is 'up'
+					$('body').addClass('fixed-header')
+				else
+					$('body').addClass('fixed-profile-nav')
+					$navBar.addClass('container')
+					$('body').removeClass('fixed-header')
 			else
-				$('body').removeClass('fixed-profile-nav')
+				$('body').removeClass('fixed-profile-nav').removeClass('fixed-header')
 				$navBar.removeClass('container')
 
 	bindFixedNavScrolling: =>
