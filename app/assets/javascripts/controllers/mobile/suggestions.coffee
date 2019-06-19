@@ -11,6 +11,7 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 	]
 
 	init: ->
+		@scope.loaded = false
 		@setDefaultHttpHeaders()
 		@bindEvents()
 		@scope.suggestions = []
@@ -26,6 +27,7 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 			angular.forEach response.data.suggestions.populars, (suggestion) =>
 				@scope.suggestions.push suggestion
 				@scope.populars.push suggestion
+			@scope.loaded = true
 
 	toggleFollowUserFromCard: (member) =>
 		member.imFollowing = true

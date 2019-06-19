@@ -29,12 +29,16 @@
 		</ul>
 	</nav>
 
-	<div class="tab-content container pt-2 px-1 bg-grey">
+	<div class="tab-content container pt-2 px-1 bg-grey" style="min-height: 60vh;">
 		<div class="tab-pane fade show active"
 			id="suggestions_for_you"
 			role="tabpanel"
 			aria-labelledby="suggestions-sub-tab-for_you">
-			<p class="py-3 px-3 mb-0" ng-if="forYous.length == 0">There are currently no suggestions of members for you</p>
+
+			<div class="ajax_loading suggestions pb-5 h-100" ng-if="!loaded">
+				Loading <span>suggestions</span>...</div>
+
+			<p class="py-3 px-3 mb-0" ng-if="forYous.length == 0 && loaded">There are currently no suggestions of members for you</p>
 			<div ng-repeat="item in forYous" class="feed-listing bg-white">
 				<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 			</div>
@@ -44,7 +48,7 @@
 			id="suggestions_popular"
 			role="tabpanel"
 			aria-labelledby="suggestions-sub-tab-popular">
-			<p class="py-3 px-3 mb-0" ng-if="populars.length == 0">There are currently no suggestions of members who are popular with people you follow</p>
+			<p class="py-3 px-3 mb-0" ng-if="populars.length == 0 && loaded">There are currently no suggestions of members who are popular with people you follow</p>
 			<div ng-repeat="item in populars" class="feed-listing bg-white">
 				<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 			</div>
