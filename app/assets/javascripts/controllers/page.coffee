@@ -290,9 +290,10 @@ class TheArticle.PageController extends TheArticle.NGController
 				deviceType: deviceType
 			gtag('event', 'open_register_form', gtagData)
 		@timeout =>
-			tpl = $("#registerBox").html().trim()
-			$content = @compile(tpl)(@scope)
-			$('body').append $content
+			unless 'registerFormContent' of @scope
+				tpl = $("#registerBox").html().trim()
+				@scope.registerFormContent = @compile(tpl)(@scope)
+			$('body').append @scope.registerFormContent
 			$("#registerBoxModal").modal()
 		, 350
 
@@ -306,9 +307,10 @@ class TheArticle.PageController extends TheArticle.NGController
 		$('[data-dismiss=modal]', '#registerBoxModal').click()
 		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 		@timeout =>
-			tpl = $("#signinBox").html().trim()
-			$content = @compile(tpl)(@scope)
-			$('body').append $content
+			unless 'signinFormContent' of @scope
+				tpl = $("#signinBox").html().trim()
+				@scope.signinFormContent = @compile(tpl)(@scope)
+			$('body').append @scope.signinFormContent
 			$("#signinBoxModal").modal()
 		, 350
 
