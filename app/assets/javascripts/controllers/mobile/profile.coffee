@@ -444,7 +444,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				@followUser @scope.profile.data.id, =>
 					@cookies.put('ok_to_flash', true)
 					window.location.reload()
-				, false, true
+				, false, true, =>
+					@timeout =>
+						@scope.profile.data.imFollowing = false
+					, 750
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 

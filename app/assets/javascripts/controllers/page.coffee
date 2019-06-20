@@ -232,7 +232,7 @@ class TheArticle.PageController extends TheArticle.NGController
 	setCsrfTokenHeaders: ->
 		@http.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content')
 
-	followUser: (userId, callback=null, from_suggestion=false, showFlash=false) =>
+	followUser: (userId, callback=null, from_suggestion=false, showFlash=false, errorCallback=null) =>
 		data = { id: userId, from_suggestion: from_suggestion }
 		data['set_flash'] = 1 if showFlash
 		@http.post("/user_followings", data).then (response) =>
@@ -240,6 +240,7 @@ class TheArticle.PageController extends TheArticle.NGController
 				callback.call(@) if callback?
 			else if response.data.status is 'error'
 				@alert response.data.message, "Error following user"
+				errorCallback.call(@) if errorCallback?
 
 	unfollowUser: (userId, callback=null, showFlash=false) =>
 		url = "/user_followings/#{userId}"
