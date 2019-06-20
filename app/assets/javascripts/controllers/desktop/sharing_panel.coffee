@@ -23,33 +23,6 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@setRatingsDefaultHeading()
 		@bindEvents()
 
-		# @timeout =>
-		# 	tinymce.init
-		# 		selector: 'textarea#comments'
-		# 		height: 250
-		# 		menubar: false
-		# 		toolbar: false
-		# 		statusbar: false
-		# 		mentions:
-		# 			highlighter: (text) =>
-		# 				text.replace new RegExp('(' + this.query + ')', 'ig'), ($1, match) =>
-		# 					"<b>#{match}</b>"
-		# 			render: (item) =>
-		# 				return "<li><a href='javascript:;'><span>#{item.name}</span></a></li>"
-		# 			source: (query, process, delimiter) =>
-		# 				if delimiter is '@'
-		# 					@http.get("/profile/search-by-username/#{query}").then (response) =>
-		# 						console.log response.data.results
-		# 						process(response.data.results) if response.data.results?
-		# 		plugins: [
-		# 			"mention"
-		# 		]
-		# 		content_css: [
-		# 			'//fonts.googleapis.com/css?family=Lato:300,300i,400,400i'
-		# 		]
-		# , 500
-
-
 	resetData: =>
 		@scope.share =
 			comments: @element.data('share-comments')
@@ -76,17 +49,6 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 
 		@scope.$on 'copy_started_comments', (e, data) =>
 			@scope.share.comments = data.comments
-
-		# $(document).on 'focus', '.nicEdit-main', (e) =>
-		# 	$box = $(e.currentTarget)
-		# 	$box.addClass('expanded') unless $box.hasClass('expanded')
-		# 	if !$box.data('dirty')
-		# 		$box.text ''
-		# 		$box.data('dirty', 1).attr('data-dirty', 1)
-
-		# $(document).on 'blur', '.nicEdit-main', (e) =>
-		# 	$box = $(e.currentTarget)
-		# 	$box.removeClass('expanded') if $box.hasClass('expanded')
 
 	toggleDots: (section, rating) =>
 		@scope.share["rating_#{section}"] = rating

@@ -139,6 +139,10 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 				@confirm "You will need to reactivate your profile to share or rate an article", =>
 					window.location.href = "/account-settings?reactivate=1"
 				, null, "Please reactivate profile", ['Cancel', 'Reactivate']
+			else if @rootScope.profileIncomplete
+				@confirm "You cannot share or rate this article this article because you have not yet completed your profile", =>
+					window.location.href = "/profile/new"
+				, null, "Complete your profile", ['Cancel', 'Complete profile']
 			else
 				@rootScope.sharingPanelMode = mode if mode?
 				tpl = $("#sharingPanel").html().trim()
