@@ -81,9 +81,10 @@
 					<div ng-if="ratings.firstLoaded" class="results_block row"
 							ng-class="{'empty': ratings.data.length == 0}">
 
+						<h3 class="mt-2 mb-3">All ratings for article</h3>
+
 						<div class="article_box card col-12 feed-listing">
 							<div class="inner">
-								<h4 class="my-2">All ratings for article</h4>
 								<div class="img_mask">
 									<a ng-if="article.image" href="{{ article.path }}"
 											ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}">
