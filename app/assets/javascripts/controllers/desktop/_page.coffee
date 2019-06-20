@@ -140,7 +140,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 					window.location.href = "/account-settings?reactivate=1"
 				, null, "Please reactivate profile", ['Cancel', 'Reactivate']
 			else if @rootScope.profileIncomplete
-				@confirm "You cannot share or rate this article this article because you have not yet completed your profile", =>
+				@confirm "You cannot share or rate this article because you have not yet completed your profile", =>
 					window.location.href = "/profile/new"
 				, null, "Complete your profile", ['Cancel', 'Complete profile']
 			else
