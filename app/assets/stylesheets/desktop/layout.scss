@@ -321,7 +321,8 @@ main#main_content {
 	&.notifications_index,
 	&.account_settings_edit,
 	&.search_index,
-	&.profile_suggestions_index {
+	&.profile_suggestions_index,
+	&.ratings_history_index {
 		background: $grey_light;
 	}
 
