@@ -183,8 +183,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 					@openCommentModal notification
 				when 'opinion'
 					@openOpinionModal notification
-				when 'followgroup'
-					@openFollowsModal notification
+				when 'follow'
+					window.location.href = "/my-profile?panel=followers"
 				when 'categorisation'
 					path = notification.article.path
 					window.location.href = path

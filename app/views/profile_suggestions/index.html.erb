@@ -131,7 +131,10 @@
 						role="tabpanel"
 						aria-labelledby="suggestions-sub-tab-for_you">
 						<div class="row">
-							<p class="mb-0 py-4 px-5 col-12" ng-if="suggestions.forYous.length == 0">There are currently no suggestions of members for you</p>
+							<div class="ajax_loading suggestions pb-5 h-100" ng-if="!suggestions.loaded">
+								Loading <span>suggestions</span>...</div>
+
+							<p class="mb-0 py-4 px-5 col-12" ng-if="suggestions.forYous.length == 0 && suggestions.loaded">There are currently no suggestions of members for you</p>
 							<div ng-repeat="item in suggestions.forYous" class="col-6 feed-listing feed-follow">
 								<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 							</div>
@@ -143,7 +146,7 @@
 						role="tabpanel"
 						aria-labelledby="suggestions-sub-tab-popular">
 						<div class="row">
-							<p class="mb-0 py-4 px-5 col-12" ng-if="suggestions.populars.length == 0">There are currently no suggestions of members who are popular with people you follow</p>
+							<p class="mb-0 py-4 px-5 col-12" ng-if="suggestions.populars.length == 0 && suggestions.loaded">There are currently no suggestions of members who are popular with people you follow</p>
 							<div ng-repeat="item in suggestions.populars" class="col-6 feed-listing feed-follow">
 								<%= render 'users/member_card', locals: { show_ignore_btn: true } %>
 							</div>

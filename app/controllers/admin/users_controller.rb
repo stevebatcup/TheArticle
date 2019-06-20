@@ -92,6 +92,14 @@ module Admin
       params[:per_page] || cookies.permanent[:admin_user_records_per_page] || 50
     end
 
+    def set_records_per_page
+      respond_to do |format|
+        format.json do
+          cookies.permanent[:admin_user_records_per_page] = params[:per_page]
+        end
+      end
+    end
+
   private
     def order
       @order ||= begin
@@ -101,12 +109,5 @@ module Admin
       end
     end
 
-    def set_records_per_page
-      respond_to do |format|
-        format.json do
-          cookies.permanent[:admin_user_records_per_page] = params[:per_page]
-        end
-      end
-    end
   end
 end

@@ -126,9 +126,7 @@
 				</h4>
 			</header>
 
-			<div class="entry-content py-0 px-3" ng-class="{'pb-3': item.article.isRemote}">
-				{{ item.article.snippet }}
-			</div>
+			<div class="entry-content py-0 px-3" ng-class="{'pb-3': item.article.isRemote}" ng-bind-html="item.article.snippet"></div>
 
 			<footer class="entry-footer pt-1 px-3 pb-2" ng-if="item.article.author.name.length">
 				<p class="author_link d-flex justify-content-between align-items-start">

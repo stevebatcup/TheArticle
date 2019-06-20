@@ -30,7 +30,11 @@
 				id="follows_following"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-following">
-				<p class="empty px-3 py-2" ng-if="follows.data.followings.length == 0">
+
+				<div class="ajax_loading suggestions pb-5 h-100" ng-if="!follows.loaded">
+				Loading <span>followings</span>...</div>
+
+				<p class="empty px-3 py-2" ng-if="follows.data.followings.length == 0 && follows.loaded">
 					You are currently not following anyone
 				</p>
 				<div ng-repeat="item in follows.data.followings" class="feed-listing bg-white">
@@ -42,9 +46,14 @@
 				id="follows_followers"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-followers">
-				<p class="empty px-3 py-2" ng-if="follows.data.followers.length == 0">
+
+				<div class="ajax_loading suggestions pb-5 h-100" ng-if="!follows.loaded">
+				Loading <span>followers</span>...</div>
+
+				<p class="empty px-3 py-2" ng-if="follows.data.followers.length == 0 && follows.loaded">
 					You are currently not being followed by anyone
 				</p>
+
 				<div ng-repeat="item in follows.data.followers" class="feed-listing bg-white">
 					<%= render 'users/member_card' %>
 				</div>
@@ -54,7 +63,11 @@
 				id="follows_connections"
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-connections">
-				<p class="empty px-3 py-2" ng-if="follows.data.connections.length == 0">
+
+				<div class="ajax_loading suggestions pb-5 h-100" ng-if="!follows.loaded">
+				Loading <span>connections</span>...</div>
+
+				<p class="empty px-3 py-2" ng-if="follows.data.connections.length == 0 && follows.loaded">
 					You currently have no connections
 				</p>
 				<div ng-repeat="item in follows.data.connections" class="feed-listing bg-white">

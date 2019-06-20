@@ -21,6 +21,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 			listForSidebox: []
 			forYous: []
 			populars: []
+			loaded: false
 		@getSuggestions()
 
 		if @element.data('full-page-suggestions')
@@ -47,6 +48,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 				@scope.suggestions.populars.push suggestion
 			@scope.suggestions.total = @scope.suggestions.populars.length + @scope.suggestions.forYous.length
 			@buildListForSidebox()
+			@scope.suggestions.loaded = true
 			if (@scope.suggestions.forYous.length is 0) and (@scope.suggestions.populars.length > 0)
 				@scope.suggestions.mode = 'populars'
 
