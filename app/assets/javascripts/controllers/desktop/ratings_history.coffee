@@ -1,4 +1,4 @@
-class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageController
+class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageController, TheArticle.Feeds
 
 	@register window.App
 	@$inject: [
@@ -13,6 +13,9 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 	  '$sce'
 	  '$cookies'
 		'ArticleRating'
+		'MyProfile'
+		'Comment'
+		'Opinion'
 	]
 
 	init: ->
@@ -33,13 +36,33 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 
 		@scope.perPage = 16
 
+		@scope.replyingToComment =
+			comment: {}
+			parentComment: {}
+			replyingToReply: false
+		@scope.postingComment = false
+		@scope.commentPostButton = "Post Comment"
+		@scope.commentForSubmission =
+			value: ''
+		@scope.commentChildLimit = false
+		@scope.authActionMessage =
+			heading: ''
+			msg: ''
+		@scope.myProfile = {}
+
 		@timeout =>
-			@getRatings()
+			@getMyProfile @getRatings
 		, 800
 
 	bindEvents: =>
 		super
 		@bindScrollEvent()
+
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
+
 
 	bindScrollEvent: =>
 		$win = $(window)
@@ -67,5 +90,10 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 
 	trustAsHtml: (html) =>
 		@sce.trustAsHtml(html)
+
+	getMyProfile: (callback=null) =>
+		@MyProfile.get().then (profile) =>
+			@scope.myProfile = profile
+			callback.call(@) if callback?
 
 TheArticle.ControllerModule.controller('RatingsHistoryController', TheArticle.RatingsHistory)
