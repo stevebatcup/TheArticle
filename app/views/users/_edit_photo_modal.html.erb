@@ -17,12 +17,15 @@
 	    	<p ng-show="profile.errors.photo" class="alert alert-danger">{{profile.errors.photo}}</p>
 
   			<button id="upload_<%= type %>Photo_btn" class="btn btn-success add_photo btn-block mt-4"
-  								ng-show="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">Choose a photo</button>
+  								ng-show="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">
+  				<span ng-if="profile.data.<%= type %>Photo.uploading">Uploading...</span>
+  				<span ng-if="!profile.data.<%= type %>Photo.uploading">Choose a photo</span>
+				</button>
 
 				<section class="edit_photo_box">
 					<form ng-show="profile.data.<%= type %>Photo.source.length > 0">
 						<div class="inner">
-							<input type="file" id="<%= type %>Photo_uploader" fileread="profile.data.<%= type %>Photo.source" class="replace_file_input" ng-show="profile.data.<%= type %>Photo.source.length == 0" />
+							<input type="file" id="<%= type %>Photo_uploader" fileread="profile.data.<%= type %>Photo.source" class="replace_file_input" ng-show="profile.data.<%= type %>Photo.source.length == 0" data-type="<%= type %>" />
 
 							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(profile.data.<%= type %>Photo.source)}}" alt="New <%= type %> photo" ng-show="profile.data.<%= type %>Photo.source.length > 0" ng-cloak />
 						</div>
