@@ -70,4 +70,10 @@ class TheArticle.Article extends TheArticle.MobilePageController
 				@scope.exchangeArticles.page += 1
 			, 300
 
+	viewRatingHistory: ($event) =>
+		$event.preventDefault()
+		if @rootScope.isSignedIn
+			window.location.href="/ratings-history/#{@scope.articleId}"
+		else
+			@requiresSignIn("view full article ratings.")
 TheArticle.ControllerModule.controller('ArticleController', TheArticle.Article)
