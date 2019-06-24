@@ -17,6 +17,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = !!@element.data('signed-in')
 		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
+		@rootScope.profileIncomplete = !!@element.data('profile-incomplete')
 		@scope.articleId = @element.data('article-id')
 		@bindEvents()
 
@@ -69,4 +70,10 @@ class TheArticle.Article extends TheArticle.MobilePageController
 				@scope.exchangeArticles.page += 1
 			, 300
 
+	viewRatingHistory: ($event) =>
+		$event.preventDefault()
+		if @rootScope.isSignedIn
+			window.location.href="/ratings-history/#{@scope.articleId}"
+		else
+			@requiresSignIn("view full article ratings.")
 TheArticle.ControllerModule.controller('ArticleController', TheArticle.Article)

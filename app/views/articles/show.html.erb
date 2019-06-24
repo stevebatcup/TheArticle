@@ -13,6 +13,7 @@
 <section ng-controller="ArticleController"
 						data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
 						data-profile-deactivated="<%= user_signed_in? ? (current_user.profile_is_deactivated? ? 1 : 0) : 0 %>"
+						data-profile-incomplete="<%= user_signed_in? ? (current_user.has_completed_wizard ? 0 : 1) : 0 %>"
 						data-article-id="<%= @article.id %>"
 						data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
 						data-per-page="<%= articles_per_page %>">
@@ -68,7 +69,7 @@
 							<h5>Member ratings</h5>
 							<% if @article.has_ratings? %>
 								<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
-									<small>View ratings</small>
+									View ratings
 								</a>
 							<% end %>
 						</div>
@@ -124,7 +125,7 @@
 							<h5>Member ratings</h5>
 							<% if @article.has_ratings? %>
 								<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
-									<small>View ratings</small>
+									View ratings
 								</a>
 							<% end %>
 						</div>

@@ -39,6 +39,8 @@ class ArticlesController < ApplicationController
 																			.order(created_at: :desc)
 																			.limit(sponsored_limit)
 						items_to_get = per_page - (sponsored_articles.length)
+					else
+						items_to_get = per_page
 					end
 
 					if params[:exchange] == 'latest-articles'

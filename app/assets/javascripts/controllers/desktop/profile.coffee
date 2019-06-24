@@ -198,8 +198,17 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			userId = $clicked.data('user')
 			window.location.href = "/profile-by-id/#{userId}"
 
-	imageUploadError: (error) =>
+	denoteUploading: (element) =>
+		type = $(element).data('type')
+		@scope.profile.data["#{type}Photo"].uploading = true
+		@scope.profile.errors.photo = ""
+
+	imageUploadError: (error, element) =>
+		type = $(element).data('type')
 		@scope.profile.errors.photo = error
+		@timeout =>
+			@scope.profile.data["#{type}Photo"].uploading = false
+		, 300
 
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
@@ -390,6 +399,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	showProfilePhotoCropper: (element, width, height) =>
 		@scope.profile.errors.photo = ""
 		type = $(element).data('type')
+		@timeout =>
+			@scope.profile.data[type].uploading = false
+		, 500
 		@scope.photoCrop.cropper = new Cropper element,
 			checkOrientation: true
 			checkCrossOrigin: true
@@ -603,7 +615,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				@followUser userId, =>
 					@cookies.put('ok_to_flash', true)
 					window.location.reload()
-				, false, true
+				, false, true, =>
+					@timeout =>
+						@scope.profile.data.imFollowing = false
+					, 750
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 

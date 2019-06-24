@@ -11,7 +11,7 @@ module Admin
       if params[:user]
         dir = params.fetch(:user).fetch(:direction)
         if params.fetch(:user).fetch(:order) == 'full_name'
-          resources = resources.reorder("last_name #{dir}, first_name #{dir}")
+          resources = resources.reorder("first_name #{dir}, last_name #{dir}")
         elsif params.fetch(:user).fetch(:order) == 'human_created_at'
           resources = resources.reorder("created_at #{dir}")
         elsif params.fetch(:user).fetch(:order) == 'admin_account_status'

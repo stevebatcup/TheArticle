@@ -17,6 +17,7 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = !!@element.data('signed-in')
 		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
+		@rootScope.profileIncomplete = !!@element.data('profile-incomplete')
 		@scope.articleId = @element.data('article-id')
 		@bindEvents()
 
