@@ -89,7 +89,7 @@
 						</ul>
 
 						<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-block pt-3 pb-1">
-							<%= pluralize(@article.ratings.size, 'rating') %> - view all
+							<%= pluralize(@article.shares.where(share_type: 'rating').size, 'rating') %> - view all
 						</a>
 
 						<% else %>
@@ -145,7 +145,7 @@
 								</li>
 							</ul>
 							<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-block pt-3 pb-1">
-								<%= pluralize(@article.ratings.size, 'rating') %> - view all
+								<%= pluralize(@article.shares.where(share_type: 'rating').size, 'rating') %> - view all
 							</a>
 						<% else %>
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
