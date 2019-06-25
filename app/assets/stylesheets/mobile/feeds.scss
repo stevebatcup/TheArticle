@@ -790,7 +790,10 @@ body.fixed-nav #home_feed_tabs {
   z-index: 100;
 }
 
-nav.tabbable {
+
+.mentioned_user {
+	color: $green;
+}nav.tabbable {
 	position: relative;
 
 	.nav-scroller-scroll {

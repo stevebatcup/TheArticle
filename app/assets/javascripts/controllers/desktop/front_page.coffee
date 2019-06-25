@@ -11,6 +11,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
+	  '$sce'
 	  'Feed'
 		'Comment'
 		'Opinion'
@@ -139,6 +140,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			$span = $(e.currentTarget).parent()
 			shareId = $span.data('share')
 			@showAllShareCommenters(shareId)
+
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
 
 		if @isTablet()
 			$(window).on "orientationchange", (e) =>

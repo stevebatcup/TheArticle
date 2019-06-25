@@ -108,6 +108,9 @@ class TheArticle.PageController extends TheArticle.NGController
 	trustHtml: (html) =>
 		html
 
+	trustAsHtml: (html) =>
+		@sce.trustAsHtml(html)
+
 	bindCookieAcceptance: =>
 		$('#cn-accept-cookie').on 'click', (e) =>
 			$.getJSON '/cookie-acceptance', (response) =>

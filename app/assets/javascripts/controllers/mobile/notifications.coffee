@@ -165,6 +165,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 				when 'categorisation'
 					path = notification.article.path
 					window.location.href = path
+				when 'mentioner'
+					window.location.href = notification.mentioner.path
 			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
 				notification.isSeen = true
 
