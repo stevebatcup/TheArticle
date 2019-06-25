@@ -124,7 +124,7 @@ class Author < ApplicationRecord
 		end
 	end
 
-	def self.get_sponsors_single_posts(tag=nil, limit=nil, selection=:random)
+	def self.get_sponsors_single_posts(tag=nil, limit=nil, selection=:latest)
 		cache_key = "sponsors_single_posts"
 		cache_key << "_#{tag}" unless tag.nil?
 		cache_key << "_#{limit}" unless limit.nil?
@@ -140,7 +140,9 @@ class Author < ApplicationRecord
 				sponsored_articles << article unless article.nil?
 				break if limit && (sponsored_articles.size >= limit)
 			end
-			sponsored_articles.sort_by! { |a| a.published_at }
+			if selection == :latest
+				sponsored_articles.sort_by! { |a| a.published_at }
+			end
 			sponsored_articles.reverse
 		# end
 	end
