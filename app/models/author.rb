@@ -130,7 +130,8 @@ class Author < ApplicationRecord
 		cache_key << "_#{limit}" unless limit.nil?
 		# Rails.cache.fetch(cache_key) do
 			sponsored_articles = []
-			self.sponsors.each do |sponsor|
+			sponsor_authors = self.sponsors.order(Arel.sql('RAND()'))
+			sponsor_authors.each do |sponsor|
 				if selection == :latest
 					article = sponsor.latest_article(tag)
 				elsif selection == :random
