@@ -33,11 +33,11 @@ class ArticlesController < ApplicationController
 						sponsored_begin_offset = sponsored_begin_offset - sponsored_frequency if sponsored_begin_offset > sponsored_frequency
 						# sponsored_limit = (sponsored_begin_offset == sponsored_frequency) ? sponsored_frequency - 1 : sponsored_frequency
 						sponsored_limit = sponsored_frequency
-						sponsored_articles = Article.sponsored
-																			.includes(:author).references(:author)
-																			.includes(:exchanges).references(:exchanges)
-																			.order(created_at: :desc)
-																			.limit(sponsored_limit)
+						sponsored_articles = Author.get_sponsors_single_posts('sponsored-pick', sponsored_limit, :latest).to_a
+						if sponsored_articles.size < sponsored_limit
+							sponsored_articles += Author.get_sponsors_single_posts('sponsored-pick', (sponsored_limit - sponsored_articles.size), :random).to_a
+						end
+
 						items_to_get = per_page - (sponsored_articles.length)
 					else
 						items_to_get = per_page

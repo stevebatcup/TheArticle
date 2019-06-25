@@ -93,6 +93,16 @@ class Author < ApplicationRecord
 		random_articles.first
 	end
 
+	def latest_article(tag=nil)
+		latest_articles = self.articles.includes(:exchanges)
+																		.references(:exchanges)
+																		.order(published_at: :desc)
+		latest_articles = latest_articles.includes(:keyword_tags)
+																			.references(:keyword_tags)
+																			.where("keyword_tags.slug = ?", tag) if tag
+		latest_articles.first
+	end
+
 	def self.sponsors_for_listings
 		self.sponsors.where("article_count > ?", 0)
 								.where("display_name > ''")
@@ -114,15 +124,19 @@ class Author < ApplicationRecord
 		end
 	end
 
-	def self.get_sponsors_single_posts(tag=nil, limit=nil)
+	def self.get_sponsors_single_posts(tag=nil, limit=nil, selection=:random)
 		cache_key = "sponsors_single_posts"
 		cache_key << "_#{tag}" unless tag.nil?
 		cache_key << "_#{limit}" unless limit.nil?
 		# Rails.cache.fetch(cache_key) do
 			sponsored_articles = []
 			self.sponsors.each do |sponsor|
-				random_article = sponsor.random_article(tag)
-				sponsored_articles << random_article unless random_article.nil?
+				if selection == :latest
+					article = sponsor.latest_article(tag)
+				elsif selection == :random
+					article = sponsor.random_article(tag)
+				end
+				sponsored_articles << article unless article.nil?
 				break if limit && (sponsored_articles.size >= limit)
 			end
 			sponsored_articles.sort_by! { |a| a.published_at }
