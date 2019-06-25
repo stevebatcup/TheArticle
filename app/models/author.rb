@@ -124,7 +124,7 @@ class Author < ApplicationRecord
 		end
 	end
 
-	def self.get_sponsors_single_posts(tag=nil, limit=nil, selection=:latest)
+	def self.get_sponsors_single_posts(tag=nil, limit=nil, selection=:latestrandom)
 		cache_key = "sponsors_single_posts"
 		cache_key << "_#{tag}" unless tag.nil?
 		cache_key << "_#{limit}" unless limit.nil?
@@ -132,7 +132,7 @@ class Author < ApplicationRecord
 			sponsored_articles = []
 			sponsor_authors = self.sponsors.order(Arel.sql('RAND()'))
 			sponsor_authors.each do |sponsor|
-				if selection == :latest
+				if (selection == :latest) || (selection == :latestrandom)
 					article = sponsor.latest_article(tag)
 				elsif selection == :random
 					article = sponsor.random_article(tag)
