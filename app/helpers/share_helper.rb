@@ -59,7 +59,8 @@ module ShareHelper
 				id: user.id,
 				displayName: user.display_name,
 				username: user.username,
-				image: user.profile_photo.url(:square)
+				image: user.profile_photo.url(:square),
+				path: profile_path(slug: user.slug)
 			},
 			article: {
 				id: share.article.id,
