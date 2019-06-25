@@ -65,14 +65,7 @@
 				<div class="col-12 col-lg-8 pr-lg-0 pb-5 mb-2" id="content_bar">
 					<% unless @article.is_sponsored? %>
 					<div class="member_ratings pt-2 pb-2 px-3">
-						<div class="d-flex justify-content-between">
-							<h5>Member ratings</h5>
-							<% if @article.has_ratings? %>
-								<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
-									View ratings
-								</a>
-							<% end %>
-						</div>
+						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
 							<li>Well argued:
@@ -94,6 +87,11 @@
 								</span>
 							</li>
 						</ul>
+
+						<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-block pt-3 pb-1">
+							<%= pluralize(@article.shares.where(share_type: 'rating').size, 'rating') %> - view all
+						</a>
+
 						<% else %>
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 						<% end %>
@@ -121,39 +119,34 @@
 
 					<% unless @article.is_sponsored? %>
 					<div class="member_ratings bars pt-3 pb-2 px-3">
-						<div class="d-flex justify-content-between">
-							<h5>Member ratings</h5>
-							<% if @article.has_ratings? %>
-								<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
-									View ratings
-								</a>
-							<% end %>
-						</div>
-
+						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
-						<ul class="bars">
-							<li class="row justify-content-start d-flex align-items-start mb-2">
-								<span class="col-4 text">Well argued: </span>
-								<span class="bar col-6">
-									<span class="inner" style="width: <%= rating_wwc.to_i %>%;"></span>
-								</span>
-								<span class="col-2 clear-rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_wwc) %></span>
-							</li>
-							<li class="row justify-content-start d-flex align-items-start mb-2">
-								<span class="col-4 text">Interesting points: </span>
-								<span class="bar col-6">
-									<span class="inner" style="width: <%= rating_vpc.to_i %>%;"></span>
-								</span>
-								<span class="col-2 clear-rating <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_vpc) %></span>
-							</li>
-							<li class="row justify-content-start d-flex align-items-start mb-2">
-								<span class="col-4 text">Agree with arguments: </span>
-								<span class="bar col-6">
-									<span class="inner" style="width: <%= rating_ac.to_i %>%;"></span>
-								</span>
-								<span class="col-2 clear-rating <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_ac) %></span>
-							</li>
-						</ul>
+							<ul class="bars">
+								<li class="row justify-content-start d-flex align-items-start mb-2">
+									<span class="col-4 text">Well argued: </span>
+									<span class="bar col-6">
+										<span class="inner" style="width: <%= rating_wwc.to_i %>%;"></span>
+									</span>
+									<span class="col-2 clear-rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_wwc) %></span>
+								</li>
+								<li class="row justify-content-start d-flex align-items-start mb-2">
+									<span class="col-4 text">Interesting points: </span>
+									<span class="bar col-6">
+										<span class="inner" style="width: <%= rating_vpc.to_i %>%;"></span>
+									</span>
+									<span class="col-2 clear-rating <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_vpc) %></span>
+								</li>
+								<li class="row justify-content-start d-flex align-items-start mb-2">
+									<span class="col-4 text">Agree with arguments: </span>
+									<span class="bar col-6">
+										<span class="inner" style="width: <%= rating_ac.to_i %>%;"></span>
+									</span>
+									<span class="col-2 clear-rating <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>"><%= readable_article_rating(rating_ac) %></span>
+								</li>
+							</ul>
+							<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-block pt-3 pb-1">
+								<%= pluralize(@article.shares.where(share_type: 'rating').size, 'rating') %> - view all
+							</a>
 						<% else %>
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 						<% end %>

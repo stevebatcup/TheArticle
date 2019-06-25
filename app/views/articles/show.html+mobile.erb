@@ -59,15 +59,7 @@
 
 				<% unless @article.is_sponsored? %>
 				<div class="member_ratings pt-2 pb-2 px-3 mb-2">
-					<div class="d-flex justify-content-between">
-						<h5>Member ratings</h5>
-						<% if @article.has_ratings? %>
-						<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
-							View ratings
-						</a>
-						<% end %>
-					</div>
-
+					<h5>Member ratings</h5>
 					<% if @article.has_ratings? %>
 						<ul class="">
 							<li class="row justify-content-start d-flex align-items.start mb-2">
@@ -92,6 +84,9 @@
 								</span>
 							</li>
 						</ul>
+						<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-block pt-2 pb-1">
+							<%= pluralize(@article.shares.where(share_type: 'rating').size, 'rating') %> - view all
+						</a>
 					<% else %>
 					<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 					<% end %>
@@ -122,15 +117,7 @@
 
 					<% unless @article.is_sponsored? %>
 					<div class="member_ratings bars pt-3 pb-2 px-3">
-						<div class="d-flex justify-content-between">
-							<h5>Member ratings</h5>
-							<% if @article.has_ratings? %>
-							<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-inline-block">
-								View ratings
-							</a>
-							<% end %>
-						</div>
-
+						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 							<ul class="bars">
 								<li class="mb-2">
@@ -161,6 +148,9 @@
 									</span>
 								</li>
 							</ul>
+							<a href="#" ng-click="viewRatingHistory($event)" class="text-green d-block pt-2 pb-1">
+								<%= pluralize(@article.shares.where(share_type: 'rating').size, 'rating') %> - view all
+							</a>
 						<% else %>
 						<p class="mb-0">This article has not been rated yet. <a href='#' class="text-green" ng-click="openSharingPanel($event, 'rate')">Be the first person to rate this article</a>.</p>
 						<% end %>
