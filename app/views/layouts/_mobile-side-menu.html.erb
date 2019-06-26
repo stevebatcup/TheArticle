@@ -56,14 +56,6 @@
         Home</a>
       </li>
       <li>
-        <% if use_app_links %>
-          <a href='#search' ng-click="openSearch()">
-        <% else %>
-          <a href='<%= front_page_path(route: 'search') %>'>
-        <% end %>
-        Search</a>
-      </li>
-      <li>
         <a href="/follow-suggestions">Follow suggestions</a>
       </li>
       <li>
@@ -88,6 +80,18 @@
     <h3 class="menu-section-title">Browse</h3>
     <ul class="list-unstyled menu-section-list">
       <li>
+        <% if user_signed_in? %>
+          <% if use_app_links %>
+            <a href='#search' ng-click="openSearch()">
+          <% else %>
+            <a href='<%= front_page_path(route: 'search') %>'>
+          <% end %>
+        <% else %>
+          <a href='#' ng-click="openSignedOutSearch($event)">
+        <% end %>
+        Search</a>
+      </li>
+      <li>
         <a class="" href="/exchanges">Exchanges</a>
       </li>
       <li>
@@ -101,13 +105,13 @@
     <h3 class="menu-section-title">Information</h3>
     <ul class="list-unstyled menu-section-list">
       <li>
-        <a class="" href="/write-for-us">Write for Us</a>
-      </li>
-      <li>
         <a class="" href="/about">About</a>
       </li>
       <li>
         <a class="" href="/help">Help</a>
+      </li>
+      <li>
+        <a class="" href="/write-for-us">Write for Us</a>
       </li>
       <li>
         <a class="" href="/contact">Contact</a>
@@ -115,6 +119,38 @@
       <li>
         <a class="" href="/our-mission">Our Mission</a>
       </li>
+      <li>
+        <a class="" href="/terms-and-conditions">Terms &amp; Conditions</a>
+      </li>
+      <li>
+        <a class="" href="/privacy-policy">Privacy Policy</a>
+      </li>
     </ul>
+
+    <nav class="pt-2" id="social_links">
+      <ul class="row list-unstyled px-0 py-0 mx-0 my-0">
+        <li class="col-3 nav-item px-0 py-0" id="social_facebook">
+          <a class="nav-link text-center text-dark" href="https://www.facebook.com/TheArticle.exchange/" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </li>
+        <li class="col-3 nav-item px-0 py-0" id="social_twitter">
+          <a class="nav-link text-center text-dark" href="https://twitter.com/TweetTheArticle" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="col-3 nav-item px-0 py-0" id="social_linked_in">
+          <a class="nav-link text-center text-dark" href="https://www.linkedin.com/company/thearticle/" target="_blank">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </li>
+        <li class="col-3 nav-item px-0 py-0" id="social_rss">
+          <a class="nav-link text-center text-dark" href="/feed/rss" target="_blank">
+            <i class="fas fa-rss"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
   </section>
 </nav>

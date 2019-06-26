@@ -64,7 +64,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 		@scope.follows = false
 		@scope.notifications = false
 		@scope.messaging = false
-		@scope.slideout.close()
+		@rootScope.slideout.close()
 
 	openFrontPage: =>
 		@resetAppTabs()

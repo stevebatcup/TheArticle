@@ -27,27 +27,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 	# 	super
 
 	bindSideMenu: =>
-		if $("#mobile_side_menu").length > 0
-			@bindMemberSideMenu()
-		else
-			$("#sidebar").mCustomScrollbar
-				theme: "minimal"
-
-			$('#dismiss, .overlay, .join_button').on 'click', =>
-				$('#sidebar').removeClass('active')
-				$('.overlay').removeClass('active')
-
-			$(document).on 'click', '#sidebarCollapse', (e) =>
-				e.preventDefault()
-				$('#search_box').slideUp(200) if $('#search_box').is(':visible')
-				$('#sidebar').addClass('active')
-				$('.overlay').addClass('active')
-				$('.collapse.in').toggleClass('in')
-				$('a[aria-expanded=true]').attr('aria-expanded', 'false')
-				$('#dismiss, ul', 'nav#sidebar').show()
-
-	bindMemberSideMenu: =>
-		@scope.slideout = new Slideout
+		@rootScope.slideout = new Slideout
 			'panel': document.getElementById('panel_for_side_menu')
 			'menu': document.getElementById('mobile_side_menu')
 			'padding': 256
@@ -55,16 +35,16 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 		$(document).on 'click', '#sidebarCollapse', (e) =>
 			e.preventDefault()
-			@scope.slideout.toggle()
+			@rootScope.slideout.toggle()
 
 		$(document).on 'click', '.overlay.show_menu', (e) =>
 			e.preventDefault()
-			@scope.slideout.toggle()
+			@rootScope.slideout.toggle()
 
-		@scope.slideout.on 'beforeopen', (e, l) =>
+		@rootScope.slideout.on 'beforeopen', (e, l) =>
 			$('.overlay').addClass('show_menu').addClass('active')
 
-		@scope.slideout.on 'beforeclose', (e, l) =>
+		@rootScope.slideout.on 'beforeclose', (e, l) =>
 			$('.overlay').removeClass('show_menu').removeClass('active')
 
 	bindCarousels: =>
