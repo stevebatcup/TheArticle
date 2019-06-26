@@ -572,11 +572,12 @@ html.svg header#main_header nav li.nav-item {
 					h3 {
 						text-transform: capitalize;
 						@extend .h4;
+						font-size: 1.2rem;
+				    height: 2.5em;
 					}
 
 					.sponsor_listing_img {
-						width: 55%;
-						height: 55%;
+						width: 50%;
 						margin: 5px auto 20px;
 						display: block;
 						transition: width 0.4s;
