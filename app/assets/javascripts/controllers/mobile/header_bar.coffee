@@ -86,7 +86,6 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	bindFixedNavScrolling: =>
 		unless $('[data-fixed-profile-nav]').length > 0
-			@addBottomPaddingForAds()
 			if $('#member_options').length
 				@bindAppHeaderFixedScrolling()
 			else
@@ -99,11 +98,6 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 						$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
 					else
 						$('body').removeClass('fixed-header')
-
-	addBottomPaddingForAds: =>
-		if $('#ads_top_box').is(':visible')
-			height = $('#ads_top_box').outerHeight()
-			$('body').css({ paddingBottom: height })
 
 	bindAppHeaderFixedScrolling: =>
 		$win = $(window)
