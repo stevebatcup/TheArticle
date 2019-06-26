@@ -572,13 +572,13 @@ html.svg header#main_header nav li.nav-item {
 					h3 {
 						text-transform: capitalize;
 						@extend .h4;
-						font-size: 1.2rem;
+						font-size: 1.15rem;
 				    height: 2.5em;
 					}
 
 					.sponsor_listing_img {
 						width: 50%;
-						margin: 5px auto 20px;
+						margin: 5px auto 10px;
 						display: block;
 						transition: width 0.4s;
 						border: 14px solid #fff;
@@ -600,7 +600,7 @@ html.svg header#main_header nav li.nav-item {
 					min-height: 100%;
 
 					.sponsor_listing_img {
-						width: 21%;
+						width: 17%;
 					}
 
 					.entry-content {
