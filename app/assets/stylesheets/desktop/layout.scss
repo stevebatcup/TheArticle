@@ -569,11 +569,18 @@ html.svg header#main_header nav li.nav-item {
 					padding-top: 0;
 					bottom: 0;
 
+					h3 {
+						text-transform: capitalize;
+						@extend .h4;
+					}
+
 					.sponsor_listing_img {
 						width: 55%;
+						height: 55%;
 						margin: 5px auto 20px;
 						display: block;
 						transition: width 0.4s;
+						border: 14px solid #fff;
 					}
 				}
 			}
@@ -592,7 +599,7 @@ html.svg header#main_header nav li.nav-item {
 					min-height: 100%;
 
 					.sponsor_listing_img {
-						width: 30%;
+						width: 21%;
 					}
 
 					.entry-content {
