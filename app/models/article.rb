@@ -371,18 +371,9 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.content_ad_slots(is_mobile=true, ad_page_type, ad_page_id, ad_publisher_id)
+	def self.content_ad_slots(article, is_mobile=true, ad_page_type, ad_page_id, ad_publisher_id)
 		if is_mobile
 			ads = [
-				{
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				},
 				{
 					position: 7,
 					ad_type_id: 1,
@@ -403,8 +394,11 @@ class Article < ApplicationRecord
 				}
 			]
 		else
-			ads = [
-				{
+			ads = []
+		end
+
+		unless article.is_sponsored
+			ads.push({
 					position: 3,
 					ad_type_id: 4,
 					ad_page_id: ad_page_id,
@@ -412,9 +406,9 @@ class Article < ApplicationRecord
 					ad_publisher_id: ad_publisher_id,
 					ad_classes: 'unruly_video ads_box text-center',
 					ad_name: 'unruly'
-				}
-			]
+				})
 		end
+
 		ads
 	end
 

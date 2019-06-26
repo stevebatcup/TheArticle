@@ -1,7 +1,7 @@
 class TheArticle.Sidebar extends TheArticle.MobilePageController
 
 	@register window.App
-	@$inject: ['$scope', '$element', '$http', '$timeout', '$interval', '$compile']
+	@$inject: ['$scope', '$rootScope', '$element', '$http', '$timeout', '$interval', '$compile']
 
 	init: ->
 		@setDefaultHttpHeaders()
@@ -21,5 +21,12 @@ class TheArticle.Sidebar extends TheArticle.MobilePageController
 		@http.get("/user_followings?counts=1").then (response) =>
 			if response.data? and (response.data.status is 'success')
 				@scope.followCounts = response.data.counts
+
+	openSignedOutSearch: ($event) =>
+		$event.preventDefault()
+		@rootScope.slideout.toggle()
+		@timeout =>
+			@rootScope.$broadcast 'search-tab-clicked'
+		, 100
 
 TheArticle.ControllerModule.controller('SidebarController', TheArticle.Sidebar)

@@ -94,6 +94,11 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:exchange_articles_per_page
 
+	def more_on_articles_per_page
+		browser.device.mobile? ? 10 : 6
+	end
+	helper_method	:more_on_articles_per_page
+
 	def ad_page_type
 		@ad_page_type ||= begin
 			if is_article_page?

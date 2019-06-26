@@ -16,7 +16,7 @@
 						data-profile-incomplete="<%= user_signed_in? ? (current_user.has_completed_wizard ? 0 : 1) : 0 %>"
 						data-article-id="<%= @article.id %>"
 						data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
-						data-per-page="<%= articles_per_page %>">
+						data-per-page="<%= more_on_articles_per_page %>">
 	<div class="container mt-md-4 mb-3 mb-md-2">
 		<article id="post-<%= @article.id %>" class="article_detail">
 			<header class="entry-header">
@@ -361,4 +361,14 @@
 	<script id="registerInterstitial" type="script/x-mustache">
 	  <%= render partial: 'promotional/register_modal' %>
 	</script>
+<% end %>
+
+<% if Rails.env.production? %>
+	<!-- Start of Bibblio RCM includes -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.css">
+	<script src="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.js"></script>
+	<script id="bib--rcm-src" src="file://X:/related-content-module-source/public/js/bib-related-content.js"
+	data-auto-ingestion="true"
+	data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"></script>
+	<!-- End of Bibblio RCM includes -->
 <% end %>

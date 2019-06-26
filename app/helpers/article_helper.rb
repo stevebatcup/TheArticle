@@ -21,7 +21,7 @@ module ArticleHelper
 
 	def adified_content(article)
 		content_html =  Nokogiri::HTML.fragment(article.content)
-		ad_slots = Article.content_ad_slots(request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id)
+		ad_slots = Article.content_ad_slots(article, request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id)
 
 		ad_slots.each do |slot|
 			ad_html = ActionController::Base.render(partial: 'common/ad', locals: slot)

@@ -1,6 +1,6 @@
 class SponsorsController < ApplicationController
 	def index
-		@sponsors = Author.sponsors_for_listings
+		@sponsors = Author.sponsors_for_listings.order(display_name: :asc)
 	end
 
 	def show

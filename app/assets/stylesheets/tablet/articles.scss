@@ -34,12 +34,11 @@
 .article-listing.sponsor {
   .inner {
     .entry-content {
-      height: initial !important;
-      opacity: 1 !important;
+      display: none !important;
     }
 
     .sponsor_listing_img {
-      width: 34% !important;
+      width: 69% !important;
     }
 
     .inner_inner {

@@ -531,8 +531,13 @@ footer#main_footer_top {
 				.inner_inner {
 					padding-top: 10px;
 
+					h3 {
+						display: none;
+					}
+
 					img.sponsor_listing_img {
-						width: 62%;
+						border: 14px solid #fff;
+						width: 77.5%;
 						margin: 0 auto;
 						display: block;
 					}
