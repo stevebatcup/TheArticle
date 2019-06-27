@@ -68,8 +68,9 @@ class ArticlesController < ApplicationController
 
 					if params[:include_sponsored]
 						@articles = @articles.to_a
+						first_key = (params[:page].to_i == 1) ? 3 : 4
 						sponsored_articles.each_with_index do |sa, i|
-							key = (sponsored_begin_offset + (i * sponsored_frequency)) - 1
+							key = (first_key + (i * sponsored_frequency))
 							# key = key-1 if sponsored_begin_offset == 1
 							if @articles[key]
 								@articles.insert(key, sa)
