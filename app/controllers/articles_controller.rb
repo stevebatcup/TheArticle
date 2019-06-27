@@ -70,9 +70,12 @@ class ArticlesController < ApplicationController
 						@articles = @articles.to_a
 						sponsored_articles.each_with_index do |sa, i|
 							key = (sponsored_begin_offset + (i * sponsored_frequency)) - 1
-							key = key-1 if sponsored_begin_offset == 1
+							# key = key-1 if sponsored_begin_offset == 1
 							if @articles[key]
 								@articles.insert(key, sa)
+							else
+								@articles.push(sa) if @articles.length > 3
+								break
 							end
 						end
 					end
