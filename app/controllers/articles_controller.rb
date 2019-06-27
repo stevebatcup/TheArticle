@@ -27,16 +27,11 @@ class ArticlesController < ApplicationController
 					per_page = params[:per_page].to_i
 					if params[:include_sponsored]
 						sponsored_frequency = 5
-						set = (params[:page].to_i % per_page)
-						set_offset = 3
-						sponsored_begin_offset = set + set_offset
-						sponsored_begin_offset = sponsored_begin_offset - sponsored_frequency if sponsored_begin_offset > sponsored_frequency
 						sponsored_limit = sponsored_frequency
 						sponsored_articles = Author.get_sponsors_single_posts('sponsored-pick', sponsored_limit, :latest).to_a
 						if sponsored_articles.size < sponsored_limit
 							sponsored_articles += Author.get_sponsors_single_posts('sponsored-pick', (sponsored_limit - sponsored_articles.size), :random).to_a
 						end
-
 						items_to_get = per_page - (sponsored_articles.length)
 					else
 						items_to_get = per_page
@@ -71,7 +66,6 @@ class ArticlesController < ApplicationController
 						first_key = (params[:page].to_i == 1) ? 3 : 4
 						sponsored_articles.each_with_index do |sa, i|
 							key = (first_key + (i * sponsored_frequency))
-							# key = key-1 if sponsored_begin_offset == 1
 							if @articles[key]
 								@articles.insert(key, sa)
 							else
