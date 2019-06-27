@@ -31,7 +31,6 @@ class ArticlesController < ApplicationController
 						set_offset = 3
 						sponsored_begin_offset = set + set_offset
 						sponsored_begin_offset = sponsored_begin_offset - sponsored_frequency if sponsored_begin_offset > sponsored_frequency
-						# sponsored_limit = (sponsored_begin_offset == sponsored_frequency) ? sponsored_frequency - 1 : sponsored_frequency
 						sponsored_limit = sponsored_frequency
 						sponsored_articles = Author.get_sponsors_single_posts('sponsored-pick', sponsored_limit, :latest).to_a
 						if sponsored_articles.size < sponsored_limit
@@ -74,9 +73,6 @@ class ArticlesController < ApplicationController
 							key = key-1 if sponsored_begin_offset == 1
 							if @articles[key]
 								@articles.insert(key, sa)
-							else
-								@articles.push(sa) if @articles.length > 3
-								break
 							end
 						end
 					end
