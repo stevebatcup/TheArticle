@@ -42,7 +42,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.force_ssl = false
+  config.force_ssl = true
 
   config.action_mailer.default_url_options = { host: 'railstaging.thearticle.com' }
 end
