@@ -21,8 +21,15 @@ class Follow < ApplicationRecord
 			update_feeds
 			create_notification
 			update_follow_counts_for_both_users
+			send_browser_push
 		else
 			PendingFollow.create(user_id: self.user_id, followed_id: self.followed_id, follow_id: self.id)
+		end
+	end
+
+	def send_browser_push
+		if self.user.has_active_status?
+			PushService.send(self.followed, "New follower", "You are now being followed by #{self.user.username}")
 		end
 	end
 
