@@ -18,6 +18,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	]
 
 	init: ->
+		@saveMessagingDeviceToken() if firebase.messaging.isSupported()
 		$('footer#main_footer_top').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true

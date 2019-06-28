@@ -167,6 +167,7 @@ Rails.application.routes.draw do
 
   get "help", to: 'help_centre#index'
   get "help-feedback/:question_id/:outcome", to: 'help_feedback#new'
+  post "push_registrations", to: 'push_registrations#create'
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
