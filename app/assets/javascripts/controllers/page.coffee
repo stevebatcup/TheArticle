@@ -427,3 +427,27 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	underscoreiseString: (str) =>
 		str.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "_")
+
+	saveMessagingDeviceToken: =>
+		prom = (currentToken) =>
+			# console.log currentToken
+			if currentToken
+				# console.log('Got FCM device token:', currentToken)
+				$.post "/push_registrations", {subscription: currentToken}
+			else
+				# Need to request permissions to show notifications.
+				@requestNotificationsPermissions()
+		firebase.messaging().getToken().then prom.bind(@)
+		.catch (error) ->
+			console.error('Unable to get messaging tokens.', error)
+
+	requestNotificationsPermissions: =>
+		prom = =>
+			# Notification permission granted.
+			@saveMessagingDeviceToken()
+		# console.log('Requesting notifications permission...')
+		firebase.messaging().requestPermission().then prom.bind(@)
+		.catch (error) ->
+			console.error('Unable to get permission to notify.', error)
+>>>>>>> ready for staging
+>>>>>>> ready for staging

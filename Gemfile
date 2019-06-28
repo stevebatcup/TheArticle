@@ -86,9 +86,9 @@ gem 'faraday_middleware'
 gem 'exception_notification'
 
 gem "recaptcha"
-
 gem "rest-client"
 gem "rss"
+gem 'fcm'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

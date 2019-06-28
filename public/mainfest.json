@@ -1,0 +1,17 @@
+{
+  "name": "TheArticle Web",
+  "short_name": "TheArticle",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/my_icon.png",
+      "sizes": "256",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "orientation": "portrait",
+  "gcm_sender_id": "103953800507"
+}

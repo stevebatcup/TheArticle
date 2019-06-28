@@ -65,6 +65,7 @@ class User < ApplicationRecord
   has_many  :linked_accounts
 
   has_many  :user_admin_notes
+  has_many  :push_tokens
 
   belongs_to   :author, optional: true
 

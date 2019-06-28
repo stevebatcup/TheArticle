@@ -20,6 +20,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	init: ->
 		vars = @getUrlVars()
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
+		@saveMessagingDeviceToken() if firebase.messaging.isSupported()
 		$('footer#main_footer_top').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true

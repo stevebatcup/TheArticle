@@ -88,5 +88,33 @@
     <!-- End BlueKai Tag -->
   <% end %>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-messaging.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBDTiMLEHte3k1ohSftal4J2Vp66605sqI",
+      authDomain: "thearticle-1545064778871.firebaseapp.com",
+      databaseURL: "https://thearticle-1545064778871.firebaseio.com",
+      projectId: "thearticle-1545064778871",
+      storageBucket: "",
+      messagingSenderId: "718836269033",
+      appId: "1:718836269033:web:c10be6456c85a936"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    if (firebase.messaging.isSupported()) {
+      const firebaseMessaging = firebase.messaging();
+      firebaseMessaging.usePublicVapidKey('BO-oqbpMmp3x3OKlOcGY0fnxBRfp4ah_gDCOAW55zHqZiZbolnmZnv2rpeJblC0VCWJec-Li0hER8k8oC0FXGL4');
+
+      firebaseMessaging.onMessage(function(payload) {
+        angular.element('[ng-controller]').first().scope().alert(payload.notification.body, payload.notification.title)
+      });
+    }
+  </script>
+
   </body>
 </html>
