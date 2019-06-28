@@ -8,6 +8,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 		'$element'
 		'$timeout'
 		'$compile'
+		'$ngConfirm'
 		'$interval'
 		'Notification'
 	]
