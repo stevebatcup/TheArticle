@@ -8,8 +8,7 @@
           data-share-well_written="<%= convert_rating_to_dots(article_share['rating_well_written']) %>"
           data-share-valid_points="<%= convert_rating_to_dots(article_share['rating_valid_points']) %>"
           data-share-agree="<%= convert_rating_to_dots(article_share['rating_agree']) %>"
-          data-rating-text-labels="<%= rating_labels.to_json %>"
-          data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content") %>'>
+          data-rating-text-labels="<%= rating_labels.to_json %>">
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
   			<h5 class="mb-2 mt-1">
