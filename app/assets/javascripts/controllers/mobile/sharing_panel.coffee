@@ -58,6 +58,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 			external_plugins:
 				'mention' : 'http://stevendevooght.github.io/tinyMCE-mention/javascripts/tinymce/plugins/mention/plugin.js'
 			content_css: [
+				@element.data('tinymce-content-css-url'),
 				'//fonts.googleapis.com/css?family=Montserrat'
 			]
 
