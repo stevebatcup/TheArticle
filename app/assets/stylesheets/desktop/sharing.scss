@@ -35,18 +35,18 @@ $contrast: 5%;
 				border: none !important;
 			}
 
-			// textarea {
-			// 	border: none;
-			// 	width: 100%;
-			// 	padding: 10px;
-			// 	height: 3.5em;
-			// 	background: $grey_light;
-			// 	outline: none;
+			textarea {
+				border: none;
+				width: 100%;
+				padding: 10px;
+				height: 3.5em;
+				background: $grey_light;
+				outline: none;
 
-			// 	&.expanded {
-			// 		height: 9em;
-			// 	}
-			// }
+				&.expanded {
+					height: 9em;
+				}
+			}
 
 			div.mce-edit-area {
 				background: $grey_light;
