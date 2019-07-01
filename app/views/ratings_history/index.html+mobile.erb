@@ -102,6 +102,32 @@
 							 				</h4>
 							 			</div>
 							 		</div>
+
+
+							 		<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
+							 			<%= render partial: 'common/options_menu', locals: { from: :share } %>
+							 		</div>
+
+							 		<% if user_signed_in? %>
+							 			<div ng-if="item.share.user.id == <%= current_user.id %>">
+							 				<nav class="navbar share_menu_btn d-inline-block">
+							 					<a href='#' data-toggle="dropdown">
+							 						<i class="fas fa-chevron-circle-down"></i>
+							 					</a>
+
+							 				  <div class="dropdown-menu dropdown-menu-right">
+							 				  	<a class="dropdown-item" href="#" ng-click="interactionMute($event, item.share)"
+							 				  	      ng-if="!item.share.isInteractionMuted">Turn off notifications</a>
+							 				  	<a class="dropdown-item" href="#" ng-click="interactionUnmute($event, item.share)"
+							 				  	      ng-if="item.share.isInteractionMuted">Turn on notifications</a>
+							 				  	<a class="dropdown-item" href="#"
+							 				  				ng-click="openTweetWindow($event, item)"
+							 				  	      ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">Share on Twitter</a>
+							 			      <a class="dropdown-item" href="#" ng-click="deleteMyPost($event, item.share)">Delete post</a>
+							 				  </div>
+							 				</nav>
+							 			</div>
+							 		<% end %>
 							 	</div>
 
 							 	<div class="post mt-2 mb-0" ng-if="item.share.post.length > 0" ng-bind-html="trustAsHtml(item.share.post)"></div>
@@ -345,3 +371,7 @@
 
 	</div>
 </section>
+
+<script id="confirmBlock" type="script/x-mustache">
+	<%= render partial: 'blocks/confirm_modal' %>
+</script>

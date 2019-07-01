@@ -475,7 +475,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		if @scope.isSignedIn is false
 			@requiresSignIn('report this post')
 		else
-			item = item.share if _.contains(['commentAction', 'opinionAction'], item.type)
+			item = item.share if _.contains(['commentAction', 'opinionAction', 'share', 'rating'], item.type)
 			@openConcernReportModal('post', item)
 
 	reportCommentAction: ($event=null, item) =>
@@ -761,5 +761,17 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			sentence += " exchanges"
 		sentence
+
+	openTweetWindow: ($event, share, width=600, height=471) =>
+		$event.preventDefault()
+		articleUrl = share.article.url
+		wellWritten = "#{share.ratings.wellWritten}/5"
+		interesting = "#{share.ratings.validPoints}/5"
+		agree = "#{share.ratings.agree}/5"
+		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{share.share.post}"
+		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
+		left = (screen.width/2)-(width/2)
+		top = (screen.height/2)-(height/2)
+		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

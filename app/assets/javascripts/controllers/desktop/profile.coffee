@@ -743,19 +743,4 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@updateAllWithOpinion(@scope.profile.opinionActions.data, shareId, action, user)
 		@updateAllWithOpinion(@scope.profile.commentActions.data, shareId, action, user)
 
-	openTweetWindow: ($event, share) =>
-		$event.preventDefault()
-		articleUrl = share.article.url
-		wellWritten = "#{share.ratings.wellWritten}/5"
-		interesting = "#{share.ratings.validPoints}/5"
-		agree = "#{share.ratings.agree}/5"
-		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{share.share.post}"
-		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
-		width = 600
-		height = 471
-		left = (screen.width/2)-(width/2)
-		top = (screen.height/2)-(height/2)
-		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
-
-
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)
