@@ -205,6 +205,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			if value.length > 2
 				@autocompleteLocations $input
 
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
+
 	denoteUploading: (element) =>
 		type = $(element).data('type')
 		@scope.profile.data["#{type}Photo"].uploading = true
