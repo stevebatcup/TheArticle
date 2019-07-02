@@ -33,5 +33,5 @@ Rails.application.config.assets.precompile += %w(
 	mobile/tinymce-content.css
 	tinymce-dist/themes/modern/theme.js
 	tinymce-dist/plugins/paste/plugin.js
-	tinymce-dist/plugins/links/plugin.js
+	tinymce-dist/plugins/link/plugin.js
 )
