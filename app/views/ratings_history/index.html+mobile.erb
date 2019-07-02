@@ -1,5 +1,11 @@
 <section ng-controller="RatingsHistoryController" class="container front-page" data-article-id="<%= @article.id %>">
 
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
 	<div class="row" id="feed" ng-cloak>
 
 		<section class="results_block col-12" style="min-height: 85vh;" id="activity-tabs">
