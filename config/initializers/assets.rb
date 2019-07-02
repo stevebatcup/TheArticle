@@ -31,7 +31,4 @@ Rails.application.config.assets.precompile += %w(
 	bootstrap.css
 	desktop/tinymce-content.css
 	mobile/tinymce-content.css
-	tinymce-dist/themes/modern/theme.js
-	tinymce-dist/plugins/paste/plugin.js
-	tinymce-dist/plugins/link/plugin.js
 )

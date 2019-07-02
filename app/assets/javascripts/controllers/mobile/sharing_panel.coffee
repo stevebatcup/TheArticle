@@ -24,6 +24,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		@bindEvents()
 
 		@scope.tinymceOptions =
+			baseURL: "/tinymce-host"
 			selector: 'textarea#comments'
 			height: 56
 			placeholder: "Add a comment..."
