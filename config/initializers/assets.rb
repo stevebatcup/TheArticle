@@ -10,7 +10,6 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
 Dir.glob("#{Rails.root}/vendor/assets/bower_components/**/").each do |path|
-	puts path
   Rails.application.config.assets.paths << path
 end
 
@@ -32,4 +31,7 @@ Rails.application.config.assets.precompile += %w(
 	bootstrap.css
 	desktop/tinymce-content.css
 	mobile/tinymce-content.css
+	tinymce-dist/themes/modern/theme.js
+	tinymce-dist/plugins/paste/plugin.js
+	tinymce-dist/plugins/links/plugin.js
 )
