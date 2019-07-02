@@ -5,9 +5,12 @@ Rails.application.config.assets.version = '1.0'
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
+
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
+
 Dir.glob("#{Rails.root}/vendor/assets/bower_components/**/").each do |path|
+	puts path
   Rails.application.config.assets.paths << path
 end
 
@@ -27,4 +30,6 @@ Rails.application.config.assets.precompile += %w(
 	vendor/modernizr.js
 	bootstrap/dist/css/bootstrap.css
 	bootstrap.css
+	desktop/tinymce-content.css
+	mobile/tinymce-content.css
 )
