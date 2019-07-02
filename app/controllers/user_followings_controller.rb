@@ -36,7 +36,7 @@ class UserFollowingsController < ApplicationController
 		if current_user.profile_is_deactivated?
 			@status = :error
 			@message = "You must reactivate your profile in order to follow #{other_user.display_name}"
-		elsif !current_user.has_completed_wizard
+		elsif (!current_user.has_completed_wizard) && (!params[:from_suggestion])
 			@status = :error
 			@message = "You cannot follow this person because you have not yet completed your profile. <a href='/profile/new' class='text-green'>Complete your profile</a>"
 		elsif current_user.has_blocked(other_user)
