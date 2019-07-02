@@ -65,6 +65,7 @@ gem 'angularjs-rails'
 gem 'angularjs-rails-resource', '~> 2.0.0'
 # gem 'angular-rails-templates'
 
+
 gem 'kaminari'
 gem 'geocoder'
 
