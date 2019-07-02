@@ -9,7 +9,7 @@
           data-share-valid_points="<%= convert_rating_to_dots(article_share['rating_valid_points']) %>"
           data-share-agree="<%= convert_rating_to_dots(article_share['rating_agree']) %>"
           data-rating-text-labels="<%= rating_labels.to_json %>"
-          data-tinymce-content-css-url='<%= "#{request.base_url}/css/tinymce-content-#{browser.device.mobile? ? 'mobile' : 'desktop'}.css" %>'>
+          data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content") %>'>
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
   			<h5 class="mb-2 mt-1">
@@ -36,6 +36,7 @@
       		<textarea name="comments" id="comments"
                   placeholder="Add a comment..."
                   ng-model="share.comments"
+                  ui-tinymce="tinymceOptions"
                   ng-focus="expandCommentsBox($event)"></textarea>
       	</div>
 
