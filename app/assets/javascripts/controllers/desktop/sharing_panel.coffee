@@ -127,7 +127,8 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		wellWritten = "#{@scope.share.rating_well_written}/5"
 		interesting = "#{@scope.share.rating_valid_points}/5"
 		agree = "#{@scope.share.rating_agree}/5"
-		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{@scope.share.comments}"
+		comment = angular.element(@scope.share.comments).text()
+		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{comment}"
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		if alsoOpenFacebookWindow
 			callback = @openFacebookWindow
