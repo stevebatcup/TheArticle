@@ -31,6 +31,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 					error: null
 			selectedExchanges: []
 
+		@scope.getSelectedExchanges()
 		@scope.exchangesOk = false
 		@bindEvents()
 
@@ -55,6 +56,12 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 
 		# @scope.$on 'wizard:stepChanged', (event, args) =>
 		# 	console.log(args)
+
+	getSelectedExchanges: =>
+		url = "/user_exchanges?page=1&per_page=100"
+		@http.get(url).then (exchanges) =>
+			angular.forEach exchanges.data.exchanges, (exchange) =>
+				@scope.user.selectedExchanges.push exchange.id
 
 	searchForSuggestions: (query)=>
 		if query.length > 0
