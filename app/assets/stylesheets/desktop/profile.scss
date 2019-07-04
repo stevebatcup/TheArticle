@@ -32,6 +32,10 @@
 	#feed {
 		padding-left: 0;
 
+		#activity-tabs {
+	    padding-bottom: 210px;
+		}
+
 		.tab-content > .active {
 	    display: flex;
 	  }

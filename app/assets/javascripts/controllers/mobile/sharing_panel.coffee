@@ -24,6 +24,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		@bindEvents()
 
 		@scope.tinymceOptions =
+			baseURL: "/tinymce-host"
 			selector: 'textarea#comments'
 			height: 56
 			placeholder: "Add a comment..."
@@ -104,9 +105,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 			rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
 
 		if @scope.share.share_on_twitter
-			@timeout =>
-				@openTweetWindow(false)
-			, 900
+			@openTweetWindow(false)
 		@http.post("/share", { share: data }).then (response) =>
 			if response.data.status is 'success'
 				$('.close_share_modal').first().click()
@@ -127,7 +126,8 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		wellWritten = "#{@scope.share.rating_well_written}/5"
 		interesting = "#{@scope.share.rating_valid_points}/5"
 		agree = "#{@scope.share.rating_agree}/5"
-		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{@scope.share.comments}"
+		comment = angular.element(@scope.share.comments).text()
+		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{comment}"
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		if alsoOpenFacebookWindow
 			callback = @openFacebookWindow

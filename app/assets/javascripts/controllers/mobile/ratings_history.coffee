@@ -54,6 +54,11 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 			@getMyProfile @getRatings
 		, 800
 
+		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
+			@flash $('#flash_notice').html()
+			@cookies.remove('ok_to_flash')
+
+
 	bindEvents: =>
 		super
 		@bindScrollEvent()

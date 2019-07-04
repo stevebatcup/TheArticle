@@ -28,6 +28,10 @@
 	#content_box {
 		& > p {
 			line-height: 1.5em;
+
+			a {
+				color: $green;
+			}
 		}
 
 		.ads_box {

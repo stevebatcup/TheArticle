@@ -22,3 +22,7 @@ span#autocomplete #autocomplete-delimiter {
 span#autocomplete #autocomplete-searchtext {
 	padding: 0 4px 0 2px;
 }
+
+span.mentioned_user {
+	color: #72b578;
+}
