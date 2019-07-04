@@ -111,9 +111,9 @@
 
 					<div id="content_box">
 						<% if show_ads? %>
-							<%= adified_content(@article) %>
+							<%= remote_linkify(adified_content(@article), request.base_url) %>
 						<% else %>
-							<%= @article.content.html_safe %>
+							<%= remote_linkify(@article.content, request.base_url) %>
 						<% end %>
 					</div>
 

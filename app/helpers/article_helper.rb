@@ -19,6 +19,18 @@ module ArticleHelper
 		"#{request.base_url}/#{article.slug}"
 	end
 
+	def remote_linkify(content, host)
+		content_html =  Nokogiri::HTML.fragment(content)
+		# auto blankise remote links
+		content_html.css('a').each do |link|
+			unless link['href'].include?(host)
+				link['target'] = '_blank'
+				link['rel'] = 'noopener' # To avoid window.opener attack when target blank is used
+			end
+		end
+		content_html.to_s.html_safe
+	end
+
 	def adified_content(article)
 		content_html =  Nokogiri::HTML.fragment(article.content)
 		ad_slots = Article.content_ad_slots(article, request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id)
