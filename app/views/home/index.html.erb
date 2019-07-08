@@ -6,7 +6,7 @@
 					ng-cloak
 					class="mt-md-3">
 
-	<% if !user_signed_in? && !cookies[:shown_registration_interstitial] && browser.device.mobile? %>
+	<% if !user_signed_in? && !cookies[:shown_registration_interstitial] && browser.device.mobile? && cookies[:cookie_permission_set] %>
 		<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
 		<div id="mobile_register_interstitial_top">
 		  <%= render partial: 'promotional/register_interstitial' %>
