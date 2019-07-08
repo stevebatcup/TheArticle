@@ -38,7 +38,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 
 		if $('#registerInterstitial').length > 0
 			@rootScope.articleRegisterInterstitialTimeout = @timeout =>
-				@showRegistrationInterstitial()
+				@showRegistrationInterstitial() unless $('.modal').is(':visible')
 			, 20000
 
 	bindEvents: ->
