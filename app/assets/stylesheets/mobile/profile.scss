@@ -71,15 +71,27 @@
 		margin-bottom: -2em;
 		padding-top: 0.6em;
 
-		h5 {
-			line-height: 1.2em;
-	    font-size: 1.1em;
-	    margin-bottom: 0.25em;
+		#basic_info_titles {
+			overflow: hidden;
+			width: 96%;
+
+			h5 {
+				line-height: 1.2em;
+				font-size: 1.1em;
+				margin-bottom: 0.25em;
+			}
+
+			h6 {
+				font-size: 0.85em;
+			}
+
+			h5, h6 {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 
-		h6 {
-			font-size: 0.85em;
-		}
 	}
 
 	#stats_info {

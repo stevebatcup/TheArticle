@@ -31,9 +31,27 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 			statusbar: false
 			menubar: false
 			toolbar: false
-			init_instance_callback: (editor) =>
-				editor.on 'focus', (e) =>
-					editor.theme.resizeTo('100%', 144)
+			init_instance_callback: (ed) =>
+				ed.on 'focus', (e) =>
+					ed.theme.resizeTo('100%', 144)
+				ed.on 'keydown', (e) =>
+					if e.keyCode is 32
+						curElm = ed.selection.getRng().startContainer
+						caretPos = ed.selection.getBookmark(curElm.textContent).rng.startOffset
+						if caretPos is curElm.textContent.length
+							mkr = '<span class="marker">!</span>'
+							ed.selection.setContent(mkr)
+							newstr = ''
+							c = ed.getContent({format : 'raw'}).split(mkr+"</span>")
+							if !c[1]
+								c = ed.getContent({format : 'raw'}).split(mkr+"<br></span>")
+							if c[0] and c[1]
+								newstr = c[0].replace(/^\s\s*/, '').replace(/\s\s*$/, '')+'</span>&nbsp;'+mkr+c[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '').replace(/^[\s(&nbsp;]+/g,'')
+								ed.setContent(newstr)
+								e.preventDefault()
+						marker = jQuery(ed.getBody()).find('.marker')
+						ed.selection.select(marker.get(0))
+						marker.remove()
 			mentions:
 				items: 6
 				delay: 0

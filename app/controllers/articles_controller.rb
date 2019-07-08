@@ -28,9 +28,9 @@ class ArticlesController < ApplicationController
 					if params[:include_sponsored]
 						sponsored_frequency = 5
 						sponsored_limit = sponsored_frequency
-						sponsored_articles = Author.get_sponsors_single_posts('sponsored-pick', sponsored_limit, :latest).to_a
+						sponsored_articles = Author.get_sponsors_single_posts(nil, sponsored_limit, :latest).to_a
 						if sponsored_articles.size < sponsored_limit
-							sponsored_articles += Author.get_sponsors_single_posts('sponsored-pick', (sponsored_limit - sponsored_articles.size), :random).to_a
+							sponsored_articles += Author.get_sponsors_single_posts(nil, (sponsored_limit - sponsored_articles.size), :random).to_a
 						end
 						items_to_get = per_page - (sponsored_articles.length)
 					else
@@ -120,7 +120,6 @@ class ArticlesController < ApplicationController
 			if @sponsored_picks.any? && Author.sponsors.any?
 				@trending_articles.insert(2, @sponsored_picks.first)
 			end
-			@exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
 			@article_share = {
 				'comments' => '',
 				'rating_well_written' => nil,
