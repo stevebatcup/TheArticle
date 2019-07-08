@@ -38,7 +38,7 @@
 	<section class="container d-flex" id="basic_info" ng-show="profile.loaded && !profile.loadError && mode == 'view'" ng-cloak>
 		<div ng-style="{'background-image':'url('+profile.data.profilePhoto.image+')'}"
 				 class="profile_circle_image rounded-circle" ng-click="editProfilePhoto()"></div>
-		<div class="pl-3">
+		<div class="pl-3 pb-1" id="basic_info_titles">
 			<h5>{{ profile.data.displayName }}</h5>
 			<h6 class="text-muted">
 				{{ profile.data.originalUsername }}
