@@ -120,7 +120,6 @@ class ArticlesController < ApplicationController
 			if @sponsored_picks.any? && Author.sponsors.any?
 				@trending_articles.insert(2, @sponsored_picks.first)
 			end
-			@exchange_for_more = @article.exchanges.order(Arel.sql('RAND()')).first
 			@article_share = {
 				'comments' => '',
 				'rating_well_written' => nil,
