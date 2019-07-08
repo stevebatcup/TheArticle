@@ -331,20 +331,15 @@
 		</article>
 	</div>
 
-	<% unless @article.is_sponsored? %>
-		<% if @exchange_for_more.present? %>
-		<div id="more_on_exchange">
-			<% listings_heading = @exchange_for_more.is_editor_item? ? "More #{@exchange_for_more.name}" : "More on #{@exchange_for_more.name}" %>
-			<%=
-				render partial: 'articles/listings', locals: {
-					block_id: 'exchangeArticles',
-					title: listings_heading,
-					is_editor_exchange: @exchange_for_more.is_editor_item?
-				}
-			%>
-			<div class="ajax_loading exchange_articles" ng-show="exchangeArticles.loading">Loading articles</div>
+	<% unless @article.is_sponsored? || is_development? %>
+		<div class="container">
+			<h2 class="h1 bullet mb-2 mb-md-3">You may also like</h2>
+			<div class="bib--rcm-init"
+			  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+			  data-style-classes="bib--row-3 bib--hover bib--recency-show"
+			  data-query-string-params="utm_source=bibblio_widget_1">
+			</div>
 		</div>
-		<% end %>
 	<% end %>
 
 	<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>
