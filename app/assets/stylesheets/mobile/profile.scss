@@ -73,8 +73,12 @@
 
 		h5 {
 			line-height: 1.2em;
-	    font-size: 1.1em;
-	    margin-bottom: 0.25em;
+			font-size: 1.1em;
+			margin-bottom: 0.25em;
+			width: 96%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		h6 {
