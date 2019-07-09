@@ -239,7 +239,7 @@
 					<% if @article.keyword_tags.exclude_special.any? %>
 						<h2 class="bullet underline mb-3">Filed under</h2>
 						<% @article.keyword_tags.exclude_special.each do |tag| %>
-								<a href="<%= search_path(query: tag.name.capitalize) %>" class="tag gabriela"><%= tag.name.capitalize %></a>
+								<a href="<%= search_path(query: tag.name) %>" class="tag gabriela"><%= tag.name %></a>
 						<% end %>
 					<% end %>
 				</div>
