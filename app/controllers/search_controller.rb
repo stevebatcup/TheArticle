@@ -47,7 +47,7 @@ class SearchController < ApplicationController
 						contributors = Author.search(conditions: { display_name: "*#{@query}*" },
 																					order: 'article_count DESC').to_a
 						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
-						posts = Share.search("*#{@query}*").to_a
+						posts = Share.search("*#{@query}*", order: 'created_at DESC').to_a
 						if user_signed_in?
 							profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },
 																			conditions: { status: 'active', has_completed_wizard: true },
