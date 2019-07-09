@@ -317,7 +317,7 @@
 					<div class="results_block row" ng-class="{'empty': profile.follows.followings.length == 0}">
 
 						<div class="ajax_loading suggestions pb-5 h-100" ng-if="!profile.follows.loaded">
-						Loading <span>followings</span>...</div>
+						Loading <span>results</span>...</div>
 
 						<p class="col-12 empty_resource" ng-show="profile.follows.followings.length == 0 && profile.follows.loaded">
 							<span ng-if="profile.isMe">You are not following any other members</span>
@@ -335,7 +335,7 @@
 					<div class="results_block row" ng-class="{'empty': profile.follows.followers.length == 0}">
 
 						<div class="ajax_loading suggestions pb-5 h-100" ng-if="!profile.follows.loaded">
-						Loading <span>followers</span>...</div>
+						Loading <span>results</span>...</div>
 
 						<p class="col-12 empty_resource" ng-show="profile.follows.followers.length == 0 && profile.follows.loaded">
 							<span ng-if="profile.isMe">You are currently not being followed by any other members</span>
