@@ -133,7 +133,8 @@
         <a class="nav-link <%= 'active' if params[:controller] == 'notifications' %>" id="notifications-tab" href="/notifications">
           <i class="fas fa-bell"></i>
           <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
-            {{notificationBadgeCount}}
+            <span ng-if="notificationBadgeCount > 99">99+</span>
+            <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
           </span>
         </a>
       </li>
