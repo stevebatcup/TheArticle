@@ -12,7 +12,9 @@ module ThirdPartyArticleService
 					conn.basic_auth('londonbridge', 'B37ys0m2w')
 					response = conn.get URI.parse(url).request_uri
 				else
-					conn = Faraday.new(nil, { ssl: { verify: false }})
+					conn = faraday_with_default_adapter(nil, { ssl: { verify: false }}) do | connection |
+						connection.use FaradayMiddleware::FollowRedirects, limit: 1
+					end
 					response = conn.get(url)
 					response.body.force_encoding('utf-8')
 				end
@@ -142,6 +144,13 @@ module ThirdPartyArticleService
 				quarantined_share.rating_valid_points,
 				quarantined_share.rating_agree
 			)
+		end
+
+		def faraday_with_default_adapter(base, options={}, &block)
+			Faraday.new(base, options) { | connection |
+				yield connection
+				connection.adapter Faraday.default_adapter
+			}
 		end
 	end
 end
