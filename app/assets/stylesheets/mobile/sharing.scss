@@ -184,7 +184,7 @@ $contrast: 5%;
 						&.panel {
 							width: 26px;
 							height: 26px;
-							margin-right: 5px;
+							margin-right: 7px;
 							padding: 5px;
 							top: -3px;
 
@@ -261,5 +261,20 @@ $contrast: 5%;
 		margin-right: -8px;
 		left: -10px;
 		position: relative;
+	}
+}
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 320px) {
+	.member_ratings ul.dots li .dots .dot.feed, .member_ratings ul.dots li .dots .dot.panel {
+		width: 23px;
+		height: 23px;
+		margin-right: 3px;
+
+		.filled, .empty {
+			width: 11px;
+			height: 11px;
+		}
 	}
 }
