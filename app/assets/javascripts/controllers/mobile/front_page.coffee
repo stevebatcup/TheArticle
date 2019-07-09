@@ -10,6 +10,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
+	  '$sce'
 	  'Feed'
 		'Comment'
 		'Opinion'
@@ -221,7 +222,10 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@timeout =>
 			key = @sectionPageKey(section)
 			slideCount = $('.slick-carousel-item', ".section_#{section} .slick-carousel.suggestions[data-page=#{key}]").length
-			initialSlide = Math.floor(slideCount / 2) + 1
+			if slideCount < 3
+				initialSlide = 0
+			else
+				initialSlide = Math.ceil(slideCount / 2) - 1
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
 				infinite: false
 				slidesToShow: 1

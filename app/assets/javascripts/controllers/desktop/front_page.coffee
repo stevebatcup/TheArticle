@@ -237,9 +237,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	initSuggestionsCarousels: (section) =>
 		@timeout =>
 			key = @sectionPageKey(section)
-			slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 			slideCount = $('.slick-carousel-item', ".section_#{section} .slick-carousel.suggestions[data-page=#{key}]").length
-			initialSlide = Math.floor(slideCount / 2) + 1
+			if slideCount < 3
+				slidesToShow = 1
+				initialSlide = 0
+			else
+				slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
+				initialSlide = Math.ceil(slideCount / 2) - 1
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
 				infinite: false
 				slidesToShow: slidesToShow

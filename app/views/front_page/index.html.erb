@@ -181,7 +181,7 @@
 									ng-class="{'feed-share': _.contains(['categorisation', 'featuredSponsoredPick'], item.type), 'feed-exchange': item.type == 'exchange'}" ng-show="(item.isVisible != false) && _.contains(['exchange', 'categorisation', 'suggestion', 'latestArticles', 'sponsoredPicks', 'trendingExchanges', 'featuredSponsoredPick'], item.type)">
 								<div ng-if="item.type == 'exchange'"><%= render 'exchanges/card' %></div>
 								<div ng-if="item.type == 'categorisation'"><%= render 'categorisations/card' %></div>
-								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 2)"><%= render 'carousels/profile-suggestions' %></div>
+								<div ng-if="(item.type == 'suggestion') && (suggestions.length > 0)"><%= render 'carousels/profile-suggestions' %></div>
 								<div ng-if="item.type == 'latestArticles'"><%= render 'carousels/latest_articles_for_feed' %></div>
 								<div ng-if="item.type == 'sponsoredPicks'"><%= render 'carousels/sponsored_picks_for_feed' %></div>
 								<div ng-if="item.type == 'trendingExchanges'"><%= render 'carousels/trending_exchanges_for_feed' %></div>

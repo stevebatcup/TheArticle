@@ -7,6 +7,7 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 	  '$http'
 	  '$timeout'
 	  '$compile'
+	  '$sce'
 	  '$ngConfirm'
 	]
 

@@ -10,6 +10,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 	  '$element'
 	  '$compile'
 	  '$cookies'
+	  '$sce'
 	]
 
 	init: ->
