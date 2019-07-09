@@ -5,7 +5,7 @@ json.set! :notificationItems do
 		json.itemId notification.eventable_id
 		json.shareId notification.share_id
 		json.stamp notification.updated_at.to_i
-		json.happenedAt happened_at(notification.updated_at)
+		json.happenedAt notification.eventable_type.downcase == 'categorisation' ? happened_at(notification.eventable.article.published_at) : happened_at(notification.updated_at)
 		json.date notification.updated_at.strftime("%e %b")
 		json.body feed_sentencise_with_user(notification.body)
 		json.type notification.eventable_type.downcase
