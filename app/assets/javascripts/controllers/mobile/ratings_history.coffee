@@ -79,6 +79,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 					@loadMore()
 
 	loadMore: =>
+		@scope.ratings.page += 1
 		@getRatings()
 
 	getRatings: =>
