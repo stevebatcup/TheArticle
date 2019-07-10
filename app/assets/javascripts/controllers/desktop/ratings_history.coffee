@@ -90,7 +90,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 			if @scope.ratings.page is 1
 				@scope.article = response.article
 				@scope.ratings.totalItems = response.total
-			@scope.ratings.moreToLoad = (@scope.ratings.totalItems > @scope.ratings.length)
+			@scope.ratings.moreToLoad = (@scope.ratings.totalItems > @scope.ratings.data.length)
 			$('footer#main_footer_top, footer#main_footer_bottom').show() unless @scope.ratings.moreToLoad
 
 	getMyProfile: (callback=null) =>
