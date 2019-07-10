@@ -7,9 +7,13 @@
 	end
 %>
 
+<% if suggestions == false || show_ignore_btn == true %>
 <div class="pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
+<% else %>
+<div class="pb-2 bg-white h-100">
+<% end %>
 	<div class="card-img-top cover_photo">
-		<% if suggestions == false || show_ignore_btn == true %><a href="{{item.path}}"><% end %>
+		<% if suggestions == false || show_ignore_btn == true %><a href="{{item.path}}" class="w-100 h-100 d-block"><% end %>
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />
 		<% if suggestions == false || show_ignore_btn == true %></a><% end %>
 	</div>
@@ -68,7 +72,13 @@
 				<% if suggestions == false || show_ignore_btn == true %></a><% end %>
 			</small>
 		</h6>
+	</div>
 
+	<% if suggestions == false || show_ignore_btn == true %>
+		<div class="w-100 d-block bio_box bio_click" data-href="{{ item.path }}">
+	<% else %>
+		<div class="w-100 d-block bio_box">
+	<% end %>
 		<p class="card-text" ng-if="!item.isBlocked && !item.isBlockingMe">
 			<small>
 				<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>

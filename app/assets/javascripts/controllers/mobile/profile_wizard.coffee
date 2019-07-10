@@ -62,6 +62,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@http.get(url).then (exchanges) =>
 			angular.forEach exchanges.data.exchanges, (exchange) =>
 				@scope.user.selectedExchanges.push exchange.id
+			@scope.exchangesOk = true if @scope.user.selectedExchanges.length >= 3
 
 	searchForSuggestions: (query)=>
 		if query.length > 0
