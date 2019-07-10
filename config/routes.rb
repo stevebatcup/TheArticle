@@ -67,7 +67,8 @@ Rails.application.routes.draw do
   get 'mute-followed/:id',                     to: 'user_followings#mute'
 
   get 'my-home',                               to: 'front_page#index', as: :front_page
-  get 'ratings-history/:id',                   to: 'ratings_history#index', as: :ratings_history
+  get 'ratings-history/:id',                   to: 'ratings_history#show', as: :ratings_history
+  get 'ratings-history',                       to: 'ratings_history#index'
   get 'account-settings',                      to: 'account_settings#edit'
 
   get 'user_shares',                           to: 'user_shares#index'
