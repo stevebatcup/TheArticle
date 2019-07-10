@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   before_create :assign_default_profile_photo_id
   before_create :strip_whitespace
+  before_create :fix_double_names
   after_create :assign_default_settings
   before_save :downcase_username
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
@@ -68,6 +69,16 @@ class User < ApplicationRecord
     self.first_name = self.first_name.strip unless self.first_name.nil?
     self.last_name = self.last_name.strip unless self.last_name.nil?
     self.email = self.email.strip unless self.email.nil?
+  end
+
+  def fix_double_names
+    if self.first_name == self.last_name
+      words = self.first_name.split
+      if words.count > 1
+        self.first_name = words[0]
+        self.last_name = words.drop(1).join(" ")
+      end
+    end
   end
 
   def remember_me
