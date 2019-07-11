@@ -1,6 +1,22 @@
 class RatingsHistoryController < ApplicationController
 	def index
 		respond_to do |format|
+			@article = Article.find(params[:article_id])
+			format.json do
+				@page = (params[:page] || 1).to_i
+				if @page == 1
+					@total = @article.shares.where(share_type: 'rating').length
+				end
+				@ratings = @article.shares.where(share_type: 'rating')
+																		.order(created_at: :desc)
+																		.page(@page)
+																		.per(params[:per_page])
+			end
+		end
+	end
+
+	def show
+		respond_to do |format|
 			@article = Article.find(params[:id])
 			format.html do
 				unless browser.device.mobile?
@@ -11,16 +27,6 @@ class RatingsHistoryController < ApplicationController
 					@recent_articles = Article.recent
 					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				end
-			end
-			format.json do
-				@page = (params[:page] || 1).to_i
-				if @page == 1
-					@total = @article.shares.where(share_type: 'rating').length
-				end
-				@ratings = @article.shares.where(share_type: 'rating')
-																		.order(created_at: :desc)
-																		.page(@page)
-																		.per(params[:per_page])
 			end
 		end
 	end

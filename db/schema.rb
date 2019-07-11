@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_28_094824) do
+ActiveRecord::Schema.define(version: 2019_07_11_125937) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -293,6 +293,27 @@ ActiveRecord::Schema.define(version: 2019_06_28_094824) do
     t.datetime "publish_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "help_contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "section_id"
+    t.text "question"
+    t.text "answer"
+    t.integer "sort"
+    t.integer "top_question_sort"
+  end
+
+  create_table "help_feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "question_id"
+    t.string "outcome"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "help_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.integer "sort"
   end
 
   create_table "interaction_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

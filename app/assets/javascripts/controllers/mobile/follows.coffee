@@ -8,6 +8,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	  '$element'
 	  '$timeout'
 	  '$compile'
+	  '$sce'
 	]
 
 	init: ->

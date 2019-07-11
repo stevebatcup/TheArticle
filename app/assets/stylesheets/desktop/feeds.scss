@@ -378,6 +378,11 @@
 			font-size: 0.9em;
 		}
 
+		div.bio_box {
+			min-height: 114px;
+			padding: 0 1.25rem;
+		}
+
 		button.ignore_suggestion {
 			line-height: 0.9em !important;
 			cursor: pointer;
@@ -537,9 +542,14 @@
 
 			&.single {
 				width: 25px;
+				height: 25px;
 
 				img {
 					top: 2px;
+				}
+
+				& + p {
+					margin-left: 11px;
 				}
 			}
 
@@ -548,6 +558,10 @@
 
 				img {
 					top: 4px;
+				}
+
+				& + p {
+					margin-left: 4px;
 				}
 			}
 
@@ -572,7 +586,6 @@
 			line-height: 1.3em;
 			float: left;
 			width: 75%;
-			margin-left: 4px;
 			margin-bottom: 5px;
 			position: relative;
 			top: 5px;

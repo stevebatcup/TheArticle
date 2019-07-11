@@ -263,3 +263,18 @@ $contrast: 5%;
 		position: relative;
 	}
 }
+
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 320px) {
+	.member_ratings ul.dots li .dots .dot.feed, .member_ratings ul.dots li .dots .dot.panel {
+		width: 23px;
+		height: 23px;
+		margin-right: 3px;
+
+		.filled, .empty {
+			width: 11px;
+			height: 11px;
+		}
+	}
+}

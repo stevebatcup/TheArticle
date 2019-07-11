@@ -5,14 +5,16 @@ module ThirdPartyArticleService
 	class << self
 		def scrape_url(url, current_user)
 			standard_error_msg = "Unable to build preview"
-			bad_url_error_msg = "We're sorry but there is a problem sharing this URL. This might be, for example, because it is not an article URL or because the article's publication does not allow shares. Please press cancel to proceed."
+			bad_url_error_msg = "We're sorry but there is a problem sharing this URL. This might be, for example, because it is not an article URL or because the article's publication does not allow shares. Please press cancel to continue using the site."
 			begin
 				if url.include?('railstaging.thearticle.com')
 					conn = Faraday.new('http://railstaging.thearticle.com')
 					conn.basic_auth('londonbridge', 'B37ys0m2w')
 					response = conn.get URI.parse(url).request_uri
 				else
-					conn = Faraday.new(nil, { ssl: { verify: false }})
+					conn = faraday_with_default_adapter(nil, { ssl: { verify: false }}) do | connection |
+						connection.use FaradayMiddleware::FollowRedirects, limit: 1
+					end
 					response = conn.get(url)
 					response.body.force_encoding('utf-8')
 				end
@@ -142,6 +144,13 @@ module ThirdPartyArticleService
 				quarantined_share.rating_valid_points,
 				quarantined_share.rating_agree
 			)
+		end
+
+		def faraday_with_default_adapter(base, options={}, &block)
+			Faraday.new(base, options) { | connection |
+				yield connection
+				connection.adapter Faraday.default_adapter
+			}
 		end
 	end
 end

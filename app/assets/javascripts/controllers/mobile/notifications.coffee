@@ -10,6 +10,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
+	  '$sce'
 	  'Notification'
 	  'Share'
 	  'Comment'

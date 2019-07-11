@@ -195,7 +195,6 @@ class TheArticle.PageController extends TheArticle.NGController
 			@blockClick $clicked, e
 
 	blockClick: ($clicked, e) =>
-		console.log $clicked.prop('tagName')
 		$clickedTag = $clicked.prop('tagName')
 		$parent = $clicked.parent()
 		$parentTag = $parent.prop('tagName')

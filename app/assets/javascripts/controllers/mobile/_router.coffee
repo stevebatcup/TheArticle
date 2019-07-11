@@ -7,6 +7,7 @@ class TheArticle.Router extends TheArticle.MobilePageController
 	  '$http'
 	  '$timeout'
 	  '$interval'
+	  '$sce'
 	]
 
 	init: ->

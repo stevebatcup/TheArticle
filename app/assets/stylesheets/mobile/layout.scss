@@ -1003,3 +1003,15 @@ nav#suggestions_options {
 		}
 	}
 }
+
+.block_click,
+.slick-carousel-item {
+	&:focus,
+	&:hover,
+	&:active,
+	&:visited,
+	&:focus-within {
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}

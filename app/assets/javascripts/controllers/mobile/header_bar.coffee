@@ -151,6 +151,4 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		$event.preventDefault()
 		@rootScope.$broadcast 'unblock', { userId: userId, username: username }
 
-
-
 TheArticle.ControllerModule.controller('HeaderBarController', TheArticle.HeaderBar)

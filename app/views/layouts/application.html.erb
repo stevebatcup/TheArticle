@@ -46,7 +46,8 @@
               <a class="nav-link nav-icon py-2 pr-1 text-black pl-md-2 pl-lg-4" href="/notifications" id="nav_link_notifications">
                 <i class="fas fa-bell"></i>
                 <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
-                  {{notificationBadgeCount}}
+                  <span ng-if="notificationBadgeCount > 99">99+</span>
+                  <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
                 </span>
               </a>
             </li>
@@ -56,7 +57,7 @@
                 <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>">
                 <span class="display_name"><%= current_user.display_name %></span>
               </a>
-             <div class="dropdown-menu bg-light" id="my_profile_menu">
+             <div class="dropdown-menu bg-white" id="my_profile_menu">
                 <a class="dropdown-item py-2 bg-white" href="<%= front_page_path %>">
                  <i class="fas fa-home mr-2"></i>
                  Home

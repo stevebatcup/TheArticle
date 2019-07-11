@@ -198,6 +198,11 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			userId = $clicked.data('user')
 			window.location.href = "/profile-by-id/#{userId}"
 
+		$(document).on 'click', ".bio_click", (e) =>
+			$clicked = $(e.currentTarget)
+			url = $clicked.data('href')
+			window.location.href = url
+
 	denoteUploading: (element) =>
 		type = $(element).data('type')
 		@scope.profile.data["#{type}Photo"].uploading = true

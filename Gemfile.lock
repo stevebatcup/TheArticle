@@ -158,6 +158,8 @@ GEM
     execjs (2.7.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.13.1)
+      faraday (>= 0.7.4, < 1.0)
     fcm (0.0.6)
       httparty (~> 0.10, >= 0.10.0)
     ffi (1.9.25)
@@ -419,6 +421,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   exception_notification
+  faraday_middleware
   fcm
   fog-aws
   geocoder
