@@ -1,0 +1,180 @@
+section#help_centre {
+	a, a:hover, a:active {
+		outline: none;
+	}
+
+	.text {
+		background: transparent;
+	}
+
+	img#top_img {
+		width: 100%;
+		display: block;
+		margin-bottom: 25px;
+	}
+
+	#section_list {
+		width: 36%;
+		margin-right: 2%;
+		float: left;
+		padding-left: 1%;
+
+		li {
+			font-size: 1.3em;
+			margin: 0 0 10px;
+			a {
+				color: $grey_dark;
+
+				&:hover {
+					color: $green;
+				}
+
+				.text {
+					padding-left: 5%;
+				}
+				&.active {
+					font-size: 1.15em;
+					color: $green;
+				}
+			}
+
+		}
+	}
+
+	#faq {
+		width: 59%;
+		float: right;
+		padding-right: 1.5%;
+
+		h3 {
+			font-size: 1.3em;
+
+			&.section_title {
+				margin: 0 0 8px;
+			}
+
+			&.question_title {
+				margin: 15px 0;
+			}
+		}
+
+		h4 {
+			&.feedback_outcome {
+				font-size: 1.2em;
+				.text {
+					padding-left: 9px;
+				}
+			}
+		}
+
+		ul {
+			padding: 10px 0 0 3px;
+			margin: 0;
+
+			li.question {
+				list-style: none;
+				margin-bottom: 20px;
+
+				a {
+					display: block;
+					overflow: hidden;
+					color: $green;
+
+					i {
+						color: $grey_dark;
+						float: left;
+						height: 1.8em;
+					}
+
+					.text {
+						padding-left: 2%;
+						background: transparent;
+					}
+				}
+			}
+		}
+
+		.answer {
+			a {
+				color: $green;
+			}
+
+			ol, ul {
+				padding: 0 0 0 18px;
+
+				li {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
+		.feedback {
+			margin-top: 50px;
+
+			.icon.ion-checkmark-circled {
+				color: green;
+			}
+
+			.icon.ion-close-circled {
+				color: $red;
+			}
+
+			p.feedback_question,
+			a.feedback_answer {
+				font-weight: bold;
+				font-size: 1.2em;
+			}
+
+			a.feedback_answer {
+				clear: both;
+				color: $grey_dark;
+				margin-right: 50px;
+				text-transform: uppercase;
+
+				&:hover {
+					color: $green;
+				}
+			}
+		}
+	}
+
+	p.gdpr_intro {
+		margin: 1em;
+	}
+
+	#gdpr-accordion {
+		margin-top: 25px;
+
+		a.accordion-toggle {
+			font-size: 1.1em;
+			background: none;
+			margin: 0 0 10px;
+			color: $grey_dark;
+
+			&:hover {
+				color: $green;
+			}
+
+			&:after {
+				display: none;
+			}
+
+			.text {
+				padding-left: 5%;
+			}
+
+			&.active {
+				font-size: 1.45em;
+				color: $green;
+			}
+		}
+
+		.accordion-body {
+			display:none;
+
+			p {
+				margin-bottom: 1em;
+			}
+		}
+	}
+}
