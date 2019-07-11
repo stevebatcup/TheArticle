@@ -1,0 +1,64 @@
+<section id="help_centre" style="overflow: hidden" ng-controller="HelpCentreController">
+	<img src="<%= asset_url('help-phone.png') %>" alt="TheArticle Help" id="top_img" class="w-100" />
+	<div class="container">
+		<div id="section_list">
+	    <ul class="list-view single-line">
+		  	<% @sections.each do |section| %>
+		  		<li class="panel wide-label">
+		  			<a href='#' class='choose_section' data-section-id="<%= section.id %>">
+							<span class="text">> <%= section.title %></span>
+		  			</a>
+		  		</li>
+		  	<% end %>
+		  </ul>
+		</div>
+
+		<div id="faq">
+			<% @sections.each do |section| %>
+				<div class="question_list" style="display: none;" id="question_list_<%= section.id %>">
+					<a class="back" href='#' data-reset='1'><i class="fas fa-chevron-left"></i> Back</a>
+					<h4 class="section_title"><%= section.title %></h4>
+					<ul class="list-view single-line">
+						<% section.help_contents.each do |item| %>
+							<li class="panel question">
+								<a href='#' class='choose_question' data-question-id="<%= item.id %>">
+									<span class="text"><%= item.question %></span>
+								</a>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+
+				<div class="answers">
+					<% section.help_contents.each do |item| %>
+						<div class='answer' id="answer_<%= item.id %>" style="display: none;">
+							<a class="back" href='#' data-back-to='<%= section.id %>'><i class="fas fa-chevron-left"></i> Back</a>
+							<h4 class="question_title"><%= item.question %></h4>
+							<p><%= item.answer.html_safe %></p>
+
+							<div class="feedback">
+								<p class="feedback_question">Did that answer your question?</p>
+								<a href='#' class="feedback_answer" data-feedback-id="<%= item.id %>" data-feedback-outcome='yes'>
+									<span class="text">Yes</span>
+									<i class="ionicon ion-checkmark-circled"></i>
+								</a>
+								<a href='#' class="feedback_answer" data-feedback-id="<%= item.id %>" data-feedback-outcome='no'>
+									<span class="text">No</span>
+									<i class="ionicon ion-close-circled"></i>
+								</a>
+							</div>
+
+							<div class="feedback" data-outcome-show='yes'>
+								Great, we're happy to help!
+							</div>
+
+							<div class="feedback" data-outcome-show='no'>
+								<a href='/contact-us?question=<%= item.id %>'>Please click here to contact our Customer Care team</a>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</section>

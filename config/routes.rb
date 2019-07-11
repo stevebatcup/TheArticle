@@ -157,6 +157,9 @@ Rails.application.routes.draw do
   post "mailchimp-callback", to: 'mailchimp_callbacks#update'
   get "mailchimp-callback", to: 'mailchimp_callbacks#show'
 
+  get "help", to: 'help_centre#index'
+  get "help-feedback/:question_id/:outcome", to: 'help_feedback#new'
+
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
