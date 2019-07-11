@@ -1,0 +1,2 @@
+class HelpFeedback < ApplicationRecord
+end
