@@ -66,7 +66,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 			@scope.exchangesOk = true if @scope.user.selectedExchanges.length >= 3
 
 	searchForSuggestions: (query)=>
-		if query.length > 0
+		if query.length > 1
 			@scope.suggestionSearch.error = ""
 			@http.get("/suggestion-search?query=#{query}&from_wizard=1").then (response) =>
 				@scope.followSuggestions = []
