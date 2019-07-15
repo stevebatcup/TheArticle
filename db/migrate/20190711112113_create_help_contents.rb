@@ -1,7 +1,7 @@
 class CreateHelpContents < ActiveRecord::Migration[5.2]
   def change
     create_table :help_contents do |t|
-      t.integer :section_id
+      t.integer :help_section_id
       t.text :question
       t.text :answer
       t.integer :sort

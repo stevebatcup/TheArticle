@@ -296,7 +296,7 @@ ActiveRecord::Schema.define(version: 2019_07_11_125937) do
   end
 
   create_table "help_contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "section_id"
+    t.integer "help_section_id"
     t.text "question"
     t.text "answer"
     t.integer "sort"
