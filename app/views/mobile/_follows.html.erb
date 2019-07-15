@@ -64,10 +64,10 @@
 				role="tabpanel"
 				aria-labelledby="follows-sub-tab-connections">
 
-				<div class="ajax_loading suggestions pb-5 h-100" ng-if="!follows.loaded">
+				<div class="ajax_loading suggestions pb-5 h-100" ng-if="!follows.connectionsLoaded">
 				Loading <span>results</span>...</div>
 
-				<p class="empty px-3 py-2" ng-if="follows.data.connections.length == 0 && follows.loaded">
+				<p class="empty px-3 py-2" ng-if="follows.data.connections.length == 0 && follows.connectionsLoaded">
 					You currently have no connections
 				</p>
 				<div ng-repeat="item in follows.data.connections" class="feed-listing bg-white">
