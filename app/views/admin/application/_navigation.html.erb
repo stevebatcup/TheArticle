@@ -51,6 +51,9 @@ as defined by the routes in the `admin/` namespace
 		<li>
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/white_listed_third_party_publishers') %>" href="/admin/white_listed_third_party_publishers">Publication whitelist</a>
 		</li>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/help_sections') %>" href="/admin/help_sections">Help centre</a>
+		</li>
 	</ul>
 
 	<h3>Logs</h3>

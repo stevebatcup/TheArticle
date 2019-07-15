@@ -1,3 +1,3 @@
 class HelpSection < ApplicationRecord
-	has_many	:help_contents, foreign_key: :section_id
+	has_many	:help_contents
 end
