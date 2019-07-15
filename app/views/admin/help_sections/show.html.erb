@@ -1,0 +1,46 @@
+<%#
+# Show
+
+This view is the template for the show page.
+It renders the attributes of a resource,
+as well as a link to its edit page.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Show][1].
+  Contains methods for accessing the resource to be displayed on the page,
+  as well as helpers for describing how each attribute of the resource
+  should be displayed.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
+%>
+
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    Help centre section details: <%= page.page_title %>
+  </h1>
+
+  <div>
+    <a class="button" href="/admin/help_contents/new?section=<%= page.resource.id %>">Add a new question to section</a>
+  </div>
+
+  <div class="ml-3">
+    <%= link_to(
+      "Edit section details",
+      [:edit, namespace, page.resource],
+      class: "button",
+    ) if valid_action?(:edit) && show_action?(:edit, page.resource) %>
+  </div>
+</header>
+
+<section class="main-content__body">
+  <dl>
+    <% page.attributes.each do |attribute| %>
+      <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
+          ><%= render_field attribute, page: page %></dd>
+    <% end %>
+  </dl>
+</section>

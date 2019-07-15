@@ -367,4 +367,10 @@ class User < ApplicationRecord
           .limit(limit)
   end
 
+  def set_all_notifications_as_old
+    self.notifications.where(is_new: true).each do |notification|
+      notification.update_attribute(:is_new, false)
+    end
+  end
+
 end

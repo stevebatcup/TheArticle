@@ -23,6 +23,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 			loaded: false
 			totalItems: 0
 			moreToLoad: false
+			connectionsLoaded: false
 			data:
 				followings: []
 				followers: []
@@ -73,6 +74,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 		angular.forEach @scope.follows.data.followers, (item) =>
 			results.push(item) if item.isConnected
 		@scope.follows.data.connections = results
+		@scope.follows.connectionsLoaded = true
 
 	buildAlsoKnowsMes: =>
 		results = []
