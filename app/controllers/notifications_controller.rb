@@ -11,6 +11,7 @@ class NotificationsController < ApplicationController
 				@contributors_for_spotlight = Author.contributors_for_spotlight(3)
 				@recent_articles = Article.recent
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
+				current_user.set_all_notifications_as_old
 			end
 			format.json do
 				if params[:count]
