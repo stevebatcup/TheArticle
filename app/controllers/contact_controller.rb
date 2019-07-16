@@ -3,7 +3,7 @@ class ContactController < ApplicationController
 	end
 
 	def create
-		is_banned = ["bitcoin", "cryptocurrency"].any? do |banned_word|
+		is_banned = banned_words.any? do |banned_word|
 			params[:message].downcase.include?(banned_word) || params[:subject].downcase.include?(banned_word)
 		end
 		if is_banned
@@ -12,5 +12,33 @@ class ContactController < ApplicationController
 			ContactMailer.contact(params).deliver_now
 			render json: { status: 'success' }
 		end
+	end
+
+private
+
+	def banned_words
+		[
+			"bitcoin",
+			"cryptocurrency",
+			"sex",
+			"sexy",
+			"beautiful girls",
+			"д",
+			"й",
+			"я",
+			"п",
+			"ц",
+			"и",
+			"л",
+			"л",
+			"Д",
+			"ю",
+			"ж",
+			"б",
+			"ы",
+			"д",
+			"ф",
+			"ч"
+		]
 	end
 end
