@@ -196,7 +196,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 		# Broadcast from FollowsController
 		@scope.$on 'follows_panel_close', =>
-			$('#main_footer_top, #member_options').show()
+			$('#main_footer_top, #member_options, #ads_top').show()
 			@scope.mode = 'view'
 
 		$(document).on 'keyup', 'input#user_location', (e) =>
@@ -470,7 +470,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'
-		$('#main_footer_top, #member_options').hide()
+		$('#main_footer_top, #member_options, #ads_top').hide()
 		@timeout =>
 			$("#follows-sub-tab-#{tab}").click()
 			@rootScope.$broadcast('follows_panel_open', tab)
