@@ -11,7 +11,8 @@
 
   <main id="panel_for_side_menu">
     <div id="content">
-      <header id="main_header" ng-controller="HeaderBarController" ng-cloak>
+      <% unless request.headers["X-MobileApp"] %>
+        <header id="main_header" ng-controller="HeaderBarController" ng-cloak>
         <div class="container">
 
           <!-- Non tabbed app page header -->
@@ -58,9 +59,9 @@
 
           </div>
         </div>
-      </header>
+        </header>
 
-      <nav id="member_options" ng-show="!appPage" ng-cloak>
+        <nav id="member_options" ng-show="!appPage" ng-cloak>
         <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
           <li class="nav-item">
             <a class="nav-link active" id="front-page-tab" data-toggle="tab" href="#content-front-page">
@@ -92,7 +93,8 @@
             </a>
           </li>
         </ul>
-      </nav>
+        </nav>
+      <% end %>
 
       <%= render 'common/search-box' %>
 
