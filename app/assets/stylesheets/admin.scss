@@ -134,3 +134,13 @@ dd.attribute-data--image-field {
 		padding: 0.5em;
 	}
 }
+
+.field-unit--text {
+	.field-unit__field {
+		height: 10em;
+
+		textarea {
+			height: 100%;
+		}
+	}
+}

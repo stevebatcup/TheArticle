@@ -11,7 +11,7 @@ class HelpContentDashboard < Administrate::BaseDashboard
     help_section: Field::BelongsTo,
     id: Field::Number,
     section_id: Field::Number,
-    question: Field::Text,
+    question: Field::String,
     answer: Field::Text,
     sort: Field::Number,
     top_question_sort: Field::Number,
