@@ -4,7 +4,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 	bindEvents: =>
 		@bindCookieAcceptance()
-		@bindSideMenu() if $('mobile_side_menu').length
+		@bindSideMenu() if $('#mobile_side_menu').length
 		@bindContactForm()
 		@bindBlockClicks()
 		setTimeout @bindCarousels, 800
