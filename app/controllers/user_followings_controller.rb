@@ -80,6 +80,7 @@ class UserFollowingsController < ApplicationController
 
 		other_user = User.find(params[:id])
 		if current_user.followings.where(followed_id: params[:id]).first.destroy
+			other_user.delete_followed_mail_item_if_any(current_user)
 			flash[:notice] = "You are no longer following <b>#{other_user.display_name}</b>" if params[:set_flash]
 			@status = :success
 		else

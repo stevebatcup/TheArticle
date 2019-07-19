@@ -88,6 +88,16 @@ module User::Followable
     end
   end
 
+  def delete_followed_mail_item_if_any(follower)
+    if dmi = DailyUserMailItem.find_by(user_id: self.id, action_type: 'follow', action_id: follower.id)
+      dmi.destroy
+    end
+
+    if wmi = WeeklyUserMailItem.find_by(user_id: self.id, action_type: 'follow', action_id: follower.id)
+      wmi.destroy
+    end
+  end
+
   def send_weekly_follows_mail
     followers = []
     follow_items = WeeklyUserMailItem.where(user_id: self.id, action_type: "follow").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)")
