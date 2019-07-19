@@ -623,7 +623,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 				, false, true, =>
 					@timeout =>
 						@scope.profile.data.imFollowing = false
-					, 750
+					, 550
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 
@@ -648,7 +648,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						@scope.profile.follows.followings.push member
 					else
 						@buildFollowersImFollowingCount()
-				, false
+				, false, false, =>
+					@timeout =>
+						member.imFollowing = false
+					, 550
 		else
 			@requiresSignIn("follow #{member.displayName}")
 

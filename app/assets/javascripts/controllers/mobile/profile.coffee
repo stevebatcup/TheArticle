@@ -464,7 +464,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				, false, true, =>
 					@timeout =>
 						@scope.profile.data.imFollowing = false
-					, 750
+					, 550
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 

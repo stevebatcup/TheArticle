@@ -255,21 +255,25 @@ class User < ApplicationRecord
   end
 
   def clear_user_data(deleting_account=false)
-    self.notifications.destroy_all
     self.followings.destroy_all
     self.fandoms.destroy_all
     self.shares.destroy_all
     self.comments.destroy_all
-    self.feeds.destroy_all
     self.opinions.destroy_all
     self.quarantined_third_party_shares.destroy_all
     ProfileSuggestion.delete_suggested(self)
     if deleting_account
+      self.notifications.destroy_all
+      self.feed_users.destroy_all
+      self.feeds.destroy_all
       self.profile_suggestions.destroy_all
       self.subscriptions.destroy_all
       self.mutes.destroy_all
       self.blocks.destroy_all
       self.search_logs.destroy_all
+    else
+      self.feed_users.where.not(action_type: 'categorisation').destroy_all
+      self.notifications.where.not(eventable_type: 'Categorisation').destroy_all
     end
   end
 

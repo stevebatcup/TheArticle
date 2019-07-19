@@ -41,7 +41,10 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 				@scope.populars = _.filter @scope.populars, (item) =>
 					item.id isnt member.id
 			, 750
-		, true
+		, true, false, =>
+			@timeout =>
+				member.imFollowing = false
+			, 550
 
 	ignoreSuggestion: (member, $event) =>
 		$event.preventDefault()

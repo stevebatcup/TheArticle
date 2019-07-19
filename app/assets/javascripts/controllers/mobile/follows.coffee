@@ -8,6 +8,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	  '$element'
 	  '$timeout'
 	  '$compile'
+	  '$ngConfirm'
 	  '$sce'
 	]
 
@@ -108,7 +109,10 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 
 				followerItem.isConnected = true if followerItem
 				@buildConnections()
-			, false
+			, false, false, =>
+					@timeout =>
+						member.imFollowing = false
+					, 550
 
 	setPanelTab: (tab) =>
 		@scope.panelTab = tab
