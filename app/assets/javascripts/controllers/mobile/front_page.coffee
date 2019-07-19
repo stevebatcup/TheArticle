@@ -194,9 +194,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					@scope.sponsoredPicks = response.sponsoredPicks
 					@scope.trendingExchanges = response.trendingExchanges
 					@scope.userExchanges = response.userExchanges
-					@getFeeds('posts', true)
+					@getFeeds('posts', true) unless @rootScope.profileDeactivated
 				else if section is 'posts'
-					@getFeeds('follows', true)
+					@getFeeds('follows', true) unless @rootScope.profileDeactivated
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 

@@ -125,6 +125,7 @@
 		</section>
 
 		<section class="col-md-12 col-lg-6" id="feed">
+		  <% unless current_user.profile_is_deactivated? %>
 			<ul class="bg-white nav nav-tabs nav-fill d-flex mt-3" id="home_feed_tabs">
 			  <li class="nav-item">
 			    <a id="activity-articles-tab" class="nav-link active"
@@ -151,6 +152,7 @@
 			    </a>
 			  </li>
 			</ul>
+		  <% end %>
 
 			<div class="container" id="activity-tabs">
 				<div class="mb-2 mt-3 px-3 py-3 results_block row feed-listing feed-third-party d-flex align-items-start justify-content-between">
