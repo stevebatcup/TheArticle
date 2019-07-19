@@ -1,4 +1,7 @@
-<section ng-controller="RatingsHistoryController" class="container front-page" data-article-id="<%= @article.id %>">
+<section ng-controller="RatingsHistoryController"
+					class="container front-page"
+					data-article-id="<%= @article.id %>"
+					data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>">
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">
