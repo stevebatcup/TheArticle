@@ -323,13 +323,10 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('interact with this post')
-		else if item.canInteract is 'not_followed'
-			item.actionAuthError = 'not_followed'
-		else if item.canInteract is 'not_following'
-			item.actionAuthError = 'not_following'
-			item.actionForRetry = 'agree'
-		else if item.canInteract isnt 'yes'
-			item.actionAuthError = 'not_connected'
+		else if @rootScope.profileDeactivated
+			@confirm "You must reactivate your profile in order to agree with this post", =>
+				window.location.href = "/account-settings?reactivate=1"
+			, null, "Error interacting with user", ['Cancel', 'Reactivate']
 		else
 			if !item.share.opinionsLoaded
 				@loadOpinions item, =>
@@ -404,13 +401,10 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
 			@requiresSignIn('interact with this post')
-		else if item.canInteract is 'not_followed'
-			item.actionAuthError = 'not_followed'
-		else if item.canInteract is 'not_following'
-			item.actionAuthError = 'not_following'
-			item.actionForRetry = 'disagree'
-		else if item.canInteract isnt 'yes'
-			item.actionAuthError = 'not_connected'
+		else if @rootScope.profileDeactivated
+			@confirm "You must reactivate your profile in order to disagree with this post", =>
+				window.location.href = "/account-settings?reactivate=1"
+			, null, "Error interacting with user", ['Cancel', 'Reactivate']
 		else
 			if !item.share.opinionsLoaded
 				@loadOpinions item, =>
