@@ -314,7 +314,7 @@
 </script>
 <% end %>
 
-<% if !user_signed_in? && !cookies[:shown_registration_interstitial] %>
+<% if !user_signed_in? && !cookies[:shown_registration_interstitial] && !request.headers["X-MobileApp"] %>
 	<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
 	<script id="registerInterstitial" type="script/x-mustache">
 	  <%= render partial: 'promotional/register_modal' %>
