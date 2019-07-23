@@ -47,9 +47,13 @@
 			border-right: 1px solid rgba(0, 0, 0, 0.125);
 			background: #fff;
 
-			.respond {
+			.respond,
+			.comment_respond {
 				padding: 23px 35px;
-				background: #dfdfdf;
+
+				&.with_form {
+					background: #dfdfdf;
+				}
 
 				img {
 					width: 45px;
