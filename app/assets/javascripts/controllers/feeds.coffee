@@ -184,14 +184,20 @@ class TheArticle.Feeds extends TheArticle.PageController
 		item.share.commentsLoaded = false
 		@showComments(null, item)
 
+	renderCommentForm: (item, focusTextBox) =>
+		@timeout =>
+			tpl = angular.element("#commentForm").html()
+			element = angular.element(".respond[data-share-id=#{item.share.id}]")
+			element.html tpl
+			element.find('textarea.comment_textarea').focus() if focusTextBox
+			@scope.commentFormItem = item
+			@compile(element.contents())(@scope)
+		, 5
+
 	showCommentsSuccess: (item, focusTextBox, $event=null) =>
 		item.share.showComments = true
 		item.share.showAgrees = false
 		item.share.showDisagrees = false
-		if focusTextBox and (@scope.isSignedIn is true)
-			@timeout =>
-				$($event.target).closest('.feed-share').find('textarea.comment_textarea').focus()
-			, 500
 		if $event?
 			$target = $($event.currentTarget)
 			if $target.closest('.modal').length > 0
@@ -200,6 +206,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 					pos = $modalBody.scrollTop()
 					$modalBody.scrollTop pos + 160
 				, 200
+		@renderCommentForm(item, focusTextBox and (@scope.isSignedIn is true))
 
 	showAllComments: ($event, item) =>
 		$event.preventDefault()
@@ -209,18 +216,19 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault()
 		comment.data.replyShowLimit = 0
 
-	cancelReply: ($event, shareId) =>
+	cancelReply: ($event, item) =>
 		$event.preventDefault()
+		@scope.commentFormItem = {}
 		$commentsPane = $($event.target).closest('.comments_pane')
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
 			replyingToReply: false
-		$replyBox = $(".respond[data-share-id=#{shareId}]", $commentsPane)
+		$replyBox = angular.element(".respond[data-share-id=#{item.share.id}]", $commentsPane)
 		$replyBox.find('a.cancel_reply', $replyBox).hide()
-		$replyBox.find('textarea').attr('placeholder', 'Add your Comment')
 		$replyBox.data('comment-id', 0).attr('data-comment-id', 0)
-		$replyBox.detach().prependTo $('.respond_box', $commentsPane)
+		$replyBox.html('')
+		@renderCommentForm(item)
 
 	postComment: ($event, post) =>
 		$event.preventDefault()
@@ -274,7 +282,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 				@scope.postingComment = false
 				@scope.commentPostButton = "Post Comment"
 				if responseComment.status is 'success'
-					@cancelReply $event, post.share.id
+					@cancelReply $event, post
 					comment.id = responseComment.id
 					@scope.commentForSubmission.value = ''
 				else

@@ -59,6 +59,8 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	bindEvents: =>
 		super
 		@bindScrollEvent()
