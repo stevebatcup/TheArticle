@@ -62,14 +62,15 @@ input#suggestion_search {
 
 	&.feed-share {
 		.comments_pane {
-			// border-left: 1px solid $grey;
-			// border-bottom: 1px solid $grey;
-			// border-right: 1px solid $grey;
 			background: #fff;
 
-			.respond {
+			.respond,
+			.comment_respond {
 				padding: 15px 20px;
-				background: #dfdfdf;
+
+				&.with_form {
+					background: #dfdfdf;
+				}
 
 				img {
 					width: 45px;
