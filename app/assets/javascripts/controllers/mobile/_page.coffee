@@ -124,6 +124,8 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		statusbar: false
 		menubar: false
 		toolbar: false
+		setup: (editor) =>
+			@scope.currentTinyMceEditor = editor
 		init_instance_callback: (ed) =>
 			ed.on 'focus', (e) =>
 				ed.theme.resizeTo('100%', 144)
