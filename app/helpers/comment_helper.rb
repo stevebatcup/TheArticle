@@ -80,7 +80,7 @@ module CommentHelper
 	    displayName: comment.user.display_name,
 			username: comment.user.username,
 			photo: comment.user.profile_photo.url(:square),
-			body: comment.body,
+			body: remote_linkify(comment.body.html_safe, request.base_url),
 			timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
 			timeHuman: comment.created_at.strftime("%e %b"),
 	    replyShowLimit: Comment.show_reply_limit,

@@ -5,7 +5,11 @@
 	<p class="d-none"><%= description %></p>
 <% end %>
 
-<section ng-controller="ProfileController" class="container show-profile" data-user-id="<%= @user.id %>" data-fixed-profile-nav=1 ng-cloak>
+<section ng-controller="ProfileController" class="container show-profile"
+					data-user-id="<%= @user.id %>"
+					data-fixed-profile-nav=1
+					data-tinymce-content-css-url='<%= asset_url("desktop/tinymce-content.css") %>'
+					ng-cloak>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
 			<p>{{profile.loadError}}</p>

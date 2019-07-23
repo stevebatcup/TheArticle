@@ -103,10 +103,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@updateMyFollowCounts()
 		, 10000
 
-		@scope.thirdPartyUrl =
-			value: ''
-			building: false
-		@scope.thirdPartyTinymceOptions = @setThirdPartyTinyMceOptions()
+		@scope.tinymceOptions = @setTinyMceOptions()
 
 	bindEvents: =>
 		super
