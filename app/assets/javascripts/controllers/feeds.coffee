@@ -52,21 +52,33 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			"#{count} #{multipleOrZero}"
 
-	replyToComment: ($event, comment, parentComment, replyingToReply=false) =>
+	replyToComment: ($event, comment, parentComment, replyingToReply=false, item) =>
 		$event.preventDefault()
-		$commentsPane = $($event.target).closest('.comments_pane')
+		$commentsPane = angular.element($event.target).closest('.comments_pane')
+
 		@scope.replyingToComment =
 			comment: comment
 			parentComment: parentComment.data
 			replyingToReply: replyingToReply
-		$commentBox = $(".comment-item[data-comment-id=#{comment.data.id}]", $commentsPane)
-		$replyBox = $commentsPane.find('.respond')
-		$replyBox.find('a.cancel_reply', $replyBox).show()
-		$textarea = $replyBox.find('textarea')
-		$textarea.attr('placeholder', 'Reply to Comment')
-		$replyBox.data('comment-id', comment.data.id).attr('data-comment-id', comment.data.id)
-		$replyBox.detach().insertAfter($commentBox)
-		$textarea.focus()
+
+		$mainCommentBox = angular.element(".respond[data-share-id=#{item.share.id}]", $commentsPane)
+		$mainCommentBox.removeClass('with_form').html('')
+
+		$commentBox = angular.element(".comment-item[data-comment-id=#{comment.data.id}]", $commentsPane)
+
+		tpl = angular.element("#commentForm").html()
+		$commentRespond = angular.element(".comment_respond", $commentBox)
+		$commentRespond.data('comment-id', comment.data.id).attr('data-comment-id', comment.data.id)
+		$commentRespond.html tpl
+		$commentRespond.addClass('with_form')
+		$commentRespond.find('textarea.comment_textarea').attr('placeholder', 'Reply to Comment').focus()
+		$commentRespond.find('a.cancel_reply').show()
+		@scope.commentFormItem = item
+		@scope.commentPostButton = "Reply"
+		@compile($commentRespond.contents())(@scope)
+		@timeout =>
+			tinymce.execCommand('mceFocus', false, @scope.currentTinyMceEditor.id)
+		, 800
 
 	filterCommentsByLimit: (item) =>
 		if item.share.commentShowLimit > 0
@@ -197,14 +209,16 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@showComments(null, item)
 
 	renderCommentForm: (item, focusTextBox) =>
-		@timeout =>
-			tpl = angular.element("#commentForm").html()
-			element = angular.element(".respond[data-share-id=#{item.share.id}]")
-			element.html tpl
-			element.find('textarea.comment_textarea').focus() if focusTextBox
-			@scope.commentFormItem = item
-			@compile(element.contents())(@scope)
-		, 5
+		tpl = angular.element("#commentForm").html()
+		element = angular.element(".respond[data-share-id=#{item.share.id}]")
+		element.html tpl
+		element.addClass('with_form')
+		@scope.commentFormItem = item
+		@compile(element.contents())(@scope)
+		if focusTextBox
+			@timeout =>
+				tinymce.execCommand('mceFocus', false, @scope.currentTinyMceEditor.id)
+			, 800
 
 	showCommentsSuccess: (item, focusTextBox, $event=null) =>
 		item.share.showComments = true
@@ -236,10 +250,13 @@ class TheArticle.Feeds extends TheArticle.PageController
 			comment: {}
 			parentComment: {}
 			replyingToReply: false
-		$replyBox = angular.element(".respond[data-share-id=#{item.share.id}]", $commentsPane)
+		if angular.element(".respond[data-share-id=#{item.share.id}] form", $commentsPane).length
+			$replyBox = angular.element(".respond[data-share-id=#{item.share.id}]", $commentsPane)
+		else
+			$replyBox = angular.element(".comment_respond[data-share-id=#{item.share.id}]", $commentsPane)
 		$replyBox.find('a.cancel_reply', $replyBox).hide()
 		$replyBox.data('comment-id', 0).attr('data-comment-id', 0)
-		$replyBox.html('')
+		$replyBox.removeClass('with_form').html('')
 		@renderCommentForm(item)
 
 	postComment: ($event, post) =>
@@ -247,7 +264,11 @@ class TheArticle.Feeds extends TheArticle.PageController
 		@scope.postingComment = true
 		@scope.commentPostButton = "Posting..."
 		$commentsPane = $($event.target).closest('.comments_pane')
-		$replyBox = $(".respond[data-share-id=#{post.share.id}]", $commentsPane)
+		if angular.element(".respond[data-share-id=#{post.share.id}] form", $commentsPane).length
+			$replyBox = angular.element(".respond[data-share-id=#{post.share.id}]", $commentsPane)
+		else
+			$replyBox = angular.element(".comment_respond[data-share-id=#{post.share.id}].with_form", $commentsPane)
+
 		replyingToCommentId = Number($replyBox.data('comment-id'))
 		replyingToUsername = if @scope.replyingToComment.replyingToReply then @scope.replyingToComment.comment.data.username else ''
 		parentId = if 'id' of @scope.replyingToComment.parentComment then @scope.replyingToComment.parentComment.id else 0

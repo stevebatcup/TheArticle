@@ -26,12 +26,16 @@
   </div>
 
   <div class="reply_area pl-5" ng-if="(item.canInteract == 'yes') && (child.data.userId != <%= user_signed_in? ? current_user.id : 0 %>)">
-    <a href='#' class="reply text-green" ng-click="replyToComment($event, child, comment, true)">
+    <a href='#' class="reply text-green" ng-click="replyToComment($event, child, comment, true, item)">
       Reply
     </a>
 
     <a href='#' class="delete text-red pl-3" ng-click="deleteOthersComment($event, item, child, comment)" ng-if="item.share.user.id == <%= user_signed_in? ? current_user.id : 0 %>">
       Delete
     </a>
+  </div>
+
+  <div class="comment_respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
+    <!-- -->
   </div>
 </div>
