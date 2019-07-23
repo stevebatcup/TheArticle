@@ -148,6 +148,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			@getProfile id, @getProfileCallback
 			@getMyProfile null, true
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	detectPanelOpeners: =>
 		if @getVars['panel'] is 'edit_profile'
 			@timeout =>

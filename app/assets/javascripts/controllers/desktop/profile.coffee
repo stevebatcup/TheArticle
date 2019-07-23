@@ -155,6 +155,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@getProfile id, @getProfileCallback
 			@getMyProfile null, true
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	getProfileCallback: =>
 		@getUserExchanges()
 		@getFollows()
