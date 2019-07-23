@@ -1,4 +1,6 @@
 class RatingsHistoryController < ApplicationController
+	before_action :authenticate_user!
+
 	def index
 		respond_to do |format|
 			@article = Article.find(params[:article_id])

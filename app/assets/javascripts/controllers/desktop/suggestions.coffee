@@ -75,13 +75,19 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 			@followSuggestion member.id, =>
 				@flash "You are now following <b>#{member.displayName}</b>"
 				@rootScope.$broadcast 'update_follows_from_suggestions', { action: 'follow' }
+			, =>
+				@timeout =>
+					member.imFollowing = false
+				, 550
 
-	followSuggestion: (userId, callback) =>
+	followSuggestion: (userId, callback, errorCallback=null) =>
 		@http.post("/user_followings", {id: userId, from_suggestion: true}).then (response) =>
 			if response.data.status is 'success'
 				callback.call(@)
 			else if response.data.status is 'error'
 				@alert response.data.message, "Error following user"
+				errorCallback.call(@) if errorCallback?
+
 
 	unfollowSuggestion: (userId, callback) =>
 		@http.delete("/user_followings/#{userId}").then (response) =>

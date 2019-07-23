@@ -1,150 +1,154 @@
 <%= render 'layouts/head' %>
 
-<%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
+<% unless request.headers["X-MobileApp"] %>
+  <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
 
-<main id="panel_for_side_menu">
+  <main id="panel_for_side_menu">
+<% end %>
 
 <!-- Page Content -->
 <div id="content">
-  <header id="main_header" ng-controller="HeaderBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+  <% unless request.headers["X-MobileApp"] %>
+    <header id="main_header" ng-controller="HeaderBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+      <div class="container bg-grey" ng-if="appPage" ng-cloak>
+        <div class="app_page_heading py-1">
+          <div class="d-flex justify-content-between">
+            <div ng-if="showBackPage" class="with_back">
+              <h4 class="pt-2">
+                <a ng-click="backPage($event)" href='#' class="text-black">
+                  <i class="fas fa-chevron-left backer mr-2"></i>
+                  {{appPageTitle}}
+                </a>
+              </h4>
+              <h6>{{ username }}</h6>
+            </div>
 
-    <div class="container bg-grey" ng-if="appPage" ng-cloak>
-      <div class="app_page_heading py-1">
-        <div class="d-flex justify-content-between">
-          <div ng-if="showBackPage" class="with_back">
-            <h4 class="pt-2">
-              <a ng-click="backPage($event)" href='#' class="text-black">
-                <i class="fas fa-chevron-left backer mr-2"></i>
-                {{appPageTitle}}
-              </a>
-            </h4>
-            <h6>{{ username }}</h6>
+            <div ng-if="!showBackPage">
+              <h4 class="pt-2" ng-if="!showBackPage">{{appPageTitle}}</h4>
+              <h6>{{ username }}</h6>
+            </div>
+
+            <a ng-click="openFrontPage()" href='#' class="d-block pt-2 text-green" id="close_app_page">
+              <i class="fas fa-times text-green"></i>
+            </a>
           </div>
-
-          <div ng-if="!showBackPage">
-            <h4 class="pt-2" ng-if="!showBackPage">{{appPageTitle}}</h4>
-            <h6>{{ username }}</h6>
-          </div>
-
-          <a ng-click="openFrontPage()" href='#' class="d-block pt-2 text-green" id="close_app_page">
-            <i class="fas fa-times text-green"></i>
-          </a>
         </div>
       </div>
-    </div>
 
-    <div class="container" ng-if="!appPage" ng-cloak>
-      <div class="row">
+      <div class="container" ng-if="!appPage" ng-cloak>
+        <div class="row">
 
-        <div class="col-3 align-items-center">
-          <a id="sidebarCollapse" class="text-black" href='#'>
-            <i class="fas fa-align-left" aria-hidden="true"></i>
-          </a>
-         </div>
+          <div class="col-3 align-items-center">
+            <a id="sidebarCollapse" class="text-black" href='#'>
+              <i class="fas fa-align-left" aria-hidden="true"></i>
+            </a>
+           </div>
 
-        <div id="logo" class="col-6 d-flex justify-content-center">
-          <a href="/?<%= 'force_home=1' if user_signed_in? %>">
-            <span class="text-hide">TheArticle</span>
-          </a>
-        </div>
+          <div id="logo" class="col-6 d-flex justify-content-center">
+            <a href="/?<%= 'force_home=1' if user_signed_in? %>">
+              <span class="text-hide">TheArticle</span>
+            </a>
+          </div>
 
-        <div class="col-3 align-items-center d-flex justify-content-end">
-          <% if user_signed_in? %>
-            <div ng-if="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
-              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-                <i class="fas fa-cog" aria-hidden="true"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
-                <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
-                <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+          <div class="col-3 align-items-center d-flex justify-content-end">
+            <% if user_signed_in? %>
+              <div ng-if="myProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+                <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#" ng-click="editProfile()">Edit profile</a>
+                  <a class="dropdown-item" href="#" ng-click="editProfilePhoto()">Edit profile photo</a>
+                  <a class="dropdown-item" href="#" ng-click="editCoverPhoto()">Edit cover photo</a>
+                </div>
               </div>
-            </div>
 
-            <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
-              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-                <i class="fas fa-cog" aria-hidden="true"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
-                      ng-if="!profileDataForHeader.imFollowing">
-                    Follow
-                </a>
-                <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
-                      ng-if="profileDataForHeader.imFollowing">
-                    Unfollow
-                </a>
+              <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+                <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
+                        ng-if="!profileDataForHeader.imFollowing">
+                      Follow
+                  </a>
+                  <a class="dropdown-item" href="#" ng-click="toggleFollowUser(profileDataForHeader.id)"
+                        ng-if="profileDataForHeader.imFollowing">
+                      Unfollow
+                  </a>
 
-                <a class="dropdown-item" href="#" ng-click="mute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="(!profileDataForHeader.isMuted) && (profileDataForHeader.imFollowing)">Mute</a>
-                <a class="dropdown-item" href="#" ng-click="unmute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isMuted">Unmute</a>
+                  <a class="dropdown-item" href="#" ng-click="mute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="(!profileDataForHeader.isMuted) && (profileDataForHeader.imFollowing)">Mute</a>
+                  <a class="dropdown-item" href="#" ng-click="unmute($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isMuted">Unmute</a>
 
-                <a class="dropdown-item" href="#" ng-click="block($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="!profileDataForHeader.isBlocked">Block</a>
-                <a class="dropdown-item" href="#" ng-click="unblock($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isBlocked">Unblock</a>
+                  <a class="dropdown-item" href="#" ng-click="block($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="!profileDataForHeader.isBlocked">Block</a>
+                  <a class="dropdown-item" href="#" ng-click="unblock($event, profileDataForHeader.id, profileDataForHeader.originalUsername)" ng-if="profileDataForHeader.isBlocked">Unblock</a>
 
-                <a class="dropdown-item" href="#" ng-click="reportProfile($event, profileDataForHeader)">Report</a>
+                  <a class="dropdown-item" href="#" ng-click="reportProfile($event, profileDataForHeader)">Report</a>
+                </div>
               </div>
-            </div>
-          <% else %>
-            <% if is_profile_page? %>
-            <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
-              <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="sr-only">Toggle Dropdown</span>
-                <i class="fas fa-cog" aria-hidden="true"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="#" ng-click="requiresSignIn('follow a user')">Follow</a>
-                <a class="dropdown-item" href="#" ng-click="requiresSignIn('block a user')">Block</a>
-                <a class="dropdown-item" href="#" ng-click="requiresSignIn('report a user')">Report</a>
-              </div>
-            </div>
             <% else %>
-              <a class="text-black pt-2" href="#" ng-click="openSigninForm($event)">
-                <i class="fas fa-user-circle mr-1 text-increase-5"></i>
-              </a>
+              <% if is_profile_page? %>
+              <div ng-if="userProfile" class="dropdown navbar pr-0 py-0 mt-1" id="my_profile_settings_btn">
+                <button type="button" class="btn btn-link btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#" ng-click="requiresSignIn('follow a user')">Follow</a>
+                  <a class="dropdown-item" href="#" ng-click="requiresSignIn('block a user')">Block</a>
+                  <a class="dropdown-item" href="#" ng-click="requiresSignIn('report a user')">Report</a>
+                </div>
+              </div>
+              <% else %>
+                <a class="text-black pt-2" href="#" ng-click="openSigninForm($event)">
+                  <i class="fas fa-user-circle mr-1 text-increase-5"></i>
+                </a>
+              <% end %>
             <% end %>
-          <% end %>
+          </div>
+
         </div>
-
       </div>
-    </div>
-  </header>
+    </header>
 
-  <% if user_signed_in? %>
-  <nav id="member_options" ng-cloak>
-    <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
-      <li class="nav-item">
-        <a class="nav-link" id="front-page-tab" href="/my-home">
-          <i class="fas fa-home"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="follows-tab" href="/my-home?route=following">
-          <i class="fas fa-users"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="search-tab" href="/my-home?route=search">
-          <i class="fas fa-search"></i>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link <%= 'active' if params[:controller] == 'notifications' %>" id="notifications-tab" href="/notifications">
-          <i class="fas fa-bell"></i>
-          <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
-            <span ng-if="notificationBadgeCount > 99">99+</span>
-            <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
-          </span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="messaging-tab" href="/my-home?route=messaging">
-          <i class="fas fa-envelope"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
+
+    <% if user_signed_in? %>
+      <nav id="member_options" ng-cloak>
+        <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+          <li class="nav-item">
+            <a class="nav-link" id="front-page-tab" href="/my-home">
+              <i class="fas fa-home"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="follows-tab" href="/my-home?route=following">
+              <i class="fas fa-users"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="search-tab" href="/my-home?route=search">
+              <i class="fas fa-search"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <%= 'active' if params[:controller] == 'notifications' %>" id="notifications-tab" href="/notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
+                <span ng-if="notificationBadgeCount > 99">99+</span>
+                <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
+              </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="messaging-tab" href="/my-home?route=messaging">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    <% end %>
   <% end %>
 
   <%= render 'common/search-box' %>
@@ -157,7 +161,9 @@
 
 <div class="overlay"></div>
 
+<% unless request.headers["X-MobileApp"] %>
 </main>
+<% end %>
 
 <% if user_signed_in? %>
   <script id="concernReport" type="script/x-mustache">

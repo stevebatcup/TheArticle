@@ -93,6 +93,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$(window).scrollTop(0)
@@ -195,9 +197,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					@scope.sponsoredPicks = response.sponsoredPicks
 					@scope.trendingExchanges = response.trendingExchanges
 					@scope.userExchanges = response.userExchanges
-					@getFeeds('posts', true)
+					@getFeeds('posts', true) unless @rootScope.profileDeactivated
 				else if section is 'posts'
-					@getFeeds('follows', true)
+					@getFeeds('follows', true) unless @rootScope.profileDeactivated
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 

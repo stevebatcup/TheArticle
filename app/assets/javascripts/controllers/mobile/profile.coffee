@@ -148,6 +148,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			@getProfile id, @getProfileCallback
 			@getMyProfile null, true
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	detectPanelOpeners: =>
 		if @getVars['panel'] is 'edit_profile'
 			@timeout =>
@@ -196,7 +198,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 		# Broadcast from FollowsController
 		@scope.$on 'follows_panel_close', =>
-			$('#main_footer_top, #member_options').show()
+			$('#main_footer_top, #member_options, #ads_top').show()
 			@scope.mode = 'view'
 
 		$(document).on 'keyup', 'input#user_location', (e) =>
@@ -464,13 +466,13 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 				, false, true, =>
 					@timeout =>
 						@scope.profile.data.imFollowing = false
-					, 750
+					, 550
 		else
 			@requiresSignIn("follow #{@scope.profile.data.displayName}")
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'
-		$('#main_footer_top, #member_options').hide()
+		$('#main_footer_top, #member_options, #ads_top').hide()
 		@timeout =>
 			$("#follows-sub-tab-#{tab}").click()
 			@rootScope.$broadcast('follows_panel_open', tab)

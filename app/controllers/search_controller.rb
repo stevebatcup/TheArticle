@@ -43,7 +43,7 @@ class SearchController < ApplicationController
 					end
 				elsif params[:mode] == :full
 					begin
-						articles = Article.search("*#{@query}*", order: 'published_at DESC', page: 1, per_page: 500).to_a
+						articles = Article.search(@query, order: 'published_at DESC', page: 1, per_page: 500).to_a
 						contributors = Author.search(conditions: { display_name: "*#{@query}*" },
 																					order: 'article_count DESC').to_a
 						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a

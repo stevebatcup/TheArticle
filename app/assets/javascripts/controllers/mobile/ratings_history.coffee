@@ -22,6 +22,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 		$('footer#main_footer_top, footer#main_footer_bottom').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
+		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
 		@articleId = @element.data('article-id')
 		@bindEvents()
 		vars = @getUrlVars()
@@ -58,6 +59,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
+		@scope.tinymceOptions = @setTinyMceOptions()
 
 	bindEvents: =>
 		super

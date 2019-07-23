@@ -47,17 +47,28 @@
 			border-right: 1px solid rgba(0, 0, 0, 0.125);
 			background: #fff;
 
-			.respond {
+			.respond,
+			.comment_respond {
 				padding: 23px 35px;
-				background: #dfdfdf;
+
+				&.with_form {
+					background: #dfdfdf;
+				}
 
 				img {
 					width: 45px;
 					height: 45px;
 				}
 
-				textarea {
-					height: 3em;
+				// textarea {
+				// 	height: 3em;
+				// }
+
+				.mce-panel {
+					border: none;
+					margin-left: 0.5em;
+					width: 98%;
+					background: none;
 				}
 			}
 
@@ -332,7 +343,7 @@
 				}
 
 				&.ghosted {
-					a.action {
+					a.comment_action {
 						opacity: 0.3;
 					}
 				}

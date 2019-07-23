@@ -2,8 +2,10 @@
 	role="tabpanel"
 	aria-labelledby="front-page-tab"
 	data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
+	data-tinymce-content-css-url='<%= asset_url("mobile/tinymce-content.css") %>'
 	ng-controller="FrontPageController" ng-cloak>
 
+	<% unless current_user.profile_is_deactivated? %>
 	 <ul class="bg-white nav nav-tabs nav-fill d-flex" id="home_feed_tabs">
 			<li class="nav-item">
 			  <a id="activity-articles-tab" class="pb-2 pt-3 nav-link active"
@@ -30,6 +32,7 @@
 			  </a>
 			</li>
 		</ul>
+		<% end %>
 
 		<div class="container">
 			<div class="alert alert-success mb-3 mt-3" ng-show="showPasswordChangedThanks" ng-cloak>

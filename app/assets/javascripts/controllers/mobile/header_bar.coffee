@@ -70,19 +70,20 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 		$navBarPosition = Math.round $navBar.offset().top
 		offset = 0
 		$win.on 'scroll', =>
-			scrollTop = document.scrollingElement.scrollTop
-			dir = if scrollTop < @scope.scrollTop then 'up' else 'down'
-			@scope.scrollTop = scrollTop
-			if scrollTop  >= ($navBarPosition + offset)
-				if dir is 'up'
-					$('body').addClass('fixed-header')
+			unless $('.header_bar_overlay').is(':visible')
+				scrollTop = document.scrollingElement.scrollTop
+				dir = if scrollTop < @scope.scrollTop then 'up' else 'down'
+				@scope.scrollTop = scrollTop
+				if scrollTop  >= ($navBarPosition + offset)
+					if dir is 'up'
+						$('body').addClass('fixed-header')
+					else
+						$('body').addClass('fixed-profile-nav')
+						$navBar.addClass('container')
+						$('body').removeClass('fixed-header')
 				else
-					$('body').addClass('fixed-profile-nav')
-					$navBar.addClass('container')
-					$('body').removeClass('fixed-header')
-			else
-				$('body').removeClass('fixed-profile-nav').removeClass('fixed-header')
-				$navBar.removeClass('container')
+					$('body').removeClass('fixed-profile-nav').removeClass('fixed-header')
+					$navBar.removeClass('container')
 
 	bindFixedNavScrolling: =>
 		unless $('[data-fixed-profile-nav]').length > 0
