@@ -6,8 +6,6 @@ if @ratings.any?
 	json.ratings items
 end
 
-
-
 if @page == 1
 	json.total @total
 	json.article do
@@ -31,8 +29,13 @@ if @page == 1
 			json.isSponsored exchange.slug == 'sponsored'
 			json.name exchange.name
 		end
-		json.ratingWwc readable_article_rating(@article.ratings_well_written_cache)
-		json.ratingVpc readable_article_rating(@article.ratings_valid_points_cache)
-		json.ratingAc readable_article_rating(@article.ratings_agree_cache)
+		json.ratingAllWwc readable_article_rating(@article.ratings_well_written_cache)
+		json.ratingAllVpc readable_article_rating(@article.ratings_valid_points_cache)
+		json.ratingAllAc readable_article_rating(@article.ratings_agree_cache)
+
+		followsRating = @article.get_follows_average_ratings(current_user)
+		json.ratingFollowsWwc readable_article_rating(followsRating[:well_written])
+		json.ratingFollowsVpc readable_article_rating(followsRating[:valid_points])
+		json.ratingFollowsAc readable_article_rating(followsRating[:agree])
 	end
 end

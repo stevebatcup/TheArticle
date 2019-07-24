@@ -68,6 +68,23 @@ class Article < ApplicationRecord
 		end
 	end
 
+	def get_follows_average_ratings(user)
+		items = self.shares.where(share_type: 'rating').where(user_id: user.followings.map(&:followed_id))
+		if items.any?
+			{
+				well_written: items.average(:rating_well_written),
+				valid_points: items.average(:rating_valid_points),
+				agree: items.average(:rating_agree)
+			}
+		else
+			{
+				well_written: 0,
+				valid_points: 0,
+				agree: 0
+			}
+		end
+	end
+
 	def exchange_names
 		exchanges.collect(&:name).join(" ")
 	end

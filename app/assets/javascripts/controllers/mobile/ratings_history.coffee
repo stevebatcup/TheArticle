@@ -59,6 +59,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
+		@scope.selectedTab = 'all_members'
 
 	bindEvents: =>
 		super
@@ -98,5 +99,8 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 			callback.call(@) if callback?
+
+	selectTab: (tab) =>
+		@scope.selectedTab = tab
 
 TheArticle.ControllerModule.controller('RatingsHistoryController', TheArticle.RatingsHistory)
