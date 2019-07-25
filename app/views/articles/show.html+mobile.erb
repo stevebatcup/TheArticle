@@ -166,8 +166,8 @@
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_well_written']) >= i ? 'filled' : 'empty' %>
-													<span class="dot">
-														<span class="<%= dot_class %>"></span>
+													<span class="dot panel">
+														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
@@ -182,8 +182,8 @@
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_valid_points']) >= i ? 'filled' : 'empty' %>
-													<span class="dot">
-														<span class="<%= dot_class %>"></span>
+													<span class="dot panel">
+														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
@@ -198,8 +198,8 @@
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_agree']) >= i ? 'filled' : 'empty' %>
-													<span class="dot">
-														<span class="<%= dot_class %>"></span>
+													<span class="dot panel">
+														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
