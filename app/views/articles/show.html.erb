@@ -168,7 +168,7 @@
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:well_written, convert_rating_to_dots(@article_share['rating_well_written']).to_s) %>
+												<%= text_rating(:well_written, @article_share['rating_well_written']) %>
 											</h6>
 										</div>
 									</li>
@@ -184,7 +184,7 @@
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:valid_points, convert_rating_to_dots(@article_share['rating_valid_points']).to_s) %>
+												<%= text_rating(:valid_points, @article_share['rating_valid_points']) %>
 											</h6>
 										</div>
 									</li>
@@ -200,7 +200,7 @@
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:agree, convert_rating_to_dots(@article_share['rating_agree']).to_s) %>
+												<%= text_rating(:agree, @article_share['rating_agree']) %>
 											</h6>
 										</div>
 									</li>
