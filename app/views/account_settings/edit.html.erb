@@ -148,8 +148,8 @@
 							<!-- Profile card -->
 							<div class="feed-listing account-settings-feed">
 								<div class="py-2 px-2 mb-2 card">
-									<div class="card-img-top cover_photo" ng-if="profile.coverPhoto.image">
-										<img class="w-100" ng-src="{{profile.coverPhoto.image}}" alt="{{profile.displayName}}" />
+									<div class="card-img-top cover_photo">
+										<img class="w-100" ng-src="{{profile.coverPhoto.image}}" alt="{{profile.displayName}}" ng-if="profile.coverPhoto.image" />
 									</div>
 
 									<div class="align-items-start d-flex px-2 pt-2">
@@ -369,7 +369,7 @@
 
 								<div class="form-group">
 									<label for="confirming_password_password_1">Existing password</label><br />
-									<input type="password" name="confirming_old_password" id="confirming_old_password" ng-model="user.confirmingPassword" class="form-control" required />
+									<input type="password" name="confirming_old_password" id="confirming_old_password" ng-model="user.confirmingPassword" autocomplete="off" class="form-control" required />
 								</div>
 
 								<div class="form-group">
@@ -380,7 +380,7 @@
 
 								<div class="form-group">
 									<label for="confirming_password_password_2">Confirm new password</label><br />
-									<input type="password" name="password_confirmation" id="password_confirmation" ng-model="user.newPasswordConfirmation" class="form-control" required />
+									<input type="password" name="password_confirmation" id="password_confirmation" ng-model="user.newPasswordConfirmation" autocomplete="off" class="form-control" required />
 								</div>
 
 								<p class="alert alert-danger" ng-if="errors.password">{{errors.password}}</p>
@@ -443,7 +443,7 @@
 
 								<div class="form-group">
 									<label for="confirming_password_delete">Password</label><br />
-									<input type="password" name="confirming_password_delete" id="confirming_password_delete" ng-model="user.confirmingPassword" class="form-control" required />
+									<input type="password" name="confirming_password_delete" id="confirming_password_delete" ng-model="user.confirmingPassword" autocomplete="off" class="form-control" required />
 								</div>
 
 								<p class="alert alert-danger" ng-if="errors.deleteAccount">{{errors.deleteAccount}}</p>
@@ -494,7 +494,7 @@
 
 								<div class="form-group">
 									<label for="confirming_password_deactivate">Password</label><br />
-									<input type="password" name="confirming_password_deactivate" id="confirming_password_deactivate" ng-model="user.confirmingPassword" class="form-control" required />
+									<input type="password" name="confirming_password_deactivate" id="confirming_password_deactivate" ng-model="user.confirmingPassword" autocomplete="off" class="form-control" required />
 								</div>
 
 								<p class="alert alert-danger" ng-if="errors.deactivate">{{errors.deactivate}}</p>
@@ -526,7 +526,7 @@
 
 								<div class="form-group">
 									<label for="confirming_password_reactivate">Password</label><br />
-									<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="user.confirmingPassword" class="form-control" required />
+									<input type="password" name="confirming_password_reactivate" id="confirming_password_reactivate" ng-model="user.confirmingPassword" autocomplete="off" class="form-control" required />
 								</div>
 
 								<p class="alert alert-danger" ng-if="errors.reactivate">{{errors.reactivate}}</p>
