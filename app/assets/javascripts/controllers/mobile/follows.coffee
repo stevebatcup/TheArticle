@@ -56,7 +56,6 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 			# console.log @scope.follows.totalItems
 			@scope.follows.moreToLoad = @scope.follows.totalItems > (@scope.follows.page * @scope.follows.perPage)
 			# console.log @scope.follows.moreToLoad
-			@scope.follows.loaded = true
 			if @scope.follows.moreToLoad is true
 				@loadMore()
 			else
@@ -64,6 +63,7 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 					@buildConnections()
 				else
 					@buildAlsoKnowsMes()
+			@scope.follows.loaded = true
 
 	inFollowers: (member) =>
 		ids = _.map @scope.follows.data.followers, (item) =>

@@ -517,10 +517,11 @@
 					id="follows_following"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-following">
-					<p class="empty" ng-if="follows.data.followings.length == 0">
+					<p class="empty" ng-if="follows.data.followings.length == 0 && follows.loaded">
 						<span ng-if="!isMe">{{ profile.data.displayName }} is currently not following anyone</span>
 						<span ng-if="isMe">You are currently not following anyone</span>
 					</p>
+					<div class="ajax_loading follows" ng-show="!follows.loaded">Loading results...</div>
 					<div ng-repeat="item in follows.data.followings" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
@@ -530,10 +531,11 @@
 					id="follows_followers"
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-followers">
-					<p class="empty" ng-if="follows.data.followers.length == 0">
+					<p class="empty" ng-if="follows.data.followers.length == 0 && follows.loaded">
 						<span ng-if="!isMe">{{ profile.data.displayName }} is currently not being followed by anyone</span>
 						<span ng-if="isMe">You are currently not being followed by anyone</span>
 					</p>
+					<div class="ajax_loading follows" ng-show="!follows.loaded">Loading results...</div>
 					<div ng-repeat="item in follows.data.followers" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
@@ -544,9 +546,10 @@
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-you_know"
 					ng-if="isSignedIn && !isMe">
-					<p class="empty" ng-if="follows.data.alsoKnowsMes.length == 0">
+					<p class="empty" ng-if="follows.data.alsoKnowsMes.length == 0 && follows.loaded">
 						No followers you know
 					</p>
+					<div class="ajax_loading follows" ng-show="!follows.loaded">Loading results...</div>
 					<div ng-repeat="item in follows.data.alsoKnowsMes" class="feed-listing">
 						<%= render 'users/member_card' %>
 					</div>
@@ -557,7 +560,7 @@
 					role="tabpanel"
 					aria-labelledby="follows-sub-tab-connected"
 					ng-if="isSignedIn && isMe">
-					<p class="empty" ng-if="follows.data.connections.length == 0">
+					<p class="empty" ng-if="follows.data.connections.length == 0 && follows.loaded">
 						You currently have no connections
 					</p>
 					<div ng-repeat="item in follows.data.connections" class="feed-listing">
