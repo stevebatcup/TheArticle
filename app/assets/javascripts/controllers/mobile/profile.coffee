@@ -224,7 +224,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
-		@requiresSignIn(action)
+		@requiresSignIn(action, window.location.pathname)
 
 	selectTab: (tab='all', $event=null) =>
 		$event.preventDefault() if $event?
@@ -466,7 +466,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						@scope.profile.data.imFollowing = false
 					, 550
 		else
-			@requiresSignIn("follow #{@scope.profile.data.displayName}")
+			@requiresSignIn("follow #{@scope.profile.data.displayName}", window.location.pathname)
 
 	openFollowsPanel: (tab='following') =>
 		@scope.mode = 'follows'

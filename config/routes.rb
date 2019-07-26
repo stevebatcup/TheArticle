@@ -2,6 +2,9 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
+  devise_scope :user do
+    post "set-stored-location", to: 'sessions#set_stored_location'
+  end
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
   get 'accept-testing-environment',            to: 'testing_feedback#accept'

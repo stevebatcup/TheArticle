@@ -36,6 +36,11 @@ class SessionsController < Devise::SessionsController
 		cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now }
 	end
 
+	def set_stored_location
+		session["user_return_to"] = params["return_to"]
+		render json: { status: :success }
+	end
+
 protected
 
 	def invalid_login_attempt

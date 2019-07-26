@@ -150,7 +150,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 				$('body').append $content
 				$("#sharingPanelModal").modal()
 		else
-			@requiresSignIn("share or rate an article")
+			@requiresSignIn("share or rate an article", window.location.pathname)
 
 	updateMyFollowCounts: ->
 		@http.get("/user_followings?counts=1").then (response) =>

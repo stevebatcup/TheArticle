@@ -300,7 +300,8 @@ class TheArticle.PageController extends TheArticle.NGController
 			$("#registerBoxModal").modal()
 		, 350
 
-	requiresSignIn: (action) =>
+	requiresSignIn: (action, returnTo=null) =>
+		@setReturnLocation(returnTo) if returnTo?
 		@openSigninForm()
 		@scope.authMessage = "You must be signed in to #{action}"
 
@@ -408,3 +409,6 @@ class TheArticle.PageController extends TheArticle.NGController
 		@http.post("/ignore-suggestion", {id: memberId}).then (response) =>
 			if response.data.status is 'success'
 				callback.call(@) if callback?
+
+	setReturnLocation: (url) =>
+		@http.post("/set-stored-location", {return_to: url})

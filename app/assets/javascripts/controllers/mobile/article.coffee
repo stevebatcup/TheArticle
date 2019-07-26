@@ -72,8 +72,10 @@ class TheArticle.Article extends TheArticle.MobilePageController
 
 	viewRatingHistory: ($event) =>
 		$event.preventDefault()
+		url = "/ratings-history/#{@scope.articleId}"
 		if @rootScope.isSignedIn
-			window.location.href="/ratings-history/#{@scope.articleId}"
+			window.location.href = url
 		else
-			@requiresSignIn("view full article ratings.")
+			@requiresSignIn("view full article ratings.", url)
+
 TheArticle.ControllerModule.controller('ArticleController', TheArticle.Article)

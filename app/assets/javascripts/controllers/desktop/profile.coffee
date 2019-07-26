@@ -221,7 +221,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
-		@requiresSignIn(action)
+		@requiresSignIn(action, window.location.pathname)
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab
@@ -629,7 +629,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						@scope.profile.data.imFollowing = false
 					, 550
 		else
-			@requiresSignIn("follow #{@scope.profile.data.displayName}")
+			@requiresSignIn("follow #{@scope.profile.data.displayName}", window.location.pathname)
 
 	toggleFollowUserFromCard: (member) =>
 		if @rootScope.isSignedIn
@@ -657,7 +657,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						member.imFollowing = false
 					, 550
 		else
-			@requiresSignIn("follow #{member.displayName}")
+			@requiresSignIn("follow #{member.displayName}", window.location.pathname)
 
 	openExchangesModal: ($event) =>
 		$event.preventDefault()
