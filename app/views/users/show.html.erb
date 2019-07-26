@@ -221,6 +221,36 @@
 					</p>
 				</div>
 			</div>
+
+			<div id="side_rating_summary" class="member_ratings summary mt-4" ng-if="profile.ratings.data.length > 0">
+				<h6 class="mb-3 text-decrease-1">
+					{{ profile.data.displayName }} has rated <a href='#' class="text-green open_ratings_tab">{{ profile.data.ratingsSummary.articleCountAsArticles }}</a>
+				</h6>
+
+				<ul class="bars text-decrease-1">
+					<li class="row justify-content-start d-flex align-items-start mb-2">
+						<span class="col-5 text text-decrease-2">Well argued: </span>
+						<span class="bar col-5" style="position: relative; top: 5px;">
+							<span class="inner" style="width: {{profile.data.ratingsSummary.wellWritten}};"></span>
+						</span>
+						<span class="col-2 clear-rating" style="position: relative; top: 5px;">{{profile.data.ratingsSummary.wellWritten}}</span>
+					</li>
+					<li class="row justify-content-start d-flex align-items-start mb-2">
+						<span class="col-5 text text-decrease-2">Interesting points: </span>
+						<span class="bar col-5" style="position: relative; top: 5px;">
+							<span class="inner" style="width: {{profile.data.ratingsSummary.validPoints}};"></span>
+						</span>
+						<span class="col-2 clear-rating" style="position: relative; top: 5px;">{{profile.data.ratingsSummary.validPoints}}</span>
+					</li>
+					<li class="row justify-content-start d-flex align-items-start mb-2">
+						<span class="col-5 text text-decrease-2">Agree with arguments: </span>
+						<span class="bar col-5" style="position: relative; top: 5px;">
+							<span class="inner" style="width: {{profile.data.ratingsSummary.agree}};"></span>
+						</span>
+						<span class="col-2 clear-rating" style="position: relative; top: 5px;">{{profile.data.ratingsSummary.agree}}</span>
+					</li>
+				</ul>
+			</div>
 		</section>
 
 		<section class="col-md-8 col-lg-6" id="feed" ng-show="profile.loaded && !profile.loadError">
