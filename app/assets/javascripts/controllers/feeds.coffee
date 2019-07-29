@@ -651,6 +651,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	openThirdPartySharingPanelFromPaste: ($event) =>
 		url = $event.originalEvent.clipboardData.getData('text/plain')
+		startPos = url.indexOf('https://')
+		startPos = url.indexOf('http://') if startPos < 0
+		url = url.substring(startPos)
 		@openThirdPartySharingPanel(url)
 
 	openThirdPartySharingPanel: (url) =>
