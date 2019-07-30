@@ -48,6 +48,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@scope.myProfile = {}
 		@getMyProfile()
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>

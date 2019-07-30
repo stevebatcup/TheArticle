@@ -61,6 +61,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			@updateMyFollowCounts()
 		, 10000
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	bindEvents: =>
 		super
 		@bindScrollEvent() if @element.hasClass('notifications_page')
