@@ -11,6 +11,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
+	  '$sce'
 	  'Notification'
 	  'Share'
 	  'Comment'
@@ -58,6 +59,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 		@interval =>
 			@updateMyFollowCounts()
 		, 10000
+
+		@scope.tinymceOptions = @setTinyMceOptions()
 
 	bindEvents: =>
 		super
