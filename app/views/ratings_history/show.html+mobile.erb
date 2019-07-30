@@ -15,14 +15,34 @@
 		<section class="results_block col-12" style="min-height: 85vh;" id="activity-tabs">
 
 			<div class="section_posts">
+
+				<h4 class="mt-3 mb-2 text-black container">Ratings for this article</h4>
+
+				<ul class="bg-white nav nav-tabs nav-fill d-flex mt-3" id="history_feed_tabs">
+				  <li class="nav-item">
+				    <a class="nav-link active"
+				    		ng-click="selectTab('all_members')"
+				    		ng-class="{'active': selectedTab == 'all_members', 'disabled': !ratings.firstLoaded}"
+				    		ng-disabled="!ratings.firstLoaded">
+				      <label>All members</label>
+				    </a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link"
+				    		ng-click="selectTab('you_follow')"
+				    		ng-class="{'active': selectedTab == 'you_follow', 'disabled': !ratings.firstLoaded}"
+				    		ng-disabled="!ratings.firstLoaded">
+				      <label>People you follow</label>
+				    </a>
+				  </li>
+				</ul>
+
 				<div ng-if="!ratings.firstLoaded" class="ajax_loading">
 					Loading results....
 				</div>
 
 				<div ng-if="ratings.firstLoaded" class="row"
 						ng-class="{'empty': ratings.data.length == 0}">
-
-					<h4 class="mt-3 mb-2 text-black container">All ratings for article</h4>
 
 					<div class="article_box feed-listing pt-2 pb-2 w-100 feed-share">
 						<div class="inner card">
@@ -62,22 +82,43 @@
 									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
 										<label class="w-75">Well argued:</label>
 										<span class="rating"
-													ng-class="{'faded': !article.ratingWwc}">
-											{{article.ratingWwc}}
+													ng-class="{'faded': !article.ratingAllWwc}"
+													ng-hide="selectedTab == 'you_follow'">
+											{{article.ratingAllWwc}}
+										</span>
+
+										<span class="rating"
+													ng-class="{'faded': !article.ratingFollowsWwc}"
+													ng-hide="selectedTab == 'all_members'">
+											{{article.ratingFollowsWwc}}
 										</span>
 									</li>
 									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
 										<label class="w-75">Interesting points:</label>
 										<span class="rating"
-													ng-class="{'faded': !article.ratingVpc}">
-											{{article.ratingVpc}}
+													ng-class="{'faded': !article.ratingAllVpc}"
+													ng-hide="selectedTab == 'you_follow'">
+											{{article.ratingAllVpc}}
+										</span>
+
+										<span class="rating"
+													ng-class="{'faded': !article.ratingFollowsVpc}"
+													ng-hide="selectedTab == 'all_members'">
+											{{article.ratingFollowsVpc}}
 										</span>
 									</li>
 									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
 										<label class="w-75">Agree with arguments:</label>
 										<span class="rating"
-													ng-class="{'faded': !article.ratingAc}">
-											{{article.ratingAc}}
+													ng-class="{'faded': !article.ratingAllAc}"
+													ng-hide="selectedTab == 'you_follow'">
+											{{article.ratingAllAc}}
+										</span>
+
+										<span class="rating"
+													ng-class="{'faded': !article.ratingFollowsAc}"
+													ng-hide="selectedTab == 'all_members'">
+											{{article.ratingFollowsAc}}
 										</span>
 									</li>
 								</ul>
@@ -92,7 +133,8 @@
 
 
 					<div ng-repeat="item in ratings.data"
-								 class="col-12 feed-listing feed-share pb-3 px-0">
+								 class="col-12 feed-listing feed-share pb-3 px-0"
+								 ng-hide="selectedTab == 'you_follow' && !item.share.user.imFollowing">
 
 							<!-- Rating card -->
 							<div class="card">

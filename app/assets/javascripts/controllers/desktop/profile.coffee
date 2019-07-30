@@ -174,6 +174,10 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		$(document).on 'click', "#upload_coverPhoto_btn", (e) =>
 			$("#coverPhoto_uploader").focus().trigger('click')
 
+		$(document).on 'click', ".open_ratings_tab", (e) =>
+			e.preventDefault()
+			@openRatingsTab()
+
 		@scope.$watch 'profile.data.profilePhoto.source', (newVal, oldVal) =>
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper document.getElementById('profilePhoto_holder'), @scope.profile.data.profilePhoto.width, @scope.profile.data.profilePhoto.height
@@ -219,7 +223,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 	actionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
-		@requiresSignIn(action)
+		@requiresSignIn(action, window.location.pathname)
 
 	selectTab: (tab='all') =>
 		@scope.selectedTab = tab
@@ -627,7 +631,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						@scope.profile.data.imFollowing = false
 					, 550
 		else
-			@requiresSignIn("follow #{@scope.profile.data.displayName}")
+			@requiresSignIn("follow #{@scope.profile.data.displayName}", window.location.pathname)
 
 	toggleFollowUserFromCard: (member) =>
 		if @rootScope.isSignedIn
@@ -655,7 +659,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						member.imFollowing = false
 					, 550
 		else
-			@requiresSignIn("follow #{member.displayName}")
+			@requiresSignIn("follow #{member.displayName}", window.location.pathname)
 
 	openExchangesModal: ($event) =>
 		$event.preventDefault()
@@ -757,5 +761,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@updateAllWithOpinion(@scope.profile.exchanges.data, shareId, action, user)
 		@updateAllWithOpinion(@scope.profile.opinionActions.data, shareId, action, user)
 		@updateAllWithOpinion(@scope.profile.commentActions.data, shareId, action, user)
+
+	openRatingsTab: =>
+		angular.element("#activity-ratings-tab").click()
 
 TheArticle.ControllerModule.controller('ProfileController', TheArticle.Profile)

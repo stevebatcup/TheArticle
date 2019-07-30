@@ -67,7 +67,7 @@ class TheArticle.Exchanges extends TheArticle.MobilePageController
 	toggleFollowExchange: (exchangeId, $event=null) =>
 		$event.preventDefault() if $event?
 		if !@signedIn
-			@requiresSignIn("follow an exchange")
+			@requiresSignIn("follow an exchange", "/exchanges")
 		else
 			if @inFollowedExchanges(exchangeId)
 				@unfollowExchange exchangeId, (response) =>

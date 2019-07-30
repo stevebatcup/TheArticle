@@ -102,7 +102,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 				$('body').append $content
 				$("#sharingPanelModal").modal()
 		else
-			@requiresSignIn("share or rate an article")
+			@requiresSignIn("share or rate an article", window.location.pathname)
 
 	disableDefaultBehaviour: (e) =>
 		# console.log 'disableDefaultBehaviour'

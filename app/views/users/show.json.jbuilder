@@ -78,6 +78,7 @@ json.set! :profile do
 
 	json.set! :ratingsSummary do
 		json.articleCount "#{pluralize(@user.ratings_summary[:article_count], 'rating')}"
+		json.articleCountAsArticles "#{pluralize(@user.ratings_summary[:article_count], 'article')}"
 		json.wellWritten readable_article_rating(@user.ratings_summary[:well_written])
 		json.validPoints readable_article_rating(@user.ratings_summary[:valid_points])
 		json.agree readable_article_rating(@user.ratings_summary[:agree])

@@ -23,6 +23,7 @@ class TheArticle.RegisterInterstitial extends TheArticle.PageController
 	register: ($event, deviceType='mobile') =>
 		$event.preventDefault()
 		$('#registerInterstitialModal').modal('hide')
+		@setReturnLocation window.location.pathname
 		@openRegisterForm($event, 'interstitial', deviceType)
 
 TheArticle.ControllerModule.controller('RegisterInterstitialController', TheArticle.RegisterInterstitial)

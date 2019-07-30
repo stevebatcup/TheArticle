@@ -16,16 +16,18 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		$('#hidden_editors_picks').on 'shown.bs.collapse', (e) =>
 			@reLinePosts() unless @isTablet()
 
-		if $('#sidebar').length
-			sideBarHeight = $('#sidebar').outerHeight()
-			contentHeight = $('#content_box').outerHeight() + $('#img_box').outerHeight()
-			if sideBarHeight > 2000
-				articleCount = Math.floor((sideBarHeight - 2000) / 376)
-				$('h2', '#featured_articles_sidebar').show() if articleCount > 0
-				for i in [0...articleCount]
-					$("[data-index=#{i+1}]", '#featured_articles_sidebar').show()
-			else if sideBarHeight - contentHeight >= 400
-				$('#featured_articles_content_bar').show()
+		@timeout =>
+			if $('#sidebar').length
+				sideBarHeight = $('#sidebar').outerHeight()
+				contentHeight = $('#content_box').outerHeight() + $('#img_box').outerHeight()
+				if sideBarHeight > 1860
+					articleCount = Math.floor((sideBarHeight - 1860) / 376)
+					$('h2', '#featured_articles_sidebar').show() if articleCount > 0
+					for i in [0...articleCount]
+						$("[data-index=#{i+1}]", '#featured_articles_sidebar').show()
+				else if sideBarHeight - contentHeight >= 400
+					$('#featured_articles_content_bar').show()
+		, 2500
 
 		$('#open_feedback_form').on 'click', (e) =>
 			@openFeedbackForm(e)
@@ -150,7 +152,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 				$('body').append $content
 				$("#sharingPanelModal").modal()
 		else
-			@requiresSignIn("share or rate an article")
+			@requiresSignIn("share or rate an article", window.location.pathname)
 
 	updateMyFollowCounts: ->
 		@http.get("/user_followings?counts=1").then (response) =>

@@ -60,6 +60,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 			@cookies.remove('ok_to_flash')
 
 		@scope.tinymceOptions = @setTinyMceOptions()
+		@scope.selectedTab = 'all_members'
 
 	bindEvents: =>
 		super
@@ -100,5 +101,8 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 		@MyProfile.get().then (profile) =>
 			@scope.myProfile = profile
 			callback.call(@) if callback?
+
+	selectTab: (tab) =>
+		@scope.selectedTab = tab
 
 TheArticle.ControllerModule.controller('RatingsHistoryController', TheArticle.RatingsHistory)

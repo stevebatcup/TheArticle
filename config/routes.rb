@@ -2,6 +2,9 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
+  devise_scope :user do
+    post "set-stored-location", to: 'sessions#set_stored_location'
+  end
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
   get 'accept-testing-environment',            to: 'testing_feedback#accept'
@@ -162,6 +165,7 @@ Rails.application.routes.draw do
   post "push_registrations", to: 'push_registrations#create'
   get "help", to: 'help_centre#index'
   get "help-feedback/:question_id/:outcome", to: 'help_feedback#new'
+  post "push_registrations", to: 'push_registrations#create'
 
   PageRouter.load
 	mount Sidekiq::Web, at: '/sidekiq'

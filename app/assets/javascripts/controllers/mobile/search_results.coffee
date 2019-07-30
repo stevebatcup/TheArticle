@@ -90,7 +90,7 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 	toggleFollowExchange: (exchangeId, $event=null) =>
 		$event.preventDefault() if $event?
 		if !@scope.isSignedIn
-			@requiresSignIn("follow an exchange")
+			@requiresSignIn("follow an exchange", "/search?query=#{@scope.search.query}")
 		else
 			if @inFollowedExchanges(exchangeId)
 				@unfollowExchange(exchangeId)

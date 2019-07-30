@@ -300,7 +300,8 @@ class TheArticle.PageController extends TheArticle.NGController
 			$("#registerBoxModal").modal()
 		, 350
 
-	requiresSignIn: (action) =>
+	requiresSignIn: (action, returnTo=null) =>
+		@setReturnLocation(returnTo) if returnTo?
 		@openSigninForm()
 		@scope.authMessage = "You must be signed in to #{action}"
 
@@ -409,6 +410,9 @@ class TheArticle.PageController extends TheArticle.NGController
 			if response.data.status is 'success'
 				callback.call(@) if callback?
 
+	setReturnLocation: (url) =>
+		@http.post("/set-stored-location", {return_to: url})
+
 	saveMessagingDeviceToken: =>
 		prom = (currentToken) =>
 			# console.log currentToken
@@ -430,3 +434,4 @@ class TheArticle.PageController extends TheArticle.NGController
 		firebase.messaging().requestPermission().then prom.bind(@)
 		.catch (error) ->
 			console.error('Unable to get permission to notify.', error)
+

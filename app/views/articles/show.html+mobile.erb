@@ -166,13 +166,13 @@
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_well_written']) >= i ? 'filled' : 'empty' %>
-													<span class="dot">
-														<span class="<%= dot_class %>"></span>
+													<span class="dot panel">
+														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:well_written, convert_rating_to_dots(@article_share['rating_well_written']).to_s) %>
+												<%= text_rating(:well_written, @article_share['rating_well_written']) %>
 											</h6>
 										</div>
 									</li>
@@ -182,13 +182,13 @@
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_valid_points']) >= i ? 'filled' : 'empty' %>
-													<span class="dot">
-														<span class="<%= dot_class %>"></span>
+													<span class="dot panel">
+														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:valid_points, convert_rating_to_dots(@article_share['rating_valid_points']).to_s) %>
+												<%= text_rating(:valid_points, @article_share['rating_valid_points']) %>
 											</h6>
 										</div>
 									</li>
@@ -198,13 +198,13 @@
 											<div class="dots">
 												<% for i in 1..5 %>
 													<% dot_class = convert_rating_to_dots(@article_share['rating_agree']) >= i ? 'filled' : 'empty' %>
-													<span class="dot">
-														<span class="<%= dot_class %>"></span>
+													<span class="dot panel">
+														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
 											<h6 class="text-green">
-												<%= text_rating(:agree, convert_rating_to_dots(@article_share['rating_agree']).to_s) %>
+												<%= text_rating(:agree, @article_share['rating_agree']) %>
 											</h6>
 										</div>
 									</li>

@@ -32,7 +32,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	feedActionRequiresSignIn: ($event, action) =>
 		$event.preventDefault()
-		@requiresSignIn(action)
+		@requiresSignIn(action, window.location.pathname)
 
 	showRequiresConnectionInfo: ($event, item) =>
 		$event.preventDefault()
@@ -104,11 +104,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	followUserFromComment: ($event, commentData) =>
 		$event.preventDefault()
-		@followUser commentData.userId, =>
-			commentData.imFollowing = true
-			@cookies.put('ok_to_flash', true)
-			window.location.reload()
-		, false, true
+		if @scope.isSignedIn is false
+			@requiresSignIn('follow this user', window.location.pathname)
+		else
+			@followUser commentData.userId, =>
+				commentData.imFollowing = true
+				@cookies.put('ok_to_flash', true)
+				window.location.reload()
+			, false, true
 
 	unfollowUserFromComment: ($event, commentData) =>
 		$event.preventDefault()
@@ -120,11 +123,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	followUserFromFeed: ($event, user) =>
 		$event.preventDefault()
-		@followUser user.id, =>
-			user.imFollowing = true
-			@cookies.put('ok_to_flash', true)
-			window.location.reload()
-		, false, true
+		if @scope.isSignedIn is false
+			@requiresSignIn('follow this user', window.location.pathname)
+		else
+			@followUser user.id, =>
+				user.imFollowing = true
+				@cookies.put('ok_to_flash', true)
+				window.location.reload()
+			, false, true
 
 	unfollowUserFromFeed: ($event, user) =>
 		$event.preventDefault()
@@ -136,33 +142,39 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	followUserFromCommentAuthError: ($event, item) =>
 		$event.preventDefault()
-		@followUserFromAuthError item, =>
-			@showComments()
+		if @scope.isSignedIn is false
+			@requiresSignIn('follow this user', window.location.pathname)
+		else
+			@followUserFromAuthError item, =>
+				@showComments()
 
 	followUserFromAuthError: ($event=null, item, canThenInteract=false) =>
 		$event.preventDefault() if $event?
-		@followUser item.share.user.id, =>
-			if canThenInteract is true
-				item.canInteract = 'yes'
-				if item.actionForRetry is 'comment'
-					@showComments($event, item, true)
-				if item.actionForRetry is 'agree'
-					@agreeWithPost($event, item)
-				if item.actionForRetry is 'disagree'
-					@disagreeWithPost($event, item)
-				item.actionForRetry = false
-			else
-				item.canInteract = 'not_followed'
-				@cookies.put('ok_to_flash', true)
-				window.location.reload()
-			item.actionAuthError = false
-		, false, true
+		if @scope.isSignedIn is false
+			@requiresSignIn('follow this user', window.location.pathname)
+		else
+			@followUser item.share.user.id, =>
+				if canThenInteract is true
+					item.canInteract = 'yes'
+					if item.actionForRetry is 'comment'
+						@showComments($event, item, true)
+					if item.actionForRetry is 'agree'
+						@agreeWithPost($event, item)
+					if item.actionForRetry is 'disagree'
+						@disagreeWithPost($event, item)
+					item.actionForRetry = false
+				else
+					item.canInteract = 'not_followed'
+					@cookies.put('ok_to_flash', true)
+					window.location.reload()
+				item.actionAuthError = false
+			, false, true
 
 	showComments: ($event=null, item, startWriting=false) =>
 		$event.preventDefault() if $event?
 		item.actionAuthError = false
 		if @scope.isSignedIn is false
-			@requiresSignIn('view comments')
+			@requiresSignIn('view comments', window.location.pathname)
 		else if (item.canInteract is 'not_followed') and (startWriting is true)
 			item.actionAuthError = 'not_followed'
 		else if (item.canInteract is 'not_following') and (startWriting is true)
@@ -330,7 +342,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			else
 				@showAgreesSuccess(item)
 		else
-			@requiresSignIn('interact with this post')
+			@requiresSignIn('interact with this post', window.location.pathname)
 
 
 	showAgreesSuccess: (item) =>
@@ -351,7 +363,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 	agreeWithPost: ($event=null, item) =>
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
-			@requiresSignIn('interact with this post')
+			@requiresSignIn('interact with this post', window.location.pathname)
 		else if @rootScope.profileDeactivated
 			@confirm "You must reactivate your profile in order to agree with this post", =>
 				window.location.href = "/account-settings?reactivate=1"
@@ -409,7 +421,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 			else
 				@showDisagreesSuccess(item)
 		else
-			@requiresSignIn('interact with this post')
+			@requiresSignIn('interact with this post', window.location.pathname)
 
 	showDisagreesSuccess: (item) =>
 		item.share.showDisagrees = true
@@ -429,7 +441,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 	disagreeWithPost: ($event=null, item) =>
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
-			@requiresSignIn('interact with this post')
+			@requiresSignIn('interact with this post', window.location.pathname)
 		else if @rootScope.profileDeactivated
 			@confirm "You must reactivate your profile in order to disagree with this post", =>
 				window.location.href = "/account-settings?reactivate=1"
@@ -477,26 +489,29 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	followUserFromNoConnectionModal: (item, $event, canThenInteract=true) =>
 		$event.preventDefault()
-		@followUser item.share.user.id, =>
-			$('button[data-dismiss=modal]', "#requiresConnectionInfoBoxModal").click()
-			@timeout =>
-				if canThenInteract
-					item.canInteract = 'yes'
-				else
-					item.canInteract = 'not_followed'
-			, 750
+		if @scope.isSignedIn is false
+			@requiresSignIn('follow this user', window.location.pathname)
+		else
+			@followUser item.share.user.id, =>
+				$('button[data-dismiss=modal]', "#requiresConnectionInfoBoxModal").click()
+				@timeout =>
+					if canThenInteract
+						item.canInteract = 'yes'
+					else
+						item.canInteract = 'not_followed'
+				, 750
 
 	reportProfile: ($event, profile) =>
 		$event.preventDefault()
 		if @scope.isSignedIn is false
-			@requiresSignIn('report this profile')
+			@requiresSignIn('report this profile', window.location.pathname)
 		else
 			@openConcernReportModal('profile', profile)
 
 	reportPost: ($event, item) =>
 		$event.preventDefault()
 		if @scope.isSignedIn is false
-			@requiresSignIn('report this post')
+			@requiresSignIn('report this post', window.location.pathname)
 		else
 			item = item.share if _.contains(['commentAction', 'opinionAction', 'share', 'rating'], item.type)
 			@openConcernReportModal('post', item)
@@ -504,14 +519,14 @@ class TheArticle.Feeds extends TheArticle.PageController
 	reportCommentAction: ($event=null, item) =>
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
-			@requiresSignIn('report this comment')
+			@requiresSignIn('report this comment', window.location.pathname)
 		else
 			@openConcernReportModal('commentAction', item)
 
 	reportComment: ($event=null, item) =>
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
-			@requiresSignIn('report this comment')
+			@requiresSignIn('report this comment', window.location.pathname)
 		else
 			@openConcernReportModal('comment', item)
 
@@ -530,7 +545,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 	mute: ($event, userId, username) =>
 		$event.preventDefault()
 		if @scope.isSignedIn is false
-			@requiresSignIn('mute a profile')
+			@requiresSignIn('mute a profile', window.location.pathname)
 		else
 			@http.post("/mutes", {id: userId, set_flash: true}).then (response) =>
 				@cookies.put('ok_to_flash', true)
@@ -545,7 +560,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 	block: ($event=null, userId, username) =>
 		$event.preventDefault() if $event?
 		if @scope.isSignedIn is false
-			@requiresSignIn('block a profile')
+			@requiresSignIn('block a profile', window.location.pathname)
 		else
 			@scope.confirmingBlock =
 				user:
@@ -665,6 +680,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	openThirdPartySharingPanelFromPaste: ($event) =>
 		url = $event.originalEvent.clipboardData.getData('text/plain')
+		startPos = url.indexOf('https://')
+		startPos = url.indexOf('http://') if startPos < 0
+		url = url.substring(startPos)
 		@openThirdPartySharingPanel(url)
 
 	openThirdPartySharingPanel: (url) =>
