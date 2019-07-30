@@ -1,6 +1,7 @@
 <section ng-controller="FrontPageController" class="container front-page"
 			data-user-id="<%= current_user.id %>"
-			data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>">
+			data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
+			data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content.css") %>'>
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">
@@ -159,12 +160,11 @@
 					<img class="rounded-circle" alt="" src="<%= current_user.profile_photo.url(:square) %>" style="width: 34px; height: 34px;" />
           <textarea name="third_party_article_url"
                       id="third_party_article_url_phantom"
-                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
-                      ng-focus="expandThirdPartySharingTextarea($event)"
-                      ng-blur="contractThirdPartySharingTextarea($event)"
-                      ng-paste="openThirdPartySharingPanelFromPaste($event)"
-                      placeholder="What are you reading?"
-                      class="form-control" style="width: 91%"></textarea>
+                      ui-tinymce="thirdPartyTinymceOptions"
+                      ng-model="thirdPartyUrl.value"
+                      class="form-control"
+                      style="width: 91%"></textarea>
+           <span class="building" ng-hide="!thirdPartyUrl.building">Building preview...</span>
 				</div>
 
 				<div class="ajax_loading feeds" ng-if="!feeds[selectedTab].firstLoaded">

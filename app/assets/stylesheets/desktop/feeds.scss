@@ -11,6 +11,17 @@
 
 	&.feed-third-party {
 		background: #d2ead4;
+
+		.mce-tinymce {
+			width: 87%;
+			border: none;
+			outline: none;
+
+			&:focus {
+				outline: none;
+			}
+		}
+
 	}
 
 	&:last-child {
