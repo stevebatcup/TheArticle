@@ -27,11 +27,17 @@ class ArticlesController < ApplicationController
 					per_page = params[:per_page].to_i
 					if params[:include_sponsored]
 						sponsored_frequency = 5
-						sponsored_limit = sponsored_frequency
-						sponsored_articles = Author.get_sponsors_single_posts(nil, sponsored_limit, :latest).to_a
-						if sponsored_articles.size < sponsored_limit
-							sponsored_articles += Author.get_sponsors_single_posts(nil, (sponsored_limit - sponsored_articles.size), :random).to_a
-						end
+						# sponsored_limit = sponsored_frequency
+						# sponsored_articles = Author.get_sponsors_single_posts(nil, sponsored_limit, :latest).to_a
+						# if sponsored_articles.size < sponsored_limit
+						# 	sponsored_articles += Author.get_sponsors_single_posts(nil, (sponsored_limit - sponsored_articles.size), :random).to_a
+						# end
+						sponsored_articles = Article.sponsored.includes(:exchanges)
+																				.references(:exchanges)
+																				.includes(:keyword_tags)
+																				.references(:keyword_tags)
+																				.where("keyword_tags.slug = ?", 'sponsored-pick')
+																				.order(Arel.sql('RAND()'))
 						items_to_get = per_page - (sponsored_articles.length)
 					else
 						items_to_get = per_page
@@ -102,7 +108,7 @@ class ArticlesController < ApplicationController
 													.first
 			@sponsored_picks = []
 			unless @article.is_sponsored?
-				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 4)
 			end
 			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
@@ -118,7 +124,16 @@ class ArticlesController < ApplicationController
 			end
 			@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 			if @sponsored_picks.any? && Author.sponsors.any?
-				@trending_articles.insert(2, @sponsored_picks.first)
+				trending_sponsored_article = Article.sponsored.includes(:exchanges)
+																				.references(:exchanges)
+																				.includes(:keyword_tags)
+																				.references(:keyword_tags)
+																				.where("keyword_tags.slug = ?", 'sponsored-pick')
+																				.where.not(id: [102])
+																				.order(Arel.sql('RAND()'))
+																				.limit(1)
+																				.first
+				@trending_articles.insert(2, trending_sponsored_article) unless trending_sponsored_article.nil?
 			end
 			@article_share = {
 				'comments' => '',
