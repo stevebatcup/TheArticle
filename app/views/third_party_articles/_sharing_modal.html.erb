@@ -2,7 +2,8 @@
   <div class="modal-dialog medium" role="document">
     <div class="modal-content"
           ng-controller="ThirdPartySharingController"
-          data-rating-text-labels="<%= rating_labels.to_json %>">
+          data-rating-text-labels="<%= rating_labels.to_json %>"
+          data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content.css") %>'>
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
   			<h6 class="mb-2 mt-1">
@@ -21,8 +22,7 @@
 
           <textarea name="third_party_article_url"
                       id="third_party_article_url"
-                      ng-keyup="keyPressedArticleUrl($event)"
-                      ng-paste="pastedArticleUrl($event)" placeholder="What are you reading?  Post a link to any article you would like to share on your public profile."
+                      ui-tinymce="urlTinymceOptions"
                       ng-model="thirdPartyArticle.url"></textarea>
         </div>
 
@@ -47,6 +47,7 @@
         <div id="your_rating" ng-show="thirdPartyArticle.article.loaded" class="pt-3">
           <textarea name="comments" id="comments"
                     placeholder="Add a comment..."
+                    ui-tinymce="tinymceOptions"
                     ng-model="thirdPartyArticle.article.share.comments"
                     ng-show="!invalidUrl"></textarea>
 

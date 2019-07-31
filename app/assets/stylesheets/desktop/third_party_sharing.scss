@@ -24,6 +24,8 @@
 	}
 
 	#article_preview {
+		margin-top: 12px;
+
 		h6 {
 			text-transform: uppercase;
 			margin: 8px 0 7px;
@@ -40,18 +42,8 @@
 	}
 
 	#your_rating {
-		textarea {
-			height: 5em;
-			padding: 12px;
-			background: $grey_light;
-			width: 100%;
-			border: none;
-			font-size: 1em;
-			outline: none;
-
-			&:focus {
-				outline: none;
-			}
+		.mce-tinymce {
+			width: 98.3%;
 		}
 	}
 }
