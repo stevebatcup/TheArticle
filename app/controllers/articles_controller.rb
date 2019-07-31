@@ -38,7 +38,9 @@ class ArticlesController < ApplicationController
 																				.references(:keyword_tags)
 																				.where("keyword_tags.slug = ?", 'sponsored-pick')
 																				.order(Arel.sql('RAND()'))
-						items_to_get = per_page - (sponsored_articles.length)
+																				.limit(7)
+																				.to_a
+						items_to_get = articles_per_page - (sponsored_articles.length)
 					else
 						items_to_get = per_page
 					end
