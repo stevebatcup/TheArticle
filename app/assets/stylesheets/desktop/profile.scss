@@ -190,6 +190,11 @@ body.fixed-profile-nav {
 		display: none;
 	}
 
+	#side_rating_summary {
+		position: relative;
+		top: 50px;
+	}
+
 	#top_bar {
 		z-index: 100;
 		position: fixed;
