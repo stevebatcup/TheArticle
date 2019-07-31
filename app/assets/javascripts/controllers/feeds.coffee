@@ -665,30 +665,33 @@ class TheArticle.Feeds extends TheArticle.PageController
 				@alert "Sorry there was an error deleting this post, please try again.", "Error deleting post"
 		, null, 'Delete your post', ['Cancel', 'Delete']
 
-	# expandThirdPartySharingTextarea: ($event) =>
-	# 	$textarea = $($event.target)
-	# 	$textarea.addClass('expanded').attr('placeholder', 'What are you reading? Post a link to any published article you would like to share on your public profile.')
+	expandThirdPartySharingTextarea: ($event) =>
+		$textarea = $($event.target)
+		$textarea.addClass('expanded').attr('placeholder', 'What are you reading? Post a link to any published article you would like to share on your public profile.')
 
-	# contractThirdPartySharingTextarea: ($event) =>
-	# 	$textarea = $($event.target)
-	# 	$textarea.removeClass('expanded').attr('placeholder', 'What are you reading?')
+	contractThirdPartySharingTextarea: ($event) =>
+		$textarea = $($event.target)
+		$textarea.removeClass('expanded').attr('placeholder', 'What are you reading?')
 
 	openThirdPartySharingPanelIfEnterPressed: ($event) =>
 		if @scope.thirdPartyUrl.value.length > 10
 			if $event.keyCode is 13
 				@scope.thirdPartyUrl.building = true
-				@openThirdPartySharingPanel(@scope.thirdPartyUrl.value)
-				@scope.thirdPartyUrl.building = false
+				@timeout =>
+					@openThirdPartySharingPanel(@scope.thirdPartyUrl.value)
+					@scope.thirdPartyUrl.building = false
+				, 850
 
 	openThirdPartySharingPanelFromPaste: ($event) =>
-		# url = $event.originalEvent.clipboardData.getData('text/plain')
-		url = @scope.thirdPartyUrl.value
-		console.log url
-		startPos = url.indexOf('https://')
-		startPos = url.indexOf('http://') if startPos < 0
-		url = url.substring(startPos)
-		@openThirdPartySharingPanel(url)
-		@scope.thirdPartyUrl.building = false
+		@scope.thirdPartyUrl.building = true
+		@timeout =>
+			url = @scope.thirdPartyUrl.value
+			startPos = url.indexOf('https://')
+			startPos = url.indexOf('http://') if startPos < 0
+			url = url.substring(startPos).replace(/(<([^>]+)>)/ig,"")
+			@openThirdPartySharingPanel(url)
+			@scope.thirdPartyUrl.building = false
+		, 850
 
 	openThirdPartySharingPanel: (url) =>
 		if @rootScope.profileDeactivated
@@ -713,6 +716,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$(document).on 'hide.bs.modal', '#thirdPartySharingModal', =>
 				@rootScope.$broadcast 'third_party_url_close', { url: url }
 				$('textarea#third_party_article_url_phantom').val('')
+				@scope.thirdPartyUrl =
+					value: ''
+					building: false
 
 	muteFollowed: ($event, item) =>
 		$event.preventDefault()
@@ -820,37 +826,31 @@ class TheArticle.Feeds extends TheArticle.PageController
 		top = (screen.height/2)-(height/2)
 		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
 
-	setThirdPartyTinyMceOptions: =>
+	setThirdPartyTinyMceOptions: (isMobile=false) =>
 		baseURL: "/tinymce-host"
-		height: 39
-		placeholder: "What are you reading?"
+		selector: 'textarea#third_party_article_url'
+		min_height: if isMobile then 75 else 60
+		height: if isMobile then 75 else 60
+		placeholder: "What are you reading?  Post a link to any article you would like to share on your public profile."
 		statusbar: false
 		menubar: false
 		toolbar: false
-		setup: (ed) =>
-			@scope.currentTinyMceEditor = ed
+		setup: (editor) =>
+			@scope.currentTinyMceEditor = editor
 		init_instance_callback: (ed) =>
 			ed.on 'focus', (e) =>
-				console.log 'foccussed'
-				ed.theme.resizeTo('100%', 77)
-				# @expandThirdPartySharingTextarea(e)
-				# ed.placeholder = 'What are you reading? Post a link to any published article you would like to share on your public profile.'
+				ed.theme.resizeTo('100%', if isMobile then 100 else 85)
 			ed.on 'blur', (e) =>
-				console.log 'blurred'
-				ed.theme.resizeTo('100%', 39)
-				# @contractThirdPartySharingTextarea(e)
-				# ed.placeholder = 'What are you reading?'
+				ed.theme.resizeTo('100%', if isMobile then 75 else 60)
 			ed.on 'keydown', (e) =>
 				@openThirdPartySharingPanelIfEnterPressed(e)
 			ed.on 'paste', (e) =>
-				@scope.thirdPartyUrl.building = true
-				@timeout =>
-					@openThirdPartySharingPanelFromPaste(e)
-				, 1000
+				@openThirdPartySharingPanelFromPaste(e)
 		plugins : "link, paste, placeholder"
 		content_css: [
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
+
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

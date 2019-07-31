@@ -140,15 +140,19 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@bindEvents()
 		@getVars = @getUrlVars()
 		@detectPanelOpeners() if 'panel' of @getVars
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 		if @scope.profile.isMe is true
 			@rootScope.isSignedIn = true
 			@getMyProfile @getProfileCallback
+			@scope.thirdPartyUrl =
+				value: ''
+				building: false
+			@scope.thirdPartyTinymceOptions = @setThirdPartyTinyMceOptions(true)
 		else
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback
 			@getMyProfile null, true
-
-		@scope.tinymceOptions = @setTinyMceOptions()
 
 	detectPanelOpeners: =>
 		if @getVars['panel'] is 'edit_profile'

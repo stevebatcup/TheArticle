@@ -1,4 +1,4 @@
-class TheArticle.ThirdPartySharing extends TheArticle.PageController
+class TheArticle.ThirdPartySharing extends TheArticle.MobilePageController
 
 	@register window.App
 	@$inject: [
@@ -20,6 +20,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@scope.sharing = false
 		@resetArticleData()
 		@bindListeners()
+		@scope.urlTinymceOptions = @setUrlTinyMceOptions()
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 	resetArticleData: =>
@@ -56,6 +57,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 
 	readArticleUrl: =>
 		@scope.invalidUrl = false
+		@scope.thirdPartyArticle.url = @scope.thirdPartyArticle.url.replace(/(<([^>]+)>)/ig,"").trim()
 		if @isValidUrl(@scope.thirdPartyArticle.url)
 			@scope.thirdPartyArticle.urlError = ''
 			@scope.thirdPartyArticle.article.data = {}
@@ -70,6 +72,10 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 					@scope.invalidUrl = response.data.message.indexOf('preview') < 1
 				else if response.data.status is 'success'
 					@scope.thirdPartyArticle.article.data = response.data.article
+		else
+			@scope.thirdPartyArticle.article.loaded = true
+			@scope.thirdPartyArticle.urlError = "We're sorry but there is a problem sharing this URL. This might be, for example, because it is not an article URL or because the article's publication does not allow shares. Please press cancel to continue using the site."
+			@scope.invalidUrl = true
 
 	shareNonWhitelistedArticleConfirm: =>
 		tpl = $("#confirmNonWhiteListed").html().trim()
@@ -119,11 +125,11 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				@scope.thirdPartyArticle.article.error = response.data.message
 				@scope.sharing = false
 
-	setTinyMceOptions: =>
+	setUrlTinyMceOptions: =>
 		baseURL: "/tinymce-host"
 		selector: 'textarea#third_party_article_url'
-		height: 39
-		placeholder: "xWhat are you reading?  Post a link to any article you would like to share on your public profile."
+		min_height: 77
+		height: 77
 		statusbar: false
 		menubar: false
 		toolbar: false
@@ -136,7 +142,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				@keyPressedArticleUrl(e)
 			ed.on 'paste', (e) =>
 				@pastedArticleUrl(e)
-		plugins : "link, paste, placeholder"
+		plugins : "link, paste"
 		content_css: [
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'

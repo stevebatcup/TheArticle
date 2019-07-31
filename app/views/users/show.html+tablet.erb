@@ -419,18 +419,6 @@
 						</div>
 					</div>
 
-
-					<div class="mb-2 mt-3 px-2 py-2 results_block row feed-listing" ng-if="(profile.isMe) && (!profileDeactivated)">
-	          <textarea name="third_party_article_url"
-	                      id="third_party_article_url_phantom"
-	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
-	                      ng-focus="expandThirdPartySharingTextarea($event)"
-	                      ng-blur="contractThirdPartySharingTextarea($event)"
-	                      ng-paste="openThirdPartySharingPanelFromPaste($event)"
-	                      placeholder="What are you reading?"
-	                      class="form-control w-100"></textarea>
-					</div>
-
 					<div ng-if="profile.isMe && profile.data.deactivated" class="row feed-listing feed-deactivated">
 						<div class="card">
 							<div class="inner">
