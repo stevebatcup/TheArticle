@@ -20,6 +20,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 		@scope.sharing = false
 		@resetArticleData()
 		@bindListeners()
+		@scope.tinymceOptions = @setTinyMceOptions()
 
 	resetArticleData: =>
 		@scope.thirdPartyArticle =
@@ -118,5 +119,27 @@ class TheArticle.ThirdPartySharing extends TheArticle.PageController
 				@scope.thirdPartyArticle.article.error = response.data.message
 				@scope.sharing = false
 
+	setTinyMceOptions: =>
+		baseURL: "/tinymce-host"
+		selector: 'textarea#third_party_article_url'
+		height: 39
+		placeholder: "xWhat are you reading?  Post a link to any article you would like to share on your public profile."
+		statusbar: false
+		menubar: false
+		toolbar: false
+		setup: (editor) =>
+			@scope.currentTinyMceEditor = editor
+		init_instance_callback: (ed) =>
+			ed.on 'focus', (e) =>
+				ed.theme.resizeTo('100%', 77)
+			ed.on 'keydown', (e) =>
+				@keyPressedArticleUrl(e)
+			ed.on 'paste', (e) =>
+				@pastedArticleUrl(e)
+		plugins : "link, paste, placeholder"
+		content_css: [
+			@element.data('tinymce-content-css-url'),
+			'//fonts.googleapis.com/css?family=Montserrat'
+		]
 
 TheArticle.ControllerModule.controller('ThirdPartySharingController', TheArticle.ThirdPartySharing)
