@@ -61,6 +61,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 
 		@scope.tinymceOptions = @setTinyMceOptions()
 		@scope.selectedTab = 'all_members'
+		@scope.tinymceOptions = @setTinyMceOptions()
 
 	bindEvents: =>
 		super

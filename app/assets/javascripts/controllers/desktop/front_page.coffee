@@ -105,6 +105,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 
 		@scope.tinymceOptions = @setTinyMceOptions()
 
+		@scope.thirdPartyUrl =
+			value: ''
+			building: false
+		@scope.thirdPartyTinymceOptions = @setThirdPartyTinyMceOptions()
+
 	bindEvents: =>
 		super
 		@bindScrollEvent()

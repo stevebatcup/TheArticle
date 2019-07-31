@@ -1,9 +1,15 @@
 body {
   font-size: 14px;
-  background-color: #f8f7f7;
+  /*background-color: #f8f7f7;*/
   font-family: Montserrat, sans-serif;
   color: #222;
+  line-height: 1.45em;
 }
+
+p {
+	margin: 5px 0;
+}
+
 
 b {
 	color: #000;

@@ -186,9 +186,13 @@
 body.fixed-profile-nav {
 	header#main_header,
 	#ads_top,
-	#basic_info,
-	#side_rating_summary {
+	#basic_info {
 		display: none;
+	}
+
+	#side_rating_summary {
+		position: relative;
+		top: 50px;
 	}
 
 	#top_bar {
@@ -212,7 +216,7 @@ body.fixed-profile-nav {
 	}
 
 	#main_feed {
-		margin-top: 20em;
+		margin-top: 30em;
 	}
 
 	#mini_profile {

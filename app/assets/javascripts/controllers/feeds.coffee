@@ -674,16 +674,24 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$textarea.removeClass('expanded').attr('placeholder', 'What are you reading?')
 
 	openThirdPartySharingPanelIfEnterPressed: ($event) =>
-		if $('textarea#third_party_article_url_phantom').val().length > 10
-			url = $('textarea#third_party_article_url_phantom').val()
-			@openThirdPartySharingPanel(url) if $event.keyCode is 13
+		if @scope.thirdPartyUrl.value.length > 10
+			if $event.keyCode is 13
+				@scope.thirdPartyUrl.building = true
+				@timeout =>
+					@openThirdPartySharingPanel(@scope.thirdPartyUrl.value)
+					@scope.thirdPartyUrl.building = false
+				, 850
 
 	openThirdPartySharingPanelFromPaste: ($event) =>
-		url = $event.originalEvent.clipboardData.getData('text/plain')
-		startPos = url.indexOf('https://')
-		startPos = url.indexOf('http://') if startPos < 0
-		url = url.substring(startPos)
-		@openThirdPartySharingPanel(url)
+		@scope.thirdPartyUrl.building = true
+		@timeout =>
+			url = @scope.thirdPartyUrl.value
+			startPos = url.indexOf('https://')
+			startPos = url.indexOf('http://') if startPos < 0
+			url = url.substring(startPos).replace(/(<([^>]+)>)/ig,"")
+			@openThirdPartySharingPanel(url)
+			@scope.thirdPartyUrl.building = false
+		, 850
 
 	openThirdPartySharingPanel: (url) =>
 		if @rootScope.profileDeactivated
@@ -708,6 +716,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$(document).on 'hide.bs.modal', '#thirdPartySharingModal', =>
 				@rootScope.$broadcast 'third_party_url_close', { url: url }
 				$('textarea#third_party_article_url_phantom').val('')
+				@scope.thirdPartyUrl =
+					value: ''
+					building: false
 
 	muteFollowed: ($event, item) =>
 		$event.preventDefault()
@@ -814,5 +825,32 @@ class TheArticle.Feeds extends TheArticle.PageController
 		left = (screen.width/2)-(width/2)
 		top = (screen.height/2)-(height/2)
 		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
+
+	setThirdPartyTinyMceOptions: (isMobile=false) =>
+		baseURL: "/tinymce-host"
+		selector: 'textarea#third_party_article_url'
+		min_height: if isMobile then 75 else 60
+		height: if isMobile then 75 else 60
+		placeholder: "What are you reading?  Post a link to any article you would like to share on your public profile."
+		statusbar: false
+		menubar: false
+		toolbar: false
+		setup: (editor) =>
+			@scope.currentTinyMceEditor = editor
+		init_instance_callback: (ed) =>
+			ed.on 'focus', (e) =>
+				ed.theme.resizeTo('100%', if isMobile then 100 else 85)
+			ed.on 'blur', (e) =>
+				ed.theme.resizeTo('100%', if isMobile then 75 else 60)
+			ed.on 'keydown', (e) =>
+				@openThirdPartySharingPanelIfEnterPressed(e)
+			ed.on 'paste', (e) =>
+				@openThirdPartySharingPanelFromPaste(e)
+		plugins : "link, paste, placeholder"
+		content_css: [
+			@element.data('tinymce-content-css-url'),
+			'//fonts.googleapis.com/css?family=Montserrat'
+		]
+
 
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

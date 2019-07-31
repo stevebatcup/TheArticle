@@ -226,7 +226,7 @@
 				</div>
 			</div>
 
-			<div id="side_rating_summary" class="member_ratings summary mt-4" ng-if="profile.ratings.data.length > 0">
+			<div id="side_rating_summary" class="member_ratings summary mt-5" ng-if="profile.ratings.data.length > 0">
 				<h6 class="mb-3 text-decrease-1">
 					{{ profile.data.displayName }} has rated <a href='#' class="text-green open_ratings_tab">{{ profile.data.ratingsSummary.articleCountAsArticles }}</a>
 				</h6>
@@ -292,12 +292,10 @@
 						<img class="rounded-circle" alt="" ng-src="{{ profile.data.profilePhoto.image }}" style="width: 34px; height: 34px;" />
 	          <textarea name="third_party_article_url"
 	                      id="third_party_article_url_phantom"
-	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
-	                      ng-focus="expandThirdPartySharingTextarea($event)"
-	                      ng-blur="contractThirdPartySharingTextarea($event)"
-	                      ng-paste="openThirdPartySharingPanelFromPaste($event)"
-	                      placeholder="What are you reading?"
+	                      ui-tinymce="thirdPartyTinymceOptions"
+	                      ng-model="thirdPartyUrl.value"
 	                      class="form-control" style="width: 91%"></textarea>
+	          <p class="building" ng-hide="!thirdPartyUrl.building">Building preview...</p>
 					</div>
 
 					<div ng-if="profile.isMe && profile.data.deactivated" class="row feed-listing feed-deactivated">
