@@ -155,7 +155,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.thirdPartyUrl =
 				value: ''
 				building: false
-			@scope.thirdPartyTinymceOptions = @setThirdPartyTinyMceOptions()
 		else
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback

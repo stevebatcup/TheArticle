@@ -97,7 +97,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.thirdPartyUrl =
 			value: ''
 			building: false
-		@scope.thirdPartyTinymceOptions = @setThirdPartyTinyMceOptions(true)
 
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>

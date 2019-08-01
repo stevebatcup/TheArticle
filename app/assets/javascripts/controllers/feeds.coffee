@@ -826,31 +826,4 @@ class TheArticle.Feeds extends TheArticle.PageController
 		top = (screen.height/2)-(height/2)
 		window.open(url, 'shareWindow', 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left)
 
-	setThirdPartyTinyMceOptions: (isMobile=false) =>
-		baseURL: "/tinymce-host"
-		selector: 'textarea#third_party_article_url'
-		min_height: if isMobile then 75 else 60
-		height: if isMobile then 75 else 60
-		placeholder: "What are you reading?  Post a link to any article you would like to share on your public profile."
-		statusbar: false
-		menubar: false
-		toolbar: false
-		setup: (editor) =>
-			@scope.currentTinyMceEditor = editor
-		init_instance_callback: (ed) =>
-			ed.on 'focus', (e) =>
-				ed.theme.resizeTo('100%', if isMobile then 100 else 85)
-			ed.on 'blur', (e) =>
-				ed.theme.resizeTo('100%', if isMobile then 75 else 60)
-			ed.on 'keydown', (e) =>
-				@openThirdPartySharingPanelIfEnterPressed(e)
-			ed.on 'paste', (e) =>
-				@openThirdPartySharingPanelFromPaste(e)
-		plugins : "link, paste, placeholder"
-		content_css: [
-			@element.data('tinymce-content-css-url'),
-			'//fonts.googleapis.com/css?family=Montserrat'
-		]
-
-
 TheArticle.ControllerModule.controller('FeedsController', TheArticle.Feeds)

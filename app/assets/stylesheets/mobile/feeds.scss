@@ -41,10 +41,6 @@ input#suggestion_search {
 			font-weight: bold;
 			margin: 0;
 		}
-
-		.mce-tinymce {
-			width: 89% !important;
-		}
 	}
 
 	&.comment {
@@ -812,10 +808,11 @@ body.fixed-nav #home_feed_tabs {
   z-index: 100;
 }
 
-
 .mentioned_user {
 	color: $green;
-}nav.tabbable {
+}
+
+nav.tabbable {
 	position: relative;
 
 	.nav-scroller-scroll {
@@ -853,11 +850,6 @@ body.fixed-nav #home_feed_tabs {
 	.see_more_articles {
 		display: none;
 	}
-}
-
-.mentioned_user {
-	cursor: pointer;
-	color: $green;
 }
 
 .mce-panel {
