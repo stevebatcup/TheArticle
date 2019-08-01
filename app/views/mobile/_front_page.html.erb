@@ -45,9 +45,14 @@
 						<img class="rounded-circle" alt="" src="<%= current_user.profile_photo.url(:square) %>" style="width: 34px; height: 34px;" />
 	          <textarea name="third_party_article_url"
 	                      id="third_party_article_url_phantom"
-	                      ui-tinymce="thirdPartyTinymceOptions"
+	                      ng-keyup="openThirdPartySharingPanelIfEnterPressed($event)"
+	                      ng-focus="expandThirdPartySharingTextarea($event)"
+	                      ng-blur="contractThirdPartySharingTextarea($event)"
+	                      ng-paste="openThirdPartySharingPanelFromPaste($event)"
 	                      ng-model="thirdPartyUrl.value"
+	                      placeholder="What are you reading?"
 	                      class="form-control" style="width: 88%"></textarea>
+	          <p class="building" ng-hide="!thirdPartyUrl.building">Building preview...</p>
 					</div>
 
 					<div class="ajax_loading feeds" ng-if="!feeds[selectedTab].firstLoaded">

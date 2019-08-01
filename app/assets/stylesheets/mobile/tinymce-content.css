@@ -4,10 +4,16 @@ body {
   font-family: Montserrat, sans-serif;
   color: #222;
   line-height: 1.45em;
+  min-height: 30px;
 }
 
 p {
 	margin: 5px 0;
+}
+
+p:empty {
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 

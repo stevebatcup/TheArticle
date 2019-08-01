@@ -5,12 +5,16 @@
 		height: 2.4em;
 
 		&.expanded {
-			height: 4.8em;
+			height: 5.2em;
 		}
 	}
 
 	&.feed-third-party {
 		background: #d2ead4;
+
+		texarea {
+
+		}
 
 		.building {
 			text-align: right;
@@ -19,10 +23,6 @@
 			font-size: 0.9em;
 			font-weight: bold;
 			margin: 0;
-		}
-
-		.mce-tinymce {
-			width: 89% !important;
 		}
 	}
 

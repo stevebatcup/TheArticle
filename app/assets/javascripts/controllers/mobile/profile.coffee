@@ -148,7 +148,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			@scope.thirdPartyUrl =
 				value: ''
 				building: false
-			@scope.thirdPartyTinymceOptions = @setThirdPartyTinyMceOptions(true)
 		else
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback
