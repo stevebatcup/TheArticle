@@ -61,6 +61,7 @@
 				<div ng-repeat="article in filterListForTab(search.results.data.articles)" class="feed-listing feed-article">
 					<%= render 'articles/item' %>
 				</div>
+				<div ng-if="selectedTab != 'all'"><%= render 'carousels/latest_articles_for_feed' %></div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
 					<a href='#' class="text-green" ng-click="selectTab($event, 'articles')">View all articles</a>
 				</div>

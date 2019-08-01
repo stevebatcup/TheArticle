@@ -34,6 +34,9 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 					exchanges: []
 					posts: []
 
+		@scope.latestArticles = []
+		@scope.latestArticlesCarouselReady = false
+
 		@bindEvents()
 		@scope.userExchanges =
 			ids: []
@@ -66,8 +69,22 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 			@scope.search.results.empty = response.data.results.length is 0
 			angular.forEach response.data.results, (result) =>
 				@scope.search.results.data[result.type].push result
-			console.log @scope.search.results.data
 			@scope.search.results.loaded = true
+			@scope.latestArticles = response.data.latestArticles
+
+	initLatestArticlesCarousel: =>
+		@timeout =>
+			$(".slick-carousel.latest_articles").slick
+				infinite: true
+				slidesToShow: 1
+				slidesToScroll: 1
+				adaptiveHeight: false
+				speed: 300
+				dots: false
+				centerMode: if $(window).width() <= 360 then false else true
+				centerPadding: '60px'
+			@scope.latestArticlesCarouselReady = true
+		, 150
 
 	getUserExchanges: =>
 		url = "/user_exchanges?page=#{@scope.userExchanges.page}&per_page=#{@scope.userExchanges.perPage}"
@@ -118,6 +135,7 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 		$event.preventDefault()
 		@scope.selectedTab = tab
 		$('#feed').scrollTop(0)
+		@initLatestArticlesCarousel() if (tab is 'articles') and (@scope.latestArticlesCarouselReady isnt true)
 
 	filterListForTab: (list) =>
 		if @scope.selectedTab == 'all'
