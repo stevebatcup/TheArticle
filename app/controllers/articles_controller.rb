@@ -104,7 +104,6 @@ class ArticlesController < ApplicationController
 			unless @article.is_sponsored?
 				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
 			end
-			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
 				@firstSideAdType = 'sidecolumn'
 				@firstSideAdSlot = 1
