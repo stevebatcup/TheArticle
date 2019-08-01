@@ -74,6 +74,10 @@ begin
 
 	json.results items
 
+	# if browser.device.mobile?
+
+	# end
+
 rescue Exception => e
 	json.results items
 end

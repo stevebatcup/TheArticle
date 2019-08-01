@@ -14,7 +14,9 @@ class ExchangesController < ApplicationController
 				fillers = Author.contributors_for_spotlight(6 - got, @contributors_for_spotlight.map(&:id))
 				@contributors_for_spotlight = (@contributors_for_spotlight + fillers.to_a) if fillers.any?
 			end
-			@recent_articles = Article.recent
+			sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 1, :random)
+			@recent_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
+			@recent_articles.insert(2, sponsored_picks.first) if Author.sponsors.any?
 		else
 			render_404
 		end

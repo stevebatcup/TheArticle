@@ -772,9 +772,11 @@
 										<a href="<%= contributor_path(slug: ta.author.slug) %>">
 											by <span><%= ta.author.display_name.html_safe %></span>
 										</a>
+										<% unless ta.is_sponsored %>
 										<span class="entry-date">
 											<%= article_date(ta) %>
 										</span>
+										<% end %>
 									</p>
 								</footer>
 							</div>

@@ -68,6 +68,7 @@ class SearchController < ApplicationController
 						})
 						search_log.user_id = current_user.id if user_signed_in?
 						search_log.save
+						@latest_articles = Article.latest.limit(20) if browser.device.mobile?
 						render :index_results
 					rescue Exception => e
 						render :index_results
