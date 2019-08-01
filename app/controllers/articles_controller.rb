@@ -27,18 +27,12 @@ class ArticlesController < ApplicationController
 					per_page = params[:per_page].to_i
 					if params[:include_sponsored]
 						sponsored_frequency = 5
-						# sponsored_limit = sponsored_frequency
-						# sponsored_articles = Author.get_sponsors_single_posts(nil, sponsored_limit, :latest).to_a
-						# if sponsored_articles.size < sponsored_limit
-						# 	sponsored_articles += Author.get_sponsors_single_posts(nil, (sponsored_limit - sponsored_articles.size), :random).to_a
-						# end
+						offset = (params[:page].to_i % 2 == 0) ? 6 : 0
 						sponsored_articles = Article.sponsored.includes(:exchanges)
 																				.references(:exchanges)
-																				.includes(:keyword_tags)
-																				.references(:keyword_tags)
-																				.where("keyword_tags.slug = ?", 'sponsored-pick')
-																				.order(Arel.sql('RAND()'))
-																				.limit(7)
+																				.order(published_at: :desc)
+																				.limit(6)
+																				.offset(offset)
 																				.to_a
 						items_to_get = articles_per_page - (sponsored_articles.length)
 					else
@@ -110,7 +104,14 @@ class ArticlesController < ApplicationController
 													.first
 			@sponsored_picks = []
 			unless @article.is_sponsored?
-				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 4)
+				@sponsored_picks = Article.sponsored.includes(:exchanges)
+																		.references(:exchanges)
+																		.includes(:keyword_tags)
+																		.references(:keyword_tags)
+																		.where("keyword_tags.slug = ?", 'sponsored-pick')
+																		.order(Arel.sql('RAND()'))
+																		.limit(4)
+																		.to_a
 			end
 			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
