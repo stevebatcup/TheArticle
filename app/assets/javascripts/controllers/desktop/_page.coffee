@@ -158,3 +158,4 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		@http.get("/user_followings?counts=1").then (response) =>
 			if response.data? and (response.data.status is 'success')
 				@scope.followCounts = response.data.counts
+				@scope.followCounts.loaded = true

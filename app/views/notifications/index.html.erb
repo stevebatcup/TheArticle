@@ -32,15 +32,15 @@
 				<div class="d-flex" id="stats_info" ng-cloak>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'ratings')">
 						<label>Ratings</label>
-						<span><%= current_user.ratings_count %></span>
+						<span ng-hide="!followCounts.loaded"><%= current_user.ratings_count %></span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'followers')">
 						<label>Followers</label>
-						<span>{{followCounts.followers}}</span>
+						<span ng-hide="!followCounts.loaded">{{followCounts.followers}}</span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'following')">
 						<label>Following</label>
-						<span>{{followCounts.followings}}</span>
+						<span ng-hide="!followCounts.loaded">{{followCounts.followings}}</span>
 					</div>
 				</div>
 

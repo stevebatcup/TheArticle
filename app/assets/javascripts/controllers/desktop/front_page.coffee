@@ -94,6 +94,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@cookies.remove('ok_to_flash')
 
 		@scope.followCounts =
+			loaded: false
 			followers: 0
 			followings: 0
 			connections: 0

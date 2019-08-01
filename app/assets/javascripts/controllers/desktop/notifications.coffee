@@ -51,6 +51,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 		@getMyProfile()
 
 		@scope.followCounts =
+			loaded: false
 			followers: 0
 			followings: 0
 			connections: 0

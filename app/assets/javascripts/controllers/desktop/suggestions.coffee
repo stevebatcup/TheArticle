@@ -26,6 +26,7 @@ class TheArticle.Suggestions extends TheArticle.DesktopPageController
 
 		if @element.data('full-page-suggestions')
 			@scope.followCounts =
+				loaded: false
 				followers: 0
 				followings: 0
 				connections: 0
