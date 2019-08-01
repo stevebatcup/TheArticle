@@ -41,18 +41,18 @@
 					</div>
 				</div>
 
-				<div class="d-flex" id="stats_info" ng-cloak>
+				<div class="d-flex" id="stats_info" ng-if="followCounts.loaded" ng-cloak>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'ratings')">
 						<label>Ratings</label>
-						<span ng-hide="!followCounts.loaded"><%= current_user.ratings_count %></span>
+						<span ng-cloak><%= current_user.ratings_count %></span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'followers')">
 						<label>Followers</label>
-						<span ng-hide="!followCounts.loaded">{{followCounts.followers}}</span>
+						<span ng-cloak>{{followCounts.followers}}</span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'following')">
 						<label>Following</label>
-						<span ng-hide="!followCounts.loaded">{{followCounts.followings}}</span>
+						<span ng-cloak>{{followCounts.followings}}</span>
 					</div>
 				</div>
 			</div>
