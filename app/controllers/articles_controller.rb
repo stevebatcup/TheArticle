@@ -113,7 +113,6 @@ class ArticlesController < ApplicationController
 																		.limit(4)
 																		.to_a
 			end
-			@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 			if rand(1..2) == 1
 				@firstSideAdType = 'sidecolumn'
 				@firstSideAdSlot = 1

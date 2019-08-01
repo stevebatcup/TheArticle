@@ -259,11 +259,6 @@
 		</div>
 	<% end %>
 
-	<%= if @trending_exchanges.any?
-		render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges }
-	end %>
-
-
 	<div class="container pb-5 mt-4" id="most_read_articles">
 		<h2 class="bullet underline">Latest articles</h2>
 		<% @trending_articles.each do |ta| %>
