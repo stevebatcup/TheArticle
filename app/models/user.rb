@@ -294,8 +294,8 @@ class User < ApplicationRecord
     "_deleted_#{id}_#{username}"
   end
 
-  def delete_account(reason="User deleted account", by_admin=false)
-    MailchimperService.remove_from_mailchimp_list(self)
+  def delete_account(reason="User deleted account", by_admin=false, no_mailchimp=false)
+    MailchimperService.remove_from_mailchimp_list(self) unless no_mailchimp
     clear_user_data(true)
     poisoned_email = self.class.poison_email(self.email, self.id)
     poisoned_username = self.class.poison_username(self.username, self.id)
