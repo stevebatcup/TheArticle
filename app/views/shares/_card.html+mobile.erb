@@ -110,7 +110,7 @@
 				</a>
 			</div>
 
-			<a href="{{ item.article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ item.article.exchange.slug }}"
+			<a href="{{ item.article.exchange.path }}" class="exchange-badge bg-colour-{{ item.article.exchange.id }}-dark exchange-{{ item.article.exchange.slug }}"
 				ng-if="item.article.exchange.name.length">
 		    <span ng-if="item.article.exchange.isSponsored"><i class="fas fa-star"></i></span>
 			  {{ item.article.exchange.name }}

@@ -77,6 +77,7 @@ module ShareHelper
 				  path: author.nil? ? '' : contributor_path(slug: author.slug),
 				},
 				exchange: {
+					id: exchange.nil? ? '' : exchange.id,
 					name: exchange.nil? ? '' : exchange.name,
 					path: exchange.nil? ? '' : exchange_path(slug: exchange.slug),
 					slug: exchange.nil? ? '' : exchange.slug,
