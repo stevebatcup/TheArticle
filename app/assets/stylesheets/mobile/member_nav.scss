@@ -126,7 +126,7 @@ body.fixed-nav {
 }
 
 #member_options {
-  transition: top 0.3s;
+  transition: top 0.1s;
   width: 100vw;
   left: 0;
   background-color: #fff;
@@ -147,6 +147,8 @@ body.fixed-nav {
 
     a.nav-link {
       color: #fff;
+      padding-left: 0;
+      padding-right: 0;
 
       &.active {
         background-color: #fff;

@@ -11,6 +11,7 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 
 	init: ->
 		@scope.scrollTop = 0
+		@scope.scrollCurrentMax = 0
 		@scope.myProfile = window.location.pathname is "/my-profile"
 		@scope.userProfile = false
 
@@ -76,8 +77,10 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 				@scope.scrollTop = scrollTop
 				if scrollTop  >= ($navBarPosition + offset)
 					if dir is 'up'
-						$('body').addClass('fixed-header')
+						if (@scope.scrollCurrentMax - scrollTop) > 140
+							$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
 					else
+						@scope.scrollCurrentMax = scrollTop
 						$('body').addClass('fixed-profile-nav')
 						$navBar.addClass('container')
 						$('body').removeClass('fixed-header')
@@ -117,9 +120,11 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 				if scrollingDirection is 'down'
 					$('body').addClass('fixed-nav') unless $('body').hasClass('fixed-nav')
 					$('body').removeClass('fixed-header')
+					@scope.scrollCurrentMax = scrollTop
 				else
-					$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
-					$('body').removeClass('fixed-nav')
+					if (@scope.scrollCurrentMax - scrollTop) > 140
+						$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
+						$('body').removeClass('fixed-nav')
 			else
 				$('body').removeClass('fixed-header').removeClass('fixed-nav')
 
