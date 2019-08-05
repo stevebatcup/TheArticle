@@ -130,7 +130,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 				$('.close_share_modal').first().click()
 				@cookies.put('ok_to_flash', true)
 				@scope.sharing = false
-				window.location.reload() unless @scope.share.share_on_twitter
+				window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" ) unless @scope.share.share_on_twitter
 			else
 				@scope.formError = response.data.message
 
@@ -138,7 +138,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		articleUrl = window.location.toString()
 		url = "https://www.facebook.com/sharer/sharer.php?u=#{articleUrl}"
 		@openSocialShareWindow url, =>
-			window.location.reload()
+			window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
 
 	openTweetWindow: (alsoOpenFacebookWindow=false) =>
 		articleUrl = window.location.toString()
@@ -152,7 +152,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 			callback = @openFacebookWindow
 		else
 			callback = =>
-				window.location.reload()
+				window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
 		@openSocialShareWindow url, callback
 
 	openSocialShareWindow: (url, callback=null) =>
