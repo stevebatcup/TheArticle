@@ -23,9 +23,11 @@ module ArticleHelper
 		content_html =  Nokogiri::HTML.fragment(content)
 		# auto blankise remote links
 		content_html.css('a').each do |link|
-			unless link['href'].include?(host)
-				link['target'] = '_blank'
-				link['rel'] = 'noopener' # To avoid window.opener attack when target blank is used
+			if link['href']
+				unless link['href'].include?(host)
+					link['target'] = '_blank'
+					link['rel'] = 'noopener' # To avoid window.opener attack when target blank is used
+				end
 			end
 		end
 		content_html.to_s.html_safe
