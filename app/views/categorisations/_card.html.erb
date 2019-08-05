@@ -1,7 +1,7 @@
 <div class="card">
 	<div class="user_info d-flex">
 		<div class="user_info_inner d-flex align-items-start">
-			<p>
+			<p ng-if="!item.article.exchanges[0].isSponsored">
 					<b>New article</b> added to the
 					<span ng-bind-html="formatExchangeList(item.article.exchanges)"></span>
 				 &bullet; <time ng-if="item.feedDate">{{item.feedDate}}</time><time ng-if="!item.feedDate">{{item.date}}</time>
