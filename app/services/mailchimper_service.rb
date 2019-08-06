@@ -107,7 +107,6 @@ module MailchimperService
 				response = mailchimp_api.lists.unsubscribe(*request_data)
 				log_mailchimp_request(user, :remove, request_data, response)
 		    rescue Mailchimp::Error => e
-		    	raise e
 		    end
 		end
 
