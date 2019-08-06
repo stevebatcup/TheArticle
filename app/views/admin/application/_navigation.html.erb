@@ -61,6 +61,9 @@ as defined by the routes in the `admin/` namespace
 		<li>
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/wordpress_logs') %>" href="/admin/wordpress_logs">Articles from WP</a>
 		</li>
+		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/email_logs') %>" href="/admin/email_logs">Emails to users</a>
+		</li>
 	</ul>
 
 </nav>

@@ -52,5 +52,13 @@
 	    				<span ng-if="user.deleted">ACCOUNT DELETED!</span>
   			</button>
 	  </div>
+	  <hr />
+  	<div class="btn-group btn-group-sm" role="group">
+      <a class="btn btn-info" href="/admin/email_logs?user_id=<%= user.id %>">
+				<i class="fas fa-envelope mr-2"></i>
+				<span>View email log</span>
+    	</a>
+	   </a>
+
   </div>
 </div>

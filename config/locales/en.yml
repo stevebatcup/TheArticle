@@ -10,6 +10,7 @@ en:
     black_list_user: Blacklist
     white_listed_third_party_publisher: Publication whitelist
     wordpress_log: Wordpress logs
+    email_log: Email logs
     help_section: Help centre sections
     help_content: Help centre question
 
@@ -34,4 +35,8 @@ en:
     admin_type: Type
     admin_article_title: Article
     admin_date: Date
+   email_log:
+    admin_date: Sent at
+    user: Name
+    subject: Email subject
 
