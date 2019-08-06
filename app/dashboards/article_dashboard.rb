@@ -55,7 +55,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     :admin_published_at,
     :admin_exchange_list,
     :admin_tag_list,
-    :admin_share_count,
+    :shares,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
