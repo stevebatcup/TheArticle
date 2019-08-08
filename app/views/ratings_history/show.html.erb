@@ -491,10 +491,10 @@
 						</div>
 
 						<% unless is_development? %>
-							<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length < 4)" class="w-100 mt-3">
+							<section id="bibblio_feed" ng-if="(ratings.firstLoaded) && (ratings.data.length < 4)" class="w-100 mt-3">
 									<div class="bib--rcm-init"
 									  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
-									  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--grd-6"
+									  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--grd-4"
 									  data-query-string-params="utm_source=bibblio_widget_1"
 					  			  data-custom-unique-identifier="<%= @article.slug %>">
 									</div>
@@ -545,10 +545,10 @@
 			</section>
 
 			<% unless is_development? %>
-				<section id="bibblio_feed" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 4)" class="w-100 mt-3">
+				<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 4)" class="w-100 mt-3">
 						<div class="bib--rcm-init"
 						  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
-						  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--grd-4"
+						  data-style-classes="bib--recency-show bib--col-6 bib--4by3 bib--default bib--image-middle"
 						  data-query-string-params="utm_source=bibblio_widget_1"
 						  data-custom-unique-identifier="<%= @article.slug %>">
 						</div>
