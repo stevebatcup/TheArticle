@@ -41,6 +41,10 @@ en:
     admin_date: Sent at
     user: Name
     subject: Email subject
+   watch_list_user:
+    admin_user_name: Added by
+   black_list_user:
+    admin_user_name: Added by
    approved_third_party_share:
     admin_user_name: Approved by
    rejected_third_party_share:

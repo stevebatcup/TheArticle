@@ -13,6 +13,7 @@ class BlackListUserDashboard < Administrate::BaseDashboard
     reason: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    admin_user_name: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -23,8 +24,8 @@ class BlackListUserDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :user,
     :id,
-    :reason,
     :created_at,
+    :admin_user_name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -35,6 +36,7 @@ class BlackListUserDashboard < Administrate::BaseDashboard
     :reason,
     :created_at,
     :updated_at,
+    :admin_user_name
   ].freeze
 
   # FORM_ATTRIBUTES
