@@ -33,7 +33,18 @@ as defined by the routes in the `admin/` namespace
 			</ul>
 		</li>
 		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Quarantined posts (<%= quarantined_post_count %>)</a>
+			<span class="navigation__link">Third party shares</span>
+			<ul class="children">
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Pending (<%= quarantined_post_count %>)</a>
+				</li>
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/approved_third_party_shares') %>" href="/admin/approved_third_party_shares">Approved (<%= approved_post_count %>)</a>
+				</li>
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/rejected_third_party_shares') %>" href="/admin/rejected_third_party_shares">Rejected (<%= rejected_post_count %>)</a>
+				</li>
+			</ul>
 		</li>
 		<li>
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/watch_list_users') %>" href="/admin/watch_list_users">Watchlist</a>
