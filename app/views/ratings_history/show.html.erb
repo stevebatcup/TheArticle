@@ -545,12 +545,21 @@
 			</section>
 
 			<% unless is_development? %>
-				<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 6)" class="w-100 mt-3">
+				<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 4)" class="w-100 mt-3">
 						<div class="bib--rcm-init"
 						  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
-						  data-style-classes="bib--recency-show bib--col-6 bib--4by3 bib--default bib--image-middle"
+						  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-4"
 						  data-query-string-params="utm_source=bibblio_widget_1"
-						  data-custom-unique-identifier="<%= @article.slug %>">
+						  data-custom-unique-identifier="<%= @article.slug %>"
+						  ng-if="ratings.data.length == 5 || ratings.data.length == 6" ng-cloak>
+						</div>
+
+						<div class="bib--rcm-init"
+						  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+						  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
+						  data-query-string-params="utm_source=bibblio_widget_1"
+						  data-custom-unique-identifier="<%= @article.slug %>"
+						  ng-if="ratings.data.length > 6" ng-cloak>
 						</div>
 				</section>
 			<% end %>
