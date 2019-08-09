@@ -1,6 +1,12 @@
 class SponsorsController < ApplicationController
 	def index
-		@sponsors = Author.sponsors_for_listings.order(display_name: :asc)
+		respond_to do |format|
+			@sponsors = Author.sponsors_for_listings.order(display_name: :asc)
+			format.html do
+			end
+			format.json do
+			end
+		end
 	end
 
 	def show
