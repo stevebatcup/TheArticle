@@ -1,8 +1,26 @@
 class ExchangesController < ApplicationController
 	def index
-		@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
-		@exchanges = Exchange.listings.order(:name).all.to_a
-		@exchanges.unshift(Exchange.editor_item)
+		respond_to do |format|
+			format.html do
+				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
+				@exchanges = Exchange.listings.order(:name).all.to_a
+				@exchanges.unshift(Exchange.editor_item)
+			end
+
+			format.json do
+				@mode = (params[:mode] || :all).to_sym
+				if @mode == :homepage
+					@exchanges = Exchange.most_recent_articles(['editor-at-the-article', 'sponsored'])
+					@exchanges.unshift(Exchange.new({name: 'Latest Articles', slug: 'latest-articles', description: '', image: ''}))
+				elsif @mode == :wizard
+					trending_exchanges = Exchange.trending_list
+					other_exchanges = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc)
+					@exchanges = trending_exchanges.to_a.concat(other_exchanges)
+				else
+					@exchanges = Exchange.all_complete.order(:name).all.to_a
+				end
+			end
+		end
 	end
 
 	def show
