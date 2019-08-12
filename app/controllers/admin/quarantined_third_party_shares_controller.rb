@@ -14,7 +14,7 @@ module Admin
       respond_to do |format|
         format.json do
           share = QuarantinedThirdPartyShare.find(params[:id])
-          if share.update_attribute(:status, :approved)
+          if share.update_attributes({status: :approved, handled_by_admin_user_id: current_user.id})
             ThirdPartyArticleService.add_domain_from_url(share.url) if params[:whitelist_domain]
             ThirdPartyArticleService.approve_quarantined_share(share)
             NoticeMailer.approve_third_party_share(share).deliver_now
@@ -31,7 +31,7 @@ module Admin
       respond_to do |format|
         format.json do
           share = QuarantinedThirdPartyShare.find(params[:id])
-          if share.update_attribute(:status, :rejected)
+          if share.update_attributes({status: :rejected, handled_by_admin_user_id: current_user.id})
             NoticeMailer.reject_third_party_share(share).deliver_now
             if share.user.has_reached_rejected_post_limit?
               share.user.delete_account

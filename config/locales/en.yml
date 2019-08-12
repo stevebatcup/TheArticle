@@ -5,11 +5,14 @@ en:
     user_concern_report: "Concern reports > profiles"
     comment_concern_report: "Concern reports > Comments"
     share_concern_report: "Concern reports > Posts"
-    quarantined_third_party_share: Quarantined posts
+    quarantined_third_party_share: Quarantined 3rd party posts
+    approved_third_party_share: Approved 3rd party posts
+    rejected_third_party_share: Rejected 3rd party posts
     watch_list_user: Watchlist
     black_list_user: Blacklist
     white_listed_third_party_publisher: Publication whitelist
     wordpress_log: Wordpress logs
+    email_log: Email logs
     help_section: Help centre sections
     help_content: Help centre question
 
@@ -34,4 +37,16 @@ en:
     admin_type: Type
     admin_article_title: Article
     admin_date: Date
+   email_log:
+    admin_date: Sent at
+    user: Name
+    subject: Email subject
+   watch_list_user:
+    admin_user_name: Added by
+   black_list_user:
+    admin_user_name: Added by
+   approved_third_party_share:
+    admin_user_name: Approved by
+   rejected_third_party_share:
+    admin_user_name: Rejected by
 

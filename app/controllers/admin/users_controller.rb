@@ -35,7 +35,7 @@ module Admin
       respond_to do |format|
         format.json do
           if user = User.find_by(id: params[:user_id])
-            user.add_to_blacklist("Blacklisted from admin")
+            user.add_to_blacklist("Blacklisted from admin", current_user)
             @status = :success
           else
             @status = :error
@@ -48,7 +48,7 @@ module Admin
       respond_to do |format|
         format.json do
           if user = User.find_by(id: params[:user_id])
-            user.add_to_watchlist("Added from admin")
+            user.add_to_watchlist("Added from admin", current_user)
             @status = :success
           else
             @status = :error

@@ -113,7 +113,8 @@ class Article < ApplicationRecord
 		end
 		if sponsors.any? && with_sponsored
 			sponsored_articles = self.sponsored
-																.includes(:author).references(:author)
+																.includes(:author)
+																.references(:author)
 																.order(Arel.sql('RAND()'))
 																.limit(1)
 			articles.insert(3, sponsored_articles.first) if sponsored_articles.any?

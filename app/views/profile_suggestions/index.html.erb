@@ -27,18 +27,18 @@
 					</div>
 				</div>
 
-				<div class="d-flex" id="stats_info" ng-cloak>
+				<div class="d-flex" id="stats_info" ng-if="followCounts.loaded" ng-cloak>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'ratings')">
 						<label>Ratings</label>
-						<span><%= current_user.ratings_count %></span>
+						<span ng-cloak><%= current_user.ratings_count %></span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'followers')">
 						<label>Followers</label>
-						<span>{{followCounts.followers}}</span>
+						<span ng-cloak>{{followCounts.followers}}</span>
 					</div>
 					<div class="stats p-1 flex-fill" ng-click="openMyProfile($event, 'following')">
 						<label>Following</label>
-						<span>{{followCounts.followings}}</span>
+						<span ng-cloak>{{followCounts.followings}}</span>
 					</div>
 				</div>
 			</div>
@@ -182,9 +182,11 @@
 										<a href="<%= contributor_path(slug: ta.author.slug) %>">
 											by <span><%= ta.author.display_name.html_safe %></span>
 										</a>
+										<% unless ta.is_sponsored %>
 										<span class="entry-date">
 											<%= article_date(ta) %>
 										</span>
+										<% end %>
 									</p>
 								</footer>
 							</div>

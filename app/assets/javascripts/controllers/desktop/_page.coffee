@@ -137,6 +137,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 	openSharingPanel: ($event=null, mode=null) =>
 		$event.preventDefault() if $event?
 		if @rootScope.isSignedIn
+			@rootScope.sharingPanelOpenAtScrollPoint = $(window).scrollTop()
 			if @rootScope.profileDeactivated
 				@confirm "You will need to reactivate your profile to share or rate an article", =>
 					window.location.href = "/account-settings?reactivate=1"
@@ -158,6 +159,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		@http.get("/user_followings?counts=1").then (response) =>
 			if response.data? and (response.data.status is 'success')
 				@scope.followCounts = response.data.counts
+				@scope.followCounts.loaded = true
 
 	setTinyMceOptions: =>
 		baseURL: "/tinymce-host"
@@ -218,3 +220,4 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
+

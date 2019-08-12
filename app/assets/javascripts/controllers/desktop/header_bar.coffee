@@ -56,8 +56,10 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 			@scope.scrollTop = scrollTop
 			if @scope.scrollTop  >= ($navBarPosition + offset)
 				if dir is 'up'
-					$('body').addClass('fixed-header')
+					if (@scope.scrollCurrentMax - scrollTop) > 140
+						$('body').addClass('fixed-header') unless $('body').hasClass('fixed-header')
 				else
+					@scope.scrollCurrentMax = scrollTop
 					$('body').addClass('fixed-profile-nav')
 					$navBar.addClass('container')
 					$('body').removeClass('fixed-header')

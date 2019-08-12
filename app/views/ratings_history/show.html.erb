@@ -1,3 +1,8 @@
+<% unless is_development? %>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.css">
+	<script src="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.js"></script>
+<% end %>
+
 <section ng-controller="RatingsHistoryController"
 					class="container front-page"
 					data-article-id="<%= @article.id %>"
@@ -469,6 +474,19 @@
 								</section>
 
 						</div>
+
+						<% unless is_development? %>
+							<section id="bibblio_feed" ng-if="(ratings.firstLoaded) && (ratings.data.length < 5)" class="w-100">
+									<h2 class="h1 bullet mb-2 mb-md-3">You may also like</h2>
+									<div class="bib--rcm-init"
+									  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+									  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--grd-4"
+									  data-query-string-params="utm_source=bibblio_widget_1"
+					  			  data-custom-unique-identifier="<%= @article.slug %>">
+									</div>
+							</section>
+						<% end %>
+
 					</div>
 				</div>
 
@@ -511,6 +529,20 @@
 					<% end %>
 				</div>
 			</section>
+
+			<% unless is_development? %>
+				<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 5)" class="w-100 mt-3">
+						<h2 class="bullet mt-2">
+							<span class="text-decrease-2">You may also like</span>
+						</h2>
+						<div class="bib--rcm-init"
+						  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+						  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
+						  data-query-string-params="utm_source=bibblio_widget_1"
+						  data-custom-unique-identifier="<%= @article.slug %>">
+						</div>
+				</section>
+			<% end %>
 		</div>
 	</div>
 </section>

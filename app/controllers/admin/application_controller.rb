@@ -22,6 +22,16 @@ module Admin
     end
     helper_method :quarantined_post_count
 
+    def approved_post_count
+      @approved_post_count ||= ApprovedThirdPartyShare.all.size
+    end
+    helper_method :approved_post_count
+
+    def rejected_post_count
+      @rejected_post_count ||= RejectedThirdPartyShare.all.size
+    end
+    helper_method :rejected_post_count
+
     def user_concern_report_count
       @user_concern_report_count ||= UserConcernReport.all.size
     end

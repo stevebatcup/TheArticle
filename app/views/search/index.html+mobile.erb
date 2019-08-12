@@ -47,26 +47,27 @@
 
 	<div id="results_pane" class="container bg-grey pt-3" ng-cloak>
 		<div class="">
-			<div class="results_block mb-4" ng-show="(selectedTab == 'all' && search.results.empty) && search.results.loaded">
+			<div class="results_block pb-4" ng-show="(selectedTab == 'all' && search.results.empty) && search.results.loaded">
 				<div class="no_results py-3 px-3">
 					<h4>No Search Results</h4>
 					<p>Sorry, but we cannot find anything on <b>TheArticle</b> for {{search.query}}</p>
 				</div>
 			</div>
 
-			<div class="results_block mb-4"
+			<div class="results_block pb-4"
 						ng-if="(selectedTab == 'all' || selectedTab == 'articles') && search.results.data.articles.length > 0" ng-cloak>
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Article results for "{{search.query}}"</h6>
 
 				<div ng-repeat="article in filterListForTab(search.results.data.articles)" class="feed-listing feed-article">
 					<%= render 'articles/item' %>
 				</div>
+				<div ng-if="selectedTab != 'all'"><%= render 'carousels/latest_articles_for_feed' %></div>
 				<div class="view_all px-2 py-2 mb-2" ng-if="selectedTab == 'all' && search.results.data.articles.length > search.allLimit">
 					<a href='#' class="text-green" ng-click="selectTab($event, 'articles')">View all articles</a>
 				</div>
 			</div>
 
-			<div class="results_block mb-4"
+			<div class="results_block pb-4"
 						ng-if="(selectedTab == 'all' || selectedTab == 'contributors') && search.results.data.contributors.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Contributor results for "{{search.query}}"</h6>
 				<div ng-repeat="item in filterListForTab(search.results.data.contributors)" class="feed-listing">
@@ -77,7 +78,7 @@
 				</div>
 			</div>
 
-			<div class="results_block mb-4"
+			<div class="results_block pb-4"
 						ng-if="(selectedTab == 'all' || selectedTab == 'profiles') && search.results.data.profiles.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Profile results for "{{search.query}}"</h6>
 				<div ng-repeat="item in filterListForTab(search.results.data.profiles)" class="feed-listing bg-white">
@@ -88,7 +89,7 @@
 				</div>
 			</div>
 
-			<div class="results_block mb-4"
+			<div class="results_block pb-4"
 						ng-if="(selectedTab == 'all' || selectedTab == 'exchanges') && search.results.data.exchanges.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Exchange results for "{{search.query}}"</h6>
 				<div ng-repeat="item in filterListForTab(search.results.data.exchanges)" class="col-12 mb-3 px-1 feed-listing article-listing exchange">
@@ -119,7 +120,7 @@
 				</div>
 			</div>
 
-			<div class="results_block mb-4"
+			<div class="results_block pb-4"
 						ng-if="(selectedTab == 'all' || selectedTab == 'posts') && search.results.data.posts.length > 0">
 				<h6 class="px-2 py-3 block_heading" ng-if="selectedTab == 'all'">Post results for "{{search.query}}"</h6>
 				<div ng-repeat="item in filterListForTab(search.results.data.posts)" class="feed-listing feed-share">

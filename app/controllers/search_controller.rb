@@ -68,6 +68,7 @@ class SearchController < ApplicationController
 						})
 						search_log.user_id = current_user.id if user_signed_in?
 						search_log.save
+						@latest_articles = Article.latest.limit(20) if browser.device.mobile?
 						render :index_results
 					rescue Exception => e
 						render :index_results
@@ -78,7 +79,7 @@ class SearchController < ApplicationController
 				if !params[:query].present?
 					redirect_to user_signed_in? ?  front_page_path : root_path
 				end
-				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 1, :random)
 				@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle

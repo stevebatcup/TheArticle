@@ -74,7 +74,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 				if @scope.share.share_on_twitter
 					@openTweetWindow(false)
 				else
-					window.location.reload()
+					window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
 			else
 				@scope.formError = response.data.message
 
@@ -82,7 +82,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		articleUrl = window.location.toString()
 		url = "https://www.facebook.com/sharer/sharer.php?u=#{articleUrl}"
 		@openSocialShareWindow url, =>
-			window.location.reload()
+			window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
 
 	openTweetWindow: (alsoOpenFacebookWindow=false) =>
 		articleUrl = window.location.toString()
@@ -96,7 +96,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			callback = @openFacebookWindow
 		else
 			callback = =>
-				window.location.reload()
+				window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
 		@openSocialShareWindow url, callback
 
 	openSocialShareWindow: (url, callback=null) =>

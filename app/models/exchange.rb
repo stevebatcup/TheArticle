@@ -43,6 +43,12 @@ class Exchange < ApplicationRecord
     end
   end
 
+  def self.all_complete
+      where.not(image: nil)
+      .where("article_count > 0")
+      .where("description > ''")
+  end
+
   def self.listings
       where.not(image: nil)
       .where("article_count > 0")

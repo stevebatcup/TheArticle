@@ -87,6 +87,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 	openSharingPanel: ($event=null, mode=null) =>
 		$event.preventDefault() if $event?
 		if @rootScope.isSignedIn
+			@rootScope.sharingPanelOpenAtScrollPoint = $(window).scrollTop()
 			if @rootScope.profileDeactivated
 				@confirm "You will need to reactivate your profile to share or rate an article", =>
 					window.location.href = "/account-settings?reactivate=1"

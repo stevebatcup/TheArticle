@@ -5,11 +5,10 @@ class NotificationsController < ApplicationController
 		respond_to do |format|
 			format.html do
 				# redirect_to front_page_path(route: :notifications) if browser.device.mobile?
-				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)
+				@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 1, :random)
 				@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
 				@trending_articles.insert(2, @sponsored_picks.first) if Author.sponsors.any?
 				@contributors_for_spotlight = Author.contributors_for_spotlight(3)
-				@recent_articles = Article.recent
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				current_user.set_all_notifications_as_old
 			end

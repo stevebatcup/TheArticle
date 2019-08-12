@@ -418,7 +418,8 @@ class TheArticle.PageController extends TheArticle.NGController
 			# console.log currentToken
 			if currentToken
 				# console.log('Got FCM device token:', currentToken)
-				$.post "/push_registrations", {subscription: currentToken}
+				@postJSON "/push_registrations", {subscription: currentToken}, =>
+					console.log "push token registered" if console?
 			else
 				# Need to request permissions to show notifications.
 				@requestNotificationsPermissions()
@@ -434,4 +435,3 @@ class TheArticle.PageController extends TheArticle.NGController
 		firebase.messaging().requestPermission().then prom.bind(@)
 		.catch (error) ->
 			console.error('Unable to get permission to notify.', error)
-
