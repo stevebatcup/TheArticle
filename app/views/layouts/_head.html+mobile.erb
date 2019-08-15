@@ -68,10 +68,9 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '<%= ga_tracking_id %>');
-        gtag('event', 'loaded');
         var ua = navigator.userAgent || navigator.vendor || window.opera;
         var browserType = ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 ? 'Facebook' : 'Regular';
-        gtag('browserType', browserType);
+        gtag('event', 'loaded', {'browserType': browserType });
       </script>
     <% end %>
 
