@@ -4,10 +4,17 @@ body.fixed-header {
 	}
 }
 
+#registerInterstitialModal {
+	.modal-dialog {
+		.modal-content {
+			background: $green;
+		}
+	}
+}
+
 .register_interstitial_box {
 	background: $green;
 	color: #fff;
-	height: 100%;
 
 	h2 {
 		font-family: Montserrat;
@@ -44,10 +51,10 @@ body.fixed-header {
 
 	h3 {
 		font-family: Montserrat;
-		font-size: 1em;
+		font-size: 0.9em;
 		color: #fff;
 		margin: 10px auto;
-		width: 90%;
+		width: 100%;
 		text-align: center;
 	}
 
