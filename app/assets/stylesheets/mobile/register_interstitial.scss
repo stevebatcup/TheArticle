@@ -58,21 +58,16 @@ body.fixed-header {
 		text-align: center;
 	}
 
-	button.register_interstitial_box_register {
+	.register_interstitial_box_register {
 		background: transparent;
 		border: 1px solid #fff;
 		color: #fff;
-		width: 70%;
+		width: 49%;
 		display: block;
 		text-align: center;
-		margin: 20px auto 20px;
+		margin: 20px 0 20px;
 		font-size: 1.2em;
 		cursor: pointer;
-
-		&:hover {
-			color: #efefef;
-			border-color: #efefef;
-		}
 	}
 
 	p.register_interstitial_box_no_thanks {

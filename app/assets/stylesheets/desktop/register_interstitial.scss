@@ -45,26 +45,29 @@
 		text-align: center;
 	}
 
-	button.register_interstitial_box_register {
+	.register_interstitial_box_register {
 		background: transparent;
+		display: block;
 		border: 1px solid #fff;
 		color: #fff;
-		width: 35%;
+		width: 45%;
 		display: block;
 		text-align: center;
-		margin: 30px auto;
+		margin: 30px 10px 0;
 		font-size: 1.2em;
 		cursor: pointer;
 
 		&:hover {
 			color: #efefef !important;
 			border-color: #efefef !important;
+			background: transparent !important;
 		}
 	}
 
 	p.register_interstitial_box_no_thanks {
 		font-size: 0.9em;
 		text-align: center;
+		margin-top: 30px;
 		a {
 			color: #ffffff;
 			cursor: pointer;
