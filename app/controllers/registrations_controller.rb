@@ -16,21 +16,35 @@ class RegistrationsController < Devise::RegistrationsController
     resource.set_ip_data(request)
     resource.save
     yield resource if block_given?
-    if resource.persisted?
-      if resource.active_for_authentication?
+    if resource.persisted? && resource.active_for_authentication?
+      begin
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
         MailchimperService.subscribe_to_mailchimp_list(resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
-      else
-        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
-        expire_data_after_sign_in!
-        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      rescue Exception => e
+        @status = :error
+        @message = e.message
       end
+      @status = :success
+      @redirect_to = after_sign_up_path_for(resource)
     else
+      @status = :error
+      @message = resource.errors.first
       clean_up_passwords resource
       set_minimum_password_length
-      respond_with resource
+    end
+
+    respond_to do |format|
+      format.html do
+        if @status == :success
+          respond_with resource, location: @redirect_to
+        else
+          respond_with resource
+        end
+      end
+
+      format.json do
+      end
     end
   end
 

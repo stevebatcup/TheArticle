@@ -108,7 +108,13 @@
                 <p class="alert alert-danger" ng-if="register.errors.tandc">{{register.errors.tandc}}</p>
 
                 <div class="actions">
-                  <button class="btn btn-success btn-block text-white my-3" ng-click="submitRegister($event)">Join</button>
+                  <button class="btn btn-success btn-block text-white my-3"
+                          ng-class="{'disabled': register.joining}"
+                          ng-disabled="register.joining"
+                          ng-click="submitRegister($event)">
+                    <span ng-if="register.joining">Joining...</span>
+                    <span ng-if="!register.joining">Join</span>
+                  </button>
                 </div>
               <% end %>
 
