@@ -24,6 +24,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 			password: ''
 			passwordConfirm: ''
 			tandc: 0
+			joining: false
 			errors:
 				names: false
 				gender: false
@@ -81,12 +82,31 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 		if @scope.register.errors.names or @scope.register.errors.gender or @scope.register.errors.ageBracket or @scope.register.errors.email or @scope.register.errors.password or @scope.register.errors.tandc
 			return false
 		else
+			@scope.register.joining = true
 			@http.get("/email-availability?email=#{@scope.register.email}").then (response) =>
 				if response.data is true
-					gtag('event', 'sign_up', { 'method': 'Email' }) if gtag?
-					$('form#new_user').submit()
+					@sendRegistration()
 				else
+					@scope.register.joining = false
 					@scope.register.errors.email = "Sorry that email address already exists."
+
+	sendRegistration: =>
+		url = $('form#new_user').attr('action')
+		@postJSON url,
+			user:
+				first_name: @scope.register.firstName
+				last_name: @scope.register.lastName
+				gender: @scope.register.gender
+				age_bracket: @scope.register.ageBracket
+				email: @scope.register.email
+				password: @scope.register.password
+		, (response) =>
+			gtag('event', 'sign_up', { 'method': 'Email' }) if gtag?
+			window.location.href = response.redirect_to
+		, (response) =>
+			@scope.$apply =>
+				@scope.register.joining = false
+				@scope.register.errors.tandc = response.message
 
 	signIn: ($event) =>
 		$event.preventDefault()
