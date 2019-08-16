@@ -6,7 +6,8 @@
 <section ng-controller="RatingsHistoryController"
 				class="container front-page"
 				data-article-id="<%= @article.id %>"
-				data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>">
+				data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
+				data-tinymce-content-css-url='<%= asset_url("mobile/tinymce-content.css") %>'>
 
 	<% if flash[:notice] %>
 	<div id="flash_notice" class="d-none">
@@ -305,29 +306,14 @@
 
 							<section>
 								<!-- Comments -->
-								<div class="comments_pane" ng-if="item.share.showComments">
+								<div class="comments_pane" ng-hide="!item.share.showComments">
 									<div class="ajax_loading" ng-if="!item.share.commentsLoaded">Loading...</div>
 
-									<div ng-if="item.share.commentsLoaded" class="respond_box">
+									<div ng-hide="!item.share.commentsLoaded" class="respond_box">
 									  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
-									    <form class="comment-form">
-									    	<div class="d-flex w-100">
-									    		<% if user_signed_in? %>
-														<img src="<%= current_user.profile_photo.url(:square) %>" alt="<%= current_user.display_name %>" class="rounded-circle" />
-													<% end %>
-									        <textarea class="comment_textarea ml-2 form-control" name="comment" rows="4" placeholder="Add your Comment" ng-model="commentForSubmission.value"></textarea>
-									      </div>
-									      <div class="d-flex justify-content-end">
-											    <a class="cancel_reply text-green mr-4 mt-4" href='#' style="display: none;" ng-click="cancelReply($event, item.share.id)">Cancel reply</a>
-
-										      <input class="btn px-5 btn-success mt-3 post_comment"
-										      			type="submit" ng-value="commentPostButton"
-										      			ng-click="postComment($event, item)"
-										      			ng-disabled="postingComment"
-										      			ng-class="{'disabled': postingComment}" />
-										    </div>
-									    </form>
+									  	<!-- -->
 									  </div>
+
 
 									  <div class="comments px-3 navbar d-block">
 									  	<div class="order_by_dropdown dropdown">
@@ -353,7 +339,7 @@
 									  	  </div>
 									  	</div>
 
-									    <ol class="comment-list">
+									    <ol class="comment-list" ng-if="item.share.commentsLoaded">
 									    	<li ng-repeat="comment in filterCommentsByLimit(item)"
 									    				class="comment parent feed-listing"
 									    				ng-class="{'with_children': comment.children.length > 0}">
@@ -447,4 +433,8 @@
 
 <script id="confirmBlock" type="script/x-mustache">
 	<%= render partial: 'blocks/confirm_modal' %>
+</script>
+
+<script id="commentForm" type="script/x-mustache">
+	<%= render 'comments/comment_form' %>
 </script>

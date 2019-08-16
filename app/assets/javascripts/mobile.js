@@ -13,4 +13,3 @@
 //= require controllers/photo_editor
 //= require controllers/register_interstitial
 //= require_tree ./controllers/mobile
-//= require controllers/third_party_sharing

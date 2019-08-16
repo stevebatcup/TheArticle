@@ -24,63 +24,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		@setRatingsDefaultHeading()
 		@bindEvents()
 
-		@scope.tinymceOptions =
-			baseURL: "/tinymce-host"
-			selector: 'textarea#comments'
-			height: 56
-			placeholder: "Add a comment..."
-			statusbar: false
-			menubar: false
-			toolbar: false
-			init_instance_callback: (ed) =>
-				ed.on 'focus', (e) =>
-					ed.theme.resizeTo('100%', 144)
-				ed.on 'keydown', (e) =>
-					if e.keyCode is 32
-						curElm = ed.selection.getRng().startContainer
-						caretPos = ed.selection.getBookmark(curElm.textContent).rng.startOffset
-						if caretPos is curElm.textContent.length
-							mkr = '<span class="marker">!</span>'
-							ed.selection.setContent(mkr)
-							newstr = ''
-							c = ed.getContent({format : 'raw'}).split(mkr+"</span>")
-							if !c[1]
-								c = ed.getContent({format : 'raw'}).split(mkr+"<br></span>")
-							if c[0] and c[1]
-								newstr = c[0].replace(/^\s\s*/, '').replace(/\s\s*$/, '')+'</span>&nbsp;'+mkr+c[1].replace(/^\s\s*/, '').replace(/\s\s*$/, '').replace(/^[\s(&nbsp;]+/g,'')
-								ed.setContent(newstr)
-								e.preventDefault()
-						marker = jQuery(ed.getBody()).find('.marker')
-						ed.selection.select(marker.get(0))
-						marker.remove()
-			mentions:
-				items: 6
-				delay: 0
-				queryBy: 'username'
-				render: (item) =>
-					return "<li><a href='javascript:;'>
-							<img src='#{item.image}' alt='' class='rounded-circle' />
-							<span class='text'>#{item.username} (#{item.displayname})</span>
-						</a></li>"
-				insert: (item) =>
-					'<span class="mentioned_user" style="font-weight:bold;" data-user="' + item.id + '">' + item.username + '</span>';
-				highlighter: (text) ->
-					text.replace new RegExp('(' + this.query + ')', 'ig'), ($1, match) ->
-						'<i>' + match + '</i>'
-				source: (query, process, delimiter) =>
-					if delimiter is '@'
-						if query.length > 1
-							@http.get("/profile/search-by-username/#{query}").then (response) =>
-								process(response.data.results) if response.data.results?
-						else
-							[]
-			plugins : "link, paste, placeholder"
-			external_plugins:
-				'mention' : 'http://stevendevooght.github.io/tinyMCE-mention/javascripts/tinymce/plugins/mention/plugin.js'
-			content_css: [
-				@element.data('tinymce-content-css-url'),
-				'//fonts.googleapis.com/css?family=Montserrat'
-			]
+		@scope.tinymceOptions = @setTinyMceOptions()
 
 	resetData: =>
 		@scope.share =

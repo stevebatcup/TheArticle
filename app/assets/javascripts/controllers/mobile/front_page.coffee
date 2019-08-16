@@ -92,6 +92,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+		@scope.thirdPartyUrl =
+			value: ''
+			building: false
+
 	bindEvents: =>
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$(window).scrollTop(0)

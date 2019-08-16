@@ -61,6 +61,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			@updateMyFollowCounts()
 		, 10000
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	bindEvents: =>
 		super
 		@bindScrollEvent() if @element.hasClass('notifications_page')
@@ -88,6 +90,11 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 			$span = $(e.currentTarget).parent()
 			notificationId = $span.data('notification')
 			@showAllNotificationFollowers(notificationId)
+
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
 
 	bindScrollEvent: =>
 		$win = $(window)

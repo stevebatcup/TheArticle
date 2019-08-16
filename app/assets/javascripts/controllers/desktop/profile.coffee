@@ -147,9 +147,14 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 
 		@bindEvents()
 		@detectPanelOpeners() if 'panel' of @getVars
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 		if @scope.profile.isMe is true
 			@rootScope.isSignedIn = true
 			@getMyProfile @getProfileCallback
+			@scope.thirdPartyUrl =
+				value: ''
+				building: false
 		else
 			id = @element.data('id')
 			@getProfile id, @getProfileCallback

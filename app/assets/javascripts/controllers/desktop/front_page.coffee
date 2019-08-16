@@ -103,6 +103,12 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@updateMyFollowCounts()
 		, 10000
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
+		@scope.thirdPartyUrl =
+			value: ''
+			building: false
+
 	bindEvents: =>
 		super
 		@bindScrollEvent()

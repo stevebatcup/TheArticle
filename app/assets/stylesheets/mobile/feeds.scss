@@ -32,6 +32,15 @@ input#suggestion_search {
 	&.feed-third-party {
 		background: #d2ead4 !important;
 		margin-top: -17px;
+
+		.building {
+			text-align: right;
+			width: 100%;
+			padding: 4px;
+			font-size: 0.9em;
+			font-weight: bold;
+			margin: 0;
+		}
 	}
 
 	&.comment {
@@ -62,22 +71,30 @@ input#suggestion_search {
 
 	&.feed-share {
 		.comments_pane {
-			// border-left: 1px solid $grey;
-			// border-bottom: 1px solid $grey;
-			// border-right: 1px solid $grey;
 			background: #fff;
 
-			.respond {
+			.respond,
+			.comment_respond {
 				padding: 15px 20px;
-				background: #dfdfdf;
+
+				&.with_form {
+					background: #dfdfdf;
+				}
 
 				img {
 					width: 45px;
 					height: 45px;
 				}
 
-				textarea {
-					height: 3em;
+				// textarea {
+				// 	height: 3em;
+				// }
+
+				.mce-panel {
+					border: none;
+					margin-left: 0.5em;
+					width: 98%;
+					background: none;
 				}
 			}
 
@@ -832,4 +849,18 @@ body.fixed-nav #home_feed_tabs {
 	.see_more_articles {
 		display: none;
 	}
+}
+
+.mce-panel {
+	padding: 0.375rem 0.75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	overflow: auto;
+	resize: vertical;
 }

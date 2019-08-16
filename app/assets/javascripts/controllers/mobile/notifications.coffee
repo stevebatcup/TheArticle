@@ -48,6 +48,8 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		@scope.myProfile = {}
 		@getMyProfile()
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	bindScrollEvent: =>
 		$win = $(window)
 		$win.on 'scroll', =>
@@ -90,6 +92,11 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			$span = $(e.currentTarget).parent()
 			notificationId = $span.data('notification')
 			@showAllNotificationFollowers(notificationId)
+
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
 
 	showAllOthersNotificationCommentedOn: (id) =>
 		@http.get("/all-notification-comments/#{id}").then (response) =>

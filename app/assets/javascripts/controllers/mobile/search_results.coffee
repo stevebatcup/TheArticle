@@ -64,6 +64,8 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 		else
 			@getResults()
 
+		@scope.tinymceOptions = @setTinyMceOptions()
+
 	getResults: =>
 		@http.get("/search?query=#{@scope.search.query}").then (response) =>
 			@scope.search.results.empty = response.data.results.length is 0

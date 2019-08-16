@@ -52,21 +52,33 @@ class TheArticle.Feeds extends TheArticle.PageController
 		else
 			"#{count} #{multipleOrZero}"
 
-	replyToComment: ($event, comment, parentComment, replyingToReply=false) =>
+	replyToComment: ($event, comment, parentComment, replyingToReply=false, item) =>
 		$event.preventDefault()
-		$commentsPane = $($event.target).closest('.comments_pane')
+		$commentsPane = angular.element($event.target).closest('.comments_pane')
+
 		@scope.replyingToComment =
 			comment: comment
 			parentComment: parentComment.data
 			replyingToReply: replyingToReply
-		$commentBox = $(".comment-item[data-comment-id=#{comment.data.id}]", $commentsPane)
-		$replyBox = $commentsPane.find('.respond')
-		$replyBox.find('a.cancel_reply', $replyBox).show()
-		$textarea = $replyBox.find('textarea')
-		$textarea.attr('placeholder', 'Reply to Comment')
-		$replyBox.data('comment-id', comment.data.id).attr('data-comment-id', comment.data.id)
-		$replyBox.detach().insertAfter($commentBox)
-		$textarea.focus()
+
+		$mainCommentBox = angular.element(".respond[data-share-id=#{item.share.id}]", $commentsPane)
+		$mainCommentBox.removeClass('with_form').html('')
+
+		$commentBox = angular.element(".comment-item[data-comment-id=#{comment.data.id}]", $commentsPane)
+
+		tpl = angular.element("#commentForm").html()
+		$commentRespond = angular.element(".comment_respond", $commentBox)
+		$commentRespond.data('comment-id', comment.data.id).attr('data-comment-id', comment.data.id)
+		$commentRespond.html tpl
+		$commentRespond.addClass('with_form')
+		$commentRespond.find('textarea.comment_textarea').attr('placeholder', 'Reply to Comment').focus()
+		$commentRespond.find('a.cancel_reply').show()
+		@scope.commentFormItem = item
+		@scope.commentPostButton = "Reply"
+		@compile($commentRespond.contents())(@scope)
+		@timeout =>
+			tinymce.execCommand('mceFocus', false, @scope.currentTinyMceEditor.id)
+		, 800
 
 	filterCommentsByLimit: (item) =>
 		if item.share.commentShowLimit > 0
@@ -196,14 +208,22 @@ class TheArticle.Feeds extends TheArticle.PageController
 		item.share.commentsLoaded = false
 		@showComments(null, item)
 
+	renderCommentForm: (item, focusTextBox) =>
+		tpl = angular.element("#commentForm").html()
+		element = angular.element(".respond[data-share-id=#{item.share.id}]")
+		element.html tpl
+		element.addClass('with_form')
+		@scope.commentFormItem = item
+		@compile(element.contents())(@scope)
+		if focusTextBox
+			@timeout =>
+				tinymce.execCommand('mceFocus', false, @scope.currentTinyMceEditor.id)
+			, 800
+
 	showCommentsSuccess: (item, focusTextBox, $event=null) =>
 		item.share.showComments = true
 		item.share.showAgrees = false
 		item.share.showDisagrees = false
-		if focusTextBox and (@scope.isSignedIn is true)
-			@timeout =>
-				$($event.target).closest('.feed-share').find('textarea.comment_textarea').focus()
-			, 500
 		if $event?
 			$target = $($event.currentTarget)
 			if $target.closest('.modal').length > 0
@@ -212,6 +232,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 					pos = $modalBody.scrollTop()
 					$modalBody.scrollTop pos + 160
 				, 200
+		@renderCommentForm(item, focusTextBox and (@scope.isSignedIn is true))
 
 	showAllComments: ($event, item) =>
 		$event.preventDefault()
@@ -221,25 +242,33 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$event.preventDefault()
 		comment.data.replyShowLimit = 0
 
-	cancelReply: ($event, shareId) =>
+	cancelReply: ($event, item) =>
 		$event.preventDefault()
+		@scope.commentFormItem = {}
 		$commentsPane = $($event.target).closest('.comments_pane')
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
 			replyingToReply: false
-		$replyBox = $(".respond[data-share-id=#{shareId}]", $commentsPane)
+		if angular.element(".respond[data-share-id=#{item.share.id}] form", $commentsPane).length
+			$replyBox = angular.element(".respond[data-share-id=#{item.share.id}]", $commentsPane)
+		else
+			$replyBox = angular.element(".comment_respond[data-share-id=#{item.share.id}]", $commentsPane)
 		$replyBox.find('a.cancel_reply', $replyBox).hide()
-		$replyBox.find('textarea').attr('placeholder', 'Add your Comment')
 		$replyBox.data('comment-id', 0).attr('data-comment-id', 0)
-		$replyBox.detach().prependTo $('.respond_box', $commentsPane)
+		$replyBox.removeClass('with_form').html('')
+		@renderCommentForm(item)
 
 	postComment: ($event, post) =>
 		$event.preventDefault()
 		@scope.postingComment = true
 		@scope.commentPostButton = "Posting..."
 		$commentsPane = $($event.target).closest('.comments_pane')
-		$replyBox = $(".respond[data-share-id=#{post.share.id}]", $commentsPane)
+		if angular.element(".respond[data-share-id=#{post.share.id}] form", $commentsPane).length
+			$replyBox = angular.element(".respond[data-share-id=#{post.share.id}]", $commentsPane)
+		else
+			$replyBox = angular.element(".comment_respond[data-share-id=#{post.share.id}].with_form", $commentsPane)
+
 		replyingToCommentId = Number($replyBox.data('comment-id'))
 		replyingToUsername = if @scope.replyingToComment.replyingToReply then @scope.replyingToComment.comment.data.username else ''
 		parentId = if 'id' of @scope.replyingToComment.parentComment then @scope.replyingToComment.parentComment.id else 0
@@ -286,7 +315,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 				@scope.postingComment = false
 				@scope.commentPostButton = "Post Comment"
 				if responseComment.status is 'success'
-					@cancelReply $event, post.share.id
+					@cancelReply $event, post
 					comment.id = responseComment.id
 					@scope.commentForSubmission.value = ''
 				else
@@ -645,16 +674,24 @@ class TheArticle.Feeds extends TheArticle.PageController
 		$textarea.removeClass('expanded').attr('placeholder', 'What are you reading?')
 
 	openThirdPartySharingPanelIfEnterPressed: ($event) =>
-		if $('textarea#third_party_article_url_phantom').val().length > 10
-			url = $('textarea#third_party_article_url_phantom').val()
-			@openThirdPartySharingPanel(url) if $event.keyCode is 13
+		if @scope.thirdPartyUrl.value.length > 10
+			if $event.keyCode is 13
+				@scope.thirdPartyUrl.building = true
+				@timeout =>
+					@openThirdPartySharingPanel(@scope.thirdPartyUrl.value)
+					@scope.thirdPartyUrl.building = false
+				, 850
 
 	openThirdPartySharingPanelFromPaste: ($event) =>
-		url = $event.originalEvent.clipboardData.getData('text/plain')
-		startPos = url.indexOf('https://')
-		startPos = url.indexOf('http://') if startPos < 0
-		url = url.substring(startPos)
-		@openThirdPartySharingPanel(url)
+		@scope.thirdPartyUrl.building = true
+		@timeout =>
+			url = @scope.thirdPartyUrl.value
+			startPos = url.indexOf('https://')
+			startPos = url.indexOf('http://') if startPos < 0
+			url = url.substring(startPos).replace(/(<([^>]+)>)/ig,"")
+			@openThirdPartySharingPanel(url)
+			@scope.thirdPartyUrl.building = false
+		, 850
 
 	openThirdPartySharingPanel: (url) =>
 		if @rootScope.profileDeactivated
@@ -679,6 +716,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 			$(document).on 'hide.bs.modal', '#thirdPartySharingModal', =>
 				@rootScope.$broadcast 'third_party_url_close', { url: url }
 				$('textarea#third_party_article_url_phantom').val('')
+				@scope.thirdPartyUrl =
+					value: ''
+					building: false
 
 	muteFollowed: ($event, item) =>
 		$event.preventDefault()
