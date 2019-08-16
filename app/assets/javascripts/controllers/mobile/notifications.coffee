@@ -93,6 +93,11 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			notificationId = $span.data('notification')
 			@showAllNotificationFollowers(notificationId)
 
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
+
 	showAllOthersNotificationCommentedOn: (id) =>
 		@http.get("/all-notification-comments/#{id}").then (response) =>
 			@scope.allCommenters = response.data

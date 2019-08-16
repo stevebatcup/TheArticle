@@ -3,9 +3,9 @@ $grey_light: #f8f7f7;
 $grey_dark: #565656;
 $grey: #999;
 
-$green: #88d68f;
-$green_light: #b6ffbc;
-$green_dark: #72b678;
+$green: darken(#88d68f, 12%);
+$green_light: darken(#b6ffbc, 6%);
+$green_dark: darken(#72b678, 6%);
 
 $blue_dark: #4a90e2;
 $red: #dc3545;

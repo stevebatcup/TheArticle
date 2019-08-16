@@ -3,6 +3,7 @@ class CategorisationsMailer < Devise::Mailer
 	include Rails.application.routes.url_helpers
   include Devise::Controllers::UrlHelpers
   include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::SanitizeHelper
   include MandrillMailer
 
   default(
@@ -11,7 +12,7 @@ class CategorisationsMailer < Devise::Mailer
   )
 
   def as_it_happens(user, article, exchange)
-    subject = "A new article has been added to the #{exchange.name} exchange"
+    subject = safe_title(article.title)
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -26,7 +27,8 @@ class CategorisationsMailer < Devise::Mailer
   end
 
   def daily(user, articles)
-    subject = "Your daily update"
+    random_article = articles.sample
+    subject = safe_title(random_article.title)
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -38,7 +40,15 @@ class CategorisationsMailer < Devise::Mailer
   end
 
   def weekly(user, articles)
-    subject = "Your weekly update"
+    recent_articles = articles.select do |article|
+      article.published_at > 36.hours.ago
+    end
+    if recent_articles.any?
+      random_article = recent_articles.sample
+      subject = safe_title(random_article.title)
+    else
+      subject = "Your weekly update"
+    end
     merge_vars = {
       FIRST_NAME: user.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),
@@ -47,6 +57,10 @@ class CategorisationsMailer < Devise::Mailer
     }
     body = mandrill_template("article-added-to-exchange-weekly", merge_vars)
     send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+  end
+
+  def safe_title(title)
+    sanitize(title.encode('utf-8', invalid: :replace, undef: :replace, replace: ''))
   end
 
   def build_html(articles)
@@ -61,7 +75,7 @@ class CategorisationsMailer < Devise::Mailer
   	  			<td>
   	  				<a href='#{path}' border='0' style='border: none;'>
   	  					<img src='#{article.image.url(:listing_desktop)}'
-  	  							style='width: 100%; display: block;' alt='#{article.title.html_safe}' />
+  	  							style='width: 100%; display: block;' alt='#{safe_title(article.title)}' />
   	  				</a>
   	  			</td>
   	  		</tr>
@@ -88,7 +102,7 @@ class CategorisationsMailer < Devise::Mailer
 													    margin-bottom: 10px;
 													    line-height: 1.4;'>
 			            <a href='#{path}' style='font-size: 25px; font-weight: bold; color: #333; text-decoration: none; background-color: transparent; border: none' border='0'>
-			              #{article.title.html_safe}
+			              #{safe_title(article.title)}
 			            </a>
 			          </h2>
 
