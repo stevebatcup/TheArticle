@@ -145,6 +145,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			shareId = $span.data('share')
 			@showAllShareCommenters(shareId)
 
+		$(document).on 'click', ".mentioned_user", (e) =>
+			$clicked = $(e.currentTarget)
+			userId = $clicked.data('user')
+			window.location.href = "/profile-by-id/#{userId}"
+
 	selectTab: (section='all', canClick=false) =>
 		if canClick
 			@scope.selectedTab = section
