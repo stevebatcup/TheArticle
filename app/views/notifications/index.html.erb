@@ -1,4 +1,7 @@
-<section ng-controller="NotificationsController" class="container notifications_page" data-user-id="<%= current_user.id %>">
+<section ng-controller="NotificationsController"
+					class="container notifications_page"
+					data-user-id="<%= current_user.id %>"
+					data-tinymce-content-css-url='<%= asset_url("desktop/tinymce-content.css") %>'>
 
 	<div class="row">
 		<section class="col-md-4 col-lg-3" id="left_col">

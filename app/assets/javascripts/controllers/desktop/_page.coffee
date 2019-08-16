@@ -220,4 +220,3 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
->>>>>>> comments
