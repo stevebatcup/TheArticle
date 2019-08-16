@@ -11,6 +11,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.DesktopPageCo
 	  '$compile'
 	  '$ngConfirm'
 	  '$cookies'
+	  '$sce'
 	  'Notification'
 	  'Share'
 	  'Comment'
