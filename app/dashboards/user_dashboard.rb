@@ -70,7 +70,9 @@ class UserDashboard < Administrate::BaseDashboard
     signup_ip_country: Field::String.with_options(searchable: false),
     notification_counter_cache: Field::Number.with_options(searchable: false),
     admin_account_status: Field::String.with_options(searchable: false),
-    admin_profile_status: Field::String.with_options(searchable: false)
+    admin_profile_status: Field::String.with_options(searchable: false),
+    age_bracket: Field::String,
+    gender: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -93,14 +95,19 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :id,
-    :title,
     :first_name,
     :last_name,
     :display_name,
     :username,
     :email,
+    :gender,
+    :age_bracket,
+    :location,
+    :bio,
     :admin_account_status,
     :has_completed_wizard,
+    :signup_ip_address,
+    :signup_ip_country
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -126,7 +133,6 @@ class UserDashboard < Administrate::BaseDashboard
     # :communication_preferences,
     # :email_alias_logs,
     # :admin_account_status,
-    :title,
     :first_name,
     :last_name,
     :username,
