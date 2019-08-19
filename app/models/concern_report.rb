@@ -5,8 +5,6 @@ class ConcernReport < ApplicationRecord
 	after_create	:send_admin_email
 	enum	status: [:pending, :seen]
 
-	default_scope -> { where(status: :pending) }
-
 	def send_admin_email
 		if (self.secondary_reason.present?) || (self.more_info.length > 0)
 			AdminMailer.concern_report(self).deliver_now

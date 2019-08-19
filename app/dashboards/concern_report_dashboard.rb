@@ -34,8 +34,8 @@ class ConcernReportDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :reporter,
     :reported,
+    :reporter,
     :more_info,
     :created_at,
   ].freeze

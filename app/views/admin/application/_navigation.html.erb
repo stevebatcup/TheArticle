@@ -30,6 +30,9 @@ as defined by the routes in the `admin/` namespace
 				<li>
 					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/share_concern_reports') %>" href="/admin/share_concern_reports">- Posts (<%= share_concern_report_count %>)</a>
 				</li>
+				<li>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/processed_concern_reports') %>" href="/admin/processed_concern_reports">- Archive (<%= processed_concern_report_count %>)</a>
+				</li>
 			</ul>
 		</li>
 		<li>

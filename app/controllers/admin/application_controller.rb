@@ -47,6 +47,11 @@ module Admin
     end
     helper_method :share_concern_report_count
 
+    def processed_concern_report_count
+      @processed_concern_report_count ||= ProcessedConcernReport.all.size
+    end
+    helper_method :processed_concern_report_count
+
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.
     # def records_per_page

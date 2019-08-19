@@ -142,6 +142,7 @@ Rails.application.routes.draw do
     resources :user_concern_reports
     resources :comment_concern_reports
     resources :share_concern_reports
+    resources :processed_concern_reports
     get 'mark_concern_report_as_seen', to: 'concern_reports#update'
     resources :watch_list_users
     resources :black_list_users
