@@ -151,6 +151,12 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:device_type_for_events
 
+	def better_model_error_messages(resource)
+		messages = resource.errors.details.keys.map do |attr|
+			resource.errors.full_messages_for(attr).first
+		end
+		messages.join
+	end
 protected
 
 	def after_sign_out_path_for(resource_or_scope)

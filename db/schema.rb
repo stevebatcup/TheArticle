@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_08_142226) do
+ActiveRecord::Schema.define(version: 2019_08_19_111644) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
 
   create_table "black_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
+    t.string "email"
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

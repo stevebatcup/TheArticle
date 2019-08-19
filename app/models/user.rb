@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :confirmable, :trackable, :rememberable
 
   validates_presence_of	:first_name, :last_name, on: :create
+  validate :user_cannot_be_blacklisted, on: :create
+
   enum  status: [:active, :deactivated, :deleted]
   enum  admin_level: [:nothing, :admin, :super_admin]
 
@@ -375,4 +377,9 @@ class User < ApplicationRecord
     end
   end
 
+  def user_cannot_be_blacklisted
+    if BlackListUser.find_by(email: self.email)
+      errors.add(:email, "You cannot join TheArticle at this time")
+    end
+  end
 end

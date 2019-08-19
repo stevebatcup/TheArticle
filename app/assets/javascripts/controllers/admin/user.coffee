@@ -25,6 +25,10 @@ class TheArticle.User extends TheArticle.AdminPageController
 
 	addToBlackList: ($event) =>
 		$event.preventDefault()
+		q = "Are you sure you wish to delete #{@scope.user.name}'s account and add them to the blacklist?"
+		@confirm q, @addToBlackListConfirm, null, "Sure?", ["No", "Yes, delete and blacklist"]
+
+	addToBlackListConfirm: =>
 		@http.get("/admin/add_user_to_blacklist?user_id=#{@scope.user.id}").then (response) =>
 			@scope.user.blacklisted = true
 

@@ -23,8 +23,8 @@ module User::Adminable
 		self.watch_list_user.present?
 	end
 
-	def add_to_blacklist(reason, admin_user)
-		self.build_black_list_user({reason: reason, added_by_admin_user_id: admin_user.id})
+	def add_to_blacklist(reason, admin_user, email)
+		self.build_black_list_user({reason: reason, added_by_admin_user_id: admin_user.id, email: email})
 		self.save
 	end
 

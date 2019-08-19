@@ -1,4 +1,6 @@
 en:
+ errors:
+  format: "%{message}"
  helpers:
   admin_indexes:
    titles:

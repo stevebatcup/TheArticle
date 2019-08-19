@@ -7,16 +7,6 @@
 <div class="field-unit">
   <div class="field-unit__field form-actions">
   	<div class="btn-group btn-group-sm" role="group">
-	      <button ng-click="addToBlackList($event)"
-	      				class="btn btn-danger"
-	      				ng-class="{'disabled': user.watchlisted}"
-	      				ng-disabled="user.blacklisted"
-	      				ng-if="!user.deleted">
-	      				<i class="fas fa-users mr-2"></i>
-	      				<span ng-if="!user.blacklisted">Add user to blacklist</span>
-	      				<span ng-if="user.blacklisted">On blacklist</span>
-	      	</button>
-
 	      <button ng-click="addToWatchList($event)"
 	      			class="btn btn-danger"
 	      			ng-class="{'disabled': user.watchlisted}"
@@ -51,6 +41,16 @@
 	    				</span>
 	    				<span ng-if="user.deleted">ACCOUNT DELETED!</span>
   			</button>
+
+	      <button ng-click="addToBlackList($event)"
+      				class="btn btn-danger"
+      				ng-class="{'disabled': user.watchlisted}"
+      				ng-disabled="user.blacklisted"
+      				ng-if="!user.deleted">
+      				<i class="fas fa-exclamation-triangle mr-2"></i>
+      				<span ng-if="!user.blacklisted">Delete account and add to blacklist</span>
+      				<span ng-if="user.blacklisted">DELETED AND BLACKLISTED</span>
+      	</button>
 	  </div>
 	  <hr />
   	<div class="btn-group btn-group-sm" role="group">

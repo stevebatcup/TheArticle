@@ -29,7 +29,7 @@ class RegistrationsController < Devise::RegistrationsController
       @redirect_to = after_sign_up_path_for(resource)
     else
       @status = :error
-      @message = resource.errors.first
+      @message = better_model_error_messages(resource)
       clean_up_passwords resource
       set_minimum_password_length
     end
