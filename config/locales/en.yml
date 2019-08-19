@@ -2,9 +2,10 @@ en:
  helpers:
   admin_indexes:
    titles:
-    user_concern_report: "Concern reports > profiles"
+    user_concern_report: "Concern reports > Profiles"
     comment_concern_report: "Concern reports > Comments"
     share_concern_report: "Concern reports > Posts"
+    processed_concern_report: "Concern reports > Archive"
     quarantined_third_party_share: Quarantined 3rd party posts
     approved_third_party_share: Approved 3rd party posts
     rejected_third_party_share: Rejected 3rd party posts
