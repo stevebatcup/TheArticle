@@ -78,7 +78,6 @@ class Author < ApplicationRecord
 				.where.not(id: exclude)
 				.where.not(image: nil)
 				.where("display_name > ''")
-				.where("blurb > ''")
 				.where("article_count > 0")
 				.distinct
 	end

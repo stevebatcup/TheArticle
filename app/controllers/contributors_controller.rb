@@ -1,7 +1,7 @@
 class ContributorsController < ApplicationController
 	def index
 		respond_to do |format|
-			list = Author.with_complete_profile().order("last_name ASC")
+			list = Author.with_complete_profile.order("last_name ASC")
 			@contributors = Author.prioritise_editors_in_list(list.to_a)
 			format.html do
 			end
