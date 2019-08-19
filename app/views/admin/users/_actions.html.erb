@@ -46,8 +46,7 @@
 	      <button ng-click="addToBlackList($event)"
       				class="btn btn-danger"
       				ng-class="{'disabled': user.watchlisted}"
-      				ng-disabled="user.blacklisted"
-      				ng-if="!user.deleted">
+      				ng-disabled="user.blacklisted">
       				<i class="fas fa-exclamation-triangle mr-2"></i>
       				<span ng-if="!user.blacklisted">Delete account and add to blacklist</span>
       				<span ng-if="user.blacklisted">DELETED AND BLACKLISTED</span>
