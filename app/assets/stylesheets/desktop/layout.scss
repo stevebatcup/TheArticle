@@ -656,6 +656,16 @@ html.svg header#main_header nav li.nav-item {
 				width: 100%;
 				position: absolute;
 		    bottom: -10px;
+
+				p.author_link {
+					a {
+						width: 225px;
+						text-overflow: ellipsis;
+						display: inline-block;
+						white-space: nowrap;
+						overflow: hidden;
+					}
+				}
 			}
 		}
 
