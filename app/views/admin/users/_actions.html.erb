@@ -34,7 +34,8 @@
 	    <button ng-click="delete($event)"
 	    				class="btn btn-danger"
 	    				ng-class="{'disabled': user.deleted}"
-	    				ng-disabled="user.deleted">
+	    				ng-disabled="user.deleted"
+	    				ng-if="!user.blacklisted">
 	    				<span ng-if="!user.deleted">
 		    				<i class="fas fa-exclamation-triangle mr-2"></i>
 		    				Delete account
