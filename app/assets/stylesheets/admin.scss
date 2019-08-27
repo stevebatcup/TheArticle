@@ -150,6 +150,29 @@ td img {
 	}
 }
 
+.text-increase-1 {
+	font-size: 1.1em;
+}
+
+.text-increase-2 {
+	font-size: 1.2em;
+}
+
+.text-increase-3 {
+	font-size: 1.3em;
+}
+
+.text-increase-4 {
+	font-size: 1.4em;
+}
+
+.text-decrease-1 {
+	font-size: 0.9em;
+}
+
+.text-decrease-2 {
+	font-size: 0.8em;
+}
 /* Hack for Font-awesome-rails */
 .fas, .far, .fab {
 	@extend .fa;

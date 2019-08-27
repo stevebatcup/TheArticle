@@ -3,31 +3,33 @@ module Admin
 
     def index
       search_term = params[:search].to_s.strip
-      resources = Administrate::Search.new(scoped_resource,
+      @users = Administrate::Search.new(scoped_resource,
                                            dashboard_class,
                                            search_term).run
-      resources = apply_resource_includes(resources)
-      resources = order.apply(resources)
+      @users = apply_resource_includes(@users)
+      @users = order.apply(@users)
       if params[:user]
         dir = params.fetch(:user).fetch(:direction)
         if params.fetch(:user).fetch(:order) == 'full_name'
-          resources = resources.reorder("first_name #{dir}, last_name #{dir}")
+          @users = @users.reorder("first_name #{dir}, last_name #{dir}")
         elsif params.fetch(:user).fetch(:order) == 'human_created_at'
-          resources = resources.reorder("created_at #{dir}")
+          @users = @users.reorder("created_at #{dir}")
         elsif params.fetch(:user).fetch(:order) == 'admin_account_status'
-          resources = resources.reorder("status #{dir}")
+          @users = @users.reorder("status #{dir}")
         elsif params.fetch(:user).fetch(:order) == 'admin_profile_status'
-          resources = resources.reorder("IF(status = 2, 1,(IF(has_completed_wizard = 1, (IF(status=1, 0, 3)), 2))) #{dir}")
+          @users = @users.reorder("IF(status = 2, 1,(IF(has_completed_wizard = 1, (IF(status=1, 0, 3)), 2))) #{dir}")
         end
       end
-      resources = resources.page(params[:page]).per(records_per_page)
+      @users = @users.page(params[:page]).per(records_per_page)
       page = Administrate::Page::Collection.new(dashboard, order: order)
 
+      @search_start_date = "2019-03-13"
+      @search_end_date = Date.today.strftime("%Y-%m-%d")
+
       render locals: {
-        resources: resources,
+        resources: @users,
         search_term: search_term,
-        page: page,
-        show_search_bar: show_search_bar?,
+        page: page
       }
     end
 

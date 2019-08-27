@@ -4,6 +4,7 @@ en:
  helpers:
   admin_indexes:
    titles:
+    user: Search users
     user_concern_report: "Concern reports > Profiles"
     comment_concern_report: "Concern reports > Comments"
     share_concern_report: "Concern reports > Posts"

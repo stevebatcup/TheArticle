@@ -28,6 +28,8 @@ It renders the `_table` partial to display details about the resources.
 <% end %>
 
 <header class="main-content__header" role="banner">
+  <%= image_tag 'menu_open.png', id: 'navigation__toggle' %>
+
   <h1 class="main-content__page-title" id="page-title">
     <%= content_for(:title) %>
   </h1>
