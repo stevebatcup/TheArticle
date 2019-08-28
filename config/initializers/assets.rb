@@ -23,6 +23,7 @@ Rails.application.config.assets.precompile += %w(
 	mobile.scss
 	mobile.js
 	setup.js
+	tinymce.js
 	admin.scss
 	admin_setup.js
 	admin_angular.js

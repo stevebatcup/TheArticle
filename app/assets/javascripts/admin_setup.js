@@ -1,7 +1,6 @@
 //= require activestorage
 //= require tether
 //= require bootstrap
-//= require vendor/modernizr
 //= require underscore/underscore-min
 //= require slick-carousel/slick/slick.min
 //= require mustache/mustache.min
@@ -12,8 +11,6 @@
 //= require angular-utils-pagination
 //= require angular-flash-alert
 //= require angular-wizard
-//= require hammerjs
-//= require ryanmullins-angular-hammer
 //= require angular-sanitize
 //= require remarkable-bootstrap-notify
 //= require angular1-confirm

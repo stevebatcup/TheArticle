@@ -59,6 +59,11 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:gtm_id
 
+	def page_requires_tinymce?
+		user_signed_in?
+	end
+	helper_method	:page_requires_tinymce?
+
 	def is_profile_page?
 		self.class == UsersController && params[:action] == 'show'
 	end

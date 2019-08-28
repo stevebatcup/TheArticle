@@ -14,19 +14,22 @@
 
     <script type="text/javascript">
       // Bootstrap the app
-      var moduleName = "TheArticleNG"
-      window.App = angular.module(moduleName, [
+      var moduleName = "TheArticleNG";
+      var injections = [
         'rails',
         'cp.ngConfirm',
         'ngSanitize',
         'ngCookies',
         'mgo-angular-wizard',
-        'ui.tinymce',
         'TheArticle.directives',
         'TheArticle.factories',
         'TheArticle.filters',
         'TheArticle.controllers'
-      ]);
+      ];
+      <% if page_requires_tinymce? %>
+        injections.push('ui.tinymce');
+      <% end %>
+      window.App = angular.module(moduleName, injections);
       window.App.run(function ($rootScope) { $rootScope._ = _; });
       $(document).ready(function() {
         $('[ng-controller]').each(function(index, root) {

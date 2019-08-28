@@ -47,6 +47,9 @@
     <% end %>
 
     <%= javascript_include_tag 'setup', 'data-turbolinks-track' => true %>
+    <% if page_requires_tinymce? %>
+      <%= javascript_include_tag 'tinymce', 'data-turbolinks-track' => true %>
+    <% end %>
 
     <% if(!is_development?) %>
       <!-- Global site tag (gtag.js) - Google Analytics -->
