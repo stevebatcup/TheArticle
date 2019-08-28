@@ -27,11 +27,19 @@ class ArticlesController < ApplicationController
 					per_page = params[:per_page].to_i
 					if params[:include_sponsored]
 						sponsored_frequency = 5
-						offset = (params[:page].to_i % 2 == 0) ? 6 : 0
+						if params[:page].to_i % 4 == 0
+							offset = 9
+						elsif params[:page].to_i % 3 == 0
+							offset = 6
+						elsif params[:page].to_i % 2 == 0
+							offset = 3
+						else
+							offset = 0
+						end
 						sponsored_articles = Article.sponsored.includes(:exchanges)
 																				.references(:exchanges)
 																				.order(published_at: :desc)
-																				.limit(6)
+																				.limit(3)
 																				.offset(offset)
 																				.to_a
 						items_to_get = articles_per_page - (sponsored_articles.length)
@@ -65,7 +73,7 @@ class ArticlesController < ApplicationController
 
 					if params[:include_sponsored]
 						@articles = @articles.to_a
-						first_key = (params[:page].to_i == 1) ? 3 : 4
+						first_key = 3
 						sponsored_articles.each_with_index do |sa, i|
 							key = (first_key + (i * sponsored_frequency))
 							if @articles[key]
