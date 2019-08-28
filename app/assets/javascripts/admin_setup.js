@@ -4,7 +4,6 @@
 //= require vendor/modernizr
 //= require underscore/underscore-min
 //= require slick-carousel/slick/slick.min
-//= require fontawesome/svg-with-js/js/fontawesome-all.min
 //= require mustache/mustache.min
 //= require angular
 //= require angular-animate

@@ -1,4 +1,5 @@
 @import "_variables";
+@import "font-awesome";
 @import 'bootstrap';
 @import 'vendor/jquery-custom-content-scroller';
 @import "colours";
@@ -36,3 +37,8 @@
 @import "mobile/help-centre";
 
 @import "vendor/input-range";
+
+/* Hack for Font-awesome-rails */
+.fas, .far, .fab {
+	@extend .fa;
+}

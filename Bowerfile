@@ -2,7 +2,6 @@
 # Check out https://github.com/42dev/bower-rails#ruby-dsl-configuration for more options
 
 asset 'bootstrap', '4.1.0'
-asset 'fontawesome', '5.2'
 asset 'underscore'
 asset 'slick-carousel'
 asset 'angular', '1.6.6'
@@ -15,7 +14,6 @@ asset 'ryanmullins-angular-hammer'
 asset 'remarkable-bootstrap-notify'
 asset 'angular1-confirm'
 asset 'angular-cookies'
-asset 'moment'
 asset 'cropperjs'
 asset 'tinymce', '4.6.4'
 asset "angular-ui-tinymce", "latest"
