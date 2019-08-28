@@ -173,7 +173,11 @@ td img {
 .text-decrease-2 {
 	font-size: 0.8em;
 }
+
 /* Hack for Font-awesome-rails */
+.fas, .far, .fab {
+	@extend .fa;
+}/* Hack for Font-awesome-rails */
 .fas, .far, .fab {
 	@extend .fa;
 }

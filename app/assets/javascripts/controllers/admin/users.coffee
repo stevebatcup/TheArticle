@@ -12,6 +12,7 @@ class TheArticle.Users extends TheArticle.AdminPageController
 	]
 
 	init: ->
+		@scope.users = []
 		@scope.searchFields =
 			query: ''
 			refiner: ''
@@ -21,6 +22,7 @@ class TheArticle.Users extends TheArticle.AdminPageController
 		@scope.records =
 			perPage: Number(@element.data('records-per-page'))
 		@watch()
+		@runSearch(null)
 
 	watch: =>
 		@scope.$watch 'records.perPage', (newVal, oldVal) =>
@@ -30,11 +32,14 @@ class TheArticle.Users extends TheArticle.AdminPageController
 
 	runSearch: ($event) =>
 		$event.preventDefault() if $event?
-		if @scope.searchFields.query.length > 2
-			dateFrom = @scope.searchFields.dateFrom.toISOString().substring(0, 10)
-			dateTo = @scope.searchFields.dateTo.toISOString().substring(0, 10)
-			url = "/admin/users?query=#{@scope.searchFields.query}&refiner=#{@scope.searchFields.refiner}&date_from=#{dateFrom}&date_to=#{dateTo}"
-			@http.get url, (response) =>
-				console.log response.data
+		dateFrom = @scope.searchFields.dateFrom.toISOString().substring(0, 10)
+		dateTo = @scope.searchFields.dateTo.toISOString().substring(0, 10)
+		url = "/admin/users?date_from=#{dateFrom}&date_to=#{dateTo}"
+		url += "&search=#{@scope.searchFields.query}" if @scope.searchFields.query.length > 1
+		url += "&refiner=#{@scope.searchFields.refiner}" if @scope.searchFields.refiner.length > 0
+		console.log url
+		@http.get(url).then (response) =>
+			console.log "@scope.users"
+			@scope.users = response.data.users
 
 TheArticle.ControllerModule.controller('UsersController', TheArticle.Users)
