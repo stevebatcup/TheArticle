@@ -126,8 +126,10 @@
       })(window,document,'script','dataLayer','<%= gtm_id %>');</script>
     <% end %>
 
-    <% maps_api_key = Rails.application.credentials.google_maps_api_key[Rails.env.to_sym] %>
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= maps_api_key %>" type="text/javascript"></script>
+    <% if page_requires_google_maps? %>
+      <% maps_api_key = Rails.application.credentials.google_maps_api_key[Rails.env.to_sym] %>
+      <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= maps_api_key %>" type="text/javascript"></script>
+    <% end %>
 
     <%= stylesheet_link_tag  'mobile', media: 'all', 'data-turbolinks-track': 'reload' %>
 
