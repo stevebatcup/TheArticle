@@ -2,12 +2,12 @@ module Admin
   class UsersController < Admin::ApplicationController
 
     def index
+      set_records_per_page if params[:per_page]
       @search_term = params[:search].to_s.strip
       @users = User.where(search_query, *search_terms)
                     .order(order_clause)
                     .page(params[:page])
                     .per(records_per_page)
-      # foo
       respond_to do |format|
         format.html do
           page = Administrate::Page::Collection.new(dashboard, order: order)
@@ -20,6 +20,10 @@ module Admin
           }
         end
         format.json do
+          if params[:page].to_i == 1
+            total_users = User.where(search_query, *search_terms).length
+            @total_pages = (total_users.to_f / records_per_page.to_f).ceil
+          end
           render :index
         end
       end
@@ -84,24 +88,28 @@ module Admin
     end
 
     def records_per_page
-      params[:per_page] || cookies.permanent[:admin_user_records_per_page] || 50
+      @records_per_page ||= (cookies.permanent[:admin_user_records_per_page] || 50)
     end
 
     def set_records_per_page
-      respond_to do |format|
-        format.json do
-          cookies.permanent[:admin_user_records_per_page] = params[:per_page]
-        end
-      end
+      cookies.permanent[:admin_user_records_per_page] = params[:per_page]
     end
 
   private
 
+    def query_is_digits_only?
+      (@search_term.length > 1) && (@search_term.scan(/\D/).empty?)
+    end
+
     def search_query
-      query = "(" + search_attributes.map do |attr|
-        table_name = "users"
-        "LOWER(CAST(#{table_name}.#{attr} AS CHAR(256))) LIKE ?"
-      end.join(" OR ") + ")"
+      if query_is_digits_only?
+        query = "( id LIKE ? )"
+      else
+        query = "(" + search_attributes.map do |attr|
+          table_name = "users"
+          "LOWER(CAST(#{table_name}.#{attr} AS CHAR(256))) LIKE ?"
+        end.join(" OR ") + ")"
+      end
 
       if params[:date_from] && params[:date_to]
         query += " AND created_at >= '#{params[:date_from]}' AND created_at <= '#{params[:date_to]}'"
@@ -127,7 +135,11 @@ module Admin
     end
 
     def search_terms
-      ["%#{@search_term.mb_chars.downcase}%"] * search_attributes.count
+      if query_is_digits_only?
+        ["#{@search_term}%"]
+      else
+        ["%#{@search_term.mb_chars.downcase}%"] * search_attributes.count
+      end
     end
 
     def search_attributes
@@ -135,17 +147,18 @@ module Admin
     end
 
     def order_clause
-      dir = :desc
-      if params[:user]
-        dir = params.fetch(:user).fetch(:direction)
-        if params.fetch(:user).fetch(:order) == 'full_name'
+      dir = params[:dir] || :desc
+      if params[:sort]
+        if params[:sort] == 'full_name'
           "first_name #{dir}, last_name #{dir}"
-        elsif params.fetch(:user).fetch(:order) == 'human_created_at'
+        elsif params[:sort] == 'human_created_at'
           "created_at #{dir}"
-        elsif params.fetch(:user).fetch(:order) == 'admin_account_status'
+        elsif params[:sort] == 'admin_account_status'
           "status #{dir}"
-        elsif params.fetch(:user).fetch(:order) == 'admin_profile_status'
+        elsif params[:sort] == 'admin_profile_status'
           "IF(status = 2, 1,(IF(has_completed_wizard = 1, (IF(status=1, 0, 3)), 2))) #{dir}"
+        else
+          "#{params[:sort]} #{dir}"
         end
       else
         "id #{dir}"

@@ -18,7 +18,7 @@
         <div class="form-field w-50 px-3">
           <label>Search for: </label>
           <input type="text"
-                  placeholder="Begin typing a username, display name, email address, etc..."
+                  placeholder="Begin typing an ID, username, display name, email address, etc..."
                   ng-model="searchFields.query"
                   ng-keyup="runSearch($event)" />
         </div>
@@ -78,16 +78,24 @@
       table_title: "page-title"
     ) %>
 
-    <%= paginate @users %>
+    <div class="d-flex p-3 justify-content-between align-items-start">
+      <nav class="paginator d-flex w-50" role="navigation" aria-label="pager">
+        <label ng-if="searchFields.totalPages > 1">Page number: </label>
+        <select ng-if="searchFields.totalPages > 1" ng-change="paginate()" ng-model="searchFields.page" ng-options="n for n in _.range(1, searchFields.totalPages+1)">
+        </select>
+      </nav>
 
-    <div id="per_page_setter">
-      <label>Show <%= controller.records_per_page %> results per page</label>
-      <select name="results_per_page" id="results_per_page" ng-model="records.perPage">
-        <option ng-value="10">10</option>
-        <option ng-value="50">50</option>
-        <option ng-value="100">100</option>
-        <option ng-value="250">250</option>
-      </select>
+      <div id="per_page_setter" class="d-flex w-50 justify-content-end">
+        <label>Show {{searchFields.perPage}} results per page: </label>
+        <select name="results_per_page" id="results_per_page"
+                  ng-model="searchFields.perPage"
+                  ng-change="setPerPage()">
+          <option ng-value="10">10</option>
+          <option ng-value="50">50</option>
+          <option ng-value="100">100</option>
+          <option ng-value="250">250</option>
+        </select>
+      </div>
     </div>
 
   </section>

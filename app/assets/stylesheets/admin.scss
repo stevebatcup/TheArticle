@@ -117,17 +117,23 @@ td img {
 	}
 
 	#per_page_setter {
-		width: 23%;
-    float: right;
-    padding-top: 15px;
-    padding-right: 40px;
-    text-align: right;
-    overflow: hidden;
-
     select {
     	width: 60px;
-    	float: right;
+    	font-size: 0.9em;
+    	margin-left: 5px;
+    	position: relative;
+    	top: -3px;
     }
+	}
+
+	.paginator {
+		select {
+			width: 60px;
+			font-size: 0.9em;
+			margin-left: 5px;
+			position: relative;
+			top: -3px;
+		}
 	}
 }
 
