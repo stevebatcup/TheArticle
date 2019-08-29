@@ -1,22 +1,24 @@
 <form class="comment-form">
 	<div class="d-flex w-100">
-		<% if user_signed_in? %>
-			<img src="<%= current_user.profile_photo.url(:square) %>" alt="<%= current_user.display_name %>" class="rounded-circle" />
-		<% end %>
+    <% if user_signed_in? %>
+     <img src="<%= current_user.profile_photo.url(:square) %>" alt="<%= current_user.display_name %>" class="rounded-circle" />
+    <% end %>
     <textarea class="comment_textarea ml-2 form-control"
-    					name="comment"
-    					rows="4"
-    					placeholder="Add your Comment"
-    					ng-model="commentForSubmission.value"
-    					ui-tinymce="tinymceOptions"></textarea>
+              name="comment"
+              rows="4"
+              placeholder="Add your Comment"
+              ng-model="commentForSubmission.value"
+              ui-tinymce="tinymceOptions"></textarea>
   </div>
+
   <div class="d-flex justify-content-end">
     <a class="cancel_reply text-green mr-4 mt-4" href='#' style="display: none;" ng-click="cancelReply($event, commentFormItem)">Cancel reply</a>
 
     <input class="btn px-5 btn-success mt-3 post_comment"
-    			type="submit" ng-value="commentPostButton"
-    			ng-click="postComment($event, commentFormItem)"
-    			ng-disabled="postingComment"
-    			ng-class="{'disabled': postingComment}" />
+            type="submit"
+            ng-value="commentPostButton"
+            ng-click="postComment($event, commentFormItem)"
+            ng-disabled="postingComment"
+            ng-class="{'disabled': postingComment}" />
   </div>
 </form>

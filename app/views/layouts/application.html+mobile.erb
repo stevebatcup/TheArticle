@@ -6,6 +6,8 @@
   <main id="panel_for_side_menu">
 <% end %>
 
+<div class="overlay"></div>
+
 <!-- Page Content -->
 <div id="content">
   <% unless request.headers["X-MobileApp"] %>
@@ -158,8 +160,6 @@
   </main>
 
 </div>
-
-<div class="overlay"></div>
 
 <% unless request.headers["X-MobileApp"] %>
 </main>
