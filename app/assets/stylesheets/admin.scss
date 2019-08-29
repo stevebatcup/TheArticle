@@ -149,3 +149,8 @@ td img {
 		}
 	}
 }
+
+/* Hack for Font-awesome-rails */
+.fas, .far, .fab {
+	@extend .fa;
+}
