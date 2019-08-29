@@ -16,7 +16,7 @@
 		background: #fff;
 	}
 
-	svg {
+	i, svg {
 		font-size: 0.9em;
 	}
 }
@@ -144,7 +144,7 @@
 		@extend .bg-gold-dark;
 		padding-left: 10px;
 
-		svg {
+		i, svg {
 			margin-right: 4px;
 			position: relative;
 			top: -1px;

@@ -68,10 +68,12 @@
   	display: none !important;
   }
 
-	.article_detail .share_links > div a svg {
-		position: relative;
-		left: -5px;
-	}
+  .article_detail .share_links > div a {
+    i, svg {
+      position: relative;
+      left: -5px;
+    }
+  }
 
   form#filter_list_form {
     input[type=text] {

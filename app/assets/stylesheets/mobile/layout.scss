@@ -745,7 +745,7 @@ form#filter_list_form {
   	padding: 4px 8px 3px;
 	}
 
-  svg {
+  i, svg {
   	margin-right: 4px;
   	position: relative;
   	top: -1px;
@@ -778,7 +778,7 @@ form#filter_list_form {
 .url {
 	font-size: 11px;
 
-	svg {
+	i, svg {
 		font-size: 14px;
 		margin-right: 3px;
 		width: 21px !important;
@@ -984,7 +984,7 @@ html.svg {
 	font-size: 19px;
 	z-index: 1000000000;
 
-	svg {
+	i, svg {
 		font-size: 25px;
 		margin-right: 6px;
 		position: relative;
