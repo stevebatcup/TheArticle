@@ -7,7 +7,7 @@ for all resources in the admin dashboard,
 as defined by the routes in the `admin/` namespace
 %>
 
-<nav id="admin_sidenav" class="navigation" role="navigation">
+<nav id="admin_sidenav" class="navigation" role="navigation" ng-controller="NavController">
 	<div id="logo">
 	  <a href="/?force_home=1" target="_blank" style="" title="Open main website in another window">
 	  </a>
@@ -17,6 +17,14 @@ as defined by the routes in the `admin/` namespace
 	<ul>
 		<li>
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/users') %>" href="/admin/users">Search</a>
+		</li>
+		<li ng-repeat="userTab in userTabs"
+					class="d-flex bg-white p-2 justify-content-between"
+					ng-hide="userTabs.length == 0" ng-cloak>
+			<h5><a href='#' ng-click="openAccountPage(userTab, $event)">{{userTab.name}}</a></h5>
+			<a ng-click="closeAccountPage(userTab, $event)" href='#' class="text-black">
+				<i class="fa fa-times"></i>
+			</a>
 		</li>
 		<li>
 			<span class="navigation__link">Concern reports</span>
@@ -81,3 +89,10 @@ as defined by the routes in the `admin/` namespace
 	</ul>
 
 </nav>
+
+<script id="user_account_html" type="text/html">
+	<div class="user_account_page" data-id="{{userForBox.id}}">
+		<h1>{{userForBox.displayName}}</h1>
+		<p>profileStatus: {{userForBox.profileStatus}}</p>
+	</div>
+</script>
