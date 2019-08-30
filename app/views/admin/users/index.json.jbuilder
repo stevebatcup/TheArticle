@@ -5,6 +5,7 @@ json.set! :users do
 		json.id user.id
 		json.firstName user.first_name
 		json.lastName user.last_name
+		json.name user.full_name.html_safe
 		json.displayName user.display_name.html_safe
 		json.username user.username
 		json.email user.email

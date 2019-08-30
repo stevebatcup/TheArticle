@@ -3,6 +3,7 @@ class TheArticle.Users extends TheArticle.AdminPageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
 	  '$compile'

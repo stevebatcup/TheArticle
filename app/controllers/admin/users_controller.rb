@@ -29,6 +29,28 @@ module Admin
       end
     end
 
+    def show
+      @user = User.find(params[:id])
+    end
+
+    def create_page
+      session["account_pages"] = [] if !session["account_pages"]
+      user = User.find(params[:user_id])
+      session["account_pages"].push({ id: user.id, name: user.full_name })
+      @status = :success
+    end
+
+    def get_open_pages
+      @pages = session["account_pages"]
+    end
+
+    def close_page
+      session["account_pages"] = session["account_pages"].select do |item|
+        item["id"].to_i != params[:user_id].to_i
+      end
+      @status = :success
+    end
+
     def add_to_blacklist
       respond_to do |format|
         format.json do
