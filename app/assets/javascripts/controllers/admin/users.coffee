@@ -65,8 +65,6 @@ class TheArticle.Users extends TheArticle.AdminPageController
 		$event.preventDefault() if $event?
 		dateFrom = new Date(@scope.searchFields.dateFrom.getTime() - (@scope.searchFields.dateFrom.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
 		dateTo = new Date(@scope.searchFields.dateTo.getTime() - (@scope.searchFields.dateTo.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
-		# console.log dateFrom
-		# console.log dateTo
 		data =
 			date_from: dateFrom
 			date_to: dateTo
@@ -86,10 +84,5 @@ class TheArticle.Users extends TheArticle.AdminPageController
 			if @scope.searchFields.page is 1
 				@scope.searchFields.totalPages = response.data.totalPages
 				@scope.searchFields.totalRecords = response.data.totalRecords
-
-
-
-
-
 
 TheArticle.ControllerModule.controller('UsersController', TheArticle.Users)

@@ -39,7 +39,6 @@ json.set! :profile do
 		json.uploading false
 		json.width browser.device.mobile? ? 275 : 300
 		json.height browser.device.mobile? ? 275 : 300
-
 	end
 	json.coverPhoto do
 		json.image @user.cover_photo.url(browser.device.mobile? ? :mobile : :desktop)

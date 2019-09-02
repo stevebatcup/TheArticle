@@ -16,7 +16,10 @@ as defined by the routes in the `admin/` namespace
 	<h3>Users</h3>
 	<ul>
 		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/users') %>" href="/admin/users">Search</a>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/users') %>" href="#" ng-click="openSearchPage($event)">Search</a>
+		</li>
+		<li ng-if="userTabs.length > 0" class="py-2">
+			Accounts
 		</li>
 		<li ng-repeat="userTab in userTabs"
 					class="d-flex bg-white p-2 justify-content-between"
@@ -92,7 +95,6 @@ as defined by the routes in the `admin/` namespace
 
 <script id="user_account_html" type="text/html">
 	<div class="user_account_page" data-id="{{userForBox.id}}">
-		<h1>{{userForBox.displayName}}</h1>
-		<p>profileStatus: {{userForBox.profileStatus}}</p>
+		<%= render 'account' %>
 	</div>
 </script>

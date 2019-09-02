@@ -30,7 +30,14 @@ module Admin
     end
 
     def show
-      @user = User.find(params[:id])
+      @full_details = params[:full_details].present?
+      if @full_details
+        @user = User.includes(:notification_settings)
+                    .references(:notification_settings)
+                    .find(params[:id])
+      else
+        @user = User.find(params[:id])
+      end
     end
 
     def create_page

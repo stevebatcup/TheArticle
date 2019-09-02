@@ -3,7 +3,15 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 	constructor: ->
 		super
 
-	createAccountPage: (user, $event) =>
+	openSearchPage: ($event=null) =>
+		$event.preventDefault() if $event?
+		if window.location.pathname is "/admin/users"
+			if $('.user_account_page:visible').length > 0
+				$('.user_account_page:visible').hide()
+		else
+			window.location.href = "/admin/users"
+
+	createAccountPage: (user, $event=null) =>
 		$event.preventDefault() if $event?
 		unless _.contains @rootScope.userTabs, user
 			@rootScope.userTabs.push user
@@ -29,6 +37,21 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 		$('main.main-content').first().append content
 		@rootScope.pageBoxes.push userDetails.id
 		$(content).show()
+		@loadFullUserDetails(boxScope.userForBox)
+
+	loadFullUserDetails: (scopedUser) =>
+		@http.get("/admin/users/#{scopedUser.id}?full_details=1").then (response) =>
+			angular.forEach response.data, (value, key) =>
+				scopedUser[key] = value
+			# @getProfilePreview(scopedUser)
+
+	getProfilePreview: (scopedUser) =>
+		@http.defaults.headers.common['Accept'] = 'text/html'
+		@http.defaults.headers.common['Content-Type'] = 'text/html'
+		@http.defaults.headers.common['X-MobileApp'] = 1
+		@http.get(scopedUser.profileUrl, { responseType: 'blob' }).then (response) =>
+			dataUrl = URL.createObjectURL(response.data)
+			$("iframe[data-user-id=#{scopedUser.id}]").attr('src', dataUrl)
 
 	closeAccountPage: (user, $event=null) =>
 		$event.preventDefault() if $event?

@@ -190,7 +190,7 @@ protected
 
 private
   def set_device_type
-    if browser.device.mobile? || request.headers["X-MobileApp"]
+    if browser.device.mobile? || request.headers["X-MobileApp"] || params[:forcemobile].present?
       request.variant = :mobile
     elsif browser.device.tablet?
       request.variant = :tablet
