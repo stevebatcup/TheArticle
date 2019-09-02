@@ -112,7 +112,7 @@ module Admin
       end
 
       if params[:date_from] && params[:date_to]
-        query += " AND created_at >= '#{params[:date_from]}' AND created_at <= '#{params[:date_to]}'"
+        query += " AND DATE(created_at) >= '#{params[:date_from]}' AND DATE(created_at) <= '#{params[:date_to]}'"
       end
 
       if params[:refiner]
