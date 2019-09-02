@@ -21,8 +21,8 @@ class TheArticle.Users extends TheArticle.AdminPageController
 			dir: 'desc'
 			query: ''
 			refiner: ''
-			dateFrom: new Date(@element.data('start-date'))
-			dateTo: new Date(@element.data('end-date'))
+			dateFrom: new Date(@element.data('start-date') + ' 00:00:00')
+			dateTo: new Date(@element.data('end-date') + ' 00:00:00')
 		@setDefaultHttpHeaders()
 		@runSearch(null)
 
@@ -59,8 +59,10 @@ class TheArticle.Users extends TheArticle.AdminPageController
 
 	runSearch: ($event) =>
 		$event.preventDefault() if $event?
-		dateFrom = @scope.searchFields.dateFrom.toISOString().substring(0, 10)
-		dateTo = @scope.searchFields.dateTo.toISOString().substring(0, 10)
+		dateFrom = new Date(@scope.searchFields.dateFrom.getTime() - (@scope.searchFields.dateFrom.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+		dateTo = new Date(@scope.searchFields.dateTo.getTime() - (@scope.searchFields.dateTo.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+		# console.log dateFrom
+		# console.log dateTo
 		data =
 			date_from: dateFrom
 			date_to: dateTo
