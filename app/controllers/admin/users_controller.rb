@@ -13,6 +13,7 @@ module Admin
           page = Administrate::Page::Collection.new(dashboard, order: order)
           @search_start_date = "2019-03-13"
           @search_end_date = Date.today.strftime("%Y-%m-%d")
+          @search_max_date = Date.tomorrow.strftime("%Y-%m-%d")
           render locals: {
             resources: @users,
             search_term: @search_term,

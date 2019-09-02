@@ -29,14 +29,14 @@
             <input type="date"
                    id="start"
                    min="<%= @search_start_date %>"
-                   max="<%= @search_end_date %>"
+                   max="<%= @search_max_date %>"
                    class="mr-2"
                    ng-model="searchFields.dateFrom"
                    ng-change="runSearch($event)" />
             <input type="date"
                    id="end"
                    min="<%= @search_start_date %>"
-                   max="<%= @search_end_date %>"
+                   max="<%= @search_max_date %>"
                    class=""
                    ng-model="searchFields.dateTo"
                    ng-change="runSearch($event)" />
