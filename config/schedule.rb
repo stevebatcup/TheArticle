@@ -42,6 +42,9 @@ end
 every	1.day, at: '5:00 pm' do
 	rake "notifications:daily_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
+every	1.day, at: '11:45 pm' do
+	rake "notifications:daily_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+end
 
 every	:monday, at: '7:00 am' do
 	rake "notifications:weekly_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
