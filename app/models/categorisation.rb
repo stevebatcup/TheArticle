@@ -35,8 +35,8 @@ class Categorisation < ApplicationRecord
 	end
 
 	def update_feeds
-		batch_size = 3
-		sleep_time = 5
+		batch_size = 300
+		sleep_time = 8
 		self.exchange.users.find_in_batches(batch_size: batch_size) do |group|
 			sleep(sleep_time)
 			group.each { |user| self.feeds.create({user_id: user.id}) }
