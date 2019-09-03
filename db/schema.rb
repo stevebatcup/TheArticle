@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_111644) do
+ActiveRecord::Schema.define(version: 2019_09_03_151922) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -19,13 +19,13 @@ ActiveRecord::Schema.define(version: 2019_08_19_111644) do
     t.datetime "created_at"
   end
 
-  create_table "api_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "api_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.string "service"
     t.integer "user_id"
     t.string "request_type"
     t.string "request_method"
-    t.text "request_data"
-    t.text "response"
+    t.text "request_data", limit: 4294967295
+    t.text "response", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_method"], name: "index_api_logs_on_request_method"
@@ -353,14 +353,14 @@ ActiveRecord::Schema.define(version: 2019_08_19_111644) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "eventable_id"
     t.string "eventable_type"
     t.string "specific_type"
     t.integer "share_id"
     t.integer "feed_id"
-    t.text "body"
+    t.text "body", limit: 4294967295
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_new"
