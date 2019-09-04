@@ -105,13 +105,52 @@
 					font-weight: normal;
 					text-decoration: none;
 				}
+
+				&.user_account_tab {
+					padding-left: 2.5em !important;
+
+					h5 {
+						font-size: 1.05em;
+						margin: 0;
+
+						a {
+							color: #fff;
+						}
+					}
+
+					a.close {
+						font-size: 0.9em;
+						color: #ccc;
+						margin-right: 3px;
+						text-shadow: none;
+						position: relative;
+						top: 3px;
+					}
+
+					&.selected {
+						background: #e8ecef;
+						border-radius: 3px 0 0 3px;
+
+						h5 {
+							a {
+								color: #111;
+							}
+						}
+
+						a.close {
+							color: #444;
+						}
+					}
+				}
 			}
 		}
 	}
 
 	.main-content {
 		border-radius: 0;
+		box-shadow: none;
 		background-color: #e8ecef;
+		position: relative;
 
 		header#user_info {
 			color: #fff;
@@ -212,11 +251,25 @@
 			position: absolute;
 			top: 0px;
 			left: 0px;
-			background: #fff;
+			background-color: #e8ecef;
 			z-index: 100;
 			padding: 20px;
 			width: 100%;
-			height: 100%
+			height: 100%;
+
+			section {
+				.nav-tabs {
+					li {
+						a {
+							color: saturate(#283e54, 10%);
+							font-weight: bold;
+						}
+					}
+				}
+				.tab-content {
+					background: #fff;
+				}
+			}
 		}
 	}
 

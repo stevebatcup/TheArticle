@@ -16,6 +16,7 @@ class TheArticle.Nav extends TheArticle.AdminPageController
 		@setDefaultHttpHeaders()
 		@rootScope.userTabs = []
 		@rootScope.pageBoxes = []
+		@rootScope.openPageBoxId = 0
 		@getOpenPages()
 
 	getOpenPages: =>

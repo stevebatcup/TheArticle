@@ -14,6 +14,7 @@ class TheArticle.Users extends TheArticle.AdminPageController
 
 	init: ->
 		@scope.users = []
+		@rootScope.selectedPage = 'search'
 		@scope.searchFields =
 			loaded: false
 			page: 1
