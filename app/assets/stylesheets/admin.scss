@@ -24,12 +24,12 @@
 		flex: 1 0 15rem;
 		color: #fff;
 		padding-right: 0;
-		padding-top: 15;
+		padding-top: 15px;
 
 		#logo {
 			margin-bottom: 20px;
 			background-image: asset_url('logo-2-lines-white.png');
-			background-size: 65%;
+			background-size: 59%;
 			background-repeat: no-repeat;
 			background-position: center center;
 			transition: background-size 0.5s;
@@ -111,6 +111,7 @@
 
 	.main-content {
 		border-radius: 0;
+		background-color: #e8ecef;
 
 		header#user_info {
 			color: #fff;
@@ -167,6 +168,9 @@
 		}
 
 		.main-content__body {
+			background: #fff;
+			padding: 1rem 1.5rem;
+
 			.pagination {
 				width: 75%;
 			  float: left;
