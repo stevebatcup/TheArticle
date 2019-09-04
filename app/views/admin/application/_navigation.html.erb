@@ -22,16 +22,16 @@ as defined by the routes in the `admin/` namespace
 			<span class="navigation__link">Concern reports</span>
 			<ul class="children">
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/user_concern_reports') %>" href="/admin/user_concern_reports">- Profiles (<%= user_concern_report_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/user_concern_reports') %>" href="/admin/user_concern_reports">- Profiles <span class="badge attention"><%= user_concern_report_count %></span></a>
 				</li>
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/comment_concern_reports') %>" href="/admin/comment_concern_reports">- Comments (<%= comment_concern_report_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/comment_concern_reports') %>" href="/admin/comment_concern_reports">- Comments <span class="badge attention"><%= comment_concern_report_count %></span></a>
 				</li>
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/share_concern_reports') %>" href="/admin/share_concern_reports">- Posts (<%= share_concern_report_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/share_concern_reports') %>" href="/admin/share_concern_reports">- Posts <span class="badge attention"><%= share_concern_report_count %></span></a>
 				</li>
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/processed_concern_reports') %>" href="/admin/processed_concern_reports">- Archive (<%= processed_concern_report_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/processed_concern_reports') %>" href="/admin/processed_concern_reports">- Archive <span class="badge"><%= processed_concern_report_count %></span></a>
 				</li>
 			</ul>
 		</li>
@@ -39,13 +39,13 @@ as defined by the routes in the `admin/` namespace
 			<span class="navigation__link">Third party shares</span>
 			<ul class="children">
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Pending (<%= quarantined_post_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Pending <span class="badge attention"><%= quarantined_post_count %></span></a>
 				</li>
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/approved_third_party_shares') %>" href="/admin/approved_third_party_shares">Approved (<%= approved_post_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/approved_third_party_shares') %>" href="/admin/approved_third_party_shares">Approved <span class="badge"><%= approved_post_count %></span></a>
 				</li>
 				<li>
-					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/rejected_third_party_shares') %>" href="/admin/rejected_third_party_shares">Rejected (<%= rejected_post_count %>)</a>
+					<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/rejected_third_party_shares') %>" href="/admin/rejected_third_party_shares">Rejected <span class="badge"><%= rejected_post_count %></span></a>
 				</li>
 			</ul>
 		</li>
