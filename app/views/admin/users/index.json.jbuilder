@@ -1,4 +1,5 @@
 json.totalPages @total_pages if @total_pages
+json.totalRecords @total_records if @total_records
 json.set! :users do
 	json.array! @users do |user|
 		json.id user.id

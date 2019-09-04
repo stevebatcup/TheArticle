@@ -14,9 +14,11 @@ class TheArticle.Users extends TheArticle.AdminPageController
 	init: ->
 		@scope.users = []
 		@scope.searchFields =
+			loaded: false
 			page: 1
 			perPage: @element.data('records-per-page')
 			totalPages: 0
+			totalRecords: 0
 			sort: 'id'
 			dir: 'desc'
 			query: ''
@@ -27,6 +29,7 @@ class TheArticle.Users extends TheArticle.AdminPageController
 		@runSearch(null)
 
 	setPerPage: =>
+		@scope.searchFields.page = 1
 		@runSearch(null)
 
 	reorder: ($event, sortBy) =>
@@ -74,11 +77,14 @@ class TheArticle.Users extends TheArticle.AdminPageController
 		data['refiner'] = @scope.searchFields.refiner if @scope.searchFields.refiner.length > 0
 
 		url = "/admin/users?1&" + $.param(data)
-		console.log url
 
+		@scope.searchFields.loaded = false
 		@http.get(url).then (response) =>
+			@scope.searchFields.loaded = true
 			@scope.users = response.data.users
-			@scope.searchFields.totalPages = response.data.totalPages if @scope.searchFields.page is 1
+			if @scope.searchFields.page is 1
+				@scope.searchFields.totalPages = response.data.totalPages
+				@scope.searchFields.totalRecords = response.data.totalRecords
 
 
 

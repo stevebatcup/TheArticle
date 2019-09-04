@@ -49,6 +49,7 @@
                     ng-change="runSearch($event)">
             <option value="">Choose...</option>
             <option value="active">Active account</option>
+            <option value="incomplete">Incomplete profile</option>
             <option value="deactivated">Deactivated account</option>
             <option value="verified">Verified</option>
             <option value="watchlisted">On watchlist</option>
@@ -77,13 +78,18 @@
     ) %>
 
     <div class="d-flex p-3 justify-content-between align-items-start">
-      <nav class="paginator d-flex w-50" role="navigation" aria-label="pager">
+      <nav class="paginator d-flex w-33" role="navigation" aria-label="pager">
         <label ng-if="searchFields.totalPages > 1">Page number: </label>
         <select ng-if="searchFields.totalPages > 1" ng-change="paginate()" ng-model="searchFields.page" ng-options="n for n in _.range(1, searchFields.totalPages+1)">
         </select>
       </nav>
 
-      <div id="per_page_setter" class="d-flex w-50 justify-content-end">
+      <div id="total_count" ng-if="searchFields.loaded" class="w-33 py-2 pl-3">
+        <strong ng-if="searchFields.totalRecords != 1">{{searchFields.totalRecords}} results found</strong>
+        <strong ng-if="searchFields.totalRecords == 1">{{searchFields.totalRecords}} result found</strong>
+      </div>
+
+      <div id="per_page_setter" class="d-flex w-33 justify-content-end">
         <label>Show {{searchFields.perPage}} results per page: </label>
         <select name="results_per_page" id="results_per_page"
                   ng-model="searchFields.perPage"

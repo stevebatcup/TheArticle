@@ -21,8 +21,8 @@ module Admin
         end
         format.json do
           if params[:page].to_i == 1
-            total_users = User.where(search_query, *search_terms).length
-            @total_pages = (total_users.to_f / records_per_page.to_f).ceil
+            @total_records = User.where(search_query, *search_terms).length
+            @total_pages = (@total_records.to_f / records_per_page.to_f).ceil
           end
           render :index
         end
@@ -120,6 +120,8 @@ module Admin
         case params[:refiner]
           when 'active'
             query += "status = #{User.statuses[:active]}"
+          when 'incomplete'
+            query += "has_completed_wizard = 0"
           when 'deactivated'
             query += "status = #{User.statuses[:deactivated]}"
           when 'verified'
