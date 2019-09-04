@@ -7,6 +7,7 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 		$event.preventDefault() if $event?
 		if window.location.pathname is "/admin/users"
 			if $('.user_account_page:visible').length > 0
+				@rootScope.openPageBoxId = 0
 				$('.user_account_page:visible').hide()
 		else
 			window.location.href = "/admin/users"
@@ -21,12 +22,12 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 	openAccountPage: (user, $event=null) =>
 		$event.preventDefault() if $event?
 		$(".user_account_page").hide()
+		@rootScope.openPageBoxId = user.id
 		if _.contains @rootScope.pageBoxes, user.id
 			$(".user_account_page[data-id=#{user.id}]").show()
 		else
 			@http.get("/admin/users/#{user.id}").then (response) =>
 				userDetails = response.data
-				console.log userDetails
 				@openPageBox userDetails
 
 	openPageBox: (userDetails) =>
@@ -55,6 +56,7 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 
 	closeAccountPage: (user, $event=null) =>
 		$event.preventDefault() if $event?
+		@rootScope.openPageBoxId = 0
 		@rootScope.userTabs = _.select @rootScope.userTabs, (item) =>
 			item isnt user
 		@http.get("/admin/close-page/#{user.id}").then (response) =>

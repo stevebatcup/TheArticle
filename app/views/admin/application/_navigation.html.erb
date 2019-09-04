@@ -16,16 +16,19 @@ as defined by the routes in the `admin/` namespace
 	<h3>Users</h3>
 	<ul>
 		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/users') %>" href="#" ng-click="openSearchPage($event)">Search</a>
+			<a class="navigation__link" href="#"
+						ng-click="openSearchPage($event)"
+						 ng-class="{'navigation__link--active': (openPageBoxId == 0) && (selectedPage == 'search')}">Search</a>
 		</li>
-		<li ng-if="userTabs.length > 0" class="py-2">
+		<li ng-if="userTabs.length > 0" class="mb-0 py-2 navigation__link" ng-class="{'navigation__link--active': openPageBoxId > 0}">
 			Accounts
 		</li>
 		<li ng-repeat="userTab in userTabs"
-					class="d-flex bg-white p-2 justify-content-between"
-					ng-hide="userTabs.length == 0" ng-cloak>
+					class="d-flex p-2 justify-content-between user_account_tab"
+					ng-hide="userTabs.length == 0"
+					ng-class="{'selected': openPageBoxId == userTab.id}" ng-cloak>
 			<h5><a href='#' ng-click="openAccountPage(userTab, $event)">{{userTab.name}}</a></h5>
-			<a ng-click="closeAccountPage(userTab, $event)" href='#' class="text-black">
+			<a ng-click="closeAccountPage(userTab, $event)" href='#' class="close">
 				<i class="fa fa-times"></i>
 			</a>
 		</li>
@@ -95,6 +98,6 @@ as defined by the routes in the `admin/` namespace
 
 <script id="user_account_html" type="text/html">
 	<div class="user_account_page" data-id="{{userForBox.id}}">
-		<%= render 'account' %>
+		<%= render 'admin/users/account' %>
 	</div>
 </script>

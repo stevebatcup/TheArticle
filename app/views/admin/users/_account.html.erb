@@ -1,13 +1,27 @@
-<section class="main-content__body">
+<section class="">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a data-toggle="tab" class="nav-link active" href="#basics_{{userForBox.id}}">Basic info</a>
+    </li>
+    <li class="nav-item">
+      <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
+    </li>
+    <li class="nav-item">
+      <a data-toggle="tab" class="nav-link" href="#security_{{userForBox.id}}">Security</a>
+    </li>
+    <li class="nav-item">
+      <a data-toggle="tab" class="nav-link" href="#photos_{{userForBox.id}}">Photos</a>
+    </li>
+    <li class="nav-item">
+      <a data-toggle="tab" class="nav-link" href="#notifications_{{userForBox.id}}">Notification settings</a>
+    </li>
+  </ul>
 
-
-  <h1>{{userForBox.displayName}}</h1>
-
-  <h3 ng-if="!userForBox.fullDetailsLoaded">Loading...</h3>
-
-  <div ng-if="userForBox.fullDetailsLoaded">
-    <div class="d-flex justify-content-between">
-      <div class="w-50">
+  <div class="tab-content pt-4" id="myTabContent">
+    <div class="py-2 px-4 tab-pane fade show active" id="basics_{{userForBox.id}}">
+      <h3 ng-if="!userForBox.fullDetailsLoaded">Loading...</h3>
+      <div ng-if="userForBox.fullDetailsLoaded">
+        <h1>{{userForBox.displayName}}</h1>
         <dl style="overflow: hidden">
           <dt class="attribute-label" id="">Id</dt>
           <dd class="attribute-data attribute-data--ip">{{userForBox.id}}</dd>
@@ -45,46 +59,52 @@
           <dt class="attribute-label" id="">Is contributor?</dt>
           <dd class="attribute-data attribute-data--ip">{{userForBox.isContributor}}</dd>
         </dl>
-
-        <h4>Security</h4>
-        <dl style="overflow: hidden">
-          <dt class="attribute-label" id="">IP Address used at registration</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.signupIpAddress}}</dd>
-
-          <dt class="attribute-label" id="">Last used IP Address</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.lastIpAddress}}</dd>
-
-          <dt class="attribute-label" id="">Registration location (from IP</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.signupLocation}}</dd>
-        </dl>
-
-        <h4>Photos</h4>
-        <dl style="overflow: hidden">
-          <dt class="attribute-label" id="">Current profile photo</dt>
-          <dd class="attribute-data attribute-data--ip">
-            <img ng-src="{{userForBox.profilePhoto}}" width="100px" />
-          </dd>
-        </dl>
-
-        <h4>Notifications</h4>
-        <dl style="overflow: hidden">
-          <dt class="attribute-label" id="">Receives 'new follower' email?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.followers}}</dd>
-          <dt class="attribute-label" id="">Receives 'new article in exchange' email?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.categorisations}}</dd>
-
-          <dt class="attribute-label" id="">Opted into weekly newsletters email?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.weeklyNewsletter}}</dd>
-          <dt class="attribute-label" id="">Opted into offers newsletters email?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.offers}}</dd>
-
-          <dt class="attribute-label" id="">Receives browser push notifications on:</dt>
-          <dd class="attribute-data attribute-data--ip">Coming soon...</dd>
-        </dl>
-
       </div>
-
-      <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="600" height="800" border="0" style="border: none;"></iframe>
     </div>
+
+    <div class="tab-pane fade" id="preview_{{userForBox.id}}">
+      <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="100%" height="800" border="0" style="border: none;"></iframe>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="security_{{userForBox.id}}">
+      <dl style="overflow: hidden">
+        <dt class="attribute-label" id="">IP Address used at registration</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.signupIpAddress}}</dd>
+
+        <dt class="attribute-label" id="">Last used IP Address</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.lastIpAddress}}</dd>
+
+        <dt class="attribute-label" id="">Registration location (from IP</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.signupLocation}}</dd>
+      </dl>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
+      <dl style="overflow: hidden">
+        <dt class="attribute-label" id="">Current profile photo</dt>
+        <dd class="attribute-data attribute-data--ip">
+          <img ng-src="{{userForBox.profilePhoto}}" width="100px" />
+        </dd>
+      </dl>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="notifications_{{userForBox.id}}">
+      <dl style="overflow: hidden">
+        <dt class="attribute-label" id="">Receives 'new follower' email?</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.followers}}</dd>
+        <dt class="attribute-label" id="">Receives 'new article in exchange' email?</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.categorisations}}</dd>
+
+        <dt class="attribute-label" id="">Opted into weekly newsletters email?</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.weeklyNewsletter}}</dd>
+        <dt class="attribute-label" id="">Opted into offers newsletters email?</dt>
+        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.offers}}</dd>
+
+        <dt class="attribute-label" id="">Receives browser push notifications on:</dt>
+        <dd class="attribute-data attribute-data--ip">Coming soon...</dd>
+      </dl>
+    </div>
+
   </div>
+
 </section>
