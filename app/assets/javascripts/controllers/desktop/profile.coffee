@@ -510,16 +510,16 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		if @rootScope.viewingFromAdmin
 			@AdminProfile.get({id: @element.data('user-id')}).then (admin_profile) =>
 				console.log admin_profile
-				@getProfileSuccessCallback(admin_profile)
+				@getProfileSuccessCallback(admin_profile, callback)
 			, (error) =>
 				@getProfileErrorCallback(error)
 		else
 			@Profile.get({id: @element.data('user-id')}).then (profile) =>
-				@getProfileSuccessCallback(profile)
+				@getProfileSuccessCallback(profile, callback)
 			, (error) =>
 				@getProfileErrorCallback(error)
 
-	getProfileSuccessCallback: (profile) =>
+	getProfileSuccessCallback: (profile, callback=null) =>
 		@timeout =>
 			@rootScope.isSignedIn = profile.isSignedIn
 			@scope.profile.data = profile
