@@ -13,6 +13,7 @@ class TheArticle.Nav extends TheArticle.AdminPageController
 	]
 
 	init: ->
+		console.log @rootScope.$id
 		@setDefaultHttpHeaders()
 		@rootScope.userTabs = []
 		@rootScope.pageBoxes = []

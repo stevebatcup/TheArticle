@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   put 'update-password',                       to: 'account_settings#update_password'
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
+  get 'admin-profile-by-id/:id',               to: 'users#show', identifier: :id, from_admin: true
   put 'my-profile',                            to: 'users#update'
   put 'my-photo',                              to: 'users#update_photo'
   get 'profile/search-by-username',            to: 'users#search_by_username'

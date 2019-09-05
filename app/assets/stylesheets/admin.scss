@@ -4,6 +4,10 @@
 @import "colours";
 @import "angular1-confirm/css/angular-confirm";
 
+.w-33 {
+	width: 33.3%;
+}
+
 .app-container {
 	padding: 0;
 	background-color: #283e54;
@@ -210,9 +214,11 @@
 			background: #fff;
 			padding: 1rem 1.5rem;
 
-			.pagination {
-				width: 75%;
-			  float: left;
+			table {
+				td {
+					max-width: 200px;
+					overflow-x: scroll;
+				}
 			}
 
 			&.concern_reports {
@@ -349,12 +355,9 @@
 	.text-decrease-2 {
 		font-size: 0.8em;
 	}
+}
 
-	/* Hack for Font-awesome-rails */
-	.fas, .far, .fab {
-		@extend .fa;
-	}/* Hack for Font-awesome-rails */
-	.fas, .far, .fab {
-		@extend .fa;
-	}
+/* Hack for Font-awesome-rails */
+.fas, .far, .fab {
+	@extend .fa;
 }

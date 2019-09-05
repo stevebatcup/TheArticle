@@ -1,64 +1,188 @@
-<section class="">
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-      <a data-toggle="tab" class="nav-link active" href="#basics_{{userForBox.id}}">Basic info</a>
-    </li>
-    <li class="nav-item">
-      <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
-    </li>
-    <li class="nav-item">
-      <a data-toggle="tab" class="nav-link" href="#security_{{userForBox.id}}">Security</a>
-    </li>
-    <li class="nav-item">
-      <a data-toggle="tab" class="nav-link" href="#photos_{{userForBox.id}}">Photos</a>
-    </li>
-    <li class="nav-item">
-      <a data-toggle="tab" class="nav-link" href="#notifications_{{userForBox.id}}">Notification settings</a>
-    </li>
-  </ul>
+<section ng-controller="UserController">
+  <div class="d-flex justify-content-between">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link active" href="#basics_{{userForBox.id}}">Info</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#photos_{{userForBox.id}}">Photos</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#posts_{{userForBox.id}}">Posts</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#comments_{{userForBox.id}}">Comments</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#activity_log_{{userForBox.id}}">Activity</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#mutes_and_blocks_{{userForBox.id}}">Mutes/blocks</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#concern_reports_{{userForBox.id}}">Concern reports</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#admin_interaction_{{userForBox.id}}">Admin interaction</a>
+      </li>
+    </ul>
 
-  <div class="tab-content pt-4" id="myTabContent">
+    <a href="#" ng-click="closeAccountPage(userForBox, $event)" class="close">
+      <i class="fa fa-times"></i>
+    </a>
+  </div>
+
+  <div class="tab-content pt-4" id="myTabContent" style="min-height: 600px">
     <div class="py-2 px-4 tab-pane fade show active" id="basics_{{userForBox.id}}">
-      <h3 ng-if="!userForBox.fullDetailsLoaded">Loading...</h3>
-      <div ng-if="userForBox.fullDetailsLoaded">
-        <h1>{{userForBox.displayName}}</h1>
-        <dl style="overflow: hidden">
-          <dt class="attribute-label" id="">Id</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.id}}</dd>
+      <h2 ng-if="!userForBox.fullDetailsLoaded" style="margin-top: 150px">
+        <center>Loading...</center>
+      </h2>
 
-          <dt class="attribute-label" id="">Registered at</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.signedUp}}</dd>
+      <div ng-if="userForBox.fullDetailsLoaded" class="d-flex justify-content-between">
+        <div class="w-33">
+          <h4 class="d-block mb-2">Basics</h4>
+          <dl style="overflow: hidden;">
+            <dt class="" id="">Id</dt>
+            <dd class="">{{userForBox.id}}</dd>
 
-          <dt class="attribute-label" id="">Username</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.username}}</dd>
+            <dt class="" id="">Display name</dt>
+            <dd class="">{{userForBox.displayName}}</dd>
 
-          <dt class="attribute-label" id="">Display name</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.displayName}}</dd>
+            <dt class="" id="">Registered at</dt>
+            <dd class="">{{userForBox.signedUp}}</dd>
 
-          <dt class="attribute-label" id="">Email</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.email}}</dd>
+            <dt class="" id="">Username</dt>
+            <dd class="">{{userForBox.username}}</dd>
 
-          <dt class="attribute-label" id="">Account status</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.accountStatus}}</dd>
+            <dt class="" id="">Email</dt>
+            <dd class="">{{userForBox.email}}</dd>
 
-          <dt class="attribute-label" id="">Profile status</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.profileStatus}}</dd>
+            <dt class="" id="">Account status</dt>
+            <dd class="">{{userForBox.accountStatus}}</dd>
 
-          <dt class="attribute-label" id="">Last signed in at</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.lastSignIn}}</dd>
+            <dt class="" id="">Profile status</dt>
+            <dd class="">{{userForBox.profileStatus}}</dd>
 
-          <dt class="attribute-label" id="">Verified</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.verified}}</dd>
+            <dt class="" id="">Verified</dt>
+            <dd class="">{{userForBox.verified}}</dd>
 
-          <dt class="attribute-label" id="">On Blacklist?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.blacklisted}}</dd>
+            <dt class="" id="">Is contributor?</dt>
+            <dd class="">{{userForBox.isContributor}}</dd>
 
-          <dt class="attribute-label" id="">On Watchlist?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.watchlisted}}</dd>
+            <dt class="" id="">Last signed in at</dt>
+            <dd class="">{{userForBox.lastSignIn}}</dd>
 
-          <dt class="attribute-label" id="">Is contributor?</dt>
-          <dd class="attribute-data attribute-data--ip">{{userForBox.isContributor}}</dd>
-        </dl>
+          </dl>
+        </div>
+
+        <div class="w-33">
+          <h4 class="d-block mb-2">Security</h4>
+          <dl style="overflow: hidden;">
+            <dt class="" id="">IP Address used at registration</dt>
+            <dd class="">{{userForBox.signupIpAddress}}</dd>
+
+            <dt class="" id="">Last used IP Address</dt>
+            <dd class="">{{userForBox.lastIpAddress}}</dd>
+
+            <dt class="" id="">Registration location (from IP</dt>
+            <dd class="">{{userForBox.signupLocation}}</dd>
+
+            <dt class="" id="">On Blacklist?</dt>
+            <dd class="">{{userForBox.blacklisted}}</dd>
+
+            <dt class="" id="">On Watchlist?</dt>
+            <dd class="">{{userForBox.watchlisted}}</dd>
+          </dl>
+
+          <h4 class="d-block mb-2">Notification settings</h4>
+          <dl style="overflow: hidden;">
+            <dt class="" id="">Receives 'new follower' email?</dt>
+            <dd class="">{{userForBox.notificationSettings.followers}}</dd>
+            <dt class="" id="">Receives 'new article in exchange' email?</dt>
+            <dd class="">{{userForBox.notificationSettings.categorisations}}</dd>
+
+            <dt class="" id="">Opted into weekly newsletters email?</dt>
+            <dd class="">{{userForBox.notificationSettings.weeklyNewsletter}}</dd>
+            <dt class="" id="">Opted into offers newsletters email?</dt>
+            <dd class="">{{userForBox.notificationSettings.offers}}</dd>
+
+            <dt class="" id="">Receives browser push notifications on:</dt>
+            <dd class="">Coming soon...</dd>
+          </dl>
+        </div>
+
+        <div class="w-33">
+          <button ng-click="addToWatchList($event)"
+                class="btn btn-block btn-danger"
+                ng-class="{'disabled': userForBox.watchlisted}"
+                ng-disabled="userForBox.watchlisted"
+                ng-if="!userForBox.deleted">
+                <i class="fas fa-stopwatch mr-2"></i>
+              <span ng-if="!userForBox.watchlisted">Add user to watchlist</span>
+              <span ng-if="userForBox.watchlisted">On watchlist</span>
+            </button>
+
+          <button ng-click="deactivate($event)"
+                    class="btn btn-block btn-danger"
+                    ng-if="!userForBox.deactivated && !userForBox.deleted">
+                  <i class="fas fa-toggle-on mr-2"></i>
+                  Deactivate user
+              </button>
+
+          <button ng-click="reactivate($event)"
+                    class="btn btn-block btn-danger"
+                    ng-if="userForBox.deactivated && !userForBox.deleted">
+                  <i class="fas fa-toggle-off mr-2"></i>
+                  Reactivate user
+              </button>
+
+          <button ng-click="delete($event)"
+                class="btn btn-block btn-danger"
+                ng-class="{'disabled': userForBox.deleted}"
+                ng-disabled="userForBox.deleted"
+                ng-if="!userForBox.blacklisted">
+                <span ng-if="!userForBox.deleted">
+                  <i class="fas fa-exclamation-triangle mr-2"></i>
+                  Delete account
+                </span>
+                <span ng-if="userForBox.deleted">ACCOUNT DELETED!</span>
+          </button>
+
+          <button ng-click="addToBlackList($event)"
+                class="btn btn-block btn-danger"
+                ng-class="{'disabled': userForBox.watchlisted}"
+                ng-disabled="userForBox.blacklisted">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <span ng-if="!userForBox.blacklisted">Delete account and add to blacklist</span>
+                <span ng-if="userForBox.blacklisted">DELETED AND BLACKLISTED</span>
+          </button>
+
+          <a class="btn btn-block btn-info" href="/admin/email_logs?user_id={{userForBox.id}}">
+            <i class="fas fa-envelope mr-2"></i>
+            <span>View email log</span>
+          </a>
+
+
+          <h5 class="mt-3">TO DO</h5>
+          <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+            <li>Email User (and that be logged to their account)</li>
+
+            <li>Edit/delete bio, with option to message User</li>
+
+            <li>Link/unlink a User account to a Contributor account – linking the two will mean that a Contributor profile will have a link to their User profile and vice versa, and any article by them will link to both profiles</li>
+
+            <li>Link/unlink accounts and additional email addresses e.g. known second account, or if we receive an email from an unregistered email address about an account they have registered under a different email address and we can match them up</li>
+
+            <li>Verify someone as genuine (in Twitter style) to give them a green tick by their name on their public profile – totally at our discretion - start off with just TheArticle team and Daniel’s famous friends – journalists, politicians etc.</li>
+
+            <li>[Hide Profile while under review? Admin functionality only – consider for Phase 3+]</li>
+          </ul>
+
+        </div>
+
       </div>
     </div>
 
@@ -66,45 +190,72 @@
       <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="100%" height="800" border="0" style="border: none;"></iframe>
     </div>
 
-    <div class="py-2 px-4 tab-pane fade" id="security_{{userForBox.id}}">
-      <dl style="overflow: hidden">
-        <dt class="attribute-label" id="">IP Address used at registration</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.signupIpAddress}}</dd>
-
-        <dt class="attribute-label" id="">Last used IP Address</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.lastIpAddress}}</dd>
-
-        <dt class="attribute-label" id="">Registration location (from IP</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.signupLocation}}</dd>
-      </dl>
-    </div>
-
     <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
-      <dl style="overflow: hidden">
-        <dt class="attribute-label" id="">Current profile photo</dt>
-        <dd class="attribute-data attribute-data--ip">
-          <img ng-src="{{userForBox.profilePhoto}}" width="100px" />
+      <dl style="overflow: hidden;">
+        <dt class="" id="">Current profile photo</dt>
+        <dd class="">
+          <img ng-src="{{userForBox.profilePhoto}}" width="180px" />
+        </dd>
+
+        <dt class="mt-5" id="" ng-if="userForBox.coverPhoto.length > 0">Current cover photo</dt>
+        <dd class="" ng-if="userForBox.coverPhoto.length > 0">
+          <img ng-src="{{userForBox.coverPhoto}}" width="600px" />
         </dd>
       </dl>
+
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>Edit/download/delete/upload photo, with optional message to User</li>
+      </ul>
     </div>
 
-    <div class="py-2 px-4 tab-pane fade" id="notifications_{{userForBox.id}}">
-      <dl style="overflow: hidden">
-        <dt class="attribute-label" id="">Receives 'new follower' email?</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.followers}}</dd>
-        <dt class="attribute-label" id="">Receives 'new article in exchange' email?</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.categorisations}}</dd>
 
-        <dt class="attribute-label" id="">Opted into weekly newsletters email?</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.weeklyNewsletter}}</dd>
-        <dt class="attribute-label" id="">Opted into offers newsletters email?</dt>
-        <dd class="attribute-data attribute-data--ip">{{userForBox.notificationSettings.offers}}</dd>
+    <div class="py-2 px-4 tab-pane fade" id="posts_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View Posts (details) – including deleted (marked as such) + view quarantined posts</li>
+        <li>Delete posts, comments/replies/DMs (specific messages and whole conversations)</li>
+      </ul>
+    </div>
 
-        <dt class="attribute-label" id="">Receives browser push notifications on:</dt>
-        <dd class="attribute-data attribute-data--ip">Coming soon...</dd>
-      </dl>
+    <div class="py-2 px-4 tab-pane fade" id="comments_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View Comments/Replies (details) – including deleted (marked as such)</li>
+      </ul>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="activity_log_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View Activity Log (discuss with SteveB the best way to display this (MM a bit clunky)) – list everything, including, Posts and Comments/Replies (but just who, what, when – not details) – view previous drafts of profile, previous email addresses, previous usernames etc.</li>
+
+        <li>View sign-in log</li>
+      </ul>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="mutes_and_blocks_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View mute lists – muting and muted</li>
+        <li>View block lists – blocking and blocked</li>
+      </ul>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="concern_reports_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View concern reports (about them) and concerns reported (by them)</li>
+      </ul>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="admin_interaction_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View admin notes on user’s account</li>
+        <li>View communications with Admin – emails and contact form submissions and their replies (incl. from linked email addresses)</li>
+      </ul>
     </div>
 
   </div>
-
 </section>

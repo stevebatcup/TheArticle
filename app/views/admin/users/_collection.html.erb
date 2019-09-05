@@ -48,12 +48,6 @@ to display a collection of resources in an HTML table.
       <!-- View account -->
       <th scope="col"></th>
 
-      <!-- View profile -->
-      <th scope="col"></th>
-
-      <!-- Message user -->
-      <th scope="col"></th>
-
       <% if current_user.admin_level == 'super_admin' %>
         <!-- Destroy user -->
         <th scope="col"></th>
@@ -87,28 +81,12 @@ to display a collection of resources in an HTML table.
         </td>
 
         <td class="cell-data text-center text-slate">
-          <small>
-            <a href="#" ng-click="createAccountPage(user, $event)" class="action-edit">Account details</a>
-          </small>
-        </td>
-
-        <td class="cell-data text-center text-slate" ng-if="user.slug.length > 0">
-            <small>
-              <a href="/profile/{{user.slug}}" target="_blank">Profile</a>
-            </small>
-        </td>
-
-        <td class="cell-data text-center text-slate">
-          <small>
-            <a href="mailto:{{user.email}">Send email</a>
-          </small>
+            <a href="#" ng-click="createAccountPage(user, $event)" class="action-edit">Open Account</a>
         </td>
 
         <% if current_user.admin_level == 'super_admin' %>
         <td class="cell-data text-center text-red">
-          <small>
             <a href="/admin/destroy_user?user_id={{user.id}}" data-method="delete">Destroy</a>
-          </small>
         </td>
         <% end %>
 

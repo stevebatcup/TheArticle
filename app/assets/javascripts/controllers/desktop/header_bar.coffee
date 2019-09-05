@@ -32,7 +32,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 	bindEvents: =>
 		if !@hasAds()
 			@timeout =>
-				@bindFixedNavScrolling()
+				@bindFixedNavScrolling() unless @rootScope.viewingFromAdmin
 			, 1000
 
 		if @scope.signedIn

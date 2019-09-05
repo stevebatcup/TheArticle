@@ -14,7 +14,12 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 
 	createAccountPage: (user, $event=null) =>
 		$event.preventDefault() if $event?
-		unless _.contains @rootScope.userTabs, user
+		ids = _.map @rootScope.userTabs, (tab) =>
+			tab.id
+		if _.contains ids, user.id
+			@rootScope.openPageBoxId = user.id
+			@openPageBox user
+		else
 			@rootScope.userTabs.push user
 			@http.get("/admin/create-account-page/#{user.id}").then (response) =>
 				@openAccountPage(user)
@@ -39,6 +44,7 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 		@rootScope.pageBoxes.push userDetails.id
 		$(content).show()
 		@loadFullUserDetails(boxScope.userForBox)
+		$(window).scrollTop(0)
 
 	loadFullUserDetails: (scopedUser) =>
 		@http.get("/admin/users/#{scopedUser.id}?full_details=1").then (response) =>
@@ -58,7 +64,7 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 		$event.preventDefault() if $event?
 		@rootScope.openPageBoxId = 0
 		@rootScope.userTabs = _.select @rootScope.userTabs, (item) =>
-			item isnt user
+			item.id isnt user.id
 		@http.get("/admin/close-page/#{user.id}").then (response) =>
 			$(".user_account_page[data-id=#{user.id}]").remove()
 

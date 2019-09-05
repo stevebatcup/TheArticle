@@ -1,4 +1,5 @@
-json.set! :profile do
+root_name = @from_admin ? :admin_profile : :profile
+json.set! root_name do
 	json.isSignedIn user_signed_in?
 
 	# basics

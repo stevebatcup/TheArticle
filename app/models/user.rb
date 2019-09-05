@@ -383,4 +383,8 @@ class User < ApplicationRecord
       errors.add(:email, "You cannot join TheArticle at this time")
     end
   end
+
+  def is_admin?
+    [:admin, :super_admin].include?(self.admin_level.to_sym)
+  end
 end

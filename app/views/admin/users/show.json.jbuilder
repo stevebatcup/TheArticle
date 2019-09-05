@@ -3,8 +3,8 @@ json.id @user.id
 if @full_details
 	json.fullDetailsLoaded true
 	json.lastIpAddress @user.last_sign_in_ip
-	json.profileUrl profile_url(slug: @user.slug)
-	json.lastSignIn @user.last_sign_in_at.strftime("%b %e, %Y at %H:%m")
+	json.profileUrl "#{profile_url(slug: @user.slug)}?from_admin=1"
+	json.lastSignIn @user.last_sign_in_at.present? ? @user.last_sign_in_at.strftime("%b %e, %Y at %H:%m") : nil
 	json.verified @user.has_completed_wizard?
 	json.blacklisted @user.is_blacklisted?
 	json.watchlisted @user.is_watchlisted?
@@ -12,6 +12,7 @@ if @full_details
 	json.signupIpAddress @user.signup_ip_address
 	json.signupLocation "#{@user.signup_ip_city}, #{@user.signup_ip_region}, #{@user.signup_ip_country}"
 	json.profilePhoto @user.profile_photo.url(:square)
+	json.coverPhoto @user.cover_photo.url(:desktop)
 	json.notificationSettings do
 		json.followers @user.notification_settings.find_by(key: :email_followers).value
 		json.categorisations @user.notification_settings.find_by(key: :email_exchanges).value
