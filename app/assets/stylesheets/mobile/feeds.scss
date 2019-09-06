@@ -246,6 +246,14 @@ input#suggestion_search {
 			padding: 12px;
 			border-radius: 0;
 
+			&.comment_card {
+				p.post {
+					img {
+						width: 100;
+					}
+				}
+			}
+
 			.follow_summary {
 				max-width: 90%;
 			}

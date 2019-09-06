@@ -305,6 +305,14 @@
 				}
 			}
 
+			&.comment_card {
+				p.post {
+					img {
+						width: 100;
+					}
+				}
+			}
+
 			.share_meta {
 				font-size: 0.85em;
 				padding: 0 4px;
