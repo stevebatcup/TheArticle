@@ -17,6 +17,11 @@ class ApplicationController < ActionController::Base
 		render :file => "#{Rails.root}/public/404.html",  layout: false, status: :not_found
 	end
 
+	def viewing_from_admin
+		user_signed_in? && current_user.is_admin? && params[:from_admin].present?
+	end
+	helper_method	:viewing_from_admin
+
 	def default_meta_description
 		"Eclectic, enjoyable, essential reading. We are the only publisher that is also a social media platform so you get personalised debate with no pay wall."
 	end
@@ -38,7 +43,9 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_staging?
 
 	def show_ads?
-		if is_development?
+		if viewing_from_admin
+			false
+		elsif is_development?
 			false
 		elsif is_staging?
 			true

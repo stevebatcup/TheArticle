@@ -2,26 +2,24 @@ class UsersController < ApplicationController
 	before_action :authenticate_user!, except: [:show]
 
 	def show
-		@from_admin = current_user.is_admin? && params[:from_admin].present?
-
 		if params[:me]
 			authenticate_user!
 			@user = current_user
 		elsif params[:identifier] == :slug
-			if @from_admin
+			if viewing_from_admin
 				@user = User.find_by(slug: params[:slug])
 			else
 				@user = User.active.find_by(slug: params[:slug])
 			end
 		elsif params[:identifier] == :id
-			if @from_admin
+			if viewing_from_admin
 				@user = User.find_by(id: params[:id])
 			else
 				@user = User.active.find_by(id: params[:id])
 			end
 		end
 
-		unless @from_admin
+		unless viewing_from_admin
 			if (@user == current_user) && !params[:me]
 				return redirect_to_my_profile
 			elsif @user.nil? || !@user.has_active_status?
