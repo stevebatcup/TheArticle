@@ -245,7 +245,7 @@ class Article < ApplicationRecord
 	def update_wp_cache(json)
 		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
-		self.content = json["content"]["rendered"]
+		self.content = Nokogiri::HTML::DocumentFragment.parse(json["content"]["rendered"]).to_html
 		self.excerpt = json["excerpt"]["rendered"]
 		self.author_id = json["author"]
 		self.published_at = Time.parse(json['date_gmt'])
