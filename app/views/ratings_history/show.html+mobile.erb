@@ -408,7 +408,7 @@
 					</div>
 
 					<% unless is_development? %>
-						<section id="bibblio_sidebar" ng-if="ratings.firstLoaded" class="py-3 bg-white w-100">
+						<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (!ratings.moreToLoad)" class="py-3 bg-white w-100">
 								<div class="container">
 									<h2 class="bullet mb-2">
 										<span class="">You may also like</span>
