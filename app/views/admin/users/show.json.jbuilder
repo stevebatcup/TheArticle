@@ -19,6 +19,30 @@ if @full_details
 		json.weeklyNewsletter @user.opted_into_weekly_newsletters?
 		json.offers @user.opted_into_offers?
 	end
+	json.set! :muting do
+		json.array! @user.mutes.active.map(&:muted) do |user|
+			json.id user.id
+			json.name user.full_name
+		end
+	end
+	json.set! :mutedBy do
+		json.array! @user.muted_bys.active.map(&:user) do |user|
+			json.id user.id
+			json.name user.full_name
+		end
+	end
+	json.set! :blocking do
+		json.array! @user.blocks.active.map(&:blocked) do |user|
+			json.id user.id
+			json.name user.full_name
+		end
+	end
+	json.set! :blockedBy do
+		json.array! @user.blocked_bys.active.map(&:user) do |user|
+			json.id user.id
+			json.name user.full_name
+		end
+	end
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

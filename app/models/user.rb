@@ -40,7 +40,9 @@ class User < ApplicationRecord
   has_many :concern_reports, as: :sourceable
 
   has_many  :mutes
+  has_many  :muted_bys, class_name: 'Mute', foreign_key: :muted_id
   has_many  :blocks
+  has_many  :blocked_bys, class_name: 'Block', foreign_key: :blocked_id
 
   has_many  :notification_settings
   has_many  :communication_preferences
