@@ -83,6 +83,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 					@loadMore()
 
 	loadMore: =>
+		@scope.ratings.loading = true
 		@scope.ratings.page += 1
 		@getRatings()
 
