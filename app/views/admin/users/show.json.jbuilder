@@ -2,6 +2,7 @@ json.id @user.id
 
 if @full_details
 	json.fullDetailsLoaded true
+	json.fullName @user.full_name
 	json.lastIpAddress @user.last_sign_in_ip
 	json.profileUrl "#{profile_url(slug: @user.slug)}?from_admin=1"
 	json.lastSignIn @user.last_sign_in_at.present? ? @user.last_sign_in_at.strftime("%b %e, %Y at %H:%m") : nil
@@ -43,6 +44,35 @@ if @full_details
 			json.name user.full_name
 		end
 	end
+
+	json.set! :concernsReported do
+		json.array! @user.concerns_reported.each do |report|
+			json.id report.id
+			json.sentAt report.created_at.strftime("%b %e, %Y")
+			json.type report.sourceable_type
+			json.reason report.primary_reason
+			json.path report.admin_path
+			json.reporter do
+				json.id report.reporter.id
+				json.name report.reporter.full_name
+			end
+		end
+	end
+	json.set! :concernReports do
+		json.array! @user.all_concern_reports.each do |report|
+			json.id report.id
+			json.sentAt report.created_at.strftime("%b %e, %Y")
+			json.type report.sourceable_type
+			json.reason report.primary_reason
+			json.path report.admin_path
+			json.reported do
+				json.id report.reported.id
+				json.name report.reported.full_name
+			end
+		end
+	end
+
+
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

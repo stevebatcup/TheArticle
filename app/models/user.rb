@@ -38,6 +38,8 @@ class User < ApplicationRecord
   has_many :feeds
   has_many :notifications
   has_many :concern_reports, as: :sourceable
+  has_many :all_concern_reports, class_name: 'ConcernReport', foreign_key: :reporter_id
+  has_many :concerns_reported, class_name: 'ConcernReport', foreign_key: :reported_id
 
   has_many  :mutes
   has_many  :muted_bys, class_name: 'Mute', foreign_key: :muted_id

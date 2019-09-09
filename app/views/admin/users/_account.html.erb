@@ -276,10 +276,60 @@
     </div>
 
     <div class="py-2 px-4 tab-pane fade" id="concern_reports_{{userForBox.id}}">
-      <h5 class="mt-3">TO DO</h5>
-      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>View concern reports (about them) and concerns reported (by them)</li>
-      </ul>
+      <div class="w-75">
+        <h5>Concern reports regarding {{userForBox.firstName}}</h5>
+        <p ng-if="userForBox.concernsReported.length == 0">No concern reports sent</p>
+        <table ng-if="userForBox.concernsReported.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Reported by</th>
+              <th class="cell-label">Sent at</th>
+              <th class="cell-label">Type</th>
+              <th class="cell-label">Reason</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernsReported">
+            <td class="cell-data">{{report.reporter.name}}</td>
+            <td class="cell-data">{{report.sentAt}}</td>
+            <td class="cell-data">{{report.type}}</td>
+            <td class="cell-data">{{report.reason}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
+            <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reporter, $event)">Open account</a></td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="w-75 mt-5">
+        <h5>Concerns reported by {{userForBox.firstName}}</h5>
+        <p ng-if="userForBox.concernReports.length == 0">No concern reports sent</p>
+        <table ng-if="userForBox.concernReports.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Reporting</th>
+              <th class="cell-label">Sent at</th>
+              <th class="cell-label">Type</th>
+              <th class="cell-label">Reason</th>
+              <th class="cell-label text-center text-slate">&nbsp;</th>
+              <th class="cell-label text-center text-slate">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernReports">
+            <td class="cell-data">{{report.reported.name}}</td>
+            <td class="cell-data">{{report.sentAt}}</td>
+            <td class="cell-data">{{report.type}}</td>
+            <td class="cell-data">{{report.reason}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
+            <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reported, $event)">Open account</a></td>
+          </tr>
+        </table>
+      </div>
     </div>
 
     <div class="py-2 px-4 tab-pane fade" id="admin_interaction_{{userForBox.id}}">
