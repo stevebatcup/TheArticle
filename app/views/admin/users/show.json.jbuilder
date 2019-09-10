@@ -6,19 +6,19 @@ if @full_details
 	json.lastIpAddress @user.last_sign_in_ip
 	json.profileUrl "#{profile_url(slug: @user.slug)}?from_admin=1"
 	json.lastSignIn @user.last_sign_in_at.present? ? @user.last_sign_in_at.strftime("%b %e, %Y at %H:%m") : nil
-	json.verified @user.has_completed_wizard?
-	json.blacklisted @user.is_blacklisted?
-	json.watchlisted @user.is_watchlisted?
-	json.isContributor @user.is_author?
+	json.verified @user.has_completed_wizard? ? "Yes" : "No"
+	json.blacklisted @user.is_blacklisted? ? "Yes" : "No"
+	json.watchlisted @user.is_watchlisted? ? "Yes" : "No"
+	json.isContributor @user.is_author? ? "Yes" : "No"
 	json.signupIpAddress @user.signup_ip_address
 	json.signupLocation "#{@user.signup_ip_city}, #{@user.signup_ip_region}, #{@user.signup_ip_country}"
 	json.profilePhoto @user.profile_photo.url(:square)
 	json.coverPhoto @user.cover_photo.url(:desktop)
 	json.notificationSettings do
-		json.followers @user.notification_settings.find_by(key: :email_followers).value
-		json.categorisations @user.notification_settings.find_by(key: :email_exchanges).value
-		json.weeklyNewsletter @user.opted_into_weekly_newsletters?
-		json.offers @user.opted_into_offers?
+		json.followers @user.notification_settings.find_by(key: :email_followers).humanise_value
+		json.categorisations @user.notification_settings.find_by(key: :email_exchanges).humanise_value
+		json.weeklyNewsletter @user.opted_into_weekly_newsletters? ? "Yes" : "No"
+		json.offers @user.opted_into_offers? ? "Yes" : "No"
 	end
 	json.set! :muting do
 		json.array! @user.mutes.active.map(&:muted) do |user|
@@ -83,6 +83,6 @@ else
 	json.email @user.email
 	json.slug @user.slug
 	json.signedUp @user.human_created_at
-	json.accountStatus @user.admin_account_status
-	json.profileStatus @user.admin_profile_status
+	json.accountStatus @user.admin_account_status.capitalize
+	json.profileStatus @user.admin_profile_status.capitalize
 end
