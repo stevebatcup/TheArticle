@@ -135,8 +135,7 @@ module Admin
         query = "( id LIKE ? )"
       else
         query = "(" + search_attributes.map do |attr|
-          table_name = "users"
-          "LOWER(CAST(#{table_name}.#{attr} AS CHAR(256))) LIKE ?"
+          "LOWER(CAST(#{attr} AS CHAR(256))) LIKE ?"
         end.join(" OR ") + ")"
       end
 
@@ -174,7 +173,7 @@ module Admin
     end
 
     def search_attributes
-      [:username, :display_name, :email]
+      ["CONCAT(first_name, ' ', last_name)", :username, :display_name, :email]
     end
 
     def order_clause
