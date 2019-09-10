@@ -171,13 +171,17 @@ class ConcernReport < ApplicationRecord
 	end
 
 	def admin_path
-		case self.sourceable_type
-		when 'Comment'
-			"/admin/comment_concern_reports/#{self.id}"
-		when 'Share'
-			"/admin/share_concern_reports/#{self.id}"
-		when 'User'
-			"/admin/user_concern_reports/#{self.id}"
+		if self.status.to_sym == :seen
+			"/admin/processed_concern_reports/#{self.id}"
+		else
+			case self.sourceable_type
+			when 'Comment'
+				"/admin/comment_concern_reports/#{self.id}"
+			when 'Share'
+				"/admin/share_concern_reports/#{self.id}"
+			when 'User'
+				"/admin/user_concern_reports/#{self.id}"
+			end
 		end
 	end
 
