@@ -15,7 +15,9 @@ class ConcernReportDashboard < Administrate::BaseDashboard
     reporter_id: Field::Number,
     reported_id: Field::Number,
     primary_reason: Field::String,
+    humanised_primary_reason: Field::String,
     secondary_reason: Field::String,
+    humanised_secondary_reason: Field::String,
     more_info: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -36,6 +38,8 @@ class ConcernReportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :reported,
     :reporter,
+    :humanised_primary_reason,
+    :humanised_secondary_reason,
     :more_info,
     :created_at,
   ].freeze
@@ -44,14 +48,6 @@ class ConcernReportDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :reporter,
-    :reported,
-    :sourceable,
-    :reporter_id,
-    :reported_id,
-    :primary_reason,
-    :secondary_reason,
-    :more_info,
   ].freeze
 
   # Overwrite this method to customize how concern reports are displayed

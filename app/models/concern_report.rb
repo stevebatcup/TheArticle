@@ -5,6 +5,14 @@ class ConcernReport < ApplicationRecord
 	after_create	:send_admin_email
 	enum	status: [:pending, :seen]
 
+	def humanised_primary_reason
+		self.primary_reason.humanise.capitalise
+	end
+
+	def humanised_secondary_reason
+		self.secondary_reason.humanise.capitalise
+	end
+
 	def send_admin_email
 		if (self.secondary_reason.present?) || (self.more_info.length > 0)
 			AdminMailer.concern_report(self).deliver_now
