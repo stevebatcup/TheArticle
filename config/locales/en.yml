@@ -53,4 +53,12 @@ en:
     admin_user_name: Approved by
    rejected_third_party_share:
     admin_user_name: Rejected by
+   processed_concern_report:
+    build_reason_sentence: Reason
+   comment_concern_report:
+    build_reason_sentence: Reason
+   share_concern_report:
+    build_reason_sentence: Reason
+   user_concern_report:
+    build_reason_sentence: Reason
 

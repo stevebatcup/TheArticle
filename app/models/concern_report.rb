@@ -6,11 +6,11 @@ class ConcernReport < ApplicationRecord
 	enum	status: [:pending, :seen]
 
 	def humanised_primary_reason
-		self.primary_reason.humanise.capitalise
+		self.primary_reason.humanize.capitalise
 	end
 
 	def humanised_secondary_reason
-		self.secondary_reason.humanise.capitalise
+		self.secondary_reason.humanize.capitalise
 	end
 
 	def send_admin_email

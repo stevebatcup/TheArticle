@@ -14,10 +14,9 @@ class ConcernReportDashboard < Administrate::BaseDashboard
     id: Field::Number,
     reporter_id: Field::Number,
     reported_id: Field::Number,
+    build_reason_sentence: Field::String,
     primary_reason: Field::String,
-    humanised_primary_reason: Field::String,
     secondary_reason: Field::String,
-    humanised_secondary_reason: Field::String,
     more_info: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -38,8 +37,7 @@ class ConcernReportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :reported,
     :reporter,
-    :humanised_primary_reason,
-    :humanised_secondary_reason,
+    :build_reason_sentence,
     :more_info,
     :created_at,
   ].freeze
