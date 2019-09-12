@@ -32,6 +32,10 @@ class TheArticle.User extends TheArticle.AdminPageController
 
 	deactivate: ($event) =>
 		$event.preventDefault()
+		q = "Are you sure you wish to deactivate #{@scope.userForBox.name}'s account?"
+		@confirm q, @deactivateConfirm, null, "Sure?", ["No", "Yes, deactivate"]
+
+	deactivateConfirm: =>
 		@http.get("/admin/deactivate_user?user_id=#{@scope.userForBox.id}").then (response) =>
 			@scope.userForBox.status = 'deactivated'
 			@scope.userForBox.deactivated = true
