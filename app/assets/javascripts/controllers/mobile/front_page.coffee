@@ -220,7 +220,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		page = @scope.feeds[section].page
 		feedItem = { type: 'suggestion', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 2
-		offset += 5 if page > 1
+		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
 			@scope.feeds[section].data.splice(offset, 0, feedItem)
 		else
@@ -252,7 +252,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		page = @scope.feeds[section].page
 		feedItem = { type: 'latestArticles', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 6
-		offset += 5 if page > 1
+		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
 			@scope.feeds[section].data.splice(offset, 0, feedItem)
 		else
@@ -280,7 +280,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		page = @scope.feeds[section].page
 		feedItem = { type: 'sponsoredPicks', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 10
-		offset += 5 if page > 1
+		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
 			@scope.feeds[section].data.splice(offset, 0, feedItem)
 		else
@@ -308,7 +308,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		page = @scope.feeds[section].page
 		feedItem = { type: 'trendingExchanges', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 14
-		offset += 5 if page > 1
+		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
 			@scope.feeds[section].data.splice(offset, 0, feedItem)
 		else
@@ -341,7 +341,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			sPIndex = page - 1
 		feedItem = { type: 'featuredSponsoredPick', isVisible: true, article: @scope.sponsoredPicks[sPIndex] }
 		offset = ((page - 1) * @scope.perPage) + 21
-		offset += 5 if page > 1
+		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
 			@scope.feeds[section].data.splice(offset, 0, feedItem)
 		else
