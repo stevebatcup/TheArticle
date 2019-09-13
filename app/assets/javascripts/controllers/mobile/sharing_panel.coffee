@@ -86,11 +86,12 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 
 	openTweetWindow: (alsoOpenFacebookWindow=false) =>
 		articleUrl = window.location.toString()
-		wellWritten = "#{@scope.share.rating_well_written}/5"
-		interesting = "#{@scope.share.rating_valid_points}/5"
-		agree = "#{@scope.share.rating_agree}/5"
+		ratingsItems = []
+		ratingsItems.push("Well written #{@scope.share.rating_well_written}/5") if Number(@scope.share.rating_well_written) > 0
+		ratingsItems.push("Interesting #{@scope.share.rating_valid_points}/5") if Number(@scope.share.rating_valid_points) > 0
+		ratingsItems.push("Agree #{@scope.share.rating_agree}/5") if Number(@scope.share.rating_agree) > 0
 		comment = angular.element(@scope.share.comments).text()
-		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{comment}"
+		ratingTweet = "I gave this the following rating on TheArticle: #{ratingsItems.join(', ')}. #{comment}"
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		if alsoOpenFacebookWindow
 			callback = @openFacebookWindow
