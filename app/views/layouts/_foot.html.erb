@@ -1,9 +1,8 @@
   <%= render 'common/cookie-notice' %>
 
   <% unless user_signed_in? %>
-    <script id="registerBox" type="script/x-mustache">
-      <%= render 'devise/registrations/new' %>
-    </script>
+    <%= render 'devise/registrations/new' %>
+
     <script id="signinBox" type="script/x-mustache">
       <%= render 'devise/sessions/new' %>
     </script>

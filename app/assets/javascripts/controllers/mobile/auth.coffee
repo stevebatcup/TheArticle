@@ -93,6 +93,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 	sendRegistration: =>
 		url = $('form#new_user').attr('action')
 		@postJSON url,
+			'g-recaptcha-response': $('#g-recaptcha-response').val()
 			user:
 				first_name: @scope.register.firstName
 				last_name: @scope.register.lastName
