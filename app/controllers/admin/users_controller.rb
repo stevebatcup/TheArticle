@@ -125,7 +125,7 @@ module Admin
     end
 
     def available_authors
-      @authors = Author.with_complete_profile.order(display_name: :desc).to_a
+      @authors = Author.with_complete_profile.order(display_name: :asc).to_a
       used_author_ids = User.where.not(author_id: nil).map(&:author_id)
       user = User.find(params[:user_id])
       @authors.select! do |author|
