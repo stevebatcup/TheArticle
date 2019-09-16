@@ -61,7 +61,7 @@ class Comment < ActiveRecord::Base
     end
 
     if is_reply
-      unless self.commentable.user_id == self.parent.user_id
+      unless (self.commentable.user_id == self.parent.user_id) || (self.user_id == self.parent.user_id)
         # Reply notification for commenter
         reply_notification = Notification.find_or_create_by({
           eventable_type: 'Comment',
