@@ -15,6 +15,13 @@ class TheArticle.User extends TheArticle.AdminPageController
 	init: ->
 		@setDefaultHttpHeaders()
 		@setCsrfTokenHeaders()
+		@watch()
+
+	watch: =>
+		@scope.$watch 'userForBox.fullDetailsLoaded', (oldVal, newVal) =>
+			if newVal isnt oldVal
+				@scope.availableAuthors = []
+				@getAvailableAuthors()
 
 	addToBlackList: ($event) =>
 		$event.preventDefault()
@@ -56,5 +63,21 @@ class TheArticle.User extends TheArticle.AdminPageController
 			@scope.userForBox.status = 'deleted'
 			@scope.userForBox.deleted = true
 
+	getAvailableAuthors: =>
+		@http.get("/admin/available_authors_for_user/#{@scope.userForBox.id}").then (response) =>
+			@scope.availableAuthors = response.data.authors
+			if 'authorId' of @scope.userForBox
+				angular.forEach @scope.availableAuthors, (author) =>
+					# console.log @scope.userForBox.authorId
+					console.log author.id
+					if Number(author.id) is Number(@scope.userForBox.authorId)
+						@scope.userForBox.author = author
+			console.log @scope.userForBox.author
+
+	updateAuthor: =>
+		data =
+			user_id: @scope.userForBox.id
+			author_id: if @scope.userForBox.author then @scope.userForBox.author.id else null
+		@http.post("/admin/set_author_for_user", data)
 
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

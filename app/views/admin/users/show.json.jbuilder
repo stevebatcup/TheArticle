@@ -16,6 +16,7 @@ if @full_details
 	json.signupLocation "#{@user.signup_ip_city}, #{@user.signup_ip_region}, #{@user.signup_ip_country}"
 	json.profilePhoto @user.profile_photo.url(:square)
 	json.coverPhoto @user.cover_photo.url(:desktop)
+	json.authorId @user.author_id.to_i if @user.author_id.present?
 	json.notificationSettings do
 		json.followers @user.notification_settings.find_by(key: :email_followers).humanise_value
 		json.categorisations @user.notification_settings.find_by(key: :email_exchanges).humanise_value
@@ -73,8 +74,6 @@ if @full_details
 			end
 		end
 	end
-
-
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

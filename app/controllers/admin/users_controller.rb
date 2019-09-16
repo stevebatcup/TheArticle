@@ -124,6 +124,24 @@ module Admin
       cookies.permanent[:admin_user_records_per_page] = params[:per_page]
     end
 
+    def available_authors
+      @authors = Author.with_complete_profile.order(display_name: :desc).to_a
+      used_author_ids = User.where.not(author_id: nil).map(&:author_id)
+      user = User.find(params[:user_id])
+      @authors.select! do |author|
+        used_author_ids.exclude?(author.id)
+      end
+      if user.author_id.present?
+        @authors << Author.find(user.author_id)
+      end
+    end
+
+    def set_author_for_user
+      user = User.find(params[:user_id])
+      user.update_attribute(:author_id, params[:author_id])
+      render json: { status: :success }
+    end
+
   private
 
     def query_is_digits_only?

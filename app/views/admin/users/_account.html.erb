@@ -165,6 +165,18 @@
             <span>View email log</span>
           </a>
 
+          <dl style="overflow: hidden;">
+            <dt class="">Linked to contributor</dt>
+            <dd class="">
+              <select name="contributor_linker" id="contributor_linker"
+                      ng-model="userForBox.author"
+                      ng-change="updateAuthor()"
+                      ng-options="author.name for author in availableAuthors"
+                      style="border: 1px solid #ccc; padding: 5px;">
+                      <option value="">Select a contributor to link to this user...</option>
+              </select>
+            </dd>
+
 
           <h5 class="mt-3">TO DO</h5>
           <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
@@ -172,7 +184,6 @@
 
             <li>Edit/delete bio, with option to message User</li>
 
-            <li>Link/unlink a User account to a Contributor account – linking the two will mean that a Contributor profile will have a link to their User profile and vice versa, and any article by them will link to both profiles</li>
 
             <li>Link/unlink accounts and additional email addresses e.g. known second account, or if we receive an email from an unregistered email address about an account they have registered under a different email address and we can match them up</li>
 

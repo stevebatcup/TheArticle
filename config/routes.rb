@@ -160,6 +160,8 @@ Rails.application.routes.draw do
     get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
     get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'
     resources :white_listed_third_party_publishers
+    get 'available_authors_for_user/:user_id', to: 'users#available_authors'
+    post 'set_author_for_user', to: 'users#set_author_for_user'
     root to: "users#index"
   end
 
