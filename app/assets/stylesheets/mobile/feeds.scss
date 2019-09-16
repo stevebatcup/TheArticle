@@ -150,9 +150,9 @@ input#suggestion_search {
 
 						.comment-item {
 							.reply_area {
-								margin: -10px 16px 16px 60px;
+								margin: -10px 16px 16px 9px;
 								font-size: 1.1em;
-								text-align: right;
+								// text-align: right;
 							}
 
 							h4 {
@@ -178,6 +178,11 @@ input#suggestion_search {
 						&.with_children {
 							.reply_area {
 								border-left: 2px solid $green;
+								// margin-left: 60px;
+
+								&.child_reply_area {
+									margin-left: 22px;
+								}
 							}
 						}
 
@@ -186,7 +191,7 @@ input#suggestion_search {
 
 							.reply_area {
 								border-left: 2px solid $green;
-								margin-left: 13px;
+								// margin-left: 13px;
 							}
 
 							li:last-child {
@@ -262,7 +267,9 @@ input#suggestion_search {
 			.comment_body {
 				font-size: 0.95em;
 				a {
-					text-decoration: underline;
+					text-decoration: none;
+					color: $green;
+					font-weight: bold;
 				}
 			}
 

@@ -88,15 +88,13 @@ module FeedHelper
 					}
 				}
 
-				unless user_ids.include?(feed.user.id)
-					user_ids << feed.user.id
-					results << result
+				user_ids << feed.user.id
+				results << result
 
-					if top_item.empty?
-						top_item = result
-					elsif feed.created_at.to_i > top_item[:stamp]
-						top_item = result
-					end
+				if top_item.empty?
+					top_item = result
+				elsif feed.created_at.to_i > top_item[:stamp]
+					top_item = result
 				end
 			end
 		end

@@ -12,10 +12,6 @@
 	&.feed-third-party {
 		background: #d2ead4;
 
-		texarea {
-
-		}
-
 		.building {
 			text-align: right;
 			width: 100%;
@@ -138,20 +134,24 @@
 
 						.comment-item {
 
-							p.comment_body {
+							.comment_body {
 								word-break: break-word;
 								text-overflow: ellipsis;
 								overflow-wrap: break-word;
 								white-space: pre-line;
+
+								a {
+									color: $green;
+								}
 							}
 
 							.reply_area {
-								margin: -8px 0 6px 61px;
+								margin: -8px 0 6px 7px;
 								font-size: 1em;
 							}
 
 							.delete_area {
-								margin: -8px 0 6px 61px;
+								margin: -8px 0 6px 7px;
 								font-size: 1em;
 							}
 
@@ -178,6 +178,11 @@
 							.reply_area,
 							.delete_area {
 								border-left: 2px solid $green;
+								margin-left: 61px;
+
+								&.child_reply_area {
+									margin-left: 0;
+								}
 							}
 						}
 
@@ -187,7 +192,7 @@
 							.reply_area,
 							.delete_area {
 								border-left: 2px solid $green;
-								margin-left: 15px;
+								// margin-left: 15px;
 							}
 
 							li:last-child {

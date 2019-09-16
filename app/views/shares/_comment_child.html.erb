@@ -25,8 +25,10 @@
     </div>
   </div>
 
-  <div class="reply_area pl-5" ng-if="(item.canInteract == 'yes') && (child.data.userId != <%= user_signed_in? ? current_user.id : 0 %>)">
-    <a href='#' class="reply text-green" ng-click="replyToComment($event, child, comment, true, item)">
+  <div class="reply_area child_reply_area pl-4 pl-md-5" ng-if="(item.canInteract == 'yes')">
+    <a href='#' class="reply text-green"
+        ng-click="replyToComment($event, child, comment, true, item)"
+        ng-if="$index == comment.children.length - 1">
       Reply
     </a>
 
