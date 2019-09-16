@@ -68,11 +68,8 @@ class TheArticle.User extends TheArticle.AdminPageController
 			@scope.availableAuthors = response.data.authors
 			if 'authorId' of @scope.userForBox
 				angular.forEach @scope.availableAuthors, (author) =>
-					# console.log @scope.userForBox.authorId
-					console.log author.id
 					if Number(author.id) is Number(@scope.userForBox.authorId)
 						@scope.userForBox.author = author
-			console.log @scope.userForBox.author
 
 	updateAuthor: =>
 		data =
