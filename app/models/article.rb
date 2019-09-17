@@ -264,31 +264,35 @@ class Article < ApplicationRecord
 		update_exchanges(json)
 		update_keyword_tags(json)
 
-    self.save
+    if self.save
+	    # update counter cache columns
+	    update_all_article_counts
+	    update_is_sponsored_cache
 
-    if is_new_article && self.categorisations.any?
-    	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
-    	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
+	    # bust caches
+	    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
+	    	Rails.cache.delete(cache_key)
+	    end
+
+      if is_new_article && self.categorisations.any?
+      	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
+      	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
+  	  end
+
+	    response_status = "Success"
+	  else
+	  	response_status = "Error: #{better_model_error_messages(self)}"
 	  end
 
-    # update counter cache columns
-    update_all_article_counts
-    update_is_sponsored_cache
-
-    # log this action
-    log_data = {
-    	service: :wordpress,
-    	user_id: 0,
-    	request_method: is_new_article ? :publish_article : :update_article,
-    	request_data: json,
-    	response: nil
-    }
-    ApiLog.webhook log_data
-
-    # bust caches
-    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
-    	Rails.cache.delete(cache_key)
-    end
+	  # log this action
+	  log_data = {
+	  	service: :wordpress,
+	  	user_id: 0,
+	  	request_method: is_new_article ? :publish_article : :update_article,
+	  	request_data: json,
+	  	response: response_status
+	  }
+	  ApiLog.webhook log_data
   end
 
   def update_categorisation_feeds
