@@ -48,6 +48,9 @@ to display a collection of resources in an HTML table.
       <!-- View account -->
       <th scope="col"></th>
 
+      <!-- View profile -->
+      <th scope="col"></th>
+
       <% if current_user.admin_level == 'super_admin' %>
         <!-- Destroy user -->
         <th scope="col"></th>
@@ -82,6 +85,10 @@ to display a collection of resources in an HTML table.
 
         <td class="cell-data text-center text-slate">
             <a href="#" ng-click="createAccountPage(user, $event)" class="action-edit">Open Account</a>
+        </td>
+
+        <td class="cell-data text-center text-slate">
+            <a ng-href="{{user.profileUrl}}" target="_blank" class="action-edit">View profile</a>
         </td>
 
         <% if current_user.admin_level == 'super_admin' %>

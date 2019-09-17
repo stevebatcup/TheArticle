@@ -134,6 +134,7 @@ module Admin
       if user.author_id.present?
         @authors << Author.find(user.author_id)
       end
+      @authors.sort_by! {|author| author.display_name}
     end
 
     def set_author_for_user

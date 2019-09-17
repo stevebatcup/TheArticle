@@ -14,6 +14,7 @@ json.set! :users do
 		json.watchlisted user.is_watchlisted?
 		json.confirmed user.has_completed_wizard?
 		json.signedUp user.human_created_at
+		json.profileUrl "#{profile_url(slug: user.slug)}?from_admin=1"
 		json.accountStatus user.admin_account_status
 		json.profileStatus user.admin_profile_status
 	end
