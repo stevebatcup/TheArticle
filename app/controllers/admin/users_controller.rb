@@ -143,6 +143,12 @@ module Admin
       render json: { status: :success }
     end
 
+    def set_genuine_verified_for_user
+      user = User.find(params[:user_id])
+      user.update_attribute(:verified_as_genuine, params[:genuine_verified])
+      render json: { status: :success }
+    end
+
   private
 
     def query_is_digits_only?

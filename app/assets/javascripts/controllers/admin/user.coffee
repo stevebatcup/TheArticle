@@ -77,4 +77,10 @@ class TheArticle.User extends TheArticle.AdminPageController
 			author_id: if @scope.userForBox.author then @scope.userForBox.author.id else null
 		@http.post("/admin/set_author_for_user", data)
 
+	updateGenuineVerified: =>
+		data =
+			user_id: @scope.userForBox.id
+			genuine_verified: if @scope.userForBox.genuineVerified then 1 else 0
+		@http.post("/admin/set_genuine_verified_for_user", data)
+
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

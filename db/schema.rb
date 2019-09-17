@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_03_151922) do
+ActiveRecord::Schema.define(version: 2019_09_17_163439) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -490,6 +490,7 @@ ActiveRecord::Schema.define(version: 2019_09_03_151922) do
     t.boolean "has_completed_wizard", default: false
     t.string "username", default: ""
     t.string "display_name", default: ""
+    t.boolean "verified_as_genuine", default: false
     t.string "gender"
     t.string "age_bracket"
     t.string "location", default: ""

@@ -177,6 +177,15 @@
               </select>
             </dd>
 
+            <dt class="">Verified as genuine</dt>
+            <dd class="">
+              <input type="checkbox" name="verified_genuine_box" id="verified_genuine_box"
+                      ng-model="userForBox.genuineVerified"
+                      ng-change="updateGenuineVerified()"
+                      style="transform: scale(1.8); margin: 10px; outline: none;" />
+            </dd>
+          </dl>
+
 
           <h5 class="mt-3">TO DO</h5>
           <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
