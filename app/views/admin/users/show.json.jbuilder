@@ -77,7 +77,7 @@ if @full_details
 	end
 
 	json.set! :comments do
-		json.array! @user.comments.each do |comment|
+		json.array! @user.comments.order(id: :desc).each do |comment|
 			json.path "/admin/comments/#{comment.id}"
 			json.precis sanitize(truncate(comment.body.html_safe, length: 120, escape: false, separator: /\s/, omission: ' ...'))
 			json.sentAt comment.created_at.strftime("%Y-%m-%d %H:%M")
