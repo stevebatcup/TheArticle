@@ -75,6 +75,27 @@ if @full_details
 			end
 		end
 	end
+
+	json.set! :comments do
+		json.array! @user.comments.each do |comment|
+			json.path "/admin/comments/#{comment.id}"
+			json.precis sanitize(truncate(comment.body.html_safe, length: 120, escape: false, separator: /\s/, omission: ' ...'))
+			json.sentAt comment.created_at.strftime("%Y-%m-%d %H:%M")
+			if comment.commentable
+				json.share do
+					json.path "/admin/shares/#{comment.commentable.id}"
+					if comment.commentable.article
+						json.article do
+							article = comment.commentable.article
+							json.title sanitize(truncate(article.title.html_safe, length: 120, escape: false, separator: /\s/, omission: ' ...'))
+							json.path article.remote_article_url.present? ? article.remote_article_url : "/#{article.slug}"
+						end
+					end
+				end
+			end
+		end
+	end
+
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

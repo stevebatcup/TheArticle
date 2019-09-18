@@ -163,6 +163,8 @@ Rails.application.routes.draw do
     get 'available_authors_for_user/:user_id', to: 'users#available_authors'
     post 'set_author_for_user', to: 'users#set_author_for_user'
     post 'set_genuine_verified_for_user', to: 'users#set_genuine_verified_for_user'
+    resources :shares
+    resources :comments
     root to: "users#index"
   end
 

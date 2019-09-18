@@ -239,10 +239,35 @@
     </div>
 
     <div class="py-2 px-4 tab-pane fade" id="comments_{{userForBox.id}}">
-      <h5 class="mt-3">TO DO</h5>
-      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>View Comments/Replies (details) – including deleted (marked as such)</li>
-      </ul>
+      <div class="w-100">
+        <h5>Comments by {{userForBox.firstName}}</h5>
+        <p ng-if="userForBox.comments.length == 0">No comments</p>
+        <table ng-if="userForBox.comments.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Article</th>
+              <th class="cell-label">Comment snippet</th>
+              <th class="cell-label">Made at</th>
+              <th class="cell-label">Reason</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="comment in userForBox.comments">
+            <td class="cell-data">{{comment.share.article.title}}</td>
+            <td class="cell-data" ng-bind-html="comment.precis"></td>
+            <td class="cell-data">{{comment.sentAt}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{comment.path}}'>Show comment</a></td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{comment.share.path}}'>Show post</a></td>
+            <td class="cell-data text-center text-slate">
+              <a target="_blank" ng-href='{{comment.share.article.path}}'>Show article</a>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
 
     <div class="py-2 px-4 tab-pane fade" id="activity_log_{{userForBox.id}}">
