@@ -170,6 +170,32 @@ module Admin
       render json: { status: @status }
     end
 
+    def add_linked_account
+      user = User.find(params[:user_id])
+      if other_user = User.find_by(id: params[:linked_account])
+        if @linked_account = LinkedAccount.create({user_id: user.id, linked_account: other_user})
+          @status = :success
+        else
+          @status = :error
+          @message = better_model_error_messages(@linked_account)
+        end
+      else
+        @status = :error
+        @message = "Cannot find a user with id #{params[:linked_account]}"
+      end
+    end
+
+    def delete_linked_account
+      user = User.find(params[:user_id])
+      if linked_account = user.linked_accounts.find_by(linked_account_id: params[:linked_account_id])
+        linked_account.destroy
+        @status = :success
+      else
+        @status = :error
+      end
+      render json: { status: @status }
+    end
+
   private
 
     def query_is_digits_only?

@@ -109,4 +109,35 @@ class TheArticle.User extends TheArticle.AdminPageController
 					@scope.userForBox.addingAdditionalEmailStatus = ''
 				, 3000
 
+	removeLinkedAccount: (id, $event) =>
+		$event.preventDefault()
+		@http.delete("/admin/delete_linked_account?user_id=#{@scope.userForBox.id}&linked_account_id=#{id}").then (response) =>
+			if response.data.status is 'success'
+				@scope.userForBox.linkedAccounts = _.reject @scope.userForBox.linkedAccounts, (item) =>
+					item.id is id
+
+	addLinkedAccount: =>
+		@scope.userForBox.addingLinkedAccount.css = ''
+		@scope.userForBox.addingLinkedAccount.message = ''
+		if @scope.userForBox.addingLinkedAccount.id.length is 0 || isNaN(@scope.userForBox.addingLinkedAccount.id)
+			@scope.userForBox.addingLinkedAccount.css = 'text-danger'
+			@scope.userForBox.addingLinkedAccount.message = 'Enter a valid account ID'
+		else
+			data =
+				user_id: @scope.userForBox.id
+				linked_account: @scope.userForBox.addingLinkedAccount.id
+			@http.post("/admin/add_linked_account", data).then (response) =>
+				if response.data.status is 'success'
+					@scope.userForBox.addingLinkedAccount.id = ''
+					@scope.userForBox.addingLinkedAccount.css = 'text-green'
+					@scope.userForBox.addingLinkedAccount.message = 'Account successfully linked'
+					@scope.userForBox.linkedAccounts.push { id: response.data.id, displayName: response.data.displayName }
+					@timeout =>
+						@scope.userForBox.addingLinkedAccountStatus = ''
+					, 3000
+				else
+					@scope.userForBox.addingLinkedAccount.css = 'text-danger'
+					@scope.userForBox.addingLinkedAccount.message = response.data.message
+
+
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

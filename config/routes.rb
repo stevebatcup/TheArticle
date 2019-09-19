@@ -165,6 +165,8 @@ Rails.application.routes.draw do
     post 'set_genuine_verified_for_user', to: 'users#set_genuine_verified_for_user'
     post 'add_additional_email', to: 'users#add_additional_email'
     delete 'delete_additional_email', to: 'users#delete_additional_email'
+    post 'add_linked_account', to: 'users#add_linked_account'
+    delete 'delete_linked_account', to: 'users#delete_linked_account'
     resources :shares
     resources :comments
     root to: "users#index"

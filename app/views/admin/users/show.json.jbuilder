@@ -108,6 +108,18 @@ if @full_details
 		end
 	end
 
+	json.set! :addingLinkedAccount do
+		json.id ''
+		json.status ''
+		json.css ''
+	end
+	json.set! :linkedAccounts do
+		json.array! @user.linked_accounts.order(linked_account_id: :desc).each do |linked_account|
+			json.id linked_account.linked_account_id
+			json.displayName linked_account.linked_account.display_name
+		end
+	end
+
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

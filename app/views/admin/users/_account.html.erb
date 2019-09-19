@@ -190,6 +190,32 @@
               </div>
             </dd>
 
+
+            <dt ng-if="userForBox.linkedAccounts.length > 0">Linked accounts</dt>
+            <dt ng-if="userForBox.linkedAccounts.length == 0">No linked accounts</dt>
+
+            <dd class="mt-2 mb-3">
+              <ul ng-if="userForBox.linkedAccounts.length > 0" class="mt-1 mb-2">
+                <li ng-repeat="account in userForBox.linkedAccounts" class="d-flex w-100 justify-content-between align-items-start">
+                  <span>{{account.id}} -> {{account.displayName}}</span>
+                  <a class="text-danger mt-1" ng-click="removeLinkedAccount(account.id, $event)"href='#'>
+                    <i class="fa fa-times"></i>
+                  </a>
+              </ul>
+
+              <p ng-if="userForBox.addingLinkedAccount.message.length > 0" class="{{userForBox.addingLinkedAccount.css}} mb-0 mt-0">
+                <small>{{userForBox.addingLinkedAccount.message}}</small>
+              </p>
+              <div class="d-flex w-100 justify-content-between align-items-start">
+                <input type="text" name="linked_account_adder" id="linked_account_adder"
+                      ng-model="userForBox.addingLinkedAccount.id"
+                      placeholder="Link another account id to this account..."
+                      class="mr-2" />
+                <button class="btn btn-success" ng-click="addLinkedAccount()">Add</button>
+              </div>
+            </dd>
+
+
             <dt class="">Linked to contributor</dt>
             <dd class="mb-3">
               <select name="contributor_linker" id="contributor_linker"

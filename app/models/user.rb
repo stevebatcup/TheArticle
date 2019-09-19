@@ -61,6 +61,7 @@ class User < ApplicationRecord
   has_many  :interaction_mutes
 
   has_many  :additional_emails
+  has_many  :linked_accounts
 
   belongs_to   :author, optional: true
 
