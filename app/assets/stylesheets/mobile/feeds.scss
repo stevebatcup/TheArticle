@@ -20,6 +20,11 @@ input#suggestion_search {
 	margin-bottom: 10px;
 	// border-bottom: 1px solid $grey;
 
+	button.ignore_suggestion {
+		border: none;
+		background: none;
+	}
+
 	#third_party_article_url_phantom {
 		height: 2.6em;
 		font-size: 0.85em;
