@@ -96,6 +96,18 @@ if @full_details
 		end
 	end
 
+	json.set! :addingAdditionalEmail do
+		json.text ''
+		json.status ''
+		json.css ''
+	end
+	json.set! :additionalEmails do
+		json.array! @user.additional_emails.order(text: :asc).each do |email|
+			json.id email.id
+			json.text email.text
+		end
+	end
+
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

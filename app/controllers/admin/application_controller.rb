@@ -52,6 +52,13 @@ module Admin
     end
     helper_method :processed_concern_report_count
 
+    def better_model_error_messages(resource)
+      messages = resource.errors.details.keys.map do |attr|
+        resource.errors.full_messages_for(attr).first
+      end
+      messages.join
+    end
+
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.
     # def records_per_page

@@ -60,6 +60,8 @@ class User < ApplicationRecord
   has_many  :exchange_mutes
   has_many  :interaction_mutes
 
+  has_many  :additional_emails
+
   belongs_to   :author, optional: true
 
   include Suggestable

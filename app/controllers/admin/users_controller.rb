@@ -149,6 +149,27 @@ module Admin
       render json: { status: :success }
     end
 
+    def add_additional_email
+      user = User.find(params[:user_id])
+      if @additional_email = AdditionalEmail.create({user_id: user.id, text: params[:email]})
+        @status = :success
+      else
+        @status = :error
+        @message = better_model_error_messages(@additional_email)
+      end
+    end
+
+    def delete_additional_email
+      user = User.find(params[:user_id])
+      if additional_email = user.additional_emails.find_by(id: params[:email_id])
+        additional_email.destroy
+        @status = :success
+      else
+        @status = :error
+      end
+      render json: { status: @status }
+    end
+
   private
 
     def query_is_digits_only?

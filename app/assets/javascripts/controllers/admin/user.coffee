@@ -83,4 +83,30 @@ class TheArticle.User extends TheArticle.AdminPageController
 			genuine_verified: if @scope.userForBox.genuineVerified then 1 else 0
 		@http.post("/admin/set_genuine_verified_for_user", data)
 
+	removeAdditionalEmail: (id, $event) =>
+		$event.preventDefault()
+		@http.delete("/admin/delete_additional_email?user_id=#{@scope.userForBox.id}&email_id=#{id}").then (response) =>
+			if response.data.status is 'success'
+				@scope.userForBox.additionalEmails = _.reject @scope.userForBox.additionalEmails, (item) =>
+					item.id is id
+
+	addAdditionalEmail: =>
+		@scope.userForBox.addingAdditionalEmail.css = ''
+		@scope.userForBox.addingAdditionalEmail.message = ''
+		if !@scope.userForBox.addingAdditionalEmail.text or @scope.userForBox.addingAdditionalEmail.text.length is 0
+			@scope.userForBox.addingAdditionalEmail.css = 'text-danger'
+			@scope.userForBox.addingAdditionalEmail.message = 'Enter a valid email address'
+		else
+			data =
+				user_id: @scope.userForBox.id
+				email: @scope.userForBox.addingAdditionalEmail.text
+			@http.post("/admin/add_additional_email", data).then (response) =>
+				@scope.userForBox.addingAdditionalEmail.text = ''
+				@scope.userForBox.addingAdditionalEmail.css = 'text-green'
+				@scope.userForBox.addingAdditionalEmail.message = 'Email address successfully added'
+				@scope.userForBox.additionalEmails.push { id: response.data.id, text: response.data.text }
+				@timeout =>
+					@scope.userForBox.addingAdditionalEmailStatus = ''
+				, 3000
+
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

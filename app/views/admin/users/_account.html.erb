@@ -166,8 +166,32 @@
           </a>
 
           <dl style="overflow: hidden;">
+            <dt ng-if="userForBox.additionalEmails.length > 0">Additional email addresses</dt>
+            <dt ng-if="userForBox.additionalEmails.length == 0">No additional email addresses</dt>
+
+            <dd class="mt-2 mb-3">
+              <ul ng-if="userForBox.additionalEmails.length > 0" class="mt-1 mb-2">
+                <li ng-repeat="email in userForBox.additionalEmails" class="d-flex w-100 justify-content-between align-items-start">
+                  <span>{{email.text}}</span>
+                  <a class="text-danger mt-1" ng-click="removeAdditionalEmail(email.id, $event)"href='#'>
+                    <i class="fa fa-times"></i>
+                  </a>
+              </ul>
+
+              <p ng-if="userForBox.addingAdditionalEmail.message.length > 0" class="{{userForBox.addingAdditionalEmail.css}} mb-0 mt-0">
+                <small>{{userForBox.addingAdditionalEmail.message}}</small>
+              </p>
+              <div class="d-flex w-100 justify-content-between align-items-start">
+                <input type="email" name="additional_email_adder" id="additional_email_adder"
+                      ng-model="userForBox.addingAdditionalEmail.text"
+                      placeholder="Add another email address to this account..."
+                      class="mr-2" />
+                <button class="btn btn-success" ng-click="addAdditionalEmail()">Add</button>
+              </div>
+            </dd>
+
             <dt class="">Linked to contributor</dt>
-            <dd class="">
+            <dd class="mb-3">
               <select name="contributor_linker" id="contributor_linker"
                       ng-model="userForBox.author"
                       ng-change="updateAuthor()"
@@ -193,10 +217,7 @@
 
             <li>Edit/delete bio, with option to message User</li>
 
-
-            <li>Link/unlink accounts and additional email addresses e.g. known second account, or if we receive an email from an unregistered email address about an account they have registered under a different email address and we can match them up</li>
-
-            <li>Verify someone as genuine (in Twitter style) to give them a green tick by their name on their public profile – totally at our discretion - start off with just TheArticle team and Daniel’s famous friends – journalists, politicians etc.</li>
+            <li>Link/unlink known second account.</li>
 
             <li>[Hide Profile while under review? Admin functionality only – consider for Phase 3+]</li>
           </ul>
