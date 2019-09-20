@@ -37,7 +37,11 @@ end
 every	1.day, at: '4:35 pm' do
 	rake "autofollow:olivia"
 end
+
 every	1.day, at: '8:30 pm' do
 	rake "autofollow:daniel"
 end
 
+every	30.minutes do
+	rake "suggestions:dedupe"
+end

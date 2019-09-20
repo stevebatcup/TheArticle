@@ -4,12 +4,12 @@ namespace :suggestions do
 											.group("user_id, suggested_id")
 											.having("item_count > 1")
 											.order(id: :desc)
-											.limit(100)
+											.limit(500)
 											.to_a
 		if dupes.any?
 			dupes.each do |dupe|
 				if item = ProfileSuggestion.find_by(user_id: dupe.user_id, suggested_id: dupe.suggested_id, status: 0)
-					puts "Destroying #{item.id}"
+					# puts "Destroying #{item.id}"
 					item.destroy
 					sleep(1)
 				end
