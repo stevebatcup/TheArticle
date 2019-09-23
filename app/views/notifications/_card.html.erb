@@ -9,7 +9,7 @@
 				'fa fa-comment': (item.type=='comment' || item.type=='reply'),
 				'fa fa-users': item.type=='follow',
 				'fa fa-newspaper-o': item.type=='categorisation',
-				'fa fa-mail-forward': item.type=='mentioner'
+				'fa fa-mail-forward': item.type=='mentioner' || item.type=='commentmentioner'
 			}"></i></span>
 			<span ng-bind-html="item.body" data-notification="{{item.id}}"></span>
 		</p>

@@ -1,0 +1,2 @@
+class CommentMentioner < User
+end

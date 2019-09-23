@@ -157,6 +157,16 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 			$(document).on 'hidden.bs.modal', '#opinionPostModal', =>
 				$content.remove()
 
+	openShareModal: (share_id) =>
+		@Share.get({id: share_id}).then (item) =>
+			@scope.item = item
+			tpl = $("#shareBox").html().trim()
+			$content = @compile(tpl)(@scope)
+			$('body').append $content
+			$("#shareBoxModal").modal()
+			$(document).on 'hidden.bs.modal', '#shareBoxModal', =>
+				$content.remove()
+
 	openFollowsTab: (notification) =>
 		@rootScope.$broadcast 'open_followers_tab'
 
@@ -164,7 +174,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 		$event.preventDefault
 		unless $event.target.tagName is "A" or $event.target.tagName is "B"
 			switch notification.type
-				when 'comment'
+				when 'comment','commentmentioner'
 					@openCommentModal notification
 				when 'opinion'
 					@openOpinionModal notification
@@ -174,7 +184,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 					path = notification.article.path
 					window.location.href = path
 				when 'mentioner'
-					window.location.href = notification.mentioner.path
+					@openShareModal notification.shareId
 			@http.put("/notification/#{notification.id}", {is_seen: true}).then (response) =>
 				notification.isSeen = true
 

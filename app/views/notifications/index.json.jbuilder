@@ -23,14 +23,14 @@ json.set! :notificationItems do
 					json.path article_path(notification.eventable.article)
 				end
 			end
-		elsif notification.eventable_type.downcase == 'mentioner'
+		elsif ['mentioner', 'commentmentioner'].include?(notification.eventable_type.downcase)
 			share = Share.find(notification.share_id)
 			json.mentioner do
 				mentioner = User.find(notification.eventable_id)
 				json.id mentioner.id
 				json.username mentioner.username
 				json.displayName mentioner.display_name
-				json.path profile_path(slug: mentioner.slug, panel:  share.has_ratings? ? 'ratings' : 'shares')
+				json.shareId share.id
 			end
 		end
 	end

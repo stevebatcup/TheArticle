@@ -1,0 +1,20 @@
+<div class="modal fade no_connection mobile_full" id="shareBoxModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog scrollable medium" role="document">
+    <div class="modal-content">
+
+    	<div class="modal-header">
+    		<h5 class="pt-1">{{item.share.user.displayName}} shared on {{item.share.actualDate}}</h5>
+
+        <button data-dismiss="modal" class="btn btn-link close_modal">
+          <i class="fas fa-times text-green"></i>
+        </button>
+    	</div>
+
+      <div class="modal-body share_post_modal">
+        <div class="feed-listing feed-share">
+          <%= render 'shares/card' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
