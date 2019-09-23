@@ -218,6 +218,12 @@ private
 		browser.device.mobile? ? 'profile-wizard' : 'application'
 	end
 
+	def authenticate_basic_user
+		unless user_signed_in?
+			redirect_to "/?force_home=1"
+		end
+	end
+
 	def authenticate_user!
 		super
 		if !current_user.has_completed_wizard? && request.format != 'application/json'

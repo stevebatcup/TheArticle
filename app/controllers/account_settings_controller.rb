@@ -1,5 +1,5 @@
 class AccountSettingsController < ApplicationController
-	before_action :authenticate_user!
+	before_action :authenticate_basic_user
 
 	def edit
 		respond_to do |format|
