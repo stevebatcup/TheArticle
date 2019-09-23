@@ -52,7 +52,7 @@ module CommentHelper
 			},
 			commentAction: {
 				sentence: sentence,
-				comment: comment.body,
+				comment: comment.body.gsub(/<p> <\/p>/,""),
 				date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
 				user: {
 					id: comment.user.id,
@@ -80,7 +80,7 @@ module CommentHelper
 	    displayName: comment.user.display_name,
 			username: comment.user.username,
 			photo: comment.user.profile_photo.url(:square),
-			body: remote_linkify(comment.body.gsub(/<p>\s*<\/p>/,"").html_safe, request.base_url),
+			body: remote_linkify(comment.body.gsub(/<p> <\/p>/,"").html_safe, request.base_url),
 			timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
 			timeHuman: comment.created_at.strftime("%e %b"),
 	    replyShowLimit: Comment.show_reply_limit,
