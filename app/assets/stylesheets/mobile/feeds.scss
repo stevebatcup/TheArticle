@@ -278,12 +278,18 @@ input#suggestion_search {
 				}
 			}
 
-			.comment_body,
-			.comment_body p {
-				word-break: break-word;
-				text-overflow: ellipsis;
-				overflow-wrap: break-word;
-				white-space: pre-line;
+			.comment_body {
+				p {
+					word-break: break-word;
+					text-overflow: ellipsis;
+					overflow-wrap: break-word;
+					white-space: pre-line;
+					margin-bottom: 5px;
+
+					&:empty {
+						display: none;
+					}
+				}
 			}
 
 			.ratings {

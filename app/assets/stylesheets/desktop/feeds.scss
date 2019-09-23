@@ -135,10 +135,19 @@
 						.comment-item {
 
 							.comment_body {
-								word-break: break-word;
-								text-overflow: ellipsis;
-								overflow-wrap: break-word;
-								white-space: pre-line;
+								margin-bottom: 12px;
+
+								p {
+									word-break: break-word;
+									text-overflow: ellipsis;
+									overflow-wrap: break-word;
+									white-space: pre-line;
+									margin-bottom: 5px;
+
+									&:empty {
+										display: none;
+									}
+								}
 
 								a {
 									color: $green;
