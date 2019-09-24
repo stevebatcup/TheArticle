@@ -71,7 +71,7 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', '<%= ga_tracking_id %>', {
-          'custom_map': {'dimension1': 'browserType', 'dimension2': 'signUpMethod'}
+          'custom_map': {'dimension1': 'browserType'}
         });
         var ua = navigator.userAgent || navigator.vendor || window.opera;
         var browserType = ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1 ? 'Facebook' : 'Regular';
