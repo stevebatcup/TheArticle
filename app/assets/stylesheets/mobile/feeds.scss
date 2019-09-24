@@ -75,6 +75,14 @@ input#suggestion_search {
 	}
 
 	&.feed-share {
+		.card {
+			.post {
+				p {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
 		.comments_pane {
 			background: #fff;
 

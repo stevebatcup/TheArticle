@@ -50,6 +50,14 @@
 	}
 
 	&.feed-share {
+		.card {
+			.post {
+				p {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
 		.comments_pane {
 			border-left: 1px solid rgba(0, 0, 0, 0.125);
 			border-bottom: 1px solid rgba(0, 0, 0, 0.125);
