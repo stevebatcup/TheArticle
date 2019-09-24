@@ -50,7 +50,8 @@ begin
 				isFollowingMe: user_signed_in? ? current_user.is_followed_by(result) : false,
 				isBlocked: user_signed_in? ? current_user.has_blocked(result) : false,
 				isBlockingMe: user_signed_in? ? result.has_blocked(current_user) : false,
-				sharedFollowers: user_signed_in? ? generate_shared_followers_sentence(current_user, result) : false
+				sharedFollowers: user_signed_in? ? generate_shared_followers_sentence(current_user, result) : false,
+				isMe: user_signed_in? ? current_user.id == result.id : false
 			}
 
 		elsif result.class == Exchange
