@@ -3,9 +3,6 @@
 
 <section ng-controller="ExchangesController"
 			data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
-	<div class="pt-md-5">
-		<%= render partial: 'carousels/trending-exchanges', locals: { exchanges: @trending_exchanges } %>
-	</div>
 
 	<div class="container pt-4 py-md-5">
 
