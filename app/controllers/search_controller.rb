@@ -16,7 +16,7 @@ class SearchController < ApplicationController
 							# profiles
 							if user_signed_in?
 								ids_to_exclude = [current_user.id] + current_user.blocks.map(&:blocked_id)
-								@profiles = User.search("*#{@query}*", without: { sphinx_internal_id: ids_to_exclude },
+								@profiles = User.search("*#{@query}*",
 																						conditions: { status: 'active', has_completed_wizard: true },
 																						page: 1, per_page: 5)
 							else
@@ -49,7 +49,7 @@ class SearchController < ApplicationController
 						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
 						posts = Share.search("*#{@query}*", order: 'created_at DESC').to_a
 						if user_signed_in?
-							profiles = User.search("*#{@query}*", without: { sphinx_internal_id: current_user.id },
+							profiles = User.search("*#{@query}*",
 																			conditions: { status: 'active', has_completed_wizard: true },
 																			page: 1, per_page: 50).to_a
 						else

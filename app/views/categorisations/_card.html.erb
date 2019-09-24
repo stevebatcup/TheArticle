@@ -5,6 +5,10 @@
 					<b>New article</b> added to the
 					<span ng-bind-html="formatExchangeList(item.article.exchanges)"></span>
 				 &bullet; <time ng-if="item.feedDate">{{item.feedDate}}</time><time ng-if="!item.feedDate">{{item.date}}</time>
+				 &bullet;
+				 <span ng-if="item.article.ratingCount == 0">No ratings yet</span>
+				 <a ng-if="item.article.ratingCount == 1" href="/ratings-history/{{item.article.id}}" class="text-green">Rated once</a>
+				 <a ng-if="item.article.ratingCount > 1" href="/ratings-history/{{item.article.id}}" class="text-green">Rated {{item.article.ratingCount}} times</a>
 			</p>
 		</div>
 	</div>
