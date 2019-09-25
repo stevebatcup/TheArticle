@@ -8,7 +8,7 @@
 	<div class="alert alert-success mt-3 row">
 		<h4 class="pt-1">Search results for "{{search.query}}"</h4>
 	</div>
-	<section id="top_bar" class="row bg-white pt-2">
+	<section id="top_bar" class="row bg-white pt-2" ng-if="search.results.loaded">
 		<div class="col-2"></div>
 		<ul class="col-8 nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item" ng-if="!search.results.empty">
@@ -92,6 +92,10 @@
 		</section>
 
 		<section class="col-md-8 col-lg-6" id="feed" >
+			<div class="inner" ng-if="!search.results.loaded">
+				<div class="ajax_loading feeds">Loading search results...</div>
+			</div>
+
 			<div class="inner" ng-if="search.results.loaded" ng-cloak>
 				<div class="results_block row" ng-if="(selectedTab == 'all' && search.results.empty)">
 					<div class="no_results py-3 px-3">
