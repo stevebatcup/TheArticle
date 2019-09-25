@@ -101,6 +101,16 @@ module ShareHelper
 	end
 
 	def format_post(post)
-		post
+		post_html =  Nokogiri::HTML.fragment(post)
+		post_html.css('span.mentioned_user').each do |span|
+			if span.attribute('data-display_name')
+				display_name_span = Nokogiri::XML::Node.new('span', post_html)
+				display_name_span['style'] = 'color: #333;'
+				display_name_span.content = span.attribute('data-display_name')
+				span.prepend_child "&nbsp;"
+				span.prepend_child display_name_span
+			end
+		end
+		post_html.to_html
 	end
 end

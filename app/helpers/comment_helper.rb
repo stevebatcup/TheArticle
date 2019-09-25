@@ -80,7 +80,7 @@ module CommentHelper
 	    displayName: comment.user.display_name,
 			username: comment.user.username,
 			photo: comment.user.profile_photo.url(:square),
-			body: remote_linkify(comment.body.gsub(/<p> <\/p>/,"").html_safe, request.base_url),
+			body: format_comment_body(comment.body),
 			timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
 			timeHuman: comment.created_at.strftime("%e %b"),
 	    replyShowLimit: Comment.show_reply_limit,
@@ -90,5 +90,21 @@ module CommentHelper
 			imFollowing: user_signed_in? ? comment.user.is_followed_by(current_user) : false,
 			isFollowingMe: user_signed_in? ? current_user.is_followed_by(comment.user) : false
 		}
+	end
+
+	def format_comment_body(body)
+		body = body.gsub(/<p> <\/p>/,"").html_safe
+		body = remote_linkify(body, request.base_url)
+		body_html =  Nokogiri::HTML.fragment(body)
+		body_html.css('span.mentioned_user').each do |span|
+			if span.attribute('data-display_name')
+				display_name_span = Nokogiri::XML::Node.new('span', body_html)
+				display_name_span['style'] = 'color: #333;'
+				display_name_span.content = span.attribute('data-display_name')
+				span.prepend_child "&nbsp;"
+				span.prepend_child display_name_span
+			end
+		end
+		body_html.to_html
 	end
 end
