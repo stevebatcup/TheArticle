@@ -45,3 +45,7 @@ end
 every	30.minutes do
 	rake "suggestions:dedupe"
 end
+
+every	15.minutes do
+	rake "exchanges:update_follower_counts"
+end

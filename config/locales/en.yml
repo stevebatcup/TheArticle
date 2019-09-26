@@ -19,6 +19,7 @@ en:
     email_log: Email logs
     help_section: Help centre sections
     help_content: Help centre question
+    exchange: Exchanges
 
   label:
    article:
@@ -61,4 +62,6 @@ en:
     build_reason_sentence: Reason
    user_concern_report:
     build_reason_sentence: Reason
+   exchange:
+    users: Followers
 

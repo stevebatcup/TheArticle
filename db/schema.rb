@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_19_123618) do
+ActiveRecord::Schema.define(version: 2019_09_26_133151) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(version: 2019_09_19_123618) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "article_count", default: 0
+    t.integer "follower_count", default: 0
   end
 
   create_table "exchanges_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
