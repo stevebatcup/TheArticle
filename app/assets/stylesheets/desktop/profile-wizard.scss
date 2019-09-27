@@ -27,6 +27,17 @@
 		cursor: pointer;
 		height: 175px;
 
+		.img_mask {
+			i {
+				position: absolute;
+				top: 2px;
+				right: 5px;
+				font-size: 26px;
+				z-index: 100;
+				text-shadow: 2px 2px 2px #4a4a4a;
+			}
+		}
+
 		h6 {
 			font-size: 0.8rem;
 		}
@@ -35,16 +46,20 @@
 			font-size: 0.7rem;
 		}
 
-		&.selected {
+		&.deselected {
 			.inner {
-				background-color: #72b678;
+				background-color: #c60044;
 
-				img {
-					opacity: 0.4;
+				.img_mask {
+					position: relative;
+
+					img {
+						opacity: 0.65;
+					}
 				}
 
 				.heading_box {
-					background-color: #72b678;
+					background-color: #c60044;
 				}
 			}
 		}
