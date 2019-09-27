@@ -64,6 +64,11 @@
       <li>
         <a href="/account-settings">Account settings</a>
       </li>
+      <% if current_user.is_admin? %>
+      <li>
+        <a class="" href="/admin" target="_blank">Admin</a>
+      </li>
+      <% end %>
       <li>
         <a class="" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
       </li>
