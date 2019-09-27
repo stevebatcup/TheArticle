@@ -29,13 +29,17 @@ class TheArticle.User extends TheArticle.AdminPageController
 		@confirm q, @addToBlackListConfirm, null, "Sure?", ["No", "Yes, delete and blacklist"]
 
 	addToBlackListConfirm: =>
+		@scope.userForBox.blacklisted = true
 		@http.get("/admin/add_user_to_blacklist?user_id=#{@scope.userForBox.id}").then (response) =>
-			@scope.userForBox.blacklisted = true
+			if response.data.status isnt 'success'
+				@scope.userForBox.blacklisted = false
 
 	addToWatchList: ($event) =>
+		@scope.userForBox.watchlisted = true
 		$event.preventDefault()
 		@http.get("/admin/add_user_to_watchlist?user_id=#{@scope.userForBox.id}").then (response) =>
-			@scope.userForBox.watchlisted = true
+			if response.data.status isnt 'success'
+				@scope.userForBox.watchlisted = false
 
 	deactivate: ($event) =>
 		$event.preventDefault()
@@ -43,15 +47,23 @@ class TheArticle.User extends TheArticle.AdminPageController
 		@confirm q, @deactivateConfirm, null, "Sure?", ["No", "Yes, deactivate"]
 
 	deactivateConfirm: =>
+		originalStatus = @scope.userForBox.status
+		@scope.userForBox.status = 'deactivated'
+		@scope.userForBox.deactivated = true
 		@http.get("/admin/deactivate_user?user_id=#{@scope.userForBox.id}").then (response) =>
-			@scope.userForBox.status = 'deactivated'
-			@scope.userForBox.deactivated = true
+			if response.data.status isnt 'success'
+				@scope.userForBox.status = originalStatus
+				@scope.userForBox.deactivated = false
 
 	reactivate: ($event) =>
+		originalStatus = @scope.userForBox.status
+		@scope.userForBox.status = 'active'
+		@scope.userForBox.deactivated = false
 		$event.preventDefault()
 		@http.get("/admin/reactivate_user?user_id=#{@scope.userForBox.id}").then (response) =>
-			@scope.userForBox.status = 'active'
-			@scope.userForBox.deactivated = false
+			if response.data.status isnt 'success'
+				@scope.userForBox.status = originalStatus
+				@scope.userForBox.deactivated = true
 
 	delete: ($event) =>
 		$event.preventDefault()
@@ -59,9 +71,13 @@ class TheArticle.User extends TheArticle.AdminPageController
 		@confirm q, @deleteConfirm, null, "Sure?", ["No", "Yes, delete"]
 
 	deleteConfirm: =>
+		originalStatus = @scope.userForBox.status
+		@scope.userForBox.status = 'deleted'
+		@scope.userForBox.deleted = true
 		@http.delete("/admin/delete_user?user_id=#{@scope.userForBox.id}").then (response) =>
-			@scope.userForBox.status = 'deleted'
-			@scope.userForBox.deleted = true
+			if response.data.status isnt 'success'
+				@scope.userForBox.status = originalStatus
+				@scope.userForBox.deleted = false
 
 	getAvailableAuthors: =>
 		@http.get("/admin/available_authors_for_user/#{@scope.userForBox.id}").then (response) =>

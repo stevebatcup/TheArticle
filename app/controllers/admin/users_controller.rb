@@ -64,9 +64,9 @@ module Admin
           if user = User.find_by(id: params[:user_id])
             user.add_to_blacklist("Blacklisted from admin", current_user, user.email)
             user.delete_account("Admin deleted account", true)
-            @status = :success
+            render json: { status: :success }
           else
-            @status = :error
+            render json: { status: :error }
           end
         end
       end
@@ -77,9 +77,9 @@ module Admin
         format.json do
           if user = User.find_by(id: params[:user_id])
             user.add_to_watchlist("Added from admin", current_user)
-            @status = :success
+            render json: { status: :success }
           else
-            @status = :error
+            render json: { status: :error }
           end
         end
       end
@@ -88,31 +88,31 @@ module Admin
     def deactivate
       if user = User.find_by(id: params[:user_id])
         user.deactivate
-        @status = :success
+        render json: { status: :success }
       else
-        @status = :error
+        render json: { status: :error }
       end
     end
 
     def reactivate
       if user = User.find_by(id: params[:user_id])
         user.reactivate
-        @status = :success
+        render json: { status: :success }
       else
-        @status = :error
+        render json: { status: :error }
       end
     end
 
     def destroy
       if user = User.find_by(id: params[:user_id])
         user.delete_account("Admin deleted account", true)
-        @status = :success
         if params[:destroy]
           user.destroy
           redirect_to "/admin/users"
         end
+        render json: { status: :success }
       else
-        @status = :error
+        render json: { status: :error }
       end
     end
 

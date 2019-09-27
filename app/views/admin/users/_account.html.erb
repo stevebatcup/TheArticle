@@ -119,7 +119,7 @@
                 class="btn btn-block btn-danger"
                 ng-class="{'disabled': userForBox.watchlisted}"
                 ng-disabled="userForBox.watchlisted"
-                ng-if="!userForBox.deleted">
+                ng-if="!userForBox.deleted && !userForBox.blacklisted">
                 <i class="fas fa-stopwatch mr-2"></i>
               <span ng-if="!userForBox.watchlisted">Add user to watchlist</span>
               <span ng-if="userForBox.watchlisted">On watchlist</span>
@@ -127,14 +127,14 @@
 
           <button ng-click="deactivate($event)"
                     class="btn btn-block btn-danger"
-                    ng-if="!userForBox.deactivated && !userForBox.deleted">
+                    ng-if="!userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
                   <i class="fas fa-toggle-on mr-2"></i>
                   Deactivate user
               </button>
 
           <button ng-click="reactivate($event)"
                     class="btn btn-block btn-danger"
-                    ng-if="userForBox.deactivated && !userForBox.deleted">
+                    ng-if="userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
                   <i class="fas fa-toggle-off mr-2"></i>
                   Reactivate user
               </button>
@@ -154,7 +154,8 @@
           <button ng-click="addToBlackList($event)"
                 class="btn btn-block btn-danger"
                 ng-class="{'disabled': userForBox.watchlisted}"
-                ng-disabled="userForBox.blacklisted">
+                ng-disabled="userForBox.blacklisted"
+                ng-if="(!userForBox.deleted) || (userForBox.deleted && userForBox.blacklisted)">
                 <i class="fas fa-exclamation-triangle mr-2"></i>
                 <span ng-if="!userForBox.blacklisted">Delete account and add to blacklist</span>
                 <span ng-if="userForBox.blacklisted">DELETED AND BLACKLISTED</span>

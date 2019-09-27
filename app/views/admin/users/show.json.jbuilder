@@ -7,6 +7,7 @@ if @full_details
 	json.profileUrl "#{profile_url(slug: @user.slug)}?from_admin=1"
 	json.lastSignIn @user.last_sign_in_at.present? ? @user.last_sign_in_at.strftime("%b %e, %Y at %H:%m") : nil
 	json.verified @user.has_completed_wizard? ? "Yes" : "No"
+	json.deleted @user.status.to_sym == :deleted
 	json.blacklisted @user.is_blacklisted?
 	json.watchlisted @user.is_watchlisted?
 	json.blacklistedHuman @user.is_blacklisted? ? "Yes" : "No"
