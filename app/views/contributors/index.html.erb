@@ -32,7 +32,7 @@
 				<article class="col-6 col-md-4 col-lg-3 col-xl-5ths px-md-2 py-md-2 py-xl-3 mb-3 mb-md-4 hoveraction article-listing journalist <%= contributor.post_count > 0 ? 'block_click' : '' %>"
 					 data-href="<%= contributor_path(slug: contributor.slug) %>">
 					<div class="inner" style="background-image: url('<%= contributor.image.url(:listing) %>')" alt="<%= contributor.display_name; %>" />
-						<div class="mask">
+						<div class="mask no-bg">
 							<div class="inner_inner">
 								<div class="px-2 px-md-2 py-0">
 									<h3 class="text_shadow text-white mb-0 filter_target">

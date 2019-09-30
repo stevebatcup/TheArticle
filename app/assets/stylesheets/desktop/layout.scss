@@ -985,6 +985,10 @@ textarea.has_error {
 	height: 100%;
 	width: 100%;
 
+	&.no-bg {
+		background-color: transparent;
+	}
+
 	.inner {
 		position: absolute;
     bottom: 0px;
