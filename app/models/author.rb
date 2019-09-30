@@ -129,7 +129,7 @@ class Author < ApplicationRecord
 
 	def self.contributors_or_admins
 		@@contributors_or_admins ||= begin
-			self.where(author_role: contributor_or_admin_role)
+			self.where(author_role: contributor_or_admin_role).order(role_id: :desc)
 		end
 	end
 
