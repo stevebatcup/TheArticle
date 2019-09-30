@@ -24,7 +24,11 @@ class Author < ApplicationRecord
 	end
 
 	def self.contributor_role
-		AuthorRole.find_by(slug: ['contributor', 'administrator'])
+		AuthorRole.find_by(slug: 'contributor')
+	end
+
+	def self.contributor_or_admin_role
+		AuthorRole.where(slug: ['contributor', 'administrator'])
 	end
 
 	def self.fetch_for_exchange(exchange, limit=6)
@@ -74,7 +78,7 @@ class Author < ApplicationRecord
 	end
 
 	def self.with_complete_profile(exclude=[])
-		self.contributors
+		self.contributors_or_admins
 				.where.not(id: exclude)
 				.where.not(image: nil)
 				.where("display_name > ''")
@@ -119,7 +123,13 @@ class Author < ApplicationRecord
 
 	def self.contributors
 		@@contributors ||= begin
-			contributors = self.where(author_role: contributor_role)
+			self.where(author_role: contributor_role)
+		end
+	end
+
+	def self.contributors_or_admins
+		@@contributors_or_admins ||= begin
+			self.where(author_role: contributor_or_admin_role)
 		end
 	end
 
