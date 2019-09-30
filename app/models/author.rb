@@ -24,7 +24,7 @@ class Author < ApplicationRecord
 	end
 
 	def self.contributor_role
-		AuthorRole.find_by(slug: 'contributor')
+		AuthorRole.find_by(slug: ['contributor', 'editor'])
 	end
 
 	def self.fetch_for_exchange(exchange, limit=6)
