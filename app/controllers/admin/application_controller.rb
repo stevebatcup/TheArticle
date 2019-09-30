@@ -6,6 +6,11 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
+    http_basic_authenticate_with(
+      name: "londonbridge",
+      password: "B37ys0m2w"
+    )
+
     before_action :authenticate_admin
 
     rescue_from SecurityError do |exception|
