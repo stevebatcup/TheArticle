@@ -41,10 +41,14 @@ body.fixed-header {
 			}
 
 			i, svg {
-				font-size: 32px;
-				margin-right: 13px;
+				font-size: 35px;
+				margin-right: 17px;
 				position: relative;
 				top: 5px;
+
+				&.fa-user {
+					margin-left: 4px;
+				}
 			}
 		}
 	}
