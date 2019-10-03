@@ -13,7 +13,19 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
-  include Adminable
+	include Adminable
+
+	def self.most_rated(limit=10)
+		Rails.cache.fetch("most_rated_articles", expires_in: 30.minutes) do
+			select('COUNT(shares.id) AS rating_count, articles.*')
+				.left_joins(:shares)
+				.where.not(author_id: [Author.the_article_staff.map(&:id)])
+				.where("shares.share_type = 'rating'")
+				.group(:id)
+				.order('COUNT(shares.id) DESC')
+				.limit(limit)
+		end
+	end
 
 	def self.schedule_create_or_update(wp_id, publish_date)
 		if publish_date > Time.now

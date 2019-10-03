@@ -5,6 +5,10 @@ class Author < ApplicationRecord
   mount_uploader :image, AuthorImageUploader
 	has_one	:user
 
+	def self.the_article_staff
+		where("email LIKE '%@thearticle.com%'")
+	end
+
 	def is_sponsor?
 		self.author_role == AuthorRole.find_by(slug: 'sponsor')
 	end

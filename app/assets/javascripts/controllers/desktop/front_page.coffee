@@ -482,4 +482,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 						$(".slick-carousel-item[data-user-id=#{member.id}]", "[data-section=#{section}]").remove()
 			, 100
 
+	openMostRatedArticleUrl: (url) =>
+		window.location.href = url
+
 TheArticle.ControllerModule.controller('FrontPageController', TheArticle.FrontPage)
