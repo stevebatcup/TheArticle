@@ -27,10 +27,11 @@ main.profile_suggestions_index {
 		article.most_rated {
 			height: 200px;
 			cursor: pointer;
+			background-size: cover;
+			background-repeat: no-repeat;
 
 			.img_mask {
-				background-size: cover;
-				background-repeat: no-repeat;
+				background-color: rgba(0,0,0,0.12);
 				height: 100%;
 				padding: 0 10px;
 				color: #fff;
