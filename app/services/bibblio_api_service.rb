@@ -1,6 +1,5 @@
 module BibblioApiService
 	class << self
-		# include ActionView::Helpers::ArticleHelper
 
 		def client_id
 			@client_id ||= Rails.application.credentials.bibblio[:client_id]
@@ -83,13 +82,13 @@ module BibblioApiService
 				}
 
 				response = RestClient.post('https://api.bibblio.org/v1/content-items', user_data.to_json, headers)
-				true
+				return true
 			rescue RestClient::ExceptionWithResponse => e
-				puts "#{e.message}\n"
-				false
+				puts "#{e.message} #{user.id}\n"
+				return false
 			rescue Exception => e
-				puts "#{e.message}\n"
-				false
+				puts "#{e.message} #{user.id}\n"
+				return false
 			end
 		end
 
