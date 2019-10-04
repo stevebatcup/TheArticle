@@ -10,7 +10,7 @@ namespace :profiles do
 	end
 
 	task :add_to_bibblio => :environment do
-		users = User.active.where(on_bibblio: false).where("created_at < DATE_SUB(CURDATE(), INTERVAL 4 WEEK)").limit(100)
+		users = User.active.where(on_bibblio: false).where("created_at < DATE_SUB(CURDATE(), INTERVAL 4 WEEK)").limit(250)
 		if users.any?
 			users.each do |user|
 				puts "adding #{user.id} to bibblio\n"
