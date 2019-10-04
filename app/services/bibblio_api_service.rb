@@ -1,6 +1,6 @@
 module BibblioApiService
 	class << self
-		include ActionView::Helpers::ArticleHelper
+		# include ActionView::Helpers::ArticleHelper
 
 		def client_id
 			@client_id ||= Rails.application.credentials.bibblio[:client_id]
