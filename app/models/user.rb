@@ -394,4 +394,8 @@ class User < ApplicationRecord
   def is_admin?
     [:admin, :super_admin].include?(self.admin_level.to_sym)
   end
+
+  def add_to_bibblio
+    self.update_attribute(:on_bibblio, true) if BibblioApiService.create_user(self)
+  end
 end

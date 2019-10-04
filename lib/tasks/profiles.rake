@@ -8,4 +8,15 @@ namespace :profiles do
 			UserMailer.send_second_wizard_nudge(user).deliver_now
 		end
 	end
+
+	task :add_to_bibblio => :environment do
+		users = User.active.where(on_bibblio: false).where("created_at < DATE_SUB(CURDATE(), INTERVAL 4 WEEK)").limit(100)
+		if users.any?
+			users.each do |user|
+				puts "adding #{user.id} to bibblio\n"
+				user.add_to_bibblio
+				sleep(1)
+			end
+		end
+	end
 end
