@@ -50,6 +50,6 @@ every	15.minutes do
 	rake "exchanges:update_follower_counts"
 end
 
-# every	1.day, at: '15:30 pm' do
-# 	rake "profiles:add_to_bibblio"
-# end
+every	1.day, at: '15:30 pm' do
+	rake "profiles:add_to_bibblio >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1 "
+end
