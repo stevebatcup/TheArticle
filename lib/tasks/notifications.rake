@@ -26,6 +26,7 @@ namespace :notifications do
 		items.each do |item|
 			if user = User.where(status: :active).find_by(id: item.user_id)
 				user.send_daily_categorisations_mail
+				sleep(1.2)
 			else
 				item.destroy
 			end
