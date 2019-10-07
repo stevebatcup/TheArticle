@@ -7,6 +7,7 @@ json.set! :suggestions do
 				json.id user.id
 				json.articleCount suggestion.author_article_count
 				json.path profile_path(slug: user.slug)
+				json.authorPath contributor_path(slug: user.author.slug) if user.is_author?
 				json.displayName user.display_name
 				json.username user.username
 				json.bio bio_excerpt(user, browser.device.mobile? ? 18 : 23)
@@ -15,6 +16,12 @@ json.set! :suggestions do
 				json.imFollowing user.is_followed_by(current_user)
 				json.isFollowingMe current_user.is_followed_by(user)
 				json.sharedFollowers generate_shared_followers_sentence(current_user, user)
+
+				json.set! :extraInfo do
+					json.followerCount pluralize(user.followers_count, 'follower') if user.followers_count > 0
+					json.ratingsCount pluralize(user.ratings_count, 'rating') if user.ratings_count > 0
+					json.publishedArticlesCount pluralize(user.author.article_count, 'published article') if user.is_author? && user.author.article_count > 0
+				end
 			end
 		end
 	end
@@ -34,6 +41,12 @@ json.set! :suggestions do
 				json.imFollowing user.is_followed_by(current_user)
 				json.isFollowingMe current_user.is_followed_by(user)
 				json.sharedFollowers generate_shared_followers_sentence(current_user, user)
+
+				json.set! :extraInfo do
+					json.followerCount pluralize(user.followers_count, 'follower') if user.followers_count > 0
+					json.ratingsCount pluralize(user.ratings_count, 'rating') if user.ratings_count > 0
+					json.publishedArticlesCount pluralize(user.author.article_count, 'published article') if user.is_author? && user.author.article_count > 0
+				end
 			end
 		end
 	end

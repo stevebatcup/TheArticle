@@ -5,24 +5,25 @@
 		suggestions = local_assigns[:suggestions] || false
 		show_ignore_btn = local_assigns[:show_ignore_btn] || false
 	end
+	show_links = (suggestions == false || show_ignore_btn == true) ? true : false
 %>
 
-<% if suggestions == false || show_ignore_btn == true %>
+<% if show_links %>
 <div class="pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
 <% else %>
 <div class="pb-2 bg-white h-100">
 <% end %>
 	<div class="card-img-top cover_photo">
-		<% if suggestions == false || show_ignore_btn == true %><a href="{{item.path}}" class="w-100 h-100 d-block"><% end %>
+		<% if show_links %><a href="{{item.path}}" class="w-100 h-100 d-block"><% end %>
 			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />
-		<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+		<% if show_links %></a><% end %>
 	</div>
 
 	<div class="card-body py-2 w-100">
 		<div class="d-flex align-items-start justify-content-between mb-2">
-			<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+			<% if show_links %><a href="{{ item.path }}"><% end %>
 				<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image with_cover_image" alt="{{item.displayName}}" />
-			<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+			<% if show_links %></a><% end %>
 
 			<% if user_signed_in? %>
 				<button class="btn btn-sm follow_btn"
@@ -50,9 +51,9 @@
 
 		<div class="d-flex align-items-start justify-content-between">
 			<h5 class="card-title d-flex justify-content-between mb-0">
-				<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+				<% if show_links %><a href="{{ item.path }}"><% end %>
 					<span>{{ item.displayName }}</span>
-					<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+					<% if show_links %></a><% end %>
 				<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
 			</h5>
 
@@ -67,23 +68,46 @@
 
 		<h6 class="text-muted">
 			<small>
-				<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+				<% if show_links %><a href="{{ item.path }}"><% end %>
 					{{ item.username }}
-				<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+				<% if show_links %></a><% end %>
 			</small>
 		</h6>
+
+		<p class="extra_info" ng-if="item.extraInfo.followerCount || item.extraInfo.ratingsCount">
+			<span ng-if="item.extraInfo.followerCount">
+				<% if show_links %><a href="{{item.path}}?panel=followers" class='text-green'><% end %>
+					<i class="fa fa-users mr-1" aria-hidden="true"></i>
+					<span ng-bind-html="item.extraInfo.followerCount"></span>
+				<% if show_links %></a><% end %>
+				<span ng-if="item.extraInfo.ratingsCount" class="mx-1"> | </span>
+			</span>
+			<span ng-if="item.extraInfo.ratingsCount">
+				<% if show_links %><a href="{{item.path}}?panel=ratings" class='text-green'><% end %>
+					<i class="fa fa-meh-o mr-1" aria-hidden="true"></i>
+					<span ng-bind-html="item.extraInfo.ratingsCount"></span>
+				<% if show_links %></a><% end %>
+			</span>
+		</p>
+		<p class="extra_info" ng-if="item.extraInfo.publishedArticlesCount && item.authorPath">
+			<% if show_links %><a href="{{item.authorPath}}" class='text-green'><% end %>
+				<i class="fa fa-newspaper-o mr-1" aria-hidden="true"></i>
+				<span ng-bind-html="item.extraInfo.publishedArticlesCount"></span>
+			<% if show_links %></a><% end %>
+		</p>
 	</div>
 
-	<% if suggestions == false || show_ignore_btn == true %>
+
+	<% if show_links %>
 		<div class="w-100 d-block bio_box bio_click" data-href="{{ item.path }}">
 	<% else %>
 		<div class="w-100 d-block bio_box">
 	<% end %>
 		<p class="card-text" ng-if="!item.isBlocked && !item.isBlockingMe">
 			<small>
-				<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+				<% if show_links %><a href="{{ item.path }}"><% end %>
 					{{ item.bio }}
-				<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+				<% if show_links %></a><% end %>
 			</small>
 		</p>
 	</div>

@@ -455,6 +455,13 @@ input#suggestion_search {
 		}
 	}
 
+	&.feed-follow {
+		p.extra_info {
+			font-size: 0.8em;
+			margin: 5px 0;
+		}
+	}
+
 	&.feed-suggestion {
 		.card {
 			background-color: $gold;

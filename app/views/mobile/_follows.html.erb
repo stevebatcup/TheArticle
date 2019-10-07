@@ -37,7 +37,7 @@
 				<p class="empty px-3 py-2" ng-if="follows.data.followings.length == 0 && follows.loaded">
 					You are currently not following anyone
 				</p>
-				<div ng-repeat="item in follows.data.followings" class="feed-listing bg-white">
+				<div ng-repeat="item in follows.data.followings" class="feed-listing feed-follow bg-white">
 					<%= render 'users/member_card' %>
 				</div>
 			</div>
