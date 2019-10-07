@@ -9,9 +9,9 @@
 %>
 
 <% if show_links %>
-<div class="pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
+<div class="feed-follow-inner pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
 <% else %>
-<div class="pb-2 bg-white h-100">
+<div class="feed-follow-inner pb-2 bg-white h-100">
 <% end %>
 	<div class="card-img-top cover_photo">
 		<% if show_links %><a href="{{item.path}}" class="w-100 h-100 d-block"><% end %>
@@ -99,11 +99,11 @@
 
 
 	<% if show_links %>
-		<div class="w-100 d-block bio_box bio_click" data-href="{{ item.path }}">
+		<div class="w-100 d-block bio_box bio_click" data-href="{{ item.path }}" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">
 	<% else %>
-		<div class="w-100 d-block bio_box">
+		<div class="w-100 d-block bio_box" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">
 	<% end %>
-		<p class="card-text" ng-if="!item.isBlocked && !item.isBlockingMe">
+		<p class="card-text">
 			<small>
 				<% if show_links %><a href="{{ item.path }}"><% end %>
 					{{ item.bio }}

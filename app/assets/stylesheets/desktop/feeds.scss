@@ -24,7 +24,11 @@
 
 	&:last-child {
 		padding-bottom: 0 !important;
-		margin-bottom: 0 !important;
+		// margin-bottom: 0 !important;
+
+		// &.feed-follow {
+		// 	margin-bottom: inherit;
+		// }
 	}
 
 	.card {
@@ -438,7 +442,7 @@
 		}
 
 		div.bio_box {
-			min-height: 114px;
+			// min-height: 114px;
 			padding: 0 1.25rem;
 		}
 
@@ -456,7 +460,7 @@
 
 		&.col-6 {
 			padding: 0 10px 10px;
-			height: 317px;
+			// height: 372px;
 
 			.block_click {
 				height: 100%;
@@ -466,6 +470,10 @@
 				padding-bottom: 10px !important;
 				margin-bottom: 10px !important;
 			}
+		}
+
+		.feed-follow-inner {
+			box-shadow: 3px 3px 3px #ccc;
 		}
 	}
 
@@ -608,7 +616,7 @@
 				}
 
 				& + p {
-					margin-left: 11px;
+					margin-left: 10px;
 				}
 			}
 
@@ -620,7 +628,7 @@
 				}
 
 				& + p {
-					margin-left: 4px;
+					margin-left: 1px;
 				}
 			}
 
@@ -647,7 +655,7 @@
 			width: 75%;
 			margin-bottom: 5px;
 			position: relative;
-			top: 5px;
+			top: 2px;
 		}
 	}
 }

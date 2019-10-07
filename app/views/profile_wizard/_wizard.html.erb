@@ -127,8 +127,8 @@
 			    	<p ng-show="suggestionSearch.error" class="pt-3 px-1">{{suggestionSearch.error}}</p>
 				</div>
 
-				<div class="row pb-4">
-					<div ng-repeat="item in followSuggestions" class="col-12 col-md-6 feed-listing feed-follow wide">
+				<div class="d-flex align-items-stretch pb-4 flex-wrap">
+					<div ng-repeat="item in followSuggestions" class="w-50 w-sm-100 px-2 feed-listing feed-follow mb-3">
 						<%= render partial: 'users/member_card', locals: { suggestions: true } %>
 					</div>
 				</div>
