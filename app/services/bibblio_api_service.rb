@@ -5,14 +5,16 @@ module BibblioApiService
 			begin
 				raise Exception.new("User already on Bibblio!") if user.on_bibblio?
 				data = user_data(user).to_json
-				puts data
 				response = RestClient.post("#{api_host}/content-items", data, json_headers)
+				log(:create_user, data, user, { status: :success })
 				return true
 			rescue RestClient::ExceptionWithResponse => e
 				puts "ExceptionWithResponse #{e.message} #{user.id}\n"
+				log(:create_user, data, user, { status: :error, message: e.message })
 				return false
 			rescue Exception => e
 				puts "Exception #{e.message} #{user.id}\n"
+				log(:create_user, data, user, { status: :error, message: e.message })
 				return false
 			end
 		end
@@ -20,16 +22,28 @@ module BibblioApiService
 		def update_user(user)
 			begin
 				data = user_data(user, true).to_json
-				puts data
 				response = RestClient.put("#{api_host}/content-items/#{user.id}", data, json_headers)
+				log(:update_user, data, user, { status: :success })
 				return true
 			rescue RestClient::ExceptionWithResponse => e
 				puts "#{e.message} #{user.id}\n"
+				log(:update_user, data, user, { status: :error, message: e.message })
 				return false
 			rescue Exception => e
 				puts "#{e.message} #{user.id}\n"
+				log(:update_user, data, user, { status: :error, message: e.message })
 				return false
 			end
+		end
+
+		def log(action, data, user, response)
+			ApiLog.request({
+				service: :bibblio,
+				user_id: user.id,
+				request_method: action,
+				request_data: data,
+				response: response
+			})
 		end
 
 		def articles_catalog_id

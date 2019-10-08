@@ -47,6 +47,7 @@ class UsersController < ApplicationController
 			current_user.cover_photo = params[:photo]
 			if current_user.save
 				@status = :success
+				BibblioApiService.update_user(current_user) if current_user.on_bibblio?
 			else
 				@status = :error
 				@message = current_user.errors.full_messages.first
@@ -55,6 +56,7 @@ class UsersController < ApplicationController
 			current_user.profile_photo = params[:photo]
 			if current_user.save
 				@status = :success
+				BibblioApiService.update_user(current_user) if current_user.on_bibblio?
 			else
 				@status = :error
 				@message = current_user.errors.full_messages.first
