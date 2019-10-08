@@ -31,6 +31,7 @@ class UserExchangesController < ApplicationController
 		else
 			current_user.exchanges << @exchange
 			if current_user.save
+				UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "added exchange: #{@exchange.name}")  if current_user.on_bibblio?
 				flash[:notice] = "You are now following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
 				@status = :success
 			else
@@ -47,6 +48,7 @@ class UserExchangesController < ApplicationController
 			@message = "You must follow at least 3 exchanges"
 		else
 			if subscription.destroy
+				UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "removed exchange: #{@exchange.name}")  if current_user.on_bibblio?
 				flash[:notice] = "You are no longer following the <b>#{@exchange.name}</b> exchange" if params[:set_flash]
 				@status = :success
 			else

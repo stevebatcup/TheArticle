@@ -12,6 +12,7 @@ class SharesController < ApplicationController
 		@share.share_type = Share.determine_share_type(share_params)
 		@share.user_id = current_user.id
 		if @share.save
+			UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "new #{@share.share_type}")  if current_user.on_bibblio?
 			flash[:notice] = "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>.".html_safe
 			render json: { status: :success }
 		else

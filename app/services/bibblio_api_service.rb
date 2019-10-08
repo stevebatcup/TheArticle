@@ -6,32 +6,32 @@ module BibblioApiService
 				raise Exception.new("User already on Bibblio!") if user.on_bibblio?
 				data = user_data(user).to_json
 				response = RestClient.post("#{api_host}/content-items", data, json_headers)
-				log(:create_user, data, user, { status: :success })
+				log("create_user", data, user, { status: :success })
 				return true
 			rescue RestClient::ExceptionWithResponse => e
 				puts "ExceptionWithResponse #{e.message} #{user.id}\n"
-				log(:create_user, data, user, { status: :error, message: e.message })
+				log("create_user", data, user, { status: :error, message: e.message })
 				return false
 			rescue Exception => e
 				puts "Exception #{e.message} #{user.id}\n"
-				log(:create_user, data, user, { status: :error, message: e.message })
+				log("create_user", data, user, { status: :error, message: e.message })
 				return false
 			end
 		end
 
-		def update_user(user)
+		def update_user(user, from_action)
 			begin
 				data = user_data(user, true).to_json
 				response = RestClient.put("#{api_host}/content-items/#{user.id}", data, json_headers)
-				log(:update_user, data, user, { status: :success })
+				log("update_user - #{from_action}", data, user, { status: :success })
 				return true
 			rescue RestClient::ExceptionWithResponse => e
 				puts "#{e.message} #{user.id}\n"
-				log(:update_user, data, user, { status: :error, message: e.message })
+				log("update_user - #{from_action}", data, user, { status: :error, message: e.message })
 				return false
 			rescue Exception => e
 				puts "#{e.message} #{user.id}\n"
-				log(:update_user, data, user, { status: :error, message: e.message })
+				log("update_user - #{from_action}", data, user, { status: :error, message: e.message })
 				return false
 			end
 		end
