@@ -59,7 +59,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 	submitShare: =>
 		@scope.sharing = true
 		@scope.formError = false
-		@timeout =>
+		@timeout => # allow time for the comments box to blur
 			data =
 				article_id: @element.data('article-id')
 				share_type: if @rootScope.sharingPanelMode is 'share' then 'share' else 'rating'
