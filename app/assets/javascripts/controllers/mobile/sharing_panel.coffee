@@ -59,24 +59,26 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 	submitShare: =>
 		@scope.sharing = true
 		@scope.formError = false
-		data =
-			article_id: @element.data('article-id')
-			share_type: if @rootScope.sharingPanelMode is 'share' then 'share' else 'rating'
-			post: @scope.share.comments
-			rating_well_written: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_well_written
-			rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
-			rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
+		@timeout =>
+			data =
+				article_id: @element.data('article-id')
+				share_type: if @rootScope.sharingPanelMode is 'share' then 'share' else 'rating'
+				post: @scope.share.comments
+				rating_well_written: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_well_written
+				rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
+				rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
 
-		if @scope.share.share_on_twitter
-			@openTweetWindow(false)
-		@http.post("/share", { share: data }).then (response) =>
-			if response.data.status is 'success'
-				$('.close_share_modal').first().click()
-				@cookies.put('ok_to_flash', true)
-				@scope.sharing = false
-				window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" ) unless @scope.share.share_on_twitter
-			else
-				@scope.formError = response.data.message
+			if @scope.share.share_on_twitter
+				@openTweetWindow(false)
+			@http.post("/share", { share: data }).then (response) =>
+				if response.data.status is 'success'
+					$('.close_share_modal').first().click()
+					@cookies.put('ok_to_flash', true)
+					@scope.sharing = false
+					window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" ) unless @scope.share.share_on_twitter
+				else
+					@scope.formError = response.data.message
+		, 750
 
 	openFacebookWindow: =>
 		articleUrl = window.location.toString()
