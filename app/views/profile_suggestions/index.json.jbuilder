@@ -26,7 +26,7 @@ json.set! :suggestions do
 		end
 	end
 
-	if @populars && @populars.any?
+	if @populars
 		json.set! :populars do
 			json.array! @populars do |suggestion|
 				json.reason suggestion.reason
