@@ -431,7 +431,7 @@ ActiveRecord::Schema.define(version: 2019_10_09_211251) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_article_count"], name: "index_profile_suggestions_on_author_article_count"
-    t.index ["reason"], name: "index_profile_suggestions_on_reason"
+    t.index ["reason"], name: "index_profile_suggestions_on_reason", type: :fulltext
     t.index ["status"], name: "index_profile_suggestions_on_status"
     t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
