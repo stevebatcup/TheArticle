@@ -13,6 +13,11 @@ input#suggestion_search {
 		min-height: 70%;
 		min-height: 70vh;
 		background: $grey_light;
+
+		&#content-front-page {
+			min-height: 89%;
+			min-height: 89vh;
+		}
 	}
 }
 
