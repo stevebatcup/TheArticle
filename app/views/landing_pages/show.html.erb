@@ -4,7 +4,7 @@
 <section ng-controller="LandingPageController"
 		id="landing_page_show_box"
 		data-tags="<%= @tags.join(',') %>"
-		data-per-page="3"
+		data-per-page="<%= exchange_articles_per_page %>"
 		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
 
 	<div class="my-4"></div>
