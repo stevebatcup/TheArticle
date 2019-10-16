@@ -27,6 +27,7 @@ class ArticlesController < ApplicationController
 						@total = Article.includes(:keyword_tags).where(keyword_tags: {slug: tags}).size if params[:page].to_i == 1
 						@articles = Article.includes(:keyword_tags)
 													.where(keyword_tags: {slug: tags})
+													.order(published_at: :desc)
 													.page(params[:page])
 													.per(params[:per_page].to_i)
 					end
