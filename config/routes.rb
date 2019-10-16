@@ -126,6 +126,9 @@ Rails.application.routes.draw do
   get 'check_third_party_whitelist',           to: 'third_party_articles#check_white_list'
   post 'submit_third_party_article',           to: 'third_party_articles#create'
 
+  # landing pages
+  get 'brexit-latest',                         to: 'landing_pages#show'
+
   namespace :admin do
     resources :users
     resources :help_sections

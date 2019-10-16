@@ -22,6 +22,13 @@ class ArticlesController < ApplicationController
 								# @articles.delete_at(params[:per_page].to_i - 1)
 							end
 						end
+					elsif params[:tagged].include?(",")
+						tags = params[:tagged].split(",")
+						@total = Article.includes(:keyword_tags).where(keyword_tags: {slug: tags}).size if params[:page].to_i == 1
+						@articles = Article.includes(:keyword_tags)
+													.where(keyword_tags: {slug: tags})
+													.page(params[:page])
+													.per(params[:per_page].to_i)
 					end
 				elsif params[:exchange]
 					per_page = params[:per_page].to_i

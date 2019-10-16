@@ -22,6 +22,14 @@ TheArticle.FactoryModule.factory("EditorsPick", ['RailsResource',
         name: 'exchangearticle'
         interceptAuth: true
 ])
+.factory("LandingPageArticle", ['RailsResource',
+  (RailsResource) ->
+    class LandingPageArticle extends RailsResource
+      @configure
+        url: '/articles'
+        name: 'landingPagearticle'
+        interceptAuth: true
+])
 .factory("ContributorArticle", ['RailsResource',
   (RailsResource) ->
     class ContributorArticle extends RailsResource
