@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:ad_page_type
 
 	def ad_publisher_id
-		@ad_publisher_id ||= 21757645549
+		@ad_publisher_id ||= 89927887 #21757645549
 	end
 	helper_method	:ad_publisher_id
 
