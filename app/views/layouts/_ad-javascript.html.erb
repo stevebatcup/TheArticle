@@ -2,6 +2,7 @@
     var PWT={}; //Initialize Namespace
     var googletag = googletag || {};
     googletag.cmd = googletag.cmd || [];
+    window.googletag = googletag;
     var gptRan = false;
     PWT.jsLoaded = function(){ //PubMatic pwt.js on load callback is used to load GPT
         loadGPT();
