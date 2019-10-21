@@ -290,7 +290,7 @@
 				</div>
 				<div class="card-body pt-1">
 					<% @most_rated_articles.each_with_index do |most_rated_article, index| %>
-						<article class="most_rated my-1" ng-click="openMostRatedArticleUrl('<%= article_path(most_rated_article) %>')" style="background-image: url('<%= most_rated_article.image.url(:listing_desktop) %>'?utm_source=most_rated)">
+						<article class="most_rated my-1" ng-click="openMostRatedArticleUrl('<%= article_path(most_rated_article) %>?utm_source=most_rated')" style="background-image: url('<%= most_rated_article.image.url(:listing_desktop) %>')">
 							<div class="img_mask d-flex align-items-end" >
 								<div class="inner">
 									<span class="index"><%= index + 1 %></span>
