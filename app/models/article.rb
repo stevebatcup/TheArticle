@@ -16,11 +16,11 @@ class Article < ApplicationRecord
 	include Adminable
 
 	def self.most_rated(limit=10, within_days=7)
-		# Rails.cache.fetch("most_rated_articles", expires_in: 30.minutes) do
-			items = select('COUNT(shares.id) AS rating_count, MAX(shares.created_at) AS latest_share, articles.*')
+		Rails.cache.fetch("most_rated_articles", expires_in: 30.minutes) do
+			items = select('COUNT(shares.id) AS rating_count, articles.*')
 				.left_joins(:shares)
 				.where("shares.share_type = 'rating'")
-				.having("latest_share > DATE_SUB(CURDATE(), INTERVAL #{within_days} DAY)")
+				.where("shares.created_at > DATE_SUB(CURDATE(), INTERVAL #{within_days} DAY)")
 				.group(:id)
 				.order('COUNT(shares.id) DESC')
 				.to_a
@@ -34,7 +34,7 @@ class Article < ApplicationRecord
 				break if results.length == limit
 			end
 			results
-		# end
+		end
 	end
 
 	def self.schedule_create_or_update(wp_id, publish_date)
