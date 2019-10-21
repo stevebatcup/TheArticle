@@ -18,37 +18,39 @@
 						data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
 						data-per-page="<%= more_on_articles_per_page %>">
 	<div class="container mt-md-4 mb-3 mb-md-2">
-		<article id="post-<%= @article.id %>" class="article_detail">
+		<article id="post-<%= @article.id %>" class="article_detail" itemscope itemprop="mainEntity" itemtype="https://schema.org/NewsArticle">
 			<header class="entry-header">
 				<p id="article_exchanges">
 					<%= render partial: 'common/exchange-badges', locals: { article: @article } %>
 				</p>
-				<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
+				<h1 class="entry-title mt-4" itemprop="headline"><%= @article.title.html_safe %></h1>
 
 				<div id="article_meta" class="mt-0 mt-lg-2 mb-md-3 px-3 d-flex justify-content-between">
 					<div class="pr-0 pr-md-0 pr-lg-3 author_link row">
-						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
-							<% if @article.author.image? %>
-								<img src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name.html_safe %>" />
-							<% end %>
-						</a>
+						<span itemscope itemprop="author" itemtype="https://schema.org/Person">
+								<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
+								<% if @article.author.image? %>
+									<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name.html_safe %>" />
+								<% end %>
+							</a>
 
-						<a href="<%= article_author_url(@article); %>">by <span>
-						<%= @article.author.display_name.html_safe %></span></a>
-						<% if @article.author.user.present? %>
-							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
-							 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">
-									<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
-									<span><%= @article.author.user.username %></span>
-								</a>
-						<% end %>
-						<% if @article.author.twitter_handle.present? %>
-							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
-							 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
-									<i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>
-									<span><%= @article.author.twitter_handle %></span>
-								</a>
-						<% end %>
+							<a href="<%= article_author_url(@article); %>">by <span itemprop="name">
+							<%= @article.author.display_name.html_safe %></span></a>
+							<% if @article.author.user.present? %>
+								<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
+								 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">
+										<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
+										<span itemprop="alternateName"><%= @article.author.user.username %></span>
+									</a>
+							<% end %>
+							<% if @article.author.twitter_handle.present? %>
+								<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
+								 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
+										<i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>
+										<span><%= @article.author.twitter_handle %></span>
+									</a>
+							<% end %>
+						</span>
 
 						<span class="mx-1 mx-md-2 mx-xl-3">|</span>
 						<span class="entry-date"><%= article_date(@article) %></span>
@@ -64,7 +66,7 @@
 			<div class="row">
 				<div class="col-12 col-lg-8 pr-lg-0" id="content_bar">
 					<% unless @article.is_sponsored? %>
-					<div class="member_ratings pt-2 pb-2 px-3">
+					<div class="member_ratings pt-2 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
 						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 						<ul class="d-flex w-100 justify-content-between">
@@ -98,18 +100,18 @@
 					</div>
 					<% end %>
 
-					<div id="img_box" class="mb-4">
+					<div id="img_box" class="mb-4" itemscope itemprop="image" itemtype="https://schema.org/ImageObject">
 						<% if @article.image? %>
 							<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
 							<% if @article.image_caption %>
-								<p class="caption">
+								<p class="caption" itemprop="caption">
 									<%= @article.image_caption.html_safe %>
 								</p>
 							<% end %>
 						<% end %>
 					</div>
 
-					<div id="content_box">
+					<div id="content_box" itemprop="text">
 						<% if show_ads? %>
 							<%= remote_linkify(adified_content(@article), request.base_url) %>
 						<% else %>
@@ -118,7 +120,7 @@
 					</div>
 
 					<% unless @article.is_sponsored? %>
-					<div class="member_ratings bars pt-3 pb-2 px-3">
+					<div class="member_ratings bars pt-3 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
 						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 							<ul class="bars">
