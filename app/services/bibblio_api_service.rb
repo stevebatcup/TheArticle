@@ -54,6 +54,7 @@ module BibblioApiService
 			uri = "#{api_host}/content-items?limit=#{limit}&page=1&catalogueId=#{articles_catalog_id}&fields=url%2Cname%2Cheadline"
 			puts uri
 			response = RestClient.get uri, json_headers
+			puts "done"
 			JSON.parse(response)["results"]
 		end
 
