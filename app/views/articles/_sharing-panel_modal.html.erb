@@ -9,6 +9,7 @@
           data-share-valid_points="<%= convert_rating_to_dots(article_share['rating_valid_points']) %>"
           data-share-agree="<%= convert_rating_to_dots(article_share['rating_agree']) %>"
           data-rating-text-labels="<%= rating_labels.to_json %>"
+          data-rating-text-classes="<%= rating_classes.to_json %>"
           data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content.css") %>'>
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
@@ -64,7 +65,7 @@
                       }">&nbsp;</span>
                     </span>
                   </div>
-                  <h6 class="text-green panel">
+                  <h6 class="text-green panel rating_text_{{ ratingTextClasses.well_written[share.rating_well_written] }}">
                     {{ ratingTextLabels.well_written[share.rating_well_written] }}
                   </h6>
                 </div>
@@ -82,7 +83,7 @@
                       }">&nbsp;</span>
                     </span>
                   </div>
-                  <h6 class="text-green panel">
+                  <h6 class="text-green panel rating_text_{{ ratingTextClasses.well_written[share.rating_valid_points] }}">
                     {{ ratingTextLabels.valid_points[share.rating_valid_points] }}
                   </h6>
                 </div>
@@ -100,7 +101,7 @@
                       }">&nbsp;</span>
                     </span>
                   </div>
-                  <h6 class="text-green panel">
+                  <h6 class="text-green panel rating_text_{{ ratingTextClasses.well_written[share.rating_agree] }}">
                     {{ ratingTextLabels.agree[share.rating_agree] }}
                   </h6>
                 </div>

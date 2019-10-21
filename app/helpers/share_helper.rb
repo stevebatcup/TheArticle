@@ -50,10 +50,13 @@ module ShareHelper
 			ratings: {
 				wellWritten: convert_rating_to_dots(share.rating_well_written),
 				wellWrittenText: text_rating(:well_written, share.rating_well_written),
+				wellWrittenClass: text_rating(:well_written, share.rating_well_written).parameterize.underscore,
 				validPoints: convert_rating_to_dots(share.rating_valid_points),
 				validPointsText: text_rating(:valid_points, share.rating_valid_points),
+				validPointsClass: text_rating(:valid_points, share.rating_valid_points).parameterize.underscore,
 				agree: convert_rating_to_dots(share.rating_agree),
 				agreeText: text_rating(:agree, share.rating_agree),
+				agreeClass: text_rating(:agree, share.rating_agree).parameterize.underscore
 			},
 			user: {
 				id: user.id,
@@ -89,9 +92,17 @@ module ShareHelper
 
 	def rating_labels
 		{
-			well_written: { '0' => 'No rating', '1' => 'Terrible', '2' => 'Poor', '3' => 'Average', '4' => 'Good', '5' => 'Excellent' },
-			valid_points: { '0' => 'No rating', '1' => 'Very boring', '2' => 'Boring', '3' => 'Neutral', '4' => 'Interesting', '5' => 'Very interesting' },
-			agree: { '0' => 'No rating', '1' => 'Strongly disagree', '2' => 'Disagree', '3' => 'Neutral', '4' => 'Agree', '5' => 'Strongly agree' }
+			well_written: { '0' => 'Not yet rated', '1' => 'Terrible', '2' => 'Poor', '3' => 'Average', '4' => 'Good', '5' => 'Excellent' },
+			valid_points: { '0' => 'Not yet rated', '1' => 'Very boring', '2' => 'Boring', '3' => 'Neutral', '4' => 'Interesting', '5' => 'Very interesting' },
+			agree: { '0' => 'Not yet rated', '1' => 'Strongly disagree', '2' => 'Disagree', '3' => 'Neutral', '4' => 'Agree', '5' => 'Strongly agree' }
+		}
+	end
+
+	def rating_classes
+		{
+			well_written: { '0' => 'not_yet_rated', '1' => 'terrible', '2' => 'poor', '3' => 'average', '4' => 'good', '5' => 'excellent' },
+			valid_points: { '0' => 'not_yet_rated', '1' => 'very_boring', '2' => 'boring', '3' => 'neutral', '4' => 'interesting', '5' => 'very_interesting' },
+			agree: { '0' => 'not_yet_rated', '1' => 'strongly_disagree', '2' => 'disagree', '3' => 'neutral', '4' => 'agree', '5' => 'strongly_agree' }
 		}
 	end
 

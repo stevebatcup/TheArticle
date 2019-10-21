@@ -17,6 +17,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		@setDefaultHttpHeaders()
 		@scope.formError = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
+		@scope.ratingTextClasses = @element.data('rating-text-classes')
 		@scope.sharing = false
 
 		@resetData()

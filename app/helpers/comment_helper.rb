@@ -18,10 +18,13 @@ module CommentHelper
 			ratings: {
 				wellWritten: convert_rating_to_dots(share.rating_well_written),
 				wellWrittenText: text_rating(:well_written, share.rating_well_written),
+				wellWrittenClass: text_rating(:well_written, share.rating_well_written).parameterize.underscore,
 				validPoints: convert_rating_to_dots(share.rating_valid_points),
 				validPointsText: text_rating(:valid_points, share.rating_valid_points),
+				validPointsClass: text_rating(:valid_points, share.rating_valid_points).parameterize.underscore,
 				agree: convert_rating_to_dots(share.rating_agree),
 				agreeText: text_rating(:agree, share.rating_agree),
+				agreeClass: text_rating(:agree, share.rating_agree).parameterize.underscore
 			},
 			user: {
 				displayName: share.user.display_name,

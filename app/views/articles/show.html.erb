@@ -167,7 +167,7 @@
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green">
+											<h6 class="text-green rating_text_<%= text_rating(:well_written, @article_share['rating_well_written']).parameterize.underscore %>">
 												<%= text_rating(:well_written, @article_share['rating_well_written']) %>
 											</h6>
 										</div>
@@ -183,7 +183,7 @@
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green">
+											<h6 class="text-green rating_text_<%= text_rating(:valid_points, @article_share['rating_valid_points']).parameterize.underscore %>">
 												<%= text_rating(:valid_points, @article_share['rating_valid_points']) %>
 											</h6>
 										</div>
@@ -199,7 +199,7 @@
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green">
+											<h6 class="text-green rating_text_<%= text_rating(:agree, @article_share['rating_agree']).parameterize.underscore %>">
 												<%= text_rating(:agree, @article_share['rating_agree']) %>
 											</h6>
 										</div>
