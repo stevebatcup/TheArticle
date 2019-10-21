@@ -26,8 +26,8 @@
 				<h1 class="entry-title mt-4" itemprop="headline"><%= @article.title.html_safe %></h1>
 
 				<div id="article_meta" class="mt-0 row px-3 pb-4">
-					<div class="col-12 pr-0 author_link row">
-						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2"  itemscope itemprop="author" itemtype="https://schema.org/Person">
+					<div class="col-12 pr-0 author_link row" itemscope itemprop="author" itemtype="https://schema.org/Person">
+						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2">
 							<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= @article.author.image_url %>" alt="<%= @article.author.display_name.html_safe %>" />
 						</a>
 

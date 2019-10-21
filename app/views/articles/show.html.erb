@@ -26,31 +26,29 @@
 				<h1 class="entry-title mt-4" itemprop="headline"><%= @article.title.html_safe %></h1>
 
 				<div id="article_meta" class="mt-0 mt-lg-2 mb-md-3 px-3 d-flex justify-content-between">
-					<div class="pr-0 pr-md-0 pr-lg-3 author_link row">
-						<span itemscope itemprop="author" itemtype="https://schema.org/Person">
-								<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
-								<% if @article.author.image? %>
-									<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name.html_safe %>" />
-								<% end %>
-							</a>
+					<div class="pr-0 pr-md-0 pr-lg-3 author_link row" itemscope itemprop="author" itemtype="https://schema.org/Person">
+							<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
+							<% if @article.author.image? %>
+								<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= @article.author.image.url(:detail) %>" alt="<%= @article.author.display_name.html_safe %>" />
+							<% end %>
+						</a>
 
-							<a href="<%= article_author_url(@article); %>">by <span itemprop="name">
-							<%= @article.author.display_name.html_safe %></span></a>
-							<% if @article.author.user.present? %>
-								<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
-								 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">
-										<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
-										<span itemprop="alternateName"><%= @article.author.user.username %></span>
-									</a>
-							<% end %>
-							<% if @article.author.twitter_handle.present? %>
-								<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
-								 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
-										<i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>
-										<span><%= @article.author.twitter_handle %></span>
-									</a>
-							<% end %>
-						</span>
+						<a href="<%= article_author_url(@article); %>">by <span itemprop="name">
+						<%= @article.author.display_name.html_safe %></span></a>
+						<% if @article.author.user.present? %>
+							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
+							 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">
+									<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
+									<span itemprop="alternateName"><%= @article.author.user.username %></span>
+								</a>
+						<% end %>
+						<% if @article.author.twitter_handle.present? %>
+							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
+							 <a href="https://twitter.com/<%= @article.author.twitter_handle %>" target="_blank" class="">
+									<i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>
+									<span><%= @article.author.twitter_handle %></span>
+								</a>
+						<% end %>
 
 						<span class="mx-1 mx-md-2 mx-xl-3">|</span>
 						<span class="entry-date"><%= article_date(@article) %></span>
