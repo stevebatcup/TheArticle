@@ -72,7 +72,7 @@
 	    googletag.pubads().setTargeting('section_id', "<%= @contributor.slug %>");
 	  <% end %>
 
-	  googletag.pubads().setTargeting('member', <%= user_signed_in? ? 'true' : 'false' %> ;
+	  googletag.pubads().setTargeting('member', <%= user_signed_in? ? 'true' : 'false' %>);
 	  googletag.pubads().enableSingleRequest();
 	  googletag.pubads().collapseEmptyDivs();
 	  googletag.enableServices();
