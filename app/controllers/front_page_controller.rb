@@ -12,7 +12,7 @@ class FrontPageController < ApplicationController
 				@recent_articles = Article.recent
 				@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 15)
-				@most_rated_articles = Article.most_rated(10)
+				@most_rated_articles = Article.most_rated(10, 14)
 			end
 			format.json do
 				@page = (params[:page] || 1).to_i
