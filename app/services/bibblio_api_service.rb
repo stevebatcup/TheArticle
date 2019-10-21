@@ -50,8 +50,10 @@ module BibblioApiService
 			'538ee88d-c278-43ef-8391-6b9ebbe99f88'
 		end
 
-		def list_articles
-			response = RestClient.get "#{api_host}/content-items?limit=10&page=1&fields=&catalogueId=#{articles_catalog_id}", json_headers
+		def list_articles(limit=10)
+			uri = "#{api_host}/content-items?limit=#{limit}&page=1&catalogueId=#{articles_catalog_id}&fields=url%2Cname%2Cheadline"
+			puts uri
+			response = RestClient.get uri, json_headers
 			JSON.parse(response)["results"]
 		end
 
