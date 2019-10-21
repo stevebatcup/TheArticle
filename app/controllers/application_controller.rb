@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
 		if viewing_from_admin
 			false
 		elsif is_development?
-			false
+			true
 		elsif is_staging?
 			true
 		elsif self.class == ProfileWizardController
