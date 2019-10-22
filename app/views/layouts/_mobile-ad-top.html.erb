@@ -1,19 +1,19 @@
 <div id="ads_top" class="bg-white pt-1 pb-2 mx-auto my-0" ng-app="TheArticleNG">
-  <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/skin -->
-  <div id='div-gpt-ad-<%= ad_page_id %>-2' style='height:1px; width:1px;'>
-    <script>
-      googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-2'); });
-    </script>
-  </div>
   <div class="container">
     <div class="row">
       <div class="col-12 d-flex justify-content-center">
         <div id="ads_top_box" class="ads_box">
+          <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/skin -->
+          <div id='div-gpt-ad-<%= ad_page_id %>-2' style='height:1px; width:1px;'>
+            <script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-2'); });</script>
+          </div>
+          <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/rezonence -->
+          <div id='div-gpt-ad-<%= ad_page_id %>-5' style='width: 3px; height: 3px;'>
+            <script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-5'); });  </script>
+          </div>
           <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/topbanner -->
           <div id='div-gpt-ad-<%= ad_page_id %>-3'>
-            <script>
-              googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-3'); });
-            </script>
+            <script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-3'); });</script>
           </div>
         </div>
       </div>
