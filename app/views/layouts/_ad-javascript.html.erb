@@ -80,7 +80,7 @@
 	  googletag.pubads().collapseEmptyDivs();
 	  googletag.enableServices();
 	  googletag.pubads().addEventListener('slotRenderEnded', function(event) {
-	    if(event.slot == 'topBanner') {
+	    if(event.slot.getAdUnitPath().indexOf("topbanner") > -1) {
 	      setTimeout(function() {
 	        headerBarScope = angular.element('header#main_header').scope()
 	        headerBarScope.bindFixedNavScrolling();
