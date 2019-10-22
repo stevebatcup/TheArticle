@@ -347,7 +347,8 @@ html.svg #logo {
 	}
 
 	&.show_menu {
-		top: 43px;
+		// top: 43px;
+		top: 0px;
 		opacity: 0.8;
 	}
 }

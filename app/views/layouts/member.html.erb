@@ -11,6 +11,7 @@
   <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: true } %>
 
   <main id="panel_for_side_menu">
+    <%= render('layouts/mobile-ad-top') if show_ads? %>
   <% end %>
 
     <div id="content">

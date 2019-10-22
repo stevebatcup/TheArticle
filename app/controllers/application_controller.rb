@@ -9,6 +9,21 @@ class ApplicationController < ActionController::Base
   before_action :set_vary_header
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+	def show_ads?
+		if viewing_from_admin
+			false
+		elsif is_development?
+			true
+		elsif is_staging?
+			true
+		elsif self.class == ProfileWizardController
+			false
+		else
+			true
+		end
+	end
+	helper_method	:show_ads?
+
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
 	end
@@ -41,21 +56,6 @@ class ApplicationController < ActionController::Base
 		Rails.env.to_sym == :staging
 	end
 	helper_method	:is_staging?
-
-	def show_ads?
-		if viewing_from_admin
-			false
-		elsif is_development?
-			false
-		elsif is_staging?
-			true
-		elsif self.class == ProfileWizardController
-			false
-		else
-			true
-		end
-	end
-	helper_method	:show_ads?
 
 	def gtm_id
 		if is_article_page?
