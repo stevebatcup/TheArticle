@@ -4,6 +4,12 @@
 	<% meta_tag :image, @article.image.url %>
 <% end %>
 
+<% if @article.has_bibblio_meta? %>
+	<% meta_tag(:keywords, @article.meta_keywords) if @article.meta_keywords.present? %>
+	<% meta_tag(:entities, @article.meta_entities) if @article.meta_entities.present? %>
+	<% meta_tag(:concepts, @article.meta_concepts) if @article.meta_concepts.present? %>
+<% end %>
+
 <% if flash[:notice] %>
 <div id="flash_notice" class="d-none">
 	<%= flash[:notice].html_safe %>

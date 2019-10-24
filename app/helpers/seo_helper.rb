@@ -8,7 +8,7 @@ module SeoHelper
   end
 
   def meta_tag(tag, text)
-    content_for :"meta_#{tag}", text
+    content_for :"meta_#{tag}", sanitize(text)
   end
 
   def yield_meta_tag(tag, default_text='')

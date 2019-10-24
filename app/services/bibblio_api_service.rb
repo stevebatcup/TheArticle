@@ -5,7 +5,7 @@ module BibblioApiService
 			begin
 				raise Exception.new("User already on Bibblio!") if user.on_bibblio?
 				data = user_data(user).to_json
-				response = RestClient.post("#{api_host}/content-items", data, json_headers)
+				response = RestClient.post("#{api_host}/content-items", data, json_headers(Rails.env.to_sym))
 				log("create_user", data, user, { status: :success })
 				return true
 			rescue RestClient::ExceptionWithResponse => e
@@ -22,7 +22,7 @@ module BibblioApiService
 		def update_user(user, from_action)
 			begin
 				data = user_data(user, true).to_json
-				response = RestClient.put("#{api_host}/content-items/#{user.id}", data, json_headers)
+				response = RestClient.put("#{api_host}/content-items/#{user.id}", data, json_headers(Rails.env.to_sym))
 				log("update_user - #{from_action}", data, user, { status: :success })
 				return true
 			rescue RestClient::ExceptionWithResponse => e
@@ -50,20 +50,49 @@ module BibblioApiService
 			'538ee88d-c278-43ef-8391-6b9ebbe99f88'
 		end
 
-		def list_articles(limit=10)
-			uri = "#{api_host}/content-items?limit=#{limit}&page=1&catalogueId=#{articles_catalog_id}&fields=url%2Cname%2Cheadline"
-			puts uri
-			response = RestClient.get uri, json_headers
-			puts "done"
-			JSON.parse(response)["results"]
+		def article_content_item_id(article)
+			uri = "#{api_host}/content-items?page=1&catalogueId=#{articles_catalog_id}&customUniqueIdentifier=#{article.slug}"
+			begin
+				response = RestClient.get uri, json_headers(:production)
+				results = JSON.parse(response)["results"]
+				results[0]["contentItemId"]
+			rescue Exception => e
+				false
+			end
 		end
 
-		def get_articles_meta
-			list_articles.each do |article|
-				meta_response = RestClient.get "#{api_host}/content-items/#{article["contentItemId"]}", json_headers
-				puts meta_response + "\n\n"
-				sleep(2)
-				break
+		def article_data(content_item_id)
+			begin
+				result = RestClient.get("#{api_host}/content-items/#{content_item_id}", json_headers(:production))
+				JSON.parse(result)
+			rescue Exception => e
+				false
+			end
+		end
+
+		def get_articles_meta(limit=2)
+			Article.where(has_bibblio_meta: false).limit(limit).each do |article|
+				if content_item_id = article_content_item_id(article)
+					if data = article_data(content_item_id)
+						concepts = []
+						keywords = []
+						entities = []
+						data["metadata"]["keywords"].each do |keyword|
+							keywords.push(keyword["text"]) if keyword["relevance"] >= 0.7
+						end
+						data["metadata"]["concepts"].each do |concept|
+							concepts.push(concept["text"]) if concept["relevance"] >= 0.7
+						end
+						data["metadata"]["entities"].each do |entity|
+							entities.push(entity["text"]) if entity["relevance"] >= 0.7
+						end
+						article.update_attribute(:meta_keywords, keywords.join(",")) if keywords.any?
+						article.update_attribute(:meta_concepts, concepts.join(",")) if concepts.any?
+						article.update_attribute(:meta_entities, entities.join(",")) if entities.any?
+						sleep(2)
+					end
+				end
+				article.update_attribute(:has_bibblio_meta, true)
 			end
 			true
 		end
@@ -76,18 +105,18 @@ module BibblioApiService
 			"Users"
 		end
 
-		def client_id
-			@client_id ||= Rails.application.credentials.bibblio[Rails.env.to_sym][:client_id]
+		def client_id(env=:production)
+			@client_id ||= Rails.application.credentials.bibblio[env][:client_id]
 		end
 
-		def client_secret
-			@client_secret ||= Rails.application.credentials.bibblio[Rails.env.to_sym][:client_secret]
+		def client_secret(env=:production)
+			@client_secret ||= Rails.application.credentials.bibblio[env][:client_secret]
 		end
 
-		def json_headers
+		def json_headers(env=:production)
 			{
 			  'Content-Type': 'application/json',
-			  'Authorization': "Bearer #{access_token}"
+			  'Authorization': "Bearer #{access_token(env)}"
 			}
 		end
 
@@ -95,9 +124,9 @@ module BibblioApiService
 			article.remote_article_url.present? ? article.remote_article_url : "https://www.thearticle.com/#{article.slug}"
 		end
 
-		def access_token
+		def access_token(env=:production)
 			@access_token ||= begin
-				values = "client_id=#{client_id}&client_secret=#{client_secret}"
+				values = "client_id=#{client_id(env)}&client_secret=#{client_secret(env)}"
 				response = JSON.parse(RestClient.post("#{api_host}/token", values, { 'Content-Type': 'application/x-www-form-urlencoded' }))
 				response["access_token"]
 			end

@@ -46,6 +46,16 @@
     <meta property="article:modified_time" content='<%= @article.published_at.strftime("%Y-%m-%dT%H:%M:%SZ") %>' />
     <% end %>
 
+    <% if content_for?(:meta_keywords) %>
+    <meta name="keywords" content="<%= yield_meta_tag(:keywords) %>" />
+    <% end %>
+    <% if content_for?(:meta_entities) %>
+    <meta name="entities" content="<%= yield_meta_tag(:entities) %>" />
+    <% end %>
+    <% if content_for?(:meta_concepts) %>
+    <meta name="concepts" content="<%= yield_meta_tag(:concepts) %>" />
+    <% end %>
+
     <%= javascript_include_tag 'setup', 'data-turbolinks-track' => true %>
     <% if page_requires_tinymce? %>
       <%= javascript_include_tag 'tinymce', 'data-turbolinks-track' => true %>
