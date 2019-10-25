@@ -78,23 +78,25 @@ module BibblioApiService
 			articles.each do |article|
 				if content_item_id = article_content_item_id(article)
 					if data = article_data(content_item_id)
-						concepts = []
-						keywords = []
-						entities = []
-						data["metadata"]["keywords"].each do |keyword|
-							keywords.push(keyword["text"]) if keyword["relevance"] >= 0.7
+						if data["metadata"]
+							concepts = []
+							keywords = []
+							entities = []
+							data["metadata"]["keywords"].each do |keyword|
+								keywords.push(keyword["text"]) if keyword["relevance"] >= 0.7
+							end
+							data["metadata"]["concepts"].each do |concept|
+								concepts.push(concept["text"]) if concept["relevance"] >= 0.7
+							end
+							data["metadata"]["entities"].each do |entity|
+								entities.push(entity["text"]) if entity["relevance"] >= 0.7
+							end
+							article.update_attribute(:meta_keywords, keywords.join(",")) if keywords.any?
+							article.update_attribute(:meta_concepts, concepts.join(",")) if concepts.any?
+							article.update_attribute(:meta_entities, entities.join(",")) if entities.any?
+							updated += 1 if keywords.any? || concepts.any? || entities.any?
+							sleep(2)
 						end
-						data["metadata"]["concepts"].each do |concept|
-							concepts.push(concept["text"]) if concept["relevance"] >= 0.7
-						end
-						data["metadata"]["entities"].each do |entity|
-							entities.push(entity["text"]) if entity["relevance"] >= 0.7
-						end
-						article.update_attribute(:meta_keywords, keywords.join(",")) if keywords.any?
-						article.update_attribute(:meta_concepts, concepts.join(",")) if concepts.any?
-						article.update_attribute(:meta_entities, entities.join(",")) if entities.any?
-						updated += 1 if keywords.any? || concepts.any? || entities.any?
-						sleep(2)
 					end
 				end
 				article.update_attribute(:has_bibblio_meta, true)
