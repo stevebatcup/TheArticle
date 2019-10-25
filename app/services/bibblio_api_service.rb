@@ -70,8 +70,12 @@ module BibblioApiService
 			end
 		end
 
-		def get_articles_meta(limit=2)
-			Article.where(has_bibblio_meta: false).limit(limit).each do |article|
+		def get_articles_meta(limit=10)
+			articles = Article.where(has_bibblio_meta: false, remote_article_url: nil).where.not(slug: nil).limit(limit)
+			puts "#{articles.length} articles found for processing...."
+			updated = 0
+			processed = 0
+			articles.each do |article|
 				if content_item_id = article_content_item_id(article)
 					if data = article_data(content_item_id)
 						concepts = []
@@ -89,11 +93,15 @@ module BibblioApiService
 						article.update_attribute(:meta_keywords, keywords.join(",")) if keywords.any?
 						article.update_attribute(:meta_concepts, concepts.join(",")) if concepts.any?
 						article.update_attribute(:meta_entities, entities.join(",")) if entities.any?
+						updated += 1 if keywords.any? || concepts.any? || entities.any?
 						sleep(2)
 					end
 				end
 				article.update_attribute(:has_bibblio_meta, true)
+				processed += 1
 			end
+			puts "#{processed} articles processed."
+			puts "#{updated} articles updated.\n"
 			true
 		end
 
