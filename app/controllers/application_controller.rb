@@ -58,11 +58,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_staging?
 
 	def gtm_id
-		if is_article_page?
-			'GTM-NM24T5N'
-		else
-			'GTM-MWRLCT6'
-		end
+		'GTM-5ZWCFHN'
 	end
 	helper_method	:gtm_id
 
