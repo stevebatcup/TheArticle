@@ -1,6 +1,7 @@
 class SearchController < ApplicationController
 	def index
 		@query = params[:query]
+		@query.sub!(%r{^#},"") if @query.include?('#')
 		respond_to do |format|
 			format.json do
 				if params[:mode] == :suggestions
