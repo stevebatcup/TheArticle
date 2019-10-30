@@ -24,7 +24,7 @@
 								<h3 class="mb-0 filter_target text-center">
 									<% if sponsor.article_count > 0 %>
 										<a href="<%= sponsor_path(slug: sponsor.slug) %>" class="inherit_hover">
-											<%= sponsor.display_name.capitalize %>
+											<%= sponsor.display_name %>
 										</a>
 									<% else %>
 										<%= sponsor.display_name %>
