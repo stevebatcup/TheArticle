@@ -87,7 +87,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			googletag.pubads().setTargeting('section_id', "<%= @contributor.slug %>");
 		<% end %>
 
-		googletag.pubads().setTargeting('member', <%= user_signed_in? ? 'true' : 'false' %>);
+		googletag.pubads().setTargeting('member', '<%= user_signed_in? ? 'true' : 'false' %>');
 		googletag.pubads().setTargeting('content', "<%= yield_meta_tag(:description, default_meta_description) %>");
 		googletag.pubads().enableSingleRequest();
 		googletag.pubads().collapseEmptyDivs();
