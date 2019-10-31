@@ -35,8 +35,9 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 		$newPage.removeClass('right').addClass('center').addClass('current').addClass('transition')
 		@scope.pageHistory.push $currentPage.data('page')
 		@rootScope.$broadcast 'page_moved_forward', { title: $newPage.data('title') }
-		$('.slidepage-container').scrollTop(0)
-		$(window).scrollTop(0)
+		unless @scope.noScrollOnPageTransition
+			$('.slidepage-container').scrollTop(0)
+			$(window).scrollTop(0)
 		@resetContainerHeight()
 
 	backToPage: (newPage, $event) =>
@@ -48,6 +49,7 @@ class TheArticle.PageTransitions extends TheArticle.PageController
 		isTopPage = Number($newPage.data('level')) is 1
 		@scope.pageHistory.splice(-1,1)
 		@rootScope.$broadcast 'page_moved_back', { title: $newPage.data('title'), showBack: !isTopPage }
-		$('.slidepage-container').scrollTop(0)
-		$(window).scrollTop(0)
+		unless @scope.noScrollOnPageTransition
+			$('.slidepage-container').scrollTop(0)
+			$(window).scrollTop(0)
 		@resetContainerHeight()
