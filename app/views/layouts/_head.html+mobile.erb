@@ -145,42 +145,6 @@
         </noscript>
       <!-- End Facebook Pixel Code -->
     <% end %>
-
-    <% if Rails.env.production? %>
-      <script>
-      (function() {
-          top._r3z = top._r3z || {};
-          var _r3z = top._r3z;
-          _r3z.doubleServe = {
-              adServer: "DFP",
-              configId: top.location.hostname,
-              adSlotId: "[AD_SLOT_ID]",
-              engagementTracker: "%%CLICK_URL_UNESC%%",
-              googleAnalyticsTrackingId: "UA-XXXXXXXX-X",
-              singleAd: false,
-              safetyTimeout: 5000,
-              test: false
-          };
-
-          var cdns = {
-              cdn1: "https://cdn3.rezonence.com/",
-              cdn2: "https://e43e8e18e725ae6b22e0-f0fde0bbc5469096ab6f7c4eba4934a9.ssl.cf3.rackcdn.com/",
-              s3: "https://r3z-test-eu.S3.amazonaws.com/"
-          };
-          _r3z.doubleServe.iframeWindow = self;
-          if (_r3z.doubleServe.test) { cdns.cdn1 = cdns.cdn2 = cdns.s3; }
-          var hd = top.document.head || top.document.getElementByTagName("head")[0];
-          var s1 = top.document.createElement("script");
-          s1.onerror = function() {
-              var s2 = top.document.createElement("script");
-              s2.src = cdns.cdn2 + "Pub/" + _r3z.doubleServe.configId + "/doubleserve.js";
-              hd.insertBefore(s2, hd.firstChild);
-          };
-          s1.src = cdns.cdn1 + "Pub/" + _r3z.doubleServe.configId + "/doubleserve.js";
-          hd.insertBefore(s1, hd.firstChild);
-      })();
-      </script>
-    <% end %>
   </head>
 
   <body class="<%= body_classes %>" ng-app="TheArticleNG" onunload="">
