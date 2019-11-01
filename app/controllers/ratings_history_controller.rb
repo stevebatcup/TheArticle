@@ -10,6 +10,7 @@ class RatingsHistoryController < ApplicationController
 					@total = @article.shares.where(share_type: 'rating').length
 				end
 				@ratings = @article.shares.where(share_type: 'rating')
+																		.order("(post > '') DESC")
 																		.order(created_at: :desc)
 																		.page(@page)
 																		.per(params[:per_page])
