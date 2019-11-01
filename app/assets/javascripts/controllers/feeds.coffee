@@ -380,6 +380,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	agreeWithPostSubmit: (item) =>
 		action = if item.iAgreeWithPost is true then 'unagree' else 'agree'
+		item.iAgreeWithPost = !item.iAgreeWithPost
 		new @Opinion
 			share_id: item.share.id
 			action: action
@@ -458,6 +459,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	disagreeWithPostSubmit: (item) =>
 		action = if item.iDisagreeWithPost is true then 'undisagree' else 'disagree'
+		item.iDisagreeWithPost = !item.iDisagreeWithPost
 		new @Opinion
 			share_id: item.share.id
 			action: action
