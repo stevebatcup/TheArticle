@@ -20,7 +20,7 @@
 				// Check for nano interactive bidder
 				if(bid.bidder == 'nanointeractive'){
 					// Set the description from the page if one exists
-					bid.params.nq = document.head.querySelector("meta[name='description']").content || '';
+					bid.params.nq = document.title || '';
 				}
 			})
 		})
