@@ -1,12 +1,12 @@
 GIT
-  remote: git@github.com:BigDilettante/ogp.git
+  remote: git@github.com:stevebatcup/ogp.git
   revision: a60c641943b7d32203b63c8c55be682b8ec418e4
   specs:
     ogp (0.2.1)
       oga (~> 2.10)
 
 GIT
-  remote: git@github.com:BigDilettante/wp-connector.git
+  remote: git@github.com:stevebatcup/wp-connector.git
   revision: bad2b5601d18f8656b93f0e80109031052be0078
   specs:
     wp-connector (1.0.1)
@@ -358,8 +358,9 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
-    sidekiq (5.2.3)
+    sidekiq (5.2.7)
       connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
     sinatra (2.0.4)
