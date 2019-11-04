@@ -16,6 +16,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		@setDefaultHttpHeaders()
 		@scope.formError = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
+		@scope.ratingTextClasses = @element.data('rating-text-classes')
 		@scope.sharing = false
 
 		@resetData()
@@ -58,25 +59,27 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 	submitShare: =>
 		@scope.sharing = true
 		@scope.formError = false
-		data =
-			article_id: @element.data('article-id')
-			share_type: if @rootScope.sharingPanelMode is 'share' then 'share' else 'rating'
-			post: @scope.share.comments
-			rating_well_written: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_well_written
-			rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
-			rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
+		@timeout => # allow time for the comments box to blur
+			data =
+				article_id: @element.data('article-id')
+				share_type: if @rootScope.sharingPanelMode is 'share' then 'share' else 'rating'
+				post: @scope.share.comments
+				rating_well_written: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_well_written
+				rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
+				rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
 
-		@http.post("/share", { share: data }).then (response) =>
-			if response.data.status is 'success'
-				$('.close_share_modal').first().click()
-				@cookies.put('ok_to_flash', true)
-				@scope.sharing = false
-				if @scope.share.share_on_twitter
-					@openTweetWindow(false)
+			@http.post("/share", { share: data }).then (response) =>
+				if response.data.status is 'success'
+					$('.close_share_modal').first().click()
+					@cookies.put('ok_to_flash', true)
+					@scope.sharing = false
+					if @scope.share.share_on_twitter
+						@openTweetWindow(false)
+					else
+						window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
 				else
-					window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
-			else
-				@scope.formError = response.data.message
+					@scope.formError = response.data.message
+		, 750
 
 	openFacebookWindow: =>
 		articleUrl = window.location.toString()
@@ -86,11 +89,12 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 
 	openTweetWindow: (alsoOpenFacebookWindow=false) =>
 		articleUrl = window.location.toString()
-		wellWritten = "#{@scope.share.rating_well_written}/5"
-		interesting = "#{@scope.share.rating_valid_points}/5"
-		agree = "#{@scope.share.rating_agree}/5"
-		comment = angular.element(@scope.share.comments).text()
-		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{comment}"
+		ratingsItems = []
+		ratingsItems.push("Well written #{@scope.share.rating_well_written}/5") if Number(@scope.share.rating_well_written) > 0
+		ratingsItems.push("Interesting #{@scope.share.rating_valid_points}/5") if Number(@scope.share.rating_valid_points) > 0
+		ratingsItems.push("Agree #{@scope.share.rating_agree}/5") if Number(@scope.share.rating_agree) > 0
+		# comment = angular.element(@scope.share.comments).text()
+		ratingTweet = "I gave this the following rating on TheArticle @tweetthearticle : #{ratingsItems.join(', ')}."
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		if alsoOpenFacebookWindow
 			callback = @openFacebookWindow

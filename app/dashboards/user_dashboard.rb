@@ -82,11 +82,12 @@ class UserDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :full_name,
-    :display_name,
-    :username,
-    :email,
     :human_created_at,
+    :first_name,
+    :last_name,
+    :username,
+    :display_name,
+    :email,
     :admin_account_status,
     :admin_profile_status
   ].freeze

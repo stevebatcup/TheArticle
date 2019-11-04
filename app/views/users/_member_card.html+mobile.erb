@@ -5,25 +5,26 @@
 		suggestions = local_assigns[:suggestions] || false
 		show_ignore_btn = local_assigns[:show_ignore_btn] || false
 	end
+	show_links = (suggestions == false || show_ignore_btn == true) ? true : false
 %>
-<div class="py-2 px-2 mb-2 block_click h-100" data-href="{{ item.path }}">
+<div class="feed-follow-inner py-2 px-2 mb-2 block_click h-100" data-href="{{ item.path }}">
 	<div class="align-items-start d-flex">
-		<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+		<% if show_links %><a href="{{ item.path }}"><% end %>
 			<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image mr-2" alt="{{item.displayName}}" />
-		<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+		<% if show_links %></a><% end %>
 
 		<div class="w-100">
 			<div class="d-flex align-items-start justify-content-between">
 				<div>
 					<h5 class="card-title d-flex justify-content-between mb-1">
-						<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+						<% if show_links %><a href="{{ item.path }}"><% end %>
 							<span>{{ item.displayName }}</span>
-						<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+						<% if show_links %></a><% end %>
 					</h5>
 					<h6 class="text-muted mb-1">
-						<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+						<% if show_links %><a href="{{ item.path }}"><% end %>
 							<span>{{ item.username }}</span>
-						<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+						<% if show_links %></a><% end %>
 						<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
 					</h6>
 				</div>
@@ -37,11 +38,34 @@
 				<% end %>
 			</div>
 
-			<div class="py-0 w-100">
-				<p class="card-text" ng-if="!item.isBlocked && !item.isBlockingMe">
-					<% if suggestions == false || show_ignore_btn == true %><a href="{{ item.path }}"><% end %>
+
+			<p class="extra_info" ng-if="item.extraInfo.followerCount || item.extraInfo.ratingsCount">
+				<span ng-if="item.extraInfo.followerCount">
+					<% if show_links %><a href="{{item.path}}?panel=followers" class='text-green'><% end %>
+						<i class="fa fa-users mr-1" aria-hidden="true"></i>
+						<span ng-bind-html="item.extraInfo.followerCount"></span>
+					<% if show_links %></a><% end %>
+					<span ng-if="item.extraInfo.ratingsCount" class="mx-1"> | </span>
+				</span>
+				<span ng-if="item.extraInfo.ratingsCount">
+					<% if show_links %><a href="{{item.path}}?panel=ratings" class='text-green'><% end %>
+						<i class="fa fa-meh-o mr-1" aria-hidden="true"></i>
+						<span ng-bind-html="item.extraInfo.ratingsCount"></span>
+					<% if show_links %></a><% end %>
+				</span>
+			</p>
+			<p class="extra_info" ng-if="item.extraInfo.publishedArticlesCount && item.authorPath">
+				<% if show_links %><a href="{{item.authorPath}}" class='text-green'><% end %>
+					<i class="fa fa-newspaper-o mr-1" aria-hidden="true"></i>
+					<span ng-bind-html="item.extraInfo.publishedArticlesCount"></span>
+				<% if show_links %></a><% end %>
+			</p>
+
+			<div class="py-0 w-100" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">
+				<p class="card-text">
+					<% if show_links %><a href="{{ item.path }}"><% end %>
 						<small>{{ item.bio }}</small>
-					<% if suggestions == false || show_ignore_btn == true %></a><% end %>
+					<% if show_links %></a><% end %>
 				</p>
 			</div>
 

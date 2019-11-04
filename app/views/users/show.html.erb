@@ -9,6 +9,7 @@
 					data-user-id="<%= @user.id %>"
 					data-fixed-profile-nav=1
 					data-tinymce-content-css-url='<%= asset_url("desktop/tinymce-content.css") %>'
+					data-viewing-from-admin="<%= viewing_from_admin ? 1 : 0 %>"
 					ng-cloak>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">
@@ -509,7 +510,7 @@
 					<div class="card-header">
 						<h5 class="card-title">Who to follow on TheArticle</h5>
 					</div>
-					<div class="card-body pt-0 px-0">
+					<div class="card-body pt-2 pb-5 px-2">
 
 						<div class="">
 							<div class="show active"

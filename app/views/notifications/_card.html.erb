@@ -4,12 +4,12 @@
 
 		<p class="notification_body d-flex justify-content-start align-items-start pt-2">
 			<span><i ng-class="{
-				'fas fa-thumbs-up': item.type=='opinion' && item.specificType=='agree',
-				'fas fa-thumbs-down': item.type=='opinion' && item.specificType=='disagree',
-				'far fa-comment-alt': (item.type=='comment' || item.type=='reply'),
-				'fas fa-users': item.type=='follow',
-				'fas fa-layer-group': item.type=='categorisation',
-				'fas fa-share': item.type=='mentioner'
+				'fa fa-thumbs-up': item.type=='opinion' && item.specificType=='agree',
+				'fa fa-thumbs-down': item.type=='opinion' && item.specificType=='disagree',
+				'fa fa-comment': (item.type=='comment' || item.type=='reply'),
+				'fa fa-users': item.type=='follow',
+				'fa fa-newspaper-o': item.type=='categorisation',
+				'fa fa-mail-forward': item.type=='mentioner' || item.type=='commentmentioner'
 			}"></i></span>
 			<span ng-bind-html="item.body" data-notification="{{item.id}}"></span>
 		</p>

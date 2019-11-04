@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   put 'update-password',                       to: 'account_settings#update_password'
   get 'profile/:slug',                         to: 'users#show', as: :profile, identifier: :slug
   get 'profile-by-id/:id',                     to: 'users#show', identifier: :id
+  get 'admin-profile-by-id/:id',               to: 'users#show', identifier: :id, from_admin: true
   put 'my-profile',                            to: 'users#update'
   put 'my-photo',                              to: 'users#update_photo'
   get 'profile/search-by-username',            to: 'users#search_by_username'
@@ -125,6 +126,9 @@ Rails.application.routes.draw do
   get 'check_third_party_whitelist',           to: 'third_party_articles#check_white_list'
   post 'submit_third_party_article',           to: 'third_party_articles#create'
 
+  # landing pages
+  get 'brexit-latest',                         to: 'landing_pages#show'
+
   namespace :admin do
     resources :users
     resources :help_sections
@@ -132,6 +136,9 @@ Rails.application.routes.draw do
     get 'set_users_per_page', to: 'users#set_records_per_page'
     get 'add_user_to_blacklist', to: 'users#add_to_blacklist'
     get 'add_user_to_watchlist', to: 'users#add_to_watchlist'
+    get 'create-account-page/:user_id', to: 'users#create_page'
+    get 'get-open-pages', to: 'users#get_open_pages'
+    get 'close-page/:user_id', to: 'users#close_page'
     get 'deactivate_user', to: 'users#deactivate'
     get 'reactivate_user', to: 'users#reactivate'
     delete 'delete_user', to: 'users#destroy'
@@ -142,6 +149,7 @@ Rails.application.routes.draw do
     resources :user_concern_reports
     resources :comment_concern_reports
     resources :share_concern_reports
+    resources :processed_concern_reports
     get 'mark_concern_report_as_seen', to: 'concern_reports#update'
     resources :watch_list_users
     resources :black_list_users
@@ -151,10 +159,20 @@ Rails.application.routes.draw do
     resources :rejected_third_party_shares
     resources :wordpress_logs
     resources :email_logs
+    resources :exchanges
     get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
     get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
     get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'
     resources :white_listed_third_party_publishers
+    get 'available_authors_for_user/:user_id', to: 'users#available_authors'
+    post 'set_author_for_user', to: 'users#set_author_for_user'
+    post 'set_genuine_verified_for_user', to: 'users#set_genuine_verified_for_user'
+    post 'add_additional_email', to: 'users#add_additional_email'
+    delete 'delete_additional_email', to: 'users#delete_additional_email'
+    post 'add_linked_account', to: 'users#add_linked_account'
+    delete 'delete_linked_account', to: 'users#delete_linked_account'
+    resources :shares
+    resources :comments
     root to: "users#index"
   end
 

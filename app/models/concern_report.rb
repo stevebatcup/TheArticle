@@ -5,7 +5,13 @@ class ConcernReport < ApplicationRecord
 	after_create	:send_admin_email
 	enum	status: [:pending, :seen]
 
-	default_scope -> { where(status: :pending) }
+	def humanised_primary_reason
+		self.primary_reason.humanize.capitalise
+	end
+
+	def humanised_secondary_reason
+		self.secondary_reason.humanize.capitalise
+	end
 
 	def send_admin_email
 		if (self.secondary_reason.present?) || (self.more_info.length > 0)
@@ -170,6 +176,21 @@ class ConcernReport < ApplicationRecord
 				reasons << "I want to report something else"
 		end
 		reasons.join(" AND ")
+	end
+
+	def admin_path
+		if self.status.to_sym == :seen
+			"/admin/processed_concern_reports/#{self.id}"
+		else
+			case self.sourceable_type
+			when 'Comment'
+				"/admin/comment_concern_reports/#{self.id}"
+			when 'Share'
+				"/admin/share_concern_reports/#{self.id}"
+			when 'User'
+				"/admin/user_concern_reports/#{self.id}"
+			end
+		end
 	end
 
 end

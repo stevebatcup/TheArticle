@@ -158,7 +158,7 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 						<span class='text'>#{item.username} (#{item.displayname})</span>
 					</a></li>"
 			insert: (item) =>
-				'<span class="mentioned_user" style="font-weight:bold;" data-user="' + item.id + '">' + item.username + '</span>';
+				'<span class="mentioned_user" style="font-weight:bold;" data-user="' + item.id + '" data-display_name="' + item.displayname + '">' + item.username + '</span>';
 			highlighter: (text) ->
 				text.replace new RegExp('(' + this.query + ')', 'ig'), ($1, match) ->
 					'<i>' + match + '</i>'

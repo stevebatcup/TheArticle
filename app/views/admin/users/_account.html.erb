@@ -1,0 +1,435 @@
+<section ng-controller="UserController">
+  <div class="d-flex justify-content-between">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link active" href="#basics_{{userForBox.id}}">Info</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#photos_{{userForBox.id}}">Photos</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#posts_{{userForBox.id}}">Posts</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#comments_{{userForBox.id}}">Comments</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#activity_log_{{userForBox.id}}">Activity</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#mutes_and_blocks_{{userForBox.id}}">Mutes/blocks</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#concern_reports_{{userForBox.id}}">Concern reports</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#admin_interaction_{{userForBox.id}}">Admin interaction</a>
+      </li>
+    </ul>
+
+    <a href="#" ng-click="closeAccountPage(userForBox, $event)" class="close">
+      <i class="fa fa-times"></i>
+    </a>
+  </div>
+
+  <div class="tab-content pt-4" style="min-height: 600px">
+    <div class="py-2 px-4 tab-pane fade show active" id="basics_{{userForBox.id}}">
+      <h2 ng-if="!userForBox.fullDetailsLoaded" style="margin-top: 150px">
+        <center>Loading...</center>
+      </h2>
+
+      <div ng-if="userForBox.fullDetailsLoaded" class="d-flex justify-content-between">
+        <div class="w-33">
+          <h4 class="d-block mb-2">Basics</h4>
+          <dl style="overflow: hidden;">
+            <dt class="">Id</dt>
+            <dd class="">{{userForBox.id}}</dd>
+
+            <dt class="">Display name</dt>
+            <dd class="">{{userForBox.displayName}}</dd>
+
+            <dt class="">Registered at</dt>
+            <dd class="">{{userForBox.signedUp}}</dd>
+
+            <dt class="">Username</dt>
+            <dd class="">{{userForBox.username}}</dd>
+
+            <dt class="">Email</dt>
+            <dd class="">{{userForBox.email}}</dd>
+
+            <dt class="">Account status</dt>
+            <dd class="">{{userForBox.accountStatus}}</dd>
+
+            <dt class="">Profile status</dt>
+            <dd class="">{{userForBox.profileStatus}}</dd>
+
+            <dt class="">Verified</dt>
+            <dd class="">{{userForBox.verified}}</dd>
+
+            <dt class="">Also a contributor?</dt>
+            <dd class="">{{userForBox.isContributor}}</dd>
+
+            <dt class="">Last signed in at</dt>
+            <dd class="">{{userForBox.lastSignIn}}</dd>
+
+          </dl>
+        </div>
+
+        <div class="w-33">
+          <h4 class="d-block mb-2">Security</h4>
+          <dl style="overflow: hidden;">
+            <dt class="">IP Address used at registration</dt>
+            <dd class="">{{userForBox.signupIpAddress}}</dd>
+
+            <dt class="">Last used IP Address</dt>
+            <dd class="">{{userForBox.lastIpAddress}}</dd>
+
+            <dt class="">Registration location (from IP</dt>
+            <dd class="">{{userForBox.signupLocation}}</dd>
+
+            <dt class="">On Blacklist?</dt>
+            <dd class="">{{userForBox.blacklistedHuman}}</dd>
+
+            <dt class="">On Watchlist?</dt>
+            <dd class="">{{userForBox.watchlistedHuman}}</dd>
+          </dl>
+
+          <h4 class="d-block mb-2">Notification settings</h4>
+          <dl style="overflow: hidden;">
+            <dt class="">Receives 'new follower' email?</dt>
+            <dd class="">{{userForBox.notificationSettings.followers}}</dd>
+            <dt class="">Receives 'new article in exchange' email?</dt>
+            <dd class="">{{userForBox.notificationSettings.categorisations}}</dd>
+
+            <dt class="">Opted into weekly newsletters email?</dt>
+            <dd class="">{{userForBox.notificationSettings.weeklyNewsletter}}</dd>
+            <dt class="">Opted into offers newsletters email?</dt>
+            <dd class="">{{userForBox.notificationSettings.offers}}</dd>
+
+            <dt class="">Receives browser push notifications on:</dt>
+            <dd class="">Coming soon...</dd>
+          </dl>
+        </div>
+
+        <div class="w-33">
+          <button ng-click="addToWatchList($event)"
+                class="btn btn-block btn-danger"
+                ng-class="{'disabled': userForBox.watchlisted}"
+                ng-disabled="userForBox.watchlisted"
+                ng-if="!userForBox.deleted && !userForBox.blacklisted">
+                <i class="fas fa-stopwatch mr-2"></i>
+              <span ng-if="!userForBox.watchlisted">Add user to watchlist</span>
+              <span ng-if="userForBox.watchlisted">On watchlist</span>
+            </button>
+
+          <button ng-click="deactivate($event)"
+                    class="btn btn-block btn-danger"
+                    ng-if="!userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
+                  <i class="fas fa-toggle-on mr-2"></i>
+                  Deactivate user
+              </button>
+
+          <button ng-click="reactivate($event)"
+                    class="btn btn-block btn-danger"
+                    ng-if="userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
+                  <i class="fas fa-toggle-off mr-2"></i>
+                  Reactivate user
+              </button>
+
+          <button ng-click="delete($event)"
+                class="btn btn-block btn-danger"
+                ng-class="{'disabled': userForBox.deleted}"
+                ng-disabled="userForBox.deleted"
+                ng-if="!userForBox.blacklisted">
+                <span ng-if="!userForBox.deleted">
+                  <i class="fas fa-exclamation-triangle mr-2"></i>
+                  Delete account
+                </span>
+                <span ng-if="userForBox.deleted">ACCOUNT DELETED!</span>
+          </button>
+
+          <button ng-click="addToBlackList($event)"
+                class="btn btn-block btn-danger"
+                ng-class="{'disabled': userForBox.watchlisted}"
+                ng-disabled="userForBox.blacklisted"
+                ng-if="(!userForBox.deleted) || (userForBox.deleted && userForBox.blacklisted)">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <span ng-if="!userForBox.blacklisted">Delete account and add to blacklist</span>
+                <span ng-if="userForBox.blacklisted">DELETED AND BLACKLISTED</span>
+          </button>
+
+          <a class="btn btn-block btn-info" href="/admin/email_logs?user_id={{userForBox.id}}">
+            <i class="fas fa-envelope mr-2"></i>
+            <span>View email log</span>
+          </a>
+
+          <dl style="overflow: hidden;">
+            <dt ng-if="userForBox.additionalEmails.length > 0">Additional email addresses</dt>
+            <dt ng-if="userForBox.additionalEmails.length == 0">No additional email addresses</dt>
+
+            <dd class="mt-2 mb-3">
+              <ul ng-if="userForBox.additionalEmails.length > 0" class="mt-1 mb-2">
+                <li ng-repeat="email in userForBox.additionalEmails" class="d-flex w-100 justify-content-between align-items-start">
+                  <span>{{email.text}}</span>
+                  <a class="text-danger mt-1" ng-click="removeAdditionalEmail(email.id, $event)"href='#'>
+                    <i class="fa fa-times"></i>
+                  </a>
+              </ul>
+
+              <p ng-if="userForBox.addingAdditionalEmail.message.length > 0" class="{{userForBox.addingAdditionalEmail.css}} mb-0 mt-0">
+                <small>{{userForBox.addingAdditionalEmail.message}}</small>
+              </p>
+              <div class="d-flex w-100 justify-content-between align-items-start">
+                <input type="email" name="additional_email_adder" id="additional_email_adder"
+                      ng-model="userForBox.addingAdditionalEmail.text"
+                      placeholder="Add another email address to this account..."
+                      class="mr-2" />
+                <button class="btn btn-success" ng-click="addAdditionalEmail()">Add</button>
+              </div>
+            </dd>
+
+
+            <dt ng-if="userForBox.linkedAccounts.length > 0">Linked accounts</dt>
+            <dt ng-if="userForBox.linkedAccounts.length == 0">No linked accounts</dt>
+
+            <dd class="mt-2 mb-3">
+              <ul ng-if="userForBox.linkedAccounts.length > 0" class="mt-1 mb-2">
+                <li ng-repeat="account in userForBox.linkedAccounts" class="d-flex w-100 justify-content-between align-items-start">
+                  <span>{{account.id}} -> {{account.displayName}}</span>
+                  <a class="text-danger mt-1" ng-click="removeLinkedAccount(account.id, $event)"href='#'>
+                    <i class="fa fa-times"></i>
+                  </a>
+              </ul>
+
+              <p ng-if="userForBox.addingLinkedAccount.message.length > 0" class="{{userForBox.addingLinkedAccount.css}} mb-0 mt-0">
+                <small>{{userForBox.addingLinkedAccount.message}}</small>
+              </p>
+              <div class="d-flex w-100 justify-content-between align-items-start">
+                <input type="text" name="linked_account_adder" id="linked_account_adder"
+                      ng-model="userForBox.addingLinkedAccount.id"
+                      placeholder="Link another account id to this account..."
+                      class="mr-2" />
+                <button class="btn btn-success" ng-click="addLinkedAccount()">Add</button>
+              </div>
+            </dd>
+
+
+            <dt class="">Linked to contributor</dt>
+            <dd class="mb-3">
+              <select name="contributor_linker" id="contributor_linker"
+                      ng-model="userForBox.author"
+                      ng-change="updateAuthor()"
+                      ng-options="author.namail for author in availableAuthors"
+                      style="border: 1px solid #ccc; padding: 5px;">
+                      <option value="">Select a contributor to link to this user...</option>
+              </select>
+            </dd>
+
+            <dt class="">Verified as genuine</dt>
+            <dd class="">
+              <input type="checkbox" name="verified_genuine_box" id="verified_genuine_box"
+                      ng-model="userForBox.genuineVerified"
+                      ng-change="updateGenuineVerified()"
+                      style="transform: scale(1.8); margin: 10px; outline: none;" />
+            </dd>
+          </dl>
+
+
+          <h5 class="mt-3">TO DO</h5>
+          <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+            <li>Edit/delete bio, with option to message User</li>
+
+            <li>Email User (and that be logged to their account)</li>
+
+            <li>[Hide Profile while under review? Admin functionality only – consider for Phase 3+]</li>
+          </ul>
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="preview_{{userForBox.id}}">
+      <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="100%" height="800" border="0" style="border: none;"></iframe>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
+      <dl style="overflow: hidden;">
+        <dt class="">Current profile photo</dt>
+        <dd class="">
+          <img ng-src="{{userForBox.profilePhoto}}" width="180px" />
+        </dd>
+
+        <dt class="mt-5" ng-if="userForBox.coverPhoto.length > 0">Current cover photo</dt>
+        <dd class="" ng-if="userForBox.coverPhoto.length > 0">
+          <img ng-src="{{userForBox.coverPhoto}}" width="600px" />
+        </dd>
+      </dl>
+
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>Edit/download/delete/upload photo, with optional message to User</li>
+      </ul>
+    </div>
+
+
+    <div class="py-2 px-4 tab-pane fade" id="posts_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View Posts (details) – including deleted (marked as such) + view quarantined posts</li>
+        <li>Delete posts, comments/replies/DMs (specific messages and whole conversations)</li>
+      </ul>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="comments_{{userForBox.id}}">
+      <div class="w-100">
+        <h5>Comments by {{userForBox.firstName}}</h5>
+        <p ng-if="userForBox.comments.length == 0">No comments</p>
+        <table ng-if="userForBox.comments.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Article</th>
+              <th class="cell-label">Comment snippet</th>
+              <th class="cell-label">Made at</th>
+              <th class="cell-label">Reason</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="comment in userForBox.comments">
+            <td class="cell-data">{{comment.share.article.title}}</td>
+            <td class="cell-data" ng-bind-html="comment.precis"></td>
+            <td class="cell-data">{{comment.sentAt}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{comment.path}}'>Show comment</a></td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{comment.share.path}}'>Show post</a></td>
+            <td class="cell-data text-center text-slate">
+              <a target="_blank" ng-href='{{comment.share.article.path}}'>Show article</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="activity_log_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View Activity Log (discuss with SteveB the best way to display this (MM a bit clunky)) – list everything, including, Posts and Comments/Replies (but just who, what, when – not details) – view previous drafts of profile, previous email addresses, previous usernames etc.</li>
+
+        <li>View sign-in log</li>
+      </ul>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="mutes_and_blocks_{{userForBox.id}}">
+      <div ng-if="userForBox.fullDetailsLoaded" class="d-flex justify-content-between">
+        <div class="w-50">
+          <h5>Is muting</h5>
+          <p ng-if="userForBox.muting.length == 0">Not currently muting anybody</p>
+          <ul ng-if="userForBox.muting.length > 0">
+            <li ng-repeat="mute in userForBox.muting">
+              <a href='#' ng-click="createAccountPage(mute, $event)">{{mute.name}}</a>
+            </li>
+          </ul>
+
+          <h5>Is muted by</h5>
+          <p ng-if="userForBox.mutedBy.length == 0">Not currently muted by anybody else</p>
+          <ul ng-if="userForBox.mutedBy.length > 0">
+            <li ng-repeat="mute in userForBox.mutedBy">
+              <a href='#' ng-click="createAccountPage(mute, $event)">{{mute.name}}</a>
+            </li>
+          </ul>
+        </div>
+
+
+        <div class="w-50">
+          <h5>Is blocking</h5>
+          <p ng-if="userForBox.blocking.length == 0">Not currently blocking anybody</p>
+          <ul ng-if="userForBox.blocking.length > 0">
+            <li ng-repeat="block in userForBox.blocking">
+              <a href='#' ng-click="createAccountPage(block, $event)">{{block.name}}</a>
+            </li>
+          </ul>
+
+          <h5>Is blocked by</h5>
+          <p ng-if="userForBox.blockedBy.length == 0">Not currently blocked by anybody else</p>
+          <ul ng-if="userForBox.blockedBy.length > 0">
+            <li ng-repeat="block in userForBox.blockedBy">
+              <a href='#' ng-click="createAccountPage(block, $event)">{{block.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="concern_reports_{{userForBox.id}}">
+      <div class="w-75">
+        <h5>Concern reports regarding {{userForBox.firstName}}</h5>
+        <p ng-if="userForBox.concernsReported.length == 0">No concern reports sent</p>
+        <table ng-if="userForBox.concernsReported.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Reported by</th>
+              <th class="cell-label">Sent at</th>
+              <th class="cell-label">Type</th>
+              <th class="cell-label">Reason</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernsReported">
+            <td class="cell-data">{{report.reporter.name}}</td>
+            <td class="cell-data">{{report.sentAt}}</td>
+            <td class="cell-data">{{report.type}}</td>
+            <td class="cell-data">{{report.reason}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
+            <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reporter, $event)">Open account</a></td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="w-75 mt-5">
+        <h5>Concerns reported by {{userForBox.firstName}}</h5>
+        <p ng-if="userForBox.concernReports.length == 0">No concern reports sent</p>
+        <table ng-if="userForBox.concernReports.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Reporting</th>
+              <th class="cell-label">Sent at</th>
+              <th class="cell-label">Type</th>
+              <th class="cell-label">Reason</th>
+              <th class="cell-label text-center text-slate">&nbsp;</th>
+              <th class="cell-label text-center text-slate">&nbsp;</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernReports">
+            <td class="cell-data">{{report.reported.name}}</td>
+            <td class="cell-data">{{report.sentAt}}</td>
+            <td class="cell-data">{{report.type}}</td>
+            <td class="cell-data">{{report.reason}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
+            <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reported, $event)">Open account</a></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="admin_interaction_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View admin notes on user’s account</li>
+        <li>View communications with Admin – emails and contact form submissions and their replies (incl. from linked email addresses)</li>
+      </ul>
+    </div>
+
+  </div>
+</section>

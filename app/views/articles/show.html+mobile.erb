@@ -4,6 +4,12 @@
 	<% meta_tag :image, @article.image.url %>
 <% end %>
 
+<% if @article.has_bibblio_meta? %>
+	<% meta_tag(:keywords, @article.meta_keywords) if @article.meta_keywords.present? %>
+	<% meta_tag(:entities, @article.meta_entities) if @article.meta_entities.present? %>
+	<% meta_tag(:concepts, @article.meta_concepts) if @article.meta_concepts.present? %>
+<% end %>
+
 <% if flash[:notice] %>
 <div id="flash_notice" class="d-none">
 	<%= flash[:notice].html_safe %>
@@ -18,26 +24,26 @@
 					data-exchange-id-for-more="<%=  @exchange_for_more.present? ? @exchange_for_more.slug : '' %>"
 					data-per-page="<%= more_on_articles_per_page %>">
 	<div class="container mb-3">
-		<article id="post-<%= @article.id %>" class="article_detail">
+		<article id="post-<%= @article.id %>" class="article_detail" itemscope itemprop="mainEntity" itemtype="https://schema.org/NewsArticle">
 			<header class="entry-header">
 				<p id="article_exchanges">
 					<%= render partial: 'common/exchange-badges', locals: { article: @article } if @article.exchanges.any? %>
 				</p>
-				<h1 class="entry-title mt-4"><%= @article.title.html_safe %></h1>
+				<h1 class="entry-title mt-4" itemprop="headline"><%= @article.title.html_safe %></h1>
 
 				<div id="article_meta" class="mt-0 row px-3 pb-4">
-					<div class="col-12 pr-0 author_link row">
-						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2 ">
-							<img src="<%= @article.author.image_url %>" alt="<%= @article.author.display_name.html_safe %>" />
+					<div class="col-12 pr-0 author_link row" itemscope itemprop="author" itemtype="https://schema.org/Person">
+						<a id="article_author_thumbnail" href="<%= article_author_url(@article) %>" class="d-block mr-2">
+							<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= @article.author.image_url %>" alt="<%= @article.author.display_name.html_safe %>" />
 						</a>
 
-						<a href="<%= article_author_url(@article); %>">by <span>
+						<a href="<%= article_author_url(@article); %>">by <span itemprop="name">
 						<%= @article.author.display_name.html_safe %></span></a>
 						<% if @article.author.user.present? %>
 							<span class="ml-1 ml-md-2 ml-xl-3 mr-0">|</span>
 							 <a href="<%= profile_path(slug: @article.author.user.slug) %>" class="article_author_user">
 									<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
-									<span><%= @article.author.user.username %></span>
+									<span itemprop="alternateName"><%= @article.author.user.username %></span>
 								</a>
 						<% end %>
 						<% if @article.author.twitter_handle.present? %>
@@ -58,7 +64,7 @@
 				</div>
 
 				<% unless @article.is_sponsored? %>
-				<div class="member_ratings pt-2 pb-2 px-3 mb-2">
+				<div class="member_ratings pt-2 pb-2 px-3 mb-2" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
 					<h5>Member ratings</h5>
 					<% if @article.has_ratings? %>
 						<ul class="">
@@ -96,18 +102,18 @@
 
 			<div class="row">
 				<div class="col-12 pb-3 mb-2">
-					<div id="img_box" class="mb-4">
+					<div id="img_box" class="mb-4" itemscope itemprop="image" itemtype="https://schema.org/ImageObject">
 						<% if @article.image? %>
 							<img src="<%= @article.image.url(:cover_desktop) %>" alt="<%= @article.title.html_safe %>" class="w-100" />
 							<% if @article.image_caption %>
-								<p class="caption">
+								<p class="caption" itemprop="caption">
 									<%= @article.image_caption.html_safe %>
 								</p>
 							<% end %>
 						<% end %>
 					</div>
 
-					<div id="content_box">
+					<div id="content_box" itemprop="text">
 						<% if show_ads? %>
 							<%= remote_linkify(adified_content(@article), request.base_url) %>
 						<% else %>
@@ -116,7 +122,7 @@
 					</div>
 
 					<% unless @article.is_sponsored? %>
-					<div class="member_ratings bars pt-3 pb-2 px-3">
+					<div class="member_ratings bars pt-3 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
 						<h5>Member ratings</h5>
 						<% if @article.has_ratings? %>
 							<ul class="bars">
@@ -171,7 +177,7 @@
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green">
+											<h6 class="text-green rating_text_<%= text_rating(:well_written, @article_share['rating_well_written']).parameterize.underscore %>">
 												<%= text_rating(:well_written, @article_share['rating_well_written']) %>
 											</h6>
 										</div>
@@ -187,7 +193,7 @@
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green">
+											<h6 class="text-green rating_text_<%= text_rating(:valid_points, @article_share['rating_valid_points']).parameterize.underscore %>">
 												<%= text_rating(:valid_points, @article_share['rating_valid_points']) %>
 											</h6>
 										</div>
@@ -203,7 +209,7 @@
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green">
+											<h6 class="text-green rating_text_<%= text_rating(:agree, @article_share['rating_agree']).parameterize.underscore %>">
 												<%= text_rating(:agree, @article_share['rating_agree']) %>
 											</h6>
 										</div>
@@ -253,7 +259,10 @@
 			<div class="bib--rcm-init"
 			  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
 			  data-style-classes="bib--recency-show bib--grd-6 bib--split bib--wide bib--font-arial bib--author-show"
-			  data-query-string-params="utm_source=bibblio_widget_1"
+			  <% if user_signed_in? %>
+			  data-user-id="<%= current_user.id %>"
+			  <% end %>
+			  data-query-string-params="utm_source=bibblio_article_page"
 			  data-custom-unique-identifier="<%= @article.slug %>">
 			</div>
 		</div>
@@ -279,7 +288,7 @@
 					<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
 						<p class="author_link">
 							<a href="<%= contributor_path(slug: ta.author.slug) %>">
-								by <span><%= ta.author.display_name %></span>
+								by <span><%= ta.author.display_name.html_safe %></span>
 							</a>
 							<% unless ta.is_sponsored %>
 							<span class="entry-date">

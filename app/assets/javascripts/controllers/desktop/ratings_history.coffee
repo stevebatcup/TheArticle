@@ -27,16 +27,8 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 		@bindEvents()
 		vars = @getUrlVars()
 
-		@scope.ratings =
-			data: []
-			page: 1
-			firstLoaded: false
-			loading: true
-			totalItems: 0
-			moreToLoad: true
-
 		@scope.perPage = 16
-
+		@scope.article = null
 		@scope.replyingToComment =
 			comment: {}
 			parentComment: {}
@@ -52,7 +44,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 		@scope.myProfile = {}
 
 		@timeout =>
-			@getMyProfile @getRatings
+			@getMyProfile @initialiseRatings
 		, 800
 
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
@@ -82,12 +74,24 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 					@scope.ratings.moreToLoad = false
 					@loadMore()
 
+	initialiseRatings: (orderBy='comments')=>
+		@scope.ratings =
+			data: []
+			page: 1
+			firstLoaded: false
+			loading: true
+			totalItems: 0
+			moreToLoad: true
+			orderBy: orderBy
+		@getRatings()
+
 	loadMore: =>
+		@scope.ratings.loading = true
 		@scope.ratings.page += 1
 		@getRatings()
 
 	getRatings: =>
-		@ArticleRating.query({ page: @scope.ratings.page, per_page: @scope.perPage, article_id: @articleId }).then (response) =>
+		@ArticleRating.query({ page: @scope.ratings.page, per_page: @scope.perPage, article_id: @articleId, order_by: @scope.ratings.orderBy }).then (response) =>
 			@scope.ratings.loading = false
 			@scope.ratings.firstLoaded = true
 			angular.forEach response.ratings, (rating, index) =>
@@ -105,5 +109,15 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.DesktopPageC
 
 	selectTab: (tab) =>
 		@scope.selectedTab = tab
+
+	ratingOrderText: (orderBy) =>
+		switch orderBy
+			when 'comments' then 'Comments'
+			when 'oldest' then 'By date (oldest first)'
+			when 'newest' then 'By date (newest first)'
+
+	reorderRatings: ($event, orderBy) =>
+		$event.preventDefault() if $event?
+		@initialiseRatings(orderBy)
 
 TheArticle.ControllerModule.controller('RatingsHistoryController', TheArticle.RatingsHistory)

@@ -27,6 +27,8 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem "font-awesome-rails"
+
 # Cron
 gem 'whenever', require: false
 
@@ -72,6 +74,8 @@ gem "acts_as_commentable_with_threading"
 gem 'mustache'
 
 gem "administrate", '>= 0.10.0'
+gem 'administrate_collapsible_navigation'
+gem 'administrate-field-date_picker', '~> 0.1.0'
 gem "wysiwyg-rails"
 # gem "administrate-field-nested_has_many", git: "https://github.com/NedelescuVlad/administrate-field-nested_has_many"
 
@@ -81,6 +85,8 @@ gem 'faraday_middleware'
 gem 'exception_notification'
 
 gem 'fcm'
+gem "recaptcha"
+gem "rest-client"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

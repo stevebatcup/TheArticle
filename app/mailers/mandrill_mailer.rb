@@ -13,7 +13,7 @@ private
     end
   end
 
-  def send_mail(email_address, name, subject, body, user_id=nil)
+  def send_mail(email_address, name, subject, body, user_id=nil, tags=[])
     if requires_interception
       to = "monitoring@maawol.com"
       subject = "#{subject} [for #{email_address}]"
@@ -35,6 +35,7 @@ private
       headers: {'Reply-To': 'info@thearticle.com'},
       merge: true
     }
+    data[:tags] = tags if tags.any?
     response = api.messages.send(data)
     log_mandrill_request(user_id, "send_mail", data, response) unless user_id.nil?
   end

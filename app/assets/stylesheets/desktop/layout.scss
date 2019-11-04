@@ -657,6 +657,16 @@ html.svg header#main_header nav li.nav-item {
 				width: 100%;
 				position: absolute;
 		    bottom: -10px;
+
+				p.author_link {
+					a {
+						width: 225px;
+						text-overflow: ellipsis;
+						display: inline-block;
+						white-space: nowrap;
+						overflow: hidden;
+					}
+				}
 			}
 		}
 
@@ -896,7 +906,7 @@ form#filter_list_form {
 .facebook_url,
 .instagram_username,
 .url {
-	svg {
+	i, svg {
 		width: 25px !important;
 		font-size: 25px;
 		margin-right: 6px;
@@ -931,7 +941,7 @@ form#filter_list_form {
   	padding: 4px 8px 3px;
 	}
 
-  svg {
+  i, svg {
   	margin-right: 4px;
   	position: relative;
   	top: -1px;
@@ -975,6 +985,10 @@ textarea.has_error {
 	background-color: rgba(69, 69, 69, 0.3);
 	height: 100%;
 	width: 100%;
+
+	&.no-bg {
+		background-color: transparent;
+	}
 
 	.inner {
 		position: absolute;
@@ -1108,7 +1122,7 @@ div.new_article {
 			font-size: 0.75em;
 			position: relative;
 
-			svg {
+			i, svg {
 				font-size: 25px;
 				margin-right: 15px;
 				position: relative;

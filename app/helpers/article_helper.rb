@@ -67,6 +67,7 @@ module ArticleHelper
 				title: strip_tags(article.title),
 				publishedAt: article_date(article),
 				path: article_path(article),
+				ratingCount: article.shares.where(share_type: 'rating').size,
 				author: {
 				  name: author.display_name,
 				  path: contributor_path(slug: author.slug)

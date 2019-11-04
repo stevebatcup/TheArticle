@@ -82,6 +82,31 @@
 		</div>
 	</header>
 
+	<% if @ratings.any? %>
+		<div class='container'>
+			<div class="member_ratings pt-2 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
+				<h5>Member ratings</h5>
+				<ul class="d-flex w-100 justify-content-between">
+					<li>Well argued:
+						<span class="rating <%= (@ratings[:well_written].nil? || @ratings[:well_written] == '') ? 'faded' : '' %>">
+							<%= readable_article_rating(@ratings[:well_written]) %>
+						</span>
+					</li>
+					<li>Interesting points:
+						<span class="rating <%= (@ratings[:valid_points].nil? || @ratings[:valid_points] == '') ? 'faded' : '' %>">
+							<%= readable_article_rating(@ratings[:valid_points]) %>
+						</span>
+					</li>
+					<li>Agree with arguments:
+						<span class="rating <%= (@ratings[:agree].nil? || @ratings[:agree] == '') ? 'faded' : '' %>">
+							<%= readable_article_rating(@ratings[:agree]) %>
+						</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	<% end %>
+
 	<%=
 		render partial: 'articles/listings', locals: {
 			block_id: 'contributorArticles',

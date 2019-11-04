@@ -20,4 +20,8 @@ namespace :articles do
 		end
 		puts "...done!"
 	end
+
+	task :fetch_bibblio_meta => :environment do
+		BibblioApiService.get_articles_meta(30)
+	end
 end

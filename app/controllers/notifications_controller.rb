@@ -21,8 +21,9 @@ class NotificationsController < ApplicationController
 				else
 					page = (params[:page] || 1).to_i
 					per_page = (params[:per_page] || 20).to_i
-					@total_notifications = Notification.last_weeks_for_user(current_user, 4).size if page == 1
-					@notifications = Notification.last_weeks_for_user(current_user, 4)
+					@total_notifications = current_user.notifications.size if page == 1
+					@notifications = current_user.notifications
+																				.includes(:eventable)
 																				.order(updated_at: :desc)
 																				.page(page)
 																				.per(per_page)

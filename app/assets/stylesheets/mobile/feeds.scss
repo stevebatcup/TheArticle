@@ -13,12 +13,22 @@ input#suggestion_search {
 		min-height: 70%;
 		min-height: 70vh;
 		background: $grey_light;
+
+		&#content-front-page {
+			min-height: 89%;
+			min-height: 89vh;
+		}
 	}
 }
 
 .feed-listing {
 	margin-bottom: 10px;
 	// border-bottom: 1px solid $grey;
+
+	button.ignore_suggestion {
+		border: none;
+		background: none;
+	}
 
 	#third_party_article_url_phantom {
 		height: 2.6em;
@@ -70,6 +80,14 @@ input#suggestion_search {
 	}
 
 	&.feed-share {
+		.card {
+			.post {
+				p {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
 		.comments_pane {
 			background: #fff;
 
@@ -98,46 +116,6 @@ input#suggestion_search {
 				}
 			}
 
-			.order_by_dropdown {
-				.dropdown-toggle {
-					color: $green;
-					-webkit-appearance: none;
-
-					&:after {
-						display: none;
-					}
-				}
-
-				.dropdown-menu {
-					width: 85%;
-					width: 85vw;
-					box-shadow: 1px 1px 3px #aaa;
-
-					.dropdown-item {
-						white-space: initial;
-						position: relative;
-
-						.tick {
-							font-size: 0.8em;
-							position: absolute;
-							top: 7px;
-							left: 8px;
-						}
-
-						h6 {
-							margin-bottom: 2px;
-							padding-left: 5px;
-						}
-
-						p {
-							font-size: 0.8em;
-							margin-bottom: 3px;
-							padding-left: 5px;
-						}
-					}
-				}
-			}
-
 			.comments {
 				ol {
 					list-style: none;
@@ -150,9 +128,9 @@ input#suggestion_search {
 
 						.comment-item {
 							.reply_area {
-								margin: -10px 16px 16px 60px;
+								margin: -10px 16px 16px 9px;
 								font-size: 1.1em;
-								text-align: right;
+								// text-align: right;
 							}
 
 							h4 {
@@ -178,6 +156,11 @@ input#suggestion_search {
 						&.with_children {
 							.reply_area {
 								border-left: 2px solid $green;
+								// margin-left: 60px;
+
+								&.child_reply_area {
+									margin-left: 22px;
+								}
 							}
 						}
 
@@ -186,7 +169,7 @@ input#suggestion_search {
 
 							.reply_area {
 								border-left: 2px solid $green;
-								margin-left: 13px;
+								// margin-left: 13px;
 							}
 
 							li:last-child {
@@ -246,6 +229,14 @@ input#suggestion_search {
 			padding: 12px;
 			border-radius: 0;
 
+			&.comment_card {
+				p.post {
+					img {
+						width: 100%;
+					}
+				}
+			}
+
 			.follow_summary {
 				max-width: 90%;
 			}
@@ -254,16 +245,24 @@ input#suggestion_search {
 			.comment_body {
 				font-size: 0.95em;
 				a {
-					text-decoration: underline;
+					text-decoration: none;
+					color: $green;
+					font-weight: bold;
 				}
 			}
 
-			.comment_body,
-			.comment_body p {
-				word-break: break-word;
-				text-overflow: ellipsis;
-				overflow-wrap: break-word;
-				white-space: pre-line;
+			.comment_body {
+				p {
+					word-break: break-word;
+					text-overflow: ellipsis;
+					overflow-wrap: break-word;
+					white-space: pre-line;
+					margin-bottom: 5px;
+
+					&:empty {
+						display: none;
+					}
+				}
 			}
 
 			.ratings {
@@ -334,7 +333,7 @@ input#suggestion_search {
 					}
 				}
 
-				svg {
+				i, svg {
 					// color: $blue_dark;
 			    margin-right: 3px;
 				}
@@ -346,7 +345,7 @@ input#suggestion_search {
 				position: relative;
 
 				a {
-					svg {
+					i, svg {
 						margin-right: 4px;
 					}
 
@@ -418,6 +417,13 @@ input#suggestion_search {
 					margin-bottom: -11px;
 				}
 			}
+		}
+	}
+
+	&.feed-follow {
+		p.extra_info {
+			font-size: 0.8em;
+			margin: 5px 0;
 		}
 	}
 
@@ -517,7 +523,7 @@ input#suggestion_search {
     	outline: none;
     }
 
-    svg {
+    i, svg {
     	position: relative;
 	    top: -1px;
 	    font-size: 1.1em;
@@ -527,7 +533,7 @@ input#suggestion_search {
     &.follow_exchange {
     	font-size: 0.8em;
 
-    	svg {
+    	i, svg {
     		font-size: 1em;
     		top: 1px;
     		left: 1px;
@@ -864,4 +870,44 @@ nav.tabbable {
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 	overflow: auto;
 	resize: vertical;
+}
+
+.order_by_dropdown {
+	.dropdown-toggle {
+		color: $green;
+		-webkit-appearance: none;
+
+		&:after {
+			display: none;
+		}
+	}
+
+	.dropdown-menu {
+		width: 85%;
+		width: 85vw;
+		box-shadow: 1px 1px 3px #aaa;
+
+		.dropdown-item {
+			white-space: initial;
+			position: relative;
+
+			.tick {
+				font-size: 0.8em;
+				position: absolute;
+				top: 7px;
+				left: 8px;
+			}
+
+			h6 {
+				margin-bottom: 2px;
+				padding-left: 5px;
+			}
+
+			p {
+				font-size: 0.8em;
+				margin-bottom: 3px;
+				padding-left: 5px;
+			}
+		}
+	}
 }

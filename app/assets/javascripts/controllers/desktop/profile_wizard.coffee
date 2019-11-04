@@ -60,10 +60,13 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 
 	getSelectedExchanges: =>
 		url = "/user_exchanges?page=1&per_page=100"
-		@http.get(url).then (exchanges) =>
-			angular.forEach exchanges.data.exchanges, (exchange) =>
-				@scope.user.selectedExchanges.push exchange.id
-			@scope.exchangesOk = true if @scope.user.selectedExchanges.length >= 3
+		@http.get(url).then (response) =>
+			if response.data.exchanges.length > 0
+				angular.forEach response.data.exchanges, (exchange) =>
+					@scope.user.selectedExchanges.push exchange.id unless exchange.slug is 'editor-at-the-article'
+				@scope.exchangesOk = true if @scope.user.selectedExchanges.length >= 3
+			else
+				@selectAllExchanges()
 
 	searchForSuggestions: (query)=>
 		if query.length > 1
@@ -169,6 +172,12 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		else
 			@scope.user.selectedExchanges.push selected
 		@validateExchanges()
+
+	selectAllExchanges: =>
+		@http.get("/exchanges?mode=wizard").then (response) =>
+			angular.forEach response.data.exchanges, (exchange) =>
+				@scope.user.selectedExchanges.push exchange.id
+			@scope.exchangesOk = true if @scope.user.selectedExchanges.length >= 3
 
 	validateExchanges: =>
 		@scope.exchangesOk = @scope.user.selectedExchanges.length >= 3

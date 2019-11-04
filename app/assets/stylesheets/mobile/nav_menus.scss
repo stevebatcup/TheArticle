@@ -22,7 +22,7 @@
 			}
 		}
 
-		svg {
+		i, svg {
 			font-size: 1.3em;
 			color: #111;
 		}
@@ -34,19 +34,19 @@
 				font-size: 1em;
 			}
 
-			svg {
+			i, svg {
 				font-size: 1.1em;
 			}
 		}
 
 		&.danger {
-			h5, svg {
+			h5, i, svg {
 				color: $red
 			}
 		}
 
 		&.success {
-			h5, svg {
+			h5, i, svg {
 				color: $green_dark;
 			}
 		}

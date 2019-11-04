@@ -275,8 +275,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 		# update UI first
 		now = new Date()
-		timeActual = moment().format('YYYY-MM-DD HH:mm')
-		timeHuman = moment().format('D MMM')
+		timeActual = "#{now.getUTCFullYear()}-#{@padNumber(now.getUTCMonth()+1)}-#{@padNumber(now.getUTCDate())} #{now.getUTCHours()}:#{@padNumber(now.getUTCMinutes())}"
+		monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+		timeHuman = "#{now.getUTCDate()} #{monthNames[now.getUTCMonth()]}"
 		comment =
 			id: null,
 			path: @scope.myProfile.path,
@@ -287,7 +288,6 @@ class TheArticle.Feeds extends TheArticle.PageController
 			body: @scope.commentForSubmission.value,
 			timeActual: timeActual,
 			timeHuman: timeHuman
-		# console.log comment
 
 		if replyingToCommentId is 0
 			post.comments.unshift { data: comment }
@@ -321,6 +321,9 @@ class TheArticle.Feeds extends TheArticle.PageController
 				else
 					@alert responseComment.message
 			, 300
+
+	padNumber: (n) =>
+		if n < 10 then '0' + n else n
 
 	agreeCount: (item, with_sentence=true) =>
 		if item.share.opinionsLoaded
@@ -377,6 +380,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	agreeWithPostSubmit: (item) =>
 		action = if item.iAgreeWithPost is true then 'unagree' else 'agree'
+		item.iAgreeWithPost = !item.iAgreeWithPost
 		new @Opinion
 			share_id: item.share.id
 			action: action
@@ -455,6 +459,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 
 	disagreeWithPostSubmit: (item) =>
 		action = if item.iDisagreeWithPost is true then 'undisagree' else 'disagree'
+		item.iDisagreeWithPost = !item.iDisagreeWithPost
 		new @Opinion
 			share_id: item.share.id
 			action: action

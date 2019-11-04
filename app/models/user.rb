@@ -7,6 +7,8 @@ class User < ApplicationRecord
          :confirmable, :trackable, :rememberable
 
   validates_presence_of	:first_name, :last_name, on: :create
+  validate :user_cannot_be_blacklisted, on: :create
+
   enum  status: [:active, :deactivated, :deleted]
   enum  admin_level: [:nothing, :admin, :super_admin]
 
@@ -36,9 +38,13 @@ class User < ApplicationRecord
   has_many :feeds
   has_many :notifications
   has_many :concern_reports, as: :sourceable
+  has_many :all_concern_reports, class_name: 'ConcernReport', foreign_key: :reporter_id
+  has_many :concerns_reported, class_name: 'ConcernReport', foreign_key: :reported_id
 
   has_many  :mutes
+  has_many  :muted_bys, class_name: 'Mute', foreign_key: :muted_id
   has_many  :blocks
+  has_many  :blocked_bys, class_name: 'Block', foreign_key: :blocked_id
 
   has_many  :notification_settings
   has_many  :communication_preferences
@@ -55,6 +61,8 @@ class User < ApplicationRecord
   has_many  :interaction_mutes
 
   has_many  :push_tokens
+  has_many  :additional_emails
+  has_many  :linked_accounts
 
   belongs_to   :author, optional: true
 
@@ -373,8 +381,24 @@ class User < ApplicationRecord
 
   def set_all_notifications_as_old
     self.notifications.where(is_new: true).each do |notification|
+      Notification.record_timestamps = false
       notification.update_attribute(:is_new, false)
     end
   end
 
+  def user_cannot_be_blacklisted
+    if BlackListUser.find_by(email: self.email)
+      errors.add(:email, "You cannot join TheArticle at this time")
+    end
+  end
+
+  def is_admin?
+    [:admin, :super_admin].include?(self.admin_level.to_sym)
+  end
+
+  def add_to_bibblio
+    result = BibblioApiService.create_user(self) == true
+    self.update_attribute(:on_bibblio, true) if result
+    result
+  end
 end

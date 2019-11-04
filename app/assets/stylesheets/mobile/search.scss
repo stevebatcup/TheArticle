@@ -114,7 +114,7 @@
 						}
 
 						&.magnify.d-flex {
-							svg {
+							i, svg {
 								position: relative;
 								top: -3px;
 								left: 1px;
@@ -186,7 +186,7 @@ section#search-results {
 	}
 
 	#results_pane {
-		min-height: 50vh;
+		min-height: 88vh;
 	}
 }
 

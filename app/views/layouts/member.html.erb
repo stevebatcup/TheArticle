@@ -11,6 +11,7 @@
   <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: true } %>
 
   <main id="panel_for_side_menu">
+    <%= render('layouts/mobile-ad-top') if show_ads? %>
   <% end %>
 
     <div id="content">
@@ -88,11 +89,6 @@
                 <span ng-if="notificationBadgeCount > 99">99+</span>
                 <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
               </span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="messaging-tab" data-toggle="tab" href="#content-messaging">
-              <i class="fas fa-envelope"></i>
             </a>
           </li>
         </ul>

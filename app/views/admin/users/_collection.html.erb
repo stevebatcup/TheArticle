@@ -28,21 +28,17 @@ to display a collection of resources in an HTML table.
         scope="col"
         role="columnheader"
         aria-sort="<%= sort_order(collection_presenter.ordered_html_class(attr_name)) %>">
-        <%= link_to(sanitized_order_params(page, collection_field_name).merge(
-          collection_presenter.order_params_for(attr_name, key: collection_field_name)
-        )) do %>
-        <%= t(
-          "helpers.label.#{collection_presenter.resource_name}.#{attr_name}",
-          default: attr_name.to_s,
-        ).titleize %>
-            <% if collection_presenter.ordered_by?(attr_name) %>
-              <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>">
-                <svg aria-hidden="true">
-                  <use xlink:href="#icon-up-caret" />
-                </svg>
-              </span>
-            <% end %>
-          <% end %>
+        <a href='#' ng-click="reorder($event, '<%= attr_name %>')">
+          <%= t(
+            "helpers.label.#{collection_presenter.resource_name}.#{attr_name}",
+            default: attr_name.to_s,
+          ).titleize %>
+          <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>" ng-if="searchFields.sort == '<%= attr_name %>'">
+            <svg aria-hidden="true">
+              <use xlink:href="#icon-up-caret" />
+            </svg>
+          </span>
+          </a>
         </th>
       <% end %>
 
@@ -55,9 +51,6 @@ to display a collection of resources in an HTML table.
       <!-- View profile -->
       <th scope="col"></th>
 
-      <!-- Message user -->
-      <th scope="col"></th>
-
       <% if current_user.admin_level == 'super_admin' %>
         <!-- Destroy user -->
         <th scope="col"></th>
@@ -66,63 +59,44 @@ to display a collection of resources in an HTML table.
   </thead>
 
   <tbody>
-    <% resources.each do |resource| %>
-      <tr class="js-table-row"
-          tabindex="0">
+      <tr class="js-table-row" tabindex="0" ng-repeat="user in users">
 
-        <% collection_presenter.attributes_for(resource).each do |attribute| %>
-          <td class="cell-data">
-            <%= render_field attribute %>
-          </td>
-        <% end %>
+        <td class="cell-data">{{user.id}}</td>
+        <td class="cell-data">{{user.signedUp}}</td>
+        <td class="cell-data">{{user.firstName}}</td>
+        <td class="cell-data">{{user.lastName}}</td>
+        <td class="cell-data">{{user.username}}</td>
+        <td class="cell-data">{{user.displayName}}</td>
+        <td class="cell-data">{{user.email}}</td>
+        <td class="cell-data">{{user.accountStatus}}</td>
+        <td class="cell-data">{{user.profileStatus}}</td>
 
         <td>
-          <% if resource.confirmed? %>
+          <span ng-if="user.confirmed">
             <i class="fas fa-flag text-green mr2"></i>
-          <% end %>
-          <% if resource.watch_list_user.present? %>
+          </span>
+          <span ng-if="user.watchlisted">
             <i class="fas fa-flag text-orange mr2"></i>
-          <% end %>
-          <% if resource.black_list_user.present? %>
+          </span>
+          <span ng-if="user.blacklisted">
             <i class="fas fa-flag text-red mr2"></i>
-          <% end %>
+          </span>
         </td>
 
-
-        <td class="cell-data text-center text-slate"><small><%= link_to(
-          "Account details",
-          [namespace, resource],
-          class: "action-edit",
-        ) %></small></td>
+        <td class="cell-data text-center text-slate">
+            <a href="#" ng-click="createAccountPage(user, $event)" class="action-edit">Open Account</a>
+        </td>
 
         <td class="cell-data text-center text-slate">
-          <% if resource.slug %>
-            <small><%= link_to(
-            "Profile",
-            profile_path(slug: resource.slug),
-            target: "_blank"
-          ) %></small>
-          <% end %>
-      </td>
-
-        <td class="cell-data text-center text-slate"><small><%= link_to(
-          "Send email",
-          "mailto:#{resource.email}"
-        ) %></small></td>
+            <a ng-href="{{user.profileUrl}}" target="_blank" class="action-edit">View profile</a>
+        </td>
 
         <% if current_user.admin_level == 'super_admin' %>
         <td class="cell-data text-center text-red">
-          <small>
-            <%= link_to(
-          "Destroy",
-          "/admin/destroy_user?user_id=#{resource.id}",
-          data: { method: "delete" }
-        ) %>
-          </small>
+            <a href="/admin/destroy_user?user_id={{user.id}}" data-method="delete">Destroy</a>
         </td>
         <% end %>
 
       </tr>
-    <% end %>
   </tbody>
 </table>

@@ -42,6 +42,89 @@
 				  </li>
 				</ul>
 
+				<div class="article_box feed-listing pt-2 pb-2 w-100 feed-share" ng-if="article">
+					<div class="inner card">
+						<div class="img_mask">
+							<a ng-if="article.image" href="{{ article.path }}"
+									ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}">
+								<img ng-src="{{ article.image }}" alt="{{ article.title }}" class="w-100" />
+							</a>
+						</div>
+
+						<a href="{{ article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ article.exchange.slug }}"
+							ng-if="article.exchange.name.length">
+					    <span ng-if="article.exchange.isSponsored"><i class="fas fa-star"></i></span>
+						  {{ article.exchange.name }}
+						</a>
+
+
+						<header class="entry-header pt-3 px-3" ng-class="{'pt-4': article.isRemote}">
+							<h6 ng-if="article.remoteDomain.length > 0" style="text-transform: uppercase; margin: 0 0 8px;">{{article.remoteDomain}}</h6>
+
+							<h4 class="entry-title mb-0" id="article-post-title-{{ article.id }}">
+								<a href="{{ article.path }}" ng-bind-html="article.title"
+										ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}"></a>
+							</h4>
+						</header>
+
+
+						<footer class="entry-footer pt-1 px-3 pb-2" ng-if="article.author.name.length">
+							<p class="author_link d-flex justify-content-between align-items-start">
+								<a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
+								<span class="entry-date">{{ article.publishedAt }}</span></p>
+						</footer>
+
+						<div class="member_ratings p-3">
+							<h5>Average member ratings</h5>
+							<ul class="w-100 justify-content-between">
+								<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
+									<label class="w-75">Well argued:</label>
+									<span class="rating"
+												ng-class="{'faded': !article.ratingAllWwc}"
+												ng-hide="selectedTab == 'you_follow'">
+										{{article.ratingAllWwc}}
+									</span>
+
+									<span class="rating"
+												ng-class="{'faded': !article.ratingFollowsWwc}"
+												ng-hide="selectedTab == 'all_members'">
+										{{article.ratingFollowsWwc}}
+									</span>
+								</li>
+								<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
+									<label class="w-75">Interesting points:</label>
+									<span class="rating"
+												ng-class="{'faded': !article.ratingAllVpc}"
+												ng-hide="selectedTab == 'you_follow'">
+										{{article.ratingAllVpc}}
+									</span>
+
+									<span class="rating"
+												ng-class="{'faded': !article.ratingFollowsVpc}"
+												ng-hide="selectedTab == 'all_members'">
+										{{article.ratingFollowsVpc}}
+									</span>
+								</li>
+								<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
+									<label class="w-75">Agree with arguments:</label>
+									<span class="rating"
+												ng-class="{'faded': !article.ratingAllAc}"
+												ng-hide="selectedTab == 'you_follow'">
+										{{article.ratingAllAc}}
+									</span>
+
+									<span class="rating"
+												ng-class="{'faded': !article.ratingFollowsAc}"
+												ng-hide="selectedTab == 'all_members'">
+										{{article.ratingFollowsAc}}
+									</span>
+								</li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
 				<div ng-if="!ratings.firstLoaded" class="ajax_loading">
 					Loading results....
 				</div>
@@ -49,380 +132,320 @@
 				<div ng-if="ratings.firstLoaded" class="row"
 						ng-class="{'empty': ratings.data.length == 0}">
 
-					<div class="article_box feed-listing pt-2 pb-2 w-100 feed-share">
-						<div class="inner card">
-							<div class="img_mask">
-								<a ng-if="article.image" href="{{ article.path }}"
-										ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}">
-									<img ng-src="{{ article.image }}" alt="{{ article.title }}" class="w-100" />
-								</a>
-							</div>
-
-							<a href="{{ article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ article.exchange.slug }}"
-								ng-if="article.exchange.name.length">
-						    <span ng-if="article.exchange.isSponsored"><i class="fas fa-star"></i></span>
-							  {{ article.exchange.name }}
-							</a>
-
-
-							<header class="entry-header pt-3 px-3" ng-class="{'pt-4': article.isRemote}">
-								<h6 ng-if="article.remoteDomain.length > 0" style="text-transform: uppercase; margin: 0 0 8px;">{{article.remoteDomain}}</h6>
-
-								<h4 class="entry-title mb-0" id="article-post-title-{{ article.id }}">
-									<a href="{{ article.path }}" ng-bind-html="article.title"
-											ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}"></a>
-								</h4>
-							</header>
-
-
-							<footer class="entry-footer pt-1 px-3 pb-2" ng-if="article.author.name.length">
-								<p class="author_link d-flex justify-content-between align-items-start">
-									<a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
-									<span class="entry-date">{{ article.publishedAt }}</span></p>
-							</footer>
-
-							<div class="member_ratings p-3">
-								<h5>Average member ratings</h5>
-								<ul class="w-100 justify-content-between">
-									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
-										<label class="w-75">Well argued:</label>
-										<span class="rating"
-													ng-class="{'faded': !article.ratingAllWwc}"
-													ng-hide="selectedTab == 'you_follow'">
-											{{article.ratingAllWwc}}
-										</span>
-
-										<span class="rating"
-													ng-class="{'faded': !article.ratingFollowsWwc}"
-													ng-hide="selectedTab == 'all_members'">
-											{{article.ratingFollowsWwc}}
-										</span>
-									</li>
-									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
-										<label class="w-75">Interesting points:</label>
-										<span class="rating"
-													ng-class="{'faded': !article.ratingAllVpc}"
-													ng-hide="selectedTab == 'you_follow'">
-											{{article.ratingAllVpc}}
-										</span>
-
-										<span class="rating"
-													ng-class="{'faded': !article.ratingFollowsVpc}"
-													ng-hide="selectedTab == 'all_members'">
-											{{article.ratingFollowsVpc}}
-										</span>
-									</li>
-									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
-										<label class="w-75">Agree with arguments:</label>
-										<span class="rating"
-													ng-class="{'faded': !article.ratingAllAc}"
-													ng-hide="selectedTab == 'you_follow'">
-											{{article.ratingAllAc}}
-										</span>
-
-										<span class="rating"
-													ng-class="{'faded': !article.ratingFollowsAc}"
-													ng-hide="selectedTab == 'all_members'">
-											{{article.ratingFollowsAc}}
-										</span>
-									</li>
-								</ul>
-							</div>
-
-						</div>
-					</div>
-
 					<p class="col-12 empty_resource" ng-if="ratings.data.length == 0">
 						<span>This article has not yet been rated</span>
 					</p>
 
-
-					<div ng-repeat="item in ratings.data"
-								 class="col-12 feed-listing feed-share pb-3 px-0"
-								 ng-hide="selectedTab == 'you_follow' && !item.share.user.imFollowing">
-
-							<!-- Rating card -->
-							<div class="card">
-							 	<div class="user_info d-flex justify-content-between align-items-start">
-
-							 		<div class="user_info_inner d-flex align-items-start">
-							 			<a href="{{item.user.path}}">
-							 				<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" class="mr-3 rounded-circle" />
-							 			</a>
-							 			<div>
-							 				<h4 class="mb-3">
-							 					<a href="{{item.user.path}}">
-							 						<b>{{item.user.displayName}}</b>
-							 						<span class="text-muted">{{item.user.username}}</span>
-							 						&bullet; <time>{{item.date}}</time>
-							 					</a>
-							 				</h4>
-							 			</div>
-							 		</div>
-
-
-							 		<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
-							 			<%= render partial: 'common/options_menu', locals: { from: :share } %>
-							 		</div>
-
-							 		<% if user_signed_in? %>
-							 			<div ng-if="item.share.user.id == <%= current_user.id %>">
-							 				<nav class="navbar share_menu_btn d-inline-block">
-							 					<a href='#' data-toggle="dropdown">
-							 						<i class="fas fa-chevron-circle-down"></i>
-							 					</a>
-
-							 				  <div class="dropdown-menu dropdown-menu-right">
-							 				  	<a class="dropdown-item" href="#" ng-click="interactionMute($event, item.share)"
-							 				  	      ng-if="!item.share.isInteractionMuted">Turn off notifications</a>
-							 				  	<a class="dropdown-item" href="#" ng-click="interactionUnmute($event, item.share)"
-							 				  	      ng-if="item.share.isInteractionMuted">Turn on notifications</a>
-							 				  	<a class="dropdown-item" href="#"
-							 				  				ng-click="openTweetWindow($event, item)"
-							 				  	      ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">Share on Twitter</a>
-							 			      <a class="dropdown-item" href="#" ng-click="deleteMyPost($event, item.share)">Delete post</a>
-							 				  </div>
-							 				</nav>
-							 			</div>
-							 		<% end %>
-							 	</div>
-
-							 	<div class="post mt-2 mb-0" ng-if="item.share.post.length > 0" ng-bind-html="trustAsHtml(item.share.post)"></div>
-
-							 	<div class="member_ratings pt-3 px-3" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
-							 		<ul class="dots">
-							 			<li class="mb-3" ng-if="item.ratings.wellWritten > 0">
-							 				<label class="">Well argued: </label>
-							 				<div class="justify-content-start d-flex align-items-start">
-							 					<div class="dots">
-							 						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
-							 							<span ng-class="{
-							 								'filled': i <= item.ratings.wellWritten,
-							 								'empty': i > item.ratings.wellWritten
-							 							}">&nbsp;</span>
-							 						</span>
-							 					</div>
-							 					<h6 class="text-green feed">
-							 						{{item.ratings.wellWrittenText}}
-							 					</h6>
-							 				</div>
-							 			</li>
-
-							 			<li class="mb-3" ng-if="item.ratings.validPoints > 0">
-							 				<label class="">Interesting: </label>
-							 				<div class="justify-content-start d-flex align-items-start">
-							 					<div class="dots">
-							 						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
-							 							<span ng-class="{
-							 								'filled': i <= item.ratings.validPoints,
-							 								'empty': i > item.ratings.validPoints
-							 							}">&nbsp;</span>
-							 						</span>
-							 					</div>
-							 					<h6 class="text-green feed">
-							 						{{item.ratings.validPointsText}}
-							 					</h6>
-							 				</div>
-							 			</li>
-
-							 			<li class="mb-3" ng-if="item.ratings.agree > 0">
-							 				<label class="">Agree: </label>
-							 				<div class="justify-content-start d-flex align-items-start">
-							 					<div class="dots">
-							 						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
-							 							<span ng-class="{
-							 								'filled': i <= item.ratings.agree,
-							 								'empty': i > item.ratings.agree
-							 							}">&nbsp;</span>
-							 						</span>
-							 					</div>
-							 					<h6 class="text-green feed">
-							 						{{item.ratings.agreeText}}
-							 					</h6>
-							 				</div>
-							 			</li>
-							 		</ul>
-							 	</div>
-
-
-							 	<section>
-							 		<div class="share_meta d-flex justify-content-start">
-							 			<div class="count_box comment_count flex-fill" ng-if="commentCount(item, false) > 0">
-							 				<a href='#' ng-click="showComments($event, item)">
-							 					<i class="far fa-comment-alt"></i>
-							 					{{ commentCount(item) }}
-							 				</a>
-							 			</div>
-							 			<div class="count_box agree_count flex-fill" ng-if="agreeCount(item, false) > 0 && item.share.isOpinionatable">
-							 				<a href='#' ng-click="showAgrees($event, item)">
-							 					<i class="far fa-thumbs-up"></i>
-							 					{{ agreeCount(item) }}
-							 				</a>
-							 			</div>
-							 			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0 && item.share.isOpinionatable">
-							 				<a href='#' ng-click="showDisagrees($event, item)"
-							 						>
-							 					<i class="far fa-thumbs-down"></i>
-							 					{{ disagreeCount(item) }}
-							 				</a>
-							 			</div>
-							 		</div>
-
-							 		<div class="share_actions px-3 px-lg-4 px-xl-5 pt-3"
-							 					ng-class="{'ghosted': !isSignedIn || item.canInteract != 'yes'}">
-							 			<div class="d-flex justify-content-between">
-							 				<a href='#' ng-click="showComments($event, item, true)" class="comment_action action">
-							 					<i class="fas fa-comment-alt"></i>
-							 					Comment
-							 				</a>
-							 				<a href='#' ng-click="agreeWithPost($event, item)" class="agree_action action"
-							 						ng-class="{'selected': item.iAgreeWithPost}"
-							 						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %> && item.share.isOpinionatable">
-							 					<i class="fas fa-thumbs-up"></i>
-							 					Agree
-							 				</a>
-							 				<a href='#' ng-click="disagreeWithPost($event, item)" class="disagree_action action"
-							 						ng-class="{'selected': item.iDisagreeWithPost}"
-							 						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %> && item.share.isOpinionatable">
-							 					<i class="fas fa-thumbs-down"></i>
-							 					Disagree
-							 				</a>
-							 			</div>
-
-							 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_followed'">
-							 				You follow {{item.user.displayName}} but they do not follow you so you cannot comment on this post. Start a discussion on your own profile by <a href='{{item.article.path}}' target="{{ item.article.isRemote ? '_blank' : '_self' }}">visiting the article</a> and sharing your own thoughts and rating.
-							 			</p>
-
-							 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_following'">
-							 				{{item.user.displayName}} follows you but you do not follow them so you cannot comment on this post. <a href='#' ng-click='followUserFromAuthError($event, item, true)'>Follow {{item.user.displayName}}.</a>
-							 			</p>
-
-							 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_connected'">
-							 				You need to be connected to {{item.user.displayName}} to comment on this post. Make the first move by <a href='#' ng-click='followUserFromAuthError($event, item, false)'>following {{item.user.displayName}}.</a>
-							 			</p>
-							 		</div>
-							 	</section>
-							</div>
-
-							<section>
-								<!-- Comments -->
-								<div class="comments_pane" ng-hide="!item.share.showComments">
-									<div class="ajax_loading" ng-if="!item.share.commentsLoaded">Loading...</div>
-
-									<div ng-hide="!item.share.commentsLoaded" class="respond_box">
-									  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
-									  	<!-- -->
-									  </div>
-
-
-									  <div class="comments px-3 navbar d-block">
-									  	<div class="order_by_dropdown dropdown">
-									  	  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									  	    {{commentOrderText(item.orderCommentsBy)}} <i class="fas fa-chevron-down"></i>
-									  	  </a>
-									  	  <div class="dropdown-menu">
-									  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_relevant')">
-									  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'most_relevant'"></i>
-									  				<h6>Most relevant</h6>
-									  				<p>Shows people you follow's comments and the most engaging comments first</p>
-									  	    </div>
-									  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_recent')">
-									  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'most_recent'"></i>
-									  				<h6>Most recent</h6>
-									  				<p>Shows all comments, with the most recent first</p>
-									  	    </div>
-									  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'oldest')">
-									  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'oldest'"></i>
-									  				<h6>Oldest</h6>
-									  				<p>Shows all comments, with the oldest first</p>
-									  	    </div>
-									  	  </div>
-									  	</div>
-
-									    <ol class="comment-list" ng-if="item.share.commentsLoaded">
-									    	<li ng-repeat="comment in filterCommentsByLimit(item)"
-									    				class="comment parent feed-listing"
-									    				ng-class="{'with_children': comment.children.length > 0}">
-									        <%= render 'shares/comment' %>
-									        <ol class="children" ng-if="comment.children.length > 0">
-									          <li class="comment feed-listing" ng-repeat="child in filterRepliesByLimit(comment, item)">
-									            <%= render 'shares/comment_child' %>
-									          </li>
-									        </ol>
-									        <a href='#' ng-click="showAllReplies($event, comment)"
-									        						ng-if="(comment.data.replyShowLimit > 0) && (comment.children.length > comment.data.replyShowLimit)"
-									        						class="show_more text-green pt-2 pb-3 px-2 mb-3">
-									        						<i class="fas fa-chevron-down mr-1"></i>
-									        					View all {{comment.children.length}} replies
-									        					</a>
-									      </li>
-									    </ol>
-									    <a href='#' ng-click="showAllComments($event, item)" ng-if="(item.share.commentShowLimit > 0) && (item.comments.length > item.share.commentShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
-									    	<i class="fas fa-chevron-down mr-1"></i>
-									    View all {{item.comments.length}} comments
-									  	</a>
-									  </div>
-								  </div>
-								</div>
-
-
-								<!-- Agrees -->
-								<div class="opinions_pane agrees" ng-if="item.share.showAgrees">
-									<div class="ajax_loading" ng-if="!item.share.opinionsLoaded">Loading...</div>
-
-									<div ng-if="item.share.opinionsLoaded">
-										<h5 class="pt-2 pl-4">People who agree with this post</h5>
-										<ol class="comment-list">
-											<li ng-repeat="opinion in filterAgreesByLimit(item)" class="opinion feed-listing feed-opinion">
-										    <%= render 'shares/opinion' %>
-										  </li>
-										</ol>
-										<a href='#' ng-click="showAllAgrees($event, item)"
-													ng-if="(item.share.agreeShowLimit > 0) && (item.opinions.agrees.length > item.share.agreeShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
-											<i class="fas fa-chevron-down mr-1"></i>
-											View all {{item.opinions.agrees.length}}
-										</a>
-									</div>
-								</div>
-
-								<!-- Disgrees -->
-								<div class="opinions_pane agrees" ng-if="item.share.showDisagrees">
-									<div class="ajax_loading" ng-if="!item.share.opinionsLoaded">Loading...</div>
-
-									<div ng-if="item.share.opinionsLoaded">
-										<h5 class="pt-2 pl-4">People who disagree with this post</h5>
-										<ol class="comment-list">
-											<li ng-repeat="opinion in filterDisagreesByLimit(item)" class="opinion feed-listing feed-opinion">
-										    <%= render 'shares/opinion' %>
-										  </li>
-										</ol>
-									  <a href='#' ng-click="showAllDisagrees($event, item)"
-									  			ng-if="(item.share.disagreeShowLimit > 0) && (item.opinions.disagrees.length > item.share.disagreeShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
-									  	<i class="fas fa-chevron-down mr-1"></i>
-									  	View all {{item.opinions.disagrees.length}}
-										</a>
-									</div>
-								</div>
-							</section>
-
+					<div class="px-3 py-2 navbar d-block">
+						<div class="order_by_dropdown dropdown" ng-if="ratings.data.length > 0">
+						  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    {{ratingOrderText(ratings.orderBy)}} <i class="fas fa-chevron-down"></i>
+						  </a>
+						  <div class="dropdown-menu">
+						    <div class="dropdown-item" ng-click="reorderRatings($event, 'comments')">
+									<i class="fas fa-check tick" ng-if="ratings.orderBy == 'comments'"></i>
+									<h6>By comment</h6>
+						    </div>
+						    <div class="dropdown-item" ng-click="reorderRatings($event, 'oldest')">
+									<i class="fas fa-check tick" ng-if="ratings.orderBy == 'oldest'"></i>
+									<h6>By date (oldest first)</h6>
+						    </div>
+						    <div class="dropdown-item" ng-click="reorderRatings($event, 'newest')">
+									<i class="fas fa-check tick" ng-if="ratings.orderBy == 'newest'"></i>
+									<h6>By date (newest first)</h6>
+						    </div>
+						  </div>
+						</div>
 					</div>
 
-					<% unless is_development? %>
-						<section id="bibblio_sidebar" ng-if="ratings.firstLoaded" class="py-3 bg-white w-100">
-								<div class="container">
-									<h2 class="bullet mb-2">
-										<span class="">You may also like</span>
-									</h2>
-									<div class="bib--rcm-init"
-									  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
-									  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
-									  data-query-string-params="utm_source=bibblio_widget_1"
-									  data-custom-unique-identifier="<%= @article.slug %>">
-									</div>
-								</div>
-						</section>
-					<% end %>
+					<div style="min-height: 50vh;">
+						<div ng-repeat="item in ratings.data"
+									 class="col-12 feed-listing feed-share pb-3 px-0"
+									 ng-hide="selectedTab == 'you_follow' && !item.share.user.imFollowing">
 
+								<!-- Rating card -->
+								<div class="card">
+								 	<div class="user_info d-flex justify-content-between align-items-start">
+
+								 		<div class="user_info_inner d-flex align-items-start">
+								 			<a href="{{item.user.path}}">
+								 				<img ng-src="{{item.user.image}}" alt="{{item.user.displayName}}" class="mr-3 rounded-circle" />
+								 			</a>
+								 			<div>
+								 				<h4 class="mb-3">
+								 					<a href="{{item.user.path}}">
+								 						<b>{{item.user.displayName}}</b>
+								 						<span class="text-muted">{{item.user.username}}</span>
+								 						&bullet; <time>{{item.date}}</time>
+								 					</a>
+								 				</h4>
+								 			</div>
+								 		</div>
+
+
+								 		<div ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %>">
+								 			<%= render partial: 'common/options_menu', locals: { from: :share } %>
+								 		</div>
+
+								 		<% if user_signed_in? %>
+								 			<div ng-if="item.share.user.id == <%= current_user.id %>">
+								 				<nav class="navbar share_menu_btn d-inline-block">
+								 					<a href='#' data-toggle="dropdown">
+								 						<i class="fas fa-chevron-circle-down"></i>
+								 					</a>
+
+								 				  <div class="dropdown-menu dropdown-menu-right">
+								 				  	<a class="dropdown-item" href="#" ng-click="interactionMute($event, item.share)"
+								 				  	      ng-if="!item.share.isInteractionMuted">Turn off notifications</a>
+								 				  	<a class="dropdown-item" href="#" ng-click="interactionUnmute($event, item.share)"
+								 				  	      ng-if="item.share.isInteractionMuted">Turn on notifications</a>
+								 				  	<a class="dropdown-item" href="#"
+								 				  				ng-click="openTweetWindow($event, item)"
+								 				  	      ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">Share on Twitter</a>
+								 			      <a class="dropdown-item" href="#" ng-click="deleteMyPost($event, item.share)">Delete post</a>
+								 				  </div>
+								 				</nav>
+								 			</div>
+								 		<% end %>
+								 	</div>
+
+								 	<div class="post mt-2 mb-0" ng-if="item.share.post.length > 0" ng-bind-html="trustAsHtml(item.share.post)"></div>
+
+								 	<div class="member_ratings pt-3 px-3" ng-if="item.ratings.wellWritten > 0 || item.ratings.validPoints > 0 || item.ratings.agree > 0">
+								 		<ul class="dots">
+								 			<li class="mb-3" ng-if="item.ratings.wellWritten > 0">
+								 				<label class="">Well argued: </label>
+								 				<div class="justify-content-start d-flex align-items-start">
+								 					<div class="dots">
+								 						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
+								 							<span ng-class="{
+								 								'filled': i <= item.ratings.wellWritten,
+								 								'empty': i > item.ratings.wellWritten
+								 							}">&nbsp;</span>
+								 						</span>
+								 					</div>
+								 					<h6 class="text-green feed rating_text_{{item.ratings.wellWrittenClass}}">
+								 						{{item.ratings.wellWrittenText}}
+								 					</h6>
+								 				</div>
+								 			</li>
+
+								 			<li class="mb-3" ng-if="item.ratings.validPoints > 0">
+								 				<label class="">Interesting: </label>
+								 				<div class="justify-content-start d-flex align-items-start">
+								 					<div class="dots">
+								 						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
+								 							<span ng-class="{
+								 								'filled': i <= item.ratings.validPoints,
+								 								'empty': i > item.ratings.validPoints
+								 							}">&nbsp;</span>
+								 						</span>
+								 					</div>
+								 					<h6 class="text-green feed rating_text_{{item.ratings.validPointsClass}}">
+								 						{{item.ratings.validPointsText}}
+								 					</h6>
+								 				</div>
+								 			</li>
+
+								 			<li class="mb-3" ng-if="item.ratings.agree > 0">
+								 				<label class="">Agree: </label>
+								 				<div class="justify-content-start d-flex align-items-start">
+								 					<div class="dots">
+								 						<span class="dot feed" ng-repeat="i in _.range(1, 6)">
+								 							<span ng-class="{
+								 								'filled': i <= item.ratings.agree,
+								 								'empty': i > item.ratings.agree
+								 							}">&nbsp;</span>
+								 						</span>
+								 					</div>
+								 					<h6 class="text-green feed rating_text_{{item.ratings.agreeClass}}">
+								 						{{item.ratings.agreeText}}
+								 					</h6>
+								 				</div>
+								 			</li>
+								 		</ul>
+								 	</div>
+
+
+								 	<section>
+								 		<div class="share_meta d-flex justify-content-start">
+								 			<div class="count_box comment_count flex-fill" ng-if="commentCount(item, false) > 0">
+								 				<a href='#' ng-click="showComments($event, item)">
+								 					<i class="far fa-comment-alt"></i>
+								 					{{ commentCount(item) }}
+								 				</a>
+								 			</div>
+								 			<div class="count_box agree_count flex-fill" ng-if="agreeCount(item, false) > 0 && item.share.isOpinionatable">
+								 				<a href='#' ng-click="showAgrees($event, item)">
+								 					<i class="far fa-thumbs-up"></i>
+								 					{{ agreeCount(item) }}
+								 				</a>
+								 			</div>
+								 			<div class="count_box disagree_count flex-fill" ng-if="disagreeCount(item, false) > 0 && item.share.isOpinionatable">
+								 				<a href='#' ng-click="showDisagrees($event, item)"
+								 						>
+								 					<i class="far fa-thumbs-down"></i>
+								 					{{ disagreeCount(item) }}
+								 				</a>
+								 			</div>
+								 		</div>
+
+								 		<div class="share_actions px-3 px-lg-4 px-xl-5 pt-3"
+								 					ng-class="{'ghosted': !isSignedIn || item.canInteract != 'yes'}">
+								 			<div class="d-flex justify-content-between">
+								 				<a href='#' ng-click="showComments($event, item, true)" class="comment_action action">
+								 					<i class="fas fa-comment-alt"></i>
+								 					Comment
+								 				</a>
+								 				<a href='#' ng-click="agreeWithPost($event, item)" class="agree_action action"
+								 						ng-class="{'selected': item.iAgreeWithPost}"
+								 						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %> && item.share.isOpinionatable">
+								 					<i class="fas fa-thumbs-up"></i>
+								 					Agree
+								 				</a>
+								 				<a href='#' ng-click="disagreeWithPost($event, item)" class="disagree_action action"
+								 						ng-class="{'selected': item.iDisagreeWithPost}"
+								 						ng-if="item.share.user.id != <%= user_signed_in? ? current_user.id : 0 %> && item.share.isOpinionatable">
+								 					<i class="fas fa-thumbs-down"></i>
+								 					Disagree
+								 				</a>
+								 			</div>
+
+								 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_followed'">
+								 				You follow {{item.user.displayName}} but they do not follow you so you cannot comment on this post. Start a discussion on your own profile by <a href='{{item.article.path}}' target="{{ item.article.isRemote ? '_blank' : '_self' }}">visiting the article</a> and sharing your own thoughts and rating.
+								 			</p>
+
+								 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_following'">
+								 				{{item.user.displayName}} follows you but you do not follow them so you cannot comment on this post. <a href='#' ng-click='followUserFromAuthError($event, item, true)'>Follow {{item.user.displayName}}.</a>
+								 			</p>
+
+								 			<p class="mb-0 mt-4 alert alert-danger" ng-if="item.actionAuthError == 'not_connected'">
+								 				You need to be connected to {{item.user.displayName}} to comment on this post. Make the first move by <a href='#' ng-click='followUserFromAuthError($event, item, false)'>following {{item.user.displayName}}.</a>
+								 			</p>
+								 		</div>
+								 	</section>
+								</div>
+
+								<section>
+									<!-- Comments -->
+									<div class="comments_pane" ng-hide="!item.share.showComments">
+										<div class="ajax_loading" ng-if="!item.share.commentsLoaded">Loading...</div>
+
+										<div ng-hide="!item.share.commentsLoaded" class="respond_box">
+										  <div class="respond" data-share-id="{{item.share.id}}" data-comment-id="0" ng-if="item.canInteract == 'yes'">
+										  	<!-- -->
+										  </div>
+
+
+										  <div class="comments px-3 navbar d-block">
+										  	<div class="order_by_dropdown dropdown">
+										  	  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										  	    {{commentOrderText(item.orderCommentsBy)}} <i class="fas fa-chevron-down"></i>
+										  	  </a>
+										  	  <div class="dropdown-menu">
+										  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_relevant')">
+										  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'most_relevant'"></i>
+										  				<h6>Most relevant</h6>
+										  				<p>Shows people you follow's comments and the most engaging comments first</p>
+										  	    </div>
+										  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'most_recent')">
+										  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'most_recent'"></i>
+										  				<h6>Most recent</h6>
+										  				<p>Shows all comments, with the most recent first</p>
+										  	    </div>
+										  	    <div class="dropdown-item" ng-click="reorderComments($event, item, 'oldest')">
+										  				<i class="fas fa-check tick" ng-if="item.orderCommentsBy == 'oldest'"></i>
+										  				<h6>Oldest</h6>
+										  				<p>Shows all comments, with the oldest first</p>
+										  	    </div>
+										  	  </div>
+										  	</div>
+
+										    <ol class="comment-list" ng-if="item.share.commentsLoaded">
+										    	<li ng-repeat="comment in filterCommentsByLimit(item)"
+										    				class="comment parent feed-listing"
+										    				ng-class="{'with_children': comment.children.length > 0}">
+										        <%= render 'shares/comment' %>
+										        <ol class="children" ng-if="comment.children.length > 0">
+										          <li class="comment feed-listing" ng-repeat="child in filterRepliesByLimit(comment, item)">
+										            <%= render 'shares/comment_child' %>
+										          </li>
+										        </ol>
+										        <a href='#' ng-click="showAllReplies($event, comment)"
+										        						ng-if="(comment.data.replyShowLimit > 0) && (comment.children.length > comment.data.replyShowLimit)"
+										        						class="show_more text-green pt-2 pb-3 px-2 mb-3">
+										        						<i class="fas fa-chevron-down mr-1"></i>
+										        					View all {{comment.children.length}} replies
+										        					</a>
+										      </li>
+										    </ol>
+										    <a href='#' ng-click="showAllComments($event, item)" ng-if="(item.share.commentShowLimit > 0) && (item.comments.length > item.share.commentShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
+										    	<i class="fas fa-chevron-down mr-1"></i>
+										    View all {{item.comments.length}} comments
+										  	</a>
+										  </div>
+									  </div>
+									</div>
+
+
+									<!-- Agrees -->
+									<div class="opinions_pane agrees" ng-if="item.share.showAgrees">
+										<div class="ajax_loading" ng-if="!item.share.opinionsLoaded">Loading...</div>
+
+										<div ng-if="item.share.opinionsLoaded">
+											<h5 class="pt-2 pl-4">People who agree with this post</h5>
+											<ol class="comment-list">
+												<li ng-repeat="opinion in filterAgreesByLimit(item)" class="opinion feed-listing feed-opinion">
+											    <%= render 'shares/opinion' %>
+											  </li>
+											</ol>
+											<a href='#' ng-click="showAllAgrees($event, item)"
+														ng-if="(item.share.agreeShowLimit > 0) && (item.opinions.agrees.length > item.share.agreeShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
+												<i class="fas fa-chevron-down mr-1"></i>
+												View all {{item.opinions.agrees.length}}
+											</a>
+										</div>
+									</div>
+
+									<!-- Disgrees -->
+									<div class="opinions_pane agrees" ng-if="item.share.showDisagrees">
+										<div class="ajax_loading" ng-if="!item.share.opinionsLoaded">Loading...</div>
+
+										<div ng-if="item.share.opinionsLoaded">
+											<h5 class="pt-2 pl-4">People who disagree with this post</h5>
+											<ol class="comment-list">
+												<li ng-repeat="opinion in filterDisagreesByLimit(item)" class="opinion feed-listing feed-opinion">
+											    <%= render 'shares/opinion' %>
+											  </li>
+											</ol>
+										  <a href='#' ng-click="showAllDisagrees($event, item)"
+										  			ng-if="(item.share.disagreeShowLimit > 0) && (item.opinions.disagrees.length > item.share.disagreeShowLimit)" class="show_more text-green pt-2 pb-3 px-2 mb-5">
+										  	<i class="fas fa-chevron-down mr-1"></i>
+										  	View all {{item.opinions.disagrees.length}}
+											</a>
+										</div>
+									</div>
+								</section>
+
+						</div>
+
+						<% unless is_development? %>
+							<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (!ratings.moreToLoad) && (!ratings.loading)" class="py-3 bg-white w-100">
+									<div class="container">
+										<h2 class="bullet mb-2">
+											<span class="">You may also like</span>
+										</h2>
+										<div class="bib--rcm-init"
+										  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+										  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
+										  data-query-string-params="utm_source=bibblio_ratings_page"
+										  data-custom-unique-identifier="<%= @article.slug %>">
+										</div>
+									</div>
+							</section>
+						<% end %>
+
+					</div>
 				</div>
 			</div>
 

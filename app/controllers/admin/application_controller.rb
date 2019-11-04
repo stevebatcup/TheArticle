@@ -6,6 +6,11 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
+    http_basic_authenticate_with(
+      name: "londonbridge",
+      password: "B37ys0m2w"
+    )
+
     before_action :authenticate_admin
 
     rescue_from SecurityError do |exception|
@@ -46,6 +51,18 @@ module Admin
       @share_concern_report_count ||= ShareConcernReport.all.size
     end
     helper_method :share_concern_report_count
+
+    def processed_concern_report_count
+      @processed_concern_report_count ||= ProcessedConcernReport.all.size
+    end
+    helper_method :processed_concern_report_count
+
+    def better_model_error_messages(resource)
+      messages = resource.errors.details.keys.map do |attr|
+        resource.errors.full_messages_for(attr).first
+      end
+      messages.join
+    end
 
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.

@@ -47,6 +47,9 @@ a:hover {
 	font-size: 0.8em;
 }
 
+.w-sm-100 {
+	width: 100% !important;
+}
 
 h1 {
 	font-size: 1.6em;
@@ -344,7 +347,8 @@ html.svg #logo {
 	}
 
 	&.show_menu {
-		top: 43px;
+		// top: 43px;
+		top: 0px;
 		opacity: 0.8;
 	}
 }
@@ -747,7 +751,7 @@ form#filter_list_form {
   	padding: 4px 8px 3px;
 	}
 
-  svg {
+  i, svg {
   	margin-right: 4px;
   	position: relative;
   	top: -1px;
@@ -780,7 +784,7 @@ form#filter_list_form {
 .url {
 	font-size: 11px;
 
-	svg {
+	i, svg {
 		font-size: 14px;
 		margin-right: 3px;
 		width: 21px !important;
@@ -952,8 +956,8 @@ html.svg {
 		a#notifications-tab {
 			.badge {
 				position: absolute;
-				top: 4px;
-				right: 18px;
+				top: 6px;
+				right: 28px;
 				padding: 3px 2px 0px 2px;
 				font-size: 0.5em;
 				min-width: 15px;
@@ -986,7 +990,7 @@ html.svg {
 	font-size: 19px;
 	z-index: 1000000000;
 
-	svg {
+	i, svg {
 		font-size: 25px;
 		margin-right: 6px;
 		position: relative;

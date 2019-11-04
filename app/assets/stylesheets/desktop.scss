@@ -1,6 +1,7 @@
 @import "_variables";
 @import "_functions";
 @import "_mixins";
+@import "font-awesome";
 @import "bootstrap";
 @import "colours";
 @import "text";
@@ -38,3 +39,8 @@
 @import "desktop/help-centre";
 
 @import "vendor/input-range";
+
+/* Hack for Font-awesome-rails */
+.fas, .far, .fab {
+	@extend .fa;
+}

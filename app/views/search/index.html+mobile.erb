@@ -4,7 +4,7 @@
 					id="search-results"
 					data-query="<%= @query %>"
 					 data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
-	<div id="top_bar" class="">
+	<div id="top_bar" class="" ng-if="search.results.loaded">
 		<ul class="nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item" ng-if="!search.results.empty">
 		    <a class="nav-link" href="#" ng-click="selectTab($event, 'all')"
@@ -46,8 +46,10 @@
 	</div>
 
 	<div id="results_pane" class="container bg-grey pt-3" ng-cloak>
-		<div class="">
-			<div class="results_block pb-4" ng-show="(selectedTab == 'all' && search.results.empty) && search.results.loaded">
+		<div class="ajax_loading feeds" ng-if="!search.results.loaded">Loading results...</div>
+
+		<div ng-if="search.results.loaded">
+			<div class="results_block pb-4" ng-show="(selectedTab == 'all' && search.results.empty)">
 				<div class="no_results py-3 px-3">
 					<h4>No Search Results</h4>
 					<p>Sorry, but we cannot find anything on <b>TheArticle</b> for {{search.query}}</p>

@@ -18,13 +18,13 @@ class Share < ApplicationRecord
 		if self.post.length > 0
 			post_html =  Nokogiri::HTML.fragment(self.post)
 			post_html.css('span.mentioned_user').each do |span|
-				user_id = span.attributes["data-user"].value.to_i
+				other_user_id = span.attributes["data-user"].value.to_i
 				Notification.create({
-					user_id: user_id,
+					user_id: other_user_id,
 					eventable_id: self.user.id,
 					eventable_type: "Mentioner",
 					share_id: self.id,
-					body: "<b>#{self.user.display_name}</b> <span class='text-muted'>#{self.user.username}</span> mentioned you in a post",
+					body: "<a href='/profile/#{self.user.slug}'><b>#{self.user.display_name}</b> <span class='text-muted'>#{self.user.username}</span></a> mentioned you in a post",
 					created_at: Time.now,
 					updated_at: Time.now
 				})

@@ -25,7 +25,12 @@ class FollowsMailer < Devise::Mailer
   end
 
   def daily_and_weekly(followed, followers)
-    subject = "You have new followers"
+    if followers.length == 1
+      subject = "You have been followed by #{followers.first.display_name}"
+    else
+      other_count = followers.length - 1
+      subject = "You have been followed by #{followers.first.display_name} and #{pluralize(other_count, 'other')}"
+    end
     merge_vars = {
       FIRST_NAME: followed.display_name,
       CURRENT_YEAR: Date.today.strftime("%Y"),

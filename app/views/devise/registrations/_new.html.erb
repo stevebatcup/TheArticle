@@ -1,4 +1,4 @@
-<div class="modal fade" id="registerBoxModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="registerBoxModal" tabindex="-1" role="dialog" style="display: none;">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
@@ -38,27 +38,33 @@
 
                 <div class="form-group">
                   <%= f.label :first_name %><br />
-                  <%= f.text_field :first_name, autofocus: true, autocomplete: "First name", class: "form-control", 'ng-model': 'register.firstName' %>
+                  <%= f.text_field :first_name, autofocus: true, autocomplete: "First name",
+                                    class: "form-control",
+                                    'ng-model': 'register.firstName',
+                                    'ng-blur': 'logRegisterFieldFilled("firstName")' %>
                 </div>
 
                 <p class="alert alert-danger" ng-if="register.errors.names">{{register.errors.names}}</p>
 
                 <div class="form-group">
                   <%= f.label :last_name %><br />
-                  <%= f.text_field :last_name, autofocus: true, autocomplete: "Last name", class: "form-control", 'ng-model': 'register.lastName' %>
+                  <%= f.text_field :last_name, autofocus: true, autocomplete: "Last name",
+                                      class: "form-control",
+                                      'ng-model': 'register.lastName',
+                                      'ng-blur': 'logRegisterFieldFilled("lastName")' %>
                 </div>
 
                 <div class="row form-group">
                   <div class="col">
                     <%= f.label :gender %><br />
-                    <%= f.select :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ], resource.gender), {}, { class: "form-control short", 'ng-model': 'register.gender' } %>
+                    <%= f.select :gender, options_for_select([ "Male", "Female", "Other", "Prefer not to say" ], resource.gender), {}, { class: "form-control short", 'ng-model': 'register.gender', 'ng-change': 'logRegisterFieldFilled("gender")' } %>
 
                     <p class="mb-2"><a href='#gender_and_age_info' data-toggle="collapse" role="button"><small>What's this for?</small></a></p>
                   </div>
 
                   <div class="col">
                     <%= f.label :age_bracket %><br />
-                    <%= f.select :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ], resource.age_bracket), {}, { class: "form-control short", 'ng-model': 'register.ageBracket' } %>
+                    <%= f.select :age_bracket, options_for_select([ "16-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+", "Prefer not to say" ], resource.age_bracket), {}, { class: "form-control short", 'ng-model': 'register.ageBracket', 'ng-change': 'logRegisterFieldFilled("ageBracket")' } %>
 
                     <p class="mb-2"><a href='#gender_and_age_info' data-toggle="collapse" role="button"><small>What's this for?</small></a></p>
                   </div>
@@ -73,7 +79,10 @@
 
                 <div class="form-group">
                   <%= f.label :email %><br />
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", 'ng-model': 'register.email' %>
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                                            class: "form-control",
+                                            'ng-model': 'register.email',
+                                            'ng-blur': 'logRegisterFieldFilled("email")' %>
                 </div>
 
                 <p class="alert alert-danger" ng-if="register.errors.email">{{register.errors.email}}</p>
@@ -84,13 +93,19 @@
                     <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                     <% end %><br />
-                    <%= f.password_field :password, autocomplete: "new-password", class: "form-control", 'ng-model': 'register.password' %>
+                    <%= f.password_field :password, autocomplete: "new-password",
+                                        class: "form-control",
+                                        'ng-model': 'register.password',
+                                        'ng-blur': 'logRegisterFieldFilled("password")' %>
                   </div>
 
 
                   <div class="col-md">
                     <%= f.label :password_confirmation %><br />
-                    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", 'ng-model': 'register.passwordConfirm' %>
+                    <%= f.password_field :password_confirmation, autocomplete: "new-password",
+                                          class: "form-control",
+                                          'ng-model': 'register.passwordConfirm',
+                                          'ng-blur': 'logRegisterFieldFilled("passwordConfirm")' %>
                   </div>
                 </div>
 
@@ -104,8 +119,9 @@
                     </small>
                   </label>
                 </div>
-
                 <p class="alert alert-danger" ng-if="register.errors.tandc">{{register.errors.tandc}}</p>
+
+                <%= recaptcha_tags(site_key: Rails.application.credentials.recaptcha_site_key) %>
 
                 <div class="actions">
                   <button class="btn btn-success btn-block text-white my-3"
@@ -116,6 +132,7 @@
                     <span ng-if="!register.joining">Join</span>
                   </button>
                 </div>
+
               <% end %>
 
               <p>Already have an account with <b>TheArticle</b>?  <a href='#' ng-click="openSigninForm($event)" class="text-green">Sign in here</a>.</p>

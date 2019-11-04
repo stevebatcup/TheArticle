@@ -49,6 +49,10 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 	bindEvents: ->
 		@bindCookieAcceptance()
 
+	logRegisterFieldFilled: (field) =>
+		if field? and @scope.register[field] and @scope.register[field].length > 0
+			gtag('event', 'register_field_filled', { 'field': field }) if gtag?
+
 	submitRegister: ($event) =>
 		$event.preventDefault()
 		@scope.register.errors.names = false
@@ -58,28 +62,29 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 		@scope.register.errors.password = false
 		@scope.register.errors.tandc = false
 
+		error_msg = ''
 		if !@scope.register.firstName or @scope.register.firstName.length is 0
-			@scope.register.errors.names = "Please enter your first name"
+			@scope.register.errors.names = error_msg = "Please enter your first name"
 		else if !@scope.register.lastName or @scope.register.lastName.length is 0
-			@scope.register.errors.names = "Please enter your last name"
+			@scope.register.errors.names = error_msg = "Please enter your last name"
 		else if !@scope.register.gender or @scope.register.gender.length is 0
-			@scope.register.errors.gender = "Please select your gender"
+			@scope.register.errors.gender = error_msg = "Please select your gender"
 		else if !@scope.register.ageBracket or @scope.register.ageBracket.length is 0
-			@scope.register.errors.ageBracket = "Please tell us your age bracket"
+			@scope.register.errors.ageBracket = error_msg = "Please tell us your age bracket"
 		else if !@scope.register.email or @scope.register.email.length is 0
-			@scope.register.errors.email = "Please enter a valid email address"
+			@scope.register.errors.email = error_msg = "Please enter a valid email address"
 		else if !@scope.register.password or @scope.register.password.length is 0
-			@scope.register.errors.password = "Please enter your new password"
+			@scope.register.errors.password = error_msg = "Please enter your new password"
 		else if !@scope.register.passwordConfirm or @scope.register.passwordConfirm.length is 0
-			@scope.register.errors.password = "Please confirm your new password"
+			@scope.register.errors.password = error_msg = "Please confirm your new password"
 		else if @scope.register.password.length < 6
-			@scope.register.errors.password = "Please make sure your password is at least 6 characters long"
+			@scope.register.errors.password = error_msg = "Please make sure your password is at least 6 characters long"
 		else if @scope.register.passwordConfirm isnt @scope.register.password
-			@scope.register.errors.password = "Please sure your new password and the confirmation match"
+			@scope.register.errors.password = error_msg = "Please make sure your new password and the confirmation match"
 		else if !@scope.register.tandc
-			@scope.register.errors.tandc = "Please confirm that you are over 16 and you agree to our Terms and Conditions"
+			@scope.register.errors.tandc = error_msg = "Please confirm that you are over 16 and you agree to our Terms and Conditions"
 
-		if @scope.register.errors.names or @scope.register.errors.gender or @scope.register.errors.ageBracket or @scope.register.errors.email or @scope.register.errors.password or @scope.register.errors.tandc
+		if error_msg.length > 0
 			return false
 		else
 			@scope.register.joining = true
@@ -93,6 +98,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 	sendRegistration: =>
 		url = $('form#new_user').attr('action')
 		@postJSON url,
+			'g-recaptcha-response': $('#g-recaptcha-response').val()
 			user:
 				first_name: @scope.register.firstName
 				last_name: @scope.register.lastName

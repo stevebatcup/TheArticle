@@ -1,7 +1,8 @@
 class RatingsHistoryController < ApplicationController
-	before_action :authenticate_user!
+	before_action :authenticate_basic_user
 
 	def index
+		@order_by = (params[:order_by] || :comments).to_sym
 		respond_to do |format|
 			@article = Article.find(params[:article_id])
 			format.json do
@@ -10,9 +11,16 @@ class RatingsHistoryController < ApplicationController
 					@total = @article.shares.where(share_type: 'rating').length
 				end
 				@ratings = @article.shares.where(share_type: 'rating')
-																		.order(created_at: :desc)
 																		.page(@page)
 																		.per(params[:per_page])
+				case @order_by
+				when :comments
+					@ratings  = @ratings.order("(post > '') DESC").order(created_at: :desc)
+				when :oldest
+					@ratings  = @ratings.order(created_at: :asc)
+				when :newest
+					@ratings  = @ratings.order(created_at: :desc)
+				end
 			end
 		end
 	end

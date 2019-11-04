@@ -293,10 +293,6 @@ class TheArticle.PageController extends TheArticle.NGController
 				deviceType: deviceType
 			gtag('event', 'open_register_form', gtagData)
 		@timeout =>
-			unless 'registerFormContent' of @scope
-				tpl = $("#registerBox").html().trim()
-				@scope.registerFormContent = @compile(tpl)(@scope)
-			$('body').append @scope.registerFormContent
 			$("#registerBoxModal").modal()
 		, 350
 

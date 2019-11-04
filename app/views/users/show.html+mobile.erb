@@ -524,7 +524,7 @@
 						<span ng-if="isMe">You are currently not following anyone</span>
 					</p>
 					<div class="ajax_loading follows" ng-show="!follows.loaded">Loading results...</div>
-					<div ng-repeat="item in follows.data.followings" class="feed-listing">
+					<div ng-repeat="item in follows.data.followings" class="feed-listing feed-follow">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -538,7 +538,7 @@
 						<span ng-if="isMe">You are currently not being followed by anyone</span>
 					</p>
 					<div class="ajax_loading follows" ng-show="!follows.loaded">Loading results...</div>
-					<div ng-repeat="item in follows.data.followers" class="feed-listing">
+					<div ng-repeat="item in follows.data.followers" class="feed-listing feed-follow">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -552,7 +552,7 @@
 						No followers you know
 					</p>
 					<div class="ajax_loading follows" ng-show="!follows.loaded">Loading results...</div>
-					<div ng-repeat="item in follows.data.alsoKnowsMes" class="feed-listing">
+					<div ng-repeat="item in follows.data.alsoKnowsMes" class="feed-listing feed-follow">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>
@@ -565,7 +565,7 @@
 					<p class="empty" ng-if="follows.data.connections.length == 0 && follows.loaded">
 						You currently have no connections
 					</p>
-					<div ng-repeat="item in follows.data.connections" class="feed-listing">
+					<div ng-repeat="item in follows.data.connections" class="feed-listing feed-follow">
 						<%= render 'users/member_card' %>
 					</div>
 				</div>

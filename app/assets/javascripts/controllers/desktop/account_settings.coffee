@@ -63,6 +63,8 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 				@forwardToPage(null, 'reactivate_profile')
 			, 400
 
+		@scope.noScrollOnPageTransition = true
+
 
 	bindEvents: ->
 		@listenForBack()

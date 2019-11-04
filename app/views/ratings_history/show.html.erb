@@ -110,6 +110,91 @@
 			<div class="container" id="activity-tabs">
 
 				<div class="section_posts">
+					<div class="article_box card col-12 feed-listing pt-3" ng-if="article">
+						<div class="inner">
+							<div class="img_mask">
+								<a ng-if="article.image" href="{{ article.path }}"
+										ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}">
+									<img ng-src="{{ article.image }}" alt="{{ article.title }}" class="w-100" />
+								</a>
+							</div>
+
+							<a href="{{ article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ article.exchange.slug }}"
+								ng-if="article.exchange.name.length">
+						    <span ng-if="article.exchange.isSponsored"><i class="fas fa-star"></i></span>
+							  {{ article.exchange.name }}
+							</a>
+
+
+							<header class="entry-header pt-3 px-3" ng-class="{'pt-4': article.isRemote}">
+								<h6 ng-if="article.remoteDomain.length > 0" style="text-transform: uppercase; margin: 0 0 8px;">{{article.remoteDomain}}</h6>
+
+								<h4 class="entry-title mb-0" id="article-post-title-{{ article.id }}">
+									<a href="{{ article.path }}" ng-bind-html="article.title"
+											ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}"></a>
+								</h4>
+							</header>
+
+
+							<footer class="entry-footer pt-1 px-3 pb-2" ng-if="article.author.name.length">
+								<p class="author_link d-flex justify-content-between align-items-start">
+									<a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
+									<span class="entry-date">{{ article.publishedAt }}</span></p>
+							</footer>
+
+							<div class="member_ratings p-3">
+								<h5 ng-hide="selectedTab == 'you_follow'">Average members ratings</h5>
+								<h5 ng-hide="selectedTab == 'all_members'">Average rating for the people you follow</h5>
+
+								<ul class="w-100 justify-content-between">
+									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
+										<label class="w-75">Well argued:</label>
+										<span class="rating"
+													ng-class="{'faded': !article.ratingAllWwc}"
+													ng-hide="selectedTab == 'you_follow'">
+											{{article.ratingAllWwc}}
+										</span>
+
+										<span class="rating"
+													ng-class="{'faded': !article.ratingFollowsWwc}"
+													ng-hide="selectedTab == 'all_members'">
+											{{article.ratingFollowsWwc}}
+										</span>
+									</li>
+									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
+										<label class="w-75">Interesting points:</label>
+										<span class="rating"
+													ng-class="{'faded': !article.ratingAllVpc}"
+													ng-hide="selectedTab == 'you_follow'">
+											{{article.ratingAllVpc}}
+										</span>
+
+										<span class="rating"
+													ng-class="{'faded': !article.ratingFollowsVpc}"
+													ng-hide="selectedTab == 'all_members'">
+											{{article.ratingFollowsVpc}}
+										</span>
+									</li>
+									<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
+										<label class="w-75">Agree with arguments:</label>
+										<span class="rating"
+													ng-class="{'faded': !article.ratingAllAc}"
+													ng-hide="selectedTab == 'you_follow'">
+											{{article.ratingAllAc}}
+										</span>
+
+										<span class="rating"
+													ng-class="{'faded': !article.ratingFollowsAc}"
+													ng-hide="selectedTab == 'all_members'">
+											{{article.ratingFollowsAc}}
+										</span>
+									</li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+
 					<div ng-if="!ratings.firstLoaded" class="ajax_loading">
 						Loading results....
 					</div>
@@ -117,95 +202,31 @@
 					<div ng-if="ratings.firstLoaded" class="results_block row"
 							ng-class="{'empty': ratings.data.length == 0}">
 
-						<div class="article_box card col-12 feed-listing pt-3">
-							<div class="inner">
-								<div class="img_mask">
-									<a ng-if="article.image" href="{{ article.path }}"
-											ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}">
-										<img ng-src="{{ article.image }}" alt="{{ article.title }}" class="w-100" />
-									</a>
-								</div>
-
-								<a href="{{ article.exchange.path }}" class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ article.exchange.slug }}"
-									ng-if="article.exchange.name.length">
-							    <span ng-if="article.exchange.isSponsored"><i class="fas fa-star"></i></span>
-								  {{ article.exchange.name }}
-								</a>
-
-
-								<header class="entry-header pt-3 px-3" ng-class="{'pt-4': article.isRemote}">
-									<h6 ng-if="article.remoteDomain.length > 0" style="text-transform: uppercase; margin: 0 0 8px;">{{article.remoteDomain}}</h6>
-
-									<h4 class="entry-title mb-0" id="article-post-title-{{ article.id }}">
-										<a href="{{ article.path }}" ng-bind-html="article.title"
-												ng-attr-target="{{(article.isRemote) ? '_blank' : undefined}}"></a>
-									</h4>
-								</header>
-
-
-								<footer class="entry-footer pt-1 px-3 pb-2" ng-if="article.author.name.length">
-									<p class="author_link d-flex justify-content-between align-items-start">
-										<a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
-										<span class="entry-date">{{ article.publishedAt }}</span></p>
-								</footer>
-
-								<div class="member_ratings p-3">
-									<h5 ng-hide="selectedTab == 'you_follow'">Average members ratings</h5>
-									<h5 ng-hide="selectedTab == 'all_members'">Average rating for the people you follow</h5>
-
-									<ul class="w-100 justify-content-between">
-										<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
-											<label class="w-75">Well argued:</label>
-											<span class="rating"
-														ng-class="{'faded': !article.ratingAllWwc}"
-														ng-hide="selectedTab == 'you_follow'">
-												{{article.ratingAllWwc}}
-											</span>
-
-											<span class="rating"
-														ng-class="{'faded': !article.ratingFollowsWwc}"
-														ng-hide="selectedTab == 'all_members'">
-												{{article.ratingFollowsWwc}}
-											</span>
-										</li>
-										<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
-											<label class="w-75">Interesting points:</label>
-											<span class="rating"
-														ng-class="{'faded': !article.ratingAllVpc}"
-														ng-hide="selectedTab == 'you_follow'">
-												{{article.ratingAllVpc}}
-											</span>
-
-											<span class="rating"
-														ng-class="{'faded': !article.ratingFollowsVpc}"
-														ng-hide="selectedTab == 'all_members'">
-												{{article.ratingFollowsVpc}}
-											</span>
-										</li>
-										<li class="py-2 pl-2 d-flex justify-content-start align-items-start">
-											<label class="w-75">Agree with arguments:</label>
-											<span class="rating"
-														ng-class="{'faded': !article.ratingAllAc}"
-														ng-hide="selectedTab == 'you_follow'">
-												{{article.ratingAllAc}}
-											</span>
-
-											<span class="rating"
-														ng-class="{'faded': !article.ratingFollowsAc}"
-														ng-hide="selectedTab == 'all_members'">
-												{{article.ratingFollowsAc}}
-											</span>
-										</li>
-									</ul>
-								</div>
-
-							</div>
-						</div>
-
 						<p class="col-12 empty_resource" ng-if="ratings.data.length == 0">
 							<span>This article has not yet been rated</span>
 						</p>
 
+						<div class="px-0 navbar d-block">
+							<div class="order_by_dropdown dropdown" ng-if="ratings.data.length > 0">
+							  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    {{ratingOrderText(ratings.orderBy)}} <i class="fas fa-chevron-down"></i>
+							  </a>
+							  <div class="dropdown-menu">
+							    <div class="dropdown-item" ng-click="reorderRatings($event, 'comments')">
+										<i class="fas fa-check tick" ng-if="ratings.orderBy == 'comments'"></i>
+										<h6>By comment</h6>
+							    </div>
+							    <div class="dropdown-item" ng-click="reorderRatings($event, 'oldest')">
+										<i class="fas fa-check tick" ng-if="ratings.orderBy == 'oldest'"></i>
+										<h6>By date (oldest first)</h6>
+							    </div>
+							    <div class="dropdown-item" ng-click="reorderRatings($event, 'newest')">
+										<i class="fas fa-check tick" ng-if="ratings.orderBy == 'newest'"></i>
+										<h6>By date (newest first)</h6>
+							    </div>
+							  </div>
+							</div>
+						</div>
 
 						<div ng-repeat="item in ratings.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0"
@@ -271,7 +292,7 @@
 								 							}">&nbsp;</span>
 								 						</span>
 								 					</div>
-								 					<h6 class="text-green feed">
+								 					<h6 class="text-green feed rating_text_{{item.ratings.wellWrittenClass}}">
 								 						{{item.ratings.wellWrittenText}}
 								 					</h6>
 								 				</div>
@@ -288,7 +309,7 @@
 								 							}">&nbsp;</span>
 								 						</span>
 								 					</div>
-								 					<h6 class="text-green feed">
+								 					<h6 class="text-green feed rating_text_{{item.ratings.validPointsClass}}">
 								 						{{item.ratings.validPointsText}}
 								 					</h6>
 								 				</div>
@@ -305,7 +326,7 @@
 								 							}">&nbsp;</span>
 								 						</span>
 								 					</div>
-								 					<h6 class="text-green feed">
+								 					<h6 class="text-green feed rating_text_{{item.ratings.agreeClass}}">
 								 						{{item.ratings.agreeText}}
 								 					</h6>
 								 				</div>
@@ -481,7 +502,7 @@
 									<div class="bib--rcm-init"
 									  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
 									  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--grd-4"
-									  data-query-string-params="utm_source=bibblio_widget_1"
+									  data-query-string-params="utm_source=bibblio_ratings_page"
 					  			  data-custom-unique-identifier="<%= @article.slug %>">
 									</div>
 							</section>
@@ -538,7 +559,7 @@
 						<div class="bib--rcm-init"
 						  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
 						  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
-						  data-query-string-params="utm_source=bibblio_widget_1"
+						  data-query-string-params="utm_source=bibblio_ratings_page"
 						  data-custom-unique-identifier="<%= @article.slug %>">
 						</div>
 				</section>

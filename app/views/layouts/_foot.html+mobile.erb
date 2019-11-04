@@ -1,9 +1,8 @@
     <%= render 'common/cookie-notice' %>
 
     <% unless user_signed_in? %>
-      <script id="registerBox" type="script/x-mustache">
-        <%= render 'devise/registrations/new' %>
-      </script>
+      <%= render 'devise/registrations/new' %>
+
       <script id="signinBox" type="script/x-mustache">
         <%= render 'devise/sessions/new' %>
       </script>
@@ -14,19 +13,22 @@
 
     <script type="text/javascript">
       // Bootstrap the app
-      var moduleName = "TheArticleNG"
-      window.App = angular.module(moduleName, [
+      var moduleName = "TheArticleNG";
+      var injections = [
         'rails',
         'cp.ngConfirm',
         'ngSanitize',
         'ngCookies',
         'mgo-angular-wizard',
-        'ui.tinymce',
         'TheArticle.directives',
         'TheArticle.factories',
         'TheArticle.filters',
         'TheArticle.controllers'
-      ]);
+      ];
+      <% if page_requires_tinymce? %>
+        injections.push('ui.tinymce');
+      <% end %>
+      window.App = angular.module(moduleName, injections);
       window.App.run(function ($rootScope) { $rootScope._ = _; });
       $(document).ready(function() {
         $('[ng-controller]').each(function(index, root) {

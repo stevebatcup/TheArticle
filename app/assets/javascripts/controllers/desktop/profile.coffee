@@ -12,6 +12,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	  '$ngConfirm'
 	  '$cookies'
 	  'Profile'
+	  'AdminProfile'
 	  'MyProfile'
 	  'Comment'
 	  'Opinion'
@@ -28,6 +29,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		@$navBar = $('section#top_bar')
 		@$navBarPosition = Math.round @$navBar.offset().top
 		@$navBarHeight = @$navBar.outerHeight()
+		@rootScope.viewingFromAdmin = !!@element.data('viewing-from-admin')
 		@scope.selectedTab = 'all'
 		@scope.allExchanges = []
 		@scope.replyingToComment =
@@ -507,18 +509,31 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	getProfile: (id, callback=null) =>
-		@Profile.get({id: @element.data('user-id')}).then (profile) =>
-			@timeout =>
-				@rootScope.isSignedIn = profile.isSignedIn
-				@scope.profile.data = profile
-				@scope.profile.loaded = true
-				@buildDigestFromProfileData(@scope.profile.data)
-				@reorderDigest()
-				callback.call(@) if callback?
-			, 750
-		, (error) =>
+		if @rootScope.viewingFromAdmin
+			@AdminProfile.get({id: @element.data('user-id')}).then (admin_profile) =>
+				console.log admin_profile
+				@getProfileSuccessCallback(admin_profile, callback)
+			, (error) =>
+				@getProfileErrorCallback(error)
+		else
+			@Profile.get({id: @element.data('user-id')}).then (profile) =>
+				@getProfileSuccessCallback(profile, callback)
+			, (error) =>
+				@getProfileErrorCallback(error)
+
+	getProfileSuccessCallback: (profile, callback=null) =>
+		@timeout =>
+			@rootScope.isSignedIn = profile.isSignedIn
+			@scope.profile.data = profile
 			@scope.profile.loaded = true
-			@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
+			@buildDigestFromProfileData(@scope.profile.data)
+			@reorderDigest()
+			callback.call(@) if callback?
+		, 750
+
+	getProfileErrorCallback: (error) =>
+		@scope.profile.loaded = true
+		@scope.profile.loadError = "Sorry there has been an error loading this profile: #{error.statusText}"
 
 	buildDigestFromProfileData: (data) =>
 		item = data.recentFollowingSummary

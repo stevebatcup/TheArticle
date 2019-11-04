@@ -94,7 +94,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # config.action_mailer.default_url_options = { host: 'live.thearticle.com' }
-  config.action_mailer.default_url_options = { host: 'www.thearticle.com' }
+  config.action_mailer.default_url_options = { host: 'www.thearticle.com', protocol: 'https' }
 
   config.middleware.use ExceptionNotification::Rack,
     email: {

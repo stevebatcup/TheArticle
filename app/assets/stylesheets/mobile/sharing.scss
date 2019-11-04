@@ -111,6 +111,10 @@ $contrast: 5%;
 					opacity: 0.5;
 				}
 			}
+
+			.rating_text_not_yet_rated {
+				color: #666;
+			}
 		}
 
 		&.bars {
@@ -184,7 +188,7 @@ $contrast: 5%;
 						&.panel {
 							width: 26px;
 							height: 26px;
-							margin-right: 7px;
+							margin-right: 6px;
 							padding: 5px;
 							top: -3px;
 

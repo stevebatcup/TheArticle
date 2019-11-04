@@ -16,6 +16,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.DesktopPageController
 		@setDefaultHttpHeaders()
 		@scope.whitelisted = false
 		@scope.ratingTextLabels = @element.data('rating-text-labels')
+		@scope.ratingTextClasses = @element.data('rating-text-classes')
 		@scope.invalidUrl = false
 		@scope.sharing = false
 		@resetArticleData()

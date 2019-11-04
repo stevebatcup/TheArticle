@@ -16,7 +16,7 @@
           <% else %>
             <li class="nav-item mr-5">
               <a class="nav-link text-black pl-md-4 pr-md-1" href="/contributors" id="nav_link_contributors">
-                <i class="fas fa-user-edit"></i>
+                <i class="fas fa-edit"></i>
                 Contributors
               </a>
             </li>
@@ -63,7 +63,7 @@
                  Home
                 </a>
                 <a class="dropdown-item py-2" href="/my-profile">
-                 <i class="fas fa-user-alt mr-2"></i>
+                 <i class="fas fa-user mr-2"></i>
                  My profile
                 </a>
                 <a class="dropdown-item py-2" href="<%= my_profile_path %>?panel=following">
@@ -75,7 +75,7 @@
                   Followers
                 </a>
                 <a class="dropdown-item py-2" href="/follow-suggestions">
-                  <i class="fas fa-user-friends mr-2"></i>
+                  <i class="fas fa-users mr-2"></i>
                   Who to follow
                 </a>
                 <a class="dropdown-item py-2" href="/account-settings">
@@ -83,12 +83,12 @@
                   Account settings
                 </a>
                 <a class="dropdown-item py-2" href="<%= destroy_user_session_path %>" data-method="delete">
-                  <i class="fas fa-sign-out-alt mr-2"></i>
+                  <i class="fas fa-sign-out mr-2"></i>
                   Sign out
                 </a>
                 <% if current_user.is_admin? %>
                 <a class="dropdown-item py-2" href="/admin" target="_blank">
-                  <i class="fas fa-toolbox mr-2"></i>
+                  <i class="fas fa-laptop mr-2"></i>
                   Admin
                 </a>
                 <% end %>
@@ -206,7 +206,7 @@
             </li>
             <li class="nav-item" id="social_linked_in">
               <a class="ml-2 nav-link text-white" href="https://www.linkedin.com/company/thearticle/" target="_blank">
-                <i class="fab fa-linkedin-in"></i>
+                <i class="fab fa-linkedin"></i>
               </a>
             </li>
           </ul>

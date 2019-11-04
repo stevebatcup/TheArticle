@@ -22,3 +22,11 @@ TheArticle.FactoryModule.factory("Profile", ['RailsResource',
         name: 'follow_group'
         interceptAuth: true
 ])
+.factory("AdminProfile", ['RailsResource',
+  (RailsResource) ->
+    class AdminProfile extends RailsResource
+      @configure
+        url: '/admin-profile-by-id'
+        name: 'admin_profile'
+        interceptAuth: true
+])

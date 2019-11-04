@@ -24,13 +24,59 @@ By default, it renders:
   <%= render "stylesheet" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body ng-app="TheArticleNG">
   <%= render "icons" %>
 
   <div class="app-container">
     <%= render "navigation" -%>
 
     <main class="main-content" role="main">
+      <header id="user_info" class="d-flex justify-content-between">
+        <a href='#' id='navigation__toggle'>
+          <i class="fa fa-bars"></i>
+        </a>
+
+        <nav class="navbar navbar-expand-md">
+          <ul>
+            <li class="signed_in nav-item dropdown" >
+              <a class="nav-link nav-icon pb-0 pt-1 text-black" href="#" id="nav_link_my_profile" data-toggle="dropdown">
+                <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>">
+                <span class="display_name"><%= current_user.display_name %></span>
+              </a>
+             <div class="dropdown-menu bg-white" id="my_profile_menu">
+                <a class="dropdown-item py-2" target="_blank" href="<%= front_page_path %>">
+                 <i class="fas fa-home mr-2"></i>
+                 Home
+                </a>
+                <a class="dropdown-item py-2" target="_blank" href="/my-profile">
+                 <i class="fas fa-user mr-2"></i>
+                 My profile
+                </a>
+                <a class="dropdown-item py-2" target="_blank" href="<%= my_profile_path %>?panel=following">
+                  <i class="fas fa-angle-double-right mr-2"></i>
+                  Following
+                </a>
+                <a class="dropdown-item py-2" target="_blank" href="<%= my_profile_path %>?panel=followers">
+                  <i class="fas fa-angle-double-left mr-2"></i>
+                  Followers
+                </a>
+                <a class="dropdown-item py-2" target="_blank" href="/follow-suggestions">
+                  <i class="fas fa-users mr-2"></i>
+                  Who to follow
+                </a>
+                <a class="dropdown-item py-2" target="_blank" href="/account-settings">
+                  <i class="fas fa-cog mr-2"></i>
+                  Account settings
+                </a>
+                <a class="dropdown-item py-2" target="_blank" href="<%= destroy_user_session_path %>" data-method="delete">
+                  <i class="fas fa-sign-out mr-2"></i>
+                  Sign out
+                </a>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
       <%= render "flashes" -%>
       <%= yield %>
     </main>

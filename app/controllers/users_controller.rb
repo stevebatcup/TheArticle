@@ -6,16 +6,26 @@ class UsersController < ApplicationController
 			authenticate_user!
 			@user = current_user
 		elsif params[:identifier] == :slug
-			@user = User.active.find_by(slug: params[:slug])
+			if viewing_from_admin
+				@user = User.find_by(slug: params[:slug])
+			else
+				@user = User.active.find_by(slug: params[:slug])
+			end
 		elsif params[:identifier] == :id
-			@user = User.active.find_by(id: params[:id])
+			if viewing_from_admin
+				@user = User.find_by(id: params[:id])
+			else
+				@user = User.active.find_by(id: params[:id])
+			end
 		end
 
-		if (@user == current_user) && !params[:me]
-			return redirect_to_my_profile
-		elsif @user.nil? || !@user.has_active_status?
-			flash[:notice] = "That profile is unavailable"
-			return redirect_to_my_profile
+		unless viewing_from_admin
+			if (@user == current_user) && !params[:me]
+				return redirect_to_my_profile
+			elsif @user.nil? || !@user.has_active_status?
+				flash[:notice] = "That profile is unavailable"
+				return redirect_to_my_profile
+			end
 		end
 
 		respond_to do |format|
@@ -37,6 +47,7 @@ class UsersController < ApplicationController
 			current_user.cover_photo = params[:photo]
 			if current_user.save
 				@status = :success
+				UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "new cover photo")  if current_user.on_bibblio?
 			else
 				@status = :error
 				@message = current_user.errors.full_messages.first
@@ -45,6 +56,7 @@ class UsersController < ApplicationController
 			current_user.profile_photo = params[:photo]
 			if current_user.save
 				@status = :success
+				UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "new profile photo")  if current_user.on_bibblio?
 			else
 				@status = :error
 				@message = current_user.errors.full_messages.first
@@ -72,6 +84,7 @@ class UsersController < ApplicationController
 				bio: params_for_update[:bio]
 			})
 			UserMailer.username_updated(current_user).deliver_now if send_username_changed_email
+			UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "profile updated")  if current_user.on_bibblio?
 			@status = :success
 		else
 			@status = :error

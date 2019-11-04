@@ -70,7 +70,7 @@ $contrast: 5%;
 				margin-right: 5px;
 			}
 
-			svg {
+			i, svg {
 				margin: 1px 7px 0px 0;
 				height: 22px;
 				width: 16px;
@@ -127,7 +127,12 @@ $contrast: 5%;
 					opacity: 0.5;
 				}
 			}
+
+			.rating_text_not_yet_rated {
+				color: #666;
+			}
 		}
+
 
 		&.bars {
 			li {

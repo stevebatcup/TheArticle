@@ -9,6 +9,21 @@ class ApplicationController < ActionController::Base
   before_action :set_vary_header
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+	def show_ads?
+		if viewing_from_admin
+			false
+		elsif is_development?
+			false
+		elsif is_staging?
+			true
+		elsif self.class == ProfileWizardController
+			false
+		else
+			true
+		end
+	end
+	helper_method	:show_ads?
+
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
 	end
@@ -16,6 +31,11 @@ class ApplicationController < ActionController::Base
 	def render_404
 		render :file => "#{Rails.root}/public/404.html",  layout: false, status: :not_found
 	end
+
+	def viewing_from_admin
+		user_signed_in? && current_user.is_admin? && params[:from_admin].present?
+	end
+	helper_method	:viewing_from_admin
 
 	def default_meta_description
 		"Eclectic, enjoyable, essential reading. We are the only publisher that is also a social media platform so you get personalised debate with no pay wall."
@@ -37,30 +57,13 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:is_staging?
 
-	def show_ads?
-		if is_development?
-			true
-		elsif is_staging?
-			true
-		elsif self.class == ProfileWizardController
-			false
-		else
-			true
-		end
-	end
-	helper_method	:show_ads?
-
 	def hide_footer?
 		false
 	end
 	helper_method	:hide_footer?
 
 	def gtm_id
-		if is_article_page?
-			'GTM-NM24T5N'
-		else
-			'GTM-MWRLCT6'
-		end
+		'GTM-5ZWCFHN'
 	end
 	helper_method	:gtm_id
 
@@ -85,7 +88,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:is_tablet?
 
 	def articles_per_page
-		browser.device.mobile? ? 30 : 30
+		browser.device.mobile? ? 15 : 15
 	end
 	helper_method	:articles_per_page
 
@@ -113,7 +116,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:ad_page_type
 
 	def ad_publisher_id
-		@ad_publisher_id ||= 89927887
+		@ad_publisher_id ||= 21757645549 #89927887
 	end
 	helper_method	:ad_publisher_id
 
@@ -156,6 +159,23 @@ class ApplicationController < ActionController::Base
 	end
 	helper_method	:device_type_for_events
 
+	def page_requires_tinymce?
+		user_signed_in?
+	end
+	helper_method	:page_requires_tinymce?
+
+	def page_requires_google_maps?
+		user_signed_in?
+	end
+	helper_method	:page_requires_google_maps?
+
+	def better_model_error_messages(resource)
+		messages = resource.errors.details.keys.map do |attr|
+			resource.errors.full_messages_for(attr).first
+		end
+		messages.join
+	end
+
 protected
 
 	def after_sign_out_path_for(resource_or_scope)
@@ -178,7 +198,7 @@ protected
 
 private
   def set_device_type
-    if browser.device.mobile? || request.headers["X-MobileApp"]
+    if browser.device.mobile? || request.headers["X-MobileApp"] || params[:forcemobile].present?
       request.variant = :mobile
     elsif browser.device.tablet?
       request.variant = :tablet
@@ -197,6 +217,12 @@ private
 
 	def profile_wizard_layout_for_mobile
 		browser.device.mobile? ? 'profile-wizard' : 'application'
+	end
+
+	def authenticate_basic_user
+		unless user_signed_in?
+			redirect_to "/?force_home=1"
+		end
 	end
 
 	def authenticate_user!

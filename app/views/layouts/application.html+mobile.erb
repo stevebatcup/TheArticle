@@ -4,7 +4,10 @@
   <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
 
   <main id="panel_for_side_menu">
+    <%= render('layouts/mobile-ad-top') if show_ads? %>
 <% end %>
+
+<div class="overlay"></div>
 
 <!-- Page Content -->
 <div id="content">
@@ -141,11 +144,6 @@
               </span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" id="messaging-tab" href="/my-home?route=messaging">
-              <i class="fas fa-envelope"></i>
-            </a>
-          </li>
         </ul>
       </nav>
     <% end %>
@@ -158,8 +156,6 @@
   </main>
 
 </div>
-
-<div class="overlay"></div>
 
 <% unless request.headers["X-MobileApp"] %>
 </main>

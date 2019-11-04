@@ -1,10 +1,14 @@
 en:
+ errors:
+  format: "%{message}"
  helpers:
   admin_indexes:
    titles:
-    user_concern_report: "Concern reports > profiles"
+    user: Search users
+    user_concern_report: "Concern reports > Profiles"
     comment_concern_report: "Concern reports > Comments"
     share_concern_report: "Concern reports > Posts"
+    processed_concern_report: "Concern reports > Archive"
     quarantined_third_party_share: Quarantined 3rd party posts
     approved_third_party_share: Approved 3rd party posts
     rejected_third_party_share: Rejected 3rd party posts
@@ -15,6 +19,7 @@ en:
     email_log: Email logs
     help_section: Help centre sections
     help_content: Help centre question
+    exchange: Exchanges
 
   label:
    article:
@@ -49,4 +54,14 @@ en:
     admin_user_name: Approved by
    rejected_third_party_share:
     admin_user_name: Rejected by
+   processed_concern_report:
+    build_reason_sentence: Reason
+   comment_concern_report:
+    build_reason_sentence: Reason
+   share_concern_report:
+    build_reason_sentence: Reason
+   user_concern_report:
+    build_reason_sentence: Reason
+   exchange:
+    users: Followers
 

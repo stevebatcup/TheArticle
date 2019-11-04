@@ -3,6 +3,10 @@ class Block < ApplicationRecord
 	belongs_to	:blocked, class_name: 'User'
 	after_create	:delete_followings
 
+	def self.active
+		where(status: :active)
+	end
+
 	def delete_followings
 		follower = User.find(self.user_id)
 		if followThem = follower.followings.find_by(followed_id: self.blocked_id)

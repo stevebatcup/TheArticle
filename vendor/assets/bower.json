@@ -2,7 +2,6 @@
   "name": "dsl-generated-dependencies",
   "dependencies": {
     "bootstrap": "4.1.0",
-    "fontawesome": "5.2",
     "underscore": "latest",
     "slick-carousel": "latest",
     "angular": "1.6.6",
@@ -15,10 +14,11 @@
     "remarkable-bootstrap-notify": "latest",
     "angular1-confirm": "latest",
     "angular-cookies": "latest",
-    "moment": "latest",
     "cropperjs": "latest",
     "tinymce": "4.6.4",
     "angular-ui-tinymce": "latest",
     "tinymce-placeholder-plugin": "latest"
+  },
+  "resolutions": {
   }
 }

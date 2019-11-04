@@ -13,7 +13,29 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
-  include Adminable
+	include Adminable
+
+	def self.most_rated(limit=10, within_days=7)
+		Rails.cache.fetch("most_rated_articles", expires_in: 30.minutes) do
+			items = select('COUNT(shares.id) AS rating_count, articles.*')
+				.left_joins(:shares)
+				.where("shares.share_type = 'rating'")
+				.where("shares.created_at > DATE_SUB(CURDATE(), INTERVAL #{within_days} DAY)")
+				.group(:id)
+				.order('COUNT(shares.id) DESC')
+				.to_a
+			author_ids = []
+			results = []
+			items.each do |item|
+				unless author_ids.include?(item.author_id)
+					results << item
+					author_ids << item.author_id
+				end
+				break if results.length == limit
+			end
+			results
+		end
+	end
 
 	def self.schedule_create_or_update(wp_id, publish_date)
 		if publish_date > Time.now
@@ -245,7 +267,7 @@ class Article < ApplicationRecord
 	def update_wp_cache(json)
 		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
-		self.content = json["content"]["rendered"]
+		self.content = Nokogiri::HTML::DocumentFragment.parse(json["content"]["rendered"]).to_html.gsub(/\<br\>/, '<br />')
 		self.excerpt = json["excerpt"]["rendered"]
 		self.author_id = json["author"]
 		self.published_at = Time.parse(json['date_gmt'])
@@ -264,31 +286,35 @@ class Article < ApplicationRecord
 		update_exchanges(json)
 		update_keyword_tags(json)
 
-    self.save
+    if self.save
+	    # update counter cache columns
+	    update_all_article_counts
+	    update_is_sponsored_cache
 
-    if is_new_article && self.categorisations.any?
-    	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
-    	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
+	    # bust caches
+	    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
+	    	Rails.cache.delete(cache_key)
+	    end
+
+      if is_new_article && self.categorisations.any?
+      	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
+      	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
+  	  end
+
+	    response_status = "Success"
+	  else
+	  	response_status = "Error: #{better_model_error_messages(self)}"
 	  end
 
-    # update counter cache columns
-    update_all_article_counts
-    update_is_sponsored_cache
-
-    # log this action
-    log_data = {
-    	service: :wordpress,
-    	user_id: 0,
-    	request_method: is_new_article ? :publish_article : :update_article,
-    	request_data: json,
-    	response: nil
-    }
-    ApiLog.webhook log_data
-
-    # bust caches
-    ["leading_editor_article", "article_carousel", "recent_unsponsored_articles"].each do |cache_key|
-    	Rails.cache.delete(cache_key)
-    end
+	  # log this action
+	  log_data = {
+	  	service: :wordpress,
+	  	user_id: 0,
+	  	request_method: is_new_article ? :publish_article : :update_article,
+	  	request_data: json,
+	  	response: response_status
+	  }
+	  ApiLog.webhook log_data
   end
 
   def update_categorisation_feeds

@@ -11,6 +11,8 @@ class Comment < ActiveRecord::Base
 
   belongs_to :user
   after_create :create_feed
+  after_create  :notify_mentioned_users
+
   before_destroy :delete_feeds_and_notifications
 
   def create_feed
@@ -61,7 +63,7 @@ class Comment < ActiveRecord::Base
     end
 
     if is_reply
-      unless self.commentable.user_id == self.parent.user_id
+      unless (self.commentable.user_id == self.parent.user_id) || (self.user_id == self.parent.user_id)
         # Reply notification for commenter
         reply_notification = Notification.find_or_create_by({
           eventable_type: 'Comment',
@@ -142,6 +144,25 @@ class Comment < ActiveRecord::Base
       list = comments.order(created_at: :asc).to_a
     end
     list
+  end
+
+  def notify_mentioned_users
+    if self.body.length > 0
+      body_html =  Nokogiri::HTML.fragment(self.body)
+      body_html.css('span.mentioned_user').each do |span|
+        other_user_id = span.attributes["data-user"].value.to_i
+        notification_suffix = (self.commentable.user_id == self.user_id) ? "on their own post" : "on a post by <a href='/profile/#{self.commentable.user.slug}'><b>#{self.commentable.user.display_name}</b> <span class='text-muted'>#{self.commentable.user.username}</span></a>"
+        Notification.create({
+          user_id: other_user_id,
+          eventable_id: self.id,
+          eventable_type: "CommentMentioner",
+          share_id: self.commentable_id,
+          body: "<a href='/profile/#{self.user.slug}'><b>#{self.user.display_name}</b> <span class='text-muted'>#{self.user.username}</span></a> mentioned you in a comment #{notification_suffix}",
+          created_at: Time.now,
+          updated_at: Time.now
+        })
+      end
+    end
   end
 
 end

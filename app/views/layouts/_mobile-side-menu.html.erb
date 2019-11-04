@@ -64,6 +64,11 @@
       <li>
         <a href="/account-settings">Account settings</a>
       </li>
+      <% if current_user.is_admin? %>
+      <li>
+        <a class="" href="/admin" target="_blank">Admin</a>
+      </li>
+      <% end %>
       <li>
         <a class="" href="<%= destroy_user_session_path %>" data-method="delete">Sign out</a>
       </li>
@@ -141,7 +146,7 @@
         </li>
         <li class="col-3 nav-item px-0 py-0" id="social_linked_in">
           <a class="nav-link text-center text-dark" href="https://www.linkedin.com/company/thearticle/" target="_blank">
-            <i class="fab fa-linkedin-in"></i>
+            <i class="fab fa-linkedin"></i>
           </a>
         </li>
       </ul>

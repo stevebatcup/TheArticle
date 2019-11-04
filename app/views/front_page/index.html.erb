@@ -283,6 +283,25 @@
 					<% end %>
 				</div>
 			</section>
+
+			<section id="most_rated_articles" class="callout card w-100 mt-3">
+				<div class="card-header">
+					<h5 class="card-title">Most rated</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @most_rated_articles.each_with_index do |most_rated_article, index| %>
+						<article class="most_rated my-1" ng-click="openMostRatedArticleUrl('<%= article_path(most_rated_article) %>?utm_source=most_rated')" style="background-image: url('<%= most_rated_article.image.url(:listing_desktop) %>')">
+							<div class="img_mask d-flex align-items-end" >
+								<div class="inner">
+									<span class="index"><%= index + 1 %></span>
+									<h4 style="display:none;" class="rating_count"><%= pluralize(most_rated_article.rating_count, 'rating') %></h4>
+									<h3><%= most_rated_article.title.html_safe %></h3>
+									<h5><time><%= article_date(most_rated_article) %></time></h5>
+								</div>
+						</article>
+					<% end %>
+				</div>
+			</section>
 		</div>
 	</div>
 </section>

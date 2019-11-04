@@ -12,10 +12,6 @@
 	&.feed-third-party {
 		background: #d2ead4;
 
-		texarea {
-
-		}
-
 		.building {
 			text-align: right;
 			width: 100%;
@@ -28,7 +24,11 @@
 
 	&:last-child {
 		padding-bottom: 0 !important;
-		margin-bottom: 0 !important;
+		// margin-bottom: 0 !important;
+
+		// &.feed-follow {
+		// 	margin-bottom: inherit;
+		// }
 	}
 
 	.card {
@@ -54,6 +54,14 @@
 	}
 
 	&.feed-share {
+		.card {
+			.post {
+				p {
+					margin-bottom: 10px;
+				}
+			}
+		}
+
 		.comments_pane {
 			border-left: 1px solid rgba(0, 0, 0, 0.125);
 			border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -85,47 +93,6 @@
 				}
 			}
 
-			.order_by_dropdown {
-				.dropdown-toggle {
-					color: $green;
-					cursor: pointer;
-					-webkit-appearance: none;
-
-					&:after {
-						display: none;
-					}
-				}
-
-				.dropdown-menu {
-					width: 460px;
-					box-shadow: 1px 1px 3px #aaa;
-
-					.dropdown-item {
-						white-space: initial;
-						cursor: pointer;
-						position: relative;
-
-						.tick {
-							font-size: 0.8em;
-							position: absolute;
-							top: 7px;
-							left: 8px;
-						}
-
-						h6 {
-							margin-bottom: 2px;
-							padding-left: 5px;
-						}
-
-						p {
-							font-size: 0.8em;
-							margin-bottom: 3px;
-							padding-left: 5px;
-						}
-					}
-				}
-			}
-
 			.comments {
 				ol {
 					list-style: none;
@@ -138,20 +105,33 @@
 
 						.comment-item {
 
-							p.comment_body {
-								word-break: break-word;
-								text-overflow: ellipsis;
-								overflow-wrap: break-word;
-								white-space: pre-line;
+							.comment_body {
+								margin-bottom: 12px;
+
+								p {
+									word-break: break-word;
+									text-overflow: ellipsis;
+									overflow-wrap: break-word;
+									white-space: pre-line;
+									margin-bottom: 5px;
+
+									&:empty {
+										display: none;
+									}
+								}
+
+								a {
+									color: $green;
+								}
 							}
 
 							.reply_area {
-								margin: -8px 0 6px 61px;
+								margin: -8px 0 6px 7px;
 								font-size: 1em;
 							}
 
 							.delete_area {
-								margin: -8px 0 6px 61px;
+								margin: -8px 0 6px 7px;
 								font-size: 1em;
 							}
 
@@ -178,6 +158,11 @@
 							.reply_area,
 							.delete_area {
 								border-left: 2px solid $green;
+								margin-left: 61px;
+
+								&.child_reply_area {
+									margin-left: 0;
+								}
 							}
 						}
 
@@ -187,7 +172,7 @@
 							.reply_area,
 							.delete_area {
 								border-left: 2px solid $green;
-								margin-left: 15px;
+								// margin-left: 15px;
 							}
 
 							li:last-child {
@@ -305,6 +290,14 @@
 				}
 			}
 
+			&.comment_card {
+				p.post {
+					img {
+						width: 100%;
+					}
+				}
+			}
+
 			.share_meta {
 				font-size: 0.85em;
 				padding: 0 4px;
@@ -325,7 +318,7 @@
 					}
 				}
 
-				svg {
+				i, svg {
 					// color: $blue_dark;
 			    margin-right: 3px;
 				}
@@ -337,7 +330,7 @@
 				position: relative;
 
 				a {
-					svg {
+					i, svg {
 						margin-right: 4px;
 					}
 
@@ -402,8 +395,13 @@
 			font-size: 0.9em;
 		}
 
+		p.extra_info {
+			font-size: 0.8em;
+			margin: 5px 0;
+		}
+
 		div.bio_box {
-			min-height: 114px;
+			// min-height: 114px;
 			padding: 0 1.25rem;
 		}
 
@@ -421,7 +419,7 @@
 
 		&.col-6 {
 			padding: 0 10px 10px;
-			height: 317px;
+			// height: 372px;
 
 			.block_click {
 				height: 100%;
@@ -431,6 +429,10 @@
 				padding-bottom: 10px !important;
 				margin-bottom: 10px !important;
 			}
+		}
+
+		.feed-follow-inner {
+			box-shadow: 3px 3px 3px #ccc;
 		}
 	}
 
@@ -573,7 +575,7 @@
 				}
 
 				& + p {
-					margin-left: 11px;
+					margin-left: 10px;
 				}
 			}
 
@@ -585,7 +587,7 @@
 				}
 
 				& + p {
-					margin-left: 4px;
+					margin-left: 1px;
 				}
 			}
 
@@ -612,7 +614,7 @@
 			width: 75%;
 			margin-bottom: 5px;
 			position: relative;
-			top: 5px;
+			top: 2px;
 		}
 	}
 }
@@ -907,5 +909,46 @@ nav.tabbable {
 
 	.mce-panel {
 		border: none !important;
+	}
+}
+
+.order_by_dropdown {
+	.dropdown-toggle {
+		color: $green;
+		cursor: pointer;
+		-webkit-appearance: none;
+
+		&:after {
+			display: none;
+		}
+	}
+
+	.dropdown-menu {
+		width: 460px;
+		box-shadow: 1px 1px 3px #aaa;
+
+		.dropdown-item {
+			white-space: initial;
+			cursor: pointer;
+			position: relative;
+
+			.tick {
+				font-size: 0.8em;
+				position: absolute;
+				top: 7px;
+				left: 8px;
+			}
+
+			h6 {
+				margin-bottom: 2px;
+				padding-left: 5px;
+			}
+
+			p {
+				font-size: 0.8em;
+				margin-bottom: 3px;
+				padding-left: 5px;
+			}
+		}
 	}
 }

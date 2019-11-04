@@ -5,6 +5,10 @@ class Author < ApplicationRecord
   mount_uploader :image, AuthorImageUploader
 	has_one	:user
 
+	def self.the_article_staff
+		where("email LIKE '%@thearticle.com%'")
+	end
+
 	def is_sponsor?
 		self.author_role == AuthorRole.find_by(slug: 'sponsor')
 	end
@@ -25,6 +29,10 @@ class Author < ApplicationRecord
 
 	def self.contributor_role
 		AuthorRole.find_by(slug: 'contributor')
+	end
+
+	def self.contributor_or_admin_role
+		AuthorRole.where(slug: ['contributor', 'administrator'])
 	end
 
 	def self.fetch_for_exchange(exchange, limit=6)
@@ -74,11 +82,10 @@ class Author < ApplicationRecord
 	end
 
 	def self.with_complete_profile(exclude=[])
-		self.contributors
+		self.contributors_or_admins
 				.where.not(id: exclude)
 				.where.not(image: nil)
 				.where("display_name > ''")
-				.where("blurb > ''")
 				.where("article_count > 0")
 				.distinct
 	end
@@ -120,7 +127,13 @@ class Author < ApplicationRecord
 
 	def self.contributors
 		@@contributors ||= begin
-			contributors = self.where(author_role: contributor_role)
+			self.where(author_role: contributor_role)
+		end
+	end
+
+	def self.contributors_or_admins
+		@@contributors_or_admins ||= begin
+			self.where(author_role: contributor_or_admin_role).order(role_id: :desc)
 		end
 	end
 
@@ -235,4 +248,13 @@ class Author < ApplicationRecord
 		list.join('", "')
 	end
 
+	def get_avg_ratings_by_user(user)
+		ratings = user.ratings.includes(:article).references(:article).where("articles.author_id = ?", self.id)
+		{
+      article_count: ratings.size,
+      well_written: "#{ratings.average(:rating_well_written)}",
+      valid_points: "#{ratings.average(:rating_valid_points)}",
+      agree: "#{ratings.average(:rating_agree)}"
+    }
+	end
 end

@@ -16,7 +16,14 @@ class CommentsController < ApplicationController
 
 		if params[:comment][:replying_to_username].length > 0
 			other_user = User.find_by(username: params[:comment][:replying_to_username])
-			body = "<a href='#{profile_path(slug: other_user.slug)}'>#{other_user.username}</a> #{body}"
+			doc = Nokogiri::HTML::DocumentFragment.parse(body)
+			link = Nokogiri::XML::Node.new "a", doc
+			link.content = other_user.username
+			link['href'] = profile_path(slug: other_user.slug)
+			first_p = doc.at_css('p')
+			first_p.prepend_child("&nbsp;")
+			first_p.prepend_child(link)
+			body = doc.to_html
 		end
 
 		if share && share.user && share.user.has_blocked(current_user)

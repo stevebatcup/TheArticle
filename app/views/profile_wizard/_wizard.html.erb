@@ -57,9 +57,11 @@
         <% exchanges.each do |exchange| %>
         	<article class="col-6 col-md-4 article-listing exchange profile_wizard mb-1 mb-md-3 hoveraction px-1 px-md-2"
         				ng-click="selectExchange(<%= exchange.id %>)"
-        				ng-class="{'selected': user.selectedExchanges.indexOf(<%= exchange.id %>) !== -1}">
+        				ng-class="{'deselected': user.selectedExchanges.indexOf(<%= exchange.id %>) < 0}">
         		<div class="inner rounded">
         			<div class="img_mask">
+        				<i class="fas fa-check text-green" ng-if="user.selectedExchanges.indexOf(<%= exchange.id %>) > -1"></i>
+        				<i class="fas fa-times text-red" ng-if="user.selectedExchanges.indexOf(<%= exchange.id %>) < 0"></i>
       					<% if exchange.image? %>
       						<img class="w-100 exchange_image" src="<%= exchange.image.url(:listing) %>" alt="<%= exchange.name %>" />
       					<% end %>
@@ -125,8 +127,8 @@
 			    	<p ng-show="suggestionSearch.error" class="pt-3 px-1">{{suggestionSearch.error}}</p>
 				</div>
 
-				<div class="row pb-4">
-					<div ng-repeat="item in followSuggestions" class="col-12 col-md-6 feed-listing feed-follow wide">
+				<div class="d-flex align-items-stretch pb-4 flex-wrap">
+					<div ng-repeat="item in followSuggestions" class="w-50 w-sm-100 px-2 feed-listing feed-follow mb-3">
 						<%= render partial: 'users/member_card', locals: { suggestions: true } %>
 					</div>
 				</div>

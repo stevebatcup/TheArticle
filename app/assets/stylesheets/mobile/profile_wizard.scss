@@ -16,6 +16,26 @@
 
 			.img_mask {
 				height: 130px !important;
+				position: relative;
+
+				i {
+					position: absolute;
+					top: 5px;
+					right: 5px;
+					font-size: 21px;
+					z-index: 100;
+					padding: 3px;
+					background: #fff;
+					border-radius: 2px;
+					width: 28px;
+					height: 28px;
+					text-align: center;
+				}
+
+				img {
+					min-height: 106px;
+					max-height: 100%;
+				}
 			}
 
 			h6 {
@@ -23,22 +43,22 @@
 				padding-bottom: 0.2em;
 			}
 
-			img {
-				min-height: 106px;
-				max-height: 100%;
-			}
 		}
 
-		&.selected {
+		&.deselected {
 			.inner {
-				background-color: #72b678;
+				background-color: #750028;
 
-				img {
-					opacity: 0.4;
+				.img_mask {
+					position: relative;
+
+					img {
+						opacity: 0.65;
+					}
 				}
 
 				.heading_box {
-					background-color: #72b678;
+					background-color: #750028;
 				}
 			}
 		}

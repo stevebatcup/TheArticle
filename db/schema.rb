@@ -18,13 +18,20 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.datetime "created_at"
   end
 
-  create_table "api_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "additional_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "api_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.string "service"
     t.integer "user_id"
     t.string "request_type"
     t.string "request_method"
-    t.text "request_data"
-    t.text "response"
+    t.text "request_data", limit: 4294967295
+    t.text "response", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_method"], name: "index_api_logs_on_request_method"
@@ -58,6 +65,13 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.integer "ratings_well_written_cache"
     t.integer "ratings_valid_points_cache"
     t.integer "ratings_agree_cache"
+    t.text "meta_keywords"
+    t.text "meta_entities"
+    t.text "meta_concepts"
+    t.boolean "has_bibblio_meta", default: false
+    t.index ["meta_concepts"], name: "index_articles_on_meta_concepts", type: :fulltext
+    t.index ["meta_entities"], name: "index_articles_on_meta_entities", type: :fulltext
+    t.index ["meta_keywords"], name: "index_articles_on_meta_keywords", type: :fulltext
   end
 
   create_table "articles_exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -114,6 +128,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
 
   create_table "black_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
+    t.string "email"
     t.text "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -209,6 +224,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "article_count", default: 0
+    t.integer "follower_count", default: 0
   end
 
   create_table "exchanges_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -333,6 +349,13 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.integer "article_count", default: 0
   end
 
+  create_table "linked_accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "linked_account_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "muted_id"
@@ -351,14 +374,14 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "eventable_id"
     t.string "eventable_type"
     t.string "specific_type"
     t.integer "share_id"
     t.integer "feed_id"
-    t.text "body"
+    t.text "body", limit: 4294967295
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_new"
@@ -413,6 +436,10 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["author_article_count"], name: "index_profile_suggestions_on_author_article_count"
+    t.index ["reason"], name: "index_profile_suggestions_on_reason", type: :fulltext
+    t.index ["status"], name: "index_profile_suggestions_on_status"
+    t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
 
   create_table "push_tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -488,6 +515,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.boolean "has_completed_wizard", default: false
     t.string "username", default: ""
     t.string "display_name", default: ""
+    t.boolean "verified_as_genuine", default: false
     t.string "gender"
     t.string "age_bracket"
     t.string "location", default: ""
@@ -523,6 +551,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_142226) do
     t.integer "followers_count", default: 0
     t.integer "followings_count", default: 0
     t.integer "connections_count", default: 0
+    t.boolean "on_bibblio", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

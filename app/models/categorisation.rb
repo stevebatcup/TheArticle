@@ -35,22 +35,29 @@ class Categorisation < ApplicationRecord
 	end
 
 	def update_feeds
-		self.exchange.users.each do |user|
-			self.feeds.create({user_id: user.id})
+		batch_size = 200
+		sleep_time = 15
+		self.exchange.users.find_in_batches(batch_size: batch_size) do |group|
+			sleep(sleep_time)
+			group.each { |user| self.feeds.create({user_id: user.id}) }
 		end
 
-		self.feeds.each do |cat_feed|
-			unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.article_id)
-				user_feed_item = FeedUser.new({
-					user_id: cat_feed.user.id,
-					action_type: 'categorisation',
-					source_id: self.article_id
-				})
+		self.feeds.find_in_batches(batch_size: batch_size) do |feed_group|
+			sleep(sleep_time)
+			feed_group.each do |cat_feed|
+				unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.article_id)
+					user_feed_item = FeedUser.new({
+						user_id: cat_feed.user.id,
+						action_type: 'categorisation',
+						source_id: self.article_id
+					})
+				end
+				user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+				user_feed_item.updated_at = self.article.published_at
+				user_feed_item.feeds << cat_feed
+				user_feed_item.save
+				sleep(0.5)
 			end
-			user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-			user_feed_item.updated_at = self.article.published_at
-			user_feed_item.feeds << cat_feed
-			user_feed_item.save
 		end
 	end
 
