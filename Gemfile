@@ -40,7 +40,7 @@ gem 'mailchimp-api'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Connect to Wordpress
-gem 'wp-connector', :git => 'git@github.com:BigDilettante/wp-connector.git'
+gem 'wp-connector', :git => 'git@github.com:stevebatcup/wp-connector.git'
 gem 'sinatra', require: false
 gem 'slim'
 
@@ -79,7 +79,7 @@ gem 'administrate-field-date_picker', '~> 0.1.0'
 gem "wysiwyg-rails"
 # gem "administrate-field-nested_has_many", git: "https://github.com/NedelescuVlad/administrate-field-nested_has_many"
 
-gem "ogp", '0.2.1', :git => 'git@github.com:BigDilettante/ogp.git'
+gem "ogp", '0.2.1', :git => 'git@github.com:stevebatcup/ogp.git'
 gem 'faraday_middleware'
 
 gem 'exception_notification'
