@@ -1,0 +1,101 @@
+<% unless is_development? %>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.css">
+	<script src="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.js"></script>
+<% end %>
+
+<section ng-controller="ContributorRatingsController"
+				class="container front-page"
+				data-contributor-id="<%= @contributor.id %>"
+				data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
+				data-tinymce-content-css-url='<%= asset_url("mobile/tinymce-content.css") %>'>
+
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
+	<div class="row" id="feed" ng-cloak>
+
+		<section class="results_block col-12" style="min-height: 85vh;" id="activity-tabs">
+
+			<div class="section_posts">
+
+				<h4 class="mt-3 mb-4 text-black">Your ratings for <%= @contributor.display_name %></h4>
+
+				<div ng-if="!ratings.firstLoaded" class="ajax_loading">
+					Loading results....
+				</div>
+
+				<div ng-if="ratings.firstLoaded" class="row"
+						ng-class="{'empty': ratings.data.length == 0}">
+
+					<p class="col-12 empty_resource" ng-if="ratings.data.length == 0">
+						<span>You have not yet rated any articles by <%= @contributor.display_name %></span>
+					</p>
+
+					<div class="px-3 py-2 navbar d-block">
+						<div class="order_by_dropdown dropdown" ng-if="ratings.data.length > 0">
+						  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    {{ratingOrderText(ratings.orderBy)}} <i class="fas fa-chevron-down"></i>
+						  </a>
+						  <div class="dropdown-menu">
+						    <div class="dropdown-item" ng-click="reorderRatings($event, 'comments')">
+									<i class="fas fa-check tick" ng-if="ratings.orderBy == 'comments'"></i>
+									<h6>By comment</h6>
+						    </div>
+						    <div class="dropdown-item" ng-click="reorderRatings($event, 'oldest')">
+									<i class="fas fa-check tick" ng-if="ratings.orderBy == 'oldest'"></i>
+									<h6>By date (oldest first)</h6>
+						    </div>
+						    <div class="dropdown-item" ng-click="reorderRatings($event, 'newest')">
+									<i class="fas fa-check tick" ng-if="ratings.orderBy == 'newest'"></i>
+									<h6>By date (newest first)</h6>
+						    </div>
+						  </div>
+						</div>
+					</div>
+
+					<div style="min-height: 50vh;">
+						<div ng-repeat="item in ratings.data"
+									 class="col-12 feed-listing feed-share pb-3 px-0"
+									 ng-hide="selectedTab == 'you_follow' && !item.share.user.imFollowing">
+
+								<!-- Rating card -->
+								<%= render 'shares/card' %>
+						</div>
+
+						<% unless is_development? %>
+							<% if @contributor.articles.any? %>
+								<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (!ratings.moreToLoad) && (!ratings.loading)" class="py-3 bg-white w-100">
+										<div class="container">
+											<h2 class="bullet mb-2">
+												<span class="">You may also like</span>
+											</h2>
+											<div class="bib--rcm-init"
+											  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+											  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
+											  data-query-string-params="utm_source=bibblio_contributor_ratings_page"
+											  data-custom-unique-identifier="<%= @contributor.articles.first.slug %>">
+											</div>
+										</div>
+								</section>
+							<% end %>
+						<% end %>
+
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+	</div>
+</section>
+
+<script id="confirmBlock" type="script/x-mustache">
+	<%= render partial: 'blocks/confirm_modal' %>
+</script>
+
+<script id="commentForm" type="script/x-mustache">
+	<%= render 'comments/comment_form' %>
+</script>

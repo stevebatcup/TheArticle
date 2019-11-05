@@ -1,16 +1,15 @@
-class RatingsHistoryController < ApplicationController
-	before_action :authenticate_basic_user
-
+class ContributorRatingsController < ApplicationController
 	def index
 		@order_by = (params[:order_by] || :comments).to_sym
 		respond_to do |format|
-			@article = Article.find(params[:article_id])
 			format.json do
 				@page = (params[:page] || 1).to_i
-				@total = @article.shares.where(share_type: 'rating').length if @page == 1
-				@ratings = @article.shares.where(share_type: 'rating')
-																		.page(@page)
-																		.per(params[:per_page])
+				@total = current_user.shares.ratings.includes(:article).references(:article)
+											.where("articles.author_id = ?", params[:contributor_id]).length if @page == 1
+				@ratings = current_user.shares.ratings.includes(:article).references(:article)
+											.where("articles.author_id = ?", params[:contributor_id])
+											.page(@page)
+											.per(params[:per_page])
 				case @order_by
 				when :comments
 					@ratings  = @ratings.order("(post > '') DESC").order(created_at: :desc)
@@ -25,7 +24,7 @@ class RatingsHistoryController < ApplicationController
 
 	def show
 		respond_to do |format|
-			@article = Article.find(params[:id])
+			@contributor = Author.find(params[:id])
 			format.html do
 				unless browser.device.mobile?
 					@sponsored_picks = Author.get_sponsors_single_posts('sponsored-pick', 3)

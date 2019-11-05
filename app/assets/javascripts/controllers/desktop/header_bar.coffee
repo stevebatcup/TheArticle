@@ -38,7 +38,7 @@ class TheArticle.HeaderBar extends TheArticle.DesktopPageController
 		if @scope.signedIn
 			@interval =>
 				@getNotificationsBadgeUpdate()
-			, 10000
+			, 120000
 
 	getNotificationsBadgeUpdate: =>
 		@http.get("/notification-count").then (response) =>

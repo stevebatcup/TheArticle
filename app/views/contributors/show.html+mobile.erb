@@ -84,21 +84,24 @@
 
 	<% if @ratings.present? %>
 		<div class='container'>
-			<div class="member_ratings col-12 col-lg-12 col-xl-8 pt-2 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
+			<div class="member_ratings col-12 col-lg-10 col-xl-8 pt-2 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
 				<h5>Your average ratings for <%= @contributor.display_name.html_safe %></h5>
-				<ul class="d-flex w-100 justify-content-between">
-					<li>Well argued:
-						<span class="rating <%= (@ratings[:well_written].nil? || @ratings[:well_written] == '') ? 'faded' : '' %>">
+				<ul class="">
+					<li class="row justify-content-start d-flex align-items-start mb-2">
+						<span class="col-10 text">Well argued:</span>
+						<span class="col-2 rating <%= (@ratings[:well_written].nil? || @ratings[:well_written] == '') ? 'faded' : '' %>">
 							<%= readable_article_rating(@ratings[:well_written]) %>
 						</span>
 					</li>
-					<li>Interesting points:
-						<span class="rating <%= (@ratings[:valid_points].nil? || @ratings[:valid_points] == '') ? 'faded' : '' %>">
+					<li class="row justify-content-start d-flex align-items-start mb-2">
+						<span class="col-10 text">Interesting points:</span>
+						<span class="col-2 rating <%= (@ratings[:valid_points].nil? || @ratings[:valid_points] == '') ? 'faded' : '' %>">
 							<%= readable_article_rating(@ratings[:valid_points]) %>
 						</span>
 					</li>
-					<li>Agree with arguments:
-						<span class="rating <%= (@ratings[:agree].nil? || @ratings[:agree] == '') ? 'faded' : '' %>">
+					<li class="row justify-content-start d-flex align-items-start mb-2">
+						<span class="col-10 text">Agree with arguments:</span>
+						<span class="col-2 rating <%= (@ratings[:agree].nil? || @ratings[:agree] == '') ? 'faded' : '' %>">
 							<%= readable_article_rating(@ratings[:agree]) %>
 						</span>
 					</li>

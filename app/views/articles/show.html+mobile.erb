@@ -68,21 +68,21 @@
 					<h5>Member ratings</h5>
 					<% if @article.has_ratings? %>
 						<ul class="">
-							<li class="row justify-content-start d-flex align-items.start mb-2">
+							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<% rating_wwc = @article.ratings_well_written_cache %>
 								<span class="col-10 text">Well argued: </span>
-								<span class="col-2 rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>"">
+								<span class="col-2 rating <%= (rating_wwc.nil? || rating_wwc == '') ? 'faded' : '' %>">
 									<%=  readable_article_rating(rating_wwc) %>
 								</span>
 							</li>
-							<li class="row justify-content-start d-flex align-items.start mb-2">
+							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<% rating_vpc = @article.ratings_valid_points_cache %>
 								<span class="col-10 text">Interesting points: </span>
 								<span class="col-2 rating <%= (rating_vpc.nil? || rating_vpc == '') ? 'faded' : '' %>">
 									<%= readable_article_rating(rating_vpc) %>
 								</span>
 							</li>
-							<li class="row justify-content-start d-flex align-items.start mb-2">
+							<li class="row justify-content-start d-flex align-items-start mb-2">
 								<% rating_ac = @article.ratings_agree_cache %>
 								<span class="col-10 text">Agree with arguments: </span>
 								<span class="col-2 rating <%= (rating_ac.nil? || rating_ac == '') ? 'faded' : '' %>">

@@ -250,11 +250,13 @@ class Author < ApplicationRecord
 
 	def get_avg_ratings_by_user(user)
 		ratings = user.ratings.includes(:article).references(:article).where("articles.author_id = ?", self.id)
-		{
-      article_count: ratings.size,
-      well_written: "#{ratings.average(:rating_well_written)}",
-      valid_points: "#{ratings.average(:rating_valid_points)}",
-      agree: "#{ratings.average(:rating_agree)}"
-    }
+		if ratings.size > 0
+			{
+	      article_count: ratings.size,
+	      well_written: "#{ratings.average(:rating_well_written)}",
+	      valid_points: "#{ratings.average(:rating_valid_points)}",
+	      agree: "#{ratings.average(:rating_agree)}"
+	    }
+	  end
 	end
 end
