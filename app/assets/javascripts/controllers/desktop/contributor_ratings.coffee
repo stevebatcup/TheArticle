@@ -114,8 +114,8 @@ class TheArticle.ContributorRatings extends TheArticle.mixOf TheArticle.DesktopP
 	ratingOrderText: (orderBy) =>
 		switch orderBy
 			when 'comments' then 'Comments'
-			when 'oldest' then 'By date (oldest first)'
-			when 'newest' then 'By date (newest first)'
+			when 'oldest' then 'By date'
+			when 'newest' then 'By date'
 
 	reorderRatings: ($event, orderBy) =>
 		$event.preventDefault() if $event?
