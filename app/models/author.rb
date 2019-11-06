@@ -67,6 +67,9 @@ class Author < ApplicationRecord
 			if item.email == 'stephen.rand@thearticle.com'
 				editors.unshift item
 			end
+			if item.email == 'olivia.utley@thearticle.com'
+				editors.unshift item
+			end
 			if item.email == 'daniel.johnson@thearticle.com'
 				editors.unshift item
 			end
