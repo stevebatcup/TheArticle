@@ -82,6 +82,7 @@
 
 		googletag.pubads().setTargeting('member', '<%= user_signed_in? ? 'true' : 'false' %>');
 		googletag.pubads().setTargeting('content', "<%= yield_meta_tag(:description, default_meta_description) %>");
+		googletag.pubads().disableInitialLoad();
 		googletag.pubads().enableSingleRequest();
 		googletag.pubads().collapseEmptyDivs();
 		googletag.enableServices();
