@@ -7,7 +7,7 @@ module BibblioApiService
 
 		def data
 			@data ||= begin
-				log_action = "get article data"
+				log_action = "get_article - data"
 				if content_item_id
 					url = "#{self.class.api_host}/content-items/#{content_item_id}"
 					result = RestClient.get(url, json_headers(:production))
@@ -24,7 +24,7 @@ module BibblioApiService
 
 		def content_item_id
 			@content_item_id ||= begin
-				log_action = "get article content item id"
+				log_action = "get_article - content_item_id"
 				url = "#{self.class.api_host}/content-items?page=1&catalogueId=#{self.class.articles_catalog_id}&customUniqueIdentifier=#{@stored_article.slug}"
 				response = RestClient.get(url, json_headers(:production))
 				log(log_action, url, nil, { status: :success })
