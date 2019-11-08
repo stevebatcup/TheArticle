@@ -5,12 +5,12 @@ module BibblioApiService
 			"https://api.bibblio.org/v1"
 		end
 
-		def log(action, url, user, response)
+		def log(action, url, user=nil, response='')
 			ApiLog.request({
 				service: :bibblio,
-				user_id: user.id,
+				user_id: user.present? ? user.id : 0,
 				request_method: action,
-				request_data: { url: url, access_token: access_token }.to_json,
+				request_data: { url: url, access_token: access_token },
 				response: response
 			})
 		end
