@@ -396,7 +396,7 @@ class User < ApplicationRecord
   end
 
   def add_to_bibblio
-    result = BibblioApiService.create_user(self) == true
+    result = BibblioApiService::Users.new(self).create == true
     self.update_attribute(:on_bibblio, true) if result
     result
   end
