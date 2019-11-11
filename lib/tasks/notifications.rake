@@ -22,13 +22,19 @@ namespace :notifications do
 	end
 
 	task :daily_categorisations => :environment do
-		items = DailyUserMailItem.select(:id, :user_id).where(action_type: "categorisation").where("created_at > DATE_SUB(CONCAT(CURDATE(), ' ', '17:00:00'), INTERVAL 1 DAY)").group(:user_id)
-		items.each do |item|
-			if user = User.where(status: :active).find_by(id: item.user_id)
-				user.send_daily_categorisations_mail
-				sleep(1.2)
-			else
-				item.destroy
+		DailyUserMailItem.select(:id, :user_id)
+											.where(action_type: "categorisation")
+											.where("created_at > DATE_SUB(CONCAT(CURDATE(), ' ', '17:00:00'), INTERVAL 1 DAY)")
+											.group(:user_id)
+											.find_in_batches(batch_size: 200) do |group|
+			sleep(10)
+			group.each do |item|
+				sleep(0.5)
+				if user = User.where(status: :active).find_by(id: item.user_id)
+					user.send_daily_categorisations_mail
+				else
+					item.destroy
+				end
 			end
 		end
 	end
