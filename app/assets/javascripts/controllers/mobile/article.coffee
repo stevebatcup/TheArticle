@@ -41,12 +41,6 @@ class TheArticle.Article extends TheArticle.MobilePageController
 				@showRegistrationInterstitial() unless $('.modal').is(':visible')
 			, 20000
 
-		vars = @getUrlVars()
-		if 'sc' of vars
-			@timeout =>
-				$(window).scrollTop(vars['sc'])
-			, 200
-
 	bindEvents: ->
 		super
 		@scope.$on 'swap_share_panel', (e, data) =>
