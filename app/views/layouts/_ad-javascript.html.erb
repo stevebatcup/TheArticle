@@ -59,10 +59,14 @@
 		mpuMapping = googletag.sizeMapping().
 				addSize([0, 0], [1, 1]).
 				addSize([320, 0], [300, 250]).
+				build();
+		doubleMpuMapping = googletag.sizeMapping().
+				addSize([0, 0], [1, 1]).
+				addSize([320, 0], [300, 250]).
 				addSize([768, 0], [[300, 250], [300, 600]]).
 				build();
 		slot1 = googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/bottomsidecolumn', [[300, 600], [300, 250]], 'div-gpt-ad-<%= ad_page_id %>-0').defineSizeMapping(mpuMapping).addService(googletag.pubads());
-		slot2 = googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/sidecolumn', [[300, 600], [300, 250]], 'div-gpt-ad-<%= ad_page_id %>-1').defineSizeMapping(mpuMapping).addService(googletag.pubads());
+		slot2 = googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/sidecolumn', [[300, 600], [300, 250]], 'div-gpt-ad-<%= ad_page_id %>-1').defineSizeMapping(doubleMpuMapping).addService(googletag.pubads());
 		googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/skin', [1, 1], 'div-gpt-ad-<%= ad_page_id %>-2').addService(googletag.pubads());
 		slot3 = googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/topbanner', [[320, 50], [320, 100], [970, 90], [970, 250], [728, 90]], 'div-gpt-ad-<%= ad_page_id %>-3').defineSizeMapping(billboardMapping).addService(googletag.pubads());
 		googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
