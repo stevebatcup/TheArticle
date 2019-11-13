@@ -14,6 +14,7 @@ module User::Suggestable
     self.profile_suggestions.includes(:suggested)
           .where(status: :pending)
           .where("author_article_count > 0")
+          .where.not(suggested_id: self.id)
   end
 
   def paginated_pending_suggestions(page, per_page)
