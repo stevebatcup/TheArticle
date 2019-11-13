@@ -102,5 +102,33 @@ module BibblioApiService
 			"Users"
 		end
 
+		def get_suggestions(limit=5)
+			begin
+				url = "#{self.class.api_host}/recommendations/related?customCatalogueIds=#{self.class.users_catalog}&customUniqueIdentifier=#{@user.id}&limit=#{limit}&page=1"
+				response = RestClient.get(url, json_headers(Rails.env.to_sym))
+				log("get_recommendations_for_user", url, @user, { status: :success })
+				items = JSON.parse(response)["results"]
+				if items.any?
+					usernames = []
+					user_follow_ids = @user.followings.map(&:followed_id)
+					items.each { |item| usernames << item["fields"]["name"] }
+					users = User.where(username: usernames).where.not(id: user_follow_ids).to_a
+					# puts users
+					users
+				else
+					[]
+				end
+			rescue RestClient::ExceptionWithResponse => e
+				puts "ExceptionWithResponse #{e.message} #{@user.id}\n"
+				log("get_recommendations_for_user", url, @user, { status: :error, message: e.message })
+				return false
+			rescue Exception => e
+				puts "Exception #{e.message} #{@user.id}\n"
+				log("get_recommendations_for_user", url, @user, { status: :error, message: e.message })
+				return false
+			end
+
+		end
+
 	end
 end

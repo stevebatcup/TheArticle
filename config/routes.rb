@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   end
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
-  get 'accept-testing-environment',            to: 'testing_feedback#accept'
-  post 'submit-feedback',                      to: 'testing_feedback#create'
   get 'search-suggestions',                    to: 'search#index', mode: :suggestions
   get 'search',                                to: 'search#index', as: :search, mode: :full
   get 'articles',                              to: 'articles#index', as: :articles

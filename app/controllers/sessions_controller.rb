@@ -22,7 +22,9 @@ class SessionsController < Devise::SessionsController
       if request.referer == sign_in_url
       	@redirect = front_page_path
       else
-		    @redirect = stored_location_for(resource) || request.referer || front_page_path
+  			user_stored_location = stored_location_for(resource) || request.referer
+				user_stored_location = nil if (user_stored_location && user_stored_location == '/notification-count')
+		    @redirect = user_stored_location || front_page_path
 		  end
 	    sign_in :user, resource
 	  else

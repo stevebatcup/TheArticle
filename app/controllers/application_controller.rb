@@ -177,10 +177,6 @@ protected
     "#{root_path}?signed_out=1"
   end
 
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || front_page_path
-  end
-
   def configure_permitted_parameters
     added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
@@ -215,9 +211,7 @@ private
 	end
 
 	def authenticate_basic_user
-		unless user_signed_in?
-			redirect_to "/?force_home=1"
-		end
+		redirect_to "/?force_home=1" unless user_signed_in?
 	end
 
 	def authenticate_user!

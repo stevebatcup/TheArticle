@@ -218,16 +218,23 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@scope.trendingExchanges = response.trendingExchanges
 					@scope.userExchanges = response.userExchanges
 					@getFeeds('posts', true) unless @rootScope.profileDeactivated
-				else if section is 'posts'
-					@getFeeds('follows', true) unless @rootScope.profileDeactivated
+					@getSuggestions =>
+						@buildAllCarousels(section, autoGet)
+				else
+					@buildAllCarousels(section, autoGet)
+					if section is 'posts'
+						@getFeeds('follows', true) unless @rootScope.profileDeactivated
+			else
+				@buildAllCarousels(section, autoGet)
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 
-			@buildSuggestionsCarousel(section, autoGet)
-			@buildLatestArticlesCarousels(section, autoGet)
-			@buildSponsoredPicksCarousels(section, autoGet)
-			@buildTrendingExchangesCarousels(section, autoGet)
-			@buildFeaturedSponsoredPost(section, autoGet)
+	buildAllCarousels: (section, autoGet) =>
+		@buildSuggestionsCarousel(section, autoGet)
+		@buildLatestArticlesCarousels(section, autoGet)
+		@buildSponsoredPicksCarousels(section, autoGet)
+		@buildTrendingExchangesCarousels(section, autoGet)
+		@buildFeaturedSponsoredPost(section, autoGet)
 
 	buildSuggestionsCarousel: (section, autoGet=false) =>
 		page = @scope.feeds[section].page
@@ -409,16 +416,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
-	getSuggestions: (callback)=>
-		@http.get('/follow-suggestions').then (response) =>
-			if response.data.suggestions.populars.length is 0
-				list = response.data.suggestions.forYous
-			else if response.data.suggestions.populars.length < 16
-				list = response.data.suggestions.populars.concat(response.data.suggestions.forYous)
-			else
-				list = response.data.suggestions.populars
-			@scope.suggestions = list.slice(0, 16)
-
+	getSuggestions: (callback) =>
+		@http.get('/follow-suggestions?use_bibblio=1').then (response) =>
+			@scope.suggestions = response.data.suggestions.slice(0, 16)
 			@timeout =>
 				@scope.suggestionsLoaded = true
 				callback.call(@)

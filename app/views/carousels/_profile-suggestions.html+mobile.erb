@@ -4,6 +4,7 @@
 	</div>
 	<div class="suggestions slick-carousel slide w-100 mb-2"
 				data-page="{{item.page}}"
+				ng-if="suggestionsLoaded && (suggestions.length > 2)"
 				data-slideout-ignore>
 		<div ng-repeat="item in suggestions" class="profile-suggestion mb-3 slick-carousel-item feed-listing" data-user-id="{{item.id}}">
 			<%= render partial: 'users/member_card', locals: { suggestions: true, show_ignore_btn: true } %>
