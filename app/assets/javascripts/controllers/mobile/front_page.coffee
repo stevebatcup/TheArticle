@@ -398,7 +398,13 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	getSuggestions: (callback) =>
 		@http.get('/follow-suggestions?use_bibblio=1').then (response) =>
-			@scope.suggestions = response.data.suggestions.slice(0, 16)
+			if response.data.suggestions.populars.length is 0
+				list = response.data.suggestions.forYous
+			else if response.data.suggestions.populars.length < 16
+				list = response.data.suggestions.populars.concat(response.data.suggestions.forYous)
+			else
+				list = response.data.suggestions.populars
+			@scope.suggestions = list.slice(0, 16)
 			@timeout =>
 				@scope.suggestionsLoaded = true
 				callback.call(@)
