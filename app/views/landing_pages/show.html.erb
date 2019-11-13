@@ -7,10 +7,20 @@
 		data-per-page="<%= exchange_articles_per_page %>"
 		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
 
+	<div id="content-page">
+		<header class="entry-header">
+			<h1 class="mb-0">
+				<div class="container">
+				Latest on Brexit
+				</div>
+			</h1>
+		</header>
+	</div>
+
 	<div class="my-4"></div>
 
+
 	<div class="container mb-4">
-		<h3 class="h2 text-black">Latest on Brexit</h3>
 		<p class="landing_page_intro"><%= @desc %></p>
 	</div>
 
