@@ -8,9 +8,11 @@ class ProfileSuggestionsController < ApplicationController
 				if params[:query]
 					@search_results = User.search_for_suggestions(current_user, params[:query])
 				elsif params[:use_bibblio] && current_user.on_bibblio?
-					@bibblio_results = BibblioApiService::Users.new(current_user).get_suggestions(10)
+					page_1 = BibblioApiService::Users.new(current_user).get_suggestions(10, 1)
+					page_2 = BibblioApiService::Users.new(current_user).get_suggestions(10, 2)
+					@bibblio_results = (page_1 + page_2)
 					# Author suggestions
-					current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
+					current_user.pending_author_suggestions(15).each_with_index do |author_suggestion, index|
 						insert_point = ((index+1) * 4) - 1
 						if @bibblio_results[insert_point].nil?
 							@bibblio_results << author_suggestion.suggested

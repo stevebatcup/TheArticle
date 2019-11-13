@@ -102,9 +102,9 @@ module BibblioApiService
 			"Users"
 		end
 
-		def get_suggestions(limit=5)
+		def get_suggestions(limit=5, page=1)
 			begin
-				url = "#{self.class.api_host}/recommendations/related?customCatalogueIds=#{self.class.users_catalog}&customUniqueIdentifier=#{@user.id}&limit=#{limit}&page=1"
+				url = "#{self.class.api_host}/recommendations/related?customCatalogueIds=#{self.class.users_catalog}&customUniqueIdentifier=#{@user.id}&limit=#{limit}&page=#{page}"
 				response = RestClient.get(url, json_headers(Rails.env.to_sym))
 				log("get_recommendations_for_user", url, @user, { status: :success })
 				items = JSON.parse(response)["results"]
