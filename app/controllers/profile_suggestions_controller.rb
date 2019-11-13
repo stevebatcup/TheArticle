@@ -8,8 +8,7 @@ class ProfileSuggestionsController < ApplicationController
 				if params[:query]
 					@search_results = User.search_for_suggestions(current_user, params[:query])
 				elsif params[:use_bibblio] && current_user.on_bibblio?
-					@for_yous = BibblioApiService::Users.new(current_user).get_suggestions(10)
-					@populars = []
+					@bibblio_results = BibblioApiService::Users.new(current_user).get_suggestions(10)
 				else
 					already_following_ids = current_user.followings.map(&:followed_id)
 					suggestions = current_user.pending_suggestions
