@@ -37,7 +37,7 @@ class SearchController < ApplicationController
 								@profile_suggestions_mode = :who_to_follow
 								@who_to_follow = User.popular_users.limit(5)
 							end
-							@trending_articles = Article.trending.order(published_at: :desc).limit(5)
+							@latest_articles = Article.latest.order(published_at: :desc).limit(5)
 							@trending_exchanges = Exchange.trending_list.limit(5).to_a.shuffle
 						end
 						render :index_suggestions
