@@ -258,7 +258,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 				slidesToShow = if $('#activity-tabs').outerWidth() <= 480 then 1 else 2
 				initialSlide = Math.ceil(slideCount / 2) - 1
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
-				infinite: false
+				infinite: true
 				slidesToShow: slidesToShow
 				slidesToScroll: slidesToShow
 				speed: 300

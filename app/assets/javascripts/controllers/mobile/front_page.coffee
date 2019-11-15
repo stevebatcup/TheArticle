@@ -243,7 +243,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			else
 				initialSlide = Math.ceil(slideCount / 2) - 1
 			$(".slick-carousel.suggestions[data-page=#{key}]", ".section_#{section}").slick
-				infinite: false
+				infinite: true
 				slidesToShow: 1
 				slidesToScroll: 1
 				speed: 300
