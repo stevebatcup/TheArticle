@@ -353,7 +353,7 @@
 				<div class="" ng-if="(selectedTab == 'following')">
 					<div class="results_block row" ng-class="{'empty': profile.follows.followings.length == 0}">
 
-						<div class="ajax_loading suggestions pb-5 h-100" ng-if="!profile.follows.loaded">
+						<div class="ajax_loading following pb-5 h-100" ng-if="!profile.follows.loaded">
 						Loading <span>results</span>...</div>
 
 						<p class="col-12 empty_resource" ng-show="profile.follows.followings.length == 0 && profile.follows.loaded">
@@ -371,7 +371,7 @@
 				<div class="" ng-if="(selectedTab == 'followers')"">
 					<div class="results_block row" ng-class="{'empty': profile.follows.followers.length == 0}">
 
-						<div class="ajax_loading suggestions pb-5 h-100" ng-if="!profile.follows.loaded">
+						<div class="ajax_loading followers pb-5 h-100" ng-if="!profile.follows.loaded">
 						Loading <span>results</span>...</div>
 
 						<p class="col-12 empty_resource" ng-show="profile.follows.followers.length == 0 && profile.follows.loaded">
@@ -409,7 +409,10 @@
 				<div class="" ng-if="(selectedTab == 'connected')"">
 					<div class="results_block row" ng-class="{'empty': profile.follows.connections.length == 0}">
 
-						<p class="col-12 empty_resource" ng-show="profile.follows.connections.length == 0">
+						<div class="ajax_loading connections pb-5 h-100" ng-if="!profile.follows.loaded">
+						Loading <span>results</span>...</div>
+
+						<p class="col-12 empty_resource" ng-show="profile.follows.connections.length == 0 && profile.follows.loaded">
 							<span ng-if="profile.isMe">You currently have no connections</span>
 						</p>
 
@@ -423,7 +426,10 @@
 				<div class="" ng-if="selectedTab == 'ratings'">
 					<div class="results_block row" ng-class="{'empty': profile.ratings.data.length == 0}">
 
-						<p class="col-12 empty_resource" ng-if="profile.ratings.data.length == 0">
+						<div class="ajax_loading ratings pb-5 h-100" ng-if="!profile.ratings.loaded">
+						Loading <span>results</span>...</div>
+
+						<p class="col-12 empty_resource" ng-if="profile.ratings.data.length == 0 && profile.ratings.loaded">
 							<span ng-if="profile.isMe">You have not rated an article yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not rated an article yet</span>
 						</p>
@@ -471,7 +477,10 @@
 				<div class="" ng-if="(selectedTab == 'shares')">
 					<div class="results_block row" ng-class="{'empty': profile.shares.data.length == 0}">
 
-						<p class="col-12 empty_resource" ng-show="profile.shares.data.length == 0">
+						<div class="ajax_loading shares pb-5 h-100" ng-if="!profile.shares.loaded">
+						Loading <span>results</span>...</div>
+
+						<p class="col-12 empty_resource" ng-show="profile.shares.data.length == 0 && profile.shares.loaded">
 							<span ng-if="profile.isMe">You have not shared an article yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not shared an article yet</span>
 						</p>
@@ -486,7 +495,10 @@
 				<div class="" ng-if="(selectedTab == 'exchanges')">
 					<div class="results_block row" ng-class="{'empty': profile.exchanges.data.length == 0}">
 
-						<p class="col-12 empty_resource" ng-show="profile.exchanges.data.length == 0">
+						<div class="ajax_loading exchanges pb-5 h-100" ng-if="!profile.exchanges.loaded">
+						Loading <span>results</span>...</div>
+
+						<p class="col-12 empty_resource" ng-show="profile.exchanges.data.length == 0 && profile.exchanges.loaded">
 							<span ng-if="profile.isMe">You are not following an exchange yet</span>
 							<span ng-if="!profile.isMe">{{profile.data.displayName}} has not followed an exchange yet</span>
 						</p>
