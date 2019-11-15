@@ -61,8 +61,13 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			adaptiveHeight: true
 			speed: 500
 			dots: true
-			centerMode: if $(window).width() <= 320 then false else true
 			arrows: false
+			centerMode: true
+			responsive: [
+				breakpoint: 370
+				settings:
+					centerMode: false
+			]
 
 		$('.slick-carousel.exchanges').slick
 			infinite: true
@@ -70,19 +75,32 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			slidesToScroll: 1
 			adaptiveHeight: true
 			speed: 500
-			dots: if $(window).width() <= 320 then true else false
-			centerMode: if $(window).width() <= 320 then false else true
 			arrows: false
+			dots: false
+			centerMode: true
+			responsive: [
+				breakpoint: 370
+				settings:
+					dots: true
+					centerMode: false
+			]
 
 		$('.slick-carousel.journalists').slick
 			infinite: true
-			slidesToShow: if $(window).width() <= 320 then 1 else 2
+			touchThreshold: 8
 			slidesToScroll: 1
 			adaptiveHeight: true
-			speed: 300
-			dots: if $(window).width() <= 320 then true else false
+			speed: 200
 			arrows: false
 			centerMode: true
+			slidesToShow: 2
+			dots: false
+			responsive: [
+				breakpoint: 370
+				settings:
+					slidesToShow: 1
+					dots: true
+			]
 
 	openSharingPanel: ($event=null, mode=null) =>
 		$event.preventDefault() if $event?
