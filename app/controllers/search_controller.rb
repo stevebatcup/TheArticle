@@ -51,7 +51,7 @@ class SearchController < ApplicationController
 							tag = KeywordTag.find_by(slug: @query)
 							article_query = "#{query_with_plurals} | #{tag.name}"
 						end
-						articles = Article.search(query_with_plurals, order: 'published_at DESC', page: 1, per_page: 500).to_a
+						articles = Article.search(article_query, order: 'published_at DESC', page: 1, per_page: 500).to_a
 						contributors = Author.search(conditions: { display_name: "*#{query_with_plurals}*" },
 																					order: 'article_count DESC').to_a
 						exchanges = Exchange.search("*#{query_with_plurals}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
