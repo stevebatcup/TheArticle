@@ -112,4 +112,24 @@ module ArticleHelper
 			"#{rating.to_i}%"
 		end
 	end
+
+	def show_registration_interstitial?
+		if !user_signed_in? && !cookies[:shown_registration_interstitial]
+			if cookies[:seen_minimum_articles]
+				val = cookies[:seen_minimum_articles].to_i
+				if val == Article.views_before_interstitial
+					cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now }
+					cookies.delete(:seen_minimum_articles)
+					true
+				else
+					new_val = val + 1
+					cookies[:seen_minimum_articles] = { :value => new_val, :expires => 24.hours.from_now }
+					false
+				end
+			else
+				cookies[:seen_minimum_articles] = { :value => 1, :expires => 24.hours.from_now }
+				false
+			end
+		end
+	end
 end

@@ -361,8 +361,7 @@
 </script>
 <% end %>
 
-<% if !user_signed_in? && !cookies[:shown_registration_interstitial] %>
-	<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
+<% if show_registration_interstitial? %>
 	<script id="registerInterstitial" type="script/x-mustache">
 	  <%= render partial: 'promotional/register_modal' %>
 	</script>

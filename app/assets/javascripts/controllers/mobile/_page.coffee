@@ -10,21 +10,18 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		setTimeout @bindCarousels, 800
 		@bindSearchFilters()
 
-		$(document).on 'show.bs.modal', =>
-			$('html').addClass('with_modal')
-			@stopBodyScrolling(true)
+		$(document).on 'show.bs.modal', (e) =>
+			unless $(e.target).attr('id') is 'registerInterstitialModal'
+				$('html').addClass('with_modal')
+				@stopBodyScrolling(true)
 
-		$(document).on 'hide.bs.modal', =>
-			$('html').removeClass('with_modal')
-			@stopBodyScrolling(false)
+		$(document).on 'hide.bs.modal', (e) =>
+			unless $(e.target).attr('id') is 'registerInterstitialModal'
+				$('html').removeClass('with_modal')
+				@stopBodyScrolling(false)
 
 		$('#open_feedback_form').on 'click', (e) =>
 			@openFeedbackForm(e)
-
-	# bindBlockClicks: =>
-	# 	$(document).on 'click', '.block_click', (e) =>
-	# 		@blockClick $(e.currentTarget), e
-	# 	super
 
 	bindSideMenu: =>
 		@rootScope.slideout = new Slideout

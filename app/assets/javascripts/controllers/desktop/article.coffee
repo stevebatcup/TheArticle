@@ -39,7 +39,7 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 		if $('#registerInterstitial').length > 0
 			@rootScope.articleRegisterInterstitialTimeout = @timeout =>
 				@showRegistrationInterstitial() unless $('.modal').is(':visible')
-			, 20000
+			, 30000
 
 	bindEvents: ->
 		super
