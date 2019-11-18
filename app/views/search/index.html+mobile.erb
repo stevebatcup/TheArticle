@@ -2,8 +2,10 @@
 
 <section ng-controller="SearchResultsController"
 					id="search-results"
+					data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
 					data-query="<%= @query %>"
-					 data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
+					data-from_tag="<%= params[:from_tag].present? ? 1 : 0 %>"
+					ng-cloak>
 	<div id="top_bar" class="" ng-if="search.results.loaded">
 		<ul class="nav nav-tabs nav-fill d-flex">
 		  <li class="nav-item" ng-if="!search.results.empty">
