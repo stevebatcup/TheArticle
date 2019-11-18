@@ -34,10 +34,6 @@ every	1.day, at: '6:00 pm' do
 	rake "profiles:second_wizard_nudge >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
 
-every	1.day, at: '4:35 pm' do
-	rake "autofollow:olivia"
-end
-
 every	1.day, at: '8:30 pm' do
 	rake "autofollow:daniel"
 end
