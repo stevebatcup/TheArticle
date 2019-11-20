@@ -60,9 +60,9 @@ every	1.day, at: '17:30 pm' do
 end
 
 every 1.hour do
-	rake "articles:fetch_bibblio_meta  >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
+	rake "articles:fetch_bibblio_meta >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
 end
 
-every 30.minutes do
-	rake "feeds:clean  >> /var/www/thearticle/rails/shared/log/feeds.log 2>&1"
+every 20.minutes do
+	rake "feeds:clean >> /var/www/thearticle/rails/shared/log/feeds.log 2>&1"
 end

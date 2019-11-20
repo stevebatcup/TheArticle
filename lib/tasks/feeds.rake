@@ -60,7 +60,6 @@ namespace :feeds do
 			puts "No notifications found before #{cutoff_weeks} weeks ago"
 		end
 
-
 		master_feeds = Feed.where("created_at < DATE_SUB(NOW(), INTERVAL #{cutoff_weeks} week)").order(created_at: :desc, id: :desc).limit(1)
 		if master_feeds.any?
 			master_feed = master_feeds.first
