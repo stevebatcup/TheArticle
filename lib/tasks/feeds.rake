@@ -49,12 +49,12 @@ namespace :feeds do
 												.order(notification_id: :desc)
 												.limit(item_limit)
 												.delete_all
-			sleep(3)
+			sleep(1)
 			Notification.where("id <= #{master_notification.id}")
 												.order(id: :desc)
 												.limit(item_limit)
 												.delete_all
-			sleep(10)
+			sleep(5)
 		else
 			puts "No notifications found before #{cutoff_weeks} weeks ago"
 		end
@@ -70,29 +70,18 @@ namespace :feeds do
 												.order(feed_id: :desc)
 												.limit(item_limit)
 												.delete_all
-			sleep(3)
+			sleep(1)
 
 			# remove feeds, feed_users and join tables
-			fuf = FeedUserFeed.where(feed_id: master_feed.id).order(feed_user_id: :desc).limit(1)
-			if fuf.any?
-				puts "FUF ID: #{fuf.first.id}"
-				FeedUserFeed.where("feed_id <= #{master_feed.id}")
-													.order(feed_id: :desc)
-													.limit(item_limit)
-													.delete_all
-				sleep(3)
-				FeedUser.where("id <= #{fuf.first.feed_user_id}")
-													.order(id: :desc)
-													.limit(item_limit)
-													.delete_all
-				sleep(3)
-				Feed.where("id <= #{master_feed.id}")
-												.order(id: :desc)
-												.limit(item_limit)
-												.delete_all
-			else
-				puts "No feed_user_feed found for #{master_feed.id}"
-			end
+			Feed.where("id <= #{master_feed.id}")
+											.order(id: :desc)
+											.limit(item_limit)
+											.destroy_all
+
+			FeedUser.where("created_at < '#{master_feed.created_at.strftime("%Y-%m-%d %H:%M:%S")}'")
+								.order(created_at: :desc, id: :desc)
+								.limit(item_limit)
+								.delete_all
 		else
 			puts "No feeds found before #{cutoff_weeks} weeks ago"
 		end
