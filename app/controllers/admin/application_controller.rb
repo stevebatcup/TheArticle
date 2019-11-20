@@ -22,6 +22,13 @@ module Admin
       raise SecurityError unless current_user.try(:is_admin?)
     end
 
+    def authenticate_super_admin
+      unless current_user.try(:is_super_admin?)
+        flash[:error] = "You do not have permission to access that page"
+        redirect_to "/admin/wordpress_logs"
+      end
+    end
+
     def quarantined_post_count
       @quarantined_post_count ||= QuarantinedThirdPartyShare.where(status: :pending).size
     end

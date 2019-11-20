@@ -1,6 +1,8 @@
 module Admin
   class UsersController < Admin::ApplicationController
 
+    before_action :authenticate_super_admin
+
     def index
       set_records_per_page if params[:per_page]
       @search_term = params[:search].to_s.strip
