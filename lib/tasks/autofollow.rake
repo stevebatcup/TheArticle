@@ -14,6 +14,7 @@ namespace :autofollow do
 			daniel.save
 
 			unfollowed.each do |user|
+				sleep(1)
 				user.send_followed_mail_if_opted_in(daniel)
 			end
 		end
@@ -30,6 +31,7 @@ namespace :autofollow do
 			jay.save
 
 			unfollowed.each do |user|
+				sleep(1)
 				user.send_followed_mail_if_opted_in(jay)
 			end
 		end
@@ -46,6 +48,7 @@ namespace :autofollow do
 			lynne.save
 
 			unfollowed.each do |user|
+				sleep(1)
 				user.send_followed_mail_if_opted_in(lynne)
 			end
 		end
@@ -62,6 +65,7 @@ namespace :autofollow do
 			charlotte.save
 
 			unfollowed.each do |user|
+				sleep(1)
 				user.send_followed_mail_if_opted_in(charlotte)
 			end
 		end
