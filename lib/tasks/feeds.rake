@@ -74,6 +74,7 @@ namespace :feeds do
 
 			# remove feeds, feed_users and join tables
 			fuf = FeedUserFeed.where(feed_id: master_feed.id).order(feed_user_id: :desc).limit(1)
+			puts "FUF ID: #{fuf.id}"
 			if fuf.any?
 				FeedUserFeed.where("feed_id <= #{master_feed.id}")
 													.order(feed_id: :desc)
@@ -89,6 +90,8 @@ namespace :feeds do
 												.order(id: :desc)
 												.limit(item_limit)
 												.delete_all
+			else
+				puts "No feed_user_feed found for #{master_feed.id}"
 			end
 		else
 			puts "No feeds found before #{cutoff_weeks} weeks ago"
