@@ -37,7 +37,7 @@ namespace :feeds do
 
 	task :clean => :environment do
 		cutoff_weeks = 10
-		item_limit = 50
+		item_limit = 100
 
 		master_notifications = Notification.where("created_at < DATE_SUB(NOW(), INTERVAL #{cutoff_weeks} week)").order(created_at: :desc, id: :desc).limit(1)
 		if master_notifications.any?
@@ -45,13 +45,13 @@ namespace :feeds do
 			puts "Master Notification ID: #{master_notification.id}"
 
 			# remove notifications and feeds_notifications
-			Notification.where("id <= #{master_notification.id}")
-												.order(id: :desc)
+			FeedNotification.where("notification_id <= #{master_notification.id}")
+												.order(notification_id: :desc)
 												.limit(item_limit)
 												.delete_all
 			sleep(3)
-			FeedNotification.where("notification_id <= #{master_notification.id}")
-												.order(notification_id: :desc)
+			Notification.where("id <= #{master_notification.id}")
+												.order(id: :desc)
 												.limit(item_limit)
 												.delete_all
 			sleep(10)
@@ -72,9 +72,14 @@ namespace :feeds do
 												.delete_all
 			sleep(3)
 
-			# remove feeds, feed_users and join table
+			# remove feeds, feed_users and join tables
 			fuf = FeedUserFeed.where(feed_id: master_feed.id).order(feed_user_id: :desc).limit(1)
 			if fuf.any?
+				FeedUserFeed.where("feed_id <= #{master_feed.id}")
+													.order(feed_id: :desc)
+													.limit(item_limit)
+													.delete_all
+				sleep(3)
 				FeedUser.where("id <= #{fuf.first.feed_user_id}")
 													.order(id: :desc)
 													.limit(item_limit)
@@ -84,11 +89,6 @@ namespace :feeds do
 												.order(id: :desc)
 												.limit(item_limit)
 												.delete_all
-				sleep(3)
-				FeedUserFeed.where("feed_id <= #{master_feed.id}")
-													.order(feed_id: :desc)
-													.limit(item_limit)
-													.delete_all
 			end
 		else
 			puts "No feeds found before #{cutoff_weeks} weeks ago"
