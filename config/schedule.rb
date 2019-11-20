@@ -37,13 +37,13 @@ end
 every	1.day, at: '8:30 pm' do
 	rake "autofollow:daniel"
 end
-every	1.day, at: '9:00 pm' do
+every	1.day, at: '9:30 pm' do
 	rake "autofollow:jay"
 end
-every	1.day, at: '9:30 pm' do
+every	1.day, at: '10:30 pm' do
 	rake "autofollow:lynne"
 end
-every	1.day, at: '10:00 pm' do
+every	1.day, at: '11:30 pm' do
 	rake "autofollow:charlotte"
 end
 
