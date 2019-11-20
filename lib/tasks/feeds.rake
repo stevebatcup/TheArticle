@@ -35,4 +35,64 @@ namespace :feeds do
 		end
 	end
 
+	task :clean => :environment do
+		cutoff_weeks = 10
+		item_limit = 50
+
+		master_notifications = Notification.where("created_at < DATE_SUB(NOW(), INTERVAL #{cutoff_weeks} week)").order(created_at: :desc, id: :desc).limit(1)
+		if master_notifications.any?
+			master_notification = master_notifications.first
+			puts "Master Notification ID: #{master_notification.id}"
+
+			# remove notifications and feeds_notifications
+			FeedNotification.where("notification_id <= #{master_notification.id}")
+												.order(notification_id: :desc)
+												.limit(item_limit)
+												.delete_all
+			sleep(3)
+			Notification.where("id <= #{master_notification.id}")
+												.order(id: :desc)
+												.limit(item_limit)
+												.delete_all
+			sleep(10)
+		else
+			puts "No notifications found before #{cutoff_weeks} weeks ago"
+		end
+
+
+		master_feeds = Feed.where("created_at < DATE_SUB(NOW(), INTERVAL #{cutoff_weeks} week)").order(created_at: :desc, id: :desc).limit(1)
+		if master_feeds.any?
+			master_feed = master_feeds.first
+			puts "Master Feed ID: #{master_feed.id}"
+
+			# remove notifications for feeds
+			FeedNotification.where("feed_id <= #{master_feed.id}")
+												.order(feed_id: :desc)
+												.limit(item_limit)
+												.delete_all
+			sleep(3)
+
+			# remove feeds, feed_users and join tables
+			fuf = FeedUserFeed.where(feed_id: master_feed.id).order(feed_user_id: :desc).limit(1)
+			if fuf.any?
+				FeedUser.where("id <= #{fuf.first.feed_user_id}")
+													.order(id: :desc)
+													.limit(item_limit)
+													.delete_all
+				sleep(3)
+				FeedUserFeed.where("feed_id <= #{master_feed.id}")
+													.order(feed_id: :desc)
+													.limit(item_limit)
+													.delete_all
+				sleep(3)
+				Feed.where("id <= #{master_feed.id}")
+												.order(id: :desc)
+												.limit(item_limit)
+												.delete_all
+			end
+		else
+			puts "No feeds found before #{cutoff_weeks} weeks ago"
+		end
+	end
+
 end
