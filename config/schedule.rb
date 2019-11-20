@@ -62,3 +62,7 @@ end
 every 1.hour do
 	rake "articles:fetch_bibblio_meta  >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
 end
+
+every 30.minutes do
+	rake "feeds:clean  >> /var/www/thearticle/rails/shared/log/feeds.log 2>&1"
+end
