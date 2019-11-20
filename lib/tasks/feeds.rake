@@ -37,7 +37,7 @@ namespace :feeds do
 
 	task :clean => :environment do
 		cutoff_weeks = 10
-		item_limit = 200
+		item_limit = 50000
 
 		master_notifications = Notification.where("created_at < DATE_SUB(NOW(), INTERVAL #{cutoff_weeks} week)").order(created_at: :desc, id: :desc).limit(1)
 		if master_notifications.any?
@@ -78,10 +78,10 @@ namespace :feeds do
 											.limit(item_limit)
 											.destroy_all
 
-			FeedUser.where("created_at < '#{master_feed.created_at.strftime("%Y-%m-%d %H:%M:%S")}'")
-								.order(created_at: :desc, id: :desc)
-								.limit(item_limit)
-								.delete_all
+			# FeedUser.where("created_at < '#{master_feed.created_at.strftime("%Y-%m-%d %H:%M:%S")}'")
+			# 					.order(created_at: :desc, id: :desc)
+			# 					.limit(item_limit)
+			# 					.delete_all
 		else
 			puts "No feeds found before #{cutoff_weeks} weeks ago"
 		end
