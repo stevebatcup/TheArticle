@@ -37,7 +37,7 @@ namespace :feeds do
 
 	task :clean => :environment do
 		cutoff_weeks = 10
-		item_limit = 100
+		item_limit = 200
 
 		master_notifications = Notification.where("created_at < DATE_SUB(NOW(), INTERVAL #{cutoff_weeks} week)").order(created_at: :desc, id: :desc).limit(1)
 		if master_notifications.any?
@@ -74,8 +74,8 @@ namespace :feeds do
 
 			# remove feeds, feed_users and join tables
 			fuf = FeedUserFeed.where(feed_id: master_feed.id).order(feed_user_id: :desc).limit(1)
-			puts "FUF ID: #{fuf.id}"
 			if fuf.any?
+				puts "FUF ID: #{fuf.first.id}"
 				FeedUserFeed.where("feed_id <= #{master_feed.id}")
 													.order(feed_id: :desc)
 													.limit(item_limit)
