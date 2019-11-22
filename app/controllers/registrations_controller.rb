@@ -72,4 +72,30 @@ private
     clean_up_passwords resource
     set_minimum_password_length
   end
+
+   def require_no_authentication
+     assert_is_devise_resource!
+     return unless is_navigational_format?
+     no_input = devise_mapping.no_input_strategies
+
+     authenticated = if no_input.present?
+       args = no_input.dup.push scope: resource_name
+       warden.authenticate?(*args)
+     else
+       warden.authenticated?(resource_name)
+     end
+
+     if authenticated && resource = warden.user(resource_name)
+       flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
+        respond_to do |format|
+          format.html do
+           redirect_to "/my-home"
+          end
+          format.json do
+            render json: { status: :error, message: t('devise.failure.already_authenticated') }, status: 401
+          end
+        end
+     end
+   end
+
 end
