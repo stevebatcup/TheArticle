@@ -204,7 +204,7 @@ private
   end
 
   def set_signed_in_header
-  	response.headers["signed_in"] = user_signed_in? ? 1 : 0
+  	response.headers["user_signed_in"] = user_signed_in? ? 1 : 0
   end
 
 	def set_layout
