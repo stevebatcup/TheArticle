@@ -47,9 +47,10 @@ class SearchController < ApplicationController
 				elsif params[:mode] == :full
 					begin
 						query_with_plurals = "#{@query} | #{@query.pluralize}"
+						article_query = query_with_plurals
 						if params[:from_tag]
 							tag = KeywordTag.find_by(slug: @query)
-							article_query = "#{query_with_plurals} | #{tag.name}"
+							article_query = "#{article_query} | #{tag.name}"
 						end
 						articles = Article.search(article_query, order: 'published_at DESC', page: 1, per_page: 500).to_a
 						contributors = Author.search(conditions: { display_name: "*#{query_with_plurals}*" },
