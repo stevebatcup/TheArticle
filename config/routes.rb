@@ -128,6 +128,7 @@ Rails.application.routes.draw do
 
   # landing pages
   get 'brexit-latest',                         to: 'landing_pages#show'
+  get '2019-general-election',                 to: 'landing_pages#show'
 
   namespace :admin do
     resources :users

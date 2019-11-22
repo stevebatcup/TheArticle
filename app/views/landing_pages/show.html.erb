@@ -1,4 +1,4 @@
-<% page_title "Latest on Brexit" %>
+<% page_title @title %>
 <% meta_tag :description, @desc %>
 
 <section ng-controller="LandingPageController"
@@ -11,7 +11,7 @@
 		<header class="entry-header">
 			<h1 class="mb-0">
 				<div class="container">
-				Latest on Brexit
+				<%= @title %>
 				</div>
 			</h1>
 		</header>
@@ -21,13 +21,13 @@
 
 
 	<div class="container mb-4">
-		<p class="landing_page_intro"><%= @desc %></p>
+		<p class="landing_page_intro"><%= @desc.html_safe %></p>
 	</div>
 
 	<%=
 		render partial: 'articles/listings', locals: {
 			block_id: 'articles',
-			title: "Latest articles on Brexit",
+			title: @articles_heading,
 			is_editor_exchange: false
 		}
 	%>
