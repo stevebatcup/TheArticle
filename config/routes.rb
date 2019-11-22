@@ -127,7 +127,7 @@ Rails.application.routes.draw do
   post 'submit_third_party_article',           to: 'third_party_articles#create'
 
   # landing pages
-  get 'brexit-latest',                         to: 'landing_pages#show'
+  get 'latest-on-brexit',                      to: 'landing_pages#show'
   get '2019-general-election',                 to: 'landing_pages#show'
 
   namespace :admin do
