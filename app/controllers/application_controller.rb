@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   skip_before_action :verify_authenticity_token, if: :json_request?
+  before_action :set_signed_in_header
   before_action :set_vary_header
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -182,10 +183,6 @@ protected
     "#{root_path}?signed_out=1"
   end
 
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || front_page_path
-  end
-
   def configure_permitted_parameters
     added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
@@ -211,6 +208,10 @@ private
   	response.headers["Vary"] = "Accept"
   end
 
+  def set_signed_in_header
+  	response.headers["user_signed_in"] = user_signed_in? ? 1 : 0
+  end
+
 	def set_layout
 		user_signed_in? && browser.device.mobile? ? 'member' : 'application'
 	end
@@ -220,9 +221,7 @@ private
 	end
 
 	def authenticate_basic_user
-		unless user_signed_in?
-			redirect_to "/?force_home=1"
-		end
+		redirect_to "/?force_home=1" unless user_signed_in?
 	end
 
 	def authenticate_user!

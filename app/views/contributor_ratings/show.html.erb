@@ -1,0 +1,215 @@
+<% unless is_development? %>
+	<link rel="stylesheet" type="text/css" href="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.css">
+	<script src="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.js"></script>
+<% end %>
+
+<section ng-controller="ContributorRatingsController"
+					class="container front-page"
+					data-contributor-id="<%= @contributor.id %>"
+					data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
+					data-tinymce-content-css-url='<%= asset_url("desktop/tinymce-content.css") %>'>
+
+	<% if flash[:notice] %>
+	<div id="flash_notice" class="d-none">
+		<%= flash[:notice].html_safe %>
+	</div>
+	<% end %>
+
+	<div class="row" ng-cloak>
+		<section class="col-md-0 col-lg-3 pl-md-0 pl-xl-2" id="left_col">
+
+			<div class="card w-100 mb-4 mt-3" id="trending_exchanges_card">
+				<div class="card-header">
+					<h5 class="card-title">Trending exchanges</h5>
+				</div>
+				<div class="card-body">
+					<% @trending_exchanges.each do |exchange| %>
+						<div class="exchange_item d-flex align-items-center justify-content-start mb-4">
+							<a href="<%= exchange_path(slug: exchange.slug) %>">
+								<img ng-src="<%= exchange.image.url(:listing) %>" class="mr-3" alt="<%=exchange.name%>" />
+							</a>
+
+							<div class="inner">
+								<h5 class="card-title mb-0">
+									<a href="<%= exchange_path(slug: exchange.slug) %>">
+										<span><%= exchange.name %></span>
+									</a>
+								</h5>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div>
+
+			<section id="feed_journalist_spotlight" class="callout card w-100 mt-4">
+				<div class="card-header">
+					<h5 class="card-title">Contributor spotlight</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @contributors_for_spotlight.each do |contributor| %>
+						<article class="row my-4">
+							<div class="col-5">
+								<a href="<%= contributor_path(slug: contributor.slug) %>">
+									<% if contributor.image? %>
+										<img src="<%= contributor.image.url(:detail) %>" alt="<%= contributor.display_name %>" />
+									<% end %>
+								</a>
+							</div>
+							<div class="col-7 pt-0 pt-md-2 pl-md-1 pr-md-0 pl-lg-0">
+								<h5 class="mb-1">
+									<a href="<%= contributor_path(slug: contributor.slug) %>">
+										<%= contributor.display_name %></a>
+								</h5>
+								<% if contributor.title %>
+									<p class="mb-0">
+										<%= contributor.title %>
+									</p>
+								<% end %>
+							</div>
+						</article>
+					<% end %>
+					<a class="btn btn-block btn-standard mt-2 mb-2" href="/contributors">See More</a>
+				</div>
+			</section>
+
+			<% unless user_signed_in? && current_user.has_full_profile? %>
+			<div class="call-to-action-card card">
+				<div class="card-header">
+					<h5 class="card-title">Fill out your profile</h5>
+				</div>
+				<div class="card-body">
+					<p class="card-text">Add information and photos to your profile to help people find you</p>
+					<a href="<%= my_profile_path %>" class="btn btn-success btn-block">My Profile</a>
+				</div>
+			</div>
+			<% end %>
+		</section>
+
+		<section class="col-md-12 col-lg-6" id="feed">
+			<h4 class="mt-4 mb-2 text-black">Your ratings for <%= @contributor.display_name %></h4>
+
+			<div class="container" id="activity-tabs">
+
+				<div class="section_posts">
+
+					<div ng-if="!ratings.firstLoaded" class="ajax_loading">
+						Loading results....
+					</div>
+
+					<div ng-if="ratings.firstLoaded" class="results_block row"
+							ng-class="{'empty': ratings.data.length == 0}">
+
+						<p class="col-12 empty_resource" ng-if="ratings.data.length == 0">
+							<span>You have not yet rated any articles by <%= @contributor.display_name %></span>
+						</p>
+
+						<div class="px-0 navbar d-block">
+							<div class="order_by_dropdown dropdown" ng-if="ratings.data.length > 0">
+							  <a class="text-green dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							    {{ratingOrderText(ratings.orderBy)}} <i class="fas fa-chevron-down"></i>
+							  </a>
+							  <div class="dropdown-menu">
+							    <div class="dropdown-item" ng-click="reorderRatings($event, 'comments')">
+										<i class="fas fa-check tick" ng-if="ratings.orderBy == 'comments'"></i>
+										<h6>By comment</h6>
+							    </div>
+							    <div class="dropdown-item" ng-click="reorderRatings($event, 'oldest')">
+										<i class="fas fa-check tick" ng-if="ratings.orderBy == 'oldest'"></i>
+										<h6>By date (oldest first)</h6>
+							    </div>
+							    <div class="dropdown-item" ng-click="reorderRatings($event, 'newest')">
+										<i class="fas fa-check tick" ng-if="ratings.orderBy == 'newest'"></i>
+										<h6>By date (newest first)</h6>
+							    </div>
+							  </div>
+							</div>
+						</div>
+
+						<div ng-repeat="item in ratings.data"
+									 class="col-12 feed-listing feed-share pb-3 px-0"
+									 ng-hide="selectedTab == 'you_follow' && !item.share.user.imFollowing">
+								<%= render 'shares/card' %>
+						</div>
+
+						<% unless is_development? %>
+							<% if @contributor.articles.any? %>
+								<section id="bibblio_feed" ng-if="(ratings.firstLoaded) && (ratings.data.length < 5)" class="w-100">
+										<h2 class="h1 bullet mb-2 mb-md-3">You may also like</h2>
+										<div class="bib--rcm-init"
+										  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+										  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--grd-4"
+										  data-query-string-params="utm_source=bibblio_contributor_ratings_page"
+						  			  data-custom-unique-identifier="<%= @contributor.articles.first.slug %>">
+										</div>
+								</section>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+
+			</div>
+		</section>
+
+		<div class="col-md-0 col-lg-3 px-0 mt-3" id="callouts">
+			<section id="trending_articles" class="callout card w-100">
+				<div class="card-header">
+					<h5 class="card-title">Latest articles</h5>
+				</div>
+				<div class="card-body pt-1">
+					<% @trending_articles.each do |ta| %>
+						<article class="row mt-3 px-0<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+							<div class="col-12">
+								<% if(ta.is_sponsored?) %>
+									<a href='/sponsors' class="sponsored">
+										<i class="fas fa-star"></i>
+										SPONSORED
+									</a>
+								<% end %>
+								<h5 class="pb-0 mb-0">
+									<a href="<%= article_path(ta) %>">
+										<%= ta.title.html_safe %>
+									</a>
+								</h5>
+								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-4' : 'pb-0' %>
+								<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
+									<p class="author_link">
+										<a href="<%= contributor_path(slug: ta.author.slug) %>">
+											by <span><%= ta.author.display_name.html_safe %></span>
+										</a>
+										<span class="entry-date">
+											<%= article_date(ta) %>
+										</span>
+									</p>
+								</footer>
+							</div>
+						</article>
+					<% end %>
+				</div>
+			</section>
+
+			<% unless is_development? %>
+				<% if @contributor.articles.any? %>
+					<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 5)" class="w-100 mt-3">
+							<h2 class="bullet mt-2">
+								<span class="text-decrease-2">You may also like</span>
+							</h2>
+							<div class="bib--rcm-init"
+							  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+							  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
+							  data-query-string-params="utm_source=bibblio_contributor_ratings_page"
+							  data-custom-unique-identifier="<%= @contributor.articles.first.slug %>">
+							</div>
+					</section>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+</section>
+
+<script id="confirmBlock" type="script/x-mustache">
+	<%= render partial: 'blocks/confirm_modal' %>
+</script>
+
+<script id="commentForm" type="script/x-mustache">
+	<%= render 'comments/comment_form' %>
+</script>

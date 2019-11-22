@@ -10,10 +10,12 @@ module User::Suggestable
           .where(users: { has_completed_wizard: true, status: User.statuses["active"] })
   end
 
-  def pending_author_suggestions(limit)
+  def pending_author_suggestions(limit=10)
     self.profile_suggestions.includes(:suggested)
           .where(status: :pending)
           .where("author_article_count > 0")
+          .where.not(suggested_id: self.id)
+          .limit(limit)
   end
 
   def paginated_pending_suggestions(page, per_page)

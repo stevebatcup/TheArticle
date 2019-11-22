@@ -1,6 +1,8 @@
 module Admin
   class EmailLogsController < Admin::ApplicationController
 
+    before_action :authenticate_super_admin
+
     def order
       @order ||= Administrate::Order.new(
         params.fetch(resource_name, {}).fetch(:order, :created_at),

@@ -82,10 +82,10 @@
 		</div>
 	</header>
 
-	<% if @ratings.any? %>
+	<% if @ratings.present? %>
 		<div class='container'>
-			<div class="member_ratings pt-2 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
-				<h5>Member ratings</h5>
+			<div class="member_ratings col-12 col-lg-12 col-xl-8 pt-2 pb-2 px-3" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
+				<h5>Your average ratings for <%= @contributor.display_name.html_safe %></h5>
 				<ul class="d-flex w-100 justify-content-between">
 					<li>Well argued:
 						<span class="rating <%= (@ratings[:well_written].nil? || @ratings[:well_written] == '') ? 'faded' : '' %>">
@@ -103,6 +103,11 @@
 						</span>
 					</li>
 				</ul>
+
+				<a href="/contributor_ratings/<%= @contributor.id %>" class="text-green d-block pt-3 pb-1">
+					<%= pluralize(@ratings[:article_count], 'rating') %>
+				</a>
+
 			</div>
 		</div>
 	<% end %>

@@ -4,9 +4,17 @@
 <section ng-controller="ExchangesController"
 			data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
 
-	<div class="container pt-4 py-md-5">
-		<h1 class="bullet mt-0 mb-3 mb-md-4">Exchanges</h1>
+	<div id="content-page">
+		<header class="entry-header">
+			<h1 class="mb-0">
+				<div class="container">
+					Exchanges
+				</div>
+			</h1>
+		</header>
+	</div>
 
+	<div class="container pt-4 py-md-5">
 		<div class="well mb-3 mb-md-4 bg-grey">
 			<p class="py-3 px-3"><b>What is an Exchange?</b> An Exchange is where our editor challenges contributors to debate a specific subject.  Follow the topics that interest you to receive relevant articles, from every angle, delivered to your personalised news feed.</p>
 		</div>
@@ -15,7 +23,7 @@
 					class="filter_list_form mb-3 mb-md-4"
 					onsubmit="return false;">
 	    <div class="input-group">
-	      <input placeholder="Search for an exchange" class="text-dark form-control" type="text" value="" name="search_filter">
+	      <input placeholder="Search for an Exchange" class="text-dark form-control" type="text" value="" name="search_filter">
 	      <span class="input-group-btn" id="magnify">
 	      	<i class="fas fa-search"></i>
 	      </span>

@@ -22,6 +22,6 @@ namespace :articles do
 	end
 
 	task :fetch_bibblio_meta => :environment do
-		BibblioApiService.get_articles_meta(30)
+		BibblioApiService::Articles.get_articles_meta(30)
 	end
 end

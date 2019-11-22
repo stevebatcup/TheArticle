@@ -825,7 +825,7 @@ class TheArticle.Feeds extends TheArticle.PageController
 		wellWritten = "#{share.ratings.wellWritten}/5"
 		interesting = "#{share.ratings.validPoints}/5"
 		agree = "#{share.ratings.agree}/5"
-		ratingTweet = "I gave this the following rating on TheArticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}. #{share.share.post}"
+		ratingTweet = "I gave this the following rating on TheArticle @tweetthearticle: Well written #{wellWritten}, Interesting #{interesting}, Agree #{agree}."
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		left = (screen.width/2)-(width/2)
 		top = (screen.height/2)-(height/2)

@@ -65,9 +65,9 @@ begin
 		end
 	end
 
-	if @trending_articles.any?
+	if @latest_articles.any?
 		json.set! :trendingArticles do
-			json.array! @trending_articles do |article|
+			json.array! @latest_articles do |article|
 				json.term article.title.html_safe
 				json.path article_path(article)
 			end

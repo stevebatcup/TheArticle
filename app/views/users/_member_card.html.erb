@@ -99,7 +99,7 @@
 
 
 	<% if show_links %>
-		<div class="w-100 d-block bio_box bio_click" data-href="{{ item.path }}" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">
+		<div class="w-100 d-none bio_box bio_click" data-href="{{ item.path }}" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">
 	<% else %>
 		<div class="w-100 d-block bio_box" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">
 	<% end %>

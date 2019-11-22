@@ -7,9 +7,7 @@ class RatingsHistoryController < ApplicationController
 			@article = Article.find(params[:article_id])
 			format.json do
 				@page = (params[:page] || 1).to_i
-				if @page == 1
-					@total = @article.shares.where(share_type: 'rating').length
-				end
+				@total = @article.shares.where(share_type: 'rating').length if @page == 1
 				@ratings = @article.shares.where(share_type: 'rating')
 																		.page(@page)
 																		.per(params[:per_page])

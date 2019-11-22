@@ -76,7 +76,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 					if @scope.share.share_on_twitter
 						@openTweetWindow(false)
 					else
-						window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
+						window.location.reload()
 				else
 					@scope.formError = response.data.message
 		, 750
@@ -85,7 +85,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		articleUrl = window.location.toString()
 		url = "https://www.facebook.com/sharer/sharer.php?u=#{articleUrl}"
 		@openSocialShareWindow url, =>
-			window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
+			window.location.reload()
 
 	openTweetWindow: (alsoOpenFacebookWindow=false) =>
 		articleUrl = window.location.toString()
@@ -94,13 +94,13 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 		ratingsItems.push("Interesting #{@scope.share.rating_valid_points}/5") if Number(@scope.share.rating_valid_points) > 0
 		ratingsItems.push("Agree #{@scope.share.rating_agree}/5") if Number(@scope.share.rating_agree) > 0
 		# comment = angular.element(@scope.share.comments).text()
-		ratingTweet = "I gave this the following rating on TheArticle @tweetthearticle : #{ratingsItems.join(', ')}."
+		ratingTweet = "I gave this the following rating on TheArticle @tweetthearticle: #{ratingsItems.join(', ')}."
 		url = "https://twitter.com/intent/tweet?url=#{articleUrl}&text=#{ratingTweet}"
 		if alsoOpenFacebookWindow
 			callback = @openFacebookWindow
 		else
 			callback = =>
-				window.location.href = window.location.href.replace( /[\?#].*|$/, "?sc=#{@rootScope.sharingPanelOpenAtScrollPoint}" )
+				window.location.reload()
 		@openSocialShareWindow url, callback
 
 	openSocialShareWindow: (url, callback=null) =>
@@ -113,7 +113,7 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 			if ('shareWindow' of @) and (@shareWindow.closed)
 				@interval.cancel(timer)
 				callback.call(@) if callback?
-		, 1000
+		, 500
 
 	expandCommentsBox: ($event) =>
 		$textarea = $($event.target)

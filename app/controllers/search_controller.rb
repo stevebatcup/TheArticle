@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+	include ActionView::Helpers::TextHelper
+
 	def index
 		@query = params[:query]
 		@query.sub!(%r{^#},"") if @query.include?('#')
@@ -35,7 +37,7 @@ class SearchController < ApplicationController
 								@profile_suggestions_mode = :who_to_follow
 								@who_to_follow = User.popular_users.limit(5)
 							end
-							@trending_articles = Article.trending.order(published_at: :desc).limit(5)
+							@latest_articles = Article.latest.order(published_at: :desc).limit(5)
 							@trending_exchanges = Exchange.trending_list.limit(5).to_a.shuffle
 						end
 						render :index_suggestions
@@ -44,17 +46,23 @@ class SearchController < ApplicationController
 					end
 				elsif params[:mode] == :full
 					begin
-						articles = Article.search(@query, order: 'published_at DESC', page: 1, per_page: 500).to_a
-						contributors = Author.search(conditions: { display_name: "*#{@query}*" },
+						query_with_plurals = "#{@query} | #{@query.pluralize}"
+						article_query = query_with_plurals
+						if params[:from_tag]
+							tag = KeywordTag.find_by(slug: @query)
+							article_query = "#{article_query} | #{tag.name}"
+						end
+						articles = Article.search(article_query, order: 'published_at DESC', page: 1, per_page: 500).to_a
+						contributors = Author.search(conditions: { display_name: "*#{query_with_plurals}*" },
 																					order: 'article_count DESC').to_a
-						exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
-						posts = Share.search("*#{@query}*", order: 'created_at DESC').to_a
+						exchanges = Exchange.search("*#{query_with_plurals}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
+						posts = Share.search("*#{query_with_plurals}*", order: 'created_at DESC').to_a
 						if user_signed_in?
-							profiles = User.search("*#{@query}*",
+							profiles = User.search("*#{query_with_plurals}*",
 																			conditions: { status: 'active', has_completed_wizard: true },
 																			page: 1, per_page: 50).to_a
 						else
-							profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
+							profiles = User.search("*#{query_with_plurals}*", conditions: { status: 'active', has_completed_wizard: true },
 																			page: 1, per_page: 50).to_a
 						end
 						@results = (articles + contributors + profiles + exchanges + posts)

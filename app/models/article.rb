@@ -477,4 +477,9 @@ class Article < ApplicationRecord
 		# article
 		self.destroy
 	end
+
+	def self.views_before_interstitial
+		1
+	end
+
 end

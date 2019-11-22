@@ -67,7 +67,9 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 	getResults: =>
-		@http.get("/search?query=#{@scope.search.query}").then (response) =>
+		url = "/search?query=#{@scope.search.query}"
+		url += "&from_tag=1" if !!@element.data('from_tag')
+		@http.get(url).then (response) =>
 			@scope.search.results.empty = response.data.results.length is 0
 			angular.forEach response.data.results, (result) =>
 				@scope.search.results.data[result.type].push result

@@ -3,9 +3,13 @@ module User::Adminable
     base.extend ClassMethods
   end
 
-	def is_admin?
-	  [:nothing].exclude?(self.admin_level.to_sym)
-	end
+  def is_admin?
+    [:admin, :super_admin].include?(self.admin_level.to_sym)
+  end
+
+  def is_super_admin?
+    self.admin_level.to_sym == :super_admin
+  end
 
 	def has_reached_rejected_post_limit?
 	  self.quarantined_third_party_shares.where(status: :rejected).size > 5

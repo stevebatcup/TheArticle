@@ -20,7 +20,7 @@ class TheArticle.AppBar extends TheArticle.MobilePageController
 		if @scope.signedIn
 			@interval =>
 				@getNotificationsBadgeUpdate()
-			, 10000
+			, 120000
 
 	getNotificationsBadgeUpdate: =>
 		@http.get("/notification-count").then (response) =>

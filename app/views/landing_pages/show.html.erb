@@ -1,4 +1,4 @@
-<% page_title "Latest on Brexit" %>
+<% page_title @title %>
 <% meta_tag :description, @desc %>
 
 <section ng-controller="LandingPageController"
@@ -7,17 +7,27 @@
 		data-per-page="<%= exchange_articles_per_page %>"
 		data-signed-in="<%= user_signed_in? ? 1 : 0 %>" ng-cloak>
 
+	<div id="content-page">
+		<header class="entry-header">
+			<h1 class="mb-0">
+				<div class="container">
+				<%= @title %>
+				</div>
+			</h1>
+		</header>
+	</div>
+
 	<div class="my-4"></div>
 
+
 	<div class="container mb-4">
-		<h3 class="h2 text-black">Latest on Brexit</h3>
-		<p class="landing_page_intro"><%= @desc %></p>
+		<p class="landing_page_intro"><%= @desc.html_safe %></p>
 	</div>
 
 	<%=
 		render partial: 'articles/listings', locals: {
 			block_id: 'articles',
-			title: "Latest articles on Brexit",
+			title: @articles_heading,
 			is_editor_exchange: false
 		}
 	%>

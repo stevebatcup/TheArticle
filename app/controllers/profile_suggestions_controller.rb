@@ -7,6 +7,20 @@ class ProfileSuggestionsController < ApplicationController
 				@from_wizard = params[:from_wizard].present?
 				if params[:query]
 					@search_results = User.search_for_suggestions(current_user, params[:query])
+				elsif params[:use_bibblio] && current_user.on_bibblio?
+					page_1 = BibblioApiService::Users.new(current_user).get_suggestions(10, 1)
+					page_2 = BibblioApiService::Users.new(current_user).get_suggestions(10, 2)
+					@bibblio_results = (page_1 + page_2)
+					# Author suggestions
+					current_user.pending_author_suggestions(15).each_with_index do |author_suggestion, index|
+						insert_point = ((index+1) * 4) - 1
+						if @bibblio_results[insert_point].nil?
+							@bibblio_results << author_suggestion.suggested
+						else
+							@bibblio_results.insert(insert_point, author_suggestion.suggested)
+						end
+					end
+					@bibblio_results = @bibblio_results.uniq
 				else
 					already_following_ids = current_user.followings.map(&:followed_id)
 					suggestions = current_user.pending_suggestions

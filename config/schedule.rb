@@ -34,12 +34,17 @@ every	1.day, at: '6:00 pm' do
 	rake "profiles:second_wizard_nudge >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
 
-every	1.day, at: '4:35 pm' do
-	rake "autofollow:olivia"
-end
-
 every	1.day, at: '8:30 pm' do
 	rake "autofollow:daniel"
+end
+every	1.day, at: '9:30 pm' do
+	rake "autofollow:jay"
+end
+every	1.day, at: '10:30 pm' do
+	rake "autofollow:lynne"
+end
+every	1.day, at: '11:30 pm' do
+	rake "autofollow:charlotte"
 end
 
 every	30.minutes do
@@ -55,5 +60,9 @@ every	1.day, at: '17:30 pm' do
 end
 
 every 1.hour do
-	rake "articles:fetch_bibblio_meta  >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
+	rake "articles:fetch_bibblio_meta >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
+end
+
+every 20.minutes do
+	rake "feeds:clean >> /var/www/thearticle/rails/shared/log/feeds.log 2>&1"
 end

@@ -20,9 +20,7 @@ class ContributorsController < ApplicationController
 				else
 					@contributors_for_carousel = Author.with_complete_profile(@contributor.id).limit(25).shuffle
 					@ratings = []
-					# if user_signed_in?
-					# 	@ratings = @contributor.get_avg_ratings_by_user(current_user)
-					# end
+					@ratings = @contributor.get_avg_ratings_by_user(current_user) if user_signed_in?
 				end
 			else
 				render_404

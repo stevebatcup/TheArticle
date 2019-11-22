@@ -318,7 +318,7 @@
 						<div class="sidebar_inner">
 							<h2 class="bullet underline">Filed under</h2>
 							<% tags.each do |tag| %>
-									<a href="<%= search_path(query: tag.name) %>" class="tag gabriela"><%= tag.name %></a>
+									<a href="<%= search_path(query: tag.slug, from_tag: 1) %>" class="tag gabriela"><%= tag.name %></a>
 							<% end %>
 						</div>
 					<% end %>
@@ -361,8 +361,7 @@
 </script>
 <% end %>
 
-<% if !user_signed_in? && !cookies[:shown_registration_interstitial] %>
-	<% cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now } %>
+<% if show_registration_interstitial? %>
 	<script id="registerInterstitial" type="script/x-mustache">
 	  <%= render partial: 'promotional/register_modal' %>
 	</script>

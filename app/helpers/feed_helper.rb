@@ -208,7 +208,11 @@ module FeedHelper
 		if for_notification
 			followed_name = "you"
 		else
-			followed_name = "[usercode=#{top_item[:follow].followed.id}]"
+			if top_item[:follow].present?
+				followed_name = "[usercode=#{top_item[:follow].followed.id}]"
+			else
+				followed_name = ""
+			end
 		end
 		if follow_count == 1
 			sentence = "#{sentence_opener} followed #{followed_name}"

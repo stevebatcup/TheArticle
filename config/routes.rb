@@ -7,8 +7,6 @@ Rails.application.routes.draw do
   end
   root 'home#index'
   get 'cookie-acceptance',                     to: 'cookie_acceptance#new'
-  get 'accept-testing-environment',            to: 'testing_feedback#accept'
-  post 'submit-feedback',                      to: 'testing_feedback#create'
   get 'search-suggestions',                    to: 'search#index', mode: :suggestions
   get 'search',                                to: 'search#index', as: :search, mode: :full
   get 'articles',                              to: 'articles#index', as: :articles
@@ -31,6 +29,8 @@ Rails.application.routes.draw do
   get 'contributors',                          to: 'contributors#index'
   get 'contributor/:slug',                     to: 'contributors#show', as: :contributor
   get 'contributors/:slug',                    to: 'contributors#show'
+  get 'contributor_ratings/:id',               to: 'contributor_ratings#show'
+  get 'contributor_ratings',                   to: 'contributor_ratings#index'
   get 'sponsors',                              to: 'sponsors#index'
   get 'sponsor/:slug',                         to: 'sponsors#show', as: :sponsor
 
@@ -127,7 +127,8 @@ Rails.application.routes.draw do
   post 'submit_third_party_article',           to: 'third_party_articles#create'
 
   # landing pages
-  get 'brexit-latest',                         to: 'landing_pages#show'
+  get 'latest-on-brexit',                      to: 'landing_pages#show'
+  get '2019-general-election',                 to: 'landing_pages#show'
 
   namespace :admin do
     resources :users

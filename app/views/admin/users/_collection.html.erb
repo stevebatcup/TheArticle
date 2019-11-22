@@ -91,12 +91,6 @@ to display a collection of resources in an HTML table.
             <a ng-href="{{user.profileUrl}}" target="_blank" class="action-edit">View profile</a>
         </td>
 
-        <% if current_user.admin_level == 'super_admin' %>
-        <td class="cell-data text-center text-red">
-            <a href="/admin/destroy_user?user_id={{user.id}}" data-method="delete">Destroy</a>
-        </td>
-        <% end %>
-
       </tr>
   </tbody>
 </table>

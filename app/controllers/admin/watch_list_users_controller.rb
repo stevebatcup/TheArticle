@@ -1,5 +1,7 @@
 module Admin
   class WatchListUsersController < Admin::ApplicationController
+    before_action :authenticate_super_admin
+
     # To customize the behavior of this controller,
     # you can overwrite any of the RESTful actions. For example:
     #

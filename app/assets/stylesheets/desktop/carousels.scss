@@ -119,7 +119,7 @@
 
 	&.suggestions {
 		.slick-track {
-			height: 285px;
+			height: 245px;
 		}
 
 		.slick-carousel-item {
@@ -132,6 +132,10 @@
 
 			.card-body {
 				padding: 7px !important;
+			}
+
+			.cover_photo {
+				height: 43px;
 			}
 
 			img.feed_image.with_cover_image {

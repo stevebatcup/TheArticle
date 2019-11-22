@@ -14,7 +14,7 @@ class ConcernReportDashboard < Administrate::BaseDashboard
     id: Field::Number,
     reporter_id: Field::Number,
     reported_id: Field::Number,
-    build_reason_sentence: Field::String,
+    build_reason_sentence: Field::String.with_options(searchable: false),
     primary_reason: Field::String,
     secondary_reason: Field::String,
     more_info: Field::Text,

@@ -18,6 +18,7 @@ class RegistrationsController < Devise::RegistrationsController
     if !verify_recaptcha(model: resource, secret_key: Rails.application.credentials.recaptcha_secret_key) && !request.headers["X-MobileApp"]
       fail_registration(resource)
     else
+      resource.registration_source = request.headers["X-MobileApp"] ? 'mobile app' : 'website'
       resource.save
       yield resource if block_given?
       if resource.persisted? && resource.active_for_authentication?

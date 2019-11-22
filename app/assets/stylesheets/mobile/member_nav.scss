@@ -56,6 +56,11 @@
       padding: 10px 20px;
       color: #505050;
       font-weight: bold;
+
+      &.text-green {
+        color: $green;
+        font-weight: normal;
+      }
     }
   }
 }
