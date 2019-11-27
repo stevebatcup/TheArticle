@@ -1,0 +1,25 @@
+{
+	"applinks":{
+		"apps":[],
+		"details":[
+			{
+				"appID":"FTDJ39F33J.com.thearticle.app",
+				"paths":[
+					"/*"
+				]
+			},
+			{
+				"appID":"FTDJ39F33J.com.thearticle.app.stage",
+				"paths":[
+					"/*"
+				]
+			},
+			{
+				"appID":"FTDJ39F33J.com.thearticle.app.dev",
+				"paths":[
+					"/*"
+				]
+			}
+		]
+	}
+}

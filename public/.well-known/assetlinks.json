@@ -1,0 +1,46 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thearticle.app",
+      "sha256_cert_fingerprints": [
+        "59:21:79:50:CB:34:55:77:D9:66:02:9D:95:21:4F:2F:93:3E:CD:2B:14:9B:AD:19:93:68:99:E6:31:B3:A3:41",
+        "2F:67:B4:95:F0:25:D4:64:5F:DB:D2:9E:13:40:A6:A3:41:3B:35:9E:AF:F5:85:9F:54:51:15:CC:3B:63:83:53",
+        "B7:FC:2F:39:6B:9C:F2:4A:CB:FC:DF:95:BD:A3:95:8C:DD:9F:2F:A7:64:73:9E:7C:6F:4D:F1:A5:6F:5B:E0:90",
+        "07:D2:39:55:80:1F:9C:D1:6B:CB:9C:3C:2C:40:96:C9:81:95:D8:BA:D8:EC:9A:90:E1:E5:D0:50:D4:0F:C4:AF",
+        "5C:79:9C:DF:BC:3E:E9:61:23:AC:F9:2D:E1:99:A4:8F:21:DD:E6:09:23:58:D4:9D:43:F4:92:F6:5E:9D:33:25"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thearticle.app.stage",
+      "sha256_cert_fingerprints": [
+        "B7:FC:2F:39:6B:9C:F2:4A:CB:FC:DF:95:BD:A3:95:8C:DD:9F:2F:A7:64:73:9E:7C:6F:4D:F1:A5:6F:5B:E0:90",
+        "07:D2:39:55:80:1F:9C:D1:6B:CB:9C:3C:2C:40:96:C9:81:95:D8:BA:D8:EC:9A:90:E1:E5:D0:50:D4:0F:C4:AF",
+        "5C:79:9C:DF:BC:3E:E9:61:23:AC:F9:2D:E1:99:A4:8F:21:DD:E6:09:23:58:D4:9D:43:F4:92:F6:5E:9D:33:25"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thearticle.app.dev",
+      "sha256_cert_fingerprints": [
+        "B7:FC:2F:39:6B:9C:F2:4A:CB:FC:DF:95:BD:A3:95:8C:DD:9F:2F:A7:64:73:9E:7C:6F:4D:F1:A5:6F:5B:E0:90",
+        "07:D2:39:55:80:1F:9C:D1:6B:CB:9C:3C:2C:40:96:C9:81:95:D8:BA:D8:EC:9A:90:E1:E5:D0:50:D4:0F:C4:AF",
+        "5C:79:9C:DF:BC:3E:E9:61:23:AC:F9:2D:E1:99:A4:8F:21:DD:E6:09:23:58:D4:9D:43:F4:92:F6:5E:9D:33:25"
+      ]
+    }
+  }
+]
