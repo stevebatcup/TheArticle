@@ -17,4 +17,5 @@ This partial renders flash messages on every page.
       <div class="flash flash-<%= key %>"><%= value.html_safe %></div>
     <% end -%>
   </div>
+  <% flash.clear %>
 <% end %>

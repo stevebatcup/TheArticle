@@ -1,7 +1,7 @@
 module Admin
   class UsersController < Admin::ApplicationController
 
-    before_action :authenticate_super_admin
+    before_action :authenticate_super_admin, only: [:index, :show]
 
     def index
       set_records_per_page if params[:per_page]
@@ -50,7 +50,11 @@ module Admin
     end
 
     def get_open_pages
-      @pages = session["account_pages"]
+      respond_to do |format|
+        format.json do
+          @pages = session["account_pages"]
+        end
+      end
     end
 
     def close_page
