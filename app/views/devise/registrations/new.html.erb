@@ -108,6 +108,8 @@
               <span ng-if="register.joining">Joining...</span>
               <span ng-if="!register.joining">Join</span>
             </button>
+
+            <a class="btn btn-secondary btn-block text-white my-3" ng-if="!register.joining" href="/">&lt; Back to homepage</a>
           </div>
 
         <% end %>

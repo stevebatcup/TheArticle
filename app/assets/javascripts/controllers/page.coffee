@@ -282,19 +282,22 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
 		$event.preventDefault() if $event
-		if 'articleRegisterInterstitialTimeout' of @scope
-			@timeout.cancel(@scope.articleRegisterInterstitialTimeout)
-		$('[data-dismiss=modal]', '#signinBoxModal').click()
-		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
-		if gtag?
-			gtagData =
-				from: from
-				url: window.location.pathname
-				deviceType: deviceType
-			gtag('event', 'open_register_form', gtagData)
-		@timeout =>
-			$("#registerBoxModal").modal()
-		, 350
+		if @isFacebookInAppBrowser()
+			window.location.href = "/users/sign_up"
+		else
+			if 'articleRegisterInterstitialTimeout' of @scope
+				@timeout.cancel(@scope.articleRegisterInterstitialTimeout)
+			$('[data-dismiss=modal]', '#signinBoxModal').click()
+			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+			if gtag?
+				gtagData =
+					from: from
+					url: window.location.pathname
+					deviceType: deviceType
+				gtag('event', 'open_register_form', gtagData)
+			@timeout =>
+				$("#registerBoxModal").modal()
+			, 350
 
 	requiresSignIn: (action, returnTo=null) =>
 		@setReturnLocation(returnTo) if returnTo?
