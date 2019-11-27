@@ -303,16 +303,19 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	openSigninForm: ($event=null) =>
 		$event.preventDefault() if $event
-		@scope.authMessage = ""
-		$('[data-dismiss=modal]', '#registerBoxModal').click()
-		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
-		@timeout =>
-			unless 'signinFormContent' of @scope
-				tpl = $("#signinBox").html().trim()
-				@scope.signinFormContent = @compile(tpl)(@scope)
-			$('body').append @scope.signinFormContent
-			$("#signinBoxModal").modal()
-		, 350
+		if @isFacebookInAppBrowser()
+			window.location.href = "/users/sign_in"
+		else
+			@scope.authMessage = ""
+			$('[data-dismiss=modal]', '#registerBoxModal').click()
+			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+			@timeout =>
+				unless 'signinFormContent' of @scope
+					tpl = $("#signinBox").html().trim()
+					@scope.signinFormContent = @compile(tpl)(@scope)
+				$('body').append @scope.signinFormContent
+				$("#signinBoxModal").modal()
+			, 350
 
 	openForgottenPasswordForm: ($event) =>
 		$event.preventDefault()
@@ -408,3 +411,10 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	setReturnLocation: (url) =>
 		@http.post("/set-stored-location", {return_to: url})
+
+	getUserAgent: =>
+		navigator.userAgent || navigator.vendor || window.opera
+
+	isFacebookInAppBrowser: =>
+		ua = @getUserAgent()
+		ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1

@@ -153,6 +153,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 
 	closeForgottenPasswordPanel: ($event) =>
 		$event.preventDefault()
+		@scope.forgottenPassword.thanks = false
 		@scope.forgottenPassword.show = false
 
 	resetPassword: ($event) =>
