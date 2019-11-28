@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_145258) do
+ActiveRecord::Schema.define(version: 2019_11_28_141613) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -348,6 +348,22 @@ ActiveRecord::Schema.define(version: 2019_11_07_145258) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "article_count", default: 0
+  end
+
+  create_table "keyword_tags_landing_pages", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "keyword_tag_id"
+    t.bigint "landing_page_id"
+    t.index ["keyword_tag_id"], name: "index_keyword_tags_landing_pages_on_keyword_tag_id"
+    t.index ["landing_page_id"], name: "index_keyword_tags_landing_pages_on_landing_page_id"
+  end
+
+  create_table "landing_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "heading"
+    t.string "slug"
+    t.text "intro"
+    t.string "articles_heading"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "linked_accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -744,4 +760,6 @@ ActiveRecord::Schema.define(version: 2019_11_07_145258) do
   add_foreign_key "articles_keyword_tags", "keyword_tags"
   add_foreign_key "exchanges_users", "exchanges"
   add_foreign_key "exchanges_users", "users"
+  add_foreign_key "keyword_tags_landing_pages", "keyword_tags"
+  add_foreign_key "keyword_tags_landing_pages", "landing_pages"
 end

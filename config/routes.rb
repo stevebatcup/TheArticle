@@ -126,10 +126,6 @@ Rails.application.routes.draw do
   get 'check_third_party_whitelist',           to: 'third_party_articles#check_white_list'
   post 'submit_third_party_article',           to: 'third_party_articles#create'
 
-  # landing pages
-  get 'latest-on-brexit',                      to: 'landing_pages#show'
-  get '2019-general-election',                 to: 'landing_pages#show'
-
   namespace :admin do
     resources :users
     resources :help_sections
@@ -161,6 +157,7 @@ Rails.application.routes.draw do
     resources :wordpress_logs
     resources :email_logs
     resources :exchanges
+    resources :landing_pages
     get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
     get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
     get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'
@@ -188,6 +185,8 @@ Rails.application.routes.draw do
   get "help-feedback/:question_id/:outcome", to: 'help_feedback#new'
 
   PageRouter.load
+  LandingPageRouter.load
+
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
     req.path.exclude? 'amazonaws.com'
