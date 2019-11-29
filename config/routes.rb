@@ -185,7 +185,7 @@ Rails.application.routes.draw do
   get "help-feedback/:question_id/:outcome", to: 'help_feedback#new'
 
   PageRouter.load
-  LandingPageRouter.load
+  # LandingPageRouter.load
 
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
