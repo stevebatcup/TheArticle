@@ -37,6 +37,13 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 			error: false
 			email: ''
 			thanks: false
+		@scope.changePassword =
+			error: false
+			password: ''
+			passwordConfirm: ''
+			resetToken: @element.find('#user_reset_password_token').val()
+			thanks: false
+			updating: false
 		@scope.signInDetails =
 			login:
 				value: ''
@@ -176,5 +183,35 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 			@scope.forgottenPassword.thanks = response.data.message
 		, (response) =>
 			@scope.forgottenPassword.error = response.data.message
+
+	updatePassword: ($event, minimum=10) =>
+		$event.preventDefault()
+		@scope.changePassword.updating = true
+		@scope.changePassword.error = false
+		if (!@scope.changePassword.password) or (@scope.changePassword.password.length is 0)
+			@scope.changePassword.error = "Please type a new password"
+		else if @scope.changePassword.password isnt @scope.changePassword.passwordConfirm
+			@scope.changePassword.error = "Please make sure the password entries match"
+		else if @scope.changePassword.password.length < minimum
+			@scope.changePassword.error = "Please make sure the password is at least #{minimum} characters long"
+
+		if @scope.changePassword.error
+			@scope.changePassword.updating = false
+			false
+		else
+			@submitUpdatedPassword()
+
+	submitUpdatedPassword: =>
+		data =
+			user:
+				reset_password_token: @scope.changePassword.resetToken
+				password: @scope.changePassword.password
+				password_confirmation: @scope.changePassword.passwordConfirm
+		@http.patch("/users/password", data).then (response) =>
+			@alert response.data.message, "Success", =>
+				window.location.href = "/my-home"
+		, (response) =>
+			@alert response.data.message, "Error updating password"
+			@scope.changePassword.updating = true
 
 TheArticle.ControllerModule.controller('AuthController', TheArticle.Auth)

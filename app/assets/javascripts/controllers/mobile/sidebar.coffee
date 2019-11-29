@@ -15,7 +15,7 @@ class TheArticle.Sidebar extends TheArticle.MobilePageController
 			@updateMyFollowCounts()
 			@interval =>
 				@updateMyFollowCounts()
-			, 10000
+			, 120000
 
 	updateMyFollowCounts: ->
 		@http.get("/user_followings?counts=1").then (response) =>

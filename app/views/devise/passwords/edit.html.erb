@@ -15,21 +15,37 @@
           <%= devise_error_messages! %>
           <%= f.hidden_field :reset_password_token %>
 
+          <p class="alert alert-danger" ng-if="changePassword.error">{{changePassword.error}}</p>
+
           <div class="form-group">
             <%= f.label :password, "New password" %><br />
             <% if @minimum_password_length %>
               <em>(<%= @minimum_password_length %> characters minimum)</em><br />
             <% end %>
-            <%= f.password_field(:password, autofocus: true, autocomplete: "new-password", class: 'form-control', required: '' ) %>
+            <%= f.password_field(:password, autofocus: true,
+                                 autocomplete: "new-password",
+                                 class: 'form-control',
+                                 "ng-model": "changePassword.password",
+                                 required: '' ) %>
           </div>
 
           <div class="field">
             <%= f.label :password_confirmation, "Confirm new password" %><br />
-            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', required: '' %>
+            <%= f.password_field :password_confirmation,
+                              autocomplete: "off",
+                              class: 'form-control',
+                              "ng-model": "changePassword.passwordConfirm",
+                              required: '' %>
           </div>
 
           <div class="actions">
-            <%= f.submit "Change password", class: "btn text-white btn-success my-3 btn-block" %>
+            <button class="btn text-white btn-success my-3 btn-block"
+                      ng-click="updatePassword($event, <%= @minimum_password_length %>)"
+                      ng-class="{'disabled': changePassword.updating}"
+                      ng-disabled="changePassword.updating">
+                     <span ng-if="!changePassword.updating">Change password</span>
+                      <span ng-if="changePassword.updating">Changing password...</span>
+                    </button>
           </div>
         <% end %>
 

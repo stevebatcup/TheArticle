@@ -21,8 +21,20 @@ class PasswordsController < Devise::PasswordsController
   end
 
   def update
-    super
-    UserMailer.password_change_confirmed(self.resource).deliver_now
+    self.resource = resource_class.reset_password_by_token(params.fetch(:user))
+
+    if resource.errors.empty?
+      resource.unlock_access! if unlockable?(resource)
+      UserMailer.password_change_confirmed(self.resource).deliver_now
+      flash_message = resource.active_for_authentication? ? "updated" : "updated_not_active"
+      sign_in(resource_name, resource)
+      render json: { message: t("devise.passwords.#{flash_message}") }, status: 200
+    else
+      set_minimum_password_length
+      render json: { message: better_model_error_messages(resource) }, status: 500
+    end
+
+
   end
 
 
