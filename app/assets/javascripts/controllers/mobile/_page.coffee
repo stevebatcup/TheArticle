@@ -118,7 +118,14 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 				$('body').append $content
 				$("#sharingPanelModal").modal()
 		else
-			@requiresSignIn("share or rate an article", window.location.pathname)
+			if @mobileAppDetected()
+				urlVars = @getUrlVars()
+				if 'sign_in' of urlVars
+					window.location.reload()
+				else
+					window.location.href += "?sign_in=1"
+			else
+				@requiresSignIn("share or rate an article", window.location.pathname)
 
 	disableDefaultBehaviour: (e) =>
 		# console.log 'disableDefaultBehaviour'
@@ -191,3 +198,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
+
+	mobileAppDetected: =>
+		!!$('body').data('mobile-app')

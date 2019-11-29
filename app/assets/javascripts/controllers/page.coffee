@@ -282,19 +282,22 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
 		$event.preventDefault() if $event
-		if 'articleRegisterInterstitialTimeout' of @scope
-			@timeout.cancel(@scope.articleRegisterInterstitialTimeout)
-		$('[data-dismiss=modal]', '#signinBoxModal').click()
-		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
-		if gtag?
-			gtagData =
-				from: from
-				url: window.location.pathname
-				deviceType: deviceType
-			gtag('event', 'open_register_form', gtagData)
-		@timeout =>
-			$("#registerBoxModal").modal()
-		, 350
+		if @isFacebookInAppBrowser()
+			window.location.href = "/users/sign_up"
+		else
+			if 'articleRegisterInterstitialTimeout' of @scope
+				@timeout.cancel(@scope.articleRegisterInterstitialTimeout)
+			$('[data-dismiss=modal]', '#signinBoxModal').click()
+			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+			if gtag?
+				gtagData =
+					from: from
+					url: window.location.pathname
+					deviceType: deviceType
+				gtag('event', 'open_register_form', gtagData)
+			@timeout =>
+				$("#registerBoxModal").modal()
+			, 350
 
 	requiresSignIn: (action, returnTo=null) =>
 		@setReturnLocation(returnTo) if returnTo?
@@ -303,16 +306,19 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	openSigninForm: ($event=null) =>
 		$event.preventDefault() if $event
-		@scope.authMessage = ""
-		$('[data-dismiss=modal]', '#registerBoxModal').click()
-		$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
-		@timeout =>
-			unless 'signinFormContent' of @scope
-				tpl = $("#signinBox").html().trim()
-				@scope.signinFormContent = @compile(tpl)(@scope)
-			$('body').append @scope.signinFormContent
-			$("#signinBoxModal").modal()
-		, 350
+		if @isFacebookInAppBrowser()
+			window.location.href = "/users/sign_in"
+		else
+			@scope.authMessage = ""
+			$('[data-dismiss=modal]', '#registerBoxModal').click()
+			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
+			@timeout =>
+				unless 'signinFormContent' of @scope
+					tpl = $("#signinBox").html().trim()
+					@scope.signinFormContent = @compile(tpl)(@scope)
+				$('body').append @scope.signinFormContent
+				$("#signinBoxModal").modal()
+			, 350
 
 	openForgottenPasswordForm: ($event) =>
 		$event.preventDefault()
@@ -431,3 +437,11 @@ class TheArticle.PageController extends TheArticle.NGController
 		firebase.messaging().requestPermission().then prom.bind(@)
 		.catch (error) ->
 			console.error('Unable to get permission to notify.', error)
+
+	getUserAgent: =>
+		navigator.userAgent || navigator.vendor || window.opera
+
+	isFacebookInAppBrowser: =>
+		ua = @getUserAgent()
+		ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1
+>>>>>>> master

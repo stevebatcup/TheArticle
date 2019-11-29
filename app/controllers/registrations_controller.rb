@@ -6,7 +6,11 @@ class RegistrationsController < Devise::RegistrationsController
   def new
     respond_to do |format|
       format.html do
-        redirect_to "/?register=1"
+        if browser.device.mobile?
+          super
+        else
+          redirect_to "/?register=1"
+        end
       end
     end
   end

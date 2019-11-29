@@ -147,4 +147,4 @@
     <% end %>
   </head>
 
-  <body class="<%= body_classes %>" ng-app="TheArticleNG" onunload="">
+  <body class="<%= body_classes %>" ng-app="TheArticleNG" onunload="" data-mobile-app="<%= request.headers['X-MobileApp'] ? 1 : 0 %>">

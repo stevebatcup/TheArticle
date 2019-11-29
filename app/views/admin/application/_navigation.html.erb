@@ -82,6 +82,9 @@ as defined by the routes in the `admin/` namespace
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/exchanges') %>" href="/admin/exchanges">Exchanges</a>
 		</li>
 		<li>
+			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/landing_pages') %>" href="/admin/landing_pages">Landing pages</a>
+		</li>
+		<li>
 			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/white_listed_third_party_publishers') %>" href="/admin/white_listed_third_party_publishers">Publication whitelist</a>
 		</li>
 		<li>

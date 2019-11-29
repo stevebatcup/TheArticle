@@ -87,7 +87,8 @@
                   Sign out
                 </a>
                 <% if current_user.is_admin? %>
-                <a class="dropdown-item py-2" href="/admin" target="_blank">
+                <% admin_href = current_user.is_super_admin? ? "/admin" : "/admin/articles" %>
+                <a class="dropdown-item py-2" href="<%= admin_href %>" target="_blank">
                   <i class="fas fa-laptop mr-2"></i>
                   Admin
                 </a>

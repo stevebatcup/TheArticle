@@ -20,6 +20,7 @@ class TheArticle.Article extends TheArticle.MobilePageController
 		@rootScope.profileIncomplete = !!@element.data('profile-incomplete')
 		@scope.articleId = @element.data('article-id')
 		@bindEvents()
+		urlVars = @getUrlVars()
 
 		if ($('#flash_notice').length > 0) and (@cookies.get('ok_to_flash'))
 			@flash $('#flash_notice').html()

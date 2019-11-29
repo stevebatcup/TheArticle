@@ -1,6 +1,7 @@
 class KeywordTag < ApplicationRecord
 	include WpCache
 	has_and_belongs_to_many	:articles
+	has_and_belongs_to_many	:landing_pages
 
 	def self.exclude_special
 		where.not(slug: special_tags)

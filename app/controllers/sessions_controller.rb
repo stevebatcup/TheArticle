@@ -5,7 +5,11 @@ class SessionsController < Devise::SessionsController
 	def new
 		respond_to do |format|
 			format.html do
-				redirect_to	"/?sign_in=1"
+				if browser.device.mobile?
+					super
+				else
+					redirect_to	"/?sign_in=1"
+				end
 			end
 			format.json
 		end

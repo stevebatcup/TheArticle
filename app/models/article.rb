@@ -264,10 +264,14 @@ class Article < ApplicationRecord
 		'posts'
 	end
 
+	def process_article_content_from_wp(json_content)
+		fragment = Nokogiri::HTML::fragment(json_content).to_xhtml
+	end
+
 	def update_wp_cache(json)
 		self.slug = json["slug"]
 		self.title = json["title"]["rendered"]
-		self.content = Nokogiri::HTML::DocumentFragment.parse(json["content"]["rendered"]).to_html.gsub(/\<br\>/, '<br />')
+		self.content = process_article_content_from_wp(json["content"]["rendered"])
 		self.excerpt = json["excerpt"]["rendered"]
 		self.author_id = json["author"]
 		self.published_at = Time.parse(json['date_gmt'])
