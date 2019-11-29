@@ -190,7 +190,7 @@ Rails.application.routes.draw do
   delete "push_registrations", to: 'push_registrations#destroy'
 
   PageRouter.load
-  LandingPageRouter.load
+  # LandingPageRouter.load
 
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
