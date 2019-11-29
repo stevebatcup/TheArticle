@@ -444,4 +444,3 @@ class TheArticle.PageController extends TheArticle.NGController
 	isFacebookInAppBrowser: =>
 		ua = @getUserAgent()
 		ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1
->>>>>>> master
