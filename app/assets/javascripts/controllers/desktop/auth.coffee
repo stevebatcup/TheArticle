@@ -52,9 +52,14 @@ class TheArticle.Auth extends TheArticle.PageController
 				value: ''
 				error: false
 		@bindEvents()
+		@bindListeners()
 
 	bindEvents: ->
 		@bindCookieAcceptance()
+
+	bindListeners: =>
+		@scope.$on 'sign_in_panel_closed', =>
+			@closeForgottenPasswordPanel()
 
 	logRegisterFieldFilled: (field) =>
 		if field? and @scope.register[field] and @scope.register[field].length > 0
@@ -159,8 +164,8 @@ class TheArticle.Auth extends TheArticle.PageController
 		$event.preventDefault()
 		@scope.forgottenPassword.show = true
 
-	closeForgottenPasswordPanel: ($event) =>
-		$event.preventDefault()
+	closeForgottenPasswordPanel: ($event=null) =>
+		$event.preventDefault() if $event?
 		@scope.forgottenPassword.show = false
 
 	resetPassword: ($event) =>

@@ -3,9 +3,9 @@ class TheArticle.Article extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
-	  '$rootScope'
 	  '$timeout'
 	  '$compile'
 	  '$cookies'

@@ -3,6 +3,7 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.DesktopPageContr
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$compile'
 	  '$timeout',

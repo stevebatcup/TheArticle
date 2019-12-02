@@ -3,6 +3,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
 	  '$timeout'

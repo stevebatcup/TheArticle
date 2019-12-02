@@ -3,9 +3,9 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.MobilePageContro
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$element'
-	  '$rootScope'
 	  '$timeout'
 	  '$compile'
 	  '$cookies'
