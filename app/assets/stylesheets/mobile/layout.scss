@@ -947,26 +947,6 @@ html.svg {
 	font-size: 0.6em;
 }
 
-#member_options {
-	li {
-		position: relative;
-
-		a#notifications-tab {
-			.badge {
-				position: absolute;
-				top: 6px;
-				right: 28px;
-				padding: 3px 2px 0px 2px;
-				font-size: 0.5em;
-				min-width: 15px;
-				min-height: 16px;
-				font-weight: 600;
-				font-family: verdana;
-			}
-		}
-	}
-}
-
 #testDomainInterstitialModal {
 	p {
 		font-style: 0.9em;

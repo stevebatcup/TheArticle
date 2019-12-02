@@ -135,7 +135,25 @@ body.fixed-nav {
   width: 100vw;
   left: 0;
   background-color: #fff;
-  z-index: 100;
+  z-index: 10000;
+
+  li {
+    position: relative;
+
+    a#notifications-tab {
+      .badge {
+        position: absolute;
+        top: 6px;
+        right: 28px;
+        padding: 3px 2px 0px 2px;
+        font-size: 0.5em;
+        min-width: 15px;
+        min-height: 16px;
+        font-weight: 600;
+        font-family: verdana;
+      }
+    }
+  }
 
   body.fixed-header & {
     position: fixed;
