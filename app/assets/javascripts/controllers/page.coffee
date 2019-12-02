@@ -113,6 +113,7 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	bindCookieAcceptance: =>
 		$('#cn-accept-cookie').on 'click', (e) =>
+			e.preventDefault()
 			$.getJSON '/cookie-acceptance', (response) =>
 				if response.status is 'success'
 					$('#cookie-notice').fadeOut()
