@@ -20,12 +20,12 @@ class ConcernReport < ApplicationRecord
 	end
 
 	def sourceable_type_for_email
-		case self.sourceable_type
-		when 'Comment'
+		case self.sourceable_type.downcase
+		when 'comment'
 			'comment'
-		when 'Share'
+		when 'share'
 			'post'
-		when 'User'
+		when 'user'
 			'Profile'
 		end
 	end
