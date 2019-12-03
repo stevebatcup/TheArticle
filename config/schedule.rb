@@ -66,3 +66,7 @@ end
 every 20.minutes do
 	rake "feeds:clean >> /var/www/thearticle/rails/shared/log/feeds.log 2>&1"
 end
+
+every	6.hours do
+	rake "articles:validate_xml_feed"
+end

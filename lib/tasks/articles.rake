@@ -24,4 +24,17 @@ namespace :articles do
 	task :fetch_bibblio_meta => :environment do
 		BibblioApiService::Articles.get_articles_meta(30)
 	end
+
+	task :validate_xml_feed => :environment do
+		url = Rails.application.credentials.feed_url[Rails.env.to_sym]
+		open(url) do |rss|
+			begin
+				feed = RSS::Parser.parse(rss)
+				# puts "RSS validated OK!"
+			rescue Exception => e
+				DeveloperMailer.rss_feed_invalid(url).deliver_now
+			end
+		end
+	end
+
 end

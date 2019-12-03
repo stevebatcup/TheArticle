@@ -87,6 +87,7 @@ gem 'exception_notification'
 gem "recaptcha"
 
 gem "rest-client"
+gem "rss"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
