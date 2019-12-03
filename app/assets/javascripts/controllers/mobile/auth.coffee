@@ -120,7 +120,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 				email: @scope.register.email
 				password: @scope.register.password
 		, (response) =>
-			gtag('event', 'sign_up', { 'signUpMethod': 'Email' }) if gtag?
+			gtag('event', 'sign_up', { 'method': 'Email' }) if gtag?
 			window.location.href = response.redirect_to
 		, (response) =>
 			@scope.$apply =>
