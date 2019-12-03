@@ -42,11 +42,12 @@ class DeveloperMailer < ApplicationMailer
 		send_mail(developer_email, developer_name, subject, body)
 	end
 
-	def rss_feed_invalid(url)
+	def rss_feed_invalid(url, error_msg)
 		subject = "WARNING: RSS Feed invalid"
 		merge_vars = {
 		  FNAME: developer_name,
-		  BODY: "<p>The RSS feed is broken, fix it now dude!<br /><a href='#{url}'>#{url}</a></p>"
+		  BODY: "<p>The RSS feed is broken, fix it now dude!<br /><a href='#{url}'>#{url}</a></p>
+		  				<p>Error message: #{error_msg}</p>"
 		}
 		body = mandrill_template("developer-tools", merge_vars)
 		send_mail(developer_email, developer_name, subject, body)

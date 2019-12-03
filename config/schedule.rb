@@ -68,5 +68,5 @@ every 20.minutes do
 end
 
 every	6.hours do
-	rake "articles:validate_xml_feed"
+	rake "articles:validate_rss_feed"
 end
