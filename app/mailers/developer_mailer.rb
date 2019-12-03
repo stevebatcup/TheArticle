@@ -16,18 +16,35 @@ class DeveloperMailer < ApplicationMailer
 	end
 
 	def blacklist_updated(user, admin_user)
-		@user = user
-		@admin_user = admin_user
-		mail(
-			to: developer_email,
-			subject: "User added to blacklist",
-		)
+		subject = "User added to blacklist"
+		merge_vars = {
+		  FNAME: developer_name,
+		  BODY: "<p>A user has been added to the blacklist by <b>#{ admin_user.full_name }</b></p>
+							<table cellpadding='8' cellspacing='0' border='1'>
+								<thead>
+									<tr>
+										<th><b>Name</b></th>
+										<th><b>Email</b></th>
+										<th><b>User ID</b></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>#{ user.full_name }</td>
+										<td>#{ user.email }</td>
+										<td>#{ user.id }</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Go sort the firewall.....</p>"
+		}
+		body = mandrill_template("developer-tools", merge_vars)
+		send_mail(developer_email, developer_name, subject, body)
 	end
 
 	def rss_feed_invalid(url)
 		subject = "WARNING: RSS Feed invalid"
 		merge_vars = {
-		  FEED_URL: url,
 		  FNAME: developer_name,
 		  BODY: "<p>The RSS feed is broken, fix it now dude!<br /><a href='#{url}'>#{url}</a></p>"
 		}
