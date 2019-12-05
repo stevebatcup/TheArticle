@@ -283,7 +283,6 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
 		$event.preventDefault() if $event?
-		console.log "reg form opened from: #{from}"
 		if @isFacebookInAppBrowser()
 			window.location.href = "/users/sign_up"
 		else
@@ -292,6 +291,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			$('[data-dismiss=modal]', '#signinBoxModal').click()
 			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 			if gtag?
+				console.log "registration form was opened from '#{from}'" if console?
 				gtagData =
 					from: from
 					url: window.location.pathname
