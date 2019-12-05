@@ -2,15 +2,15 @@ class TheArticle.RegisterInterstitial extends TheArticle.PageController
 
 	@register window.App
 	@$inject: [
-	  '$scope'
-	  '$rootScope'
-	  '$http'
-	  '$timeout'
-	  '$compile'
-	  'Comment'
-	  'Opinion'
-	  'Profile'
-	  'ConcernReport'
+		'$scope'
+		'$rootScope'
+		'$http'
+		'$timeout'
+		'$compile'
+		'Comment'
+		'Opinion'
+		'Profile'
+		'ConcernReport'
 	]
 
 	init: ->

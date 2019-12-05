@@ -36,7 +36,7 @@
           </div>
         <% end %>
 
-        <p>Don't have an account with <b>TheArticle</b>? <a href="<%= new_user_registration_path %>">Register here</a>.</p>
+        <p>Don't have an account with <b>TheArticle</b>? <a href="<%= new_user_registration_path(from: 'signin_form') %>">Register here</a>.</p>
       </div>
 
       <div class="col-0 col-md-8" ng-if="forgottenPassword.show">

@@ -65,6 +65,10 @@ class TheArticle.Auth extends TheArticle.PageController
 		if field? and @scope.register[field] and @scope.register[field].length > 0
 			gtag('event', 'register_field_filled', { 'field': field }) if gtag?
 
+	openRegisterFormFromSignInForm: ($event=null, deviceType='mobile') =>
+		$event.preventDefault()
+		@openRegisterForm(null, @scope.openedFromAction, deviceType)
+
 	submitRegister: ($event) =>
 		$event.preventDefault()
 		@scope.register.errors.names = false
