@@ -216,6 +216,10 @@ body.fixed-profile-nav {
 	}
 
 	#main_feed {
+		margin-top: 12em;
+	}
+
+	&.show_ads #main_feed {
 		margin-top: 30em;
 	}
 
