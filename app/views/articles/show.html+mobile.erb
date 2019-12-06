@@ -114,7 +114,7 @@
 					</div>
 
 					<div id="content_box" itemprop="text">
-						<% if show_ads? %>
+						<% if show_ads? || show_video_ads_only? %>
 							<%= remote_linkify(adified_content(@article), request.base_url) %>
 						<% else %>
 							<%= remote_linkify(@article.content, request.base_url) %>

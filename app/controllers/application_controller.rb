@@ -13,17 +13,24 @@ class ApplicationController < ActionController::Base
 	def show_ads?
 		if viewing_from_admin
 			false
+		elsif request.headers["X-MobileApp"]
+			false
 		elsif is_development?
 			false
 		elsif is_staging?
-			true
+			false
 		elsif self.class == ProfileWizardController
 			false
-		else
-			true
+		else # production
+			false
 		end
 	end
 	helper_method	:show_ads?
+
+	def show_video_ads_only?
+		true
+	end
+	helper_method	:show_video_ads_only?
 
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')

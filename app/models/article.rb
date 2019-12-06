@@ -419,8 +419,9 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.content_ad_slots(article, is_mobile=true, ad_page_type, ad_page_id, ad_publisher_id)
-		if is_mobile
+	def self.content_ad_slots(article, is_mobile, ad_page_type, ad_page_id, ad_publisher_id, include_display_ads=true, include_video_ads=true)
+		ads = []
+		if is_mobile && include_display_ads
 			ads = [
 				{
 					position: 7,
@@ -441,20 +442,20 @@ class Article < ApplicationRecord
 					ad_name: 'sidecolumn'
 				}
 			]
-		else
-			ads = []
 		end
 
-		unless article.is_sponsored
-			ads.push({
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				})
+		if include_video_ads
+			unless article.is_sponsored
+				ads.push({
+						position: 3,
+						ad_type_id: 4,
+						ad_page_id: ad_page_id,
+						ad_page_type: ad_page_type,
+						ad_publisher_id: ad_publisher_id,
+						ad_classes: 'unruly_video ads_box text-center',
+						ad_name: 'unruly'
+					})
+			end
 		end
 
 		ads
