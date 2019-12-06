@@ -82,7 +82,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@scope.latestArticlesCarouselReady = {}
 
 		@scope.perPage = 16
-		@getFeeds('articles')
+		@getSuggestions =>
+			@getFeeds('articles')
 
 		@scope.myProfile = {}
 		@getMyProfile()
@@ -217,23 +218,16 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@scope.trendingExchanges = response.trendingExchanges
 					@scope.userExchanges = response.userExchanges
 					@getFeeds('posts', true) unless @rootScope.profileDeactivated
-					@getSuggestions =>
-						@buildAllCarousels(section, autoGet)
-				else
-					@buildAllCarousels(section, autoGet)
-					if section is 'posts'
-						@getFeeds('follows', true) unless @rootScope.profileDeactivated
-			else
-				@buildAllCarousels(section, autoGet)
+				else if section is 'posts'
+					@getFeeds('follows', true) unless @rootScope.profileDeactivated
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 
-	buildAllCarousels: (section, autoGet) =>
-		@buildSuggestionsCarousel(section, autoGet)
-		@buildLatestArticlesCarousels(section, autoGet)
-		@buildSponsoredPicksCarousels(section, autoGet)
-		@buildTrendingExchangesCarousels(section, autoGet)
-		@buildFeaturedSponsoredPost(section, autoGet)
+			@buildSuggestionsCarousel(section, autoGet)
+			@buildLatestArticlesCarousels(section, autoGet)
+			@buildSponsoredPicksCarousels(section, autoGet)
+			@buildTrendingExchangesCarousels(section, autoGet)
+			@buildFeaturedSponsoredPost(section, autoGet)
 
 	buildSuggestionsCarousel: (section, autoGet=false) =>
 		page = @scope.feeds[section].page
@@ -416,7 +410,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
 	getSuggestions: (callback) =>
-		@http.get('/follow-suggestions?use_bibblio=1').then (response) =>
+		@http.get('/follow-suggestions').then (response) =>
 			if response.data.suggestions.populars.length is 0
 				list = response.data.suggestions.forYous
 			else if response.data.suggestions.populars.length < 16
