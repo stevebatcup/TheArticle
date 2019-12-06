@@ -218,7 +218,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	buildSuggestionsCarousel: (section, autoGet=false) =>
 		page = @scope.feeds[section].page
-		feedItem = { type: 'suggestion', isVisible: true, page: "#{section}_#{page}" }
+		feedItem = { type: 'suggestion', isVisible: @scope.suggestions.length > 0, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 2
 		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
