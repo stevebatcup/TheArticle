@@ -487,4 +487,17 @@ class Article < ApplicationRecord
 		1
 	end
 
+	def self.search_for_words(query, from_tag=false)
+		if from_tag
+			tag = KeywordTag.find_by(slug: query)
+			other_tags = KeywordTag.where.not(id: tag.id).where("LOWER(name) LIKE :query", query: "%#{sanitize_sql_like(query.downcase)}%")
+			other_tags.each do |ot|
+				query << " | #{ot.name}"
+			end
+			query = "#{query} | #{tag.name}"
+		end
+		query = "#{query} | #{query.pluralize}" unless query == query.pluralize
+		articles = Article.search(query, order: 'published_at DESC', page: 1, per_page: 500).to_a
+	end
+
 end
