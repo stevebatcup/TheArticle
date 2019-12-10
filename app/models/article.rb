@@ -2,6 +2,7 @@ class Article < ApplicationRecord
 	include WpCache
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author, optional: true
+	belongs_to :additional_author, optional: true, class_name: 'Author'
 	has_many :shares
 
   has_many  :categorisations, dependent: :destroy
@@ -289,6 +290,7 @@ class Article < ApplicationRecord
 		update_image(json)
 		update_exchanges(json)
 		update_keyword_tags(json)
+		update_additional_author(json) if json["additional_author"].to_i > 0
 
     if self.save
 	    # update counter cache columns
@@ -366,9 +368,17 @@ class Article < ApplicationRecord
   def update_author(json)
   	author_id = json["author"]
     author = Author.find_or_create_by(wp_id: author_id)
-    author_json = self.class.get_from_wp_api("users/#{author_id}")
+    author_json = self.class.get_from_wp_api("authors/#{author_id}")
     author.update_wp_cache(author_json)
     self.author = author
+  end
+
+  def update_additional_author(json)
+  	additional_author_id = json["additional_author"]
+    additional_author = Author.find_or_create_by(wp_id: additional_author_id)
+    additional_author_json = self.class.get_from_wp_api("authors/#{additional_author_id}")
+    additional_author.update_wp_cache(additional_author_json)
+    self.additional_author = additional_author
   end
 
 	def update_image(json)
@@ -376,10 +386,10 @@ class Article < ApplicationRecord
 		if remote_wp_image_id > 0
 			unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
 				self.wp_image_id = remote_wp_image_id
-				image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+				image_json = self.class.get_from_wp_api("images/#{remote_wp_image_id}")
 				self.remote_image_url = image_json["source_url"]
-				if image_json["caption"]["rendered"] && (image_json["caption"]["rendered"].length > 0)
-					caption = ActionController::Base.helpers.strip_tags(image_json["caption"]["rendered"])
+				if image_json["caption"] && (image_json["caption"].length > 0)
+					caption = ActionController::Base.helpers.strip_tags(image_json["caption"])
 					self.image_caption = ActionController::Base.helpers.truncate(caption, length: 150)
 				end
 			end

@@ -158,7 +158,7 @@ class Author < ApplicationRecord
 	end
 
 	def self.wp_type
-		'users'
+		'authors'
 	end
 
 	def update_wp_cache(json)
@@ -216,7 +216,7 @@ class Author < ApplicationRecord
 		if remote_wp_image_id > 0
 			unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
 	      self.wp_image_id = remote_wp_image_id
-				image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+				image_json = self.class.get_from_wp_api("images/#{remote_wp_image_id}")
 	      self.remote_image_url = image_json["source_url"]
 			end
 		else
