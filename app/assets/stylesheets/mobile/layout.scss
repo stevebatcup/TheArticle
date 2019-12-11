@@ -580,10 +580,23 @@ footer.entry-footer {
 }
 
 .author_link {
-	font-size: 0.6em;
+	font-size: 0.75em;
 	font-weight: 500;
-	color: $grey;
 	line-height: 1.85em;
+	color: #565656;
+	margin: 5px 0 0;
+
+	.written_by {
+		width: 60%;
+		line-height: 1.6em;
+		margin-bottom: 0.6em;
+	}
+
+	.entry-date {
+		width: 40%;
+		color: darken($grey, 10%);
+		text-align: right;
+	}
 
 	a {
 		color: $grey;

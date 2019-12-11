@@ -1,0 +1,38 @@
+<div class="pr-0 pr-md-0 pr-lg-3 author_info row <%= 'mt-1' if additional %>" itemscope itemprop="author" itemtype="https://schema.org/Person">
+	<div class="d-flex justify-content-start w-100">
+		<a id="article_author_thumbnail" href="<%= contributor_path(slug: author.slug) %>" class="d-block mr-2 mr-md-2 mr-lg-3">
+			<% if author.image? %>
+				<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= author.image.url(:detail) %>" alt="<%= author.display_name.html_safe %>" />
+			<% end %>
+		</a>
+
+		<div class="author_name">
+			<%= additional ? '<em>and</em>'.html_safe : 'by' %>&nbsp;
+			<a href="<%= contributor_path(slug: author.slug); %>" class="d-inline-block">
+				<span itemprop="name"><%= author.display_name.html_safe %></span>
+			</a>
+
+			<% if author.user.present? || author.twitter_handle.present? %>
+				<div class="social">
+				<% if author.user.present? %>
+					 <a href="<%= profile_path(slug: author.user.slug) %>" class="article_author_user align-items-start">
+							<img src="<%= asset_url('capital-a-bg-black.png') %>" alt="The Article" />
+							<span itemprop="alternateName"><%= author.user.username %></span>
+						</a>
+				<% end %>
+				<% if author.twitter_handle.present? %>
+					<% if author.user.present? %>
+						<span class="ml-2 mr-1 article_author_seperator">|</span>
+					<% end %>
+					 <a href="https://twitter.com/<%= author.twitter_handle %>" target="_blank" class="article_author_twitter align-items-start">
+							<i class="text-colour-2 fab fa-twitter"></i>
+							<span><%= author.twitter_handle %></span>
+						</a>
+				<% end %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+
+
+</div>

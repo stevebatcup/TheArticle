@@ -138,8 +138,19 @@
 
 							<footer class="entry-footer pt-1 px-3 pb-2" ng-if="article.author.name.length">
 								<p class="author_link d-flex justify-content-between align-items-start">
-									<a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
-									<span class="entry-date">{{ article.publishedAt }}</span></p>
+									<span ng-if="!article.additionalAuthor" class="written_by">
+										by <a href="{{ article.author.path }}">
+											<span ng-bind-html="article.author.name"></span>
+										</a>
+									</span>
+
+									<span ng-if="article.additionalAuthor" class="written_by">
+										by <a href="{{ article.author.path }}"><span ng-bind-html="article.author.name"></span></a>
+										&amp; <a href="{{ article.additionalAuthor.path }}"><span ng-bind-html="article.additionalAuthor.name"></span></a>
+									</span>
+
+									<span class="entry-date">{{ article.publishedAt }}</span>
+								</p>
 							</footer>
 
 							<div class="member_ratings p-3">

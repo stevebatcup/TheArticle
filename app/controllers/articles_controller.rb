@@ -95,9 +95,7 @@ class ArticlesController < ApplicationController
 
 				elsif params[:author]
 					@contributor = Author.find_by(id: params[:author])
-					@articles = @contributor.articles
-																	.includes(:exchanges)
-																	.references(:exchanges)
+					@articles = @contributor.all_articles
 																	.order("published_at DESC")
 																	.page(params[:page])
 																	.per(params[:per_page].to_i)

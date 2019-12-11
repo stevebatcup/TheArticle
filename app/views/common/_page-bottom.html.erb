@@ -56,9 +56,8 @@
 									<% footer_padding_bottom = recent_article.is_sponsored ? 'pb-2' : 'pb-0' %>
 									<footer class="entry-footer pl-0 pt-1 <%= footer_padding_bottom %>">
 										<p class="author_link">
-											<a href="<%= contributor_path(slug: recent_article.author.slug) %>">
-												by <span><%= recent_article.author.display_name %></span>
-											</a>&nbsp
+											<%= written_by(recent_article) %>
+
 											<% unless recent_article.is_sponsored %>
 											<span class="entry-date">
 												<%= article_date(recent_article) %>

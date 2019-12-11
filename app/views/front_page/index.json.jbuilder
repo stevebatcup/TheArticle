@@ -81,6 +81,12 @@ if @latest_articles && @latest_articles.any?
 				json.name author.display_name.html_safe
 				json.path contributor_path(slug: author.slug)
 			end
+			unless article.additional_author.nil?
+				json.additionalAuthor do
+					json.name article.additional_author.display_name
+					json.path contributor_path(slug: article.additional_author.slug)
+				end
+			end
 			json.exchanges article.exchanges do |exchange|
 				json.slug exchange.slug
 				json.path exchange_badge_url(exchange)

@@ -3,8 +3,12 @@ module ArticleHelper
 		contributor_path(slug: @article.author.slug)
 	end
 
-	def article_date(article)
-		article.published_at.strftime("%d %b %Y").upcase
+	def article_date(article, full_format=false)
+		if full_format
+			article.published_at.strftime("%A %B %d, %Y")
+		else
+			article.published_at.strftime("%d %b %Y").upcase
+		end
 	end
 
 	def article_excerpt_for_listing(article, length=125)
@@ -68,6 +72,12 @@ module ArticleHelper
 				exchanges: []
 			}
 		}
+		unless article.additional_author.nil?
+			result[:article][:additionalAuthor] = {
+			  name: article.additional_author.display_name,
+			  path: contributor_path(slug: article.additional_author.slug)
+			}
+		end
 		exchanges.each do |exchange|
 			result[:article][:exchanges].push({
 				name: exchange.name,
@@ -124,5 +134,10 @@ module ArticleHelper
 				false
 			end
 		end
+	end
+
+	def written_by(article)
+		tpl = article.additional_author.present? ? 'written-by-dual' : 'written-by-single'
+		render partial: "articles/#{tpl}", locals: { article: article }
 	end
 end

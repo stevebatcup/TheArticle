@@ -14,13 +14,12 @@ class Author < ApplicationRecord
 	end
 
   def self.update_article_counts
-    all.each do |a|
-      a.update_attribute(:article_count, a.articles.size)
-    end
+    all.each { |a| a.update_article_count }
   end
 
 	def update_article_count
-		self.update_attribute(:article_count, self.articles.size)
+		count = Article.where("(author_id = #{self.id} OR additional_author_id = #{self.id})").size
+		self.update_attribute(:article_count, count)
 	end
 
 	def self.sponsor_role
@@ -225,10 +224,6 @@ class Author < ApplicationRecord
 		end
 	end
 
-	def post_count
-		3
-	end
-
 	def author_role_id
 		role_id
 	end
@@ -255,5 +250,9 @@ class Author < ApplicationRecord
 	      agree: "#{ratings.average(:rating_agree)}"
 	    }
 	  end
+	end
+
+	def all_articles
+		Article.where("(author_id = #{self.id} OR additional_author_id = #{self.id})").includes(:exchanges).references(:exchanges)
 	end
 end

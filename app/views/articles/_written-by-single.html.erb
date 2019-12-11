@@ -1,0 +1,5 @@
+<span class="written_by">
+	by <a href="<%= contributor_path(slug: article.author.slug) %>" itemscope itemprop="author" itemtype="https://schema.org/Person">
+		<span itemprop="name"><%= article.author.display_name.html_safe %></span>
+	</a>
+</span>

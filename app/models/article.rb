@@ -509,5 +509,4 @@ class Article < ApplicationRecord
 		query = "#{query} | #{query.pluralize}" unless query == query.pluralize
 		articles = Article.search(query, order: 'published_at DESC', page: 1, per_page: 500).to_a
 	end
-
 end

@@ -660,11 +660,11 @@ html.svg header#main_header nav li.nav-item {
 
 				p.author_link {
 					a {
-						width: 225px;
+						// width: 225px;
+						// overflow: hidden;
 						text-overflow: ellipsis;
 						display: inline-block;
 						white-space: nowrap;
-						overflow: hidden;
 					}
 				}
 			}
@@ -723,21 +723,33 @@ footer.entry-footer {
 	}
 
 	.entry-date {
-		margin-left: 20px;
+		margin-left: 15px;
+		min-width: 23%;
+    text-align: right;
 	}
 }
 
 .author_link {
-	font-size: 0.7em;
+	font-size: 0.62em;
 	font-weight: 600;
 	color: $grey;
 	position: relative;
 	top: 9px;
+	display: flex;
+	color: #565656;
 
+	.written_by {
+		width: 65%;
+		line-height: 1.6em;
+		margin-bottom: 1.7em;
+	}
+
+	.entry-date {
+		width: 35%;
+		color: $grey;
+	}
 
 	a {
-		color: $grey;
-
 		span {
 			text-decoration: underline;
 			text-transform: uppercase;
