@@ -714,71 +714,6 @@ html.svg header#main_header nav li.nav-item {
 	}
 }
 
-footer.entry-footer {
-	// padding: 10px 3.5% 15px;
-	color: $grey_dark;
-
-	a {
-		color: $grey_dark;
-	}
-
-	.entry-date {
-		margin-left: 15px;
-		min-width: 23%;
-    text-align: right;
-	}
-}
-
-.author_link {
-	font-size: 0.62em;
-	font-weight: 600;
-	color: $grey;
-	position: relative;
-	top: 9px;
-	color: #565656;
-	margin-bottom: 0;
-	display: flex;
-
-	.written_by {
-		width: 65%;
-		line-height: 1.6em;
-		margin-bottom: 1.7em;
-	}
-
-	.entry-date {
-		width: 35%;
-		color: $grey;
-	}
-
-	&.article_item {
-		.written_by {
-			width: 90%;
-		}
-		.entry-date {
-			width: 10%;
-			margin-left: 0;
-		}
-	}
-
-	a {
-		span {
-			text-decoration: underline;
-			text-transform: uppercase;
-			letter-spacing: 0.7px;
-		}
-	}
-
-	a#article_author_thumbnail {
-		width: 35px;
-		position: relative;
-    top: -11px;
-
-		img {
-			width: 100%;
-			border-radius: 30px;
-		}
-	}
-}
 
 #member_callout {
 	width: 100%;
@@ -832,18 +767,6 @@ footer.entry-footer {
 
 		p {
 			font-size: 0.8em;
-		}
-	}
-}
-
-#home_latest_articles,
-#most_read_articles,
-#trending_articles {
-	article.sponsored_article {
-		background-color: $gold_light;
-
-		h5 {
-			margin-top: 15px;
 		}
 	}
 }
