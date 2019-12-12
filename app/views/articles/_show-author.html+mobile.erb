@@ -6,7 +6,7 @@
 			<% end %>
 		</a>
 
-		<div class="author_name">
+		<div class="author_name <%= 'with_social' if author.user.present? || author.twitter_handle.present? %>">
 			<%= additional ? '<em>and</em>'.html_safe : 'by' %>&nbsp;
 			<a href="<%= contributor_path(slug: author.slug); %>" class="d-inline-block">
 				<span itemprop="name"><%= author.display_name.html_safe %></span>
