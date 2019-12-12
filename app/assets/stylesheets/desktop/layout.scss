@@ -737,6 +737,7 @@ footer.entry-footer {
 	top: 9px;
 	color: #565656;
 	margin-bottom: 0;
+	display: flex;
 
 	.written_by {
 		width: 65%;
@@ -747,6 +748,16 @@ footer.entry-footer {
 	.entry-date {
 		width: 35%;
 		color: $grey;
+	}
+
+	&.article_item {
+		.written_by {
+			width: 90%;
+		}
+		.entry-date {
+			width: 10%;
+			margin-left: 0;
+		}
 	}
 
 	a {
