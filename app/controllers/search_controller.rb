@@ -47,9 +47,8 @@ class SearchController < ApplicationController
 				elsif params[:mode] == :full
 					begin
 						articles = Article.search_for_words(@query, params[:from_tag].present?)
+						contributors = Author.search("*#{@query}*", order: 'article_count DESC').to_a
 						query_with_plurals = "#{@query} | #{@query.pluralize}"
-						contributors = Author.search(conditions: { display_name: "*#{query_with_plurals}*" },
-																					order: 'article_count DESC').to_a
 						exchanges = Exchange.search("*#{query_with_plurals}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
 						posts = Share.search("*#{query_with_plurals}*", order: 'created_at DESC').to_a
 						if user_signed_in?
