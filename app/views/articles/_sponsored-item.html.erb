@@ -28,7 +28,9 @@
 		</div>
 
 		<footer class="entry-footer pt-1 px-3 pb-2">
-			<p class="author_link"><a href="<%= contributor_path(slug: article.author.slug) %>">by <span><%= article.author.display_name %></span></a> <span class="entry-date"><%= article_date(article) %></span></p>
+			<p class="author_link">
+				<%= written_by(article) %>
+			</p>
 		</footer>
 	</div>
 </article>
