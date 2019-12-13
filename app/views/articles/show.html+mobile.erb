@@ -243,7 +243,8 @@
 			  data-user-id="<%= current_user.id %>"
 			  <% end %>
 			  data-query-string-params="utm_source=bibblio_article_page"
-			  data-custom-unique-identifier="<%= @article.slug %>">
+			  data-custom-unique-identifier="<%= @article.slug %>"
+			  data-custom-catalogue-ids="Articles">
 			</div>
 		</div>
 	<% end %>
@@ -312,6 +313,7 @@
 	<script id="bib--rcm-src" src="file://X:/related-content-module-source/public/js/bib-related-content.js"
 	data-auto-ingestion="true"
 	data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
-	data-custom-unique-identifier="<%= @article.slug %>"></script>
+	data-custom-unique-identifier="<%= @article.slug %>"
+	data-custom-catalogue-ids="Articles"></script>
 	<!-- End of Bibblio RCM includes -->
 <% end %>
