@@ -12,6 +12,7 @@ class Share < ApplicationRecord
 	after_create	:notify_mentioned_users
 	after_create	:update_feeds
 	after_save	:recalculate_article_ratings
+	after_save	:set_user_share_counts
 	after_destroy	:delete_associated_data
 
 	def notify_mentioned_users
@@ -169,5 +170,9 @@ class Share < ApplicationRecord
 		else
 			'share'
 		end
+	end
+
+	def set_user_share_counts
+		self.user.set_share_counts
 	end
 end

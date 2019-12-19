@@ -17,5 +17,7 @@ json.set! :users do
 		json.profileUrl "#{profile_url(slug: user.slug)}?from_admin=1"
 		json.accountStatus user.admin_account_status
 		json.profileStatus user.admin_profile_status
+		json.followersCount user.followers_count
+		json.ratingsCount user.share_ratings_count
 	end
 end

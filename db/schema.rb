@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_120254) do
+ActiveRecord::Schema.define(version: 2019_12_19_125651) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -569,6 +569,8 @@ ActiveRecord::Schema.define(version: 2019_12_09_120254) do
     t.integer "followers_count", default: 0
     t.integer "followings_count", default: 0
     t.integer "connections_count", default: 0
+    t.integer "share_all_count", default: 0
+    t.integer "share_ratings_count", default: 0
     t.boolean "on_bibblio", default: false
     t.string "registration_source", default: "website"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

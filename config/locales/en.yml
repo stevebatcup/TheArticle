@@ -33,12 +33,16 @@ en:
     id: RID
     wp_id: WID
    user:
-    id: User ID
+    id: ID
     full_name: Account name
-    human_created_at: Signed up
+    first_name: First
+    last_name: Last
+    human_created_at: Registered
     has_completed_wizard: Has completed registration
-    admin_account_status: Account status
-    admin_profile_status: Profile status
+    admin_account_status: Account
+    admin_profile_status: Profile
+    followers_count: Followers
+    share_ratings_count: Ratings
    wordpress_log:
     admin_type: Type
     admin_article_title: Article

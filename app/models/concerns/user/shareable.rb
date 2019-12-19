@@ -37,6 +37,15 @@ module User::Shareable
     }
   end
 
+  def set_share_counts
+    self.share_all_count = self.shares.size
+    self.share_ratings_count = ratings_count
+    self.save
+  end
+
   module ClassMethods
+    def set_all_share_counts
+      User.all.each { |user| user.set_share_counts }
+    end
   end
 end
