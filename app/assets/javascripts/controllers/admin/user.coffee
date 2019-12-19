@@ -155,5 +155,15 @@ class TheArticle.User extends TheArticle.AdminPageController
 					@scope.userForBox.addingLinkedAccount.css = 'text-danger'
 					@scope.userForBox.addingLinkedAccount.message = response.data.message
 
+	updateBio: =>
+		data =
+			user_id: @scope.userForBox.id
+			bio: @scope.userForBox.bio
+			send_alert: @scope.userForBox.alertBioUpdated
+		@http.post("/admin/update-user-bio", data).then (response) =>
+			if response.data.status is 'error'
+				alert response.data.message, "Whoops!"
+			else if response.data.status is 'success'
+				@scope.userForBox.bioUpdated = true
 
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

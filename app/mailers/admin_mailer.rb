@@ -23,4 +23,8 @@ class AdminMailer < ApplicationMailer
 		body = mandrill_template("concern-report", merge_vars)
 		send_mail(concern_report_receiver, "Administrator", subject, body)
 	end
+
+	def bio_updated(user)
+		true
+	end
 end

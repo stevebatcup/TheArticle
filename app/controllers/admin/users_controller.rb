@@ -202,6 +202,20 @@ module Admin
       render json: { status: @status }
     end
 
+    def update_bio
+      if user = User.find(params[:user_id])
+        user.bio = params[:bio]
+        if user.save
+          render json: { status: :success }
+          AdminEmailUserBioUpdatedJob.perform_later(user) if params[:send_alert]
+        else
+          render json: { status: :error, message: better_model_error_messages(user) }
+        end
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
   private
 
     def query_is_digits_only?

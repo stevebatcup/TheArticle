@@ -8,6 +8,9 @@
         <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
       </li>
       <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#bio_{{userForBox.id}}">Edit Bio</a>
+      </li>
+      <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#photos_{{userForBox.id}}">Photos</a>
       </li>
       <li class="nav-item">
@@ -258,6 +261,28 @@
     <div class="tab-pane fade" id="preview_{{userForBox.id}}">
       <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="100%" height="800" border="0" style="border: none;"></iframe>
     </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="bio_{{userForBox.id}}">
+      <dl style="overflow: hidden;">
+         <dt class="">Bio</dt>
+         <dd>
+          <textarea style="width: 700px; height: 250px;" ng-model="userForBox.bio"></textarea>
+        </dd>
+        <dt class="">
+          Send email to user?
+        </dt>
+        <dd>
+          <input type="checkbox" name="alert_bio_updated" id="alert_bio_updated"
+                ng-model="userForBox.alertBioUpdated"
+                style="transform: scale(1.8); margin: 10px; outline: none;" />
+        </dd>
+      </dl>
+      <div class="d-flex">
+        <button class="btn btn-success" ng-click="updateBio()">Update</button>
+        <i class="fas fa-check pl-4 pt-1" style="font-size: 2em; color: #27a744;" ng-if="userForBox.bioUpdated"></i>
+      </div>
+    </div>
+
 
     <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
       <dl style="overflow: hidden;">

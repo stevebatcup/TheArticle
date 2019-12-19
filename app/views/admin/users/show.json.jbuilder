@@ -3,6 +3,9 @@ json.id @user.id
 if @full_details
 	json.fullDetailsLoaded true
 	json.fullName @user.full_name
+	json.bio @user.bio
+	json.bioUpdated false
+	json.alertBioUpdated false
 	json.lastIpAddress @user.last_sign_in_ip
 	json.profileUrl "#{profile_url(slug: @user.slug)}?from_admin=1"
 	json.lastSignIn @user.last_sign_in_at.present? ? @user.last_sign_in_at.strftime("%b %e, %Y at %H:%m") : nil
