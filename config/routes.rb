@@ -170,6 +170,7 @@ Rails.application.routes.draw do
     post 'add_linked_account', to: 'users#add_linked_account'
     delete 'delete_linked_account', to: 'users#delete_linked_account'
     post 'update-user-bio', to: 'users#update_bio'
+    post 'send-email', to: 'users#send_email'
     resources :shares
     resources :comments
     root to: "users#index"

@@ -156,6 +156,7 @@ class TheArticle.User extends TheArticle.AdminPageController
 					@scope.userForBox.addingLinkedAccount.message = response.data.message
 
 	updateBio: =>
+		@scope.userForBox.bioUpdating = true
 		data =
 			user_id: @scope.userForBox.id
 			bio: @scope.userForBox.bio
@@ -163,7 +164,39 @@ class TheArticle.User extends TheArticle.AdminPageController
 		@http.post("/admin/update-user-bio", data).then (response) =>
 			if response.data.status is 'error'
 				alert response.data.message, "Whoops!"
+				@scope.userForBox.bioUpdating = false
 			else if response.data.status is 'success'
-				@scope.userForBox.bioUpdated = true
+				@timeout =>
+					@scope.userForBox.bioUpdated = true
+					@scope.userForBox.bioUpdating = false
+					@timeout =>
+						@scope.userForBox.bioUpdated = false
+					, 5000
+				, 750
+
+	sendEmail: =>
+		@scope.userForBox.newEmail.error = false
+		if @scope.userForBox.newEmail.subject.length is 0 || @scope.userForBox.newEmail.message.length is 0
+			@scope.userForBox.newEmail.error = 'Please enter both a subject and a message'
+		else
+			@scope.userForBox.newEmail.sending = true
+			data =
+				user_id: @scope.userForBox.id
+				subject: @scope.userForBox.newEmail.subject
+				message: @scope.userForBox.newEmail.message
+			@http.post("/admin/send-email", data).then (response) =>
+				if response.data.status is 'error'
+					alert response.data.message, "Whoops!"
+					@scope.userForBox.newEmail.sending = false
+				else if response.data.status is 'success'
+					@timeout =>
+						@scope.userForBox.newEmail.sent = true
+						@scope.userForBox.newEmail.subject = ''
+						@scope.userForBox.newEmail.message = ''
+						@scope.userForBox.newEmail.sending = false
+						@timeout =>
+							@scope.userForBox.newEmail.sent = false
+						, 5000
+					, 750
 
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

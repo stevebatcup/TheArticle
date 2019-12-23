@@ -5,6 +5,7 @@ if @full_details
 	json.fullName @user.full_name
 	json.bio @user.bio
 	json.bioUpdated false
+	json.bioUpdating false
 	json.alertBioUpdated false
 	json.lastIpAddress @user.last_sign_in_ip
 	json.profileUrl "#{profile_url(slug: @user.slug)}?from_admin=1"
@@ -23,6 +24,13 @@ if @full_details
 	json.coverPhoto @user.cover_photo.url(:desktop)
 	json.authorId @user.author_id.to_i if @user.author_id.present?
 	json.genuineVerified @user.verified_as_genuine
+	json.newEmail do
+		json.subject ''
+		json.message ''
+		json.error false
+		json.sending false
+		json.sent false
+	end
 	json.notificationSettings do
 		json.followers @user.notification_settings.find_by(key: :email_followers).humanise_value
 		json.categorisations @user.notification_settings.find_by(key: :email_exchanges).humanise_value

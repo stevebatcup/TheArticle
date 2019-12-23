@@ -361,3 +361,37 @@
 .fas, .far, .fab {
 	@extend .fa;
 }
+
+
+.account_form {
+	width: 45vw;
+
+	.alert {
+		width: 100%;
+	}
+
+	textarea {
+		width: 100%;
+		height: 250px;
+	}
+
+	input[type=checkbox] {
+		transform: scale(1.8);
+		margin: 10px;
+		outline: none;
+	}
+
+	input[type=text] {
+		width: 100%;
+	}
+
+	i.fa-check {
+		font-size: 2em;
+		color: #27a744;
+	}
+
+	.btn {
+		padding-left: 50px;
+		padding-right: 50px;
+	}
+}

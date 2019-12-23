@@ -1,5 +1,6 @@
 class AdminMailer < ApplicationMailer
 	include Rails.application.routes.url_helpers
+  include ActionView::Helpers::TextHelper
 	include MandrillMailer
 
 	def concern_report_receiver
@@ -25,6 +26,22 @@ class AdminMailer < ApplicationMailer
 	end
 
 	def bio_updated(user)
-		true
+		subject = "Your bio on TheArticle has been updated"
+		message = "Your bio on TheArticle has been updated and now reads: \n\n <em>&ldquo;#{user.bio}&rdquo;</em>\n"
+		merge_vars = {
+			FNAME: user.first_name,
+		  BODY: simple_format(message.html_safe)
+		}
+		body = mandrill_template("admin-account", merge_vars)
+		send_mail(user.email, user.full_name, subject, body)
+	end
+
+	def new_message(user, subject, message)
+		merge_vars = {
+			FNAME: user.first_name,
+		  BODY: simple_format(message)
+		}
+		body = mandrill_template("admin-account", merge_vars)
+		send_mail(user.email, user.full_name, subject, body)
 	end
 end

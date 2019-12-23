@@ -216,6 +216,15 @@ module Admin
       end
     end
 
+    def send_email
+      if user = User.find(params[:user_id])
+        render json: { status: :success }
+        AdminEmailUserNewMessageJob.perform_later(user, params[:subject], params[:message])
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
   private
 
     def query_is_digits_only?

@@ -20,7 +20,7 @@ class UserMailer < Devise::Mailer
       NEW_USERNAME: user.username
     }
     body = mandrill_template("username-updated", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
   end
 
   def reset_password_instructions(user, token, opts={})
@@ -31,7 +31,7 @@ class UserMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("password-reset", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
   end
 
   # def send_password_change_confirmation(user, token)
@@ -42,7 +42,7 @@ class UserMailer < Devise::Mailer
   #     CURRENT_YEAR: Date.today.strftime("%Y")
   #   }
   #   body = mandrill_template("confirm-email-address-change", merge_vars)
-  #   send_mail(user.unconfirmed_email, "#{user.first_name} #{user.last_name}", subject, body)
+  #   send_mail(user.unconfirmed_email, user.full_name, subject, body)
   # end
 
   def confirmation_instructions(user, token, opts={})
@@ -62,7 +62,7 @@ class UserMailer < Devise::Mailer
       MC_PREVIEW_TEXT: "Thanks for registering with TheArticle. We believe that thoughtful, intelligent, well-researched analysis of the news has never been more necessary. And at TheArticle, we provide it."
     }
     body = mandrill_template("registration-welcome-may2019", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
     WelcomeVerifyEmailJob.set(wait: 30.seconds).perform_later(user, token)
   end
 
@@ -77,7 +77,7 @@ class UserMailer < Devise::Mailer
       MC_PREVIEW_TEXT: "Now that you're registered with TheArticle, we need you to verify your email address so that we can send you important updates."
     }
     body = mandrill_template("registration-verify-may2019", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
     FirstWizardCheckJob.set(wait: 30.minutes).perform_later(user.id)
   end
 
@@ -90,7 +90,7 @@ class UserMailer < Devise::Mailer
       MC_PREVIEW_TEXT: "With a completed profile you get access to extra features on TheArticle that we think you'll really like. It'll only take two minutes. Promise."
     }
     body = mandrill_template("first-profile-wizard-nudge", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
   end
 
   def send_second_wizard_nudge(user)
@@ -102,7 +102,7 @@ class UserMailer < Devise::Mailer
       MC_PREVIEW_TEXT: "We've noticed that you didn't complete your profile with TheArticle, which means you can't yet access the full site."
     }
     body = mandrill_template("second-profile-wizard-nudge", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
   end
 
   def send_email_change_confirmation(user, token)
@@ -113,7 +113,7 @@ class UserMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("confirm-email-address-change-sent-to-new-email-1", merge_vars)
-    send_mail(user.unconfirmed_email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.unconfirmed_email, user.full_name, subject, body, user.id)
   end
 
   def first_confirmed(user)
@@ -123,7 +123,7 @@ class UserMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("email-address-confirmed", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
   end
 
   def email_change_confirmed(user, old_email)
@@ -134,8 +134,8 @@ class UserMailer < Devise::Mailer
       EMAIL_ADDRESS: user.email
     }
     body = mandrill_template("email-address-change-confirmed-old-and-new-email", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body)
-    send_mail(old_email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body)
+    send_mail(old_email, user.full_name, subject, body, user.id)
   end
 
   def password_change_confirmed(user)
@@ -145,6 +145,6 @@ class UserMailer < Devise::Mailer
       CURRENT_YEAR: Date.today.strftime("%Y")
     }
     body = mandrill_template("password-change-confirmed", merge_vars)
-    send_mail(user.email, "#{user.first_name} #{user.last_name}", subject, body, user.id)
+    send_mail(user.email, user.full_name, subject, body, user.id)
   end
 end
