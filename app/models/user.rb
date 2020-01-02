@@ -396,4 +396,8 @@ class User < ApplicationRecord
     self.update_attribute(:on_bibblio, true) if result
     result
   end
+
+  def has_default_profile_photo
+    self.profile_photo.url == self.profile_photo.default_url
+  end
 end

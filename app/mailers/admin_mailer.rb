@@ -27,7 +27,7 @@ class AdminMailer < ApplicationMailer
 
 	def bio_updated(user)
 		subject = "Your bio on TheArticle has been updated"
-		message = "Your bio on TheArticle has been updated and now reads: \n\n <em>&ldquo;#{user.bio}&rdquo;</em>\n"
+		message = "Your bio on TheArticle has been updated by our admin team and now reads: \n\n <em>&ldquo;#{user.bio}&rdquo;</em>\n"
 		merge_vars = {
 			FNAME: user.first_name,
 		  BODY: simple_format(message.html_safe)
@@ -44,4 +44,18 @@ class AdminMailer < ApplicationMailer
 		body = mandrill_template("admin-account", merge_vars)
 		send_mail(user.email, user.full_name, subject, body)
 	end
+
+	def new_photo(user, photo_type)
+		subject = "Your #{photo_type} photo on TheArticle has been updated"
+		src = user.send("#{photo_type}_photo").url
+		message = "Your #{photo_type} photo on TheArticle has been updated by our admin team: \n\n<img src='#{src}' width='480px' />"
+		merge_vars = {
+			FNAME: user.first_name,
+		  BODY: simple_format(message.html_safe)
+		}
+		body = mandrill_template("admin-account", merge_vars)
+		send_mail(user.email, user.full_name, subject, body)
+	end
+
+
 end

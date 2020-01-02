@@ -23,6 +23,15 @@ class TheArticle.User extends TheArticle.AdminPageController
 				@scope.availableAuthors = []
 				@getAvailableAuthors()
 
+		@scope.$watch 'userForBox.profilePhoto.src', (newVal, oldVal) =>
+			if (oldVal isnt newVal) and newVal.length > 0
+				@showProfilePhotoCropper 'profilePhoto_holder', 'profile', @scope.userForBox.profilePhoto.width, @scope.userForBox.profilePhoto.height
+
+		@scope.$watch 'userForBox.coverPhoto.src', (newVal, oldVal) =>
+			if (oldVal isnt newVal) and newVal.length > 0
+				@showProfilePhotoCropper 'coverPhoto_holder', 'cover', @scope.userForBox.coverPhoto.width, @scope.userForBox.coverPhoto.height
+
+
 	addToBlackList: ($event) =>
 		$event.preventDefault()
 		q = "Are you sure you wish to delete #{@scope.userForBox.name}'s account and add them to the blacklist?"
@@ -186,7 +195,7 @@ class TheArticle.User extends TheArticle.AdminPageController
 				message: @scope.userForBox.newEmail.message
 			@http.post("/admin/send-email", data).then (response) =>
 				if response.data.status is 'error'
-					alert response.data.message, "Whoops!"
+					@alert response.data.message, "Whoops!"
 					@scope.userForBox.newEmail.sending = false
 				else if response.data.status is 'success'
 					@timeout =>
@@ -198,5 +207,160 @@ class TheArticle.User extends TheArticle.AdminPageController
 							@scope.userForBox.newEmail.sent = false
 						, 5000
 					, 750
+
+	removePhoto: ($event, photoType) =>
+		$event.preventDefault()
+		key = "#{photoType}Photo"
+		if @scope.userForBox[key].removing is false
+			@scope.userForBox[key].removing = true
+			@timeout =>
+				@http.delete("/admin/remove_photo/#{photoType}/#{@scope.userForBox.id}").then (response) =>
+					if response.data.status is 'success'
+						@scope.userForBox[key].originalSrc = response.data.src
+						@scope.userForBox.profilePhoto.isDefault = true if photoType is 'profile'
+						@scope.userForBox[key].removing = false
+					else
+						@alert response.data.message, "Error..."
+			, 900
+
+	uploadPhoto: ($event, photoType) =>
+		$event.preventDefault()
+		@scope.userForBox["#{photoType}Photo"].uploading = true
+		@showPhotoModal(photoType)
+		@timeout =>
+			$("##{photoType}Photo_uploader").focus().trigger('click')
+		, 250
+
+	denoteUploading: (element) =>
+		photoType = $(element).data('type')
+		@scope.userForBox["#{photoType}Photo"].uploading = true
+		@scope.userForBox["#{photoType}Photo"].errors = ""
+
+	imageUploadError: (error, element) =>
+		photoType = $(element).data('type')
+		@scope.userForBox["#{photoType}Photo"].errors = error
+		@timeout =>
+			@scope.userForBox["#{photoType}Photo"].uploading = false
+		, 300
+
+	downloadPhoto: ($event, photoType) =>
+		$event.preventDefault()
+
+	showPhotoModal: (photoType) =>
+		photoKey = "#{photoType}Photo"
+		holderId = "#{photoKey}_holder"
+		tpl = $("#edit_#{photoKey}").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#edit#{photoKey}Modal").modal()
+
+	showProfilePhotoCropper: (holderId, photoType, width, height) =>
+		@scope.userForBox["#{photoType}Photo"].errors = ""
+		@timeout =>
+			@scope.userForBox["#{photoType}Photo"].uploading = false
+		, 500
+		$element = document.getElementById(holderId)
+		@scope.userForBox.photoCrop.cropper = new Cropper $element,
+			checkOrientation: true
+			checkCrossOrigin: true
+			minCropBoxWidth: width
+			minCropBoxHeight: height
+			center: true
+			cropBoxResizable: false
+			viewMode: if photoType is 'cover' then 3 else 1
+			dragMode: 'none'
+		@timeout =>
+			containerData = @scope.userForBox.photoCrop.cropper.getContainerData()
+			@scope.userForBox.photoCrop.cropper.setCropBoxData
+				width: width
+				height: height
+				left: (containerData.width / 2) - (width / 2)
+				top: (containerData.height / 2) - (height / 2)
+			if photoType is 'coverPhoto'
+				@scope.userForBox.photoCrop.cropper.zoomTo .5,
+					x: containerData.width / 2
+					y: containerData.height / 2
+		, 350
+
+	rotatePhoto: (deg) =>
+		@scope.userForBox.photoCrop.cropper.rotate(deg, null)
+		@scope.userForBox.photoCrop.cropper.crop()
+
+	zoomPhoto: (factor) =>
+		@scope.userForBox.photoCrop.cropper.zoom(factor, null)
+
+	movePhoto: (x, y) =>
+		@scope.userForBox.photoCrop.cropper.move(x, y)
+
+	scalePhotoX: ($event) =>
+		factor = @scope.userForBox.photoCrop.scaleX
+		@scope.userForBox.photoCrop.cropper.scaleX(-factor)
+		@scope.userForBox.photoCrop.scaleX = -factor
+
+	scalePhotoY: ($event) =>
+		factor = @scope.userForBox.photoCrop.scaleY
+		@scope.userForBox.photoCrop.cropper.scaleY(-factor)
+		@scope.userForBox.photoCrop.scaleY = -factor
+
+	resetPhoto: =>
+		@scope.userForBox.photoCrop.cropper.reset()
+
+	cropPhoto: =>
+		@scope.userForBox.photoCrop.cropper.crop()
+
+	saveCroppedPhoto: ($event, photoType) =>
+		$event.preventDefault()
+		@scope.userForBox.photoCrop.cropper.crop()
+		@scope.userForBox[photoType].uploading = true
+		settings =
+			width: (@scope.userForBox[photoType].width * 2),
+			minWidth: (@scope.userForBox[photoType].width * 2),
+			height: (@scope.userForBox[photoType].height * 2),
+			minHeight: (@scope.userForBox[photoType].height * 2),
+			imageSmoothingEnabled: true,
+			imageSmoothingQuality: 'high'
+		@scope.userForBox.photoCrop.cropper.getCroppedCanvas(settings).toBlob (blob) =>
+			formData = new FormData()
+			formData.append('photo', blob)
+			formData.append('mode', photoType)
+			formData.append('user_id', @scope.userForBox.id)
+			$.ajax '/admin/update-user-photo',
+				method: "PUT"
+				data: formData
+				processData: false
+				contentType: false
+				success: (response) =>
+					if response.status is 'error'
+						@savePhotoError response.message, photoType
+					else
+						@timeout =>
+							@scope.userForBox[photoType].originalSrc = @scope.userForBox.photoCrop.cropper.getCroppedCanvas().toDataURL('image/jpeg')
+							@scope.userForBox[photoType].uploading = false
+							@scope.userForBox.profilePhoto.isDefault = false if photoType is 'profilePhoto'
+							@cancelEditPhoto(photoType)
+							@confirm "Would you also like to send an email to this member to alert them of this newly uploaded photo?", =>
+								@sendNewPhotoAlertEmail(photoType)
+							, null, "Send email alert?", ["No", "Yes, send email"]
+						, 750
+				error: (error) =>
+					@savePhotoError error.statusText, photoType
+
+	sendNewPhotoAlertEmail: (photoType) =>
+		type = if photoType == 'profilePhoto' then 'profile' else 'cover'
+		@http.get("/admin/send-new-photo-alert-email/#{type}/#{@scope.userForBox.id}")
+
+	savePhotoError: (msg, photoType) =>
+		console.log msg
+		@scope.$apply =>
+			@scope.userForBox[photoType].uploading = false
+			@scope.userForBox[photoType].errors = "Error uploading new photo: #{msg}"
+
+	cancelEditPhoto: (photoType) =>
+		@scope.userForBox[photoType].source = ''
+		@scope.userForBox.photoCrop.cropper.destroy()
+		$("#edit#{photoType}Modal").modal('hide')
+		$("#{photoType}_holder").attr("src", "")
+		$("##{photoType}_uploader").val('')
+
 
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

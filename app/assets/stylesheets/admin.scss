@@ -3,6 +3,7 @@
 @import "bootstrap";
 @import "colours";
 @import "angular1-confirm/css/angular-confirm";
+@import "cropperjs/dist/cropper";
 
 .w-33 {
 	width: 33.3%;
@@ -393,5 +394,50 @@
 	.btn {
 		padding-left: 50px;
 		padding-right: 50px;
+	}
+}
+
+#editprofilePhotoModal {
+	form .inner {
+		height: 350px;
+	}
+}
+
+#editcoverPhotoModal {
+	.modal-dialog {
+		max-width: 660px;
+
+		form .inner {
+			height: 190px;
+		}
+	}
+}
+
+#editprofilePhotoModal,
+#editcoverPhotoModal {
+	.modal-header {
+		button {
+			line-height: 1em;
+			padding-right: 6px !important;
+
+			&:hover,
+			&:active {
+				color: inherit;
+			}
+		}
+	}
+
+	.modal-content {
+
+		form .inner {
+			input.replace_file_input {
+			  position: absolute;
+			  left: -9999px;
+			}
+
+			.editing_photo_holder {
+				max-width: 100%;
+			}
+		}
 	}
 }

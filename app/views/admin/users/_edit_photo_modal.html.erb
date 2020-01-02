@@ -3,34 +3,37 @@
     <div class="modal-content">
 
     	<div class="modal-header d-flex justify-content-between bg-grey">
-  			<h5 class="mb-2 mt-1" ng-if="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">Upload your <%= type %> photo</h5>
+  			<h5 class="mb-2 mt-1" ng-if="userForBox.<%= type %>Photo.src.length == 0" class="pb-5">Upload your <%= type %> photo</h5>
 
-  			<h5 class="mb-2 mt-1" ng-if="profile.data.<%= type %>Photo.source.length > 0">Position and size <%= type %> photo</h5>
+  			<h5 class="mb-2 mt-1" ng-if="userForBox.<%= type %>Photo.src.length > 0">Position and size <%= type %> photo</h5>
 
-				<button data-dismiss="modal" class="btn btn-link" ng-show="profile.data.<%= type %>Photo.source.length == 0">
+				<button data-dismiss="modal" class="btn btn-link"
+									ng-show="userForBox.<%= type %>Photo.src.length == 0">
 					<i class="fas fa-times text-green"></i>
 				</button>
 
     	</div>
 
       <div class="modal-body">
-	    	<p ng-show="profile.errors.photo" class="alert alert-danger">{{profile.errors.photo}}</p>
+	    	<p ng-show="userForBox.<%= type %>Photo.errors" class="alert alert-danger">{{userForBox.<%= type %>Photo.errors}}</p>
 
   			<button id="upload_<%= type %>Photo_btn" class="btn btn-success add_photo btn-block mt-4"
-  								ng-show="profile.data.<%= type %>Photo.source.length == 0" class="pb-5">
-  				<span ng-if="profile.data.<%= type %>Photo.uploading">Uploading...</span>
-  				<span ng-if="!profile.data.<%= type %>Photo.uploading">Choose a photo</span>
+  								ng-show="userForBox.<%= type %>Photo.src.length == 0"
+  								ng-click="uploadPhoto($event, '<%= type %>')"
+  								class="pb-5">
+  				<span ng-if="userForBox.<%= type %>Photo.uploading">Uploading...</span>
+  				<span ng-if="!userForBox.<%= type %>Photo.uploading">Choose a photo</span>
 				</button>
 
 				<section class="edit_photo_box">
-					<form ng-show="profile.data.<%= type %>Photo.source.length > 0">
-						<div class="inner">
-							<input type="file" id="<%= type %>Photo_uploader" fileread="profile.data.<%= type %>Photo.source" class="replace_file_input" ng-show="profile.data.<%= type %>Photo.source.length == 0" data-type="<%= type %>" />
+					<form ng-show="userForBox.<%= type %>Photo.src.length > 0">
+						<div class="inner" style="overflow: hidden;">
+							<input type="file" id="<%= type %>Photo_uploader" fileread="userForBox.<%= type %>Photo.src" class="replace_file_input" ng-show="userForBox.<%= type %>Photo.src.length == 0" data-type="<%= type %>" />
 
-							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(profile.data.<%= type %>Photo.source)}}" alt="New <%= type %> photo" ng-show="profile.data.<%= type %>Photo.source.length > 0" ng-cloak />
+							<img id="<%= type %>Photo_holder" data-type="<%= type %>Photo" class="editing_photo_holder" ng-src="{{trustSrc(userForBox.<%= type %>Photo.src)}}" alt="" ng-show="userForBox.<%= type %>Photo.src.length > 0" ng-cloak />
 						</div>
 
-						<div class="docs-buttons"  ng-show="profile.data.<%= type %>Photo.source.length > 0">
+						<div class="docs-buttons"  ng-show="userForBox.<%= type %>Photo.src.length > 0">
 			        <div class="btn-group d-flex justify-content-center">
 			          <button type="button" class="btn btn-primary" ng-click="zoomPhoto(0.1)" title="Zoom In">
 			            <span class="docs-tooltip" data-toggle="tooltip" title="")">
@@ -90,22 +93,22 @@
 			        </div>
 			      </div>
 
-						<div class="buttons d-flex justify-content-between pt-4 px-md-3" ng-show="profile.data.<%= type %>Photo.source.length > 0">
+						<div class="buttons d-flex justify-content-between pt-4 px-md-3" ng-show="userForBox.<%= type %>Photo.src.length > 0">
 							<button ng-click="cancelEditPhoto('<%= type %>Photo')"
 											class="btn btn-danger w-50 mr-2 mr-md-3"
-											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
-											ng-disabled="profile.data.<%= type %>Photo.uploading != false">
+											ng-class="{'disabled': userForBox.<%= type %>Photo.uploading != false}"
+											ng-disabled="userForBox.<%= type %>Photo.uploading != false">
 											<i class="fas fa-times"></i>
 											Cancel
 							</button>
 
 							<button ng-click="saveCroppedPhoto($event, '<%= type %>Photo')"
 											class="btn btn-success w-50 ml-2 ml-md-3"
-											ng-class="{'disabled': profile.data.<%= type %>Photo.uploading != false}"
-											ng-disabled="profile.data.<%= type %>Photo.uploading != false">
+											ng-class="{'disabled': userForBox.<%= type %>Photo.uploading != false}"
+											ng-disabled="userForBox.<%= type %>Photo.uploading != false">
 											<i class="fas fa-upload"></i>
-								<span ng-if="profile.data.<%= type %>Photo.uploading == false">Upload</span>
-								<span ng-if="profile.data.<%= type %>Photo.uploading != false">Uploading...</span>
+								<span ng-if="userForBox.<%= type %>Photo.uploading == false">Upload</span>
+								<span ng-if="userForBox.<%= type %>Photo.uploading != false">Uploading...</span>
 							</button>
 						</div>
 

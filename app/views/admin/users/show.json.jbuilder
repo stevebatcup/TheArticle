@@ -20,8 +20,34 @@ if @full_details
 	json.isContributor @user.is_author? ? "Yes" : "No"
 	json.signupIpAddress @user.signup_ip_address
 	json.signupLocation "#{@user.signup_ip_city}, #{@user.signup_ip_region}, #{@user.signup_ip_country}"
-	json.profilePhoto @user.profile_photo.url(:square)
-	json.coverPhoto @user.cover_photo.url(:desktop)
+
+	json.photoCrop do
+		json.cropper nil
+		json.scaleX 1
+		json.scaleY 1
+	end
+
+	json.profilePhoto do
+		json.src ''
+		json.originalSrc @user.profile_photo.url
+		json.isDefault @user.has_default_profile_photo
+		json.removing false
+		json.uploading false
+		json.error nil
+		json.width 300
+		json.height 300
+	end
+
+	json.coverPhoto do
+		json.src ''
+		json.originalSrc @user.cover_photo.url(:desktop)
+		json.removing false
+		json.uploading false
+		json.error nil
+		json.width 570
+		json.height 114
+	end
+
 	json.authorId @user.author_id.to_i if @user.author_id.present?
 	json.genuineVerified @user.verified_as_genuine
 	json.newEmail do
@@ -31,12 +57,14 @@ if @full_details
 		json.sending false
 		json.sent false
 	end
+
 	json.notificationSettings do
 		json.followers @user.notification_settings.find_by(key: :email_followers).humanise_value
 		json.categorisations @user.notification_settings.find_by(key: :email_exchanges).humanise_value
 		json.weeklyNewsletter @user.opted_into_weekly_newsletters? ? "Yes" : "No"
 		json.offers @user.opted_into_offers? ? "Yes" : "No"
 	end
+
 	json.set! :muting do
 		json.array! @user.mutes.active.map(&:muted) do |user|
 			json.id user.id
@@ -49,6 +77,7 @@ if @full_details
 			json.name user.full_name
 		end
 	end
+
 	json.set! :blocking do
 		json.array! @user.blocks.active.map(&:blocked) do |user|
 			json.id user.id
