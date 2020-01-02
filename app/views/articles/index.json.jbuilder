@@ -6,7 +6,7 @@ else
 		json.array! @articles do |article|
 			image_size = browser.device.mobile? ? :cover_mobile : :listing_desktop
 			json.id article.id
-			json.title strip_tags(article.title)
+			json.title article.title.html_safe
 			json.excerpt article_excerpt_for_listing(article).html_safe
 			json.path article_path(article)
 			json.isNew article.is_newly_published?
