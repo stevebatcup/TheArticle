@@ -4,6 +4,7 @@ class Author < ApplicationRecord
 	belongs_to	:author_role, foreign_key: :role_id
   mount_uploader :image, AuthorImageUploader
 	has_one	:user
+	before_save	:update_mailchimp_list_subscription
 
 	def self.the_article_staff
 		where("email LIKE '%@thearticle.com%'")
@@ -255,4 +256,16 @@ class Author < ApplicationRecord
 	def all_articles
 		Article.where("(author_id = #{self.id} OR additional_author_id = #{self.id})").includes(:exchanges).references(:exchanges)
 	end
+
+	def update_mailchimp_list_subscription
+		if on_mailchimp_list_changed?
+			if on_mailchimp_list
+				MailchimperService.subscribe_author_to_mailchimp_list(self)
+			else
+				MailchimperService.remove_author_from_mailchimp_list(self)
+			end
+		end
+	end
+
 end
+

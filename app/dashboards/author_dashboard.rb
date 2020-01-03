@@ -31,6 +31,7 @@ class AuthorDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     article_count: Field::Number,
     youtube_url: Field::String,
+    on_mailchimp_list: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -40,35 +41,28 @@ class AuthorDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :display_name,
+    :email,
     :articles,
+    :on_mailchimp_list
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :articles,
-    :author_role,
-    :user,
-    :id,
-    :wp_id,
     :display_name,
-    :role_id,
+    :author_role,
     :email,
     :first_name,
     :last_name,
-    :slug,
-    :image,
-    :wp_image_id,
     :url,
     :title,
     :blurb,
     :twitter_handle,
     :facebook_url,
     :instagram_username,
-    :created_at,
-    :updated_at,
-    :article_count,
     :youtube_url,
+    :on_mailchimp_list,
+    :articles,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -76,6 +70,7 @@ class AuthorDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :slug,
+    :on_mailchimp_list
   ].freeze
 
   # Overwrite this method to customize how authors are displayed
