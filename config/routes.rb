@@ -128,6 +128,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
+    resources :authors
     resources :help_sections
     resources :help_contents
     get 'set_users_per_page', to: 'users#set_records_per_page'
