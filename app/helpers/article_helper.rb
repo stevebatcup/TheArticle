@@ -61,7 +61,7 @@ module ArticleHelper
 				id: article.id,
 				snippet: article_excerpt_for_listing(article, 160),
 				image: article.image.url(:cover_mobile),
-				title: strip_tags(article.title),
+				title: article.title.html_safe,
 				publishedAt: article_date(article),
 				path: article_path(article),
 				ratingCount: article.shares.where(share_type: 'rating').size,
