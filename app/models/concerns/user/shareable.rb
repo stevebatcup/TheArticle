@@ -43,6 +43,10 @@ module User::Shareable
     self.save
   end
 
+  def posts
+    self.shares.where("post > ''")
+  end
+
   module ClassMethods
     def set_all_share_counts
       User.all.each { |user| user.set_share_counts }

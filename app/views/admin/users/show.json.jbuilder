@@ -118,6 +118,19 @@ if @full_details
 		end
 	end
 
+	json.set! :posts do
+		json.array! @user.posts.order(id: :desc).each do |post|
+			json.id post.id
+			json.path "/admin/shares/#{post.id}"
+			json.article do
+				json.title sanitize(truncate(post.article.title.html_safe, length: 120, escape: false, separator: /\s/, omission: ' ...'))
+				json.path post.article.remote_article_url.present? ? post.article.remote_article_url : "/#{post.article.slug}"
+			end
+			json.precis sanitize(truncate(post.post.html_safe, length: 120, escape: false, separator: /\s/, omission: ' ...'))
+			json.createdAt post.created_at.strftime("%Y-%m-%d %H:%M")
+		end
+	end
+
 	json.set! :comments do
 		json.array! @user.comments.order(id: :desc).each do |comment|
 			json.path "/admin/comments/#{comment.id}"

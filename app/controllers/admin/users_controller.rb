@@ -278,6 +278,18 @@ module Admin
       end
     end
 
+    def delete_post
+      if share = Share.find_by(id: params[:id])
+        if share.destroy
+          render json: { status: :success }
+        else
+          render json: { status: :error, message: better_model_error_messages(share) }
+        end
+      else
+        render json: { status: :error, message: "Post not found" }
+      end
+    end
+
   private
 
     def query_is_digits_only?

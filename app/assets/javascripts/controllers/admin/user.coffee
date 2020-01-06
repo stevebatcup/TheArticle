@@ -350,7 +350,6 @@ class TheArticle.User extends TheArticle.AdminPageController
 		@http.get("/admin/send-new-photo-alert-email/#{type}/#{@scope.userForBox.id}")
 
 	savePhotoError: (msg, photoType) =>
-		console.log msg
 		@scope.$apply =>
 			@scope.userForBox[photoType].uploading = false
 			@scope.userForBox[photoType].errors = "Error uploading new photo: #{msg}"
@@ -362,5 +361,27 @@ class TheArticle.User extends TheArticle.AdminPageController
 		$("#{photoType}_holder").attr("src", "")
 		$("##{photoType}_uploader").val('')
 
+	deletePost: ($event, id) =>
+		$event.preventDefault()
+		q = "Are you sure you wish to delete this post?"
+		@confirm q, =>
+			@confirmDeletePost(id)
+		, null, "Are you sure?", ["No", "Yes, delete it"]
+
+	confirmDeletePost: (id) =>
+		@http.delete("/admin/delete-post/#{id}").then (response) =>
+			if response.data.status is 'success'
+				@deletePostSuccess(id)
+			else if response.data.status is 'error'
+				@deletePostError(response.data.message)
+		, (error) =>
+			@deletePostError(error.statusText)
+
+	deletePostSuccess: (id) =>
+		@scope.userForBox.posts = _.filter @scope.userForBox.posts, (post) =>
+			post.id isnt id
+
+	deletePostError: (msg) =>
+		@alert "Error deleting post: #{msg}", "Error"
 
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)

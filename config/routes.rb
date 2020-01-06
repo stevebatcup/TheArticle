@@ -175,6 +175,7 @@ Rails.application.routes.draw do
     delete 'remove_photo/:photo_type/:user_id', to: 'users#remove_photo'
     put 'update-user-photo', to: 'users#update_photo'
     get 'send-new-photo-alert-email/:photo_type/:user_id', to: 'users#send_new_photo_alert_email'
+    delete 'delete-post/:id', to: 'users#delete_post'
     resources :shares
     resources :comments
     root to: "users#index"
