@@ -271,7 +271,7 @@ class Article < ApplicationRecord
 
 	def update_wp_cache(json)
 		self.slug = json["slug"]
-		self.title = json["title"]["rendered"]
+		self.title = json["proper_title"]
 		self.content = process_article_content_from_wp(json["content"]["rendered"])
 		self.excerpt = json["excerpt"]["rendered"]
 		self.author_id = json["author"]
