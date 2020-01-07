@@ -13,7 +13,10 @@ class LandingPageDashboard < Administrate::BaseDashboard
     slug: Field::String,
     intro: Field::Text,
     keyword_tags: Field::HasMany,
+    keyword_tag_list: Field::String,
     articles_heading: Field::String,
+    show_home_link: Field::Boolean,
+    status: Field::Enum,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -26,18 +29,18 @@ class LandingPageDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :heading,
     :slug,
+    :status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :id,
     :heading,
     :slug,
     :intro,
+    :status,
     :articles_heading,
-    :created_at,
-    :updated_at,
+    :keyword_tag_list,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -48,6 +51,8 @@ class LandingPageDashboard < Administrate::BaseDashboard
     :slug,
     :intro,
     :articles_heading,
+    :show_home_link,
+    :status,
     :keyword_tags
   ].freeze
 

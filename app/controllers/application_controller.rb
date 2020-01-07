@@ -182,6 +182,11 @@ class ApplicationController < ActionController::Base
 		messages.join
 	end
 
+	def footer_landing_page_links
+		LandingPage.for_homepage
+	end
+	helper_method	:footer_landing_page_links
+
 protected
 
 	def after_sign_out_path_for(resource_or_scope)

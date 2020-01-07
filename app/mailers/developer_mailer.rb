@@ -53,4 +53,15 @@ class DeveloperMailer < ApplicationMailer
 		send_mail(developer_email, developer_name, subject, body)
 	end
 
+	def landing_page_published(landing_page)
+		subject = "Laning page published"
+		merge_vars = {
+		  FNAME: developer_name,
+		  BODY: "<p>Landing page <b>'#{landing_page.heading}'</b> has been published.</p>
+		  			<p>Go reset the routes man!</p>"
+		}
+		body = mandrill_template("developer-tools", merge_vars)
+		send_mail(developer_email, developer_name, subject, body)
+	end
+
 end

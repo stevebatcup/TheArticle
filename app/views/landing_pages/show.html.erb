@@ -21,7 +21,7 @@
 
 
 	<div class="container mb-4">
-		<p class="landing_page_intro"><%= @landing_page.intro.html_safe %></p>
+		<p class="landing_page_intro"><%= simple_format(@landing_page.intro).html_safe %></p>
 	</div>
 
 	<%=

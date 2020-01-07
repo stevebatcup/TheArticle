@@ -198,7 +198,10 @@
       <div class="col-md-0 col-lg-4 text-center pt-2 d-none d-lg-flex">
         <p class="mt-2 text-center w-100">
           <small>
-            <a class="text-green py-0 mr-3" href="/latest-on-brexit">Latest on Brexit</a>
+            <% footer_landing_page_links.each_with_index do |link, index| %>
+              <a class="text-green py-0" href="/<%= link.slug %>"><%= link.heading %></a>
+              <% if footer_landing_page_links.length > 1 && index+1 != footer_landing_page_links.length %><span class="mx-2"> | </span><% end %>
+            <% end %>
           </small>
         </p>
       </div>

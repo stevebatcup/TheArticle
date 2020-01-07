@@ -159,6 +159,7 @@ Rails.application.routes.draw do
     resources :email_logs
     resources :exchanges
     resources :landing_pages
+    resources :keyword_tags
     get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
     get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
     get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'

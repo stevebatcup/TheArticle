@@ -80,6 +80,9 @@ GEM
       administrate (< 1.0.0)
       flatpickr_rails (~> 0.0.2)
       rails (>= 4.2, < 6)
+    administrate-field-enum (0.0.8)
+      administrate
+      rails (>= 4.2, <= 6.0)
     administrate_collapsible_navigation (0.0.2)
       administrate (>= 0.11.0)
       rails (>= 4.2, < 6.0)
@@ -429,6 +432,7 @@ DEPENDENCIES
   acts_as_commentable_with_threading
   administrate (>= 0.10.0)
   administrate-field-date_picker (~> 0.1.0)
+  administrate-field-enum
   administrate_collapsible_navigation
   angularjs-rails
   angularjs-rails-resource (~> 2.0.0)
