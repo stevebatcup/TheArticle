@@ -1005,6 +1005,14 @@ div.new_article {
 	  		line-height: 1.09em;
 	  	}
 
+	  	.author_link {
+	  		.sponsored_article & {
+	  			.written_by {
+	  				margin-bottom: 2.7em;
+	  			}
+	  		}
+	  	}
+
 	  	.img_mask {
 	      height: 47%;
 	     }
