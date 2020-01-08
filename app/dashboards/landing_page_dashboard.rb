@@ -29,6 +29,7 @@ class LandingPageDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :heading,
     :slug,
+    :show_home_link,
     :status
   ].freeze
 
