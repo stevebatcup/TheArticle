@@ -24,7 +24,11 @@ else
 					json.path contributor_path(slug: article.additional_author.slug)
 				end
 			end
-			json.exchanges article.exchanges do |exchange|
+			exchanges = article.exchanges
+			if article.additional_author.present? && exchanges.length > 2
+				exchanges = exchanges.slice(0, 2)
+			end
+			json.exchanges exchanges do |exchange|
 				json.slug exchange.slug
 				json.path exchange_badge_url(exchange)
 				json.isSponsored exchange.slug == 'sponsored'
