@@ -65,7 +65,15 @@ as defined by the routes in the `admin/` namespace
 				</ul>
 			</li>
 			<li>
-				<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/watch_list_users') %>" href="/admin/watch_list_users">Watchlist</a>
+				<span class="navigation__link">Watchlist</span>
+				<ul class="children">
+					<li>
+						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/pending_watch_list_users') %>" href="/admin/pending_watch_list_users">New  <span class="badge attention"><%= pending_watch_list_user_count %></span></a>
+					</li>
+					<li>
+						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/in_review_watch_list_users') %>" href="/admin/in_review_watch_list_users">In review  <span class="badge"><%= in_review_watch_list_user_count %></span></a>
+					</li>
+				</ul>
 			</li>
 			<li>
 				<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/black_list_users') %>" href="/admin/black_list_users">Blacklist</a>

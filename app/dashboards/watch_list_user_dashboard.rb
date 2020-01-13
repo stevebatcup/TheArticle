@@ -8,12 +8,14 @@ class WatchListUserDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    user: Field::BelongsTo,
+    user: OpenAccountField,
     id: Field::Number,
-    reason: Field::Text,
+    reason: Field::Number,
+    humanised_reason: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    admin_user_name: Field::String
+    admin_user_name: Field::String,
+    status: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -23,34 +25,29 @@ class WatchListUserDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :user,
-    :id,
+    :humanised_reason,
+    :admin_user_name,
     :created_at,
-    :admin_user_name
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :user,
-    :id,
-    :reason,
+    :humanised_reason,
     :created_at,
-    :updated_at,
     :admin_user_name
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :user,
-    :reason,
-  ].freeze
+  FORM_ATTRIBUTES = [].freeze
 
   # Overwrite this method to customize how watch list users are displayed
   # across all pages of the admin dashboard.
   #
   def display_resource(watch_list_user)
-    "Watchlisted user #{watch_list_user.user.username}"
+    "Watchlisted user '#{watch_list_user.user.full_name}'"
   end
 end

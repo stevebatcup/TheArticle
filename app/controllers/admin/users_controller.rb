@@ -82,7 +82,7 @@ module Admin
       respond_to do |format|
         format.json do
           if user = User.find_by(id: params[:user_id])
-            user.add_to_watchlist("Added from admin", current_user)
+            user.add_to_watchlist(:added_by_admin, current_user)
             render json: { status: :success }
           else
             render json: { status: :error }

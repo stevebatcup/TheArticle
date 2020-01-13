@@ -1,0 +1,77 @@
+<%#
+# Show
+
+This view is the template for the show page.
+It renders the attributes of a resource,
+as well as a link to its edit page.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Show][1].
+  Contains methods for accessing the resource to be displayed on the page,
+  as well as helpers for describing how each attribute of the resource
+  should be displayed.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
+%>
+
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+
+  <div>
+    <%= link_to(
+      t("administrate.actions.edit_resource", name: page.page_title),
+      [:edit, namespace, page.resource],
+      class: "button",
+    ) if valid_action?(:edit) && show_action?(:edit, page.resource) %>
+  </div>
+</header>
+
+<section class="main-content__body" ng-controller="WatchListUserController">
+  <dl>
+    <% page.attributes.each do |attribute| %>
+      <dt class="attribute-label" id="<%= attribute.name %>">
+      <%= t(
+        "helpers.label.#{resource_name}.#{attribute.name}",
+        default: attribute.name.titleize,
+      ) %>
+      </dt>
+
+      <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
+          ><%= render_field attribute, page: page %></dd>
+    <% end %>
+
+    <dt class="attribute-label"></dt>
+    <dd class="attribute-data">
+      <div class="btn-group btn-group-sm" role="group">
+        <button ng-click="removeItem($event, <%= page.resource.id %>, '<%= page.resource.is_a?(PendingWatchListUser) ? 'pending' : 'in_review' %>')"
+              class="btn btn-success"
+              ng-class="{'disabled': user.watchlisted}"
+              ng-disabled="user.watchlisted">
+              <i class="fas fa-times mr-2"></i>
+            <span ng-if="!user.watchlisted">Remove from watchlist</span>
+            <span ng-if="user.watchlisted">On watchlist</span>
+          </button>
+
+        <button ng-click="deleteAccount($event, <%= page.resource.id %>, '<%= page.resource.is_a?(PendingWatchListUser) ? 'pending' : 'in_review' %>')"
+                  class="btn btn-danger">
+            <i class="fas fa-trash mr-2"></i>
+            Delete user account
+        </button>
+
+        <% if page.resource.is_a?(PendingWatchListUser) %>
+          <button ng-click="sendToReview($event, <%= page.resource.id %>)"
+                    class="btn btn-info">
+              <i class="fas fa-send mr-2"></i>
+              Send to review
+          </button>
+        <% end %>
+      </div>
+    </dd>
+  </dl>
+</section>

@@ -36,9 +36,8 @@ module Admin
           share = QuarantinedThirdPartyShare.find(params[:id])
           if share.update_attributes({status: :rejected, handled_by_admin_user_id: current_user.id})
             NoticeMailer.reject_third_party_share(share).deliver_now
-            if share.user.has_reached_rejected_post_limit?
-              share.user.delete_account
-            end
+            share.user.add_to_watchlist(:quarantined_post_rejections) if share.user.has_enough_rejected_posts_for_watchlist? && !share.user.is_watchlisted?
+            share.user.delete_account if share.user.has_reached_rejected_post_limit?
             @status = :success
           else
             @status = :error

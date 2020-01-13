@@ -143,13 +143,19 @@ Rails.application.routes.draw do
     delete 'destroy_user', to: 'users#destroy', destroy: true
     resources :articles
     delete 'purge_article', to: 'articles#purge', destroy: true
+    # concern_reports
     resources :concern_reports
     resources :user_concern_reports
     resources :comment_concern_reports
     resources :share_concern_reports
     resources :processed_concern_reports
     get 'mark_concern_report_as_seen', to: 'concern_reports#update'
-    resources :watch_list_users
+    # watch_list
+    resources :pending_watch_list_users
+    resources :in_review_watch_list_users
+    delete 'remove_from_watch_list/:id', to: 'watch_list_users#remove'
+    delete 'delete_watch_list_account/:id', to: 'watch_list_users#delete_account'
+    post 'send_watch_list_item_to_review/:id', to: 'pending_watch_list_users#send_to_review'
     resources :black_list_users
     resources :concern_reports
     resources :quarantined_third_party_shares
