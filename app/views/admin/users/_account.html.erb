@@ -29,6 +29,9 @@
         <a data-toggle="tab" class="nav-link" href="#send_email_{{userForBox.id}}">Send email</a>
       </li>
       <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#admin_notes_{{userForBox.id}}">Admin notes</a>
+      </li>
+      <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#activity_log_{{userForBox.id}}">Activity</a>
       </li>
       <li class="nav-item">
@@ -504,7 +507,7 @@
         <dl style="overflow: hidden;">
           <dt class="">Subject</dt>
           <dd>
-            <input type='text' style="" ng-model="userForBox.newEmail.subject"></textarea>
+            <input type='text' style="" ng-model="userForBox.newEmail.subject" />
           </dd>
           <dt class="">Message</dt>
           <dd>
@@ -525,6 +528,37 @@
       </div>
     </div>
 
+    <div class="py-2 px-4 tab-pane fade" id="admin_notes_{{userForBox.id}}">
+      <div class="d-flex">
+        <div class="w-50 px-4 pt-4">
+          <p ng-if="userForBox.adminNotes.length == 0">There are no admin notes on this account</p>
+          <ol ng-if="userForBox.adminNotes.length > 0">
+            <li ng-repeat="note in userForBox.adminNotes" class="mb-3">
+              <span>{{note.note}}</span><br />
+              <b>Added by {{note.administrator}} on {{note.addedAt}}</b><br />
+              <a ng-click="editAdminNote($event, note)" class="text-info" href='#'>Edit</a> |
+              <a ng-click="deleteAdminNote($event, note)" class="text-red" href='#'>Delete</a>
+            </li>
+          </ol>
+        </div>
+
+        <div class="w-50 px-4">
+          <h5>Add a new note to {{userForBox.firstName}}'s account</h5>
+          <textarea ng-model="userForBox.newAdminNote.note" class="mb-2"></textarea>
+          <p class="alert alert-danger" ng-if="userForBox.newAdminNote.error">{{userForBox.newAdminNote.error}}</p>
+          <div class="d-flex justify-content-end">
+            <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.newAdminNote.added"></i>
+            <button class="btn btn-success" ng-click="addAdminNote($event)"
+                      ng-class="{'disabled': userForBox.newAdminNote.adding}"
+                      ng-disabled="userForBox.newAdminNote.adding">
+              <span ng-if="!userForBox.newAdminNote.adding">Add note</span>
+              <span ng-if="userForBox.newAdminNote.adding">Adding...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="py-2 px-4 tab-pane fade" id="activity_log_{{userForBox.id}}">
       <h5 class="mt-3">TO DO</h5>
       <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
@@ -537,7 +571,6 @@
     <div class="py-2 px-4 tab-pane fade" id="admin_interaction_{{userForBox.id}}">
       <h5 class="mt-3">TO DO</h5>
       <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>View admin notes on user’s account</li>
         <li>View communications with Admin – emails and contact form submissions and their replies (incl. from linked email addresses)</li>
       </ul>
     </div>

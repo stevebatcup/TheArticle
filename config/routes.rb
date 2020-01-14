@@ -179,6 +179,8 @@ Rails.application.routes.draw do
     delete 'delete_linked_account', to: 'users#delete_linked_account'
     post 'update-user-bio', to: 'users#update_bio'
     post 'send-email', to: 'users#send_email'
+    post 'add-note', to: 'users#add_note'
+    delete 'delete-note/:id', to: 'users#delete_note'
     delete 'remove_photo/:photo_type/:user_id', to: 'users#remove_photo'
     put 'update-user-photo', to: 'users#update_photo'
     get 'send-new-photo-alert-email/:photo_type/:user_id', to: 'users#send_new_photo_alert_email'

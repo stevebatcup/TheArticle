@@ -63,6 +63,8 @@ class User < ApplicationRecord
   has_many  :additional_emails
   has_many  :linked_accounts
 
+  has_many  :user_admin_notes
+
   belongs_to   :author, optional: true
 
   include Suggestable

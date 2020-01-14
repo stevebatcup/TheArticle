@@ -27,6 +27,21 @@ if @full_details
 		json.scaleY 1
 	end
 
+	json.newAdminNote do
+		json.note ''
+		json.adding false
+		json.added false
+		json.error false
+	end
+	json.set! :adminNotes do
+		json.array! @user.user_admin_notes.order(created_at: :desc) do |note|
+			json.id note.id
+			json.note note.note
+			json.administrator note.admin.full_name
+			json.addedAt note.created_at.strftime("%b %e, %Y at %H:%m")
+		end
+	end
+
 	json.profilePhoto do
 		json.src ''
 		json.originalSrc @user.profile_photo.url

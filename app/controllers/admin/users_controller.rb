@@ -225,6 +225,37 @@ module Admin
       end
     end
 
+    def add_note
+      if user = User.find_by(id: params[:user_id])
+        note = UserAdminNote.new({ user_id: user.id, note: params[:note], admin_user_id: current_user.id })
+        if note.save
+          note_for_response = {
+            id: note.id,
+            note: note.note,
+            administrator: current_user.full_name,
+            addedAt: note.created_at.strftime("%b %e, %Y at %H:%m")
+          }
+          render json: { status: :success, note: note_for_response }
+        else
+          render json: { status: :error, message: better_model_error_messages(note) }
+        end
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def delete_note
+      if note = UserAdminNote.find_by(id: params[:id])
+        if note.destroy
+          render json: { status: :success }
+        else
+          render json: { status: :error, message: better_model_error_messages(note) }
+        end
+      else
+        render json: { status: :error, message: "Admin note not found" }
+      end
+    end
+
     def remove_photo
       if user = User.find_by(id: params[:user_id])
         photo_key = "#{params[:photo_type]}_photo"

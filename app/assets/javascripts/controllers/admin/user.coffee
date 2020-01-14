@@ -384,4 +384,54 @@ class TheArticle.User extends TheArticle.AdminPageController
 	deletePostError: (msg) =>
 		@alert "Error deleting post: #{msg}", "Error"
 
+	addAdminNote: ($event) =>
+		$event.preventDefault()
+		@scope.userForBox.newAdminNote.error = false
+		if @scope.userForBox.newAdminNote.note.length is 0
+			@scope.userForBox.newAdminNote.error = 'Please type a note to add'
+		else
+			@scope.userForBox.newAdminNote.adding = true
+			data =
+				user_id: @scope.userForBox.id
+				note: @scope.userForBox.newAdminNote.note
+			@http.post("/admin/add-note", data).then (response) =>
+				if response.data.status is 'error'
+					@addAdminNoteError(response.data.message)
+				else if response.data.status is 'success'
+					@timeout =>
+						@scope.userForBox.newAdminNote.added = true
+						@scope.userForBox.newAdminNote.note = ''
+						@scope.userForBox.newAdminNote.adding = false
+						@scope.userForBox.adminNotes.unshift response.data.note
+						@timeout =>
+							@scope.userForBox.newAdminNote.added = false
+						, 5000
+					, 650
+			, (error) =>
+				@addAdminNoteError(error.statusText)
+
+	addAdminNoteError: (msg) =>
+		@alert msg, "Whoops!"
+		@scope.userForBox.newAdminNote.adding = false
+
+	deleteAdminNote: ($event, note) =>
+		$event.preventDefault()
+		q = "Are you sure you wish to delete this admin note?"
+		@confirm q, =>
+			@deleteAdminNoteConfirm(note)
+		, null, "Sure?", ["No", "Yes, delete it"]
+
+	deleteAdminNoteConfirm: (note) =>
+		@http.delete("/admin/delete-note/#{note.id}").then (response) =>
+			if response.data.status is 'error'
+				@deleteAdminNoteError(response.data.message)
+			else if response.data.status is 'success'
+				@scope.userForBox.adminNotes = _.reject @scope.userForBox.adminNotes, (item) =>
+					item.id is note.id
+		, (error) =>
+			@deleteAdminNoteError(error.statusText)
+
+	deleteAdminNoteError: (msg) =>
+		@alert msg, "Whoops!"
+
 TheArticle.ControllerModule.controller('UserController', TheArticle.User)
