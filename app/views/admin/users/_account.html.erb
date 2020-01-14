@@ -536,7 +536,6 @@
             <li ng-repeat="note in userForBox.adminNotes" class="mb-3">
               <span>{{note.note}}</span><br />
               <b>Added by {{note.administrator}} on {{note.addedAt}}</b><br />
-              <a ng-click="editAdminNote($event, note)" class="text-info" href='#'>Edit</a> |
               <a ng-click="deleteAdminNote($event, note)" class="text-red" href='#'>Delete</a>
             </li>
           </ol>
