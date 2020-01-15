@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_14_103005) do
+ActiveRecord::Schema.define(version: 2020_01_15_103757) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -491,6 +491,7 @@ ActiveRecord::Schema.define(version: 2020_01_14_103005) do
   create_table "search_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.string "term"
+    t.string "full_article_term"
     t.integer "all_results_count", default: 0
     t.integer "articles_results_count", default: 0
     t.integer "contributors_results_count", default: 0
