@@ -34,7 +34,11 @@ module User::Adminable
 	end
 
 	def add_to_watchlist(reason, admin_user=nil)
-		self.build_watch_list_user({reason: reason, added_by_admin_user_id: (admin_user.nil? ? nil : admin_user.id)})
+		self.build_watch_list_user({
+			reason: reason,
+			added_by_admin_user_id: admin_user.nil? ? nil : admin_user.id,
+			status: admin_user.nil? ? :pending : :in_review
+		})
 		self.save
 	end
 
