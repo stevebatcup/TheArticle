@@ -331,7 +331,7 @@ class Article < ApplicationRecord
 			service: :wordpress,
 			user_id: 0,
 			request_method: :update_exchange_feeds,
-			request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "title" => { "rendered" => self.title } },
+			request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "proper_title" => self.title.html_safe },
 			response: nil
 		}
 		ApiLog.webhook log_data
@@ -347,7 +347,7 @@ class Article < ApplicationRecord
 	  	service: :wordpress,
 	  	user_id: 0,
 	  	request_method: :send_email_notifications,
-	  	request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "title" => { "rendered" => self.title } },
+	  	request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "proper_title" => self.title.html_safe },
 	  	response: nil
 	  }
 	  ApiLog.webhook log_data
