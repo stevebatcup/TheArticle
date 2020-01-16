@@ -25,10 +25,10 @@ class ProfileSuggestionsController < ApplicationController
 					already_following_ids = current_user.followings.map(&:followed_id)
 					suggestions = current_user.pending_suggestions
 					ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 15) if suggestions.empty?
-					limit_to = 75
+					limit = params[:limit].present? ? params[:limit].to_i : 50
 
 					# Suggestions for you
-					@for_yous = suggestions.where.not("reason LIKE ?", 'popular_with_%').limit(limit_to).to_a
+					@for_yous = suggestions.where("reason NOT LIKE ?", 'popular_with_%').limit(limit).to_a
 					@for_yous.reject! do |suggestion|
 						already_following_ids.include?(suggestion.suggested_id)
 					end
@@ -43,7 +43,7 @@ class ProfileSuggestionsController < ApplicationController
 
 					# Popular suggestions
 					unless @from_wizard
-						populars_limit =  (limit_to * 2) - @for_yous.size
+						populars_limit =  (limit * 2) - @for_yous.size
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit).to_a
 						@populars.reject! do |suggestion|
 							already_following_ids.include?(suggestion.suggested_id)

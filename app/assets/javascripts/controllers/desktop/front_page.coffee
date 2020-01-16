@@ -410,7 +410,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
 	getSuggestions: (callback) =>
-		@http.get('/follow-suggestions').then (response) =>
+		@http.get('/follow-suggestions?limit=20').then (response) =>
 			if response.data.suggestions.populars.length is 0
 				list = response.data.suggestions.forYous
 			else if response.data.suggestions.populars.length < 16
