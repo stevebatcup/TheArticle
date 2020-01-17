@@ -115,38 +115,38 @@
         </div>
       </div>
     </header>
+  <% end %>
 
 
-    <% if user_signed_in? %>
-      <nav id="member_options" ng-cloak>
-        <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
-          <li class="nav-item">
-            <a class="nav-link" id="front-page-tab" href="/my-home">
-              <i class="fas fa-home"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="follows-tab" href="/my-home?route=following">
-              <i class="fas fa-users"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="search-tab" href="/my-home?route=search">
-              <i class="fas fa-search"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link <%= 'active' if params[:controller] == 'notifications' %>" id="notifications-tab" href="/notifications">
-              <i class="fas fa-bell"></i>
-              <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
-                <span ng-if="notificationBadgeCount > 99">99+</span>
-                <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    <% end %>
+  <% if user_signed_in? %>
+    <nav id="member_options" ng-cloak>
+      <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
+        <li class="nav-item">
+          <a class="nav-link" id="front-page-tab" href="/my-home">
+            <i class="fas fa-home"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="follows-tab" href="/my-home?route=following">
+            <i class="fas fa-users"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="search-tab" href="/my-home?route=search">
+            <i class="fas fa-search"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <%= 'active' if params[:controller] == 'notifications' %>" id="notifications-tab" href="/notifications">
+            <i class="fas fa-bell"></i>
+            <span class="badge badge-danger rounded-circle ng-cloak" ng-if="notificationBadgeCount > 0">
+              <span ng-if="notificationBadgeCount > 99">99+</span>
+              <span ng-if="notificationBadgeCount <= 99">{{notificationBadgeCount}}</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   <% end %>
 
   <%= render 'common/search-box' %>

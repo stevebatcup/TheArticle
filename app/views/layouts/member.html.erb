@@ -64,6 +64,7 @@
           </div>
         </div>
         </header>
+      <% end %>
 
         <nav id="member_options" ng-show="!appPage" ng-cloak>
         <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
@@ -93,7 +94,6 @@
           </li>
         </ul>
         </nav>
-      <% end %>
 
       <%= render 'common/search-box' %>
 
