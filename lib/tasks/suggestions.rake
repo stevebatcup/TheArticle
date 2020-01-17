@@ -1,5 +1,5 @@
 namespace :suggestions do
-	task :dedupe => :environment do
+	task dedupe: :environment do
 		dupes = ProfileSuggestion.select("COUNT(*) AS item_count, user_id, suggested_id")
 											.group("user_id, suggested_id")
 											.having("item_count > 1")
@@ -9,11 +9,17 @@ namespace :suggestions do
 		if dupes.any?
 			dupes.each do |dupe|
 				if item = ProfileSuggestion.find_by(user_id: dupe.user_id, suggested_id: dupe.suggested_id, status: 0)
-					# puts "Destroying #{item.id}"
 					item.destroy
 					sleep(1)
 				end
 			end
+		end
+	end
+
+	task archive_expired: :environment do
+		User.order(id: :asc).all.each do |user|
+			ProfileSuggestion.archive_expired_for_user(user)
+			sleep(1)
 		end
 	end
 end

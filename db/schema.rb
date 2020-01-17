@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_15_103757) do
+ActiveRecord::Schema.define(version: 2020_01_17_125801) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -449,17 +449,25 @@ ActiveRecord::Schema.define(version: 2020_01_15_103757) do
     t.integer "follow_id"
   end
 
+  create_table "profile_suggestion_archives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "suggested_id"
+    t.integer "reason_for_archive"
+    t.datetime "created_at"
+    t.index ["reason_for_archive"], name: "index_profile_suggestion_archives_on_reason_for_archive"
+    t.index ["suggested_id"], name: "index_profile_suggestion_archives_on_suggested_id"
+    t.index ["user_id"], name: "index_profile_suggestion_archives_on_user_id"
+  end
+
   create_table "profile_suggestions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "suggested_id"
     t.string "reason"
     t.integer "author_article_count", default: 0
-    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_article_count"], name: "index_profile_suggestions_on_author_article_count"
     t.index ["reason"], name: "index_profile_suggestions_on_reason", type: :fulltext
-    t.index ["status"], name: "index_profile_suggestions_on_status"
     t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
 

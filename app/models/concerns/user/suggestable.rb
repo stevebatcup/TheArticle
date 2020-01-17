@@ -5,21 +5,19 @@ module User::Suggestable
 
   def pending_suggestions
     self.profile_suggestions.includes(:suggested)
-          .where(status: :pending)
           .where(author_article_count: 0)
-          .where(users: { has_completed_wizard: true, status: User.statuses["active"] })
+          .where(users: { has_completed_wizard: true, status: :active })
   end
 
   def pending_author_suggestions(limit=10)
     self.profile_suggestions.includes(:suggested)
-          .where(status: :pending)
           .where("author_article_count > 0")
           .where.not(suggested_id: self.id)
           .limit(limit)
   end
 
   def paginated_pending_suggestions(page, per_page)
-    self.profile_suggestions.where(status: :pending).page(page).per(per_page)
+    self.profile_suggestions.page(page).per(per_page)
   end
 
   def generate_suggestions(is_new=false, limit=25)
@@ -30,6 +28,13 @@ module User::Suggestable
     # People already following
     self.followings.each do |following|
       existing_ids << following.followed_id
+    end
+
+    # Archived suggestions
+    self.profile_suggestion_archives.each do |suggestion|
+      unless existing_ids.include?(suggestion.suggested_id )
+        existing_ids << suggestion.suggested_id
+      end
     end
 
     # Following same exchanges
@@ -101,8 +106,7 @@ module User::Suggestable
       self.profile_suggestions.build({
         suggested_id: result[:user_id],
         reason: result[:reason],
-        author_article_count: result[:author_article_count],
-        status: :pending
+        author_article_count: result[:author_article_count]
       })
     end
     self.save
@@ -110,7 +114,11 @@ module User::Suggestable
 
   def accept_suggestion_of_user_id(user_id)
     if suggestion = self.profile_suggestions.find_by(suggested_id: user_id)
-      suggestion.update_attribute(:status, :accepted)
+      self.profile_suggestion_archives.create({
+        suggested_id: user_id,
+        reason_for_archive: :followed
+      })
+      suggestion.destroy
     end
     true
   end

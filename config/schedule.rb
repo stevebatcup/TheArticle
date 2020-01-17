@@ -47,8 +47,11 @@ every	1.day, at: '11:30 pm' do
 	rake "autofollow:charlotte"
 end
 
-every	30.minutes do
+every	2.hours do
 	rake "suggestions:dedupe"
+end
+every	1.day, at: '1:30 am' do
+	rake "suggestions:archive_expired"
 end
 
 every	15.minutes do
