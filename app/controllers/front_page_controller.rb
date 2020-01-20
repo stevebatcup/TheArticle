@@ -18,6 +18,7 @@ class FrontPageController < ApplicationController
 				@page = (params[:page] || 1).to_i
 				@per_page = (params[:per_page] || 10).to_i
 				@section = params[:section]
+				@bypass_article_feeds = @section == 'articles' && params[:bypass_article_feeds].present?
 				if (@page == 1) && (@section == 'articles')
 					@latest_articles = Article.latest.limit(20)
 					@sponsored_picks = Article.sponsored
@@ -31,7 +32,7 @@ class FrontPageController < ApplicationController
 																		.to_a
 					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				end
-				@feeds = Feed.fetch_user_feeds(current_user, false, @page, @per_page, @section)
+				@feeds = Feed.fetch_user_feeds(current_user, false, @page, @per_page, @section, @bypass_article_feeds)
 				@total_feeds = Feed.fetch_user_feeds(current_user, true, @page, @per_page, @section).length if @page == 1
 			end
 		end

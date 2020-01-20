@@ -175,7 +175,9 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	getFeeds: (section='articles', autoGet=false)=>
 		@scope.feeds[section].loading = true
-		@Feed.query({ page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }).then (response) =>
+		params = { page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }
+		params.bypass_article_feeds = 1 if section == 'articles'
+		@Feed.query(params).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				if section is 'posts'
 					if _.contains(@scope.feeds.posts.share_ids, feed.share.id)

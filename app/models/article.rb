@@ -511,4 +511,14 @@ class Article < ApplicationRecord
 		query = "#{query} | #{term.pluralize}" unless term == term.pluralize
 		query
 	end
+
+	def self.recent_within_exchanges(exchange_ids)
+		self.not_sponsored.not_remote
+			.includes(:keyword_tags).references(:keyword_tags)
+			.includes(:exchanges).references(:exchanges)
+			.includes(:author).references(:author)
+			.where(exchanges: { id: exchange_ids })
+			.order(published_at: :desc)
+	end
+
 end
