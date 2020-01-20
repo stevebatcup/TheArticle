@@ -33,7 +33,7 @@ class FrontPageController < ApplicationController
 					@trending_exchanges = Exchange.trending_list.all.to_a.shuffle
 				end
 				@feeds = Feed.fetch_user_feeds(current_user, false, @page, @per_page, @section, @bypass_article_feeds)
-				@total_feeds = Feed.fetch_user_feeds(current_user, true, @page, @per_page, @section).length if @page == 1
+				@total_feeds = Feed.fetch_user_feeds(current_user, true, @page, @per_page, @section, @bypass_article_feeds).length if @page == 1
 			end
 		end
 	end
