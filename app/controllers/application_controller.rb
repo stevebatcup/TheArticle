@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
 	def show_video_ads_only?
 		if viewing_from_admin
 			false
+		elsif is_development?
+			false
 		else
 			true
 		end

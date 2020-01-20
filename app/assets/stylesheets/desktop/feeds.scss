@@ -1,6 +1,17 @@
 .feed-listing {
 	margin-bottom: 10px;
 
+	#who_to_follow {
+		height: 312px;
+
+		p.loading {
+			text-align: center;
+			margin: 85px 0 0;
+			font-size: 1.8em;
+			color: #888;
+		}
+	}
+
 	#third_party_article_url_phantom {
 		height: 2.4em;
 

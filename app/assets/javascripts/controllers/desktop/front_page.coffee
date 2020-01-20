@@ -82,8 +82,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@scope.latestArticlesCarouselReady = {}
 
 		@scope.perPage = 16
-		@getSuggestions =>
-			@getFeeds('articles')
+		@getFeeds('articles')
 
 		@scope.myProfile = {}
 		@getMyProfile()
@@ -186,7 +185,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		@scope.feeds[section].page += 1
 		@getFeeds(section)
 
-	getFeeds: (section='articles', autoGet=false)=>
+	getFeeds: (section='articles', backgroundFetch=false)=>
 		@scope.feeds[section].loading = true
 		params = { page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }
 		params.bypass_article_feeds = 1 if section == 'articles'
@@ -222,18 +221,21 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 					@getFeeds('posts', true) unless @rootScope.profileDeactivated
 				else if section is 'posts'
 					@getFeeds('follows', true) unless @rootScope.profileDeactivated
+				else if section is 'follows' and backgroundFetch
+					@getSuggestions =>
+						@initSuggestionsCarousels('articles')
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 
-			@buildSuggestionsCarousel(section, autoGet)
-			@buildLatestArticlesCarousels(section, autoGet)
-			@buildSponsoredPicksCarousels(section, autoGet)
-			@buildTrendingExchangesCarousels(section, autoGet)
-			@buildFeaturedSponsoredPost(section, autoGet)
+			@buildSuggestionsCarousel section, backgroundFetch, (@scope.feeds[section].page is 1 && section is 'articles')
+			@buildLatestArticlesCarousels(section, backgroundFetch)
+			@buildSponsoredPicksCarousels(section, backgroundFetch)
+			@buildTrendingExchangesCarousels(section, backgroundFetch)
+			@buildFeaturedSponsoredPost(section, backgroundFetch)
 
-	buildSuggestionsCarousel: (section, autoGet=false) =>
+	buildSuggestionsCarousel: (section, backgroundFetch=false, firstArticlePage=false) =>
 		page = @scope.feeds[section].page
-		feedItem = { type: 'suggestion', isVisible: @scope.suggestions.length > 0, page: "#{section}_#{page}" }
+		feedItem = { type: 'suggestion', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 2
 		offset += (5 * (page - 1)) if page > 1
 		if @scope.feeds[section].data.length >= offset
@@ -241,7 +243,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initSuggestionsCarousels(section) unless (@scope.suggestionsCarouselReady[key] is true) or (autoGet)
+		@initSuggestionsCarousels(section) unless (@scope.suggestionsCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initSuggestionsCarousels: (section) =>
 		@timeout =>
@@ -265,7 +267,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@scope.suggestionsCarouselReady[key] = true
 		, 100
 
-	buildLatestArticlesCarousels: (section, autoGet=false) =>
+	buildLatestArticlesCarousels: (section, backgroundFetch=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'latestArticles', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 6
@@ -275,7 +277,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initLatestArticlesCarousels(section) unless (@scope.latestArticlesCarouselReady[key] is true) or (autoGet)
+		@initLatestArticlesCarousels(section) unless (@scope.latestArticlesCarouselReady[key] is true) or (backgroundFetch)
 
 	initLatestArticlesCarousels: (section) =>
 		@timeout =>
@@ -293,7 +295,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@scope.latestArticlesCarouselReady[key] = true
 		, 100
 
-	buildSponsoredPicksCarousels: (section, autoGet=false) =>
+	buildSponsoredPicksCarousels: (section, backgroundFetch=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'sponsoredPicks', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 10
@@ -303,7 +305,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initSponsoredPicksCarousels(section)  unless (@scope.sponsoredPicksCarouselReady[key] is true) or (autoGet)
+		@initSponsoredPicksCarousels(section)  unless (@scope.sponsoredPicksCarouselReady[key] is true) or (backgroundFetch)
 
 	initSponsoredPicksCarousels: (section) =>
 		@timeout =>
@@ -321,7 +323,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@scope.sponsoredPicksCarouselReady[key] = true
 		, 100
 
-	buildTrendingExchangesCarousels: (section, autoGet=false) =>
+	buildTrendingExchangesCarousels: (section, backgroundFetch=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'trendingExchanges', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 14
@@ -331,7 +333,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initTrendingExchangesCarousels(section) unless (@scope.trendingExchangesCarouselReady[key] is true) or (autoGet)
+		@initTrendingExchangesCarousels(section) unless (@scope.trendingExchangesCarouselReady[key] is true) or (backgroundFetch)
 
 	initTrendingExchangesCarousels: (section) =>
 		@timeout =>
