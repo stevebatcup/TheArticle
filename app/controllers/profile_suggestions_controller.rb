@@ -27,6 +27,7 @@ class ProfileSuggestionsController < ApplicationController
 					limit = params[:limit].present? ? params[:limit].to_i : 50
 
 					# Suggestions for you
+					@for_yous = []
 					unless params[:skip_for_yous].present?
 						@for_yous = suggestions.where("reason NOT LIKE ?", 'popular_with_%').limit(limit).to_a
 					end
