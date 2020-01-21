@@ -30,10 +30,12 @@ class ProfileSuggestionsController < ApplicationController
 					@for_yous = suggestions.where("reason NOT LIKE ?", 'popular_with_%').limit(limit).to_a
 
 					# Author suggestions
-					current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
-						insert_point = ((index+1) * 4) - 1
-						unless @for_yous[insert_point].nil?
-							@for_yous.insert(insert_point, author_suggestion)
+					unless params[:skip_authors].present?
+						current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
+							insert_point = ((index+1) * 4) - 1
+							unless @for_yous[insert_point].nil?
+								@for_yous.insert(insert_point, author_suggestion)
+							end
 						end
 					end
 
@@ -42,8 +44,6 @@ class ProfileSuggestionsController < ApplicationController
 						populars_limit =  (limit * 2) - @for_yous.size
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit).to_a
 					end
-
-					ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 15) if suggestions.empty?
 				end
 			end
 			format.html do
