@@ -163,6 +163,16 @@
 			height: 220px;
 		}
 
+		&.initialising {
+			display: inline-box;
+			display: -webkit-inline-box;
+
+			.slick-carousel-item {
+				width: 40%;
+				opacity: 0.1;
+			}
+		}
+
 		.slick-carousel-item {
 			margin: 0 5px;
 			font-size: 0.85em;

@@ -29,9 +29,9 @@ class ProfileSuggestionsController < ApplicationController
 
 					# Suggestions for you
 					@for_yous = suggestions.where("reason NOT LIKE ?", 'popular_with_%').limit(limit).to_a
-					@for_yous.reject! do |suggestion|
-						already_following_ids.include?(suggestion.suggested_id)
-					end
+					# @for_yous.reject! do |suggestion|
+					# 	already_following_ids.include?(suggestion.suggested_id)
+					# end
 
 					# Author suggestions
 					current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
@@ -45,9 +45,9 @@ class ProfileSuggestionsController < ApplicationController
 					unless @from_wizard
 						populars_limit =  (limit * 2) - @for_yous.size
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit).to_a
-						@populars.reject! do |suggestion|
-							already_following_ids.include?(suggestion.suggested_id)
-						end
+						# @populars.reject! do |suggestion|
+						# 	already_following_ids.include?(suggestion.suggested_id)
+						# end
 					end
 				end
 			end
