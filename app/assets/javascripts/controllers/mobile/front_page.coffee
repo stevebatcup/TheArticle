@@ -18,6 +18,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	]
 
 	init: ->
+		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		$('footer#main_footer_top').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
@@ -25,7 +26,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@bindEvents()
 		vars = @getUrlVars()
 		@disableBackButton() if 'from_wizard' of vars
-		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		@scope.selectedTab = 'articles'
 
 		@timeout =>
