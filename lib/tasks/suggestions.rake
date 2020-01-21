@@ -17,7 +17,7 @@ namespace :suggestions do
 	end
 
 	task archive_expired: :environment do
-		User.order(id: :asc).all.each do |user|
+		User.order(id: :desc).all.each do |user|
 			ProfileSuggestion.archive_expired_for_user(user)
 			sleep(1)
 		end
