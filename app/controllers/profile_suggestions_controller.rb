@@ -5,6 +5,7 @@ class ProfileSuggestionsController < ApplicationController
 		respond_to do |format|
 			format.json do
 				@from_wizard = params[:from_wizard].present?
+				@skip_extra_info = params[:skip_extra_info].present?
 				if params[:query]
 					@search_results = User.search_for_suggestions(current_user, params[:query])
 				elsif params[:use_bibblio] && current_user.on_bibblio?
@@ -22,16 +23,11 @@ class ProfileSuggestionsController < ApplicationController
 					end
 					@bibblio_results = @bibblio_results.uniq
 				else
-					already_following_ids = current_user.followings.map(&:followed_id)
 					suggestions = current_user.pending_suggestions
-					ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 15) if suggestions.empty?
 					limit = params[:limit].present? ? params[:limit].to_i : 50
 
 					# Suggestions for you
 					@for_yous = suggestions.where("reason NOT LIKE ?", 'popular_with_%').limit(limit).to_a
-					# @for_yous.reject! do |suggestion|
-					# 	already_following_ids.include?(suggestion.suggested_id)
-					# end
 
 					# Author suggestions
 					current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
@@ -45,10 +41,9 @@ class ProfileSuggestionsController < ApplicationController
 					unless @from_wizard
 						populars_limit =  (limit * 2) - @for_yous.size
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit).to_a
-						# @populars.reject! do |suggestion|
-						# 	already_following_ids.include?(suggestion.suggested_id)
-						# end
 					end
+
+					ProfileSuggestionsGeneratorJob.perform_later(current_user, false, 15) if suggestions.empty?
 				end
 			end
 			format.html do
