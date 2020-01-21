@@ -1,11 +1,14 @@
-<div class="bg-white pb-3 h-100">
+<div class="bg-white pb-3" id="trending_exchanges_for_feed">
 	<div class="pt-3 pb-1 px-2">
 		<h4 class="bullet card-title">Trending exchanges</h4>
 	</div>
+	<p ng-if="!trendingExchangesLoaded" class="loading">Loading trending exchanges...</p>
+
 	<div class="trending_exchanges exchanges trending_exchanges_carousel slick-carousel slide w-100"
 				data-page="{{item.page}}"
 				data-slideout-ignore
-				 data-carousel-only='1'>
+				 data-carousel-only='1'
+				 ng-if="trendingExchangesLoaded">
 	  <div ng-repeat="exchange in trendingExchanges"
 	  				class="mx-2 exchange-listing post slick-carousel-item"
 	  				id="carousel-latest-exchange-listing-{{ exchange.id }}"

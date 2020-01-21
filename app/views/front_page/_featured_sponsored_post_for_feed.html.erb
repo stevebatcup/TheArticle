@@ -1,0 +1,47 @@
+<div id="featured_sponsored_post_for_feed" class="card">
+	<p ng-if="!sponsoredPicksLoaded" class="loading">Loading...</p>
+
+	<div class="article_box" ng-if="sponsoredPicksLoaded">
+		<div class="inner">
+			<div class="img_mask">
+				<a ng-if="item.article.image" href="{{ item.article.path }}">
+					<img ng-src="{{ item.article.image }}" alt="{{ item.article.title }}" />
+				</a>
+			</div>
+
+			<a href="{{ exchange.path }}"
+					ng-repeat="exchange in item.article.exchanges"
+					ng-init='rand = initRandExchangeIndex()'
+					class="exchange-badge bg-colour-{{ $index+1 }}-dark exchange-{{ exchange.slug }}">
+		    <span ng-if="exchange.isSponsored"><i class="fas fa-star"></i></span>
+			  {{ exchange.name }}
+			</a>
+
+			<header class="entry-header pt-3 px-3">
+				<h4 class="entry-title mb-0" id="article-post-title-{{ item.article.id }}">
+					<a href="{{ item.article.path }}" ng-bind="item.article.title"></a>
+				</h4>
+			</header>
+
+			<div class="entry-content py-0 px-3">
+				{{ item.article.snippet }}
+			</div>
+
+			<footer class="entry-footer pt-1 px-3 pb-2">
+				<p class="author_link d-flex justify-content-between align-items-start">
+					<span ng-if="!item.article.additionalAuthor" class="written_by">
+						by <a href="{{ item.article.author.path }}">
+							<span ng-bind-html="item.article.author.name"></span>
+						</a>
+					</span>
+
+					<span ng-if="item.article.additionalAuthor" class="written_by">
+						by <a href="{{ item.article.author.path }}"><span ng-bind-html="item.article.author.name"></span></a>
+						&amp; <a href="{{ item.article.additionalAuthor.path }}"><span ng-bind-html="item.article.additionalAuthor.name"></span></a>
+					</span>
+
+					<span class="entry-date">{{ item.article.publishedAt }}</span></p>
+			</footer>
+		</div>
+	</div>
+</div>
