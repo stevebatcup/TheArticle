@@ -19,7 +19,7 @@ class FrontPageController < ApplicationController
 				@page = (params[:page] || 1).to_i
 				@per_page = (params[:per_page] || 10).to_i
 				@section = params[:section]
-				@bypass_article_feeds = @section == 'articles' && params[:bypass_article_feeds].present?
+				@bypass_article_feeds = (@section == 'articles' && params[:bypass_article_feeds].present?)
 				@feeds = Feed.fetch_user_feeds(current_user, false, @page, @per_page, @section, @bypass_article_feeds)
 				@total_feeds = Feed.fetch_user_feeds(current_user, true, @page, @per_page, @section, @bypass_article_feeds).length if @page == 1
 			end

@@ -185,7 +185,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	getFeeds: (section='articles', backgroundFetch=false)=>
 		@scope.feeds[section].loading = true
 		params = { page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }
-		params.bypass_article_feeds = 1 if section == 'articles'
+		# params.bypass_article_feeds = 1 if section == 'articles'
 		@Feed.query(params).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				if section is 'posts'
