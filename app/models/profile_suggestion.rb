@@ -47,7 +47,7 @@ class ProfileSuggestion < ApplicationRecord
       end
 
       if members.any?
-        if members.length == 1 || browser.device.mobile?
+        if members.length == 1
           sentence << "<div class='single'><img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' /></div>
                       <p>Followed by <b>#{members[0].display_name}</b></p>"
         elsif members.length == 2
