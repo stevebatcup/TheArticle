@@ -114,11 +114,7 @@ module User::Suggestable
 
   def accept_suggestion_of_user_id(user_id)
     if suggestion = self.profile_suggestions.find_by(suggested_id: user_id)
-      self.profile_suggestion_archives.create({
-        suggested_id: user_id,
-        reason_for_archive: :followed
-      })
-      suggestion.destroy
+      suggestion.follow
     end
     true
   end
