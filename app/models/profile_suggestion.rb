@@ -13,12 +13,20 @@ class ProfileSuggestion < ApplicationRecord
   			.each { |ps| ps.expire }
   end
 
+  def follow
+    self.user.profile_suggestion_archives.create({
+      suggested_id: self.suggested_id,
+      reason_for_archive: :followed
+    })
+    self.destroy
+  end
+
   def expire
-  	self.user.profile_suggestion_archives.create({
-  		suggested_id: self.suggested_id,
-  		reason_for_archive: :expired
-  	})
-  	self.destroy
+    self.user.profile_suggestion_archives.create({
+      suggested_id: self.suggested_id,
+      reason_for_archive: :expired
+    })
+    self.destroy
   end
 
   def ignore
