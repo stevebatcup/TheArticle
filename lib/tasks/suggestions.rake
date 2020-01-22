@@ -30,7 +30,7 @@ namespace :suggestions do
 		if users.any?
 			users.each do |user|
 				puts "Cleaning suggestions for user #{user.id}...."
-				user.pending_suggestions.each do |suggestion|
+				user.profile_suggestions.each do |suggestion|
 					if Follow.find_by(user_id: suggestion.user_id, followed_id: suggestion.suggested_id)
 						suggestion.follow
 						puts "Archived suggestion ID #{suggestion.id}."
