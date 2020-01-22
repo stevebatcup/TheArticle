@@ -216,6 +216,11 @@
 					img {
 						display: inline-block;
 					}
+
+					& + p {
+						margin-left: 2px;
+						top: 5px;
+					}
 				}
 
 				.single {
@@ -228,10 +233,15 @@
 					img {
 						display: inline-block;
 					}
+
+					& + p {
+						margin-left: 10px;
+						top: 6px;
+					}
 				}
 
 				p {
-					font-size: 0.85em;
+					// font-size: 0.85em;
 					width: 70%;
 				}
 			}
