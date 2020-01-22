@@ -56,7 +56,7 @@ class ProfileSuggestion < ApplicationRecord
         else
           other_count = members.size - 2
           sentence << "<div class='double'><img src='#{members[0].profile_photo.url(:square)}'' class='rounded-circle over' /><img src='#{members[1].profile_photo.url(:square)}'' class='rounded-circle under' /></div>
-                        <p>Followed by <b>#{members[0].display_name}</b>, <b>#{members[1].display_name}</b> and #{other_count} #{pluralize_without_count(other_count, 'other')} you know</p>"
+                        <p>Followed by <b>#{members[0].display_name}</b>, <b>#{members[1].display_name}</b> and #{other_count} #{ApplicationController.helpers.pluralize_without_count(other_count, 'other')} you know</p>"
         end
       end
       sentence
