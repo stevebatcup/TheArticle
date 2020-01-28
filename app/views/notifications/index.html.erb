@@ -95,7 +95,7 @@
 						<span>There are no notifications to see just now</span>
 					</p>
 
-					<div ng-repeat="item in notifications.data" class="col-12 notification px-0">
+					<div ng-repeat="item in notifications.data" class="col-12 notification px-0" ng-click="callNotificationAction(item, $event)">
 							<%= render 'notifications/card' %>
 					</div>
 				</div>
