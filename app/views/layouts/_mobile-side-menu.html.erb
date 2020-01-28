@@ -25,20 +25,10 @@
     <div id="follows_info" class="d-flex">
       <p>
         <span class="pr-1">
-          <% if use_app_links %>
-            <a href='#following' ng-click="openFollows('following')">
-          <% else %>
-            <a href="<%= front_page_path(route: 'following') %>">
-          <% end %>
-          Following <span class="text-muted pl-1">{{followCounts.followings}}</span></a>
+          <a href="<%= user_followings_path(tab: 'following') %>">Following <span class="text-muted pl-1">{{followCounts.followings}}</span></a>
         </span>
         <span class="pl-1">
-          <% if use_app_links %>
-            <a href='#followers' ng-click="openFollows('followers')">
-          <% else %>
-            <a href="<%= front_page_path(route: 'followers') %>">
-          <% end %>
-          Followers <span class="text-muted pl-1">{{followCounts.followers}}</span></a>
+          <a href="<%= user_followings_path(tab: 'followers') %>">Followers <span class="text-muted pl-1">{{followCounts.followers}}</span></a>
         </span>
       </p>
     </div>
@@ -48,12 +38,7 @@
     <h3 class="menu-section-title">My pages</h3>
     <ul class="list-unstyled menu-section-list">
       <li>
-        <% if use_app_links %>
-          <a href='#front_page' ng-click="openFrontPage()">
-        <% else %>
-          <a href='<%= front_page_path(route: '') %>'>
-        <% end %>
-        Home</a>
+        <a href='<%= front_page_path %>'>Home</a>
       </li>
       <li>
         <a href="/follow-suggestions">Follow suggestions</a>
@@ -85,16 +70,7 @@
     <h3 class="menu-section-title">Browse</h3>
     <ul class="list-unstyled menu-section-list">
       <li>
-        <% if user_signed_in? %>
-          <% if use_app_links %>
-            <a href='#search' ng-click="openSearch()">
-          <% else %>
-            <a href='<%= front_page_path(route: 'search') %>'>
-          <% end %>
-        <% else %>
-          <a href='#' ng-click="openSignedOutSearch($event)">
-        <% end %>
-        Search</a>
+        <a href='#search' class="search_trigger">Search</a>
       </li>
       <li>
         <a class="" href="/exchanges">Exchanges</a>

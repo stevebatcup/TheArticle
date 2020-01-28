@@ -1,7 +1,7 @@
 <%= render 'layouts/head' %>
 
 <% unless request.headers["X-MobileApp"] %>
-  <%= render partial: 'layouts/mobile-side-menu', locals: { use_app_links: false } %>
+  <%= render 'layouts/mobile-side-menu' %>
 
   <main id="panel_for_side_menu">
     <%= render('layouts/mobile-ad-top') if show_ads? %>
@@ -122,17 +122,17 @@
     <nav id="member_options" ng-cloak>
       <ul class="nav nav-pills nav-fill d-flex" ng-controller="AppBarController" data-signed-in="<%= user_signed_in? ? 1 : 0 %>">
         <li class="nav-item">
-          <a class="nav-link" id="front-page-tab" href="/my-home">
+          <a class="nav-link <%= 'active' if params[:controller] == 'front_page' %>" id="front-page-tab" href="/my-home">
             <i class="fas fa-home"></i>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="follows-tab" href="/my-home?route=following">
+          <a class="nav-link <%= 'active' if ['user_followings', 'profile_suggestions'].include?(params[:controller]) %>" id="follows-tab" href="/user_followings">
             <i class="fas fa-users"></i>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="search-tab" href="/my-home?route=search">
+          <a class="nav-link search_trigger <%= 'active' if params[:controller] == 'search' %>" id="search-tab" href="#">
             <i class="fas fa-search"></i>
           </a>
         </li>
@@ -151,7 +151,7 @@
 
   <%= render 'common/search-box' %>
 
-  <main id="main_content" ng-class="{'app_page': appPage == true}" class="<%= params[:controller] %>_<%= params[:action] %>" data-slideout-ignore>
+  <main id="main_content" class="<%= params[:controller] %>_<%= params[:action] %>" data-slideout-ignore>
     <%= yield %>
   </main>
 

@@ -13,11 +13,9 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 	]
 
 	init: ->
-		# console.log 'init follows'
 		@setDefaultHttpHeaders()
 		@scope.userId = @element.data('user-id')
 		@scope.isMe = @scope.userId is @element.data('current-user-id')
-		# console.log @scope.isMe
 		@scope.follows =
 			page: 1
 			perPage: 50
@@ -30,13 +28,15 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 				followers: []
 				connections: []
 				alsoKnowsMes: []
-		@scope.panelTab = 'following'
+		vars = @getUrlVars()
+		@scope.panelTab = if 'tab' of vars then vars['tab'] else 'following'
 		@bindEvents()
 		@timeout =>
 			@getFollows()
 		, 200
 
 	bindEvents: =>
+		super
 		@scope.$on 'follows_panel_open', (data, tab) =>
 			@scope.panelTab = tab
 
@@ -51,11 +51,8 @@ class TheArticle.Follows extends TheArticle.MobilePageController
 				@scope.follows.data.followings.push item
 			angular.forEach response.data.list.followers, (item) =>
 				@scope.follows.data.followers.push item
-			# console.log @scope.follows.data
 			@scope.follows.totalItems = response.data.total if @scope.follows.page is 1
-			# console.log @scope.follows.totalItems
 			@scope.follows.moreToLoad = @scope.follows.totalItems > (@scope.follows.page * @scope.follows.perPage)
-			# console.log @scope.follows.moreToLoad
 			if @scope.follows.moreToLoad is true
 				@loadMore()
 			else

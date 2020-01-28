@@ -224,10 +224,6 @@ private
   	response.headers["user_signed_in"] = user_signed_in? ? 1 : 0
   end
 
-	def set_layout
-		user_signed_in? && browser.device.mobile? ? 'member' : 'application'
-	end
-
 	def profile_wizard_layout_for_mobile
 		browser.device.mobile? ? 'profile-wizard' : 'application'
 	end
