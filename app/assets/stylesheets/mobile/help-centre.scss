@@ -7,6 +7,8 @@ section#help_centre {
 	}
 
 	#section_list {
+		padding: 0 3%;
+
 		li {
 			font-size: 1.2em;
 			margin-bottom: 0.6em;
@@ -33,6 +35,8 @@ section#help_centre {
 	}
 
 	.question_list {
+		padding: 0 3%;
+
 		li {
 			margin-bottom: 0.4em;
 		}
@@ -68,6 +72,13 @@ section#help_centre {
 			display: inline-block;
 			font-size: 19px;
 			color: #666;
+			font-weight: bold;
+			padding-bottom: 10px;
+		}
+
+		.feedback[data-outcome-show='yes'] {
+			font-weight: bold;
+			padding-bottom: 20px;
 		}
 	}
 
@@ -77,15 +88,32 @@ section#help_centre {
 		left: 15px;
 		color: #fff;
 		display: block;
-		z-index: 10051;
+		z-index: 9999;
 		font-size: 17px;
-		color: black !important;
+		color: black;
 
 		i, svg {
 			font-size: 19px;
 			position: relative;
 			left: -3px;
 			top: 1px;
+		}
+	}
+
+	body[data-mobile-app='1'] & {
+		#faq {
+			position: relative;
+			padding-bottom: 50px;
+
+			.back {
+				position: absolute;
+				top: unset;
+				bottom: 0;
+				left: 11px;
+				padding-bottom: 10px;
+				color: $green_dark;
+				font-weight: bold;
+			}
 		}
 	}
 }

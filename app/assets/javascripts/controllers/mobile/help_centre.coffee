@@ -64,17 +64,21 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.MobilePageContro
 			$clicked = $(e.currentTarget)
 			sectionId = $clicked.data('back-to')
 			$("#question_list_#{sectionId}").show()
-			$('#sidebarCollapse').show()
+			$('#sidebarCollapse').css({opacity: 1})
 
-		$('[data-feedback-id]').on 'click', (e) =>
+		$(document).on 'click', '[data-feedback-id]', (e) =>
 			e.preventDefault()
 			$clicked = $(e.currentTarget)
 			questionId = $clicked.data('feedback-id')
 			outcome = $clicked.data('feedback-outcome')
+			$('.feedback_question').hide()
+			$('.feedback_answer').hide()
+			$('.feedback_loading').show()
 			$.getJSON "/help-feedback/#{questionId}/#{outcome}", (response) =>
-				$('.feedback_question').hide()
-				$('.feedback_answer').hide()
-				$("[data-outcome-show=#{outcome}]").show()
+				@timeout =>
+					$('.feedback_loading').hide()
+					$("[data-outcome-show=#{outcome}]").show()
+				, 350
 
 		$('[data-toggle=collapser]').on 'click', (e) =>
 			e.preventDefault()
