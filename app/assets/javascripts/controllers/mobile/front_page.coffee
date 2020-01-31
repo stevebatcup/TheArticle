@@ -504,12 +504,15 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@ignoreSuggestedMember member.id, =>
 			@timeout =>
 				$carousels = $(".slick-carousel.suggestions")
-				slideIndex = $($event.currentTarget).closest('[data-slick-index]').data('slick-index')
+				userId = $($event.currentTarget).closest('[data-slick-index]').data('user-id')
 				$carousels.each (cIndex, carousel) =>
 					$carousel = $(carousel)
 					section = $carousel.closest('[data-section]').data('section')
 					if $carousel.find('.slick-track').length
-						$carousel.slick('slickRemove', slideIndex)
+						slideIndexes = _.map $carousel.find("[data-user-id=#{userId}]"), (item) =>
+							$(item).data('slick-index')
+						angular.forEach slideIndexes, (i) =>
+							$("[data-slick-index=#{i}]", $carousel).remove()
 						# reindex
 						indx = 0
 						$carousel.find(".slick-carousel-item").each (t, v) =>
