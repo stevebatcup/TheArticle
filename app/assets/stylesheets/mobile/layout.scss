@@ -212,28 +212,41 @@ header {
 		border-bottom: 1px solid #bfbfbf;
 		background-color: #fff;
 
-		a.search_trigger {
-			font-size: 24px;
-	    padding: 0.5rem 0.1rem 0 0 !important;
-	    display: block;
-	    text-align: right;
-		}
+		a {
+			display: block;
 
-		#sidebarCollapse {
-			font-size: 24px;
-		  padding: 0.4rem 0 0 0.1rem !important;
-		  display: block;
+			&#sidebarCollapse {
+				font-size: 24px;
+			  padding: 0.4rem 0 0 0.1rem !important;
+			}
+
+			&#header_follows {
+				font-size: 19px;
+				margin: 0 0 0 0.75rem !important;
+				padding: 0.5rem 4vw 0.5rem;
+			}
+
+			&#header_search {
+				font-size: 20px;
+				margin: 0 0.75rem 0 0 !important;
+				padding: 0.1rem 4vw 0.2rem;
+			}
+
+			&#header_notifications {
+				font-size: 19px;
+			  padding: 0.2rem 0.1rem 0 0 !important;
+			}
 		}
 	}
 
 	#logo {
 		background-image: asset_url('logo-2-lines.png');
-		background-size: 50%;
+		background-size: 60%;
 		background-repeat: no-repeat;
 		background-position: center center;
 		transition: background-size 0.5s;
 		position: relative;
-		top: 0;
+		top: -1px;
 		line-height: 1em;
 		margin-bottom: 0;
 
@@ -246,7 +259,7 @@ header {
 
 html.svg #logo {
 	background-image: asset_url('logo-2-lines.svg') !important;
-	background-size: 50%;
+	background-size: 60%;
 }
 
 /**** NAV ******/

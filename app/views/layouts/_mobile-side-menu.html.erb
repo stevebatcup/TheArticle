@@ -1,20 +1,20 @@
 <nav id="mobile_side_menu" class="menu" ng-cloak ng-controller="SidebarController" data-signed-in="1">
   <section class="menu-section">
     <div id="sidebar_logo" class="justify-content-center">
-      <a href="/?force_home=1">
+      <a href="/">
         <span class="text-hide">TheArticle</span>
       </a>
     </div>
 
     <% if user_signed_in? %>
-    <div id="sidebar_me" class="d-flex">
-        <a href='/my-profile'>
-          <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
-        </a>
+    <div id="sidebar_me" class="d-flex mb-1">
+      <a href='/my-profile'>
+        <img src="<%= current_user.profile_photo.url(:square) %>" class="rounded-circle" alt="<%= current_user.display_name %>" style="">
+      </a>
       <p>
         <a href='/my-profile'>
           <span class="display_name"><%= current_user.display_name %></span>
-          <span class="username text-muted"><%= current_user.username %></span>
+          <small class="username text-muted"><%= current_user.username %></small>
           <span class="link">View profile</span>
         </a>
       </p>
@@ -25,10 +25,10 @@
     <div id="follows_info" class="d-flex">
       <p>
         <span class="pr-1">
-          <a href="<%= user_followings_path(tab: 'following') %>">Following <span class="text-muted pl-1">{{followCounts.followings}}</span></a>
+          <a href="<%= user_followings_path(tab: 'following') %>">Following <span class="text-muted pl-0">{{followCounts.followings}}</span></a>
         </span>
         <span class="pl-1">
-          <a href="<%= user_followings_path(tab: 'followers') %>">Followers <span class="text-muted pl-1">{{followCounts.followers}}</span></a>
+          <a href="<%= user_followings_path(tab: 'followers') %>">Followers <span class="text-muted pl-0">{{followCounts.followers}}</span></a>
         </span>
       </p>
     </div>
@@ -39,6 +39,9 @@
     <ul class="list-unstyled menu-section-list">
       <li>
         <a href='<%= front_page_path %>'>Home</a>
+      </li>
+      <li>
+        <a href='/?force_home=1'>Front page</a>
       </li>
       <li>
         <a href="/follow-suggestions">Follow suggestions</a>
@@ -70,7 +73,7 @@
     <h3 class="menu-section-title">Browse</h3>
     <ul class="list-unstyled menu-section-list">
       <li>
-        <a href='#search' class="search_trigger">Search</a>
+        <a href='#search' ng-click="openSearchPanel($event)">Search</a>
       </li>
       <li>
         <a class="" href="/exchanges">Exchanges</a>

@@ -22,11 +22,4 @@ class TheArticle.Sidebar extends TheArticle.MobilePageController
 			if response.data? and (response.data.status is 'success')
 				@scope.followCounts = response.data.counts
 
-	openSearch: ($event) =>
-		$event.preventDefault()
-		@rootScope.slideout.toggle()
-		@timeout =>
-			@rootScope.$broadcast 'search-clicked'
-		, 100
-
 TheArticle.ControllerModule.controller('SidebarController', TheArticle.Sidebar)

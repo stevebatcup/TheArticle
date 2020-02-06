@@ -121,11 +121,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 		super
 		@bindScrollEvent()
 
-		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
-			$hiding = $(e.relatedTarget)
-			if $hiding.hasClass('search_trigger')
-				@toggleSearch()
-
 		$(document).on 'click', '.other_followers_of_user', (e) =>
 			e.preventDefault()
 			$span = $(e.currentTarget).parent()

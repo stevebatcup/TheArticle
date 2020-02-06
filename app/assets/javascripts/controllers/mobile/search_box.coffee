@@ -32,10 +32,6 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 		@scope.$on 'search-clicked', =>
 			@toggleSearch()
 
-		$('.search_trigger').on 'click', (e) =>
-			e.preventDefault()
-			@toggleSearch()
-
 		@scope.$watch 'search.query', (newVal, oldVal) =>
 			@getSearchSuggestions() if newVal isnt oldVal
 

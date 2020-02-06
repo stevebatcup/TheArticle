@@ -204,3 +204,10 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 	mobileAppDetected: =>
 		!!$('body').data('mobile-app')
+
+	openSearchPanel: ($event) =>
+		$event.preventDefault()
+		@rootScope.slideout.toggle() if @rootScope.slideout.isOpen()
+		@timeout =>
+			@rootScope.$broadcast 'search-clicked'
+

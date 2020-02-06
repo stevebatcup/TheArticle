@@ -67,6 +67,7 @@
 
 div#sidebar_me {
   padding: 10px 20px 0;
+  background-color: #f2f5f2;
 
   img {
     width: 52px;
@@ -82,19 +83,23 @@ div#sidebar_me {
     line-height: 1.75em;
     margin-bottom: 0;
 
-    .display_name {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: $green_dark;
-    }
+    a {
+      line-height: 1.4em;
 
-    .username {
-      // font-size: 0.9em;
-      display: block;
-    }
+      span.display_name {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: $green_dark;
+      }
 
-    .link {
-      color: $green;
+      small.username {
+        display: block;
+        margin-top: -5px;
+      }
+
+      span.link {
+        color: $green;
+      }
     }
   }
 }
