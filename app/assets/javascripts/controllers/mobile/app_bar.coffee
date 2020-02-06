@@ -11,9 +11,6 @@ class TheArticle.AppBar extends TheArticle.MobilePageController
 
 	init: ->
 		@setDefaultHttpHeaders()
-		@scope.signedIn = !!@element.data('signed-in')
-		@scope.notificationBadgeCount = 0
-		@getNotificationsBadgeUpdate()
 		@bindEvents()
 
 	bindEvents: =>
@@ -22,8 +19,5 @@ class TheArticle.AppBar extends TheArticle.MobilePageController
 				@getNotificationsBadgeUpdate()
 			, 120000
 
-	getNotificationsBadgeUpdate: =>
-		@http.get("/notification-count").then (response) =>
-			@scope.notificationBadgeCount = response.data.count
 
 TheArticle.ControllerModule.controller('AppBarController', TheArticle.AppBar)

@@ -4,8 +4,10 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	@$inject: [
 		'$scope'
 		'$rootScope'
+		'$element'
 		'$http'
 		'$timeout'
+		'$interval'
 		'$compile'
 	]
 
@@ -27,6 +29,14 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 			@timeout =>
 				@bindFixedNavScrolling()
 			, 1000
+
+		@scope.signedIn = !!@element.data('signed-in')
+		@scope.notificationBadgeCount = 0
+		@getNotificationsBadgeUpdate()
+		if @scope.signedIn
+			@interval =>
+				@getNotificationsBadgeUpdate()
+			, 120000
 
 	listen: =>
 		@scope.$on 'setup_app_page', ($event, data) =>
@@ -156,5 +166,9 @@ class TheArticle.HeaderBar extends TheArticle.MobilePageController
 	unblock: ($event, userId, username) =>
 		$event.preventDefault()
 		@rootScope.$broadcast 'unblock', { userId: userId, username: username }
+
+	getNotificationsBadgeUpdate: =>
+		@http.get("/notification-count").then (response) =>
+			@scope.notificationBadgeCount = response.data.count
 
 TheArticle.ControllerModule.controller('HeaderBarController', TheArticle.HeaderBar)
