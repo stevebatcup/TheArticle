@@ -19,6 +19,7 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.MobilePageContro
 		super
 		$('[data-section-id]').on 'click', (e) =>
 			$('#sidebarCollapse').css({opacity: 0})
+			$('#header_follows').css({opacity: 0})
 			e.preventDefault()
 			$('[data-section-id]').removeClass('active')
 			$('.question_list').hide()
@@ -65,6 +66,7 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.MobilePageContro
 			sectionId = $clicked.data('back-to')
 			$("#question_list_#{sectionId}").show()
 			$('#sidebarCollapse').css({opacity: 1})
+			$('#header_follows').css({opacity: 1})
 
 		$(document).on 'click', '[data-feedback-id]', (e) =>
 			e.preventDefault()
