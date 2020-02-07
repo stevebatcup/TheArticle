@@ -105,9 +105,11 @@ div#sidebar_me {
 }
 
 div#follows_info {
-  padding: 0 16px 25px;
+  padding: 0 16px 10px;
+  margin-bottom: 20px;
   font-weight: bold;
   font-size: 1em;
+  background-color: #f2f5f2;
 
   p {
     color: #fff;
