@@ -1,5 +1,14 @@
-<% page_title "Register" %>
+<script type="text/javascript">
+  if (typeof gtag !== "undefined" && gtag !== null) {
+    gtag('event', 'open_register_form', {
+      from: '<%= params[:from].present? ? params[:from] : 'direct' %>',
+      url: window.location.pathname,
+      deviceType: 'mobile'
+    });
+  }
+</script>
 
+<% page_title "Register" %>
 <section ng-controller="AuthController" class="auth">
   <div class="container pt-4 pt-lg-4 pb-4">
     <div class="row">

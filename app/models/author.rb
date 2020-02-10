@@ -4,6 +4,8 @@ class Author < ApplicationRecord
 	belongs_to	:author_role, foreign_key: :role_id
   mount_uploader :image, AuthorImageUploader
 	has_one	:user
+	before_create	:stick_on_mailchimp_list
+	before_update	:update_mailchimp_list_subscription
 
 	def self.the_article_staff
 		where("email LIKE '%@thearticle.com%'")
@@ -14,13 +16,12 @@ class Author < ApplicationRecord
 	end
 
   def self.update_article_counts
-    all.each do |a|
-      a.update_attribute(:article_count, a.articles.size)
-    end
+    all.each { |a| a.update_article_count }
   end
 
 	def update_article_count
-		self.update_attribute(:article_count, self.articles.size)
+		count = Article.where("(author_id = #{self.id} OR additional_author_id = #{self.id})").size
+		self.update_attribute(:article_count, count)
 	end
 
 	def self.sponsor_role
@@ -158,7 +159,7 @@ class Author < ApplicationRecord
 	end
 
 	def self.wp_type
-		'users'
+		'authors'
 	end
 
 	def update_wp_cache(json)
@@ -216,17 +217,13 @@ class Author < ApplicationRecord
 		if remote_wp_image_id > 0
 			unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
 	      self.wp_image_id = remote_wp_image_id
-				image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+				image_json = self.class.get_from_wp_api("images/#{remote_wp_image_id}")
 	      self.remote_image_url = image_json["source_url"]
 			end
 		else
 	    self.wp_image_id = nil
 	    self.image = nil
 		end
-	end
-
-	def post_count
-		3
 	end
 
 	def author_role_id
@@ -256,4 +253,25 @@ class Author < ApplicationRecord
 	    }
 	  end
 	end
+
+	def all_articles
+		Article.where("(author_id = #{self.id} OR additional_author_id = #{self.id})").includes(:exchanges).references(:exchanges)
+	end
+
+	def stick_on_mailchimp_list
+		self.on_mailchimp_list = true
+		MailchimperService.subscribe_author_to_mailchimp_list(self)
+	end
+
+	def update_mailchimp_list_subscription
+		if on_mailchimp_list_changed?
+			if on_mailchimp_list
+				MailchimperService.subscribe_author_to_mailchimp_list(self)
+			else
+				MailchimperService.remove_author_from_mailchimp_list(self)
+			end
+		end
+	end
+
 end
+

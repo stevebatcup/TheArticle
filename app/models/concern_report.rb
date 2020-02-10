@@ -3,6 +3,7 @@ class ConcernReport < ApplicationRecord
 	belongs_to	:reported, class_name: 'User'
 	belongs_to	:sourceable, polymorphic: true
 	after_create	:send_admin_email
+	after_create	:add_to_watchlist_if_necessary
 	enum	status: [:pending, :seen]
 
 	def humanised_primary_reason
@@ -20,12 +21,12 @@ class ConcernReport < ApplicationRecord
 	end
 
 	def sourceable_type_for_email
-		case self.sourceable_type
-		when 'Comment'
+		case self.sourceable_type.downcase
+		when 'comment'
 			'comment'
-		when 'Share'
+		when 'share'
 			'post'
-		when 'User'
+		when 'user'
 			'Profile'
 		end
 	end
@@ -191,6 +192,10 @@ class ConcernReport < ApplicationRecord
 				"/admin/user_concern_reports/#{self.id}"
 			end
 		end
+	end
+
+	def add_to_watchlist_if_necessary
+		self.reported.add_to_watchlist(:concern_reports) if self.reported.has_enough_concern_reports_for_watchlist? && !self.reported.is_watchlisted?
 	end
 
 end

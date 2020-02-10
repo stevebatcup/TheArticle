@@ -46,15 +46,10 @@ class SearchController < ApplicationController
 					end
 				elsif params[:mode] == :full
 					begin
-						query_with_plurals = "#{@query} | #{@query.pluralize}"
-						article_query = query_with_plurals
-						if params[:from_tag]
-							tag = KeywordTag.find_by(slug: @query)
-							article_query = "#{article_query} | #{tag.name}"
-						end
+						article_query = Article.build_search_query(@query, params[:from_tag].present?)
 						articles = Article.search(article_query, order: 'published_at DESC', page: 1, per_page: 500).to_a
-						contributors = Author.search(conditions: { display_name: "*#{query_with_plurals}*" },
-																					order: 'article_count DESC').to_a
+						contributors = Author.search("*#{@query}*", order: 'article_count DESC').to_a
+						query_with_plurals = "#{@query} | #{@query.pluralize}"
 						exchanges = Exchange.search("*#{query_with_plurals}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
 						posts = Share.search("*#{query_with_plurals}*", order: 'created_at DESC').to_a
 						if user_signed_in?
@@ -68,6 +63,7 @@ class SearchController < ApplicationController
 						@results = (articles + contributors + profiles + exchanges + posts)
 						search_log = SearchLog.new({
 							term: @query,
+							full_article_term: article_query,
 							all_results_count: @results.size,
 							articles_results_count: articles.size,
 							contributors_results_count: contributors.size,

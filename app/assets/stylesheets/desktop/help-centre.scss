@@ -135,6 +135,12 @@ section#help_centre {
 					color: $green;
 				}
 			}
+
+			.feedback[data-outcome-show='yes'] {
+				font-weight: bold;
+				padding-bottom: 20px;
+			}
+
 		}
 	}
 

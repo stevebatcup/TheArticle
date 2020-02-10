@@ -8,6 +8,9 @@
         <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
       </li>
       <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#bio_{{userForBox.id}}">Edit Bio</a>
+      </li>
+      <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#photos_{{userForBox.id}}">Photos</a>
       </li>
       <li class="nav-item">
@@ -17,13 +20,19 @@
         <a data-toggle="tab" class="nav-link" href="#comments_{{userForBox.id}}">Comments</a>
       </li>
       <li class="nav-item">
-        <a data-toggle="tab" class="nav-link" href="#activity_log_{{userForBox.id}}">Activity</a>
-      </li>
-      <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#mutes_and_blocks_{{userForBox.id}}">Mutes/blocks</a>
       </li>
       <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#concern_reports_{{userForBox.id}}">Concern reports</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#send_email_{{userForBox.id}}">Send email</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#admin_notes_{{userForBox.id}}">Admin notes</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#activity_log_{{userForBox.id}}">Activity</a>
       </li>
       <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#admin_interaction_{{userForBox.id}}">Admin interaction</a>
@@ -259,32 +268,107 @@
       <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="100%" height="800" border="0" style="border: none;"></iframe>
     </div>
 
-    <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
+    <div class="py-2 px-4 tab-pane fade account_form" id="bio_{{userForBox.id}}">
       <dl style="overflow: hidden;">
-        <dt class="">Current profile photo</dt>
-        <dd class="">
-          <img ng-src="{{userForBox.profilePhoto}}" width="180px" />
+        <dt class="">Bio</dt>
+        <dd>
+          <textarea ng-model="userForBox.bio"></textarea>
         </dd>
-
-        <dt class="mt-5" ng-if="userForBox.coverPhoto.length > 0">Current cover photo</dt>
-        <dd class="" ng-if="userForBox.coverPhoto.length > 0">
-          <img ng-src="{{userForBox.coverPhoto}}" width="600px" />
+        <dt class="">
+          Send email to user?
+        </dt>
+        <dd>
+          <input type="checkbox" name="alert_bio_updated" id="alert_bio_updated"
+                ng-model="userForBox.alertBioUpdated" />
         </dd>
       </dl>
+      <div class="d-flex justify-content-end">
+        <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.bioUpdated"></i>
+        <button class="btn btn-success" ng-click="updateBio()"
+                ng-class="{'disabled': userForBox.bioUpdating}"
+                ng-disabled="userForBox.bioUpdating">
+          <span ng-if="!userForBox.bioUpdating">Update</span>
+          <span ng-if="userForBox.bioUpdating">Updating...</span>
+        </button>
+      </div>
+    </div>
 
-      <h5 class="mt-3">TO DO</h5>
-      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>Edit/download/delete/upload photo, with optional message to User</li>
-      </ul>
+
+    <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
+      <dl style="overflow: hidden;">
+        <dt class="mt-1"><h3>Cover photo</h3></dt>
+        <dd class="mb-5">
+          <img ng-if="userForBox.coverPhoto.originalSrc.length > 0" ng-src="{{userForBox.coverPhoto.originalSrc}}" width="800px" height="160px" class="d-block mb-1" />
+          <p ng-if="!userForBox.coverPhoto.originalSrc.length"> None uploaded</p>
+
+
+          <div class="btn-group" role="group">
+            <a download="Cover photo for {{ userForBox.fullName }}"
+                  href="{{userForBox.coverPhoto.originalSrc}}"
+                  type="button"
+                  class="btn btn-info"
+                  ng-if="userForBox.coverPhoto.originalSrc.length > 0"
+                  target="_blank">Download cover photo</a>
+            <button ng-click="uploadPhoto($event, 'cover')" type="button" class="btn btn-success">Upload new cover photo</button>
+            <button ng-click="removePhoto($event, 'cover')" type="button" class="btn btn-danger" ng-if="userForBox.coverPhoto.originalSrc.length > 0">
+              <span ng-if="!userForBox.coverPhoto.removing">Remove cover photo</span>
+              <span ng-if="userForBox.coverPhoto.removing">Removing...</span>
+            </button>
+          </div>
+        </dd>
+
+        <dt class="mt-4"><h3>Profile photo</h3></dt>
+        <dd class="">
+          <img ng-src="{{userForBox.profilePhoto.originalSrc}}" width="200px" height="200px" class="d-block mb-1 rounded-circle" />
+          <p ng-if="userForBox.profilePhoto.isDefault">Default photo</p>
+
+          <div class="btn-group" role="group">
+            <a download="Profile photo for {{ userForBox.fullName }}"
+                  href="{{userForBox.profilePhoto.originalSrc}}"
+                  type="button"
+                  class="btn btn-info"
+                  ng-if="!userForBox.profilePhoto.isDefault"
+                  target="_blank">Download profile photo</a>
+            <button ng-click="uploadPhoto($event, 'profile')" type="button" class="btn btn-success">Upload new profile photo</button>
+            <button ng-click="removePhoto($event, 'profile')" type="button" class="btn btn-danger" ng-if="!userForBox.profilePhoto.isDefault">
+              <span ng-if="!userForBox.profilePhoto.removing">Remove profile photo</span>
+              <span ng-if="userForBox.profilePhoto.removing">Removing...</span>
+            </button>
+          </div>
+        </dd>
+      </dl>
     </div>
 
 
     <div class="py-2 px-4 tab-pane fade" id="posts_{{userForBox.id}}">
-      <h5 class="mt-3">TO DO</h5>
-      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>View Posts (details) – including deleted (marked as such) + view quarantined posts</li>
-        <li>Delete posts, comments/replies/DMs (specific messages and whole conversations)</li>
-      </ul>
+      <div class="w-100">
+        <h5>Posts by {{userForBox.firstName}}</h5>
+
+        <p ng-if="userForBox.posts.length == 0">No posts</p>
+        <table ng-if="userForBox.posts.length > 0">
+          <thead>
+            <tr>
+              <th class="cell-label">Article</th>
+              <th class="cell-label">Post text</th>
+              <th class="cell-label">Submitted at</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+              <th class="cell-label">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr class="js-table-row" tabindex="0" ng-repeat="post in userForBox.posts">
+            <td class="cell-data">{{post.article.title}}</td>
+            <td class="cell-data" ng-bind-html="post.precis"></td>
+            <td class="cell-data">{{post.createdAt}}</td>
+            <td class="cell-data text-center text-slate"><a ng-href='{{post.path}}'>Show post</a></td>
+            <td class="cell-data text-center text-slate">
+              <a target="_blank" ng-href='{{post.article.path}}'>Show article</a>
+            </td>
+            <td class="cell-data text-center text-red"><a href='#' ng-click='deletePost($event, post.id)'>Delete post</a></td>
+          </tr>
+        </table>
+      </div>
     </div>
 
     <div class="py-2 px-4 tab-pane fade" id="comments_{{userForBox.id}}">
@@ -317,15 +401,6 @@
           </tr>
         </table>
       </div>
-    </div>
-
-    <div class="py-2 px-4 tab-pane fade" id="activity_log_{{userForBox.id}}">
-      <h5 class="mt-3">TO DO</h5>
-      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>View Activity Log (discuss with SteveB the best way to display this (MM a bit clunky)) – list everything, including, Posts and Comments/Replies (but just who, what, when – not details) – view previous drafts of profile, previous email addresses, previous usernames etc.</li>
-
-        <li>View sign-in log</li>
-      </ul>
     </div>
 
     <div class="py-2 px-4 tab-pane fade" id="mutes_and_blocks_{{userForBox.id}}">
@@ -426,10 +501,75 @@
       </div>
     </div>
 
+    <div class="py-2 px-4 tab-pane fade account_form" id="send_email_{{userForBox.id}}">
+      <div class="w-100">
+        <h5>Send an email to {{userForBox.firstName}}</h5>
+        <dl style="overflow: hidden;">
+          <dt class="">Subject</dt>
+          <dd>
+            <input type='text' style="" ng-model="userForBox.newEmail.subject" />
+          </dd>
+          <dt class="">Message</dt>
+          <dd>
+            <textarea ng-model="userForBox.newEmail.message"></textarea>
+          </dd>
+        </dl>
+        <p class="alert alert-danger" ng-if="userForBox.newEmail.error">{{userForBox.newEmail.error}}</p>
+        <div class="d-flex justify-content-end">
+          <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.newEmail.sent"></i>
+          <button class="btn btn-success" ng-click="sendEmail()"
+                    ng-class="{'disabled': userForBox.newEmail.sending}"
+                    ng-disabled="userForBox.newEmail.sending">
+            <span ng-if="!userForBox.newEmail.sending">Send email</span>
+            <span ng-if="userForBox.newEmail.sending">Sending...</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="admin_notes_{{userForBox.id}}">
+      <div class="d-flex">
+        <div class="w-50 px-4 pt-4">
+          <p ng-if="userForBox.adminNotes.length == 0">There are no admin notes on this account</p>
+          <ol ng-if="userForBox.adminNotes.length > 0">
+            <li ng-repeat="note in userForBox.adminNotes" class="mb-3">
+              <span>{{note.note}}</span><br />
+              <b>Added by {{note.administrator}} on {{note.addedAt}}</b><br />
+              <a ng-click="deleteAdminNote($event, note)" class="text-red" href='#'>Delete</a>
+            </li>
+          </ol>
+        </div>
+
+        <div class="w-50 px-4">
+          <h5>Add a new note to {{userForBox.firstName}}'s account</h5>
+          <textarea ng-model="userForBox.newAdminNote.note" class="mb-2"></textarea>
+          <p class="alert alert-danger" ng-if="userForBox.newAdminNote.error">{{userForBox.newAdminNote.error}}</p>
+          <div class="d-flex justify-content-end">
+            <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.newAdminNote.added"></i>
+            <button class="btn btn-success" ng-click="addAdminNote($event)"
+                      ng-class="{'disabled': userForBox.newAdminNote.adding}"
+                      ng-disabled="userForBox.newAdminNote.adding">
+              <span ng-if="!userForBox.newAdminNote.adding">Add note</span>
+              <span ng-if="userForBox.newAdminNote.adding">Adding...</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-2 px-4 tab-pane fade" id="activity_log_{{userForBox.id}}">
+      <h5 class="mt-3">TO DO</h5>
+      <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
+        <li>View Activity Log (discuss with SteveB the best way to display this (MM a bit clunky)) – list everything, including, Posts and Comments/Replies (but just who, what, when – not details) – view previous drafts of profile, previous email addresses, previous usernames etc.</li>
+
+        <li>View sign-in log</li>
+      </ul>
+    </div>
+
     <div class="py-2 px-4 tab-pane fade" id="admin_interaction_{{userForBox.id}}">
       <h5 class="mt-3">TO DO</h5>
       <ul style="list-style: circle; padding-left: 15px; font-style: italic;">
-        <li>View admin notes on user’s account</li>
         <li>View communications with Admin – emails and contact form submissions and their replies (incl. from linked email addresses)</li>
       </ul>
     </div>

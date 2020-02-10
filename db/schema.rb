@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_28_141613) do
+ActiveRecord::Schema.define(version: 2020_01_22_110706) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
     t.integer "wp_id"
     t.string "title"
     t.integer "author_id"
+    t.integer "additional_author_id"
     t.text "content", limit: 4294967295
     t.string "image"
     t.string "image_caption"
@@ -125,6 +126,7 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
     t.datetime "updated_at", null: false
     t.integer "article_count"
     t.string "youtube_url"
+    t.boolean "on_mailchimp_list", default: false
   end
 
   create_table "black_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -362,6 +364,8 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
     t.string "slug"
     t.text "intro"
     t.string "articles_heading"
+    t.boolean "show_home_link"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -445,17 +449,25 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
     t.integer "follow_id"
   end
 
+  create_table "profile_suggestion_archives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "suggested_id"
+    t.integer "reason_for_archive"
+    t.datetime "created_at"
+    t.index ["reason_for_archive"], name: "index_profile_suggestion_archives_on_reason_for_archive"
+    t.index ["suggested_id"], name: "index_profile_suggestion_archives_on_suggested_id"
+    t.index ["user_id"], name: "index_profile_suggestion_archives_on_user_id"
+  end
+
   create_table "profile_suggestions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "suggested_id"
     t.string "reason"
     t.integer "author_article_count", default: 0
-    t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_article_count"], name: "index_profile_suggestions_on_author_article_count"
     t.index ["reason"], name: "index_profile_suggestions_on_reason", type: :fulltext
-    t.index ["status"], name: "index_profile_suggestions_on_status"
     t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
 
@@ -487,6 +499,7 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
   create_table "search_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.string "term"
+    t.string "full_article_term"
     t.integer "all_results_count", default: 0
     t.integer "articles_results_count", default: 0
     t.integer "contributors_results_count", default: 0
@@ -518,6 +531,14 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
     t.integer "user_id"
     t.string "error_show_to_user"
     t.text "exception_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_admin_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "admin_user_id"
+    t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -568,6 +589,8 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
     t.integer "followers_count", default: 0
     t.integer "followings_count", default: 0
     t.integer "connections_count", default: 0
+    t.integer "share_all_count", default: 0
+    t.integer "share_ratings_count", default: 0
     t.boolean "on_bibblio", default: false
     t.string "registration_source", default: "website"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
@@ -578,7 +601,8 @@ ActiveRecord::Schema.define(version: 2019_11_28_141613) do
 
   create_table "watch_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
-    t.text "reason"
+    t.integer "status", default: 0
+    t.integer "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "added_by_admin_user_id"

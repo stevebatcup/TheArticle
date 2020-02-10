@@ -179,7 +179,7 @@ class TheArticle.Notifications extends TheArticle.mixOf TheArticle.MobilePageCon
 				when 'opinion'
 					@openOpinionModal notification
 				when 'follow'
-					window.location.href = "/my-home?route=followers"
+					window.location.href = "/user_followings?tab=followers"
 				when 'categorisation'
 					path = notification.article.path
 					window.location.href = path

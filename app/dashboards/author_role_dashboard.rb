@@ -51,7 +51,7 @@ class AuthorRoleDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how author roles are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(author_role)
-  #   "AuthorRole ##{author_role.id}"
-  # end
+  def display_resource(author_role)
+    author_role.name
+  end
 end

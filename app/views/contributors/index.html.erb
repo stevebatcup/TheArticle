@@ -29,14 +29,14 @@
 			<p style="display: none;" class="filter_none_found my-3 text-center h5 w-100">Sorry there are no contributors for your search term</p>
 
 			<% @contributors.each do |contributor| %>
-				<article class="col-6 col-md-4 col-lg-3 col-xl-5ths px-md-2 py-md-2 py-xl-3 mb-3 mb-md-4 hoveraction article-listing journalist <%= contributor.post_count > 0 ? 'block_click' : '' %>"
+				<article class="col-6 col-md-4 col-lg-3 col-xl-5ths px-md-2 py-md-2 py-xl-3 mb-3 mb-md-4 hoveraction article-listing journalist <%= contributor.article_count > 0 ? 'block_click' : '' %>"
 					 data-href="<%= contributor_path(slug: contributor.slug) %>">
 					<div class="inner" style="background-image: url('<%= contributor.image.url(:listing) %>')" alt="<%= contributor.display_name; %>" />
 						<div class="mask no-bg">
 							<div class="inner_inner">
 								<div class="px-2 px-md-2 py-0">
 									<h3 class="text_shadow text-white mb-0 filter_target">
-										<% if contributor.post_count > 0 %>
+										<% if contributor.article_count > 0 %>
 											<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
 												<%= contributor.display_name; %>
 											</a>
@@ -45,7 +45,7 @@
 										<% end %>
 									</h3>
 									<h4 class="text_shadow text-white mb-0 mx-0 mt-1">
-										<% if contributor.post_count > 0 %>
+										<% if contributor.article_count > 0 %>
 											<a href="<%= contributor_path(slug: contributor.slug) %>" class="text-white inherit_hover">
 												<%= contributor.title %>
 											</a>

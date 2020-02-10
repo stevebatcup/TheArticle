@@ -104,3 +104,11 @@
 
   </section>
 </div>
+
+<script id="edit_profilePhoto" type="script/x-mustache">
+  <%= render partial: 'edit_photo_modal', locals: { type: "profile" } %>
+</script>
+
+<script id="edit_coverPhoto" type="script/x-mustache">
+  <%= render partial: 'edit_photo_modal', locals: { type: "cover" } %>
+</script>

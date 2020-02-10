@@ -119,5 +119,52 @@ module MailchimperService
 	  		response: response,
 			)
 		end
+
+		def author_list
+			Rails.application.credentials.mailchimp[:contributors_list_id][Rails.env.to_sym]
+		end
+
+		def subscribe_author_to_mailchimp_list(author)
+			standard_error = "Sorry there has been an error submitting your details, please try again."
+			begin
+				request_data = [
+					author_list,
+					{ email: author.email },
+					{
+						FNAME: author.first_name,
+						LNAME: author.last_name,
+					},
+					'html', # email_type
+					false,	# double_optin
+					false,	# update_existing
+					true,		# replace_interests
+					false		# send_welcome
+				]
+				response = mailchimp_api.lists.subscribe(*request_data)
+				log_mailchimp_request(author, :subscribe, request_data, response)
+			rescue Mailchimp::ListAlreadySubscribedError => e
+				raise Exception.new("It looks like the email address #{author.email} has already been registered with TheArticle.")
+			rescue Mailchimp::Error => e
+				raise Exception.new(standard_error)
+			rescue Exception => e
+				raise Exception.new(standard_error)
+			end
+		end
+
+		def remove_author_from_mailchimp_list(author)
+			begin
+				request_data = [
+					author_list,
+					{ email: author.email },
+					true, # delete_member
+					false,  # send_goodbye
+					false  # send_notify
+				]
+				response = mailchimp_api.lists.unsubscribe(*request_data)
+				log_mailchimp_request(author, :remove, request_data, response)
+		    rescue Mailchimp::Error => e
+		    end
+		end
+
 	end
 end

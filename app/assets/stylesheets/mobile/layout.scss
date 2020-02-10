@@ -212,28 +212,49 @@ header {
 		border-bottom: 1px solid #bfbfbf;
 		background-color: #fff;
 
-		a.search_trigger {
-			font-size: 24px;
-	    padding: 0.5rem 0.1rem 0 0 !important;
-	    display: block;
-	    text-align: right;
-		}
+		a {
+			display: block;
 
-		#sidebarCollapse {
-			font-size: 24px;
-		  padding: 0.4rem 0 0 0.1rem !important;
-		  display: block;
+			&#sidebarCollapse {
+				font-size: 24px;
+			  padding: 0.4rem 0 0 0.1rem !important;
+			}
+
+			&#header_follows {
+				font-size: 19px;
+				margin: 0 0 0 0.75rem !important;
+				padding: 0.5rem 4vw 0.5rem;
+			}
+
+			&#header_search {
+				font-size: 20px;
+				margin: 0 0.75rem 0 0 !important;
+				padding: 0.1rem 4vw 0.2rem;
+			}
+
+			&#header_notifications {
+				font-size: 19px;
+			  padding: 0.2rem 0.1rem 0 0 !important;
+			  position: relative;
+
+			  span.badge {
+			  	position: absolute;
+			  	top: 2px;
+			  	right: 10px;
+			  	font-size: 0.5em;
+			  }
+			}
 		}
 	}
 
 	#logo {
 		background-image: asset_url('logo-2-lines.png');
-		background-size: 50%;
+		background-size: 60%;
 		background-repeat: no-repeat;
 		background-position: center center;
 		transition: background-size 0.5s;
 		position: relative;
-		top: 0;
+		top: -1px;
 		line-height: 1em;
 		margin-bottom: 0;
 
@@ -246,7 +267,7 @@ header {
 
 html.svg #logo {
 	background-image: asset_url('logo-2-lines.svg') !important;
-	background-size: 50%;
+	background-size: 60%;
 }
 
 /**** NAV ******/
@@ -582,10 +603,23 @@ footer.entry-footer {
 }
 
 .author_link {
-	font-size: 0.6em;
+	font-size: 0.75em;
 	font-weight: 500;
-	color: $grey;
 	line-height: 1.85em;
+	color: #565656;
+	margin: 5px 0 0;
+
+	.written_by {
+		width: 60%;
+		line-height: 1.6em;
+		margin-bottom: 0.6em;
+	}
+
+	.entry-date {
+		width: 40%;
+		color: darken($grey, 10%);
+		text-align: right;
+	}
 
 	a {
 		color: $grey;
@@ -947,26 +981,6 @@ html.svg {
 	padding: 4px 5px;
 	font-weight: normal;
 	font-size: 0.6em;
-}
-
-#member_options {
-	li {
-		position: relative;
-
-		a#notifications-tab {
-			.badge {
-				position: absolute;
-				top: 6px;
-				right: 28px;
-				padding: 3px 2px 0px 2px;
-				font-size: 0.5em;
-				min-width: 15px;
-				min-height: 16px;
-				font-weight: 600;
-				font-family: verdana;
-			}
-		}
-	}
 }
 
 #testDomainInterstitialModal {

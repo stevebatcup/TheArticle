@@ -92,12 +92,9 @@ class ArticlesController < ApplicationController
 							end
 						end
 					end
-
 				elsif params[:author]
 					@contributor = Author.find_by(id: params[:author])
-					@articles = @contributor.articles
-																	.includes(:exchanges)
-																	.references(:exchanges)
+					@articles = @contributor.all_articles
 																	.order("published_at DESC")
 																	.page(params[:page])
 																	.per(params[:per_page].to_i)
@@ -105,8 +102,11 @@ class ArticlesController < ApplicationController
 						@total = @contributor.articles.size
 					end
 				elsif params[:sponsored_picks]
-					@articles = Author.get_sponsors_single_posts('sponsored-pick', 6)
+					limit = (params[:limit] || 6).to_i
+					@articles = Author.get_sponsors_single_posts('sponsored-pick', limit)
 					ordered = @articles.map(&:published_at)
+				elsif params[:latest_for_feed]
+					@articles = Article.latest.limit(params[:per_page])
 				end
 			end
 		end

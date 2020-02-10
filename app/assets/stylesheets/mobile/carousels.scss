@@ -163,6 +163,16 @@
 			height: 220px;
 		}
 
+		&.initialising {
+			display: inline-box;
+			display: -webkit-inline-box;
+
+			.slick-carousel-item {
+				width: 40%;
+				opacity: 0.1;
+			}
+		}
+
 		.slick-carousel-item {
 			margin: 0 5px;
 			font-size: 0.85em;
@@ -206,6 +216,11 @@
 					img {
 						display: inline-block;
 					}
+
+					& + p {
+						margin-left: 2px;
+						top: 3px;
+					}
 				}
 
 				.single {
@@ -218,10 +233,15 @@
 					img {
 						display: inline-block;
 					}
+
+					& + p {
+						margin-left: 10px;
+						top: 6px;
+					}
 				}
 
 				p {
-					font-size: 0.85em;
+					// font-size: 0.85em;
 					width: 70%;
 				}
 			}

@@ -26,9 +26,7 @@
 					<a href="{{ item.path }}">{{item.name}}</a>
 				</h4>
 
-				<div class="">
-					{{ item.excerpt }}
-				</div>
+				<div class="" ng-bind-html="item.excerpt"></div>
 
 				<% if user_signed_in? %>
 				<button class="mt-1 btn btn-block mt-3"

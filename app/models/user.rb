@@ -31,6 +31,7 @@ class User < ApplicationRecord
   has_many :followers, through: :fandoms, source: :user
 
   has_many :profile_suggestions
+  has_many :profile_suggestion_archives
   has_many :shares
   has_many :search_logs
   has_many :comments
@@ -63,6 +64,8 @@ class User < ApplicationRecord
   has_many  :push_tokens
   has_many  :additional_emails
   has_many  :linked_accounts
+
+  has_many  :user_admin_notes
 
   belongs_to   :author, optional: true
 
@@ -272,11 +275,13 @@ class User < ApplicationRecord
     self.opinions.destroy_all
     self.quarantined_third_party_shares.destroy_all
     ProfileSuggestion.delete_suggested(self)
+    ProfileSuggestionArchive.delete_suggested(self)
     if deleting_account
       self.notifications.destroy_all
       self.feed_users.destroy_all
       self.feeds.destroy_all
       self.profile_suggestions.destroy_all
+      self.profile_suggestion_archives.destroy_all
       self.subscriptions.destroy_all
       self.mutes.destroy_all
       self.blocks.destroy_all
@@ -396,5 +401,9 @@ class User < ApplicationRecord
     result = BibblioApiService::Users.new(self).create == true
     self.update_attribute(:on_bibblio, true) if result
     result
+  end
+
+  def has_default_profile_photo
+    self.profile_photo.url == self.profile_photo.default_url
   end
 end

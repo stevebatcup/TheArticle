@@ -128,6 +128,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
+    resources :authors
     resources :help_sections
     resources :help_contents
     get 'set_users_per_page', to: 'users#set_records_per_page'
@@ -142,13 +143,19 @@ Rails.application.routes.draw do
     delete 'destroy_user', to: 'users#destroy', destroy: true
     resources :articles
     delete 'purge_article', to: 'articles#purge', destroy: true
+    # concern_reports
     resources :concern_reports
     resources :user_concern_reports
     resources :comment_concern_reports
     resources :share_concern_reports
     resources :processed_concern_reports
     get 'mark_concern_report_as_seen', to: 'concern_reports#update'
-    resources :watch_list_users
+    # watch_list
+    resources :pending_watch_list_users
+    resources :in_review_watch_list_users
+    delete 'remove_from_watch_list/:id', to: 'watch_list_users#remove'
+    delete 'delete_watch_list_account/:id', to: 'watch_list_users#delete_account'
+    post 'send_watch_list_item_to_review/:id', to: 'pending_watch_list_users#send_to_review'
     resources :black_list_users
     resources :concern_reports
     resources :quarantined_third_party_shares
@@ -158,6 +165,7 @@ Rails.application.routes.draw do
     resources :email_logs
     resources :exchanges
     resources :landing_pages
+    resources :keyword_tags
     get 'approve_quarantined_third_party_share', to: 'quarantined_third_party_shares#approve'
     get 'reject_quarantined_third_party_share', to: 'quarantined_third_party_shares#reject'
     get 'delete_quarantined_third_party_share', to: 'quarantined_third_party_shares#delete'
@@ -169,6 +177,14 @@ Rails.application.routes.draw do
     delete 'delete_additional_email', to: 'users#delete_additional_email'
     post 'add_linked_account', to: 'users#add_linked_account'
     delete 'delete_linked_account', to: 'users#delete_linked_account'
+    post 'update-user-bio', to: 'users#update_bio'
+    post 'send-email', to: 'users#send_email'
+    post 'add-note', to: 'users#add_note'
+    delete 'delete-note/:id', to: 'users#delete_note'
+    delete 'remove_photo/:photo_type/:user_id', to: 'users#remove_photo'
+    put 'update-user-photo', to: 'users#update_photo'
+    get 'send-new-photo-alert-email/:photo_type/:user_id', to: 'users#send_new_photo_alert_email'
+    delete 'delete-post/:id', to: 'users#delete_post'
     resources :shares
     resources :comments
     root to: "users#index"

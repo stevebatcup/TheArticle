@@ -82,7 +82,7 @@ module Admin
       respond_to do |format|
         format.json do
           if user = User.find_by(id: params[:user_id])
-            user.add_to_watchlist("Added from admin", current_user)
+            user.add_to_watchlist(:added_by_admin, current_user)
             render json: { status: :success }
           else
             render json: { status: :error }
@@ -200,6 +200,125 @@ module Admin
         @status = :error
       end
       render json: { status: @status }
+    end
+
+    def update_bio
+      if user = User.find_by(id: params[:user_id])
+        user.bio = params[:bio]
+        if user.save
+          render json: { status: :success }
+          AdminEmailUserBioUpdatedJob.perform_later(user) if params[:send_alert]
+        else
+          render json: { status: :error, message: better_model_error_messages(user) }
+        end
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def send_email
+      if user = User.find_by(id: params[:user_id])
+        render json: { status: :success }
+        AdminEmailUserNewMessageJob.perform_later(user, params[:subject], params[:message])
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def add_note
+      if user = User.find_by(id: params[:user_id])
+        note = UserAdminNote.new({ user_id: user.id, note: params[:note], admin_user_id: current_user.id })
+        if note.save
+          note_for_response = {
+            id: note.id,
+            note: note.note,
+            administrator: current_user.full_name,
+            addedAt: note.created_at.strftime("%b %e, %Y at %H:%m")
+          }
+          render json: { status: :success, note: note_for_response }
+        else
+          render json: { status: :error, message: better_model_error_messages(note) }
+        end
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def delete_note
+      if note = UserAdminNote.find_by(id: params[:id])
+        if note.destroy
+          render json: { status: :success }
+        else
+          render json: { status: :error, message: better_model_error_messages(note) }
+        end
+      else
+        render json: { status: :error, message: "Admin note not found" }
+      end
+    end
+
+    def remove_photo
+      if user = User.find_by(id: params[:user_id])
+        photo_key = "#{params[:photo_type]}_photo"
+        photo = user.send(photo_key)
+        if photo.url.length > 0
+          user.send("remove_#{photo_key}!")
+          if user.save
+            src = params[:photo_type] == 'profile' ? user.profile_photo.default_url : ''
+            render json: { status: :success, src: src }
+          else
+            render json: { status: :error, message: "There was a problem removing this #{params[:photo_type].capitalize} photo: #{better_model_error_messages(user)}" }
+          end
+        else
+          render json: { status: :error, message: "#{params[:photo_type].capitalize} photo not found" }
+        end
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def update_photo
+      if user = User.find_by(id: params[:user_id])
+        if params[:mode] == 'coverPhoto'
+          user.cover_photo = params[:photo]
+          if user.save
+            UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(user.id, "new cover photo")  if user.on_bibblio?
+            render json: { status: :success }
+          else
+            render json: { status: :error, message: user.errors.full_messages.first }
+          end
+        elsif params[:mode] == 'profilePhoto'
+          user.profile_photo = params[:photo]
+          if user.save
+            UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(user.id, "new profile photo")  if user.on_bibblio?
+            render json: { status: :success }
+          else
+            render json: { status: :error, message: user.errors.full_messages.first }
+          end
+        end
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def send_new_photo_alert_email
+      if user = User.find_by(id: params[:user_id])
+        AdminEmailUserNewPhotoJob.perform_later(user, params[:photo_type])
+        render json: { status: :success }
+      else
+        render json: { status: :error, message: "User not found" }
+      end
+    end
+
+    def delete_post
+      if share = Share.find_by(id: params[:id])
+        if share.destroy
+          render json: { status: :success }
+        else
+          render json: { status: :error, message: better_model_error_messages(share) }
+        end
+      else
+        render json: { status: :error, message: "Post not found" }
+      end
     end
 
   private

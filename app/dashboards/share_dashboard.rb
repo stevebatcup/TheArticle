@@ -44,7 +44,7 @@ class ShareDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how shares are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(share)
-  #   "Share ##{share.id}"
-  # end
+  def display_resource(share)
+    "Share by #{share.user.full_name}"
+  end
 end

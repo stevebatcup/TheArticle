@@ -60,7 +60,7 @@ class CategorisationsMailer < Devise::Mailer
   end
 
   def safe_title(title)
-    sanitize(title.encode('utf-8', invalid: :replace, undef: :replace, replace: ''))
+    title.html_safe.encode('utf-8', invalid: :replace, undef: :replace, replace: '')
   end
 
   def build_html(articles)

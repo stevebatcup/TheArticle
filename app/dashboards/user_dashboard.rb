@@ -73,6 +73,8 @@ class UserDashboard < Administrate::BaseDashboard
     admin_profile_status: Field::String.with_options(searchable: false),
     age_bracket: Field::String,
     gender: Field::String,
+    followers_count: Field::Number.with_options(searchable: false),
+    share_ratings_count: Field::Number.with_options(searchable: false)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -89,7 +91,9 @@ class UserDashboard < Administrate::BaseDashboard
     :display_name,
     :email,
     :admin_account_status,
-    :admin_profile_status
+    :admin_profile_status,
+    :followers_count,
+    :share_ratings_count,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

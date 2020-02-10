@@ -3,6 +3,7 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.DesktopPageContr
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$compile'
 	  '$timeout',
@@ -58,15 +59,19 @@ class TheArticle.HelpCentre extends TheArticle.mixOf TheArticle.DesktopPageContr
 			$("#question_list_#{sectionId}").show()
 			$('#mobile_return').show()
 
-		$('[data-feedback-id]').on 'click', (e) =>
+		$(document).on 'click', '[data-feedback-id]', (e) =>
 			e.preventDefault()
 			$clicked = $(e.currentTarget)
 			questionId = $clicked.data('feedback-id')
 			outcome = $clicked.data('feedback-outcome')
+			$('.feedback_question').hide()
+			$('.feedback_answer').hide()
+			$('.feedback_loading').show()
 			$.getJSON "/help-feedback/#{questionId}/#{outcome}", (response) =>
-				$('.feedback_question').hide()
-				$('.feedback_answer').hide()
-				$("[data-outcome-show=#{outcome}]").show()
+				@timeout =>
+					$('.feedback_loading').hide()
+					$("[data-outcome-show=#{outcome}]").show()
+				, 350
 
 		$('[data-toggle=collapser]').on 'click', (e) =>
 			e.preventDefault()

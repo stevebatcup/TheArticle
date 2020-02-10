@@ -5,7 +5,7 @@ namespace :notifications do
 			if user = User.active.find_by(id: item.user_id)
 				user.send_daily_follows_mail
 			else
-				item.destroy
+				DailyUserMailItem.where(user_id: item.user_id).destroy_all
 			end
 		end
 	end
@@ -16,7 +16,7 @@ namespace :notifications do
 			if user = User.active.find_by(id: item.user_id)
 				user.send_weekly_follows_mail
 			else
-				item.destroy
+				WeeklyUserMailItem.where(user_id: item.user_id).destroy_all
 			end
 		end
 	end
@@ -33,7 +33,7 @@ namespace :notifications do
 				if user = User.where(status: :active).find_by(id: item.user_id)
 					user.send_daily_categorisations_mail
 				else
-					item.destroy
+					DailyUserMailItem.where(user_id: item.user_id).destroy_all
 				end
 			end
 		end
@@ -45,7 +45,7 @@ namespace :notifications do
 			if user = User.where(status: :active).find_by(id: item.user_id)
 				user.send_weekly_categorisations_mail
 			else
-				item.destroy
+				WeeklyUserMailItem.where(user_id: item.user_id).destroy_all
 			end
 		end
 	end

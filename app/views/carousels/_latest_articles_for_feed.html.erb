@@ -1,10 +1,12 @@
-<div class="bg-white pb-3 h-100">
+<div class="bg-white pb-3" id="latest_articles_for_feed">
 	<div class="pt-3 pb-1 px-2">
 		<h4 class="bullet card-title">Latest articles</h4>
 	</div>
+	<p ng-if="!latestArticlesLoaded" class="loading">Loading latest articles...</p>
 	<div class="latest_articles latest_articles_carousel slick-carousel slide w-100"
 				data-page="{{item.page}}"
-				data-slideout-ignore>
+				data-slideout-ignore
+				ng-if="latestArticlesLoaded">
 	  <article ng-repeat="article in latestArticles"
 	  				class="mx-2 article-listing post slick-carousel-item block_click"
 	  				id="carousel-latest-article-listing-{{ article.id }}"

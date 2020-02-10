@@ -3,6 +3,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$rootElement'
 	  '$element'

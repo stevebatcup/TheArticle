@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   http_basic_authenticate_with name: "londonbridge", password: "B37ys0m2w" if Rails.env == 'staging'
-  # http_basic_authenticate_with name: "borehamwood", password: "N5T0d341Vh" if Rails.env == 'production'
 	before_action :set_device_type
 	before_action :prepare_exception_notifier
   protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
@@ -13,17 +12,30 @@ class ApplicationController < ActionController::Base
 	def show_ads?
 		if viewing_from_admin
 			false
+		elsif request.headers["X-MobileApp"]
+			false
 		elsif is_development?
 			false
 		elsif is_staging?
-			true
+			false
 		elsif self.class == ProfileWizardController
+			false
+		else # production
+			false
+		end
+	end
+	helper_method	:show_ads?
+
+	def show_video_ads_only?
+		if viewing_from_admin
+			false
+		elsif is_development?
 			false
 		else
 			true
 		end
 	end
-	helper_method	:show_ads?
+	helper_method	:show_video_ads_only?
 
 	def not_found
 	  raise ActionController::RoutingError.new('Not Found')
@@ -177,6 +189,11 @@ class ApplicationController < ActionController::Base
 		messages.join
 	end
 
+	def footer_landing_page_links
+		LandingPage.for_homepage
+	end
+	helper_method	:footer_landing_page_links
+
 protected
 
 	def after_sign_out_path_for(resource_or_scope)
@@ -211,10 +228,6 @@ private
   def set_signed_in_header
   	response.headers["user_signed_in"] = user_signed_in? ? 1 : 0
   end
-
-	def set_layout
-		user_signed_in? && browser.device.mobile? ? 'member' : 'application'
-	end
 
 	def profile_wizard_layout_for_mobile
 		browser.device.mobile? ? 'profile-wizard' : 'application'

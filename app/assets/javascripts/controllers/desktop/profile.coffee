@@ -511,7 +511,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 	getProfile: (id, callback=null) =>
 		if @rootScope.viewingFromAdmin
 			@AdminProfile.get({id: @element.data('user-id')}).then (admin_profile) =>
-				console.log admin_profile
+				# console.log admin_profile
 				@getProfileSuccessCallback(admin_profile, callback)
 			, (error) =>
 				@getProfileErrorCallback(error)

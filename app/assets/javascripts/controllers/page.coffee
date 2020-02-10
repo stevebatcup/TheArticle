@@ -113,6 +113,7 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	bindCookieAcceptance: =>
 		$('#cn-accept-cookie').on 'click', (e) =>
+			e.preventDefault()
 			$.getJSON '/cookie-acceptance', (response) =>
 				if response.status is 'success'
 					$('#cookie-notice').fadeOut()
@@ -281,7 +282,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			, true
 
 	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
-		$event.preventDefault() if $event
+		$event.preventDefault() if $event?
 		if @isFacebookInAppBrowser()
 			window.location.href = "/users/sign_up"
 		else
@@ -290,6 +291,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			$('[data-dismiss=modal]', '#signinBoxModal').click()
 			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 			if gtag?
+				console.log "registration form was opened from '#{from}'" if console?
 				gtagData =
 					from: from
 					url: window.location.pathname
@@ -301,11 +303,11 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	requiresSignIn: (action, returnTo=null) =>
 		@setReturnLocation(returnTo) if returnTo?
-		@openSigninForm()
+		@openSigninForm(null, action)
 		@scope.authMessage = "You must be signed in to #{action}"
 
-	openSigninForm: ($event=null) =>
-		$event.preventDefault() if $event
+	openSigninForm: ($event=null, forcedFromAction=null) =>
+		$event.preventDefault() if $event?
 		if @isFacebookInAppBrowser()
 			window.location.href = "/users/sign_in"
 		else
@@ -314,6 +316,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			$('[data-dismiss=modal]', '#forgottenPasswordBoxModal').click()
 			@timeout =>
 				unless 'signinFormContent' of @scope
+					@scope.openedFromAction = @underscoreiseString(forcedFromAction) if forcedFromAction?
 					tpl = $("#signinBox").html().trim()
 					@scope.signinFormContent = @compile(tpl)(@scope)
 				$('body').append @scope.signinFormContent
@@ -444,3 +447,6 @@ class TheArticle.PageController extends TheArticle.NGController
 	isFacebookInAppBrowser: =>
 		ua = @getUserAgent()
 		ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1
+
+	underscoreiseString: (str) =>
+		str.trim().toLowerCase().replace(/[^a-zA-Z0-9 -]/, "").replace(/\s/g, "_")

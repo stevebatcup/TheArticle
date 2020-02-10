@@ -64,6 +64,16 @@ module Admin
     end
     helper_method :processed_concern_report_count
 
+    def pending_watch_list_user_count
+      @pending_watch_list_user_count ||= PendingWatchListUser.all.size
+    end
+    helper_method :pending_watch_list_user_count
+
+    def in_review_watch_list_user_count
+      @in_review_watch_list_user_count ||= InReviewWatchListUser.all.size
+    end
+    helper_method :in_review_watch_list_user_count
+
     def better_model_error_messages(resource)
       messages = resource.errors.details.keys.map do |attr|
         resource.errors.full_messages_for(attr).first

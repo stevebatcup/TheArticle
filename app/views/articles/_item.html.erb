@@ -13,7 +13,7 @@
 	</a>
 
 	<header class="entry-header pt-0 px-3">
-		<h4 class="entry-title mb-0" id="article-post-title-{{ article.id }}">
+		<h4 class="entry-title mb-2 mb-md-0" id="article-post-title-{{ article.id }}">
 			<a href="{{ article.path }}" ng-bind="article.title"></a>
 		</h4>
 	</header>
@@ -23,7 +23,18 @@
 	</div>
 
 	<footer class="entry-footer pt-1 px-3 pb-2">
-		<p class="author_link d-flex justify-content-between"><a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
+		<p class="author_link d-flex justify-content-between article_item">
+			<span ng-if="!article.additionalAuthor" class="written_by">
+				by <a href="{{ article.author.path }}">
+					<span ng-bind-html="article.author.name"></span>
+				</a>
+			</span>
+
+			<span ng-if="article.additionalAuthor" class="written_by">
+				by <a href="{{ article.author.path }}"><span ng-bind-html="article.author.name"></span></a>
+				&amp; <a href="{{ article.additionalAuthor.path }}"><span ng-bind-html="article.additionalAuthor.name"></span></a>
+			</span>
+
 			<span class="entry-date" ng-if="!article.isSponsored">{{ article.publishedAt }}</span>
 		</p>
 	</footer>

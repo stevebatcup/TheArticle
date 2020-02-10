@@ -1,6 +1,54 @@
 .feed-listing {
 	margin-bottom: 10px;
 
+	#who_to_follow {
+		height: 312px;
+		overflow-y: hidden;
+
+		p.loading {
+			text-align: center;
+			margin: 85px 0 0;
+			font-size: 1.8em;
+			color: #888;
+		}
+	}
+
+	#trending_exchanges_for_feed {
+		height: 397px;
+		overflow-y: hidden;
+
+		p.loading {
+			text-align: center;
+			margin: 85px 0 0;
+			font-size: 1.4em;
+			color: #888;
+		}
+	}
+
+	#sponsored_picks_for_feed {
+		height: 383px;
+		overflow-y: hidden;
+
+		p.loading {
+			text-align: center;
+			margin: 85px 0 0;
+			font-size: 1.4em;
+			color: #888;
+		}
+	}
+
+	#latest_articles_for_feed {
+		height: 383px;
+		overflow-y: hidden;
+
+		p.loading {
+			text-align: center;
+			margin: 85px 0 0;
+			font-size: 1.4em;
+			color: #888;
+		}
+	}
+
 	#third_party_article_url_phantom {
 		height: 2.4em;
 

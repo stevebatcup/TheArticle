@@ -77,7 +77,11 @@
       </script>
     <% end %>
 
-    <%= render 'layouts/ad-javascript' if show_ads? %>
+    <% if show_ads? %>
+      <%= render 'layouts/ad-javascript'  %>
+    <% elsif show_video_ads_only? %>
+      <%= render 'layouts/video-ad-only-javascript'  %>
+    <% end %>
 
     <% if page_requires_google_maps? %>
       <% maps_api_key = Rails.application.credentials.google_maps_api_key[Rails.env.to_sym] %>

@@ -191,7 +191,7 @@
 								<div ng-if="item.type == 'latestArticles'"><%= render 'carousels/latest_articles_for_feed' %></div>
 								<div ng-if="item.type == 'sponsoredPicks'"><%= render 'carousels/sponsored_picks_for_feed' %></div>
 								<div ng-if="item.type == 'trendingExchanges'"><%= render 'carousels/trending_exchanges_for_feed' %></div>
-								<div ng-if="item.type == 'featuredSponsoredPick'"><%= render 'categorisations/card' %></div>
+								<div ng-if="item.type == 'featuredSponsoredPick'"><%= render 'front_page/featured_sponsored_post_for_feed' %></div>
 						</div>
 					</div>
 				</div>
@@ -268,13 +268,12 @@
 								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-4' : 'pb-0' %>
 								<footer class="entry-footer pl-0 pt-0 <%= footerPaddingBottom %>">
 									<p class="author_link">
-										<a href="<%= contributor_path(slug: ta.author.slug) %>">
-											by <span><%= ta.author.display_name.html_safe %></span>
-										</a>
+										<%= written_by(ta) %>
+
 										<% unless ta.is_sponsored %>
-										<span class="entry-date">
-											<%= article_date(ta) %>
-										</span>
+											<span class="entry-date">
+												<%= article_date(ta) %>
+											</span>
 										<% end %>
 									</p>
 								</footer>

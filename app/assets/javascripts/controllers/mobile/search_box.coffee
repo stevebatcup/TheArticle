@@ -29,10 +29,7 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 		@bindEvents()
 
 	bindEvents: ->
-		@scope.$on 'search-tab-clicked', =>
-			@toggleSearch()
-
-		$('.search_trigger').on 'click', (e) =>
+		@scope.$on 'search-clicked', =>
 			@toggleSearch()
 
 		@scope.$watch 'search.query', (newVal, oldVal) =>

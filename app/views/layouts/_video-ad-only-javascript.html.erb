@@ -1,0 +1,31 @@
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script type="text/javascript">
+	var googletag = googletag || {};
+	googletag.cmd = googletag.cmd || [];
+	window.googletag = googletag;
+
+	googletag.cmd.push(function() {
+		googletag.defineSlot('/<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/unruly', [2, 2], 'div-gpt-ad-<%= ad_page_id %>-4').addService(googletag.pubads());
+
+		<% if is_staging? %>
+			 googletag.pubads().setTargeting('env', 'stage');
+		<% end %>
+
+		<% unless @article.nil? %>
+			googletag.pubads().setTargeting('article_id', '<%= @article.wp_id %>');
+		<% end %>
+
+		googletag.pubads().setTargeting('member', '<%= user_signed_in? ? 'true' : 'false' %>');
+		googletag.pubads().setTargeting('content', "<%= yield_meta_tag(:description, default_meta_description) %>");
+		googletag.pubads().enableSingleRequest();
+		googletag.pubads().collapseEmptyDivs();
+		googletag.enableServices();
+	});
+</script>
+
+<!-- Tracking tags (gtm) -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','<%= gtm_id %>');</script>

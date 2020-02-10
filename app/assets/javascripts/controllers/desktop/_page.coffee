@@ -36,6 +36,9 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 			$(window).on "orientationchange", (e) =>
 				@resetCarousels()
 
+		$(document).on 'hidden.bs.modal', '#signinBoxModal', =>
+			@rootScope.$broadcast 'sign_in_panel_closed'
+
 	reLinePosts: =>
 		$('.article-listing.post').each (index, post) =>
 			if $(post).is(':visible')

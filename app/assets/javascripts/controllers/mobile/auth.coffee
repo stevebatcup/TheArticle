@@ -3,6 +3,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 	@register window.App
 	@$inject: [
 	  '$scope'
+	  '$rootScope'
 	  '$http'
 	  '$rootElement'
 	  '$element'
@@ -52,13 +53,22 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 				value: ''
 				error: false
 		@bindEvents()
+		@bindListeners()
 
 	bindEvents: ->
 		@bindCookieAcceptance()
 
+	bindListeners: =>
+		@scope.$on 'sign_in_panel_closed', =>
+			@closeForgottenPasswordPanel()
+
 	logRegisterFieldFilled: (field) =>
 		if field? and @scope.register[field] and @scope.register[field].length > 0
 			gtag('event', 'register_field_filled', { 'field': field }) if gtag?
+
+	openRegisterFormFromSignInForm: ($event=null, deviceType='mobile') =>
+		$event.preventDefault()
+		@openRegisterForm(null, @scope.openedFromAction, deviceType)
 
 	submitRegister: ($event) =>
 		$event.preventDefault()
@@ -114,7 +124,7 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 				email: @scope.register.email
 				password: @scope.register.password
 		, (response) =>
-			gtag('event', 'sign_up', { 'signUpMethod': 'Email' }) if gtag?
+			gtag('event', 'sign_up', { 'method': 'Email' }) if gtag?
 			window.location.href = response.redirect_to
 		, (response) =>
 			@scope.$apply =>
@@ -158,8 +168,8 @@ class TheArticle.Auth extends TheArticle.MobilePageController
 		$event.preventDefault()
 		@scope.forgottenPassword.show = true
 
-	closeForgottenPasswordPanel: ($event) =>
-		$event.preventDefault()
+	closeForgottenPasswordPanel: ($event=null) =>
+		$event.preventDefault() if $event?
 		@scope.forgottenPassword.thanks = false
 		@scope.forgottenPassword.show = false
 

@@ -44,6 +44,7 @@ class RegistrationsController < Devise::RegistrationsController
     respond_to do |format|
       format.html do
         if @status == :success
+          response.headers["user_signed_in"] = 1
           respond_with resource, location: @redirect_to
         else
           respond_with resource
@@ -51,6 +52,7 @@ class RegistrationsController < Devise::RegistrationsController
       end
 
       format.json do
+        response.headers["user_signed_in"] = 1 if @status == :success
       end
     end
   end

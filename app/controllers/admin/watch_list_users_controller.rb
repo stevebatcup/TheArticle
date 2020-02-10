@@ -2,22 +2,27 @@ module Admin
   class WatchListUsersController < Admin::ApplicationController
     before_action :authenticate_super_admin
 
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = WatchListUser.
-    #     page(params[:page]).
-    #     per(10)
-    # end
+    def valid_action?(name, resource = resource_class)
+     %w[edit new destroy].exclude?(name.to_s) && super
+    end
 
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   WatchListUser.find_by!(slug: param)
-    # end
+    def remove
+    	if watch_list_user = WatchListUser.find(params[:id])
+    		watch_list_user.destroy
+    		render json: { status: :success }
+    	else
+    	  render json: { status: :error, message: "Watchlist item not found" }
+    	end
+    end
 
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+    def delete_account
+    	if watch_list_user = WatchListUser.find(params[:id])
+    		watch_list_user.user.delete_account("Admin deleted from watchlist", true)
+    		watch_list_user.destroy
+    		render json: { status: :success }
+    	else
+    	  render json: { status: :error, message: "Watchlist item not found" }
+    	end
+    end
   end
 end

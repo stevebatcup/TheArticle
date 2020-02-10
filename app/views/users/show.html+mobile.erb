@@ -115,7 +115,7 @@
 				<i class="fas fa-map-marker-alt"></i>
 				<span class="pl-3">{{ profile.data.location }}</span>
 			</p>
-			<p ng-if="!profile.data.location || profile.data.location.length == 0 && profile.isMe">
+			<p ng-if="(!profile.data.location || profile.data.location.length == 0) && profile.isMe">
 				<a href='#' ng-click="editProfile('location')">
 					<i class="fas fa-map-marker-alt text-green"></i>
 					<span class="pl-3 text-green">Add Location</span>

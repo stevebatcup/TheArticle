@@ -70,8 +70,19 @@
 
 						<footer class="entry-footer pt-1 px-3 pb-2" ng-if="article.author.name.length">
 							<p class="author_link d-flex justify-content-between align-items-start">
-								<a href="{{ article.author.path }}">by <span ng-bind-html="article.author.name"></span></a>
-								<span class="entry-date">{{ article.publishedAt }}</span></p>
+								<span ng-if="!article.additionalAuthor" class="written_by">
+									by <a href="{{ article.author.path }}">
+										<span ng-bind-html="article.author.name"></span>
+									</a>
+								</span>
+
+								<span ng-if="article.additionalAuthor" class="written_by">
+									by <a href="{{ article.author.path }}"><span ng-bind-html="article.author.name"></span></a>
+									&amp; <a href="{{ article.additionalAuthor.path }}"><span ng-bind-html="article.additionalAuthor.name"></span></a>
+								</span>
+
+								<span class="entry-date">{{ article.publishedAt }}</span>
+							</p>
 						</footer>
 
 						<div class="member_ratings p-3">
@@ -158,7 +169,7 @@
 						</div>
 					</div>
 
-					<div style="min-height: 50vh;">
+					<div style="min-height: 50vh;" class="w-100">
 						<div ng-repeat="item in ratings.data"
 									 class="col-12 feed-listing feed-share pb-3 px-0"
 									 ng-hide="selectedTab == 'you_follow' && !item.share.user.imFollowing">
@@ -439,7 +450,8 @@
 										  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
 										  data-style-classes="bib--recency-show bib--4by3 bib--default bib--image-middle bib--col-6"
 										  data-query-string-params="utm_source=bibblio_ratings_page"
-										  data-custom-unique-identifier="<%= @article.slug %>">
+										  data-custom-unique-identifier="<%= @article.slug %>"
+										  data-custom-catalogue-ids="Articles">
 										</div>
 									</div>
 							</section>

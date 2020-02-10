@@ -45,6 +45,7 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 		$(content).show()
 		@loadFullUserDetails(boxScope.userForBox)
 		$(window).scrollTop(0)
+		$('#navigation__toggle').click() if $('#admin_sidenav').is(':visible')
 
 	loadFullUserDetails: (scopedUser) =>
 		@http.get("/admin/users/#{scopedUser.id}?full_details=1").then (response) =>
@@ -62,6 +63,7 @@ class TheArticle.AdminPageController extends TheArticle.PageController
 
 	closeAccountPage: (user, $event=null) =>
 		$event.preventDefault() if $event?
+		$('#navigation__toggle').click() unless $('#admin_sidenav').is(':visible')
 		@rootScope.openPageBoxId = 0
 		@rootScope.userTabs = _.select @rootScope.userTabs, (item) =>
 			item.id isnt user.id

@@ -3,8 +3,12 @@ module ArticleHelper
 		contributor_path(slug: @article.author.slug)
 	end
 
-	def article_date(article)
-		article.published_at.strftime("%d %b %Y").upcase
+	def article_date(article, full_format=false)
+		if full_format
+			article.published_at.strftime("%A %B %d, %Y")
+		else
+			article.published_at.strftime("%d %b %Y").upcase
+		end
 	end
 
 	def article_excerpt_for_listing(article, length=125)
@@ -35,7 +39,7 @@ module ArticleHelper
 
 	def adified_content(article)
 		content_html =  Nokogiri::HTML.fragment(article.content)
-		ad_slots = Article.content_ad_slots(article, request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id)
+		ad_slots = Article.content_ad_slots(article, request.variant.mobile?, ad_page_type, ad_page_id, ad_publisher_id, show_ads?, (show_ads? || show_video_ads_only?))
 
 		ad_slots.each do |slot|
 			ad_html = ActionController::Base.render(partial: 'common/ad', locals: slot)
@@ -43,13 +47,6 @@ module ArticleHelper
 				position.before ad_html
 			end
 		end
-
-		# # unruly video ads
-		# if content_html.at_css('p')
-		# 	if content_html.css('p')[3]
-		# 		content_html.css('p')[3].before ActionController::Base.render(partial: 'common/unruly_script')
-		# 	end
-		# end
 
 		content_html.to_s.html_safe
 	end
@@ -64,7 +61,7 @@ module ArticleHelper
 				id: article.id,
 				snippet: article_excerpt_for_listing(article, 160),
 				image: article.image.url(:cover_mobile),
-				title: strip_tags(article.title),
+				title: article.title.html_safe,
 				publishedAt: article_date(article),
 				path: article_path(article),
 				ratingCount: article.shares.where(share_type: 'rating').size,
@@ -75,6 +72,12 @@ module ArticleHelper
 				exchanges: []
 			}
 		}
+		unless article.additional_author.nil?
+			result[:article][:additionalAuthor] = {
+			  name: article.additional_author.display_name,
+			  path: contributor_path(slug: article.additional_author.slug)
+			}
+		end
 		exchanges.each do |exchange|
 			result[:article][:exchanges].push({
 				name: exchange.name,
@@ -131,5 +134,10 @@ module ArticleHelper
 				false
 			end
 		end
+	end
+
+	def written_by(article)
+		tpl = article.additional_author.present? ? 'written-by-dual' : 'written-by-single'
+		render partial: "articles/#{tpl}", locals: { article: article }
 	end
 end

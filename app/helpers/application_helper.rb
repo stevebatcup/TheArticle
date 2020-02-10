@@ -15,6 +15,8 @@ module ApplicationHelper
 		bclasses = [Rails.env]
 		bclasses << 'show_cookie_notice' unless cookies[:cookie_permission_set] || request.headers["X-MobileApp"]
 		bclasses << 'tablet' if browser.device.tablet?
+    bclasses << 'show_ads' if show_ads?
+    bclasses << 'show_video_ads_only' if show_video_ads_only?
     if is_testing_environment?
       unless cookies[:cookie_test_environment_seen]
         bclasses << 'show_testing_interstitial'

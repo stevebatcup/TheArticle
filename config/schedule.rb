@@ -47,8 +47,11 @@ every	1.day, at: '11:30 pm' do
 	rake "autofollow:charlotte"
 end
 
-every	30.minutes do
+every	2.hours do
 	rake "suggestions:dedupe"
+end
+every	1.day, at: '1:30 am' do
+	rake "suggestions:archive_expired"
 end
 
 every	15.minutes do
@@ -65,4 +68,8 @@ end
 
 every 20.minutes do
 	rake "feeds:clean >> /var/www/thearticle/rails/shared/log/feeds.log 2>&1"
+end
+
+every	6.hours do
+	rake "articles:validate_rss_feed"
 end

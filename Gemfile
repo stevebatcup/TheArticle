@@ -76,6 +76,7 @@ gem 'mustache'
 gem "administrate", '>= 0.10.0'
 gem 'administrate_collapsible_navigation'
 gem 'administrate-field-date_picker', '~> 0.1.0'
+gem 'administrate-field-enum'
 gem "wysiwyg-rails"
 # gem "administrate-field-nested_has_many", git: "https://github.com/NedelescuVlad/administrate-field-nested_has_many"
 
@@ -87,6 +88,7 @@ gem 'exception_notification'
 gem 'fcm'
 gem "recaptcha"
 gem "rest-client"
+gem "rss"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

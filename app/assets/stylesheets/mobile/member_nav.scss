@@ -25,7 +25,7 @@
   &:hover,
   &:active {
     text-decoration: none;
-    color: #555;
+    color: #333 !important;
   }
 }
 
@@ -67,6 +67,7 @@
 
 div#sidebar_me {
   padding: 10px 20px 0;
+  background-color: #f2f5f2;
 
   img {
     width: 52px;
@@ -82,34 +83,40 @@ div#sidebar_me {
     line-height: 1.75em;
     margin-bottom: 0;
 
-    .display_name {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: $green_dark;
-    }
+    a {
+      line-height: 1.4em;
 
-    .username {
-      // font-size: 0.9em;
-      display: block;
-    }
+      span.display_name {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: $green_dark;
+      }
 
-    .link {
-      color: $green;
+      small.username {
+        display: block;
+        margin-top: -5px;
+      }
+
+      span.link {
+        color: $green;
+      }
     }
   }
 }
 
 div#follows_info {
-  padding: 0 16px 25px;
+  padding: 0 16px 10px;
+  margin-bottom: 20px;
   font-weight: bold;
   font-size: 1em;
+  background-color: #f2f5f2;
 
   p {
     color: #fff;
-    font-size: 0.9em;
-    padding-left: 10px;
+    font-size: 0.82em;
+    padding-left: 3px;
     line-height: 2em;
-    margin-bottom: 0;
+    margin: 6px 0 -5px;
   }
 }
 
@@ -135,7 +142,25 @@ body.fixed-nav {
   width: 100vw;
   left: 0;
   background-color: #fff;
-  z-index: 100;
+  z-index: 10000;
+
+  li {
+    position: relative;
+
+    a#notifications-tab {
+      .badge {
+        position: absolute;
+        top: 6px;
+        right: 28px;
+        padding: 3px 2px 0px 2px;
+        font-size: 0.5em;
+        min-width: 15px;
+        min-height: 16px;
+        font-weight: 600;
+        font-family: verdana;
+      }
+    }
+  }
 
   body.fixed-header & {
     position: fixed;

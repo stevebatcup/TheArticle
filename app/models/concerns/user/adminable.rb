@@ -1,4 +1,5 @@
 module User::Adminable
+
   def self.included(base)
     base.extend ClassMethods
   end
@@ -32,8 +33,12 @@ module User::Adminable
 		self.save
 	end
 
-	def add_to_watchlist(reason, admin_user)
-		self.build_watch_list_user({reason: reason, added_by_admin_user_id: admin_user.id})
+	def add_to_watchlist(reason, admin_user=nil)
+		self.build_watch_list_user({
+			reason: reason,
+			added_by_admin_user_id: admin_user.nil? ? nil : admin_user.id,
+			status: admin_user.nil? ? :pending : :in_review
+		})
 		self.save
 	end
 
@@ -55,6 +60,14 @@ module User::Adminable
 				'incomplete'
 			end
 		end
+	end
+
+	def has_enough_concern_reports_for_watchlist?
+		ConcernReport.where(reported_id: self.id).all.size >= WatchListUser::CONCERN_REPORT_CUTOFF
+	end
+
+	def has_enough_rejected_posts_for_watchlist?
+		self.quarantined_third_party_shares.where(status: :rejected).all.size >= WatchListUser::REJECTED_POST_CUTOFF
 	end
 
 	module ClassMethods

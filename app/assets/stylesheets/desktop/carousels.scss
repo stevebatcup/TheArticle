@@ -122,6 +122,16 @@
 			height: 245px;
 		}
 
+		&.initialising {
+			display: inline-box;
+			display: -webkit-inline-box;
+
+			.slick-carousel-item {
+				width: 40%;
+				opacity: 0.1;
+			}
+		}
+
 		.slick-carousel-item {
 			margin: 0 5px;
 			font-size: 1em;
@@ -129,6 +139,7 @@
 			padding: 0 0 0;
 			border: 1px solid #ccc;
 			position: relative;
+
 
 			.card-body {
 				padding: 7px !important;

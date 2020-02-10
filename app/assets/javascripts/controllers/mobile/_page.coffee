@@ -23,6 +23,9 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		$('#open_feedback_form').on 'click', (e) =>
 			@openFeedbackForm(e)
 
+		$(document).on 'hidden.bs.modal', '#signinBoxModal', =>
+			@rootScope.$broadcast 'sign_in_panel_closed'
+
 	bindSideMenu: =>
 		@rootScope.slideout = new Slideout
 			'panel': document.getElementById('panel_for_side_menu')
@@ -201,3 +204,10 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 
 	mobileAppDetected: =>
 		!!$('body').data('mobile-app')
+
+	openSearchPanel: ($event) =>
+		$event.preventDefault()
+		@rootScope.slideout.toggle() if @rootScope.slideout.isOpen()
+		@timeout =>
+			@rootScope.$broadcast 'search-clicked'
+

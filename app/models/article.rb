@@ -2,6 +2,7 @@ class Article < ApplicationRecord
 	include WpCache
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author, optional: true
+	belongs_to :additional_author, optional: true, class_name: 'Author'
 	has_many :shares
 
   has_many  :categorisations, dependent: :destroy
@@ -270,7 +271,7 @@ class Article < ApplicationRecord
 
 	def update_wp_cache(json)
 		self.slug = json["slug"]
-		self.title = json["title"]["rendered"]
+		self.title = json["proper_title"]
 		self.content = process_article_content_from_wp(json["content"]["rendered"])
 		self.excerpt = json["excerpt"]["rendered"]
 		self.author_id = json["author"]
@@ -289,6 +290,7 @@ class Article < ApplicationRecord
 		update_image(json)
 		update_exchanges(json)
 		update_keyword_tags(json)
+		update_additional_author(json) if json["additional_author"].to_i > 0
 
     if self.save
 	    # update counter cache columns
@@ -329,7 +331,7 @@ class Article < ApplicationRecord
 			service: :wordpress,
 			user_id: 0,
 			request_method: :update_exchange_feeds,
-			request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "title" => { "rendered" => self.title } },
+			request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "proper_title" => self.title.html_safe },
 			response: nil
 		}
 		ApiLog.webhook log_data
@@ -345,7 +347,7 @@ class Article < ApplicationRecord
 	  	service: :wordpress,
 	  	user_id: 0,
 	  	request_method: :send_email_notifications,
-	  	request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "title" => { "rendered" => self.title } },
+	  	request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "proper_title" => self.title.html_safe },
 	  	response: nil
 	  }
 	  ApiLog.webhook log_data
@@ -366,9 +368,17 @@ class Article < ApplicationRecord
   def update_author(json)
   	author_id = json["author"]
     author = Author.find_or_create_by(wp_id: author_id)
-    author_json = self.class.get_from_wp_api("users/#{author_id}")
+    author_json = self.class.get_from_wp_api("authors/#{author_id}")
     author.update_wp_cache(author_json)
     self.author = author
+  end
+
+  def update_additional_author(json)
+  	additional_author_id = json["additional_author"]
+    additional_author = Author.find_or_create_by(wp_id: additional_author_id)
+    additional_author_json = self.class.get_from_wp_api("authors/#{additional_author_id}")
+    additional_author.update_wp_cache(additional_author_json)
+    self.additional_author = additional_author
   end
 
 	def update_image(json)
@@ -376,10 +386,10 @@ class Article < ApplicationRecord
 		if remote_wp_image_id > 0
 			unless self.wp_image_id && (self.wp_image_id == remote_wp_image_id)
 				self.wp_image_id = remote_wp_image_id
-				image_json = self.class.get_from_wp_api("media/#{remote_wp_image_id}")
+				image_json = self.class.get_from_wp_api("images/#{remote_wp_image_id}")
 				self.remote_image_url = image_json["source_url"]
-				if image_json["caption"]["rendered"] && (image_json["caption"]["rendered"].length > 0)
-					caption = ActionController::Base.helpers.strip_tags(image_json["caption"]["rendered"])
+				if image_json["caption"] && (image_json["caption"].length > 0)
+					caption = ActionController::Base.helpers.strip_tags(image_json["caption"])
 					self.image_caption = ActionController::Base.helpers.truncate(caption, length: 150)
 				end
 			end
@@ -419,8 +429,9 @@ class Article < ApplicationRecord
 		end
 	end
 
-	def self.content_ad_slots(article, is_mobile=true, ad_page_type, ad_page_id, ad_publisher_id)
-		if is_mobile
+	def self.content_ad_slots(article, is_mobile, ad_page_type, ad_page_id, ad_publisher_id, include_display_ads=true, include_video_ads=true)
+		ads = []
+		if is_mobile && include_display_ads
 			ads = [
 				{
 					position: 7,
@@ -441,20 +452,20 @@ class Article < ApplicationRecord
 					ad_name: 'sidecolumn'
 				}
 			]
-		else
-			ads = []
 		end
 
-		unless article.is_sponsored
-			ads.push({
-					position: 3,
-					ad_type_id: 4,
-					ad_page_id: ad_page_id,
-					ad_page_type: ad_page_type,
-					ad_publisher_id: ad_publisher_id,
-					ad_classes: 'unruly_video ads_box text-center',
-					ad_name: 'unruly'
-				})
+		if include_video_ads
+			unless article.is_sponsored
+				ads.push({
+						position: 3,
+						ad_type_id: 4,
+						ad_page_id: ad_page_id,
+						ad_page_type: ad_page_type,
+						ad_publisher_id: ad_publisher_id,
+						ad_classes: 'unruly_video ads_box text-center',
+						ad_name: 'unruly'
+					})
+			end
 		end
 
 		ads
@@ -484,6 +495,30 @@ class Article < ApplicationRecord
 
 	def self.views_before_interstitial
 		1
+	end
+
+	def self.build_search_query(term, from_tag=false)
+		query = "#{term}"
+		if from_tag
+			tag = KeywordTag.find_by(slug: query)
+			other_tags = KeywordTag.where("LOWER(name) LIKE :query", query: "%#{sanitize_sql_like(query.downcase)}%")
+			other_tags = other_tags.where.not(id: tag.id) unless tag.nil?
+			other_tags.each do |ot|
+				query << " | #{ot.name}"
+			end
+			query = "#{query} | #{tag.name}" unless tag.nil?
+		end
+		query = "#{query} | #{term.pluralize}" unless term == term.pluralize
+		query
+	end
+
+	def self.recent_within_exchanges(exchange_ids)
+		self.not_sponsored.not_remote
+			.includes(:keyword_tags).references(:keyword_tags)
+			.includes(:exchanges).references(:exchanges)
+			.includes(:author).references(:author)
+			.where(exchanges: { id: exchange_ids })
+			.order(published_at: :desc)
 	end
 
 end

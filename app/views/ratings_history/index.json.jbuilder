@@ -29,6 +29,12 @@ if @page == 1
 			json.isSponsored exchange.slug == 'sponsored'
 			json.name exchange.name
 		end
+		unless @article.additional_author.nil?
+			json.additionalAuthor do
+				json.name @article.additional_author.display_name
+				json.path contributor_path(slug: @article.additional_author.slug)
+			end
+		end
 		json.ratingAllWwc readable_article_rating(@article.ratings_well_written_cache)
 		json.ratingAllVpc readable_article_rating(@article.ratings_valid_points_cache)
 		json.ratingAllAc readable_article_rating(@article.ratings_agree_cache)

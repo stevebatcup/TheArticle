@@ -26,9 +26,8 @@
 					<a href="{{ item.path }}">{{item.name}}</a>
 				</h4>
 
-				<div class="">
-					{{ item.excerpt }}
-				</div>
+				<div class="" ng-bind-html="item.excerpt"></div>
+
 			</div>
 
 			<div class="img_mask col-5 pr-0">

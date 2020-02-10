@@ -211,9 +211,8 @@
 								<% footerPaddingBottom = ta.is_sponsored? ? 'pb-2' : 'pb-0' %>
 								<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
 									<p class="author_link">
-										<a href="<%= contributor_path(slug: ta.author.slug) %>">
-											by <span><%= ta.author.display_name.html_safe %></span>
-										</a>
+										<%= written_by(ta) %>
+
 										<% unless ta.is_sponsored %>
 										<span class="entry-date">
 											<%= article_date(ta) %>

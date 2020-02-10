@@ -18,15 +18,14 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	]
 
 	init: ->
-		# @saveMessagingDeviceToken() if firebase.messaging.isSupported()
+		vars = @getUrlVars()
+		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		$('footer#main_footer_top').hide()
 		@setDefaultHttpHeaders()
 		@rootScope.isSignedIn = true
 		@rootScope.profileDeactivated = !!@element.data('profile-deactivated')
 		@bindEvents()
-		vars = @getUrlVars()
 		@disableBackButton() if 'from_wizard' of vars
-		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		@scope.selectedTab = 'articles'
 
 		@timeout =>
@@ -77,8 +76,17 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.suggestions = []
 		@scope.suggestionsLoaded = false
 		@scope.suggestionsCarouselReady = {}
+
+		@scope.sponsoredPicksLoaded = false
 		@scope.sponsoredPicksCarouselReady = {}
+		@scope.featuredSponsoredPostReady = {}
+
+		@scope.userExchanges = []
+
+		@scope.trendingExchangesLoaded = false
 		@scope.trendingExchangesCarouselReady = {}
+
+		@scope.latestArticlesLoaded = false
 		@scope.latestArticlesCarouselReady = {}
 
 		@scope.perPage = 16
@@ -98,6 +106,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			building: false
 
 	bindEvents: =>
+		super
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$(window).scrollTop(0)
 			$showing = $(e.target)
@@ -166,6 +175,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@initLatestArticlesCarousels(section) unless @scope.latestArticlesCarouselReady[key] is true
 			@initSponsoredPicksCarousels(section) unless @scope.sponsoredPicksCarouselReady[key] is true
 			@initTrendingExchangesCarousels(section) unless @scope.trendingExchangesCarouselReady[key] is true
+			@buildFeaturedSponsoredPost(section) unless @scope.featuredSponsoredPostReady[key] is true
 		else
 			return false
 
@@ -173,9 +183,11 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@scope.feeds[section].page += 1
 		@getFeeds(section)
 
-	getFeeds: (section='articles', autoGet=false)=>
+	getFeeds: (section='articles', backgroundFetch=false)=>
 		@scope.feeds[section].loading = true
-		@Feed.query({ page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }).then (response) =>
+		params = { page: @scope.feeds[section].page, per_page: @scope.perPage, section: section }
+		# params.bypass_article_feeds = 1 if section == 'articles'
+		@Feed.query(params).then (response) =>
 			angular.forEach response.feedItems, (feed, index) =>
 				if section is 'posts'
 					if _.contains(@scope.feeds.posts.share_ids, feed.share.id)
@@ -203,27 +215,34 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 					@scope.latestArticles = response.latestArticles
 					@scope.sponsoredPicks = response.sponsoredPicks
 					@scope.trendingExchanges = response.trendingExchanges
-					@scope.userExchanges = response.userExchanges
 					@getFeeds('posts', true) unless @rootScope.profileDeactivated
-					@getSuggestions =>
-						@buildAllCarousels(section, autoGet)
-				else
-					@buildAllCarousels(section, autoGet)
-					if section is 'posts'
-						@getFeeds('follows', true) unless @rootScope.profileDeactivated
-			else
-				@buildAllCarousels(section, autoGet)
+				else if section is 'posts'
+					@getFeeds('follows', true) unless @rootScope.profileDeactivated
+				else if section is 'follows' and backgroundFetch
+					@getResourcesForCallouts()
 
 			@scope.feeds[section].moreToLoad = (@scope.feeds[section].totalItems > @scope.feeds[section].itemsLoaded)
 
-	buildAllCarousels: (section, autoGet) =>
-		@buildSuggestionsCarousel(section, autoGet)
-		@buildLatestArticlesCarousels(section, autoGet)
-		@buildSponsoredPicksCarousels(section, autoGet)
-		@buildTrendingExchangesCarousels(section, autoGet)
-		@buildFeaturedSponsoredPost(section, autoGet)
+			@isFirstArticlePageLoad = (@scope.feeds[section].page is 1 && section is 'articles')
+			@buildSuggestionsCarousel section, backgroundFetch, @isFirstArticlePageLoad
+			@buildLatestArticlesCarousels section, backgroundFetch, @isFirstArticlePageLoad
+			@buildSponsoredPicksCarousels section, backgroundFetch, @isFirstArticlePageLoad
+			@buildTrendingExchangesCarousels section, backgroundFetch, @isFirstArticlePageLoad
+			@buildFeaturedSponsoredPost(section) unless @scope.feeds[section].page is 1
 
-	buildSuggestionsCarousel: (section, autoGet=false) =>
+	getResourcesForCallouts: =>
+		@getSuggestions =>
+			@initSuggestionsCarousels('articles')
+		@getLatestArticles =>
+			@initLatestArticlesCarousels('articles')
+		@getSponsoredPicks =>
+			@initSponsoredPicksCarousels('articles')
+			@buildFeaturedSponsoredPost('articles')
+		@getTrendingExchanges =>
+			@initTrendingExchangesCarousels('articles')
+		@getUserExchanges()
+
+	buildSuggestionsCarousel: (section, backgroundFetch=false, firstArticlePage=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'suggestion', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 2
@@ -233,7 +252,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initSuggestionsCarousels(section) unless (@scope.suggestionsCarouselReady[key] is true) or (autoGet)
+		@initSuggestionsCarousels(section) unless (@scope.suggestionsCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initSuggestionsCarousels: (section) =>
 		@timeout =>
@@ -255,7 +274,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@scope.suggestionsCarouselReady[key] = true
 		, 100
 
-	buildLatestArticlesCarousels: (section, autoGet=false) =>
+	buildLatestArticlesCarousels: (section, backgroundFetch=false, firstArticlePage=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'latestArticles', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 6
@@ -265,7 +284,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initLatestArticlesCarousels(section) unless (@scope.latestArticlesCarouselReady[key] is true) or (autoGet)
+		@initLatestArticlesCarousels(section) unless (@scope.latestArticlesCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initLatestArticlesCarousels: (section) =>
 		@timeout =>
@@ -283,7 +302,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@scope.latestArticlesCarouselReady[key] = true
 		, 100
 
-	buildSponsoredPicksCarousels: (section, autoGet=false) =>
+	buildSponsoredPicksCarousels: (section, backgroundFetch=false, firstArticlePage=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'sponsoredPicks', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 10
@@ -293,7 +312,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initSponsoredPicksCarousels(section)  unless (@scope.sponsoredPicksCarouselReady[key] is true) or (autoGet)
+		@initSponsoredPicksCarousels(section)  unless (@scope.sponsoredPicksCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initSponsoredPicksCarousels: (section) =>
 		@timeout =>
@@ -311,7 +330,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@scope.sponsoredPicksCarouselReady[key] = true
 		, 100
 
-	buildTrendingExchangesCarousels: (section, autoGet=false) =>
+	buildTrendingExchangesCarousels: (section, backgroundFetch=false, firstArticlePage=false) =>
 		page = @scope.feeds[section].page
 		feedItem = { type: 'trendingExchanges', isVisible: true, page: "#{section}_#{page}" }
 		offset = ((page - 1) * @scope.perPage) + 14
@@ -321,7 +340,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		else
 			@scope.feeds[section].data.push feedItem
 		key = @sectionPageKey(section)
-		@initTrendingExchangesCarousels(section) unless (@scope.trendingExchangesCarouselReady[key] is true) or (autoGet)
+		@initTrendingExchangesCarousels(section) unless (@scope.trendingExchangesCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initTrendingExchangesCarousels: (section) =>
 		@timeout =>
@@ -353,6 +372,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@scope.feeds[section].data.splice(offset, 0, feedItem)
 		else
 			@scope.feeds[section].data.push feedItem
+		key = @sectionPageKey(section)
+		@scope.featuredSponsoredPostReady[key] = true
 
 	toggleFollowExchange: (exchangeId, $event=null) =>
 		$event.preventDefault() if $event?
@@ -398,7 +419,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@updateAllWithOpinion(@scope.feeds.posts.data, shareId, action, user)
 
 	getSuggestions: (callback) =>
-		@http.get('/follow-suggestions?use_bibblio=1').then (response) =>
+		@http.get('/follow-suggestions?limit=20').then (response) =>
 			if response.data.suggestions.populars.length is 0
 				list = response.data.suggestions.forYous
 			else if response.data.suggestions.populars.length < 16
@@ -406,10 +427,39 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			else
 				list = response.data.suggestions.populars
 			@scope.suggestions = list.slice(0, 16)
+			@scope.suggestionsLoaded = true
 			@timeout =>
-				@scope.suggestionsLoaded = true
 				callback.call(@)
 			, 500
+
+	getLatestArticles: (callback) =>
+		@http.get('/articles?latest_for_feed=1&per_page=20').then (response) =>
+			@scope.latestArticles = response.data.articles
+			@scope.latestArticlesLoaded = true
+			@timeout =>
+				callback.call(@)
+			, 500
+
+	getSponsoredPicks: (callback) =>
+		@http.get('/articles?sponsored_picks=1&limit=7').then (response) =>
+			@scope.sponsoredPicks = response.data.articles
+			@scope.sponsoredPicksLoaded = true
+			@timeout =>
+				callback.call(@)
+			, 500
+
+	getTrendingExchanges: (callback) =>
+		@http.get('/exchanges?mode=feed').then (response) =>
+			@scope.trendingExchanges = response.data.exchanges
+			@scope.trendingExchangesLoaded = true
+			@timeout =>
+				callback.call(@)
+			, 500
+
+	getUserExchanges: =>
+		@http.get('/user_exchanges').then (response) =>
+			angular.forEach response.data.exchanges, (item) =>
+				@scope.userExchanges.push item.id
 
 	toggleFollowSuggestion: (user, $event) =>
 		$event.preventDefault()
@@ -454,12 +504,15 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@ignoreSuggestedMember member.id, =>
 			@timeout =>
 				$carousels = $(".slick-carousel.suggestions")
-				slideIndex = $($event.currentTarget).closest('[data-slick-index]').data('slick-index')
+				userId = $($event.currentTarget).closest('[data-slick-index]').data('user-id')
 				$carousels.each (cIndex, carousel) =>
 					$carousel = $(carousel)
 					section = $carousel.closest('[data-section]').data('section')
 					if $carousel.find('.slick-track').length
-						$carousel.slick('slickRemove', slideIndex)
+						slideIndexes = _.map $carousel.find("[data-user-id=#{userId}]"), (item) =>
+							$(item).data('slick-index')
+						angular.forEach slideIndexes, (i) =>
+							$("[data-slick-index=#{i}]", $carousel).remove()
 						# reindex
 						indx = 0
 						$carousel.find(".slick-carousel-item").each (t, v) =>

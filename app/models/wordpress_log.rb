@@ -15,7 +15,9 @@ class WordpressLog < ApiLog
 	end
 
 	def admin_article_title
-		if request_data_hash['title']
+		if request_data_hash['proper_title']
+			request_data_hash["proper_title"]
+		elsif request_data_hash['title']
 			request_data_hash["title"]["rendered"]
 		end
 	end
