@@ -182,8 +182,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			if (@scope.feeds[@scope.selectedTab].moreToLoad is true) and (!@scope.feeds[@scope.selectedTab].loading)
 				scrollTop = $win.scrollTop()
 				docHeight = @getDocumentHeight()
-				console.log "scrollTop: #{scrollTop}"
-				console.log "docHeight: #{docHeight}"
 				if (scrollTop + $win.height()) >= (docHeight - 700)
 					@scope.feeds[@scope.selectedTab].moreToLoad = false
 					@loadMore(@scope.selectedTab)
