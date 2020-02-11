@@ -1,0 +1,83 @@
+<div class="feed-follow-inner pb-2 block_click bg-white h-100" data-href="{{ item.path }}">
+	<div class="card-img-top cover_photo">
+		<a href="{{item.path}}" class="w-100 h-100 d-block">
+			<img class="w-100" ng-src="{{item.coverPhoto}}" alt="{{item.displayName}}" ng-if="item.coverPhoto" />
+		</a>
+	</div>
+
+	<div class="card-body py-2 w-100">
+		<div class="d-flex align-items-start justify-content-between">
+			<a href="{{ item.path }}">
+				<img ng-src="{{item.profilePhoto}}" class="rounded-circle feed_image with_cover_image" alt="{{item.displayName}}" />
+			</a>
+
+			<button class="btn btn-sm follow_btn"
+							ng-class="{ 'btn-outline-success': !item.imFollowing, 'btn-success': item.imFollowing }"
+							ng-click="<%= suggestions ? 'toggleFollowSuggestion(item, $event)' : 'toggleFollowUserFromCard(item, $event)' %>"
+							ng-if="(!item.isMe) && (!item.isMute) && (!item.isBlock) && (!item.isBlocked) && (!item.isBlockingMe)">
+				<i class="fas fa-users mr-2"></i>
+				<span ng-show="item.imFollowing">Following</span>
+				<span ng-show="!item.imFollowing">Follow</span>
+			</button>
+
+			<button class="btn btn-sm mt-2 btn-info"
+							ng-click="unmute(item, $event)"
+							ng-if="item.isMute">
+				Unmute
+			</button>
+
+			<button class="btn btn-sm mt-2 btn-info"
+							ng-click="unblock(item, $event)"
+							ng-if="item.isBlock">
+				Unblock
+			</button>
+		</div>
+
+		<div class="d-flex align-items-start justify-content-between">
+			<h5 class="card-title d-flex justify-content-between mb-0">
+				<a href="{{ item.path }}">
+					<span>{{ item.displayName }}</span>
+					</a>
+				<span ng-show="item.isFollowingMe" class="badge follower-badge">Follows you</span>
+			</h5>
+
+			<button class="ignore_suggestion"
+								ng-click="ignoreSuggestion(item, $event)"
+								ng-show="!item.imFollowing">
+				<i class="fas fa-times text-grey-dark"></i>
+			</button>
+		</div>
+
+		<h6 class="text-muted">
+			<small>
+				<a href="{{ item.path }}">
+					{{ item.username }}
+				</a>
+			</small>
+		</h6>
+
+		<ul class="list-unstyled p-0 ml-1 text-decrease-2 extra_info" ng-if="item.extraInfo.followerCount || item.extraInfo.ratingsCount || (item.extraInfo.publishedArticlesCount && item.authorPath)">
+			<li ng-show="item.extraInfo.followerCount">
+				<a href="{{item.path}}?panel=followers">
+					<i class="fa fa-users mr-1 text-dark" aria-hidden="true"></i>
+					<span class='text-green' ng-bind-html="item.extraInfo.followerCount"></span>
+				</a>
+			</li>
+			<li ng-show="item.extraInfo.ratingsCount">
+				<a href="{{item.path}}?panel=ratings">
+					<i class="fa fa-meh-o mr-1 text-dark" aria-hidden="true"></i>
+					<span class='text-green' ng-bind-html="item.extraInfo.ratingsCount"></span>
+				</a>
+			</li>
+			<li ng-show="(item.extraInfo.publishedArticlesCount && item.authorPath)">
+				<a href="{{item.authorPath}}">
+					<i class="fa fa-newspaper-o mr-1 text-dark" aria-hidden="true"></i>
+					<span class='text-green' ng-bind-html="item.extraInfo.publishedArticlesCount"></span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+
+	<div class="shared_followers w-100" ng-if="item.sharedFollowers.length > 0" ng-bind-html="item.sharedFollowers"></div>
+</div>
