@@ -1,4 +1,5 @@
 <%= render 'layouts/head' %>
+<% unless is_mobile_app? %>
 <header class="pt-2 container">
 	<div class="row">
 		<div class="col-12">
@@ -8,6 +9,7 @@
 		</div>
 	</div>
 </header>
+<% end %>
 <main id="main_content">
 	<div class="container">
 		<div class="row">

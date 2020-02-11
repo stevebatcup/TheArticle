@@ -14,6 +14,7 @@
     	</div>
 
       <div class="modal-body px-1 px-md-4">
+      	<% unless is_mobile_app? %>
         <header class="container auth_header">
           <div class="row">
             <div class="col col-md-12">
@@ -23,6 +24,7 @@
             </div>
           </div>
         </header>
+        <% end %>
 
 				<section class="auth">
 					<div class="alert alert-danger mt-5 mb-0" ng-if="authMessage && authMessage.length > 0">
