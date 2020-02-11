@@ -3,18 +3,21 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.0'
 
+gem "rack", ">= 2.0.8"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem "puma", ">= 3.12.2"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
+
+gem "excon", ">= 0.71.0"
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
@@ -50,11 +53,11 @@ gem 'browser'
 # Bower for JS libs
 gem "bower-rails", "~> 0.11.0"
 
-gem "nokogiri"
+gem "nokogiri", ">= 1.10.4"
 gem 'thinking-sphinx', '~> 4.0'
 
 # Upload images
-gem "mini_magick"
+gem "mini_magick", ">= 4.9.4"
 gem "carrierwave"
 gem "carrierwave-base64"
 gem "fog-aws"
@@ -62,7 +65,7 @@ gem "fog-aws"
 gem 'redis-rails'
 gem 'unicorn'
 
-gem 'devise'
+gem 'devise', ">= 4.7.1"
 gem 'angularjs-rails'
 gem 'angularjs-rails-resource', '~> 2.0.0'
 # gem 'angular-rails-templates'
@@ -89,6 +92,9 @@ gem "recaptcha"
 gem "rest-client"
 gem "rss"
 gem 'fcm'
+
+gem "rubyzip", ">= 1.3.0"
+gem "loofah", ">= 2.3.1"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
