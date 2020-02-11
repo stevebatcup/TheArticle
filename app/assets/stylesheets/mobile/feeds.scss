@@ -603,6 +603,7 @@ input#suggestion_search {
 
 	.card-text {
 		line-height: 1.1em;
+		word-break: break-word;
 
 		a {
 			color: inherit;
