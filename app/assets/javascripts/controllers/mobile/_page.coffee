@@ -93,14 +93,8 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			speed: 200
 			arrows: false
 			centerMode: true
-			slidesToShow: 2
+			slidesToShow: 1
 			dots: false
-			responsive: [
-				breakpoint: 370
-				settings:
-					slidesToShow: 1
-					dots: true
-			]
 
 	openSharingPanel: ($event=null, mode=null) =>
 		$event.preventDefault() if $event?
