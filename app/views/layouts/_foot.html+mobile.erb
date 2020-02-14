@@ -38,6 +38,9 @@
           }
         })
       });
+      window.appShowSearch = function() {
+        window.angular.element('body').injector().get('$rootScope').$broadcast('search-clicked');
+      };
     </script>
     <%= javascript_include_tag 'mobile', 'data-turbolinks-track': 'reload' %>
 
