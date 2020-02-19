@@ -305,7 +305,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				adaptiveHeight: false
 				speed: 300
 				dots: false
-				centerMode: if docWidth > 370 then true else false
+				centerMode: if isApp or (docWidth > 370) then true else false
 				centerPadding: '60px'
 			@scope.latestArticlesCarouselReady[key] = true
 		, 100

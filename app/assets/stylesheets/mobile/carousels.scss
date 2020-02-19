@@ -57,6 +57,24 @@
 		}
 	}
 
+	&.latest_articles {
+		.slick-track {
+			height: 330px;
+
+			article {
+				.inner.shown {
+					.img_mask {
+						height: 190px;
+
+						img {
+							height: initial;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	&.articles,
 	&.exchanges,
 	&.journalists {
