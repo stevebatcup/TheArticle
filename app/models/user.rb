@@ -198,6 +198,7 @@ class User < ApplicationRecord
     self.username = "@#{params[:names][:username][:value]}"
     self.slug = params[:names][:username][:value].downcase
     self.location = params[:location][:value]
+    self.private_location = params[:location][:private_value]
     self.lat = params[:location][:lat]
     self.lng = params[:location][:lng]
     self.country_code = params[:location][:country_code]

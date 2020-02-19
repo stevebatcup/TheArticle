@@ -97,10 +97,11 @@
 				<div class="col-12 col-md-10">
 	        <h4>Tell us where you live to help us serve articles that are relevant to you.</h4>
 	        <p>This will appear on your public profile.</p>
+	        <div id="map" style="display: none;"></div>
 				  <div class="form-group autocompleter">
 				    <%= f.label :location %><br />
 			    	<p ng-show="user.location.error" class="alert alert-danger">{{user.location.error}}</p>
-				    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.value", "autocomplete": "on" %>
+				    <%= f.text_field :location, class: "form-control", 'ng-model': "user.location.privateValue", "autocomplete": "on" %>
 				    <ul ng-if="autocompleteItems.length > 0">
 				    	<li ng-repeat="item in autocompleteItems">
 				    		<a href='#' ng-click="populateLocation($event, item)" class="d-flex justify-content-start align-items-start">
@@ -112,6 +113,7 @@
 				    		</a>
 				    	</li>
 				    </ul>
+				    <p><small class="form-text alert-no-bg"><%= t('views.profile.form.location_hint') %></small></p>
 				  </div>
 	        <input type="submit" wz-next ng-value="user.location.value.length > 0 ? 'Continue' : 'Skip for now'" class="btn text-white bg-green-dark pt-1 btn-block my-3" />
 				 </div>
@@ -128,7 +130,7 @@
 				</div>
 
 				<div class="d-flex align-items-stretch pb-4 flex-wrap">
-					<div ng-repeat="item in followSuggestions" class="w-50 w-sm-100 px-2 feed-listing feed-follow mb-3">
+					<div ng-repeat="item in followSuggestions" class="w-50 w-sm-100 px-2 feed-listing feed-follow mb-3 <%= 'border-bottom' if browser.device.mobile? %>">
 						<%= render partial: 'users/member_card', locals: { suggestions: true } %>
 					</div>
 				</div>

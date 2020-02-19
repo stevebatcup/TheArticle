@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_22_110706) do
+ActiveRecord::Schema.define(version: 2020_02_19_131538) do
+
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.string "reason"
@@ -556,6 +557,7 @@ ActiveRecord::Schema.define(version: 2020_01_22_110706) do
     t.string "gender"
     t.string "age_bracket"
     t.string "location", default: ""
+    t.string "private_location"
     t.decimal "lat", precision: 10, scale: 7
     t.decimal "lng", precision: 10, scale: 7
     t.string "country_code"

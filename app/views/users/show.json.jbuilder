@@ -16,6 +16,7 @@ json.set! root_name do
 	json.originalUsername fullUsername
 
 	json.location @user.location
+	json.privateLocation @user.private_location
 	json.bio @user.bio
 
 	userPath = profile_path(slug: @user.slug)

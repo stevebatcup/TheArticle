@@ -1,6 +1,10 @@
 en:
  errors:
   format: "%{message}"
+ views:
+  profile:
+   form:
+    location_hint: Please enter your city or postcode
  helpers:
   admin_indexes:
    titles:

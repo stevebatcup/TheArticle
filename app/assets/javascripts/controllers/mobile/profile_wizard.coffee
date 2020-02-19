@@ -21,6 +21,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 				lat: ''
 				lng: ''
 				value: ''
+				privateValue: ''
 				countryCode: ''
 				error: null
 			names:
@@ -54,9 +55,6 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		@scope.$watch 'suggestionSearch.value', (newVal, oldVal) =>
 			if newVal isnt oldVal
 				@searchForSuggestions newVal
-
-		# @scope.$on 'wizard:stepChanged', (event, args) =>
-		# 	console.log(args)
 
 	getSelectedExchanges: =>
 		url = "/user_exchanges?page=1&per_page=100"
@@ -93,7 +91,6 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 			types: ['geocode']
 			input: $input.val()
 			componentRestrictions: {}
-			# country: 'gb'
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
 		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise']
@@ -108,17 +105,34 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
 		$target = $($event.currentTarget.innerHTML)
-		placeText = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
-		@scope.user.location.value = placeText
-		geocoder.geocode { 'address': address }, (results, status) =>
-			if status is google.maps.GeocoderStatus.OK
-				@scope.$apply =>
-					@scope.user.location.lat = results[0].geometry.location.lat()
-					@scope.user.location.lng = results[0].geometry.location.lng()
-					results[0].address_components.forEach (component) =>
-						if _.contains(component.types, 'country')
-							@scope.user.location.countryCode = component.short_name
-		@scope.autocompleteItems = []
+		@scope.user.location.privateValue = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
+		@getPlaceDataForPublicValue prediction, (vicinity) =>
+			@scope.user.location.value = vicinity
+			geocoder.geocode { 'address': address }, (results, status) =>
+				if status is google.maps.GeocoderStatus.OK
+					@scope.$apply =>
+						@scope.user.location.lat = results[0].geometry.location.lat()
+						@scope.user.location.lng = results[0].geometry.location.lng()
+						results[0].address_components.forEach (component) =>
+							if _.contains(component.types, 'country')
+								@scope.user.location.countryCode = component.short_name
+								@scope.user.location.value += ", #{component.short_name}"
+			@scope.autocompleteItems = []
+
+	getPlaceDataForPublicValue: (prediction, callback) =>
+		map = new google.maps.Map document.getElementById('map')
+		service = new google.maps.places.PlacesService(map)
+		request =
+			placeId: prediction.place_id
+		service.getDetails request, (place, status) =>
+			if status is google.maps.places.PlacesServiceStatus.OK
+				if place.vicinity
+					town = place.vicinity
+				else
+					angular.forEach place.address_components, (ac) =>
+						if _.contains(ac.types, 'postal_town')
+							town = ac.long_name
+				callback.call(@, town)
 
 	validateNames: (context) =>
 		@scope.user.names.displayName.error = @scope.user.names.username.error = false
