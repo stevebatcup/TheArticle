@@ -293,6 +293,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@initLatestArticlesCarousels(section) unless (@scope.latestArticlesCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initLatestArticlesCarousels: (section) =>
+		isApp = @mobileAppDetected()
+		docWidth = $(window).width()
 		@timeout =>
 			key = @sectionPageKey(section)
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 540 then 1 else 2
@@ -303,7 +305,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				adaptiveHeight: false
 				speed: 300
 				dots: false
-				centerMode: if $(window).width() <= 320 then false else true
+				centerMode: if docWidth > 370 then true else false
 				centerPadding: '60px'
 			@scope.latestArticlesCarouselReady[key] = true
 		, 100

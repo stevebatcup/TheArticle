@@ -7,7 +7,9 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 		@bindSideMenu() if $('#mobile_side_menu').length
 		@bindContactForm()
 		@bindBlockClicks()
-		setTimeout @bindCarousels, 800
+		@timeout =>
+			@bindCarousels()
+		, 300
 		@bindSearchFilters()
 
 		$(document).on 'show.bs.modal', (e) =>
@@ -48,6 +50,9 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			$('.overlay').removeClass('show_menu').removeClass('active')
 
 	bindCarousels: =>
+		isApp = @mobileAppDetected()
+		docWidth = $(document).width()
+
 		$(document).on 'init', '.slick-carousel', (e) =>
 			window.setTimeout =>
 				$(e.currentTarget).find('.inner').addClass('shown')
@@ -60,14 +65,9 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			slidesToScroll: 1
 			adaptiveHeight: true
 			speed: 500
-			dots: true
 			arrows: false
-			centerMode: true
-			responsive: [
-				breakpoint: 370
-				settings:
-					centerMode: false
-			]
+			dots: if isApp or (docWidth > 370) then false else true
+			centerMode: if isApp or (docWidth > 370) then true else false
 
 		$('.slick-carousel.exchanges').slick
 			infinite: true
@@ -76,21 +76,15 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			adaptiveHeight: true
 			speed: 500
 			arrows: false
-			dots: false
-			centerMode: true
-			responsive: [
-				breakpoint: 370
-				settings:
-					dots: true
-					centerMode: false
-			]
+			dots: if isApp or (docWidth > 370) then false else false
+			centerMode: if isApp or (docWidth > 370) then true else false
 
 		$('.slick-carousel.journalists').slick
 			infinite: true
 			touchThreshold: 8
 			slidesToScroll: 1
 			adaptiveHeight: true
-			speed: 200
+			speed: 500
 			arrows: false
 			centerMode: true
 			slidesToShow: 1

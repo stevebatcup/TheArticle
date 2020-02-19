@@ -364,20 +364,35 @@
 
 @media only screen
   and (min-device-width: 320px)
-  and (max-device-width: 320px) {
-  	.slick-dots {
-  		li {
-  			margin: 0 3px;
+  and (max-device-width: 370px) {
+  	.slick-carousel {
+	  	.slick-dots {
+	  		li {
+	  			margin: 0 3px;
+	  		}
+	  	}
+  		&.journalists {
+	  		.slick-track {
+	  			height: 200px !important;
+	  		}
+	  	}
+  		&.exchanges {
+  			.slick-dots {
+		    	bottom: -5px;
+		   	}
   		}
-  	}
-  	.slick-carousel.journalists {
-  		.slick-track {
-  			height: 200px !important;
+  		&.latest_articles {
+	  		.slick-track {
+	  			article {
+	  				.inner.shown {
+	  					.img_mask {
+	  						img {
+	  							height: initial;
+	  						}
+	  					}
+	  				}
+	  			}
+	  		}
   		}
-  	}
-  	.slick-carousel.exchanges {
-  		.slick-dots {
-		    bottom: -5px;
-		   }
   	}
 }
