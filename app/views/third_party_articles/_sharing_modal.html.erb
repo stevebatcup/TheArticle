@@ -54,6 +54,9 @@
 
             <div id="ratings_box" class="member_ratings px-2 px-md-3 pt-3 pb-md-1"
                   ng-show="!invalidUrl">
+
+              <p ng-if="thirdPartyArticle.article.previouslyRated">You have previously rated this article</p>
+
               <div class="inner">
                 <ul class="dots panel">
                   <li class="mb-3">
