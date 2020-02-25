@@ -163,9 +163,9 @@ class TheArticle.Auth extends TheArticle.PageController
 				gtag('event', 'login', { 'method': 'Email' }) if gtag?
 				window.location.href = response.data.redirect
 			else
-				@signInError(response.data.message)
+				@signInError(response.data.status)
 		, (response) =>
-			@signInError(response.data.message)
+			@signInError(response.data.status)
 
 	signInError: (msg) =>
 		@scope.signInDetails.login.error = msg
