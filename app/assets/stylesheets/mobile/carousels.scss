@@ -59,15 +59,35 @@
 
 	&.latest_articles {
 		.slick-track {
-			height: 330px;
+			height: 355px;
 
 			article {
 				.inner.shown {
+					.exchange-badge {
+						font-size: 0.46em;
+						top: -1em;
+					}
+
 					.img_mask {
-						height: 190px;
+						height: 165px;
 
 						img {
 							height: initial;
+						}
+					}
+
+					footer.entry-footer {
+						font-size: 0.85em;
+						padding-bottom: 3px !important;
+
+						.author_link {
+							.written_by {
+								width: 100%;
+							}
+
+							.entry-date {
+								display: none;
+							}
 						}
 					}
 				}
