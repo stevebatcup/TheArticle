@@ -1,27 +1,29 @@
-<div class="d-flex justify-content-between w-100">
-	<div class="">
+<div class="d-flex justify-content-end w-100">
+	<div class="pl-2">
 		<p>SHARE:</p>
 	</div>
-	<div class="">
+	<div class="pl-2">
 		<a href="#" class="thearticle_share d-block text-black bg-grey btn btn-default ml-md-3" ng-click="openSharingPanel($event, 'share')">
 		</a>
 	</div>
-	<div class="">
+	<% unless is_mobile_app? %>
+	<div class="pl-2">
 		<a href="https://www.facebook.com/sharer/sharer.php?u=<%= request.url %>" target="_blank" class="d-block text-black bg-grey btn btn-default ml-md-3">
 			<i class="fab fa-facebook-f"></i>
 		</a>
 	</div>
-	<div class="">
+	<div class="pl-2">
 		<a href="https://twitter.com/intent/tweet?text=<%= article.title.html_safe %>&url=<%= request.url %>" target="_blank" class="d-block text-black bg-grey btn btn-default ml-md-3">
 			<i class="fab fa-twitter"></i>
 		</a>
 	</div>
-	<div class="">
+	<div class="pl-2">
 		<a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= request.url %>&title=TheArticle&summary=&source=" target="_blank" class="d-block text-black bg-grey btn btn-default ml-md-3">
 			<i class="fab fa-linkedin"></i>
 		</a>
 	</div>
-	<div class="">
+	<% end %>
+	<div class="pl-2">
 		<a href="mailto:?subject='<%= article.title.html_safe %>' on TheArticle&body=See this on TheArticle: <%= request.url %>" class="d-block text-black bg-grey btn btn-default ml-md-3">
 			<i class="fas fa-envelope"></i>
 		</a>
