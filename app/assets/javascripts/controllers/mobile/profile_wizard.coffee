@@ -115,8 +115,9 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 						@scope.user.location.lng = results[0].geometry.location.lng()
 						results[0].address_components.forEach (component) =>
 							if _.contains(component.types, 'country')
-								@scope.user.location.countryCode = component.short_name
-								@scope.user.location.value += ", #{component.short_name}"
+								countryCode = @properCountryCode(component.short_name)
+								@scope.user.location.countryCode = countryCode
+								@scope.user.location.value += ", #{countryCode}"
 			@scope.autocompleteItems = []
 
 	getPlaceDataForPublicValue: (prediction, callback) =>
@@ -132,6 +133,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 					angular.forEach place.address_components, (ac) =>
 						if _.contains(ac.types, 'postal_town')
 							town = ac.long_name
+					town = place.address_components[0].long_name unless town?
 				callback.call(@, town)
 
 	validateNames: (context) =>

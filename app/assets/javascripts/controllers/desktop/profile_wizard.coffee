@@ -118,8 +118,9 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 						@scope.user.location.lng = results[0].geometry.location.lng()
 						results[0].address_components.forEach (component) =>
 							if _.contains(component.types, 'country')
-								@scope.user.location.countryCode = component.short_name
-								@scope.user.location.value += ", #{component.short_name}"
+								countryCode = @properCountryCode(component.short_name)
+								@scope.user.location.countryCode = countryCode
+								@scope.user.location.value += ", #{countryCode}"
 			@scope.autocompleteItems = []
 
 	getPlaceDataForPublicValue: (prediction, callback) =>
@@ -128,8 +129,16 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 		request =
 			placeId: prediction.place_id
 		service.getDetails request, (place, status) =>
+			town = null
 			if status is google.maps.places.PlacesServiceStatus.OK
-				callback.call(@, place.vicinity)
+				if place.vicinity
+					town = place.vicinity
+				else
+					angular.forEach place.address_components, (ac) =>
+						if _.contains(ac.types, 'postal_town')
+							town = ac.long_name
+					town = place.address_components[0].long_name unless town?
+				callback.call(@, town)
 
 	validateNames: (context) =>
 		@scope.user.names.displayName.error = @scope.user.names.username.error = false

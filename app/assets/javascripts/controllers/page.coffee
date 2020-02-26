@@ -450,3 +450,6 @@ class TheArticle.PageController extends TheArticle.NGController
 		firebase.messaging().requestPermission().then prom.bind(@)
 		.catch (error) ->
 			console.error('Unable to get permission to notify.', error)
+
+	properCountryCode: (code) =>
+		if code.toLowerCase() is 'gb' then 'UK' else code.toUpperCase()

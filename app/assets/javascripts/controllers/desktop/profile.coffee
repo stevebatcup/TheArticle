@@ -774,8 +774,9 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 						@scope.profile.form.data.location.lng = results[0].geometry.location.lng()
 						results[0].address_components.forEach (component) =>
 							if _.contains(component.types, 'country')
-								@scope.profile.form.data.location.countryCode = component.short_name
-								@scope.profile.form.data.location.public += ", #{component.short_name}"
+								countryCode = @properCountryCode(component.short_name)
+								@scope.profile.form.data.location.countryCode = countryCode
+								@scope.profile.form.data.location.public += ", #{countryCode}"
 			@scope.autocompleteItems = []
 
 	getPlaceDataForPublicValue: (prediction, callback) =>
@@ -791,6 +792,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 					angular.forEach place.address_components, (ac) =>
 						if _.contains(ac.types, 'postal_town')
 							town = ac.long_name
+					town = place.address_components[0].long_name unless town?
 				callback.call(@, town)
 
 	updateAllSharesWithOpinion: (shareId, action, user) =>
