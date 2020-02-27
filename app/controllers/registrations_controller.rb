@@ -19,7 +19,7 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     resource.set_ip_data(request)
 
-    if !verify_recaptcha(model: resource, secret_key: Rails.application.credentials.recaptcha_secret_key) && !request.headers["X-MobileApp"]
+    if !verify_recaptcha(model: resource, secret_key: Rails.application.credentials.recaptcha_secret_key) && !request.headers["X-MobileApp"] && Rails.env.production?
       fail_registration(resource)
     else
       resource.registration_source = request.headers["X-MobileApp"] ? 'mobile app' : 'website'
