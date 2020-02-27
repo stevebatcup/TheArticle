@@ -39,7 +39,8 @@
         })
       });
       window.appShowSearch = function() {
-        window.App.injector().get('$rootScope').$broadcast('search-clicked');
+        angular.element('body').scope().$broadcast('search-clicked');
+        return true;
       };
     </script>
     <%= javascript_include_tag 'mobile', 'data-turbolinks-track': 'reload' %>
