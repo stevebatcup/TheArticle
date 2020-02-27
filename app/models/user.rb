@@ -66,6 +66,7 @@ class User < ApplicationRecord
   has_many  :linked_accounts
 
   has_many  :user_admin_notes
+  has_many  :push_tokens
 
   belongs_to   :author, optional: true
 
@@ -198,6 +199,7 @@ class User < ApplicationRecord
     self.username = "@#{params[:names][:username][:value]}"
     self.slug = params[:names][:username][:value].downcase
     self.location = params[:location][:value]
+    self.private_location = params[:location][:private_value]
     self.lat = params[:location][:lat]
     self.lng = params[:location][:lng]
     self.country_code = params[:location][:country_code]

@@ -57,6 +57,44 @@
 		}
 	}
 
+	&.latest_articles {
+		.slick-track {
+			height: 355px;
+
+			article {
+				.inner.shown {
+					.exchange-badge {
+						font-size: 0.46em;
+						top: -1em;
+					}
+
+					.img_mask {
+						height: 165px;
+
+						img {
+							height: initial;
+						}
+					}
+
+					footer.entry-footer {
+						font-size: 0.85em;
+						padding-bottom: 3px !important;
+
+						.author_link {
+							.written_by {
+								width: 100%;
+							}
+
+							.entry-date {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	&.articles,
 	&.exchanges,
 	&.journalists {
@@ -160,7 +198,7 @@
 
 	&.suggestions {
 		.slick-track {
-			height: 220px;
+			height: 266px;
 		}
 
 		&.initialising {
@@ -181,6 +219,17 @@
 			border: 1px solid #ccc;
 			position: relative;
 
+			.card-img-top {
+				height: 43px;
+				background-color: #aeaeae;
+
+				img {
+					height: 100%;
+					border-top-left-radius: 6px;
+					border-top-right-radius: 6px;
+				}
+			}
+
 			.card-body {
 				padding: 7px !important;
 			}
@@ -194,18 +243,21 @@
 			}
 
 			img.feed_image.with_cover_image {
-				top: -34px;
+				top: -32px;
+				left: 3px;
 				width: 45px;
 				height: 45px;
 				margin: 0 8px -20px 0;
+				position: relative;
+				border: 2px solid #fff;
 			}
 
 			.shared_followers {
-				width: 100% !important;
+				width: 92% !important;
 				margin:0;
 				position: absolute;
-				bottom: 42px;
-				left: 4.5em;
+				bottom: 44px;
+				left: 0.5em;
 
 				.double {
 					// width: 69px;
@@ -275,7 +327,8 @@
 
 	&.journalists {
 		.slick-track {
-			height: 150px;
+			height: 238px;
+			margin-bottom: 20px;
 		}
 
 		.slick-carousel-item {
@@ -349,20 +402,35 @@
 
 @media only screen
   and (min-device-width: 320px)
-  and (max-device-width: 320px) {
-  	.slick-dots {
-  		li {
-  			margin: 0 3px;
+  and (max-device-width: 370px) {
+  	.slick-carousel {
+	  	.slick-dots {
+	  		li {
+	  			margin: 0 3px;
+	  		}
+	  	}
+  		&.journalists {
+	  		.slick-track {
+	  			height: 200px !important;
+	  		}
+	  	}
+  		&.exchanges {
+  			.slick-dots {
+		    	bottom: -5px;
+		   	}
   		}
-  	}
-  	.slick-carousel.journalists {
-  		.slick-track {
-  			height: 200px !important;
+  		&.latest_articles {
+	  		.slick-track {
+	  			article {
+	  				.inner.shown {
+	  					.img_mask {
+	  						img {
+	  							height: initial;
+	  						}
+	  					}
+	  				}
+	  			}
+	  		}
   		}
-  	}
-  	.slick-carousel.exchanges {
-  		.slick-dots {
-		    bottom: -5px;
-		   }
   	}
 }

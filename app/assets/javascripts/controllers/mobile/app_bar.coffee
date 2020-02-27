@@ -19,5 +19,4 @@ class TheArticle.AppBar extends TheArticle.MobilePageController
 				@getNotificationsBadgeUpdate()
 			, 120000
 
-
 TheArticle.ControllerModule.controller('AppBarController', TheArticle.AppBar)

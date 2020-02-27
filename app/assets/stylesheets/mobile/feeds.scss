@@ -439,6 +439,55 @@ input#suggestion_search {
 	}
 
 	&.feed-suggestion {
+		border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
+    .feed-follow-inner {
+    	border-top-left-radius: 6px;
+			border-top-right-radius: 6px;
+    }
+
+		button.ignore_suggestion {
+			line-height: 0.9em !important;
+			cursor: pointer;
+			border: none;
+			position: absolute;
+			top: 3px;
+			right: 0px;
+			background-color: transparent !important;
+			outline: none;
+
+			i {
+				text-shadow: 1px 1px 2px #888;
+				color: #fff;
+			}
+		}
+
+		.follower-badge {
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			background: #efefef;
+			padding: 3px 8px;
+			border-radius: 5px 0 2px 0;
+		}
+
+		.follow_btn {
+			position: absolute;
+			bottom: 0;
+			width: 94%;
+		}
+
+		h5 {
+			font-size: 1.2em;
+		}
+
+		h6 {
+			font-size: 1em;
+			position: relative;
+			top: -3px;
+		}
+
 		.card {
 			background-color: $gold;
 			border-color: $gold_dark;
@@ -554,6 +603,7 @@ input#suggestion_search {
 
 	.card-text {
 		line-height: 1.1em;
+		word-break: break-word;
 
 		a {
 			color: inherit;

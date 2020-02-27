@@ -78,7 +78,7 @@ protected
 		       redirect_to "/my-home"
 		      end
 		      format.json do
-		      	render json: { status: :error, message: t('devise.failure.already_authenticated') }, status: 401
+		      	render json: { status: :signed_in, message: t('devise.failure.already_authenticated') }
 		      end
 		    end
      end

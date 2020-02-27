@@ -175,4 +175,18 @@ class Share < ApplicationRecord
 	def set_user_share_counts
 		self.user.set_share_counts
 	end
+
+	def self.find_previous_remote_share_for_user(url, user)
+		Article.includes(:shares).references(:shares)
+						.find_by(remote_article_url: url, shares: { user_id: user.id, share_type: :rating })
+	end
+
+	def update_third_party_rating(post, rating_well_written, rating_valid_points, rating_agree)
+		self.update_attributes({
+			rating_well_written: rating_well_written,
+			rating_valid_points: rating_valid_points,
+			rating_agree: rating_agree,
+			post: post
+		})
+	end
 end

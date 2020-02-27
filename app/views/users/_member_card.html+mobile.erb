@@ -39,26 +39,28 @@
 			</div>
 
 
-			<p class="extra_info" ng-if="item.extraInfo.followerCount || item.extraInfo.ratingsCount">
-				<span ng-if="item.extraInfo.followerCount">
-					<% if show_links %><a href="{{item.path}}?panel=followers" class='text-green'><% end %>
-						<i class="fa fa-users mr-1" aria-hidden="true"></i>
-						<span ng-bind-html="item.extraInfo.followerCount"></span>
+			<p class="extra_info mb-0" ng-if="item.extraInfo.followerCount || item.extraInfo.ratingsCount">
+				<small ng-if="item.extraInfo.followerCount">
+					<% if show_links %><a href="{{item.path}}?panel=followers"><% end %>
+						<i class="text-dark fa fa-users mr-1" aria-hidden="true"></i>
+						<span class="text-green" ng-bind-html="item.extraInfo.followerCount"></span>
 					<% if show_links %></a><% end %>
 					<span ng-if="item.extraInfo.ratingsCount" class="mx-1"> | </span>
-				</span>
-				<span ng-if="item.extraInfo.ratingsCount">
-					<% if show_links %><a href="{{item.path}}?panel=ratings" class='text-green'><% end %>
-						<i class="fa fa-meh-o mr-1" aria-hidden="true"></i>
-						<span ng-bind-html="item.extraInfo.ratingsCount"></span>
+				</small>
+				<small ng-if="item.extraInfo.ratingsCount">
+					<% if show_links %><a href="{{item.path}}?panel=ratings"><% end %>
+						<i class="text-dark fa fa-meh-o mr-1" aria-hidden="true"></i>
+						<span class="text-green" ng-bind-html="item.extraInfo.ratingsCount"></span>
 					<% if show_links %></a><% end %>
-				</span>
+				</small>
 			</p>
-			<p class="extra_info" ng-if="item.extraInfo.publishedArticlesCount && item.authorPath">
-				<% if show_links %><a href="{{item.authorPath}}" class='text-green'><% end %>
-					<i class="fa fa-newspaper-o mr-1" aria-hidden="true"></i>
-					<span ng-bind-html="item.extraInfo.publishedArticlesCount"></span>
-				<% if show_links %></a><% end %>
+			<p class="extra_info mb-0" ng-if="item.extraInfo.publishedArticlesCount && item.authorPath">
+				<small>
+					<% if show_links %><a href="{{item.authorPath}}"><% end %>
+						<i class="text-dark fa fa-newspaper-o mr-1" aria-hidden="true"></i>
+						<span class="text-green" ng-bind-html="item.extraInfo.publishedArticlesCount"></span>
+					<% if show_links %></a><% end %>
+				</small>
 			</p>
 
 			<div class="py-0 w-100" ng-if="(item.bio.length > 0) && (!item.isBlocked && !item.isBlockingMe)">

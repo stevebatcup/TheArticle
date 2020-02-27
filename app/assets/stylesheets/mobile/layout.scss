@@ -937,7 +937,7 @@ div.new_article {
   width: fit-content;
   width: -moz-fit-content;
   font-size: 1.4em;
-  padding: 50px 0 50px 45px;
+  padding: 2.1em 0 2em 2.1em;
   margin: 30px auto;
   background-image: asset_url('ajax-loader.gif');
   background-position: left center;
@@ -948,7 +948,7 @@ html.svg {
 	.ajax_loading {
 		background-size: 62px;
 		background-image: asset_url('ajax-loader.svg') !important;
-		padding: 30px 0 30px 60px;
+		padding: 1.3em 0 1.4em 2.8em;
 	}
 
 	.ajax_loading_label {

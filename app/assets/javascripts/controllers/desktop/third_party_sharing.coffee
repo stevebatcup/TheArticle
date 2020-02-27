@@ -32,6 +32,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.DesktopPageController
 				error: false
 				loaded: false
 				data: {}
+				previouslyRated: false
 				share:
 					comments: ''
 					rating_well_written: 0
@@ -73,6 +74,12 @@ class TheArticle.ThirdPartySharing extends TheArticle.DesktopPageController
 					@scope.invalidUrl = response.data.message.indexOf('preview') < 1
 				else if response.data.status is 'success'
 					@scope.thirdPartyArticle.article.data = response.data.article
+					if 'previous_rated_article' of response.data
+						@scope.thirdPartyArticle.article.previouslyRated = true
+						@scope.thirdPartyArticle.article.share = response.data.previous_rated_article
+					else
+						@scope.thirdPartyArticle.article.previouslyRated = false
+						@scope.thirdPartyArticle.article.share = { comments: '', rating_well_written: 0, rating_valid_points: 0, rating_agree: 0 }
 		else
 			@scope.thirdPartyArticle.article.loaded = true
 			@scope.thirdPartyArticle.urlError = "We're sorry but there is a problem sharing this URL. This might be, for example, because it is not an article URL or because the article's publication does not allow shares. Please press cancel to continue using the site."
@@ -116,7 +123,8 @@ class TheArticle.ThirdPartySharing extends TheArticle.DesktopPageController
 
 		@http.post("/submit_third_party_article", { share: data }).then (response) =>
 			if response.data.status is 'success'
-				flashMsg = if (@scope.whitelisted) and (!_.isEmpty(@scope.thirdPartyArticle.article.data)) then "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>." else "Your post has been sent to review."
+				msg = if @scope.thirdPartyArticle.article.previouslyRated then "Post updated" else "Post added to your profile"
+				flashMsg = if (@scope.whitelisted) and (!_.isEmpty(@scope.thirdPartyArticle.article.data)) then "#{msg}. <a class='text-green' href='/my-profile'>View post</a>." else "Your post has been sent to review."
 				@flash flashMsg
 				@timeout =>
 					$('.close_share_modal').first().click()

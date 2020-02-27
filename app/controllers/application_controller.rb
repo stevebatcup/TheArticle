@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 	def show_ads?
 		if viewing_from_admin
 			false
-		elsif request.headers["X-MobileApp"]
+		elsif is_mobile_app?
 			false
 		elsif is_development?
 			false
@@ -25,6 +25,11 @@ class ApplicationController < ActionController::Base
 		end
 	end
 	helper_method	:show_ads?
+
+	def is_mobile_app?
+		request.headers["X-MobileApp"]
+	end
+	helper_method	:is_mobile_app?
 
 	def show_video_ads_only?
 		if viewing_from_admin
@@ -212,7 +217,7 @@ protected
 
 private
   def set_device_type
-    if browser.device.mobile? || request.headers["X-MobileApp"] || params[:forcemobile].present?
+    if browser.device.mobile? || is_mobile_app? || params[:forcemobile].present?
       request.variant = :mobile
     elsif browser.device.tablet?
       request.variant = :tablet

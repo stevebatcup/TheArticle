@@ -18,6 +18,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 	]
 
 	init: ->
+		@saveMessagingDeviceToken() if firebase.messaging.isSupported() and !@mobileAppDetected()
 		vars = @getUrlVars()
 		@scope.showPasswordChangedThanks = if 'password_changed' of vars then true else false
 		$('footer#main_footer_top').hide()
@@ -107,6 +108,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 
 	bindEvents: =>
 		super
+		@bindScrollEvent()
 		$(document).on 'show.bs.tab', 'a[data-toggle="tab"]', (e) =>
 			$(window).scrollTop(0)
 			$showing = $(e.target)
@@ -123,11 +125,6 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				@scope.$apply =>
 					@scope.root.notifications = false
 				true
-
-		@scope.$on 'load_more_feeds', =>
-			if (@scope.feeds[@scope.selectedTab].moreToLoad is true) and (!@scope.feeds[@scope.selectedTab].loading)
-				@scope.feeds[@scope.selectedTab].moreToLoad = false
-				@loadMore(@scope.selectedTab)
 
 		$(document).on 'click', '#feed.front_page_page .other_followers_of_user', (e) =>
 			e.preventDefault()
@@ -163,6 +160,16 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			$clicked = $(e.currentTarget)
 			userId = $clicked.data('user')
 			window.location.href = "/profile-by-id/#{userId}"
+
+	bindScrollEvent: =>
+		$win = $(window)
+		$win.on 'scroll', =>
+			scrollTop = $win.scrollTop()
+			docHeight = @getDocumentHeight()
+			if (scrollTop + $win.height()) >= (docHeight - 320)
+				if (@scope.feeds[@scope.selectedTab].moreToLoad is true) and (!@scope.feeds[@scope.selectedTab].loading)
+					@scope.feeds[@scope.selectedTab].moreToLoad = false
+					@loadMore(@scope.selectedTab)
 
 	selectTab: (section='all', canClick=false) =>
 		if canClick
@@ -287,6 +294,8 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 		@initLatestArticlesCarousels(section) unless (@scope.latestArticlesCarouselReady[key] is true) or (backgroundFetch) or (firstArticlePage)
 
 	initLatestArticlesCarousels: (section) =>
+		isApp = @mobileAppDetected()
+		docWidth = $(window).width()
 		@timeout =>
 			key = @sectionPageKey(section)
 			slidesToShow = if $('#activity-tabs').outerWidth() <= 540 then 1 else 2
@@ -297,7 +306,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 				adaptiveHeight: false
 				speed: 300
 				dots: false
-				centerMode: if $(window).width() <= 320 then false else true
+				centerMode: if isApp or (docWidth > 370) then true else false
 				centerPadding: '60px'
 			@scope.latestArticlesCarouselReady[key] = true
 		, 100

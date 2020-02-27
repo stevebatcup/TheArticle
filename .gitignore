@@ -52,6 +52,7 @@ config/recipes
 
 public/robots.txt
 public/uploads
+public/firebase-messaging-sw.js
 
 db/sphinx
 

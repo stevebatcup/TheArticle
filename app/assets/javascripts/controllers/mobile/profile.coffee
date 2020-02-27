@@ -94,7 +94,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						value: ""
 						available: true
 					location:
-						text: ""
+						public: ""
+						private: ""
 						lat: null
 						lng: null
 						countryCode: ''
@@ -250,7 +251,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 						username:
 							value: profile.username
 						location:
-							text: profile.location
+							public: profile.location
+							private: profile.privateLocation
 						bio: profile.bio
 					@rootScope.profileDeactivated = profile.deactivated
 					@scope.profile.loaded = true
@@ -353,7 +355,8 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			displayName: formData.displayName
 			username: "@#{formData.username.value}"
 			location:
-				value: formData.location.text
+				public: formData.location.public
+				private: formData.location.private
 				lat: formData.location.lat
 				lng: formData.location.lng
 				country_code: formData.location.countryCode
@@ -677,7 +680,6 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 			types: ['geocode']
 			input: $input.val()
 			componentRestrictions: {}
-			# {country: 'gb'}
 		acService = new google.maps.places.AutocompleteService()
 		@scope.autocompleteItems = []
 		excludeTypes = ['route', 'transit_station', 'point_of_interest', 'premise', 'neighborhood']
@@ -694,17 +696,36 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		address = prediction.description
 		geocoder = new google.maps.Geocoder()
 		$target = $($event.currentTarget.innerHTML)
-		placeText = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
-		@scope.profile.form.data.location.text = placeText
-		geocoder.geocode { 'address': address }, (results, status) =>
-			if status is google.maps.GeocoderStatus.OK
-				@scope.$apply =>
-					@scope.profile.form.data.location.lat = results[0].geometry.location.lat()
-					@scope.profile.form.data.location.lng = results[0].geometry.location.lng()
-					results[0].address_components.forEach (component) =>
-						if _.contains(component.types, 'country')
-							@scope.profile.form.data.location.countryCode = component.short_name
-		@scope.autocompleteItems = []
+		@scope.profile.form.data.location.private = "#{$target.find(".main_location_text").text()}, #{$target.find(".secondary_location_text").text()}"
+		@getPlaceDataForPublicValue prediction, (vicinity) =>
+			@scope.profile.form.data.location.public = vicinity
+			geocoder.geocode { 'address': address }, (results, status) =>
+				if status is google.maps.GeocoderStatus.OK
+					@scope.$apply =>
+						@scope.profile.form.data.location.lat = results[0].geometry.location.lat()
+						@scope.profile.form.data.location.lng = results[0].geometry.location.lng()
+						results[0].address_components.forEach (component) =>
+							if _.contains(component.types, 'country')
+								countryCode = @properCountryCode(component.short_name)
+								@scope.profile.form.data.location.countryCode = countryCode
+								@scope.profile.form.data.location.public += ", #{countryCode}"
+			@scope.autocompleteItems = []
+
+	getPlaceDataForPublicValue: (prediction, callback) =>
+		map = new google.maps.Map document.getElementById('map')
+		service = new google.maps.places.PlacesService(map)
+		request =
+		  placeId: prediction.place_id
+		service.getDetails request, (place, status) =>
+			if status is google.maps.places.PlacesServiceStatus.OK
+				if place.vicinity
+					town = place.vicinity
+				else
+					angular.forEach place.address_components, (ac) =>
+						if _.contains(ac.types, 'postal_town')
+							town = ac.long_name
+					town = place.address_components[0].long_name unless town?
+				callback.call(@, town)
 
 	updateAllSharesWithOpinion: (shareId, action, user) =>
 		@updateAllWithOpinion(@scope.profile.ratings.data, shareId, action, user)

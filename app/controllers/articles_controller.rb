@@ -11,6 +11,7 @@ class ArticlesController < ApplicationController
 			format.json do
 				params[:page] ||= 1
 				params[:per_page] ||= articles_per_page
+				@latest_for_feed = false
 				if params[:tagged]
 					if params[:tagged] == 'editors-picks'
 						@articles = Article.editors_picks(params[:page].to_i, params[:per_page].to_i)
@@ -106,6 +107,7 @@ class ArticlesController < ApplicationController
 					@articles = Author.get_sponsors_single_posts('sponsored-pick', limit)
 					ordered = @articles.map(&:published_at)
 				elsif params[:latest_for_feed]
+					@latest_for_feed = true
 					@articles = Article.latest.limit(params[:per_page])
 				end
 			end

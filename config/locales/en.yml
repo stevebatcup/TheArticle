@@ -1,6 +1,10 @@
 en:
  errors:
   format: "%{message}"
+ views:
+  profile:
+   form:
+    location_hint: Please enter your city or postcode
  helpers:
   admin_indexes:
    titles:
@@ -80,3 +84,7 @@ en:
    exchange:
     users: Followers
 
+ recaptcha:
+  errors:
+    verification_failed: Please verify that you are not in fact a ROBOT!
+    recaptcha_unreachable: Oops, there was an error verifying that you are not a ROBOT. Please try again.

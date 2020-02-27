@@ -76,23 +76,23 @@
 
 		<p class="extra_info" ng-if="item.extraInfo.followerCount || item.extraInfo.ratingsCount">
 			<span ng-if="item.extraInfo.followerCount">
-				<% if show_links %><a href="{{item.path}}?panel=followers" class='text-green'><% end %>
-					<i class="fa fa-users mr-1" aria-hidden="true"></i>
-					<span ng-bind-html="item.extraInfo.followerCount"></span>
+				<% if show_links %><a href="{{item.path}}?panel=followers"><% end %>
+					<i class="fa fa-users mr-1 text-dark" aria-hidden="true"></i>
+					<span ng-bind-html="item.extraInfo.followerCount" class='text-green'></span>
 				<% if show_links %></a><% end %>
 				<span ng-if="item.extraInfo.ratingsCount" class="mx-1"> | </span>
 			</span>
 			<span ng-if="item.extraInfo.ratingsCount">
-				<% if show_links %><a href="{{item.path}}?panel=ratings" class='text-green'><% end %>
-					<i class="fa fa-meh-o mr-1" aria-hidden="true"></i>
-					<span ng-bind-html="item.extraInfo.ratingsCount"></span>
+				<% if show_links %><a href="{{item.path}}?panel=ratings"><% end %>
+					<i class="fa fa-meh-o mr-1 text-dark" aria-hidden="true"></i>
+					<span ng-bind-html="item.extraInfo.ratingsCount" class='text-green'></span>
 				<% if show_links %></a><% end %>
 			</span>
 		</p>
 		<p class="extra_info" ng-if="item.extraInfo.publishedArticlesCount && item.authorPath">
-			<% if show_links %><a href="{{item.authorPath}}" class='text-green'><% end %>
-				<i class="fa fa-newspaper-o mr-1" aria-hidden="true"></i>
-				<span ng-bind-html="item.extraInfo.publishedArticlesCount"></span>
+			<% if show_links %><a href="{{item.authorPath}}"><% end %>
+				<i class="fa fa-newspaper-o mr-1 text-dark" aria-hidden="true"></i>
+				<span ng-bind-html="item.extraInfo.publishedArticlesCount" class='text-green'></span>
 			<% if show_links %></a><% end %>
 		</p>
 	</div>

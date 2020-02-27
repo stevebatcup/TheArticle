@@ -159,10 +159,16 @@ class TheArticle.Auth extends TheArticle.PageController
 				login: login
 				password: @scope.signInDetails.password.value
 		@http.post("/users/sign_in", data).then (response) =>
-			gtag('event', 'login', { 'method': 'Email' }) if gtag?
-			window.location.href = response.data.redirect
+			if response.data.status is 'success'
+				gtag('event', 'login', { 'method': 'Email' }) if gtag?
+				window.location.href = response.data.redirect
+			else
+				@signInError(response.data.status)
 		, (response) =>
-			@scope.signInDetails.login.error = response.data.status
+			@signInError(response.data.status)
+
+	signInError: (msg) =>
+		@scope.signInDetails.login.error = msg
 
 	openForgottenPasswordPanel: ($event) =>
 		$event.preventDefault()

@@ -1,0 +1,27 @@
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-messaging.js"></script>
+
+<script>
+  <% firebase_credentials = Rails.application.credentials.firebase[Rails.env.to_sym] %>
+  var firebaseConfig = {
+    apiKey: "<%= firebase_credentials[:api_key] %>",
+    authDomain: "<%= firebase_credentials[:auth_domain] %>",
+    databaseURL: "<%= firebase_credentials[:database_url] %>",
+    projectId: "<%= firebase_credentials[:project_id] %>",
+    storageBucket: "<%= firebase_credentials[:storage_bucket] %>",
+    messagingSenderId: "<%= firebase_credentials[:messaging_sender_id] %>",
+    appId: "<%= firebase_credentials[:app_id] %>"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  if (firebase.messaging.isSupported()) {
+    const firebaseMessaging = firebase.messaging();
+    firebaseMessaging.usePublicVapidKey('<%= firebase_credentials[:public_vapid_key] %>');
+
+    firebaseMessaging.onMessage(function(payload) {
+      angular.element('[ng-controller]').first().scope().alert(payload.notification.body, payload.notification.title)
+    });
+  }
+</script>

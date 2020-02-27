@@ -205,6 +205,9 @@ Rails.application.routes.draw do
   post "push_registrations",   to: 'push_registrations#create'
   delete "push_registrations", to: 'push_registrations#destroy'
 
+  post "push_registrations",   to: 'push_registrations#create'
+  delete "push_registrations", to: 'push_registrations#destroy'
+
   PageRouter.load
   LandingPageRouter.load
 
