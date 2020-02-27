@@ -434,7 +434,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			if currentToken
 				# console.log('Got FCM device token:', currentToken)
 				@postJSON "/push_registrations", {subscription: currentToken}, =>
-					console.log "push token registered" if console?
+					console.log "push token already registered: #{currentToken}" if console?
 			else
 				# Need to request permissions to show notifications.
 				@requestNotificationsPermissions()

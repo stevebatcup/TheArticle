@@ -1,120 +1,97 @@
-  <%= render 'common/cookie-notice' %>
+    <%= render 'common/cookie-notice' %>
 
-  <% unless user_signed_in? %>
-    <%= render 'devise/registrations/new' %>
+    <% unless user_signed_in? %>
+      <%= render 'devise/registrations/new' %>
 
-    <script id="signinBox" type="script/x-mustache">
-      <%= render 'devise/sessions/new' %>
-    </script>
-    <script id="forgottenPasswordBox" type="script/x-mustache">
-      <%= render 'devise/passwords/new' %>
-    </script>
-  <% end %>
-
-  <script type="text/javascript">
-    // Bootstrap the app
-    var moduleName = "TheArticleNG";
-    var injections = [
-      'rails',
-      'cp.ngConfirm',
-      'mgo-angular-wizard',
-      'ngSanitize',
-      'ngCookies',
-      'TheArticle.directives',
-      'TheArticle.factories',
-      'TheArticle.filters',
-      'TheArticle.controllers'
-    ];
-    <% if page_requires_tinymce? %>
-      injections.push('ui.tinymce');
+      <script id="signinBox" type="script/x-mustache">
+        <%= render 'devise/sessions/new' %>
+      </script>
+      <script id="forgottenPasswordBox" type="script/x-mustache">
+        <%= render 'devise/passwords/new' %>
+      </script>
     <% end %>
-    window.App = angular.module(moduleName, injections);
-    window.App.run(function ($rootScope) { $rootScope._ = _; });
-    $(document).ready(function() {
-      $('[ng-controller]').each(function(index, root) {
-        if (!$(root).hasClass('ng-scope')) {
-          angular.bootstrap($(root), [moduleName]);
-          // console.log("bootstrapped " + $(root).attr('ng-controller'));
-        }
-      })
-    });
-  </script>
 
-  <%= javascript_include_tag 'desktop', 'data-turbolinks-track': 'reload' %>
-
-  <script>window.twttr = (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0],
-      t = window.twttr || {};
-    if (d.getElementById(id)) return t;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-
-    t._e = [];
-    t.ready = function(f) {
-      t._e.push(f);
-    };
-
-    return t;
-  }(document, "script", "twitter-wjs"));</script>
-
-  <% if Rails.env == 'production' %>
-    <script id="parsely-cfg" data-parsely-site="thearticle.com" src="//cdn.parsely.com/keys/thearticle.com/p.js"></script>
-  <% end %>
-
-  <% if is_testing_environment? %>
-    <script id="testDomainInterstitial" type="script/x-mustache">
-      <%= render 'testing/domain_interstitial' %>
-    </script>
-
-    <script id="testDomainFeedbackForm" type="script/x-mustache">
-      <%= render 'testing/feedback_form' %>
-    </script>
-
-    <a href='#' ng-click="openFeedbackForm($event)" id="open_feedback_form">
-      <i class="far fa-comment-alt"></i>
-      <span>Report a bug</span>
-    </a>
-  <% end %>
-
-  <% if Rails.env == 'production' %>
-    <!-- Begin BlueKai Tag -->
-    <iframe name="__bkframe" height="0" width="0" frameborder="0" style="display:none;position:absolute;clip:rect(0px 0px 0px 0px)" src="about:blank"></iframe>
-    <script type="text/javascript" src="https://tags.bkrtx.com/js/bk-coretag.js"></script>
     <script type="text/javascript">
-    bk_doJSTag(78101, 1);
-    </script>
-    <!-- End BlueKai Tag -->
-  <% end %>
-
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-messaging.js"></script>
-
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyBDTiMLEHte3k1ohSftal4J2Vp66605sqI",
-      authDomain: "thearticle-1545064778871.firebaseapp.com",
-      databaseURL: "https://thearticle-1545064778871.firebaseio.com",
-      projectId: "thearticle-1545064778871",
-      storageBucket: "",
-      messagingSenderId: "718836269033",
-      appId: "1:718836269033:web:c10be6456c85a936"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-    if (firebase.messaging.isSupported()) {
-      const firebaseMessaging = firebase.messaging();
-      firebaseMessaging.usePublicVapidKey('BO-oqbpMmp3x3OKlOcGY0fnxBRfp4ah_gDCOAW55zHqZiZbolnmZnv2rpeJblC0VCWJec-Li0hER8k8oC0FXGL4');
-
-      firebaseMessaging.onMessage(function(payload) {
-        angular.element('[ng-controller]').first().scope().alert(payload.notification.body, payload.notification.title)
+      // Bootstrap the app
+      var moduleName = "TheArticleNG";
+      var injections = [
+        'rails',
+        'cp.ngConfirm',
+        'mgo-angular-wizard',
+        'ngSanitize',
+        'ngCookies',
+        'TheArticle.directives',
+        'TheArticle.factories',
+        'TheArticle.filters',
+        'TheArticle.controllers'
+      ];
+      <% if page_requires_tinymce? %>
+        injections.push('ui.tinymce');
+      <% end %>
+      window.App = angular.module(moduleName, injections);
+      window.App.run(function ($rootScope) { $rootScope._ = _; });
+      $(document).ready(function() {
+        $('[ng-controller]').each(function(index, root) {
+          if (!$(root).hasClass('ng-scope')) {
+            angular.bootstrap($(root), [moduleName]);
+            // console.log("bootstrapped " + $(root).attr('ng-controller'));
+          }
+        })
       });
-    }
-  </script>
+    </script>
+
+    <%= javascript_include_tag 'desktop', 'data-turbolinks-track': 'reload' %>
+
+    <script>window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function(f) {
+        t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));</script>
+
+    <% if Rails.env == 'production' %>
+      <script id="parsely-cfg" data-parsely-site="thearticle.com" src="//cdn.parsely.com/keys/thearticle.com/p.js"></script>
+    <% end %>
+
+    <% if is_testing_environment? %>
+      <script id="testDomainInterstitial" type="script/x-mustache">
+        <%= render 'testing/domain_interstitial' %>
+      </script>
+
+      <script id="testDomainFeedbackForm" type="script/x-mustache">
+        <%= render 'testing/feedback_form' %>
+      </script>
+
+      <a href='#' ng-click="openFeedbackForm($event)" id="open_feedback_form">
+        <i class="far fa-comment-alt"></i>
+        <span>Report a bug</span>
+      </a>
+    <% end %>
+
+    <% if Rails.env == 'production' %>
+      <!-- Begin BlueKai Tag -->
+      <iframe name="__bkframe" height="0" width="0" frameborder="0" style="display:none;position:absolute;clip:rect(0px 0px 0px 0px)" src="about:blank"></iframe>
+      <script type="text/javascript" src="https://tags.bkrtx.com/js/bk-coretag.js"></script>
+      <script type="text/javascript">
+      bk_doJSTag(78101, 1);
+      </script>
+      <!-- End BlueKai Tag -->
+    <% end %>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-messaging.js"></script>
+    <%= render 'layouts/firebase_init' %>
 
   </body>
 </html>

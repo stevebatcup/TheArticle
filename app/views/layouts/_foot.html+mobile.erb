@@ -34,7 +34,6 @@
         $('[ng-controller]').each(function(index, root) {
           if (!$(root).hasClass('ng-scope')) {
             angular.bootstrap($(root), [moduleName]);
-            // console.log("bootstrapped " + $(root).attr('ng-controller'));
           }
         })
       });
@@ -90,6 +89,11 @@
       </script>
       <!-- End BlueKai Tag -->
     <% end %>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-messaging.js"></script>
+    <%= render 'layouts/firebase_init' %>
 
   </body>
 </html>

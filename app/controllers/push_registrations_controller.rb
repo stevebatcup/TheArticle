@@ -4,6 +4,9 @@ class PushRegistrationsController < ApplicationController
 	def create
 		respond_to do |format|
 			format.json do
+				other_user_tokens = PushToken.where.not(user: current_user).where(token: params[:subscription])
+				other_user_tokens.destroy_all if other_user_tokens.any?
+
 				unless current_user.push_tokens.find_by(token: params[:subscription])
 					current_user.push_tokens << PushToken.new({
 						token: params[:subscription],
@@ -11,12 +14,10 @@ class PushRegistrationsController < ApplicationController
 						browser: browser.name,
 						created_at: Time.now
 			    })
-					if current_user.save
-						@status = :success
-					else
-						@status = :error
-					end
+					current_user.save
 				end
+
+				@status = :success
 			end
 		end
 	end
