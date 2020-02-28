@@ -82,6 +82,7 @@ class Categorisation < ApplicationRecord
 				body: "New article in <a href='/exchange/#{item[:exchange].slug}' class='text-green'>#{item[:exchange].name}</a>: #{article.title.html_safe}",
 				feed_id: nil
 			})
+			item[:categorisation].send_browser_push(item[:user], item[:exchange].name, article.title) if item[:user].has_active_status?
 		end
 	end
 
@@ -90,8 +91,11 @@ class Categorisation < ApplicationRecord
 		self.notifications.destroy_all
 	end
 
+	def send_browser_push(user, exchange_name, article_name)
+		PushService.send(user, "New article added to exchange", "A new article has been added to the #{exchange_name} exchange: '#{article_name}'")
+	end
+
 	def self.table_name
 		'articles_exchanges'
 	end
-
 end

@@ -3,7 +3,7 @@ module PushService
 	class << self
 		def send(user, title, body)
 			if user.push_tokens.any?
-				fcm = FCM.new("AAAAp136_-k:APA91bGQptDu33k_9T9St5BEvgmAlGPIsmvJU0zil-pK-ZSEN_xsWYCkSwRu3TcV78Fo9HPVUsTvLEETQeN8fSC4XYIIyli0be1bj09-XvuCnZ0M2ae8BUcrJ9sBboatA88Q9Eiv-2-e")
+				fcm = FCM.new(firebase_credentials[:messaging_server_key])
 				message = {
 					"notification": {
 						"title": title,
@@ -24,6 +24,10 @@ module PushService
 					})
 				end
 			end
+		end
+
+		def firebase_credentials
+			Rails.application.credentials.firebase[Rails.env.to_sym]
 		end
 	end
 end
