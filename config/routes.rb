@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :chats
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
   devise_scope :user do
     post "set-stored-location", to: 'sessions#set_stored_location'
@@ -203,8 +204,10 @@ Rails.application.routes.draw do
   post "push_registrations",   to: 'push_registrations#create'
   delete "push_registrations", to: 'push_registrations#destroy'
 
-  PageRouter.load
-  LandingPageRouter.load
+  unless Rails.env.test?
+    PageRouter.load
+    LandingPageRouter.load
+  end
 
 	mount Sidekiq::Web, at: '/sidekiq'
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
