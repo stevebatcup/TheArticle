@@ -302,39 +302,29 @@ class Article < ApplicationRecord
 	    	Rails.cache.delete(cache_key)
 	    end
 
-      if is_new_article && self.categorisations.any?
-      	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
-      	ArticleCategorisationSendEmailsJob.set(wait_until: 1.minutes.from_now).perform_later(self)
-  	  end
+	    # build all notifications (feeds, notifications, pushes, emails)
+      trigger_notification_jobs if is_new_article && self.categorisations.any?
 
 	    response_status = "Success"
 	  else
 	  	response_status = "Error: #{better_model_error_messages(self)}"
 	  end
 
-	  # log this action
-	  log_data = {
-	  	service: :wordpress,
-	  	user_id: 0,
-	  	request_method: is_new_article ? :publish_article : :update_article,
-	  	request_data: json,
-	  	response: response_status
-	  }
-	  ApiLog.webhook log_data
+	  ApiLog.wordpress(is_new_article ? :publish_article : :update_article, self, json)
+  end
+
+  def trigger_notification_jobs
+  	ArticleCategorisationUpdateFeedsJob.set(wait_until: 30.seconds.from_now).perform_later(self)
+  	ArticleCategorisationBuildNotificationsJob.set(wait_until: 60.seconds.from_now).perform_later(self)
+  	ArticleCategorisationSendBrowserPushesJob.set(wait_until: 90.seconds.from_now).perform_later(self)
+  	ArticleCategorisationSendEmailsJob.set(wait_until: 120.seconds.from_now).perform_later(self)
   end
 
   def update_categorisation_feeds
 	  self.categorisations.each do |cat|
 			cat.update_feeds
 	  end
-		log_data = {
-			service: :wordpress,
-			user_id: 0,
-			request_method: :update_exchange_feeds,
-			request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "proper_title" => self.title.html_safe },
-			response: nil
-		}
-		ApiLog.webhook log_data
+		ApiLog.wordpress(:update_exchange_feeds, self)
   end
 
   def send_categorisation_email_notifications
@@ -343,14 +333,7 @@ class Article < ApplicationRecord
 	    cat_users = cat.handle_email_notifications(handled_users)
 	    cat_users.each { |cu| handled_users << cu }
 	  end
-	  log_data = {
-	  	service: :wordpress,
-	  	user_id: 0,
-	  	request_method: :send_email_notifications,
-	  	request_data: { "article_id" => self.id, "modified_gmt" => "#{Time.now}", "proper_title" => self.title.html_safe },
-	  	response: nil
-	  }
-	  ApiLog.webhook log_data
+	  ApiLog.wordpress(:send_email_notifications, self)
 	end
 
   def update_all_article_counts
@@ -421,10 +404,6 @@ class Article < ApplicationRecord
 				unless existing_categorisation_exchange_ids.include?(exchange.id)
 					self.categorisations << Categorisation.new({exchange_id: exchange.id, created_at: Time.now})
 				end
-			end
-
-			if (!self.persisted?) && (self.categorisations.any?) # if new article: create notifications
-				Categorisation.build_notifications_for_article(self)
 			end
 		end
 	end

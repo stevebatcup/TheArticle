@@ -17,7 +17,7 @@ module PushService
 					push_token.destroy if status == :fail
 					ApiLog.request({
 						user_id: user.id,
-			  		service: 'Firebase cloud message',
+			  		service: 'Firebase cloud messaging',
 			  		request_method: :send_push,
 			  		request_data: { push_id: push_token.id, message: message },
 			  		response: { status: status, response: response_body },

@@ -61,10 +61,9 @@ class Categorisation < ApplicationRecord
 		end
 	end
 
-	def self.build_notifications_for_article(article)
+	def self.list_for_notifications(article)
 		list = []
 		user_ids = []
-
 		article.categorisations.each do |categorisation|
 			exchange = categorisation.exchange
 			exchange.users.each do |user|
@@ -74,25 +73,35 @@ class Categorisation < ApplicationRecord
 				end
 			end
 		end
+		list
+	end
 
-		list.each do |item|
-			item[:categorisation].notifications.build({
+	def self.build_notifications_for_article(article)
+		list_for_notifications(article).each do |item|
+			item[:categorisation].notifications.create({
 				user_id: item[:user].id,
 				specific_type: nil,
 				body: "New article in <a href='/exchange/#{item[:exchange].slug}' class='text-green'>#{item[:exchange].name}</a>: #{article.title.html_safe}",
 				feed_id: nil
 			})
-			item[:categorisation].send_browser_push(item[:user], item[:exchange].name, article.title) if item[:user].has_active_status?
 		end
+		ApiLog.wordpress(:build_notifications, article)
+	end
+
+	def self.send_browser_pushes_for_article(article)
+		list_for_notifications(article).each do |item|
+			if item[:user].has_active_status?
+				PushService.send(item[:user],
+														"New article added to exchange",
+														"A new article has been added to the #{item[:exchange].name} exchange: '#{article.title}'")
+			end
+		end
+		ApiLog.wordpress(:send_browser_pushes, article)
 	end
 
 	def delete_feed_and_notification
 		self.feeds.destroy_all
 		self.notifications.destroy_all
-	end
-
-	def send_browser_push(user, exchange_name, article_name)
-		PushService.send(user, "New article added to exchange", "A new article has been added to the #{exchange_name} exchange: '#{article_name}'")
 	end
 
 	def self.table_name

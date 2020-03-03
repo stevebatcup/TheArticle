@@ -1,5 +1,5 @@
 class ArticleCategorisationUpdateFeedsJob < ApplicationJob
-  queue_as :categorisations
+  queue_as :feeds
 
   def perform(article)
   	article.update_categorisation_feeds

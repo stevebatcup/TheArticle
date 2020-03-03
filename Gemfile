@@ -42,6 +42,8 @@ gem 'mailchimp-api'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'sidekiq', '~> 5.2.0'
+
 # Connect to Wordpress
 gem 'wp-connector', :git => 'git@github.com:stevebatcup/wp-connector.git'
 gem 'sinatra', require: false
