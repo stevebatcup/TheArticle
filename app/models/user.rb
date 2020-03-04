@@ -67,6 +67,10 @@ class User < ApplicationRecord
   has_many  :user_admin_notes
   has_many  :push_tokens
 
+  has_many  :conversers
+  has_many  :chats, through: :conversers
+  has_many  :messages
+
   belongs_to   :author, optional: true
 
   include Suggestable

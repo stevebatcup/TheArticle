@@ -1,0 +1,9 @@
+<ul>
+	<% @chats.each do |chat| %>
+		<li id="<%= dom_id(chat) %>">
+			<h4 class="name"><%= chat.other_user(current_user).display_name %></h4>
+			<p class="last_message"><%= chat.messages.last.body %></p>
+			<span class="message_count"><%= pluralize(chat.messages.size, 'message') %>
+		</li>
+	<% end %>
+</ul>

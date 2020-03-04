@@ -1,0 +1,14 @@
+<%= form_for(@chat) do |f| %>
+	<%= f.hidden_field :recipient_id, value: @recipient_id %>
+	<table>
+		<%= f.fields_for(:messages) do |messages_f| %>
+			<tr>
+				<td><%= messages_f.label :body, "Message" %></td>
+				<td><%= messages_f.text_area :body %></td>
+			</tr>
+		<% end %>
+		<tr>
+			<td><%= f.submit value: "Send message" %></td>
+		</tr>
+	</table>
+<% end %>

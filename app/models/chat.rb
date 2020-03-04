@@ -1,28 +1,37 @@
-class Chat
-	attr_accessor	:messages
+class Chat < ApplicationRecord
+	has_many	:messages, dependent: :destroy
+	has_many	:conversers, dependent: :destroy
+	has_many	:users, through: :conversers
+	validates :messages, length: { minimum: 1, message: 'must have at least one message' }
 
-	def initialize
-		@messages = []
+	def initiate_conversers(sender, recipient)
+		self.conversers.build([
+			{ user: sender, is_chat_initiator: true },
+			{ user: recipient, is_chat_initiator: false }
+		])
 	end
 
-	def user_ids
-		@messages.map(&:user_id).uniq
+	def other_user(me)
+		self.conversers.detect { |c| c.user.id != me.id }.user
+	end
+
+	def initiator
+		self.conversers.detect { |c| c.is_chat_initiator == true }.user
+	end
+
+	def senders
+		messages.map(&:user_id)
 	end
 
 	def unanswered?
-		user_ids.size == 1
+		senders.size < 2
 	end
 
 	def answered?
-		user_ids.size > 1
+		senders.size == 2
 	end
 
-	def last_message_id
-		@messages.last.id
+	def update_message_count
+		update_attribute(:message_count, messages.size)
 	end
-
-	def message_count
-		@messages.size
-	end
-
 end

@@ -3,7 +3,7 @@ class UserMailer < Devise::Mailer
   # default template_path: 'devise/mailer' # to make sure that your mailer uses the devise views
 
 	include Rails.application.routes.url_helpers
-  include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`
+  include Devise::Controllers::UrlHelpers
   include ActionView::Helpers::TextHelper
   include MandrillMailer
 

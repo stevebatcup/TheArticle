@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_131538) do
+ActiveRecord::Schema.define(version: 2020_03_04_093300) do
 
-  create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "reason"
     t.boolean "by_admin"
     t.datetime "created_at"
   end
 
-  create_table "additional_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "additional_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "text"
     t.datetime "created_at", null: false
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.string "request_type"
     t.string "request_method"
     t.text "request_data", limit: 4294967295
-    t.text "response", limit: 16777215
+    t.text "response"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["request_method"], name: "index_api_logs_on_request_method"
@@ -52,14 +52,14 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.string "slug"
     t.string "remote_article_url", limit: 1000
     t.string "remote_article_domain"
-    t.text "remote_article_image_url", limit: 16777215
-    t.text "excerpt", limit: 16777215
+    t.text "remote_article_image_url"
+    t.text "excerpt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "published_at"
     t.string "canonical_url"
-    t.text "page_title", limit: 16777215
-    t.text "meta_description", limit: 16777215
+    t.text "page_title"
+    t.text "meta_description"
     t.string "social_image"
     t.boolean "robots_nofollow"
     t.boolean "robots_noindex"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["meta_keywords"], name: "index_articles_on_meta_keywords", type: :fulltext
   end
 
-  create_table "articles_exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "articles_exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.bigint "article_id"
     t.bigint "exchange_id"
     t.datetime "created_at"
@@ -84,14 +84,14 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["exchange_id"], name: "index_articles_exchanges_on_exchange_id"
   end
 
-  create_table "articles_keyword_tags", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "articles_keyword_tags", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.bigint "article_id"
     t.bigint "keyword_tag_id"
     t.index ["article_id"], name: "index_articles_keyword_tags_on_article_id"
     t.index ["keyword_tag_id"], name: "index_articles_keyword_tags_on_keyword_tag_id"
   end
 
-  create_table "author_images", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "author_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "wp_id"
     t.integer "author_id"
     t.string "url"
@@ -99,14 +99,14 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "author_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "author_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "authors", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "wp_id"
     t.string "display_name"
     t.string "role_id"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.boolean "on_mailchimp_list", default: false
   end
 
-  create_table "black_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "black_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "email"
     t.text "reason"
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "added_by_admin_user_id"
   end
 
-  create_table "blocks", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "blocks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "blocked_id"
     t.string "status"
@@ -146,6 +146,13 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
     t.index ["blocked_id"], name: "index_blocks_on_blocked_id"
     t.index ["user_id"], name: "index_blocks_on_user_id"
+  end
+
+  create_table "chats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+    t.integer "last_message_id"
+    t.integer "message_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
@@ -160,11 +167,11 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "rgt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", length: { commentable_type: 191 }
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "communication_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "communication_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "preference"
     t.boolean "status"
@@ -172,7 +179,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "concern_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "concern_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "reporter_id"
     t.integer "reported_id"
     t.integer "status", default: 0
@@ -188,7 +195,15 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["sourceable_type", "sourceable_id"], name: "index_concern_reports_on_sourceable_type_and_sourceable_id"
   end
 
-  create_table "daily_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "conversers", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+    t.bigint "chat_id"
+    t.bigint "user_id"
+    t.boolean "is_chat_initiator"
+    t.index ["chat_id"], name: "index_conversers_on_chat_id"
+    t.index ["user_id"], name: "index_conversers_on_user_id"
+  end
+
+  create_table "daily_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "action_type"
     t.integer "action_id"
@@ -198,7 +213,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_daily_user_mail_items_on_user_id"
   end
 
-  create_table "email_alias_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "email_alias_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "old_email"
     t.string "new_email"
@@ -209,14 +224,14 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "exchange_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "exchange_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "muted_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "exchanges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "wp_id"
     t.string "name"
     t.string "slug"
@@ -230,7 +245,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "follower_count", default: 0
   end
 
-  create_table "exchanges_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "exchanges_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.bigint "exchange_id"
     t.bigint "user_id"
     t.datetime "created_at"
@@ -238,7 +253,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_exchanges_users_on_user_id"
   end
 
-  create_table "feed_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "feed_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "action_type"
     t.integer "source_id"
@@ -249,13 +264,15 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_feed_users_on_user_id"
   end
 
-  create_table "feed_users_feeds", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "feed_users_feeds", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.bigint "feed_user_id"
     t.bigint "feed_id"
+    t.index ["feed_id"], name: "index_feed_users_feeds_on_feed_id"
     t.index ["feed_user_id", "feed_id"], name: "index_feed_users_feeds_on_feed_user_id_and_feed_id"
+    t.index ["feed_user_id"], name: "index_feed_users_feeds_on_feed_user_id"
   end
 
-  create_table "feedback_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "feedback_submissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
     t.text "url"
     t.string "platform"
@@ -266,8 +283,8 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "feeds", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.integer "user_id"
+  create_table "feeds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+    t.string "user_id"
     t.integer "actionable_id"
     t.string "actionable_type"
     t.datetime "created_at", null: false
@@ -277,27 +294,29 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_feeds_on_user_id"
   end
 
-  create_table "feeds_notifications", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "feeds_notifications", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.bigint "feed_id"
     t.bigint "notification_id"
+    t.index ["feed_id"], name: "index_feeds_notifications_on_feed_id"
     t.index ["notification_id", "feed_id"], name: "index_feeds_notifications_on_notification_id_and_feed_id"
+    t.index ["notification_id"], name: "index_feeds_notifications_on_notification_id"
   end
 
-  create_table "follow_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "follow_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "follow_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "follow_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "muted_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "follows", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "follows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "followed_id"
     t.datetime "created_at", null: false
@@ -307,14 +326,14 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_follows_on_user_id"
   end
 
-  create_table "future_articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "future_articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "wp_id"
     t.datetime "publish_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "help_contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "help_contents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "help_section_id"
     t.text "question"
     t.text "answer"
@@ -322,7 +341,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "top_question_sort"
   end
 
-  create_table "help_feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "help_feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "question_id"
     t.string "outcome"
     t.integer "user_id"
@@ -330,19 +349,19 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "help_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "help_sections", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "title"
     t.integer "sort"
   end
 
-  create_table "interaction_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "interaction_mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "share_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "keyword_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "keyword_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "wp_id"
     t.string "name"
     t.string "slug"
@@ -352,32 +371,42 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "article_count", default: 0
   end
 
-  create_table "keyword_tags_landing_pages", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "keyword_tags_landing_pages", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.bigint "keyword_tag_id"
     t.bigint "landing_page_id"
     t.index ["keyword_tag_id"], name: "index_keyword_tags_landing_pages_on_keyword_tag_id"
     t.index ["landing_page_id"], name: "index_keyword_tags_landing_pages_on_landing_page_id"
   end
 
-  create_table "landing_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "landing_pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "heading"
     t.string "slug"
     t.text "intro"
     t.string "articles_heading"
-    t.boolean "show_home_link"
+    t.boolean "show_home_link", default: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "linked_accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "linked_accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "linked_account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+    t.bigint "chat_id"
+    t.bigint "user_id"
+    t.text "body"
+    t.boolean "is_ice_breaker", default: false
+    t.datetime "read_by_recipient_at"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
+  create_table "mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "muted_id"
     t.string "status"
@@ -387,7 +416,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_mutes_on_user_id"
   end
 
-  create_table "notification_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "notification_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "key"
     t.string "value"
@@ -412,7 +441,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "opinion_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "opinion_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "share_id"
     t.text "body"
@@ -421,7 +450,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "opinions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "opinions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "share_id"
     t.string "decision"
@@ -433,7 +462,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_opinions_on_user_id"
   end
 
-  create_table "pages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "pages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "wp_id"
     t.string "title"
     t.text "content"
@@ -443,13 +472,13 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "pending_follows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "pending_follows", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "followed_id"
     t.integer "follow_id"
   end
 
-  create_table "profile_suggestion_archives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "profile_suggestion_archives", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "suggested_id"
     t.integer "reason_for_archive"
@@ -459,7 +488,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_profile_suggestion_archives_on_user_id"
   end
 
-  create_table "profile_suggestions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "profile_suggestions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "suggested_id"
     t.string "reason"
@@ -471,7 +500,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
 
-  create_table "push_tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "push_tokens", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "token"
     t.string "browser"
@@ -486,7 +515,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "article_id"
     t.string "heading"
     t.text "snippet", limit: 4294967295
-    t.text "post", limit: 16777215
+    t.text "post"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image", limit: 1000
@@ -496,7 +525,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.integer "handled_by_admin_user_id"
   end
 
-  create_table "search_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "search_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "term"
     t.string "full_article_term"
@@ -526,7 +555,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_shares_on_user_id"
   end
 
-  create_table "third_party_share_error_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "third_party_share_error_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.text "url"
     t.integer "user_id"
     t.string "error_show_to_user"
@@ -535,7 +564,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_admin_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "user_admin_notes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "admin_user_id"
     t.text "note"
@@ -543,7 +572,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "status", default: 0
     t.string "title"
     t.string "first_name", default: "", null: false
@@ -600,16 +629,16 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["slug"], name: "index_users_on_slug"
   end
 
-  create_table "watch_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "watch_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.integer "status", default: 0
-    t.integer "reason"
+    t.integer "reason", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "added_by_admin_user_id"
   end
 
-  create_table "weekly_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "weekly_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "user_id"
     t.string "action_type"
     t.integer "action_id"
@@ -619,172 +648,25 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_weekly_user_mail_items_on_user_id"
   end
 
-  create_table "white_listed_third_party_publishers", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "white_listed_third_party_publishers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
     t.string "domain"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "wp_commentmeta", primary_key: "meta_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "comment_id", default: 0, null: false, unsigned: true
-    t.string "meta_key"
-    t.text "meta_value", limit: 4294967295
-    t.index ["comment_id"], name: "comment_id"
-    t.index ["meta_key"], name: "meta_key", length: 191
-  end
-
-  create_table "wp_comments", primary_key: "comment_ID", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "comment_post_ID", default: 0, null: false, unsigned: true
-    t.text "comment_author", limit: 255, null: false
-    t.string "comment_author_email", limit: 100, default: "", null: false
-    t.string "comment_author_url", limit: 200, default: "", null: false
-    t.string "comment_author_IP", limit: 100, default: "", null: false
-    t.datetime "comment_date", null: false
-    t.datetime "comment_date_gmt", null: false
-    t.text "comment_content", null: false
-    t.integer "comment_karma", default: 0, null: false
-    t.string "comment_approved", limit: 20, default: "1", null: false
-    t.string "comment_agent", default: "", null: false
-    t.string "comment_type", limit: 20, default: "", null: false
-    t.bigint "comment_parent", default: 0, null: false, unsigned: true
-    t.bigint "user_id", default: 0, null: false, unsigned: true
-    t.index ["comment_approved", "comment_date_gmt"], name: "comment_approved_date_gmt"
-    t.index ["comment_author_email"], name: "comment_author_email", length: 10
-    t.index ["comment_date_gmt"], name: "comment_date_gmt"
-    t.index ["comment_parent"], name: "comment_parent"
-    t.index ["comment_post_ID"], name: "comment_post_ID"
-  end
-
-  create_table "wp_earlyRegistrants", id: :integer, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "first_name", limit: 99
-    t.string "last_name", limit: 99
-    t.string "email", limit: 199
-    t.datetime "created_at"
-  end
-
-  create_table "wp_links", primary_key: "link_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.string "link_url", default: "", null: false
-    t.string "link_name", default: "", null: false
-    t.string "link_image", default: "", null: false
-    t.string "link_target", limit: 25, default: "", null: false
-    t.string "link_description", default: "", null: false
-    t.string "link_visible", limit: 20, default: "Y", null: false
-    t.bigint "link_owner", default: 1, null: false, unsigned: true
-    t.integer "link_rating", default: 0, null: false
-    t.datetime "link_updated", null: false
-    t.string "link_rel", default: "", null: false
-    t.text "link_notes", limit: 16777215, null: false
-    t.string "link_rss", default: "", null: false
-    t.index ["link_visible"], name: "link_visible"
-  end
-
-  create_table "wp_options", primary_key: "option_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.string "option_name", limit: 191, default: "", null: false
-    t.text "option_value", limit: 4294967295, null: false
-    t.string "autoload", limit: 20, default: "yes", null: false
-    t.index ["option_name"], name: "option_name", unique: true
-  end
-
-  create_table "wp_postmeta", primary_key: "meta_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "post_id", default: 0, null: false, unsigned: true
-    t.string "meta_key"
-    t.text "meta_value", limit: 4294967295
-    t.index ["meta_key"], name: "meta_key", length: 191
-    t.index ["post_id"], name: "post_id"
-  end
-
-  create_table "wp_posts", primary_key: "ID", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "post_author", default: 0, null: false, unsigned: true
-    t.datetime "post_date", null: false
-    t.datetime "post_date_gmt", null: false
-    t.text "post_content", limit: 4294967295, null: false
-    t.text "post_title", null: false
-    t.text "post_excerpt", null: false
-    t.string "post_status", limit: 20, default: "publish", null: false
-    t.string "comment_status", limit: 20, default: "open", null: false
-    t.string "ping_status", limit: 20, default: "open", null: false
-    t.string "post_password", default: "", null: false
-    t.string "post_name", limit: 200, default: "", null: false
-    t.text "to_ping", null: false
-    t.text "pinged", null: false
-    t.datetime "post_modified", null: false
-    t.datetime "post_modified_gmt", null: false
-    t.text "post_content_filtered", limit: 4294967295, null: false
-    t.bigint "post_parent", default: 0, null: false, unsigned: true
-    t.string "guid", default: "", null: false
-    t.integer "menu_order", default: 0, null: false
-    t.string "post_type", limit: 20, default: "post", null: false
-    t.string "post_mime_type", limit: 100, default: "", null: false
-    t.bigint "comment_count", default: 0, null: false
-    t.index ["post_author"], name: "post_author"
-    t.index ["post_name"], name: "post_name", length: 191
-    t.index ["post_parent"], name: "post_parent"
-    t.index ["post_type", "post_status", "post_date", "ID"], name: "type_status_date"
-  end
-
-  create_table "wp_term_relationships", primary_key: ["object_id", "term_taxonomy_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "object_id", default: 0, null: false, unsigned: true
-    t.bigint "term_taxonomy_id", default: 0, null: false, unsigned: true
-    t.integer "term_order", default: 0, null: false
-    t.index ["term_taxonomy_id"], name: "term_taxonomy_id"
-  end
-
-  create_table "wp_term_taxonomy", primary_key: "term_taxonomy_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "term_id", default: 0, null: false, unsigned: true
-    t.string "taxonomy", limit: 32, default: "", null: false
-    t.text "description", limit: 4294967295, null: false
-    t.bigint "parent", default: 0, null: false, unsigned: true
-    t.bigint "count", default: 0, null: false
-    t.index ["taxonomy"], name: "taxonomy"
-    t.index ["term_id", "taxonomy"], name: "term_id_taxonomy", unique: true
-  end
-
-  create_table "wp_termmeta", primary_key: "meta_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "term_id", default: 0, null: false, unsigned: true
-    t.string "meta_key"
-    t.text "meta_value", limit: 4294967295
-    t.index ["meta_key"], name: "meta_key", length: 191
-    t.index ["term_id"], name: "term_id"
-  end
-
-  create_table "wp_terms", primary_key: "term_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.string "name", limit: 200, default: "", null: false
-    t.string "slug", limit: 200, default: "", null: false
-    t.bigint "term_group", default: 0, null: false
-    t.index ["name"], name: "name", length: 191
-    t.index ["slug"], name: "slug", length: 191
-  end
-
-  create_table "wp_usermeta", primary_key: "umeta_id", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.bigint "user_id", default: 0, null: false, unsigned: true
-    t.string "meta_key"
-    t.text "meta_value", limit: 4294967295
-    t.index ["meta_key"], name: "meta_key", length: 191
-    t.index ["user_id"], name: "user_id"
-  end
-
-  create_table "wp_users", primary_key: "ID", id: :bigint, unsigned: true, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
-    t.string "user_login", limit: 60, default: "", null: false
-    t.string "user_pass", default: "", null: false
-    t.string "user_nicename", limit: 50, default: "", null: false
-    t.string "user_email", limit: 100, default: "", null: false
-    t.string "user_url", limit: 100, default: "", null: false
-    t.datetime "user_registered", null: false
-    t.string "user_activation_key", default: "", null: false
-    t.integer "user_status", default: 0, null: false
-    t.string "display_name", limit: 250, default: "", null: false
-    t.index ["user_email"], name: "user_email"
-    t.index ["user_login"], name: "user_login_key"
-    t.index ["user_nicename"], name: "user_nicename"
-  end
-
   add_foreign_key "articles_exchanges", "articles"
   add_foreign_key "articles_exchanges", "exchanges"
   add_foreign_key "articles_keyword_tags", "articles"
   add_foreign_key "articles_keyword_tags", "keyword_tags"
+  add_foreign_key "conversers", "chats"
+  add_foreign_key "conversers", "users"
   add_foreign_key "exchanges_users", "exchanges"
   add_foreign_key "exchanges_users", "users"
+  add_foreign_key "feed_users_feeds", "feed_users"
+  add_foreign_key "feed_users_feeds", "feeds"
+  add_foreign_key "feeds_notifications", "feeds"
+  add_foreign_key "feeds_notifications", "notifications"
   add_foreign_key "keyword_tags_landing_pages", "keyword_tags"
   add_foreign_key "keyword_tags_landing_pages", "landing_pages"
 end

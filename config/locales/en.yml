@@ -86,5 +86,15 @@ en:
 
  recaptcha:
   errors:
-    verification_failed: Please verify that you are not in fact a ROBOT!
-    recaptcha_unreachable: Oops, there was an error verifying that you are not a ROBOT. Please try again.
+   verification_failed: Please verify that you are not in fact a ROBOT!
+   recaptcha_unreachable: Oops, there was an error verifying that you are not a ROBOT. Please try again.
+
+ activerecord:
+  errors:
+   models:
+    message:
+     attributes:
+      body:
+        blank: "must contain text"
+      chat:
+       required: "must belong to a chat"

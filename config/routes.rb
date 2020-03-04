@@ -2,6 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :chats
+  resources :messages
   devise_for :users, controllers: { registrations: "registrations", sessions: "sessions", passwords: "passwords" }
   devise_scope :user do
     post "set-stored-location", to: 'sessions#set_stored_location'
