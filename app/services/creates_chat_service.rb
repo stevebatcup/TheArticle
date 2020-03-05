@@ -10,13 +10,8 @@ class CreatesChatService
 	def build
 		self.chat = Chat.new
 		chat.initiate_conversers(sender, recipient)
-		build_first_message # unless first_message_body.empty?
+		self.first_message = chat.add_message(@first_message_body, sender)
 		chat
-	end
-
-	def build_first_message
-		self.first_message = Message.new({ body: @first_message_body, user: sender })
-		chat.messages << first_message
 	end
 
 	def create

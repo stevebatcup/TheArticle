@@ -10,7 +10,7 @@ class Message < ApplicationRecord
 	end
 
 	def update_chat_last_message_id
-		chat.update_attribute(:last_message_id, id)
+		chat.update_last_message_id(id)
 	end
 
 	def update_chat_message_count

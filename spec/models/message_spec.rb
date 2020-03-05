@@ -2,21 +2,20 @@ require 'rails_helper'
 
 RSpec.describe Message do
 
-	let(:chat) { Chat.new }
-	let(:user) { User.create(first_name: "Mike", last_name: "Smith", email: "steve.batcup+miketest@gmail.com", password: "123123123", confirmed_at: Time.now) }
+	let(:chat) { FactoryGirl.build(:chat) }
+	let(:user) { FactoryGirl.build(:initial_sender) }
 
 	describe "validate" do
 		describe "must belong to a chat" do
 			specify do
-				blank_message = Message.new
+				blank_message = FactoryGirl.build(:message)
 				blank_message.valid?
 				expect(blank_message.errors[:chat]).to include("must belong to a chat")
 			end
 
 			specify do
-				message = Message.create({ body: "My silly old ice breaker", user: user })
-				chat.messages << message
-				chat.save
+				message = FactoryGirl.build(:ice_breaker, chat: chat)
+				message.valid?
 				expect(message.errors[:chat]).to_not include("must belong to a chat")
 				expect(message.chat).to be_a(Chat)
 			end
@@ -24,12 +23,14 @@ RSpec.describe Message do
 
 		describe "must contain body text" do
 			specify do
-				first_message = Message.create({ user: user })
+				first_message = FactoryGirl.build(:message, user: user)
+				first_message.valid?
 				expect(first_message.errors[:body]).to include("must contain text")
 			end
 
 			specify do
-				second_message = Message.create({ body: "", user: user })
+				second_message = FactoryGirl.build(:message, body: "")
+				second_message.valid?
 				expect(second_message.errors[:body]).to include("must contain text")
 			end
 		end
