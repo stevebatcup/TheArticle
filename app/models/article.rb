@@ -290,7 +290,7 @@ class Article < ApplicationRecord
 		update_image(json)
 		update_exchanges(json)
 		update_keyword_tags(json)
-		update_additional_author(json) if json["additional_author"].to_i > 0
+		update_additional_author(json) if json["additional_author"] && json["additional_author"].to_i > 0
 
     if self.save
 	    # update counter cache columns
