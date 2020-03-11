@@ -1,5 +1,4 @@
 class Article < ApplicationRecord
-	include WpCache
 	has_and_belongs_to_many	:keyword_tags
 	belongs_to :author, optional: true
 	belongs_to :additional_author, optional: true, class_name: 'Author'
@@ -14,6 +13,7 @@ class Article < ApplicationRecord
 
 	scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
 
+	include WpCache
 	include Adminable
 
 	def self.most_rated(limit=10, within_days=7)
@@ -499,5 +499,4 @@ class Article < ApplicationRecord
 			.where(exchanges: { id: exchange_ids })
 			.order(published_at: :desc)
 	end
-
 end

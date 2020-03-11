@@ -88,12 +88,10 @@ class Categorisation < ApplicationRecord
 		ApiLog.wordpress(:build_notifications, article)
 	end
 
-	def self.send_browser_pushes_for_article(article)
+	def self.send_browser_pushes_for_article(article, text)
 		list_for_notifications(article).each do |item|
 			if item[:user].has_active_status?
-				PushService.send(item[:user],
-														"New article added to exchange",
-														"A new article has been added to the #{item[:exchange].name} exchange: '#{article.title}'")
+				PushService.send(item[:user], article.title, text, "https://www.thearticle.com/#{article.slug}")
 			end
 		end
 		ApiLog.wordpress(:send_browser_pushes, article)

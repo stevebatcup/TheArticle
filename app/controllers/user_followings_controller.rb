@@ -2,6 +2,7 @@ class UserFollowingsController < ApplicationController
 	def index
 		respond_to do |format|
 			format.html do
+				redirect_to "/my-profile?panel=followers" unless browser.device.mobile?
 			end
 			format.json do
 				if params[:id]

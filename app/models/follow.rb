@@ -28,9 +28,19 @@ class Follow < ApplicationRecord
 	end
 
 	def send_browser_push
-		if self.user.has_active_status?
-			PushService.send(self.followed, "New follower", "You are now being followed by #{self.user.username}")
+		PushService.send(followed, "#{user.display_name} followed you", push_msg, push_url) if user.has_active_status?
+	end
+
+	def push_msg
+		if self.class.users_are_connected(user, followed)
+			msg = "You are now mutually connected with #{user.display_name} (#{user.username}) on TheArticle"
+		else
+			msg = "You have been followed by #{user.display_name} (#{user.username}) on TheArticle"
 		end
+	end
+
+	def push_url
+		"https://www.thearticle.com/user_followings?tab=followers"
 	end
 
 	def update_feeds
