@@ -21,7 +21,7 @@ class SessionsController < Devise::SessionsController
 
 		if resource.valid_password?(params[:user][:password])
 			@status = :success
-			# resource.recalculate_follow_counts
+			resource.recalculate_follow_counts
 			if request.referer == new_user_session_url
 				@redirect = front_page_path
 			else
