@@ -15,10 +15,10 @@ class SearchController < ApplicationController
 							# exchanges
 							@exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 5)
 							# contributors
-							@contributors = Author.search(conditions: { display_name: "*#{@query}*" }, page: 1, per_page: 5)
+							@contributors = Author.search(conditions: { display_name: "*#{@query}*" }, page: 1, per_page: 5, order: 'article_count DESC')
 							# profiles
 							if user_signed_in?
-								ids_to_exclude = [current_user.id] + current_user.blocks.map(&:blocked_id)
+								# ids_to_exclude = [current_user.id] + current_user.blocks.map(&:blocked_id)
 								@profiles = User.search("*#{@query}*",
 																						conditions: { status: 'active', has_completed_wizard: true },
 																						page: 1, per_page: 5)

@@ -4,20 +4,23 @@
 	<% meta_tag :image, @contributor.image.url(:detail) %>
 <% end %>
 
-<section ng-controller="ContributorsController" data-author="<%= @contributor.id %>" data-per-page="<%= articles_per_page %>">
+<section ng-controller="ContributorsController"
+				data-author="<%= @contributor.id %>"
+				data-per-page="<%= articles_per_page %>"
+				id="contributors_show">
 	<header class="black_heading pt-4 pb-3 py-md-5 mb-4 mb-md-5">
 		<div class="container">
-			<div class="row">
+			<div class="row" itemscope itemprop="author" itemtype="https://schema.org/Person">
 				<div class="col-2 col-md-2 my-md-auto">
 					<% if @contributor.image? %>
-						<img src="<%= @contributor.image.url(:detail) %>" alt="<%= @contributor.display_name %>" />
+						<img itemscope itemprop="image" itemtype="https://schema.org/ImageObject" src="<%= @contributor.image.url(:detail) %>" alt="<%= @contributor.display_name %>" />
 					<% end %>
 				</div>
 				<div class="col-10 col-md-8 col-lg-5 pl-0 pl-md-2 pl-lg-3 pt-0 my-md-auto">
-					<h1 class="text-white mb-0"><%= @contributor.display_name.html_safe %></h1>
+					<h1 class="text-white mb-0" itemprop="name"><%= @contributor.display_name.html_safe %></h1>
 
 					<% if @contributor.title.present? %>
-						<h6 class="text-white mb-2 mt-1"><%= @contributor.title %></h6>
+						<h2 class="title text-white mb-2 mt-1" itemprop="jobTitle"><%= @contributor.title %></h2>
 					<% end %>
 
 					<% if @contributor.url.present? %>
@@ -30,7 +33,7 @@
 						<h6 class="pt-md-2 pb-md-2">
 							<a href="<%= profile_path(slug: @contributor.user.slug) %>" class="text-white article_account">
 								<img src="<%= asset_url('capital-a-bg.png') %>" alt="The Article" />
-								<span><%= @contributor.user.username %></span>
+								<span itemprop="alternateName"><%= @contributor.user.username %></span>
 							</a>
 						</h6>
 					<% end %>
