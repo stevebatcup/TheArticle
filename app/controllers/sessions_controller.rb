@@ -16,23 +16,22 @@ class SessionsController < Devise::SessionsController
 	end
 
 	def create
-	  resource = User.find_for_database_authentication(login: params[:user][:login])
-	  return invalid_login_attempt unless resource
+		resource = User.find_for_database_authentication(login: params[:user][:login])
+		return invalid_login_attempt unless resource
 
-	  if resource.valid_password?(params[:user][:password])
-	    @status = :success
-	    sign_in_url = new_user_session_url
-	    resource.recalculate_follow_counts
-      if request.referer == sign_in_url
-      	@redirect = front_page_path
-      else
-  			user_stored_location = stored_location_for(resource) || request.referer
+		if resource.valid_password?(params[:user][:password])
+			@status = :success
+			# resource.recalculate_follow_counts
+			if request.referer == new_user_session_url
+				@redirect = front_page_path
+			else
+				user_stored_location = stored_location_for(resource) || request.referer
 				user_stored_location = nil if (user_stored_location && user_stored_location == '/notification-count')
-		    @redirect = user_stored_location || front_page_path
-		  end
-	    sign_in :user, resource
-	  else
-		  invalid_login_attempt
+				@redirect = user_stored_location || front_page_path
+			end
+			sign_in :user, resource
+		else
+			invalid_login_attempt
 	  end
 	end
 
