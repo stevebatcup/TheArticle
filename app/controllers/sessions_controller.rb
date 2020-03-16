@@ -20,19 +20,30 @@ class SessionsController < Devise::SessionsController
 		return invalid_login_attempt unless resource
 
 		if resource.valid_password?(params[:user][:password])
+			logger.debug "*** Sign in debug: #1 (#{resource.username})"
 			@status = :success
+			logger.debug "*** Sign in debug: #2 (#{resource.username})"
 			resource.recalculate_follow_counts
+			logger.debug "*** Sign in debug: #3 (#{resource.username})"
 			if request.referer == new_user_session_url
+				logger.debug "*** Sign in debug: #4 (#{resource.username})"
 				@redirect = front_page_path
 			else
+				logger.debug "*** Sign in debug: #5 (#{resource.username})"
 				user_stored_location = stored_location_for(resource) || request.referer
+				logger.debug "*** Sign in debug: #6 (#{resource.username})"
 				user_stored_location = nil if (user_stored_location && user_stored_location == '/notification-count')
+				logger.debug "*** Sign in debug: #7 (#{resource.username})"
 				@redirect = user_stored_location || front_page_path
+				logger.debug "*** Sign in debug: #8 (#{resource.username})"
 			end
+			logger.debug "*** Sign in debug: #9 (#{resource.username})"
 			sign_in :user, resource
+			logger.debug "*** Sign in debug: #10 (#{resource.username})"
 		else
 			invalid_login_attempt
 	  end
+	  logger.debug "*** Sign in debug: #11 (#{resource.username})"
 	end
 
 	def destroy
