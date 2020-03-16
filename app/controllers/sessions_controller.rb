@@ -60,27 +60,42 @@ protected
  private
 
 	 def require_no_authentication
-     assert_is_devise_resource!
-     return unless is_navigational_format?
-     no_input = devise_mapping.no_input_strategies
+		logger.warn "*** Sign in debug require_no_authentication: #1"
+		assert_is_devise_resource!
+		logger.warn "*** Sign in debug require_no_authentication: #2"
+		return unless is_navigational_format?
+		logger.warn "*** Sign in debug require_no_authentication: #3"
+		no_input = devise_mapping.no_input_strategies
+		logger.warn "*** Sign in debug require_no_authentication: #4"
 
-     authenticated = if no_input.present?
-       args = no_input.dup.push scope: resource_name
-       warden.authenticate?(*args)
-     else
-       warden.authenticated?(resource_name)
-     end
+		authenticated = if no_input.present?
+			logger.warn "*** Sign in debug require_no_authentication: #5"
+			args = no_input.dup.push scope: resource_name
+			logger.warn "*** Sign in debug require_no_authentication: #6"
+			warden.authenticate?(*args)
+			logger.warn "*** Sign in debug require_no_authentication: #7"
+		else
+			logger.warn "*** Sign in debug require_no_authentication: #8"
+			warden.authenticated?(resource_name)
+			logger.warn "*** Sign in debug require_no_authentication: #9"
+		end
 
-     if authenticated && resource = warden.user(resource_name)
-       flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
-				respond_to do |format|
-					format.html do
-		       redirect_to "/my-home"
-		      end
-		      format.json do
-		      	render json: { status: :signed_in, message: t('devise.failure.already_authenticated') }
-		      end
-		    end
-     end
-   end
+		if authenticated && resource = warden.user(resource_name)
+			logger.warn "*** Sign in debug require_no_authentication: #10"
+			flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
+			logger.warn "*** Sign in debug require_no_authentication: #11"
+			respond_to do |format|
+				logger.warn "*** Sign in debug require_no_authentication: #12"
+				format.html do
+					logger.warn "*** Sign in debug require_no_authentication: #13"
+					redirect_to "/my-home"
+				end
+				format.json do
+					logger.warn "*** Sign in debug require_no_authentication: #14"
+					render json: { status: :signed_in, message: t('devise.failure.already_authenticated') }
+					logger.warn "*** Sign in debug require_no_authentication: #15"
+				end
+			end
+		end
+	end
 end
