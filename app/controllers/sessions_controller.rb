@@ -18,35 +18,22 @@ class SessionsController < Devise::SessionsController
 	def create
 		logger.warn "*** Sign in debug pre-find: #1 (#{params[:user][:login]})"
 		resource = User.find_for_database_authentication(login: params[:user][:login])
-		logger.warn "*** Sign in debug: #2 (#{resource.username})"
 		return invalid_login_attempt unless resource
-		logger.warn "*** Sign in debug: #3 (#{resource.username})"
 
 		if resource.valid_password?(params[:user][:password])
-			logger.warn "*** Sign in debug: #4 (#{resource.username})"
 			@status = :success
-			logger.warn "*** Sign in debug: #5 (#{resource.username})"
 			resource.recalculate_follow_counts
-			logger.warn "*** Sign in debug: #6 (#{resource.username})"
 			if request.referer == new_user_session_url
-				logger.warn "*** Sign in debug: #7 (#{resource.username})"
 				@redirect = front_page_path
 			else
-				logger.warn "*** Sign in debug: #8 (#{resource.username})"
 				user_stored_location = stored_location_for(resource) || request.referer
-				logger.warn "*** Sign in debug: #9 (#{resource.username})"
 				user_stored_location = nil if (user_stored_location && user_stored_location == '/notification-count')
-				logger.warn "*** Sign in debug: #10 (#{resource.username})"
 				@redirect = user_stored_location || front_page_path
-				logger.warn "*** Sign in debug: #11 (#{resource.username})"
 			end
-			logger.warn "*** Sign in debug: #12 (#{resource.username})"
 			sign_in :user, resource
-			logger.warn "*** Sign in debug: #13 (#{resource.username})"
 		else
 			invalid_login_attempt
 	  end
-	  logger.warn "*** Sign in debug: #14 (#{resource.username})"
 	end
 
 	def destroy
