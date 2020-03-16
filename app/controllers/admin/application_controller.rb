@@ -9,7 +9,7 @@ module Admin
     http_basic_authenticate_with(
       name: "londonbridge",
       password: "B37ys0m2w"
-    )
+    ) unless Rails.env.development?
 
     before_action :authenticate_admin
 
