@@ -1,6 +1,7 @@
 class SessionsController < Devise::SessionsController
 	# after_action  :generate_profile_suggestions, :only => [:create]
 	layout	:profile_wizard_layout_for_mobile
+	before_action :check_for_steve!, only: :create
 
 	def new
 		respond_to do |format|
@@ -13,6 +14,10 @@ class SessionsController < Devise::SessionsController
 			end
 			format.json
 		end
+	end
+
+	def check_for_steve!
+		logger.warn "*** #{params[:user][:login]}"
 	end
 
 	def create
@@ -59,6 +64,7 @@ protected
  protected
 
 	def require_no_authentication
+		logger.warn "** require_no_authentication"
 		assert_is_devise_resource!
 		return unless is_navigational_format?
 		no_input = devise_mapping.no_input_strategies
