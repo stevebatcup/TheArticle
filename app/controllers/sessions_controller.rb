@@ -16,6 +16,7 @@ class SessionsController < Devise::SessionsController
 	end
 
 	def create
+		logger.warn "** create **"
 		resource = User.find_for_database_authentication(login: params[:user][:login])
 		return invalid_login_attempt unless resource
 
@@ -65,17 +66,12 @@ protected
 
 		authenticated = if no_input.present?
 			args = no_input.dup.push scope: resource_name
-			result = warden.authenticate?(*args)
-			logger.warn "** require_no_authentication: warden_authed = #{result}"
-			result
+			warden.authenticate?(*args)
 		else
-			result = warden.authenticated?(resource_name)
-			logger.warn "** require_no_authentication: warden_authed = #{result}"
-			result
+			warden.authenticated?(resource_name)
 		end
 
 		if authenticated && resource = warden.user(resource_name)
-			logger.warn "** require_no_authentication: warden_authed: extras"
 			flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
 			respond_to do |format|
 				format.html do
