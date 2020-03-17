@@ -16,7 +16,6 @@ class SessionsController < Devise::SessionsController
 	end
 
 	def create
-		logger.warn "** create **"
 		resource = User.find_for_database_authentication(login: params[:user][:login])
 		return invalid_login_attempt unless resource
 
@@ -57,9 +56,9 @@ protected
    	ProfileSuggestionsGeneratorJob.perform_later(resource, false, 25)
   end
 
- private
+ protected
 
-	 def require_no_authentication
+	def require_no_authentication
 		assert_is_devise_resource!
 		return unless is_navigational_format?
 		no_input = devise_mapping.no_input_strategies
