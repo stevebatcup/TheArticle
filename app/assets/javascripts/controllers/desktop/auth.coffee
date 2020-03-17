@@ -158,7 +158,7 @@ class TheArticle.Auth extends TheArticle.PageController
 			user:
 				login: login
 				password: @scope.signInDetails.password.value
-		@http.post("/users/sign_in", data).then (response) =>
+		@http.post("/users/sign_in.json", data).then (response) =>
 			if response.data.status is 'success'
 				gtag('event', 'login', { 'method': 'Email' }) if gtag?
 				window.location.href = response.data.redirect

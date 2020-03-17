@@ -1,6 +1,7 @@
 class SessionsController < Devise::SessionsController
 	# after_action  :generate_profile_suggestions, :only => [:create]
 	layout	:profile_wizard_layout_for_mobile
+	prepend_before_action :set_logger_level
 
 	def new
 		respond_to do |format|
@@ -56,6 +57,10 @@ protected
    	ProfileSuggestionsGeneratorJob.perform_later(resource, false, 25)
   end
 
+  def set_logger_level
+  	Rails.logger.level = 0
+  end
+
 	def require_no_authentication
 		assert_is_devise_resource!
 		return unless is_navigational_format?
@@ -63,7 +68,7 @@ protected
 
 		authenticated = if no_input.present?
 			args = no_input.dup.push scope: resource_name
-			false #warden.authenticate?(*args)
+			warden.authenticate?(*args)
 		else
 			warden.authenticated?(resource_name)
 		end
