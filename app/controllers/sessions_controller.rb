@@ -16,7 +16,6 @@ class SessionsController < Devise::SessionsController
 	end
 
 	def create
-		logger.warn "*** Sign in debug pre-find: #1 (#{params[:user][:login]})"
 		resource = User.find_for_database_authentication(login: params[:user][:login])
 		return invalid_login_attempt unless resource
 
@@ -60,42 +59,31 @@ protected
  private
 
 	 def require_no_authentication
-		logger.warn "*** Sign in debug require_no_authentication: #1"
+	 	return super unless is_mobile_app?
+
+	 	logger.warn "** Mobile App: require_no_authentication"
 		assert_is_devise_resource!
-		logger.warn "*** Sign in debug require_no_authentication: #2"
 		return unless is_navigational_format?
-		logger.warn "*** Sign in debug require_no_authentication: #3"
 		no_input = devise_mapping.no_input_strategies
-		logger.warn "*** Sign in debug require_no_authentication: #4"
 
 		authenticated = if no_input.present?
-			logger.warn "*** Sign in debug require_no_authentication: #5"
 			args = no_input.dup.push scope: resource_name
-			logger.warn "*** Sign in debug require_no_authentication: #6"
 			warden.authenticate?(*args)
-			logger.warn "*** Sign in debug require_no_authentication: #7"
 		else
-			logger.warn "*** Sign in debug require_no_authentication: #8"
 			warden.authenticated?(resource_name)
-			logger.warn "*** Sign in debug require_no_authentication: #9"
 		end
 
 		if authenticated && resource = warden.user(resource_name)
-			logger.warn "*** Sign in debug require_no_authentication: #10"
 			flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
-			logger.warn "*** Sign in debug require_no_authentication: #11"
 			respond_to do |format|
-				logger.warn "*** Sign in debug require_no_authentication: #12"
 				format.html do
-					logger.warn "*** Sign in debug require_no_authentication: #13"
 					redirect_to "/my-home"
 				end
 				format.json do
-					logger.warn "*** Sign in debug require_no_authentication: #14"
 					render json: { status: :signed_in, message: t('devise.failure.already_authenticated') }
-					logger.warn "*** Sign in debug require_no_authentication: #15"
 				end
 			end
 		end
 	end
+
 end
