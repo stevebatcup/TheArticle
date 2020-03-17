@@ -21,7 +21,7 @@ class ProfileWizardController < ApplicationController
 			@redirect = "#{front_page_path}?from_wizard=1"
 		rescue Exception => e
 			@status = :error
-			@error = e.message
+			@error = "Unknown error" #e.message
 		end
 	end
 

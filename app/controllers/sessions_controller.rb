@@ -59,21 +59,23 @@ protected
  private
 
 	 def require_no_authentication
-	 	return super unless is_mobile_app?
-
-	 	logger.warn "** Mobile App: require_no_authentication"
 		assert_is_devise_resource!
 		return unless is_navigational_format?
 		no_input = devise_mapping.no_input_strategies
 
 		authenticated = if no_input.present?
 			args = no_input.dup.push scope: resource_name
-			warden.authenticate?(*args)
+			result = warden.authenticate?(*args)
+			logger.warn "** require_no_authentication: warden_authed = #{result}"
+			result
 		else
-			warden.authenticated?(resource_name)
+			result = warden.authenticated?(resource_name)
+			logger.warn "** require_no_authentication: warden_authed = #{result}"
+			result
 		end
 
 		if authenticated && resource = warden.user(resource_name)
+			logger.warn "** require_no_authentication: warden_authed: extras"
 			flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
 			respond_to do |format|
 				format.html do
