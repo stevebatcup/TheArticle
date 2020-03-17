@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
 
-	# before_action :prepare_exception_notifier
+	before_action :prepare_exception_notifier
 	before_action :set_device_type
   before_action :set_signed_in_header
   before_action :set_vary_header

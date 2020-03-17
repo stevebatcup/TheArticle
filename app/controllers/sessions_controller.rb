@@ -63,7 +63,7 @@ protected
 
 		authenticated = if no_input.present?
 			args = no_input.dup.push scope: resource_name
-			warden.authenticate?(*args)
+			false #warden.authenticate?(*args)
 		else
 			warden.authenticated?(resource_name)
 		end
