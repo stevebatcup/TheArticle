@@ -1,13 +1,14 @@
 class ApplicationController < ActionController::Base
   http_basic_authenticate_with name: "londonbridge", password: "B37ys0m2w" if Rails.env == 'staging'
-	before_action :set_device_type
-	before_action :prepare_exception_notifier
   protect_from_forgery with: :exception, if: Proc.new { |c| c.request.format != 'application/json' }
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
-  skip_before_action :verify_authenticity_token, if: :json_request?
+
+	# before_action :prepare_exception_notifier
+	before_action :set_device_type
   before_action :set_signed_in_header
   before_action :set_vary_header
   before_action :configure_permitted_parameters, if: :devise_controller?
+  skip_before_action :verify_authenticity_token, if: :json_request?
 
 	def show_ads?
 		if viewing_from_admin

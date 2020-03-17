@@ -56,10 +56,7 @@ protected
    	ProfileSuggestionsGeneratorJob.perform_later(resource, false, 25)
   end
 
- protected
-
 	def require_no_authentication
-		logger.warn "** require_no_authentication: start"
 		assert_is_devise_resource!
 		return unless is_navigational_format?
 		no_input = devise_mapping.no_input_strategies
@@ -70,8 +67,6 @@ protected
 		else
 			warden.authenticated?(resource_name)
 		end
-
-		logger.warn "** require_no_authentication: middle"
 
 		if authenticated && resource = warden.user(resource_name)
 			flash[:alert] = alert = I18n.t("devise.failure.already_authenticated")
@@ -84,8 +79,6 @@ protected
 				end
 			end
 		end
-
-		logger.warn "** require_no_authentication: end"
 	end
 
 end
