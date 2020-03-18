@@ -150,14 +150,14 @@
 											<label class="mr-4">Well argued: </label>
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = convert_rating_to_dots(@article_share['rating_well_written']) >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(article_share(@article)['rating_well_written']) >= i ? 'filled' : 'empty' %>
 													<span class="dot">
 														<span class="<%= dot_class %>"></span>
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green rating_text_<%= text_rating(:well_written, @article_share['rating_well_written']).parameterize.underscore %>">
-												<%= text_rating(:well_written, @article_share['rating_well_written']) %>
+											<h6 class="text-green rating_text_<%= text_rating(:well_written, article_share(@article)['rating_well_written']).parameterize.underscore %>">
+												<%= text_rating(:well_written, article_share(@article)['rating_well_written']) %>
 											</h6>
 										</div>
 									</li>
@@ -166,14 +166,14 @@
 											<label class="mr-4">Interesting points: </label>
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = convert_rating_to_dots(@article_share['rating_valid_points']) >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(article_share(@article)['rating_valid_points']) >= i ? 'filled' : 'empty' %>
 													<span class="dot">
 														<span class="<%= dot_class %>"></span>
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green rating_text_<%= text_rating(:valid_points, @article_share['rating_valid_points']).parameterize.underscore %>">
-												<%= text_rating(:valid_points, @article_share['rating_valid_points']) %>
+											<h6 class="text-green rating_text_<%= text_rating(:valid_points, article_share(@article)['rating_valid_points']).parameterize.underscore %>">
+												<%= text_rating(:valid_points, article_share(@article)['rating_valid_points']) %>
 											</h6>
 										</div>
 									</li>
@@ -182,14 +182,14 @@
 											<label class="mr-4">Agree with arguments: </label>
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = convert_rating_to_dots(@article_share['rating_agree']) >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(article_share(@article)['rating_agree']) >= i ? 'filled' : 'empty' %>
 													<span class="dot">
 														<span class="<%= dot_class %>"></span>
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green rating_text_<%= text_rating(:agree, @article_share['rating_agree']).parameterize.underscore %>">
-												<%= text_rating(:agree, @article_share['rating_agree']) %>
+											<h6 class="text-green rating_text_<%= text_rating(:agree, article_share(@article)['rating_agree']).parameterize.underscore %>">
+												<%= text_rating(:agree, article_share(@article)['rating_agree']) %>
 											</h6>
 										</div>
 									</li>
@@ -222,11 +222,11 @@
 
 					<hr />
 
-					<% if @sponsored_picks.any? %>
+					<% if !@article.is_sponsored? && sponsored_picks.any? %>
 					<div id="featured_articles_content_bar" class="mt-5" style="display: none;">
 						<h2 class="h1 bullet underline">Sponsored picks</h2>
 						<div class="row">
-							<% @sponsored_picks.each do |sp| %>
+							<% sponsored_picks.each do |sp| %>
 								<%= render partial: 'articles/sponsored-item', locals: { article: sp } %>
 							<% end %>
 						</div>
@@ -251,7 +251,7 @@
 
 					<div class="sidebar_inner" id="most_read_articles">
 						<h2 class="bullet underline">Latest articles</h2>
-						<% @trending_articles.each do |ta| %>
+						<% trending_articles.each do |ta| %>
 							<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
 								<div class="col-12">
 									<% if(ta.is_sponsored?) %>
@@ -305,11 +305,11 @@
 						</div>
 					<% end %>
 
-					<% if @sponsored_picks.any? %>
+					<% if !@article.is_sponsored? && sponsored_picks.any? %>
 					<div class="sidebar_inner" id="featured_articles_sidebar">
 						<h2 class="bullet underline" style="display: none;">Sponsored picks</h2>
 						<div class="row">
-							<% @sponsored_picks.each_with_index do |sp, i| %>
+							<% sponsored_picks.each_with_index do |sp, i| %>
 								<%= render partial: 'articles/sponsored-item-for-sidebar', locals: { article: sp, counter: i+1 } %>
 							<% end %>
 						</div>
@@ -340,7 +340,7 @@
 
 <% if user_signed_in? %>
 <script id="sharingPanel" type="script/x-mustache">
-	<%= render partial: 'articles/sharing-panel_modal', locals: { article: @article, article_share: @article_share } %>
+	<%= render partial: 'articles/sharing-panel_modal', locals: { article: @article, article_share: article_share(@article) } %>
 </script>
 <% end %>
 

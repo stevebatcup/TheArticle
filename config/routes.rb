@@ -207,6 +207,7 @@ Rails.application.routes.draw do
   LandingPageRouter.load
 
 	mount Sidekiq::Web, at: '/sidekiq'
+  get "sponsored", to: "articles#show_nativo"
   get "*slug", to: "articles#show", as: :article, constraints: lambda { |req|
     req.path.exclude? 'amazonaws.com'
   }

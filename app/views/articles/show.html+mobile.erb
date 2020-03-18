@@ -151,14 +151,14 @@
 										<div class="justify-content-start d-flex align-items-start">
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = convert_rating_to_dots(@article_share['rating_well_written']) >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(article_share(@article)['rating_well_written']) >= i ? 'filled' : 'empty' %>
 													<span class="dot panel">
 														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green rating_text_<%= text_rating(:well_written, @article_share['rating_well_written']).parameterize.underscore %>">
-												<%= text_rating(:well_written, @article_share['rating_well_written']) %>
+											<h6 class="text-green rating_text_<%= text_rating(:well_written, article_share(@article)['rating_well_written']).parameterize.underscore %>">
+												<%= text_rating(:well_written, article_share(@article)['rating_well_written']) %>
 											</h6>
 										</div>
 									</li>
@@ -167,14 +167,14 @@
 										<div class="justify-content-start d-flex align-items-start">
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = convert_rating_to_dots(@article_share['rating_valid_points']) >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(article_share(@article)['rating_valid_points']) >= i ? 'filled' : 'empty' %>
 													<span class="dot panel">
 														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green rating_text_<%= text_rating(:valid_points, @article_share['rating_valid_points']).parameterize.underscore %>">
-												<%= text_rating(:valid_points, @article_share['rating_valid_points']) %>
+											<h6 class="text-green rating_text_<%= text_rating(:valid_points, article_share(@article)['rating_valid_points']).parameterize.underscore %>">
+												<%= text_rating(:valid_points, article_share(@article)['rating_valid_points']) %>
 											</h6>
 										</div>
 									</li>
@@ -183,14 +183,14 @@
 										<div class="justify-content-start d-flex align-items-start">
 											<div class="dots">
 												<% for i in 1..5 %>
-													<% dot_class = convert_rating_to_dots(@article_share['rating_agree']) >= i ? 'filled' : 'empty' %>
+													<% dot_class = convert_rating_to_dots(article_share(@article)['rating_agree']) >= i ? 'filled' : 'empty' %>
 													<span class="dot panel">
 														<span class="<%= dot_class %>">&nbsp;</span>
 													</span>
 												<% end %>
 											</div>
-											<h6 class="text-green rating_text_<%= text_rating(:agree, @article_share['rating_agree']).parameterize.underscore %>">
-												<%= text_rating(:agree, @article_share['rating_agree']) %>
+											<h6 class="text-green rating_text_<%= text_rating(:agree, article_share(@article)['rating_agree']).parameterize.underscore %>">
+												<%= text_rating(:agree, article_share(@article)['rating_agree']) %>
 											</h6>
 										</div>
 									</li>
@@ -251,7 +251,7 @@
 
 	<div class="container pb-5 mt-4" id="most_read_articles">
 		<h2 class="bullet underline">Latest articles</h2>
-		<% @trending_articles.each do |ta| %>
+		<% trending_articles.each do |ta| %>
 			<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
 				<div class="col-12">
 					<% if(ta.is_sponsored?) %>
@@ -296,7 +296,7 @@
 
 <% if user_signed_in? %>
 <script id="sharingPanel" type="script/x-mustache">
-	<%= render partial: 'articles/sharing-panel_modal', locals: { article: @article, article_share: @article_share } %>
+	<%= render partial: 'articles/sharing-panel_modal', locals: { article: @article, article_share: article_share(@article) } %>
 </script>
 <% end %>
 

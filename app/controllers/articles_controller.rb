@@ -120,30 +120,38 @@ class ArticlesController < ApplicationController
 													.includes(:author).references(:author)
 													.includes(:exchanges).references(:exchanges)
 													.first
-			@sponsored_picks = []
-			unless @article.is_sponsored?
-				@sponsored_picks = Article.sponsored.includes(:exchanges)
-																		.references(:exchanges)
-																		.includes(:keyword_tags)
-																		.references(:keyword_tags)
-																		.where("keyword_tags.slug = ?", 'sponsored-pick')
-																		.order(Arel.sql('RAND()'))
-																		.limit(4)
-																		.to_a
-			end
-			if rand(1..2) == 1
-				@firstSideAdType = 'sidecolumn'
-				@firstSideAdSlot = 1
-				@secondSideAdType = 'bottomsidecolumn'
-				@secondSideAdSlot = 0
+			build_ad_slots
+		else
+			render_404
+		end
+	end
+
+	def show_nativo
+		@ad_page_type = 'article'
+		build_ad_slots
+	end
+
+	helper_method	:article_share
+	def article_share(article)
+		@article_share ||= begin
+			if user_signed_in? && current_user.existing_article_rating(article)
+				current_user.existing_article_rating(article).as_json
 			else
-				@firstSideAdType = 'bottomsidecolumn'
-				@firstSideAdSlot = 0
-				@secondSideAdType = 'sidecolumn'
-				@secondSideAdSlot = 1
+				{
+					'comments' => '',
+					'rating_well_written' => nil,
+					'rating_valid_points' => nil,
+					'rating_agree' => nil
+				}
 			end
-			@trending_articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
-			if @sponsored_picks.any? && Author.sponsors.any?
+		end
+	end
+
+	helper_method	:trending_articles
+	def trending_articles
+		@trending_articles ||= begin
+			articles = Article.latest.limit(Author.sponsors.any? ? 4 : 5).all.to_a
+			if sponsored_picks.any?
 				trending_sponsored_article = Article.sponsored.includes(:exchanges)
 																				.references(:exchanges)
 																				.includes(:keyword_tags)
@@ -153,17 +161,38 @@ class ArticlesController < ApplicationController
 																				.order(Arel.sql('RAND()'))
 																				.limit(1)
 																				.first
-				@trending_articles.insert(2, trending_sponsored_article) unless trending_sponsored_article.nil?
+				articles.insert(2, trending_sponsored_article) unless trending_sponsored_article.nil?
 			end
-			@article_share = {
-				'comments' => '',
-				'rating_well_written' => nil,
-				'rating_valid_points' => nil,
-				'rating_agree' => nil
-			}
-			@article_share = current_user.existing_article_rating(@article).as_json if user_signed_in? && current_user.existing_article_rating(@article)
+			articles
+		end
+	end
+
+
+	helper_method	:sponsored_picks
+	def sponsored_picks
+		@sponsored_picks ||= Article.sponsored.includes(:exchanges)
+			.references(:exchanges)
+			.includes(:keyword_tags)
+			.references(:keyword_tags)
+			.where("keyword_tags.slug = ?", 'sponsored-pick')
+			.order(Arel.sql('RAND()'))
+			.limit(4)
+			.to_a
+	end
+
+private
+
+	def build_ad_slots
+		if rand(1..2) == 1
+			@firstSideAdType = 'sidecolumn'
+			@firstSideAdSlot = 1
+			@secondSideAdType = 'bottomsidecolumn'
+			@secondSideAdSlot = 0
 		else
-			render_404
+			@firstSideAdType = 'bottomsidecolumn'
+			@firstSideAdSlot = 0
+			@secondSideAdType = 'sidecolumn'
+			@secondSideAdSlot = 1
 		end
 	end
 end
