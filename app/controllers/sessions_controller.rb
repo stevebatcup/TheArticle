@@ -1,7 +1,6 @@
 class SessionsController < Devise::SessionsController
 	# after_action  :generate_profile_suggestions, :only => [:create]
 	layout	:profile_wizard_layout_for_mobile
-	prepend_before_action :set_logger_level
 
 	def new
 		respond_to do |format|
@@ -55,10 +54,6 @@ protected
 
   def generate_profile_suggestions
    	ProfileSuggestionsGeneratorJob.perform_later(resource, false, 25)
-  end
-
-  def set_logger_level
-  	Rails.logger.level = 0
   end
 
 	def require_no_authentication
