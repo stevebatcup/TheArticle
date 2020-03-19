@@ -2,7 +2,7 @@ class LandingPagesController < ApplicationController
 	def index
 		respond_to do |format|
 			format.json do
-				@landing_pages = LandingPage.where(status: :live).order(created_at: :asc)
+				@landing_pages = LandingPage.for_homepage.order(created_at: :asc)
 			end
 		end
 	end
