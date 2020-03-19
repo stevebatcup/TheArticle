@@ -205,6 +205,7 @@ Rails.application.routes.draw do
 
   PageRouter.load
   LandingPageRouter.load
+  get "landing_pages", to: "landing_pages#index"
 
 	mount Sidekiq::Web, at: '/sidekiq'
   get "sponsored", to: "articles#show_nativo"

@@ -1,4 +1,12 @@
 class LandingPagesController < ApplicationController
+	def index
+		respond_to do |format|
+			format.json do
+				@landing_pages = LandingPage.where(status: :live).order(created_at: :asc)
+			end
+		end
+	end
+
 	def show
 		@landing_page = nil
 		mode = params[:preview].present? ? :preview : :live
