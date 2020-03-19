@@ -35,6 +35,7 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 					posts: []
 
 		@scope.latestArticles = []
+		@scope.latestArticlesLoaded = false
 		@scope.latestArticlesCarouselReady = false
 
 		@bindEvents()
@@ -75,6 +76,7 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 				@scope.search.results.data[result.type].push result
 			@scope.search.results.loaded = true
 			@scope.latestArticles = response.data.latestArticles
+			@scope.latestArticlesLoaded = true
 
 	initLatestArticlesCarousel: =>
 		@timeout =>
