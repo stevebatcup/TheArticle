@@ -131,7 +131,7 @@
 								<%= render 'shares/card' %>
 						</div>
 
-						<% unless is_development? %>
+						<% if can_show_bibblio_snippet? %>
 							<% if @contributor.articles.any? %>
 								<section id="bibblio_feed" ng-if="(ratings.firstLoaded) && (ratings.data.length < 5)" class="w-100">
 										<h2 class="h1 bullet mb-2 mb-md-3">You may also like</h2>
@@ -187,7 +187,7 @@
 				</div>
 			</section>
 
-			<% unless is_development? %>
+			<% if can_show_bibblio_snippet? %>
 				<% if @contributor.articles.any? %>
 					<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (ratings.data.length >= 5)" class="w-100 mt-3">
 							<h2 class="bullet mt-2">

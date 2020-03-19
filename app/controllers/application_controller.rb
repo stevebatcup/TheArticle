@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
 	helper_method	:default_page_title
 
 	def is_development?
-		Rails.env == 'development'
+		Rails.env.development?
 	end
 	helper_method	:is_development?
 
@@ -194,6 +194,13 @@ class ApplicationController < ActionController::Base
 		LandingPage.for_homepage
 	end
 	helper_method	:footer_landing_page_links
+
+
+	helper_method	:can_show_bibblio_snippet?
+	def can_show_bibblio_snippet?
+		# !is_development?
+		false
+	end
 
 protected
 

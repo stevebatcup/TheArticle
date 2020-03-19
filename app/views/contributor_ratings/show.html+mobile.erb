@@ -65,7 +65,7 @@
 								<%= render 'shares/card' %>
 						</div>
 
-						<% unless is_development? %>
+						<% if can_show_bibblio_snippet? %>
 							<% if @contributor.articles.any? %>
 								<section id="bibblio_sidebar" ng-if="(ratings.firstLoaded) && (!ratings.moreToLoad) && (!ratings.loading)" class="py-3 bg-white w-100">
 										<div class="container">

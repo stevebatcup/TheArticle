@@ -321,20 +321,22 @@
 		</article>
 	</div>
 
-	<% unless @article.is_sponsored? || is_development? %>
-		<div class="container pb-1">
-			<h2 class="h1 bullet mb-2 mb-md-3">You may also like</h2>
-			<div class="bib--rcm-init"
-			  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
-			  data-style-classes="bib--recency-show bib--grd-6 bib--split bib--wide bib--font-arial bib--author-show"
-			  <% if user_signed_in? %>
-			  data-user-id="<%= current_user.id %>"
-			  <% end %>
-			  data-query-string-params="utm_source=bibblio_article_page"
-			  data-custom-unique-identifier="<%= @article.slug %>"
-			  data-custom-catalogue-ids="Articles">
+	<% if can_show_bibblio_snippet? %>
+		<% unless @article.is_sponsored? %>
+			<div class="container pb-1">
+				<h2 class="h1 bullet mb-2 mb-md-3">You may also like</h2>
+				<div class="bib--rcm-init"
+				  data-recommendation-key="3421f3c9-67e5-4da5-9c8e-c3b5eddecce1"
+				  data-style-classes="bib--recency-show bib--grd-6 bib--split bib--wide bib--font-arial bib--author-show"
+				  <% if user_signed_in? %>
+				  data-user-id="<%= current_user.id %>"
+				  <% end %>
+				  data-query-string-params="utm_source=bibblio_article_page"
+				  data-custom-unique-identifier="<%= @article.slug %>"
+				  data-custom-catalogue-ids="Articles">
+				</div>
 			</div>
-		</div>
+		<% end %>
 	<% end %>
 </section>
 
@@ -350,7 +352,7 @@
 	</script>
 <% end %>
 
-<% unless is_development? %>
+<% if can_show_bibblio_snippet? %>
 	<!-- Start of Bibblio RCM includes -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.css">
 	<script src="https://cdn.bibblio.org/rcm/4.4/bib-related-content.min.js"></script>
