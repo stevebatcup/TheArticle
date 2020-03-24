@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_131538) do
+ActiveRecord::Schema.define(version: 2020_03_24_151748) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -148,6 +148,13 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["user_id"], name: "index_blocks_on_user_id"
   end
 
+  create_table "chats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "last_message_id"
+    t.integer "message_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.integer "commentable_id"
     t.string "commentable_type"
@@ -186,6 +193,16 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.index ["reported_id"], name: "index_concern_reports_on_reported_id"
     t.index ["reporter_id"], name: "index_concern_reports_on_reporter_id"
     t.index ["sourceable_type", "sourceable_id"], name: "index_concern_reports_on_sourceable_type_and_sourceable_id"
+  end
+
+  create_table "conversers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "chat_id"
+    t.bigint "user_id"
+    t.boolean "is_chat_initiator"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_conversers_on_chat_id"
+    t.index ["user_id"], name: "index_conversers_on_user_id"
   end
 
   create_table "daily_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -377,6 +394,18 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "chat_id"
+    t.bigint "user_id"
+    t.text "body"
+    t.boolean "is_ice_breaker", default: false
+    t.datetime "read_by_recipient_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "muted_id"
@@ -477,6 +506,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
     t.string "browser"
     t.string "device"
     t.datetime "created_at"
+    t.index ["token"], name: "index_push_tokens_on_token", unique: true
   end
 
   create_table "quarantined_third_party_shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
@@ -783,6 +813,8 @@ ActiveRecord::Schema.define(version: 2020_02_19_131538) do
   add_foreign_key "articles_exchanges", "exchanges"
   add_foreign_key "articles_keyword_tags", "articles"
   add_foreign_key "articles_keyword_tags", "keyword_tags"
+  add_foreign_key "conversers", "chats"
+  add_foreign_key "conversers", "users"
   add_foreign_key "exchanges_users", "exchanges"
   add_foreign_key "exchanges_users", "users"
   add_foreign_key "keyword_tags_landing_pages", "keyword_tags"
