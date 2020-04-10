@@ -28,7 +28,7 @@ class Follow < ApplicationRecord
 	end
 
 	def send_browser_push
-		PushService.send(followed, "#{user.display_name} followed you", push_msg, push_url) if user.has_active_status?
+		PushService.send(followed, "#{user.display_name} followed you", push_msg, push_url) if user.recieves_follow_pushes?
 	end
 
 	def push_msg

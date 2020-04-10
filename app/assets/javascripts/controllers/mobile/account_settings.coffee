@@ -277,6 +277,16 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 					@scope.user.emailNotificationStatus = 'On'
 		@backToPage('notifications')
 
+	savePushNotifications: ($event) =>
+		$event.preventDefault() if $event?
+		angular.forEach @scope.user.notificationSettings, (value, key) =>
+			data =
+				settings:
+					key: key
+					value: value
+			@http.put("/notification-settings", data)
+		@backToPage('notifications')
+
 	checkForEmailNotificationStatusChange: =>
 		allNevers = true
 		angular.forEach @scope.user.notificationSettings, (value, key) =>

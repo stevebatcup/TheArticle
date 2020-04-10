@@ -33,12 +33,10 @@ class PasswordsController < Devise::PasswordsController
       set_minimum_password_length
       render json: { message: better_model_error_messages(resource) }, status: 500
     end
-
-
   end
 
+  protected
 
-protected
 	def after_resetting_password_path_for(resource)
 		"#{after_sign_in_path_for(resource)}?password_changed=1"
 	end

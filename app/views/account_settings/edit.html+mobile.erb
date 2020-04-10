@@ -160,6 +160,11 @@
 						<h5>Email</h5>
 						<i class="fas fa-chevron-right"></i>
 					</div>
+
+					<div class="nav_menu_item d-flex justify-content-between" ng-click="forwardToPage($event, 'notifications_push', 'account')">
+						<h5>Push notifications</h5>
+						<i class="fas fa-chevron-right"></i>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -535,6 +540,76 @@
 
 					<div class="container">
 						<button class="btn btn-success btn-lower btn-block mt-3" ng-click="saveEmailNotifications($event)">Save</button>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Notifications : Push -->
+			<div class="slidepage-page right" data-page="notifications_push" data-title="Push Notification settings" data-level="3">
+				<p class="mt-2 mb-0 mx-3">Manage your push notifications.</p>
+
+				<div class="nav_menu nav_menu_checkboxes">
+					<div class="nav_menu_item">
+						<label class="nav_menu_select d-flex justify-content-between" for="notifications_push_followers">
+							<div class="d-flex justify-content-between w-100">
+								<div style="width: 65%">
+									<h5>Followers</h5>
+								</div>
+								<div style="width: 35%" class="radio_group d-flex justify-content-between">
+									<label>
+										<input ng-model="user.notificationSettings.pushFollowers"
+												type="radio"
+												name="notifications_push_followers"
+												value="yes"
+												class="mr-1">Yes
+									</label>
+									<label>
+										<input ng-model="user.notificationSettings.pushFollowers"
+												type="radio"
+												name="notifications_push_followers"
+												value="no"
+												class="mr-1">No
+									</label>
+								</div>
+							</div>
+						</label>
+						<p class="mb-1 mt-0 w-100">
+							<small>Send me a push notification if someone follows me</small>
+						</p>
+					</div>
+
+					<div class="nav_menu_item">
+						<label class="nav_menu_select d-flex justify-content-between" for="notifications_push_exchanges">
+							<div class="d-flex justify-content-between w-100">
+								<div style="width: 65%">
+									<h5>Exchanges</h5>
+								</div>
+								<div style="width: 35%" class="radio_group d-flex justify-content-between">
+									<label>
+										<input ng-model="user.notificationSettings.pushExchanges"
+												type="radio"
+												name="notifications_push_exchanges"
+												value="yes"
+												class="mr-1">Yes
+									</label>
+									<label>
+										<input ng-model="user.notificationSettings.pushExchanges"
+												type="radio"
+												name="notifications_push_exchanges"
+												value="no"
+												class="mr-1">No
+									</label>
+								</div>
+							</div>
+						</label>
+						<p class="mb-1 mt-0 w-100">
+							<small>Send me a push notification if an article is added to an exchange I follow</small>
+						</p>
+					</div>
+
+					<div class="container">
+						<button class="btn btn-success btn-lower btn-block mt-3" ng-click="savePushNotifications($event)">Save</button>
 					</div>
 				</div>
 			</div>

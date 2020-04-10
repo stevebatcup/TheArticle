@@ -90,7 +90,7 @@ class Categorisation < ApplicationRecord
 
 	def self.send_browser_pushes_for_article(article, text)
 		list_for_notifications(article).each do |item|
-			if item[:user].has_active_status?
+			if item[:user].recieves_categorisation_pushes?
 				PushService.send(item[:user], article.title, text, "https://www.thearticle.com/#{article.slug}")
 			end
 		end

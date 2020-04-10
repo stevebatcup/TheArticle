@@ -75,6 +75,7 @@ class User < ApplicationRecord
   include Opinionable
   include Adminable
   include Mailable
+  include Pushable
 
   attr_writer :login
 
@@ -125,6 +126,8 @@ class User < ApplicationRecord
     self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
     self.notification_settings.build({ key: 'email_responses', value: 'never' })
     self.notification_settings.build({ key: 'email_replies', value: 'never' })
+    self.notification_settings.build({ key: 'push_followers', value: 'no' })
+    self.notification_settings.build({ key: 'push_exchanges', value: 'no' })
 
     self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
     self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
