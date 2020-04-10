@@ -51,7 +51,6 @@ private
   end
 
   def mandrill_template(template_name, attributes)
-
     merge_vars = attributes.map do |key, value|
       { name: key, content: value }
     end
