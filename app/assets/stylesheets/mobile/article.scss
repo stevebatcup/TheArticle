@@ -209,6 +209,17 @@
 		margin: 20px auto;
 	}
 
+	.app_share_this {
+		position: relative;
+
+		i {
+			position: absolute;
+			font-size: 1.3em;
+			left: 0.6em;
+			top: 0.4em;
+		}
+	}
+
 	.rate_this {
 		background-image: asset_url('capital-a-bg.png');
 		background-repeat: no-repeat;

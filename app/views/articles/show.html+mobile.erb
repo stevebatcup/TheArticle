@@ -40,8 +40,16 @@
 				</div>
 
 				<div class="mt-0 mb-2 d-flex share_links">
-					<%= render partial: 'common/share-buttons', locals: { article: @article } %>
+					<%= render(partial: 'common/share-buttons', locals: { article: @article }) unless is_mobile_app? %>
 				</div>
+
+				<% if is_mobile_app? %>
+					<a href="#" class="app_share_this d-block btn btn-success text-white text-case-inherit mb-3"
+						ng-click="AppShare.postMessage('<%= @article.title.html_safe %>');">
+							<i class="fas fa-share"></i>
+							<span class="ml-2">Share this article</span>
+					</a>
+				<% end %>
 
 				<% unless @article.is_sponsored? %>
 				<div class="member_ratings pt-2 pb-2 px-3 mb-2" itemscope itemprop="aggregateRating" itemtype="https://schema.org/AggregateRating">
@@ -204,20 +212,28 @@
 						<div class="w-100" id="twitter_follow_col">
 							<% unless @article.is_sponsored? %>
 								<% if user_signed_in? && current_user.existing_article_rating(@article) %>
-									<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
+									<a class="rate_this d-block btn btn-success text-white text-case-inherit"
 											href="#" ng-click="openSharingPanel($event, 'rerate')">
 												<span class="ml-2">Re-rate this article</span>
 									</a>
 								<% else %>
-										<a class="rate_this d-block text-black btn btn-success text-white text-case-inherit"
+										<a class="rate_this d-block btn btn-success text-white text-case-inherit"
 											href="#" ng-click="openSharingPanel($event, 'rate')">
 												<span class="ml-2">Rate this article</span>
 										</a>
 								<% end %>
 							<% end %>
+
+							<% if is_mobile_app? %>
+								<a href="#" class="app_share_this d-block btn btn-success text-white text-case-inherit mt-3"
+									ng-click="AppShare.postMessage('<%= @article.title.html_safe %>');">
+										<i class="fas fa-share"></i>
+										<span class="ml-2">Share this article</span>
+								</a>
+							<% end %>
 						</div>
 						<div class="mt-3 d-flex share_links">
-							<%= render partial: 'common/share-buttons', locals: { article: @article } %>
+							<%= render(partial: 'common/share-buttons', locals: { article: @article }) unless is_mobile_app? %>
 						</div>
 					</footer><!-- .entry-footer -->
 
