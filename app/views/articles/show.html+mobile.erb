@@ -302,7 +302,7 @@
 </script>
 <% end %>
 
-<% if show_registration_interstitial? && !request.headers["X-MobileApp"] %>
+<% if show_registration_interstitial? %>
 	<script id="registerInterstitial" type="script/x-mustache">
 	  <%= render partial: 'promotional/register_modal' %>
 	</script>

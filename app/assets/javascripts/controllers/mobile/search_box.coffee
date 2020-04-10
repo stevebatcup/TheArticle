@@ -38,6 +38,7 @@ class TheArticle.SearchBox extends TheArticle.MobilePageController
 	toggleSearch: =>
 		$box = $('#search_box')
 		if $box.is(':hidden')
+			$('body').scrollTop(0)
 			$('#dismiss').click() if $('#dismiss', '#sidebar').is(':visible')
 			@timeout =>
 				$box.slideDown(200)

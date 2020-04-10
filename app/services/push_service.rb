@@ -5,11 +5,15 @@ module PushService
 			if user.push_tokens.any?
 				fcm = FCM.new(firebase_credentials[:messaging_server_key])
 				message = {
-					"notification": {
-						"title": title,
-						"body": body,
-						"icon": "https://www.thearticle.com/firebase-logo.png",
-						"click_action": click_url
+					notification: {
+						title: title,
+						body: body,
+						icon: "https://www.thearticle.com/firebase-logo.png",
+						click_action: click_url
+					},
+					data: {
+						uri: click_url,
+						click_action: 'FLUTTER_NOTIFICATION_CLICK'
 					}
 				}
 				user.push_tokens.each do |push_token|
