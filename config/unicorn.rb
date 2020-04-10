@@ -4,5 +4,5 @@ stderr_path "/var/www/thearticle/rails/current/log/unicorn.log"
 stdout_path "/var/www/thearticle/rails/current/log/unicorn.log"
 
 listen "/tmp/unicorn.sock"
-worker_processes 2
+worker_processes 4
 timeout 120
