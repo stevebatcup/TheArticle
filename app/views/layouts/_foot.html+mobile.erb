@@ -1,4 +1,4 @@
-    <%= render 'common/cookie-notice' %>
+    <%= render('common/cookie-notice') unless is_mobile_app? %>
 
     <% unless user_signed_in? %>
       <%= render 'devise/registrations/new' %>
