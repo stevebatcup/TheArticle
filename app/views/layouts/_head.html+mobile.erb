@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-mobile-app="<%= request.headers['X-MobileApp'] ? 1 : 0 %>">
   <head>
     <title><%= yield_page_title(default_page_title) %></title>
     <meta charset="utf-8">

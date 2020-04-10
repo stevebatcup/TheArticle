@@ -8,6 +8,7 @@ class TheArticle.PageController extends TheArticle.NGController
 		$('#ads_top').length > 0
 
 	flash: (msg, action=null) =>
+		delayTime = 8000
 		$.notifyClose('bottom-center')
 		$.notify({
 			message: msg
@@ -22,7 +23,7 @@ class TheArticle.PageController extends TheArticle.NGController
 			},
 			offset: 0,
 			spacing: 20,
-			delay: 8000,
+			delay: delayTime,
 			timer: 1000,
 			animate: {
 				enter: 'animated fadeInUp',
