@@ -143,7 +143,7 @@ class User < ApplicationRecord
   end
 
   def active_for_authentication?
-    super && has_active_status?
+    has_active_status?
   end
 
   def inactive_message
