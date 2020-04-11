@@ -12,7 +12,6 @@ class UserDashboard < Administrate::BaseDashboard
     first_name: Field::String,
     last_name: Field::String,
     full_name: Field::String.with_options(searchable: false),
-    username: Field::String,
     created_at: Field::DateTime,
     human_created_at: Field::String.with_options(searchable: false),
     subscriptions: Field::HasMany.with_options(searchable: false),

@@ -26,8 +26,12 @@ class PasswordsController < Devise::PasswordsController
     if resource.errors.empty?
       resource.unlock_access! if unlockable?(resource)
       UserMailer.password_change_confirmed(self.resource).deliver_now
-      flash_message = resource.active_for_authentication? ? "updated" : "updated_not_active"
-      sign_in(resource_name, resource)
+      if resource.active_for_authentication?
+        flash_message = "updated"
+        sign_in(resource_name, resource)
+      else
+        flash_message = "updated_not_active"
+      end
       render json: { message: t("devise.passwords.#{flash_message}") }, status: 200
     else
       set_minimum_password_length
