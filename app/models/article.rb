@@ -473,7 +473,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.views_before_interstitial
-		1
+		0
 	end
 
 	def self.build_search_query(term, from_tag=false)

@@ -116,21 +116,29 @@ module ArticleHelper
 		end
 	end
 
+	def registration_interstitial_cookie_expires
+		24.hours.from_now
+	end
+
 	def show_registration_interstitial?
+		min_views = Article.views_before_interstitial
 		if !user_signed_in? && !cookies[:shown_registration_interstitial]
-			if cookies[:seen_minimum_articles]
-				val = cookies[:seen_minimum_articles].to_i
-				if val == Article.views_before_interstitial
-					cookies[:shown_registration_interstitial] = { :value => true, :expires => 24.hours.from_now }
-					cookies.delete(:seen_minimum_articles)
+			if min_views == 0
+				cookies[:shown_registration_interstitial] = { value: true, expires: registration_interstitial_cookie_expires }
+				true
+			elsif cookies[:seen_articles]
+				val = cookies[:seen_articles].to_i
+				if val == min_views
+					cookies[:shown_registration_interstitial] = { value: true, expires: registration_interstitial_cookie_expires }
+					cookies.delete(:seen_articles)
 					true
 				else
 					new_val = val + 1
-					cookies[:seen_minimum_articles] = { :value => new_val, :expires => 24.hours.from_now }
+					cookies[:seen_articles] = { value: new_val, expires: registration_interstitial_cookie_expires }
 					false
 				end
 			else
-				cookies[:seen_minimum_articles] = { :value => 1, :expires => 24.hours.from_now }
+				cookies[:seen_articles] = { value: 1, expires: registration_interstitial_cookie_expires }
 				false
 			end
 		end
