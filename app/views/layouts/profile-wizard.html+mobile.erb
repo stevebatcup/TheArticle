@@ -10,13 +10,15 @@
 	</div>
 </header>
 <% end %>
-<main id="main_content">
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-			  <%= yield %>
-			 </div>
+<div id="content">
+	<main id="main_content">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+				  <%= yield %>
+				 </div>
+			</div>
 		</div>
-	</div>
-</main>
+	</main>
+</div>
 <%= render 'layouts/foot' %>

@@ -1,2 +1,22 @@
 body[data-mobile-app='1'] {
+	#content {
+		overflow-y: scroll;
+		height: 100vh;
+
+		&::-webkit-scrollbar-track {
+		  //    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+		  background-color: transparent;
+		}
+
+		&::-webkit-scrollbar {
+			width: 0;
+		  background-color: transparent;
+		  display: none;
+		}
+
+		&::-webkit-scrollbar-thumb {
+		  //    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+		  background-color: transparent;
+		}
+	}
 }
