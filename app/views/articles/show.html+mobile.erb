@@ -45,7 +45,7 @@
 
 				<% if is_mobile_app? %>
 					<a href="#" class="app_share_this d-block btn btn-success text-white text-case-inherit mb-3"
-						onClick="AppShare.postMessage('<%= @article.title.html_safe %>'); return false;">
+						onClick="AppShare.postMessage('<%= @article.title.html_safe %>: <%= request.url %>'); return false;">
 							<i class="fas fa-share"></i>
 							<span class="ml-2">Share this article</span>
 					</a>
@@ -226,7 +226,7 @@
 
 							<% if is_mobile_app? %>
 								<a href="#" class="app_share_this d-block btn btn-success text-white text-case-inherit mt-3"
-									onClick="AppShare.postMessage('<%= @article.title.html_safe %>'); return false;">
+									onClick="AppShare.postMessage('<%= @article.title.html_safe %>: <%= request.url %>'); return false;">
 										<i class="fas fa-share"></i>
 										<span class="ml-2">Share this article</span>
 								</a>
