@@ -8,6 +8,7 @@ module PushService
 					notification: {
 						title: title,
 						body: body,
+						badge: user.notification_counter_cache,
 						icon: "https://www.thearticle.com/firebase-logo.png",
 						click_action: click_url
 					},
