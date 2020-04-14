@@ -32,7 +32,9 @@ class TheArticle.Suggestions extends TheArticle.MobilePageController
 
 	toggleFollowUserFromCard: (member) =>
 		member.imFollowing = true
-		@followUser member.id, =>
+		# isMobileApp = @mobileAppDetected()
+		@followUser member.id, (response) =>
+			@flash response.data.message
 			@timeout =>
 				@scope.suggestions = _.filter @scope.suggestions, (item) =>
 					item.id isnt member.id

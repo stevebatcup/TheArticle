@@ -457,18 +457,25 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@scope.profile.errors.photo = "Error uploading new photo: #{msg}"
 
 	toggleFollowUser: =>
+		isMobileApp = @mobileAppDetected()
 		if @scope.isSignedIn
 			if @scope.profile.data.imFollowing
 				@scope.profile.data.imFollowing = false
-				@unfollowUser @scope.profile.data.id, =>
-					@cookies.put('ok_to_flash', true)
-					window.location.reload()
+				@unfollowUser @scope.profile.data.id, (response) =>
+					if isMobileApp
+						@flash response.data.message
+					else
+						@cookies.put('ok_to_flash', true)
+						window.location.reload()
 				, true
 			else
 				@scope.profile.data.imFollowing = true
-				@followUser @scope.profile.data.id, =>
-					@cookies.put('ok_to_flash', true)
-					window.location.reload()
+				@followUser @scope.profile.data.id, (response) =>
+					if isMobileApp
+						@flash response.data.message
+					else
+						@cookies.put('ok_to_flash', true)
+						window.location.reload()
 				, false, true, =>
 					@timeout =>
 						@scope.profile.data.imFollowing = false

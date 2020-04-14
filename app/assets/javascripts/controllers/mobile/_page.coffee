@@ -190,9 +190,6 @@ class TheArticle.MobilePageController extends TheArticle.PageController
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
 
-	mobileAppDetected: =>
-		!!$('body').data('mobile-app')
-
 	openSearchPanel: ($event) =>
 		$event.preventDefault()
 		@rootScope.slideout.toggle() if @rootScope.slideout.isOpen()

@@ -68,15 +68,19 @@ class TheArticle.SharingPanel extends TheArticle.DesktopPageController
 				rating_valid_points: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_valid_points
 				rating_agree: if @rootScope.sharingPanelMode is 'share' then null else @scope.share.rating_agree
 
+			isMobileApp = @mobileAppDetected()
 			@http.post("/share", { share: data }).then (response) =>
 				if response.data.status is 'success'
 					$('.close_share_modal').first().click()
-					@cookies.put('ok_to_flash', true)
 					@scope.sharing = false
 					if @scope.share.share_on_twitter
 						@openTweetWindow(false)
 					else
-						window.location.reload()
+						if isMobileApp
+							@flash response.data.message
+						else
+							@cookies.put('ok_to_flash', true)
+							window.location.reload()
 				else
 					@scope.formError = response.data.message
 		, 750

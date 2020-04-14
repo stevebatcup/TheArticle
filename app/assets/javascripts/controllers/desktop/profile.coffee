@@ -634,19 +634,26 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.DesktopPageControll
 		$("#editcoverPhotoModal").modal()
 
 	toggleFollowUser: =>
+		isMobileApp = @mobileAppDetected()
 		if @rootScope.isSignedIn
 			userId = @scope.profile.data.id
 			if @scope.profile.data.imFollowing
 				@scope.profile.data.imFollowing = false
-				@unfollowUser userId, =>
-					@cookies.put('ok_to_flash', true)
-					window.location.reload()
+				@unfollowUser userId, (response) =>
+					if isMobileApp
+						@flash response.data.message
+					else
+						@cookies.put('ok_to_flash', true)
+						window.location.reload()
 				, true
 			else
 				@scope.profile.data.imFollowing = true
-				@followUser userId, =>
-					@cookies.put('ok_to_flash', true)
-					window.location.reload()
+				@followUser userId, (response) =>
+					if isMobileApp
+						@flash response.data.message
+					else
+						@cookies.put('ok_to_flash', true)
+						window.location.reload()
 				, false, true, =>
 					@timeout =>
 						@scope.profile.data.imFollowing = false

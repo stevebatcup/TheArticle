@@ -227,7 +227,6 @@ class User < ApplicationRecord
   end
 
   def update_notification_counter_cache
-    # count = Notification.get_new_count_for_user(self, true)
     count = self.notifications.where(is_new: true).size
     self.update_attribute(:notification_counter_cache, count)
   end

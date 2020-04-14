@@ -13,6 +13,5 @@ class TheArticle.Follows extends TheArticle.DesktopPageController
 
 	init: ->
 		@bindEvents()
-		console.log "Follows Desktop yay!"
 
 TheArticle.ControllerModule.controller('FollowsController', TheArticle.Follows)

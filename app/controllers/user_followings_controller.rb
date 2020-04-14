@@ -63,7 +63,8 @@ class UserFollowingsController < ApplicationController
 			current_user.followings << Follow.new({followed_id: params[:id]})
 			if current_user.save
 				@status = :success
-				flash[:notice] = "You are now following <b>#{other_user.display_name}</b>" if params[:set_flash]
+				@message = "You are now following <b>#{other_user.display_name}</b>"
+				flash[:notice] = @message if params[:set_flash]
 				current_user.accept_suggestion_of_user_id(params[:id])
 				# Rails.cache.delete("followings_count_#{current_user.id}")
 				# Rails.cache.delete("followers_count_#{params[:id]}")
@@ -84,7 +85,8 @@ class UserFollowingsController < ApplicationController
 		other_user = User.find(params[:id])
 		if current_user.followings.where(followed_id: params[:id]).first.destroy
 			other_user.delete_followed_mail_item_if_any(current_user)
-			flash[:notice] = "You are no longer following <b>#{other_user.display_name}</b>" if params[:set_flash]
+			@message = "You are no longer following <b>#{other_user.display_name}</b>"
+			flash[:notice] = @message if params[:set_flash]
 			@status = :success
 		else
 			@status = :error

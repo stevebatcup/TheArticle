@@ -13,8 +13,8 @@ class SharesController < ApplicationController
 		@share.user_id = current_user.id
 		if @share.save
 			UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "new #{@share.share_type}")  if current_user.on_bibblio?
-			flash[:notice] = "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>.".html_safe
-			render json: { status: :success }
+			flash[:notice] = @message = "Post added to your profile. <a class='text-green' href='/my-profile'>View post</a>.".html_safe
+			render json: { status: :success, message: @message }
 		else
 			render json: { status: :error, message: @share.errors.full_messages.first }
 		end
@@ -28,7 +28,7 @@ class SharesController < ApplicationController
 		share = Share.find(params[:id])
 		if share.user_id == current_user.id
 			share.destroy
-			render json: { status: :success }
+			render json: { status: :success, message: "Post deleted" }
 		else
 			render json: { status: :error, message: "You do not have permission to delete this post" }
 		end

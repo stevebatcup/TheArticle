@@ -241,7 +241,7 @@ class TheArticle.PageController extends TheArticle.NGController
 		data['set_flash'] = 1 if showFlash
 		@http.post("/user_followings", data).then (response) =>
 			if response.data.status is 'success'
-				callback.call(@) if callback?
+				callback.call(@, response) if callback?
 			else if response.data.status is 'error'
 				@alert response.data.message, "Error following user"
 				errorCallback.call(@) if errorCallback?
@@ -250,7 +250,7 @@ class TheArticle.PageController extends TheArticle.NGController
 		url = "/user_followings/#{userId}"
 		url += "?set_flash=1" if showFlash
 		@http.delete(url).then (response) =>
-			callback.call(@) if callback?
+			callback.call(@, response) if callback?
 
 	followExchange: (exchangeId, callback, showFlash=false) =>
 		data = { id: exchangeId }
@@ -269,18 +269,25 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	toggleFollowExchangeFromCard: (exchange, $event) =>
 		$event.preventDefault()
+		isMobileApp = @mobileAppDetected()
 		if exchange.imFollowing
-			@unfollowExchange exchange.id, =>
+			@unfollowExchange exchange.id, (response) =>
 				exchange.imFollowing = false
-				@cookies.put('ok_to_flash', true)
-				window.location.reload()
-			, true
+				if isMobileApp
+					@flash response.data.message
+				else
+					@cookies.put('ok_to_flash', true)
+					window.location.reload()
+			, !isMobileApp
 		else
-			@followExchange exchange.id, =>
+			@followExchange exchange.id, (response) =>
 				exchange.imFollowing = true
-				@cookies.put('ok_to_flash', true)
-				window.location.reload()
-			, true
+				if isMobileApp
+					@flash response.data.message
+				else
+					@cookies.put('ok_to_flash', true)
+					window.location.reload()
+			, !isMobileApp
 
 	openRegisterForm: ($event=null, from='header', deviceType='mobile') =>
 		$event.preventDefault() if $event?
@@ -454,3 +461,6 @@ class TheArticle.PageController extends TheArticle.NGController
 
 	properCountryCode: (code) =>
 		if code.toLowerCase() is 'gb' then 'UK' else code.toUpperCase()
+
+	mobileAppDetected: =>
+		!!$('body').data('mobile-app')
