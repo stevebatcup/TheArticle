@@ -18,8 +18,13 @@
 	<h3>ALL OF THIS IS FREE, FOR PEOPLE WHO LOVE TO DEBATE, NOT TROLL</h3>
 
 	<div class="d-flex justify-content-between w-100 w-md-75 mx-auto">
-		<button class="register_interstitial_box_register btn" ng-click="register($event, '<%= device_type_for_events %>')">REGISTER</button>
-		<a class="register_interstitial_box_register btn" href="<%= new_user_session_path %>">sign in</a>
+		<% if is_mobile_app? %>
+			<button class="register_interstitial_box_register btn" ng-click="/?register=1">Register</button>
+			<a class="register_interstitial_box_register btn" href="/?sign_in=1">Sign in</a>
+		<% else %>
+			<button class="register_interstitial_box_register btn" ng-click="register($event, '<%= device_type_for_events %>')">Register</button>
+			<a class="register_interstitial_box_register btn" href="<%= new_user_session_path %>">Sign in</a>
+		<% end %>
 	</div>
 
 	<p class="register_interstitial_box_no_thanks">
