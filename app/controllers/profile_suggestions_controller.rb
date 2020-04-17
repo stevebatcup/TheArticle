@@ -23,14 +23,11 @@ class ProfileSuggestionsController < ApplicationController
 					@bibblio_results = @bibblio_results.uniq
 				else
 					already_following_ids = current_user.followings.map(&:followed_id)
-					suggestions = current_user.pending_suggestions
+					suggestions = current_user.pending_suggestions.where.not(suggested_id: already_following_ids)
 					limit = params[:limit].present? ? params[:limit].to_i : 50
 
 					# Suggestions for you
 					@for_yous = suggestions.where("reason NOT LIKE ?", 'popular_with_%').limit(limit).to_a
-					@for_yous.reject! do |suggestion|
-						already_following_ids.include?(suggestion.suggested_id)
-					end
 
 					# Author suggestions
 					current_user.pending_author_suggestions(10).each_with_index do |author_suggestion, index|
@@ -44,9 +41,6 @@ class ProfileSuggestionsController < ApplicationController
 					unless @from_wizard
 						populars_limit =  (limit * 2) - @for_yous.size
 						@populars = suggestions.where("reason LIKE ?", 'popular_with_%').limit(populars_limit).to_a
-						@populars.reject! do |suggestion|
-							already_following_ids.include?(suggestion.suggested_id)
-						end
 					end
 				end
 			end
