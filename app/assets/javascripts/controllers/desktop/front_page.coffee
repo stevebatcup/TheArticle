@@ -112,6 +112,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.DesktopPageContro
 			@updateMyFollowCounts()
 		, 10000
 
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 		@scope.thirdPartyUrl =

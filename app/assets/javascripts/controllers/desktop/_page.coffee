@@ -219,7 +219,9 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 		plugins : "link, paste, placeholder"
 		external_plugins:
 			'mention' : 'http://stevendevooght.github.io/tinyMCE-mention/javascripts/tinymce/plugins/mention/plugin.js'
+			'nanospell' : '/tinymce-host/plugins/nanospell/plugin.js'
 		content_css: [
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
+		nanospell_url: @scope.nanospellUrl

@@ -19,9 +19,10 @@ if @page == 1
 		json.image @article.image.url(image_size) if @article.image?
 		json.isSponsored @article.is_sponsored
 		json.author do
-			author = @article.author
-			json.name author.display_name.html_safe
-			json.path contributor_path(slug: author.slug)
+			if author = @article.author
+				json.name author.display_name.html_safe
+				json.path contributor_path(slug: author.slug)
+			end
 		end
 		json.exchanges @article.exchanges do |exchange|
 			json.slug exchange.slug

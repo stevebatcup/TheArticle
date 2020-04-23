@@ -101,6 +101,7 @@ class TheArticle.FrontPage extends TheArticle.mixOf TheArticle.MobilePageControl
 			@flash $('#flash_notice').html()
 			@cookies.remove('ok_to_flash')
 
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.tinymceOptions = @setTinyMceOptions()
 		@scope.thirdPartyUrl =
 			value: ''

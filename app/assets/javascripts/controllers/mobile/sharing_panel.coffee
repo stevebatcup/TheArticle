@@ -25,6 +25,7 @@ class TheArticle.SharingPanel extends TheArticle.MobilePageController
 		@setRatingsDefaultHeading()
 		@bindEvents()
 
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 	resetData: =>

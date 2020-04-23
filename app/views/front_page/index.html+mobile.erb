@@ -3,6 +3,7 @@
 	aria-labelledby="front-page-tab"
 	data-profile-deactivated="<%= current_user.profile_is_deactivated? ? 1 : 0 %>"
 	data-tinymce-content-css-url='<%= asset_url("mobile/tinymce-content.css") %>'
+	data-nanospell-url='<%= nanospell_url %>'
 	ng-controller="FrontPageController" ng-cloak>
 
 	<% unless current_user.profile_is_deactivated? %>

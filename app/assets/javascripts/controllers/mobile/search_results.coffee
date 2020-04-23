@@ -65,6 +65,7 @@ class TheArticle.SearchResults extends TheArticle.mixOf TheArticle.MobilePageCon
 		else
 			@getResults()
 
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 	getResults: =>

@@ -21,6 +21,7 @@ class TheArticle.ThirdPartySharing extends TheArticle.DesktopPageController
 		@scope.sharing = false
 		@resetArticleData()
 		@bindListeners()
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.urlTinymceOptions = @setUrlTinyMceOptions()
 		@scope.tinymceOptions = @setTinyMceOptions()
 
@@ -152,9 +153,12 @@ class TheArticle.ThirdPartySharing extends TheArticle.DesktopPageController
 			ed.on 'paste', (e) =>
 				@pastedArticleUrl(e)
 		plugins : "link, paste"
+		external_plugins:
+			'nanospell' : '/tinymce-host/plugins/nanospell/plugin.js'
 		content_css: [
 			@element.data('tinymce-content-css-url'),
 			'//fonts.googleapis.com/css?family=Montserrat'
 		]
+		nanospell_url: @scope.nanospellUrl
 
 TheArticle.ControllerModule.controller('ThirdPartySharingController', TheArticle.ThirdPartySharing)

@@ -59,4 +59,12 @@ module ApplicationHelper
       count == 1 ? "#{noun}#{text}" : "#{noun.pluralize}#{text}"
     end
   end
+
+  def nanospell_url
+    if Rails.env.development?
+      "http://admin.thearticle.jazz/nanospell/server/ajax/php/tinyspell.php"
+    else
+      "https://office.thearticle.com/nanospell/server/ajax/php/tinyspell.php"
+    end
+  end
 end

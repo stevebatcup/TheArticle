@@ -6,6 +6,7 @@
 					data-signed-in="<%= user_signed_in? ? 1 : 0 %>"
 					data-query="<%= @query %>"
 					data-from_tag="<%= params[:from_tag].present? ? 1 : 0 %>"
+					data-nanospell-url='<%= nanospell_url %>'
 					ng-cloak>
 	<div class="alert alert-success mt-3 row">
 		<h4 class="pt-1">Search results for "{{search.query}}"</h4>

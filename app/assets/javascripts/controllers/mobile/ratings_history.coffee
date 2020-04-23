@@ -51,6 +51,7 @@ class TheArticle.RatingsHistory extends TheArticle.mixOf TheArticle.MobilePageCo
 			@cookies.remove('ok_to_flash')
 
 		@scope.selectedTab = 'all_members'
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 	bindEvents: =>

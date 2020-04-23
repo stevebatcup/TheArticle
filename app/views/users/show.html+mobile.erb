@@ -10,6 +10,7 @@
 				data-user-id="<%= @user.id %>"
 				data-fixed-profile-nav=1
 				data-tinymce-content-css-url='<%= asset_url("mobile/tinymce-content.css") %>'
+				data-nanospell-url='<%= nanospell_url %>'
 				ng-cloak>
 	<div ng-show="profile.loaded && profile.loadError" class="container mt-4" ng-cloak>
 		<div class="alert alert-danger">

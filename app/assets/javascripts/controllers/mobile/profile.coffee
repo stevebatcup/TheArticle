@@ -141,6 +141,7 @@ class TheArticle.Profile extends TheArticle.mixOf TheArticle.MobilePageControlle
 		@bindEvents()
 		@getVars = @getUrlVars()
 		@detectPanelOpeners() if 'panel' of @getVars
+		@scope.nanospellUrl = @element.data('nanospell-url')
 		@scope.tinymceOptions = @setTinyMceOptions()
 
 		if @scope.profile.isMe is true
