@@ -470,6 +470,8 @@
 
 		h5 {
 			font-size: 1em;
+			word-break: break-all;
+			line-height: 1.4em;
 		}
 
 		h6 {
@@ -596,6 +598,9 @@
 
 	h5 {
 		font-size: 0.9em;
+		word-break: break-all;
+		line-height: 1.4em;
+
 
 		a {
 			color: inherit;

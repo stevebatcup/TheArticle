@@ -8,7 +8,7 @@ module CommentHelper
 			type: 'commentAction',
 			id: comment.id,
 			stamp: comment.created_at.to_i,
-			date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
+			date: comment.created_at < 1.day.ago ? event_date_formatted(comment.created_at) : happened_at(comment.created_at),
 			orderCommentsBy: :most_relevant,
 			share: share_info_as_json(share, true, true),
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
@@ -56,7 +56,7 @@ module CommentHelper
 			commentAction: {
 				sentence: sentence,
 				comment: comment.body.gsub(/<p> <\/p>/,""),
-				date: comment.created_at < 1.day.ago ? comment.created_at.strftime("%e %b") : happened_at(comment.created_at),
+				date: comment.created_at < 1.day.ago ? event_date_formatted(comment.created_at) : happened_at(comment.created_at),
 				user: {
 					id: comment.user.id,
 					isMuted: user_signed_in? ? current_user.has_muted(comment.user) : false,
@@ -85,7 +85,7 @@ module CommentHelper
 			photo: comment.user.profile_photo.url(:square),
 			body: format_comment_body(comment.body),
 			timeActual: comment.created_at.strftime("%Y-%m-%d %H:%M"),
-			timeHuman: comment.created_at.strftime("%e %b"),
+			timeHuman: event_date_formatted(comment.created_at),
 	    replyShowLimit: Comment.show_reply_limit,
 	    deleteReason: false,
 	    deleteAlsoBlock: false,

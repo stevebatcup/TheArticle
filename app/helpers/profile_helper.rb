@@ -18,7 +18,7 @@ module ProfileHelper
 			items << {
 				type: 'suggestion',
 				stamp: suggestion.created_at.to_i,
-				date: suggestion.created_at.strftime("%e %b"),
+				date: event_date_formatted(suggestion.created_at),
 				id: user.id,
 				reason: suggestion_reason_sentence(suggestion.reason),
 				isFollowingMe: current_user.is_followed_by(user),

@@ -6,7 +6,7 @@ user_exchange_ids = current_user.subscriptions.map(&:exchange_id) if @bypass_art
 		exchanges = article.exchanges.select { |e| user_exchange_ids.include?(e.id) }
 		item = categorisation_as_json_data(current_user, article, exchanges)
 		item[:feedStamp] = article.published_at.to_i
-		item[:feedDate] = article.published_at < 1.day.ago ? article.published_at.strftime("%e %b") : happened_at(article.published_at)
+		item[:feedDate] = article.published_at < 1.day.ago ? event_date_formatted(article.published_at) : happened_at(article.published_at)
 		item[:isVisible] = true
 		items << item
 	else
@@ -14,7 +14,7 @@ user_exchange_ids = current_user.subscriptions.map(&:exchange_id) if @bypass_art
 			if user_feed_item.action_type == 'opinion'
 				if item = group_user_opinion_feed_item(user_feed_item)
 					item[:feedStamp] = user_feed_item.created_at.to_i
-					item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
+					item[:feedDate] = user_feed_item.created_at < 1.day.ago ? event_date_formatted(user_feed_item.created_at) : happened_at(user_feed_item.created_at)
 					item[:isVisible] = true
 					items << item
 				else
@@ -23,7 +23,7 @@ user_exchange_ids = current_user.subscriptions.map(&:exchange_id) if @bypass_art
 			elsif user_feed_item.action_type == 'comment'
 				if item = group_user_comment_feed_item(user_feed_item)
 					item[:feedStamp] = user_feed_item.updated_at.to_i
-					item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? user_feed_item.updated_at.strftime("%e %b") : happened_at(user_feed_item.updated_at)
+					item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? event_date_formatted(user_feed_item.updated_at) : happened_at(user_feed_item.updated_at)
 					item[:isVisible] = true
 					items << item
 				else
@@ -33,7 +33,7 @@ user_exchange_ids = current_user.subscriptions.map(&:exchange_id) if @bypass_art
 				share = Share.find(user_feed_item.source_id)
 				item = share_as_json_data(share.user, share)
 				item[:feedStamp] = user_feed_item.created_at.to_i
-				item[:feedDate] = user_feed_item.created_at < 1.day.ago ? user_feed_item.created_at.strftime("%e %b") : happened_at(user_feed_item.created_at)
+				item[:feedDate] = user_feed_item.created_at < 1.day.ago ? event_date_formatted(user_feed_item.created_at) : happened_at(user_feed_item.created_at)
 				item[:isVisible] = true
 				items << item
 			elsif user_feed_item.action_type == 'categorisation'
@@ -46,20 +46,20 @@ user_exchange_ids = current_user.subscriptions.map(&:exchange_id) if @bypass_art
 				end
 				item = categorisation_as_json_data(user_feed_item.user, article, exchanges)
 				item[:feedStamp] = article.published_at.to_i
-				item[:feedDate] = article.published_at < 1.day.ago ? article.published_at.strftime("%e %b") : happened_at(article.published_at)
+				item[:feedDate] = article.published_at < 1.day.ago ? event_date_formatted(article.published_at) : happened_at(article.published_at)
 				item[:isVisible] = true
 				items << item
 			elsif (user_feed_item.action_type == 'follow')
 				if item = group_user_follow_feed_item(user_feed_item, current_user)
 					item[:feedStamp] = user_feed_item.updated_at.to_i
-					item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? user_feed_item.updated_at.strftime("%e %b") : happened_at(user_feed_item.updated_at)
+					item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? event_date_formatted(user_feed_item.updated_at) : happened_at(user_feed_item.updated_at)
 					item[:isVisible] = true
 					items << item
 				end
 			elsif user_feed_item.action_type == 'subscription'
 				if item = group_user_subscription_feed_item(user_feed_item)
 					item[:feedStamp] = user_feed_item.updated_at.to_i
-					item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? user_feed_item.updated_at.strftime("%e %b") : happened_at(user_feed_item.updated_at)
+					item[:feedDate] = user_feed_item.updated_at < 1.day.ago ? event_date_formatted(user_feed_item.updated_at) : happened_at(user_feed_item.updated_at)
 					item[:isVisible] = true
 					items << item
 				end

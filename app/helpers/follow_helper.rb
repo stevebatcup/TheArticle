@@ -5,7 +5,7 @@ module FollowHelper
 			type: 'follow',
 			sourceType: source_type,
 			stamp: follow.created_at.to_i,
-			date: follow.created_at.strftime("%e %b"),
+			date: event_date_formatted(follow.created_at),
 			sentence: sentence,
 			follower: {
 				id: follow.user.id,
@@ -30,7 +30,7 @@ module FollowHelper
 		  sentence += (direction == "following" ? " followed " : " was followed by ")
 		  names = []
 		  stamp = recent_followings.first.created_at.to_i
-		  date = recent_followings.first.created_at.strftime("%e %b")
+		  date = event_date_formatted(recent_followings.first.created_at)
 		  recent_followings.each_with_index do |rf, index|
 		  	if direction == "following"
 			    profile = rf.followed

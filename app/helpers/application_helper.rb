@@ -67,4 +67,12 @@ module ApplicationHelper
       "https://office.thearticle.com/nanospell/server/ajax/php/tinyspell.php"
     end
   end
+
+  def event_date_formatted(date)
+    if date.year < Date.today.year
+      date.strftime("%e %b, %Y")
+    else
+      date.strftime("%e %b")
+    end
+  end
 end

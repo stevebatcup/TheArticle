@@ -56,7 +56,7 @@ module ArticleHelper
 		result = {
 			type: 'categorisation',
 			stamp: article.published_at.to_i,
-			date: article.published_at.strftime("%e %b"),
+			date: event_date_formatted(article.published_at),
 			article: {
 				id: article.id,
 				snippet: article_excerpt_for_listing(article, 160),

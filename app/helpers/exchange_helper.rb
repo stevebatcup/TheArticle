@@ -31,7 +31,7 @@ module ExchangeHelper
 			excerpt: exchange_excerpt(exchange, browser.device.mobile? ? 9 : 20),
 			blurb: exchange_excerpt(exchange, 10),
 			imFollowing: user_signed_in? ? exchange.is_followed_by(current_user) : false,
-			followedDate: subscription.created_at < 1.day.ago ? subscription.created_at.strftime("%e %b") : happened_at(subscription.created_at),
+			followedDate: subscription.created_at < 1.day.ago ? event_date_formatted(subscription.created_at) : happened_at(subscription.created_at),
 			sentence: sentence,
 			user: {
 			  path: profile_path(slug: user.slug),

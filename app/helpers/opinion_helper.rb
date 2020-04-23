@@ -9,7 +9,7 @@ module OpinionHelper
 		{
 			type: 'opinionAction',
 			stamp: opinion.created_at.to_i,
-			date: opinion.created_at < 1.day.ago ? opinion.created_at.strftime("%e %b") : happened_at(opinion.created_at),
+			date: opinion.created_at < 1.day.ago ? event_date_formatted(opinion.created_at) : happened_at(opinion.created_at),
 			share: share_info_as_json(share, true, false, show_agrees, show_disagrees),
 			orderCommentsBy: :most_relevant,
 			canInteract: user_signed_in? && share.current_user_can_interact(current_user),
@@ -53,7 +53,7 @@ module OpinionHelper
 			},
 			opinionAction: {
 				sentence: sentence,
-				date: opinion.created_at < 1.day.ago ? opinion.created_at.strftime("%e %b") : happened_at(opinion.created_at),
+				date: opinion.created_at < 1.day.ago ? event_date_formatted(opinion.created_at) : happened_at(opinion.created_at),
 				user: {
 					id: opinion.user.id,
 					displayName: opinion.user.display_name,
