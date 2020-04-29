@@ -50,3 +50,6 @@ rhythmone.com,1654642120,RESELLER,a670c89d4a324e47
 appnexus.com, 3623, RESELLER
 improvedigital.com, 1017, RESELLER
 smartadserver.com, 3354, RESELLER
+
+# TEADS
+teads.tv, 20646, DIRECT, 15a9c44f6d26cbe1
