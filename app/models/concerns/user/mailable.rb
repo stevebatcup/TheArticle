@@ -31,26 +31,34 @@ module User::Mailable
   end
 
   def send_weekly_categorisations_mail
-    articles = []
-    items = WeeklyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)")
-    items.each do |item|
-      if categorisation = Categorisation.find_by(id: item.action_id)
-        articles << categorisation.article unless articles.include?(categorisation.article)
+    begin
+      articles = []
+      items = WeeklyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)")
+      items.each do |item|
+        if categorisation = Categorisation.find_by(id: item.action_id)
+          articles << categorisation.article unless articles.include?(categorisation.article)
+        end
       end
+      CategorisationsMailer.weekly(self, articles).deliver_now if articles.any?
+    rescue Exception => e
+      DeveloperMailer.categorisation_mailout_exception(e).deliver_now
     end
-    CategorisationsMailer.weekly(self, articles).deliver_now if articles.any?
     items.destroy_all
   end
 
   def send_daily_categorisations_mail
-    articles = []
-    items = DailyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("DATE(created_at) = CURDATE()")
-    items.each do |item|
-      if categorisation = Categorisation.find_by(id: item.action_id)
-        articles << categorisation.article unless articles.include?(categorisation.article)
+    begin
+      articles = []
+      items = DailyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("DATE(created_at) = CURDATE()")
+      items.each do |item|
+        if categorisation = Categorisation.find_by(id: item.action_id)
+          articles << categorisation.article unless articles.include?(categorisation.article)
+        end
       end
+      CategorisationsMailer.daily(self, articles).deliver_now if articles.any?
+    rescue Exception => e
+      DeveloperMailer.categorisation_mailout_exception(e).deliver_now
     end
-    CategorisationsMailer.daily(self, articles).deliver_now if articles.any?
     items.destroy_all
   end
 

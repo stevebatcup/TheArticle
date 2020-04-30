@@ -54,11 +54,21 @@ class DeveloperMailer < ApplicationMailer
 	end
 
 	def landing_page_published(landing_page)
-		subject = "Laning page published"
+		subject = "Landing page published"
 		merge_vars = {
 		  FNAME: developer_name,
 		  BODY: "<p>Landing page <b>'#{landing_page.heading}'</b> has been published.</p>
 		  			<p>Go reset the routes man!</p>"
+		}
+		body = mandrill_template("developer-tools", merge_vars)
+		send_mail(developer_email, developer_name, subject, body)
+	end
+
+	def categorisation_mailout_exception(exception)
+		subject = "Categorisation mailout exception ocurred"
+		merge_vars = {
+		  FNAME: developer_name,
+		  BODY: "<p>#{exception.message}</p>"
 		}
 		body = mandrill_template("developer-tools", merge_vars)
 		send_mail(developer_email, developer_name, subject, body)
