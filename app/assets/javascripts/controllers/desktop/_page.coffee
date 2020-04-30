@@ -216,7 +216,7 @@ class TheArticle.DesktopPageController extends TheArticle.PageController
 							process(response.data.results) if response.data.results?
 					else
 						[]
-		plugins : "link, paste, placeholder"
+		plugins : "link, paste, placeholder, emoticons"
 		external_plugins:
 			'mention' : 'http://stevendevooght.github.io/tinyMCE-mention/javascripts/tinymce/plugins/mention/plugin.js'
 			'nanospell' : '/tinymce-host/plugins/nanospell/plugin.js'

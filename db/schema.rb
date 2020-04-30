@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_151748) do
+ActiveRecord::Schema.define(version: 2020_04_30_144326) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -155,11 +155,11 @@ ActiveRecord::Schema.define(version: 2020_03_24_151748) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.integer "commentable_id"
     t.string "commentable_type"
     t.string "title"
-    t.text "body"
+    t.text "body", limit: 4294967295
     t.string "subject"
     t.integer "user_id", null: false
     t.integer "parent_id"
@@ -542,11 +542,11 @@ ActiveRecord::Schema.define(version: 2020_03_24_151748) do
     t.index ["user_id"], name: "index_search_logs_on_user_id"
   end
 
-  create_table "shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "shares", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.string "share_type", default: "rating"
     t.integer "user_id"
     t.integer "article_id"
-    t.text "post"
+    t.text "post", limit: 4294967295
     t.integer "rating_well_written"
     t.integer "rating_valid_points"
     t.integer "rating_agree"
