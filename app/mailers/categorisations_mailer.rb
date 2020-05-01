@@ -27,7 +27,6 @@ class CategorisationsMailer < Devise::Mailer
   end
 
   def daily(user, articles)
-    raise "My silly old error" if user.id.to_i == 203
     random_article = articles.sample
     subject = safe_title(random_article.title)
     merge_vars = {
