@@ -198,8 +198,7 @@ class ApplicationController < ActionController::Base
 
 	helper_method	:can_show_bibblio_snippet?
 	def can_show_bibblio_snippet?
-		# !is_development?
-		false
+		!is_development?
 	end
 
 protected
