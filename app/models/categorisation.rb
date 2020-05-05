@@ -42,6 +42,10 @@ class Categorisation < ApplicationRecord
 			group.each { |user| self.feeds.create({user_id: user.id}) }
 		end
 
+		update_feed_users(batch_size, sleep_time)
+	end
+
+	def update_feed_users(batch_size, sleep_time)
 		self.feeds.find_in_batches(batch_size: batch_size) do |feed_group|
 			sleep(sleep_time)
 			feed_group.each do |cat_feed|
