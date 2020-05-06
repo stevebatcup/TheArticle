@@ -86,10 +86,36 @@
       bk_doJSTag(78101, 1);
       </script>
       <!-- End BlueKai Tag -->
+
+      <!-- Teads -->
+      <script type="text/javascript" class="teads" src="//a.teads.tv/page/116407/tag" async="true"></script>
+
+      <!-- Quantcast -->
+      <script type="text/javascript">
+        var _qevents = _qevents || [];
+
+        (function() {
+          var elem = document.createElement('script');
+          elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+          elem.async = true;
+          elem.type = "text/javascript";
+          var scpt = document.getElementsByTagName('script')[0];
+          scpt.parentNode.insertBefore(elem, scpt);
+        })();
+
+        _qevents.push({
+          qacct:"p-9LX76t3TaEYn4"
+        });
+      </script>
+
+      <noscript>
+        <div style="display:none;">
+          <img src="//pixel.quantserve.com/pixel/p-9LX76t3TaEYn4.gif" border="0" height="1" width="1" alt="Quantcast"/>
+        </div>
+      </noscript>
+      <!-- End Quantcast tag -->
     <% end %>
 
     <%= render 'layouts/firebase_init' %>
-
-    <script type="text/javascript" class="teads" src="//a.teads.tv/page/116407/tag" async="true"></script>
   </body>
 </html>
