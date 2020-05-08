@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_30_144326) do
+ActiveRecord::Schema.define(version: 2020_05_08_144551) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -251,6 +251,7 @@ ActiveRecord::Schema.define(version: 2020_04_30_144326) do
     t.bigint "exchange_id"
     t.bigint "user_id"
     t.datetime "created_at"
+    t.index ["exchange_id", "user_id"], name: "index_exchanges_users_on_exchange_id_and_user_id", unique: true
     t.index ["exchange_id"], name: "index_exchanges_users_on_exchange_id"
     t.index ["user_id"], name: "index_exchanges_users_on_user_id"
   end
