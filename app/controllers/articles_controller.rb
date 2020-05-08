@@ -51,7 +51,7 @@ class ArticlesController < ApplicationController
 																				.limit(3)
 																				.offset(offset)
 																				.to_a
-						items_to_get = articles_per_page - (sponsored_articles.length)
+						items_to_get = per_page - (sponsored_articles.length)
 					else
 						items_to_get = per_page
 					end

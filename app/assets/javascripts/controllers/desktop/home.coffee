@@ -90,7 +90,7 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 
 	getArticles: (exchange) =>
 		@scope.articles[exchange].loading = true
-		vars = { exchange: @scope.articles[exchange].slug, page: @scope.articles[exchange].page, per_page: @element.data('per-page'), include_sponsored: 1 }
+		vars = { exchange: @scope.articles[exchange].slug, page: @scope.articles[exchange].page, per_page: 14, include_sponsored: 1 }
 		@ExchangeArticle.query(vars).then (response) =>
 			@timeout =>
 				@scope.articles[exchange].totalItemCount = response.total if @scope.articles[exchange].page is 1
