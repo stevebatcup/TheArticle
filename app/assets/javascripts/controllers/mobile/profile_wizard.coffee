@@ -59,7 +59,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	getSelectedExchanges: =>
 		url = "/user_exchanges?page=1&per_page=100"
 		@http.get(url).then (response) =>
-			if response.data.exchanges.length > 0
+			if response.data.exchanges.length > 1
 				angular.forEach response.data.exchanges, (exchange) =>
 					@scope.user.selectedExchanges.push exchange.id unless exchange.slug is 'editor-at-the-article'
 				@scope.exchangesOk = true if @scope.user.selectedExchanges.length >= 3
