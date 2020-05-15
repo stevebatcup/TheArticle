@@ -498,6 +498,7 @@ ActiveRecord::Schema.define(version: 2020_05_08_144551) do
     t.datetime "updated_at", null: false
     t.index ["author_article_count"], name: "index_profile_suggestions_on_author_article_count"
     t.index ["reason"], name: "index_profile_suggestions_on_reason", type: :fulltext
+    t.index ["suggested_id", "user_id"], name: "index_profile_suggestions_on_suggested_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
 

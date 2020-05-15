@@ -36,7 +36,7 @@ namespace :feeds do
 	end
 
 	task :clean => :environment do
-		cutoff_weeks = 10
+		cutoff_weeks = 8
 		item_limit = 40000
 		puts "Running feeds:clean...."
 
