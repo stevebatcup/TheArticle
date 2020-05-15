@@ -56,12 +56,15 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 			@updateMyFollowCounts()
 		, 10000
 
-		vars = @getUrlVars()
-		if 'reactivate' of vars
-			@forwardToPage(null, 'manage_profile')
-			@timeout =>
-				@forwardToPage(null, 'reactivate_profile')
-			, 400
+		@timeout =>
+			@resetPages()
+			vars = @getUrlVars()
+			if 'reactivate' of vars
+				@forwardToPage(null, 'manage_profile')
+				@timeout =>
+					@forwardToPage(null, 'reactivate_profile')
+				, 400
+		, 750
 
 		@scope.noScrollOnPageTransition = true
 
