@@ -1,6 +1,14 @@
-<section ng-controller="AccountSettingsController" class="container">
+<section ng-controller="AccountSettingsController"
+				class="container"
+				style="min-height: 70vh; padding-top: 2em; position: relative; top: -1.8em;"
+				ng-cloak>
 
-	<div class="row">
+	<div class="ajax_loading" ng-if="!ready">
+		Loading account details...
+	</div>
+
+
+	<div ng-if="ready" class="row">
 		<section class="col-md-4 col-lg-3" id="left_col" ng-cloak>
 			<div id="front_page_profile_card" class="mt-3 pb-5 mb-4">
 
@@ -354,7 +362,7 @@
 								<p class="sidenote">This will not be displayed on your public profile</p>
 								<div class="form-group">
 									<label for="email">Email</label>
-								  <%= email_field :user, :email, class: "form-control", 'ng-model':  'user.email' %>
+								  <%= email_field :user, :email, class: "form-control", required: '', 'ng-model': 'user.email' %>
 								</div>
 
 								<p class="alert alert-danger" ng-if="errors.email">{{errors.email}}</p>
@@ -380,7 +388,7 @@
 								<div class="form-group">
 									<label for="password">New password</label>
 									<em>(6 characters minimum)</em>
-								  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password' %>
+								  <%= password_field :user, :password, class: "form-control", required: '', 'ng-model':  'user.password', autocomplete: "off" %>
 								</div>
 
 								<div class="form-group">

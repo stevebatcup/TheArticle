@@ -16,6 +16,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 	]
 
 	init: ->
+		@scope.ready = false
 		@setDefaultHttpHeaders()
 		@scope.pageHistory = []
 		@scope.showBackPage = false
@@ -58,13 +59,14 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.DesktopPage
 
 		@timeout =>
 			@resetPages()
+			@scope.ready = true
 			vars = @getUrlVars()
 			if 'reactivate' of vars
 				@forwardToPage(null, 'manage_profile')
 				@timeout =>
 					@forwardToPage(null, 'reactivate_profile')
 				, 400
-		, 750
+		, 1900
 
 		@scope.noScrollOnPageTransition = true
 
