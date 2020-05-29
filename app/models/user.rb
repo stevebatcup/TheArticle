@@ -314,8 +314,8 @@ class User < ApplicationRecord
     "_deleted_#{id}_#{username}"
   end
 
-  def self.poison_slug(slug)
-    "_deleted_#{slug}"
+  def self.poison_slug(slug, id)
+    "_deleted_#{id}_#{slug}"
   end
 
   def delete_account(reason="User deleted account", by_admin=false, no_mailchimp=false)
@@ -323,7 +323,7 @@ class User < ApplicationRecord
     clear_user_data(true)
     poisoned_email = self.class.poison_email(self.email, self.id)
     poisoned_username = self.class.poison_username(self.username, self.id)
-    poisoned_slug = self.class.poison_slug(self.slug)
+    poisoned_slug = self.class.poison_slug(self.slug, self.id)
     skip_reconfirmation!
     self.email_alias_logs.create({
       old_email: self.email,
