@@ -314,11 +314,16 @@ class User < ApplicationRecord
     "_deleted_#{id}_#{username}"
   end
 
+  def self.poison_slug(slug)
+    "_deleted_#{slug}"
+  end
+
   def delete_account(reason="User deleted account", by_admin=false, no_mailchimp=false)
     MailchimperService.remove_from_mailchimp_list(self) unless no_mailchimp
     clear_user_data(true)
     poisoned_email = self.class.poison_email(self.email, self.id)
     poisoned_username = self.class.poison_username(self.username, self.id)
+    poisoned_slug = self.class.poison_slug(self.slug)
     skip_reconfirmation!
     self.email_alias_logs.create({
       old_email: self.email,
@@ -330,7 +335,8 @@ class User < ApplicationRecord
     update_attributes({
       status: :deleted,
       email: poisoned_email,
-      username: poisoned_username
+      username: poisoned_username,
+      slug: poisoned_slug
     })
     AccountDeletion.create({
       user_id: self.id,
