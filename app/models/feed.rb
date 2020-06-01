@@ -1,6 +1,9 @@
 class Feed < ApplicationRecord
 	belongs_to	:user
-	has_and_belongs_to_many	:feed_user, dependent: :destroy
+	has_and_belongs_to_many	:feed_users
+	before_destroy do
+		feed_users.each { |feed_user| feed_user.destroy }
+	end
 	has_and_belongs_to_many	:notifications
 	belongs_to	:actionable, polymorphic: true
 
