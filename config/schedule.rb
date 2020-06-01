@@ -39,12 +39,6 @@ end
 every	1.day, at: '9:30 pm', roles: [:web2] do
 	rake "autofollow:jay"
 end
-every	1.day, at: '10:30 pm', roles: [:web1] do
-	rake "autofollow:lynne"
-end
-every	1.day, at: '11:30 pm', roles: [:web2] do
-	rake "autofollow:charlotte"
-end
 
 every	2.hours, roles: [:web2] do
 	rake "suggestions:dedupe"
