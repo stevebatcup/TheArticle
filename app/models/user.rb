@@ -132,7 +132,7 @@ class User < ApplicationRecord
     self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
     self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
 
-    self.exchanges = Exchange.all
+    self.exchanges = Exchange.where.not(slug: 'sponsored')
     self.save
   end
 
