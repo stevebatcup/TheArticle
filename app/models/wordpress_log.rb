@@ -1,6 +1,5 @@
 class WordpressLog < ApiLog
 	default_scope	{ where(service: :wordpress) }
-	# serialize :request_data, JSON
 
 	def admin_type
 		self.request_method.humanize

@@ -37,7 +37,7 @@ private
     }
     data[:tags] = tags if tags.any?
     response = api.messages.send(data)
-    log_mandrill_request(user_id, "send_mail", data, response) unless user_id.nil?
+    log_mandrill_request(user_id, "send_mail", { subject: subject }, response) unless user_id.nil?
   end
 
   def send_admin_mail(subject, body)
