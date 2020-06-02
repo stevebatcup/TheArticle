@@ -132,7 +132,9 @@ class User < ApplicationRecord
     self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
     self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
 
-    self.exchanges = Exchange.where.not(slug: 'sponsored')
+    trending_exchanges = Exchange.trending_list
+    other_exchanges = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc)
+    self.exchanges = trending_exchanges.to_a.concat(other_exchanges)
     self.save
   end
 
