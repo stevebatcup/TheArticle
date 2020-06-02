@@ -8,8 +8,6 @@ gem "rack", ">= 2.0.8"
 gem 'rails', '~> 5.2.4.2'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.5.3', '< 0.6.0'
-# Use Puma as the app server
-gem "puma", ">= 4.3.3"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -72,7 +70,6 @@ gem 'angularjs-rails'
 gem 'angularjs-rails-resource', '~> 2.0.0'
 # gem 'angular-rails-templates'
 
-gem 'kaminari'
 gem 'geocoder'
 
 gem "acts_as_commentable_with_threading"
@@ -97,6 +94,13 @@ gem 'fcm'
 
 gem "rubyzip", ">= 1.3.0"
 gem "loofah", ">= 2.3.1"
+
+gem "kaminari", ">= 1.2.1"
+gem "puma", ">= 4.3.5"
+gem "activesupport", ">= 5.2.4.3"
+gem "actionpack", ">= 5.2.4.3"
+gem "activestorage", ">= 5.2.4.3"
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
