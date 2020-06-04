@@ -38,8 +38,13 @@ class Categorisation < ApplicationRecord
 		batch_size = 500
 		sleep_time = 2
 		self.exchange.users.find_in_batches(batch_size: batch_size) do |group|
-			sleep(sleep_time)
-			group.each { |user| self.feeds.create({user_id: user.id}) }
+			begin
+				sleep(sleep_time)
+				group.each { |user| self.feeds.create({user_id: user.id}) }
+			rescue Exception => e
+				error_data = { article_id: self.article.id, categorisation_id: self.id, error: e.message, backtrace: e.backtrace }
+				ApiLog.wordpress(:categorisation_feeds_error, nil, error_data)
+			end
 		end
 
 		update_feed_users(batch_size, sleep_time)
@@ -49,17 +54,22 @@ class Categorisation < ApplicationRecord
 		self.feeds.find_in_batches(batch_size: batch_size) do |feed_group|
 			sleep(sleep_time)
 			feed_group.each do |cat_feed|
-				unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.article_id)
-					user_feed_item = FeedUser.new({
-						user_id: cat_feed.user.id,
-						action_type: 'categorisation',
-						source_id: self.article_id
-					})
+				begin
+					unless user_feed_item = FeedUser.find_by(user_id: cat_feed.user.id, action_type: 'categorisation', source_id: self.article_id)
+						user_feed_item = FeedUser.new({
+							user_id: cat_feed.user.id,
+							action_type: 'categorisation',
+							source_id: self.article_id
+						})
+					end
+					user_feed_item.created_at = Time.now unless user_feed_item.persisted?
+					user_feed_item.updated_at = self.article.published_at
+					user_feed_item.feeds << cat_feed
+					user_feed_item.save
+				rescue Exception => e
+					error_data = { article_id: self.article.id, categorisation_id: self.id, feed_id: cat_feed.id, error: e.message, backtrace: e.backtrace }
+					ApiLog.wordpress(:categorisation_feeds_error, nil, error_data)
 				end
-				user_feed_item.created_at = Time.now unless user_feed_item.persisted?
-				user_feed_item.updated_at = self.article.published_at
-				user_feed_item.feeds << cat_feed
-				user_feed_item.save
 			end
 		end
 	end
