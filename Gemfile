@@ -100,7 +100,7 @@ gem "puma", ">= 4.3.5"
 gem "activesupport", ">= 5.2.4.3"
 gem "actionpack", ">= 5.2.4.3"
 gem "activestorage", ">= 5.2.4.3"
-
+gem "websocket-extensions", ">= 0.1.5"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
