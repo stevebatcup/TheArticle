@@ -60,18 +60,19 @@ class UserFollowingsController < ApplicationController
 		end
 
 		if @status != :error
-			current_user.followings << Follow.new({followed_id: params[:id]})
-			if current_user.save
-				@status = :success
-				@message = "You are now following <b>#{other_user.display_name}</b>"
-				flash[:notice] = @message if params[:set_flash]
-				current_user.accept_suggestion_of_user_id(params[:id])
-				# Rails.cache.delete("followings_count_#{current_user.id}")
-				# Rails.cache.delete("followers_count_#{params[:id]}")
-				other_user.send_followed_mail_if_opted_in(current_user) if (current_user.has_active_status? && current_user.has_completed_wizard)
-			else
-				@status = :error
-				@message = current_user.errors.full_messages
+			begin
+				current_user.followings << Follow.new({followed_id: params[:id]})
+				if current_user.save
+					@status = :success
+					@message = "You are now following <b>#{other_user.display_name}</b>"
+					flash[:notice] = @message if params[:set_flash]
+					current_user.accept_suggestion_of_user_id(params[:id])
+					other_user.send_followed_mail_if_opted_in(current_user) if (current_user.has_active_status? && current_user.has_completed_wizard)
+				else
+					@status = :error
+					@message = current_user.errors.full_messages
+				end
+			rescue Exception => e
 			end
 		end
 	end

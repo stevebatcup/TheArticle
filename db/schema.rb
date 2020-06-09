@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_08_144551) do
+ActiveRecord::Schema.define(version: 2020_06_09_095030) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -321,6 +321,7 @@ ActiveRecord::Schema.define(version: 2020_05_08_144551) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "follow_group_id"
+    t.index ["followed_id", "user_id"], name: "index_follows_on_followed_id_and_user_id", unique: true
     t.index ["followed_id"], name: "index_follows_on_followed_id"
     t.index ["user_id"], name: "index_follows_on_user_id"
   end
