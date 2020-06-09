@@ -135,6 +135,7 @@ class User < ApplicationRecord
     trending_exchanges = Exchange.trending_list
     other_exchanges = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc)
     self.exchanges = trending_exchanges.to_a.concat(other_exchanges)
+    self.exchanges << Exchange.editor_item
     self.save
   end
 
