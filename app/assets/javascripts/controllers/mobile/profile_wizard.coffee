@@ -9,6 +9,7 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 	  '$timeout'
 	  '$ngConfirm'
 	  'MyProfile'
+		'WizardHandler'
 	]
 
 	init: ->
@@ -213,16 +214,20 @@ class TheArticle.ProfileWizard extends TheArticle.MobilePageController
 			@followUser member.id, null, true
 
 	submitWizard: =>
-		new @MyProfile(@scope.user).create().then (response) =>
-			if response.status is 'error'
-				@submitWizardError(response.error)
+		if @scope.user.selectedExchanges.length < 3
+			@WizardHandler.wizard().goTo('Exchanges')
+			@alert "Please select at least 3 exchanges", "Whoops"
+		else
+			new @MyProfile(@scope.user).create().then (response) =>
+				if response.status is 'error'
+					@submitWizardError(response.error)
+					false
+				else
+					@scope.redirectWhenDone = response.redirect
+					true
+			, (error) =>
+				@submitWizardError(error.statusText)
 				false
-			else
-				@scope.redirectWhenDone = response.redirect
-				true
-		, (error) =>
-			@submitWizardError(error.statusText)
-			false
 
 	submitWizardError: (msg) =>
 		@alert "Sorry there has been an error: #{msg}"
