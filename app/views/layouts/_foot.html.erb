@@ -87,16 +87,6 @@
       </script>
       <!-- End BlueKai Tag -->
 
-      <!-- Teads -->
-      <script type="text/javascript" class="teads" src="//a.teads.tv/page/116407/tag" async="true"></script>
-      <script type="text/javascript">
-        var articleDataForAds = [];
-        <% if is_article_page? && @article.present? %>
-          articleDataForAds.push(<%= @article.id %>);
-          articleDataForAds.push("<%= yield_meta_tag(:description, default_meta_description) %>");
-        <% end %>
-      </script>
-
       <!-- Quantcast -->
       <script type="text/javascript">
         var _qevents = _qevents || [];

@@ -362,3 +362,7 @@
 	data-custom-unique-identifier="<%= @article.slug %>"></script>
 	<!-- End of Bibblio RCM includes -->
 <% end %>
+
+<% if Rails.env.production? %>
+<%= render 'layouts/teads_for_article' %>
+<% end %>
