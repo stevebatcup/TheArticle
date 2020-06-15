@@ -51,10 +51,6 @@ every	15.minutes, roles: [:web1] do
 	rake "exchanges:update_follower_counts"
 end
 
-every	1.day, at: '17:30 pm', roles: [:web1] do
-	rake "profiles:add_to_bibblio >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
-end
-
 every 1.hour, roles: [:web1] do
 	rake "articles:fetch_bibblio_meta >> /var/www/thearticle/rails/shared/log/bibblio.log 2>&1"
 end

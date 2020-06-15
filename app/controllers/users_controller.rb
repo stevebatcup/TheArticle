@@ -47,7 +47,6 @@ class UsersController < ApplicationController
 			current_user.cover_photo = params[:photo]
 			if current_user.save
 				@status = :success
-				UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "new cover photo")  if current_user.on_bibblio?
 			else
 				@status = :error
 				@message = current_user.errors.full_messages.first
@@ -56,7 +55,6 @@ class UsersController < ApplicationController
 			current_user.profile_photo = params[:photo]
 			if current_user.save
 				@status = :success
-				UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "new profile photo")  if current_user.on_bibblio?
 			else
 				@status = :error
 				@message = current_user.errors.full_messages.first
@@ -85,7 +83,6 @@ class UsersController < ApplicationController
 				bio: params_for_update[:bio]
 			})
 			UserMailer.username_updated(current_user).deliver_now if send_username_changed_email
-			UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(current_user.id, "profile updated")  if current_user.on_bibblio?
 			@status = :success
 		else
 			@status = :error

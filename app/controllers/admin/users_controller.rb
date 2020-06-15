@@ -281,7 +281,7 @@ module Admin
         if params[:mode] == 'coverPhoto'
           user.cover_photo = params[:photo]
           if user.save
-            UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(user.id, "new cover photo")  if user.on_bibblio?
+            # UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(user.id, "new cover photo")  if user.on_bibblio?
             render json: { status: :success }
           else
             render json: { status: :error, message: user.errors.full_messages.first }
@@ -289,7 +289,7 @@ module Admin
         elsif params[:mode] == 'profilePhoto'
           user.profile_photo = params[:photo]
           if user.save
-            UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(user.id, "new profile photo")  if user.on_bibblio?
+            # UpdateUserOnBibblioJob.set(wait_until: 5.seconds.from_now).perform_later(user.id, "new profile photo")  if user.on_bibblio?
             render json: { status: :success }
           else
             render json: { status: :error, message: user.errors.full_messages.first }
