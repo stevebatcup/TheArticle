@@ -107,7 +107,7 @@
           </div>
           <p class="alert alert-danger" ng-if="register.errors.tandc">{{register.errors.tandc}}</p>
 
-          <%= recaptcha_tags(site_key: Rails.application.credentials.recaptcha_site_key) %>
+          <%= recaptcha_tags(site_key: Rails.application.credentials.recaptcha_site_key) if Rails.env.production? %>
 
           <div class="actions">
             <button class="btn btn-success btn-block text-white my-3"

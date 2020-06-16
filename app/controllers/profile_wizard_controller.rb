@@ -18,7 +18,7 @@ class ProfileWizardController < ApplicationController
 			PendingFollow.process_for_user(current_user)
 			sign_in(current_user)
 			@status = :success
-			@redirect = "#{front_page_path}?from_wizard=1"
+			@redirect = "/my-home?from_wizard=1"
 		rescue Exception => e
 			@status = :error
 			@error = "Unknown error" #e.message

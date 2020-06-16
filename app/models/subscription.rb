@@ -2,8 +2,12 @@ class Subscription < ApplicationRecord
   has_many :feeds, as: :actionable
 	belongs_to	:user
 	belongs_to	:exchange
-	after_create	:update_feed
+	after_create	:start_update_feed_job
 	after_destroy	:delete_feed
+
+	def start_update_feed_job
+		SubscriptionUpdateFeedJob.set(wait_until: 5.seconds.from_now).perform_later(self)
+	end
 
 	def update_feed
 		feed = self.feeds.build({user_id: self.user_id})

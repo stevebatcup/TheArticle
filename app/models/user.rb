@@ -19,7 +19,10 @@ class User < ApplicationRecord
   before_create :strip_whitespace
   before_create :fix_double_names
   after_create :assign_default_settings
+  after_create :start_default_notification_settings_job
+
   before_save :downcase_username
+
   mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
   mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
 
@@ -116,12 +119,27 @@ class User < ApplicationRecord
     end
   end
 
+  def start_default_notification_settings_job
+    UserDefaultNotificationSettingsJob.set(wait_until: 10.seconds.from_now).perform_later(self)
+  end
+
   def assign_default_settings
     uname = generate_usernames.first
     self.slug = uname.downcase
     self.username = "@#{uname}"
     self.display_name = "#{first_name.strip} #{last_name.strip}"
+    set_default_exchanges
+    save
+  end
 
+  def set_default_exchanges
+    trending_exchange_ids = Exchange.trending_list.map(&:id)
+    other_exchange_ids = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc).map(&:id)
+    self.exchange_ids = trending_exchange_ids.to_a.concat(other_exchange_ids)
+    self.exchange_ids << Exchange.editor_item.id
+  end
+
+  def set_default_notification_settings
     self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
     self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
     self.notification_settings.build({ key: 'email_responses', value: 'never' })
@@ -131,12 +149,7 @@ class User < ApplicationRecord
 
     self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
     self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
-
-    trending_exchanges = Exchange.trending_list
-    other_exchanges = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc)
-    self.exchanges = trending_exchanges.to_a.concat(other_exchanges)
-    self.exchanges << Exchange.editor_item
-    self.save
+    save
   end
 
   def self.active
