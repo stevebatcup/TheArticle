@@ -20,7 +20,6 @@ class ArticlesController < ApplicationController
 							leading_article = Article.leading_editor_article
 							if leading_article.present?
 								@articles = @articles.all.to_a.unshift(leading_article)
-								# @articles.delete_at(params[:per_page].to_i - 1)
 							end
 						end
 					elsif params[:tagged].include?(",")
@@ -35,21 +34,14 @@ class ArticlesController < ApplicationController
 				elsif params[:exchange]
 					per_page = params[:per_page].to_i
 					if params[:include_sponsored]
-						sponsored_frequency = 5
-						if params[:page].to_i % 4 == 0
-							offset = 9
-						elsif params[:page].to_i % 3 == 0
-							offset = 6
-						elsif params[:page].to_i % 2 == 0
-							offset = 3
-						else
-							offset = 0
-						end
+						sponsored_per_page = 3
+						sponsored_article_count = Article.sponsored.length
+						sponsored_offset = Article.calculate_sponsored_offset(params[:page].to_i, sponsored_per_page, sponsored_article_count)
 						sponsored_articles = Article.sponsored.includes(:exchanges)
 																				.references(:exchanges)
 																				.order(published_at: :desc)
-																				.limit(3)
-																				.offset(offset)
+																				.limit(sponsored_per_page)
+																				.offset(sponsored_offset)
 																				.to_a
 						items_to_get = per_page - (sponsored_articles.length)
 					else
@@ -83,6 +75,7 @@ class ArticlesController < ApplicationController
 					if params[:include_sponsored]
 						@articles = @articles.to_a
 						first_key = 3
+						sponsored_frequency = 5
 						sponsored_articles.each_with_index do |sa, i|
 							key = (first_key + (i * sponsored_frequency))
 							if @articles[key]
