@@ -472,12 +472,11 @@ class Article < ApplicationRecord
 		self.destroy
 	end
 
-	def self.calculate_sponsored_offset(page, sponsored_per_page, sponsored_article_count)
-		for i in 1..page do
-			set = (0..(sponsored_article_count-1)).to_a
-			(i-1).times { shifted = set.shift(sponsored_per_page); set += shifted }
-		end
-		set.first
+	def self.calculate_sponsored_ids_for_page(page, sponsored_per_page=3)
+		sponsored_ids = Article.sponsored.map(&:id)
+		set = sponsored_ids
+		(page-1).times { shifted = set.shift(sponsored_per_page); set += shifted }
+		set[0..(sponsored_per_page-1)]
 	end
 
 	def self.views_before_interstitial

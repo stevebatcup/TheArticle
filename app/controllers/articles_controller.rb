@@ -35,13 +35,11 @@ class ArticlesController < ApplicationController
 					per_page = params[:per_page].to_i
 					if params[:include_sponsored]
 						sponsored_per_page = 3
-						sponsored_article_count = Article.sponsored.length
-						sponsored_offset = Article.calculate_sponsored_offset(params[:page].to_i, sponsored_per_page, sponsored_article_count)
-						sponsored_articles = Article.sponsored.includes(:exchanges)
+						sponsored_ids = Article.calculate_sponsored_ids_for_page(params[:page].to_i, sponsored_per_page)
+						sponsored_articles = Article.includes(:exchanges)
 																				.references(:exchanges)
+																				.where(id: sponsored_ids)
 																				.order(published_at: :desc)
-																				.limit(sponsored_per_page)
-																				.offset(sponsored_offset)
 																				.to_a
 						items_to_get = per_page - (sponsored_articles.length)
 					else
