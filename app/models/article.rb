@@ -473,7 +473,7 @@ class Article < ApplicationRecord
 	end
 
 	def self.calculate_sponsored_ids_for_page(page, sponsored_per_page=3)
-		sponsored_ids = Article.sponsored.map(&:id)
+		sponsored_ids = Article.sponsored.order(published_at: :desc).map(&:id)
 		set = sponsored_ids
 		(page-1).times { shifted = set.shift(sponsored_per_page); set += shifted }
 		set[0..(sponsored_per_page-1)]
