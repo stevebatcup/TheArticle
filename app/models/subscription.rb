@@ -6,7 +6,7 @@ class Subscription < ApplicationRecord
 	after_destroy	:delete_feed
 
 	def start_update_feed_job
-		SubscriptionUpdateFeedJob.set(wait_until: 5.seconds.from_now).perform_later(self)
+		SubscriptionUpdateFeedJob.perform_later(self)
 	end
 
 	def update_feed

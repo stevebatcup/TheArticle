@@ -59,7 +59,7 @@ class TheArticle.ProfileWizard extends TheArticle.DesktopPageController
 				@searchForSuggestions newVal
 
 	getSelectedExchanges: =>
-		url = "/user_exchanges?page=1&per_page=100"
+		url = "/user_exchanges?page=1&per_page=100&basic=1"
 		@http.get(url).then (response) =>
 			if response.data.exchanges.length > 1
 				angular.forEach response.data.exchanges, (exchange) =>
