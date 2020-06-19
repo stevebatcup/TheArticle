@@ -22,10 +22,20 @@ end
 every	1.day, at: '5:00 pm', roles: [:web1] do
 	rake "notifications:daily_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
-every	1.day, at: '11:45 pm', roles: [:web1] do
+every	1.day, at: '8:30 pm', roles: [:web2] do
 	rake "notifications:daily_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
-every	:monday, at: '7:00 am', roles: [:web1] do
+every	1.day, at: '8:40 pm', roles: [:web1] do
+	rake "notifications:check_daily_sends >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+end
+every	1.day, at: '10:00 pm', roles: [:web1] do
+	rake "notifications:daily_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+end
+every	1.day, at: '10:10 pm', roles: [:web2] do
+	rake "notifications:check_daily_sends >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
+end
+
+every	:monday, at: '7:00 am', roles: [:web2] do
 	rake "notifications:weekly_categorisations >> /var/www/thearticle/rails/shared/log/notification_emails.log 2>&1"
 end
 

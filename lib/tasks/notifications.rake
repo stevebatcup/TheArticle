@@ -39,6 +39,14 @@ namespace :notifications do
 		end
 	end
 
+	task :check_daily_sends => :environment do
+		items = DailyUserMailItem.select(:id, :user_id).where(action_type: "categorisation").where("created_at > DATE_SUB(CONCAT(CURDATE(), ' ', '17:00:00'), INTERVAL 1 DAY)").group(:user_id)
+		if items.length > 500
+			e = Exception.new("#{items.length} categorisation mails left in the 'daily user mail items' table");
+			DeveloperMailer.categorisation_mailout_exception(e).deliver_now
+		end
+	end
+
 	task :weekly_categorisations => :environment do
 		items = WeeklyUserMailItem.select(:id, :user_id).where(action_type: "categorisation").where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)").group(:user_id)
 		items.each do |item|
