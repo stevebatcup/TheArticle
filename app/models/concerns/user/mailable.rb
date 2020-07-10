@@ -41,7 +41,7 @@ module User::Mailable
       end
       CategorisationsMailer.weekly(self, articles).deliver_now if articles.any?
     rescue Exception => e
-      DeveloperMailer.categorisation_mailout_exception(e).deliver_now
+      # DeveloperMailer.categorisation_mailout_exception(e).deliver_now
     end
     items.destroy_all
   end
@@ -57,7 +57,7 @@ module User::Mailable
       end
       CategorisationsMailer.daily(self, articles).deliver_now if articles.any?
     rescue Exception => e
-      DeveloperMailer.categorisation_mailout_exception(e).deliver_now
+      # DeveloperMailer.categorisation_mailout_exception(e).deliver_now
     end
     items.destroy_all
   end
