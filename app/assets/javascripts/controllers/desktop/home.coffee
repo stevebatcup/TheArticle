@@ -7,13 +7,16 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 	  '$http'
 	  '$rootElement'
 	  '$element'
-	  '$timeout'
+		'$timeout'
+		'$interval'
 	  '$compile'
 	  '$ngConfirm'
 	  'ExchangeArticle'
 	]
 
 	init: ->
+		@nativeArticleFound = false
+		@lastArticleHidden = false
 		@bindEvents()
 		@initArticleData()
 
@@ -90,20 +93,55 @@ class TheArticle.Home extends TheArticle.DesktopPageController
 
 	getArticles: (exchange) =>
 		@scope.articles[exchange].loading = true
-		perPage = if @scope.articles[exchange].page is 1 then 14 else 15
+		# perPage = if @scope.articles[exchange].page is 1 then 14 else 15
+		perPage = 15
 		vars = { exchange: @scope.articles[exchange].slug, page: @scope.articles[exchange].page, per_page: perPage, include_sponsored: 1 }
 		@ExchangeArticle.query(vars).then (response) =>
-			@timeout =>
-				@scope.articles[exchange].totalItemCount = response.total if @scope.articles[exchange].page is 1
-				angular.forEach response.articles, (article) =>
-					@scope.articles[exchange].items.push article
-					@scope.articles[exchange].articleCount += 1 unless article.isSponsored
-				@scope.articles[exchange].moreToLoad = @scope.articles[exchange].totalItemCount > @scope.articles[exchange].articleCount
-				@scope.articles[exchange].firstLoaded = true if @scope.articles[exchange].page is 1
-				@scope.articles[exchange].loading = false
-			, 350
+			@showHiddenArticle() if @lastArticleHidden
+			@scope.articles[exchange].totalItemCount = response.total if @scope.articles[exchange].page is 1
+			angular.forEach response.articles, (article) =>
+				@scope.articles[exchange].items.push article
+				@scope.articles[exchange].articleCount += 1 unless article.isSponsored
+			@scope.articles[exchange].moreToLoad = @scope.articles[exchange].totalItemCount > @scope.articles[exchange].articleCount
+			if @scope.articles[exchange].page is 1
+				@scope.articles[exchange].firstLoaded = true
+				@startNativeArticleTimer()
+			else if @scope.articles[exchange].page is 2
+				@cancelNativeArticleTimer()
+			@scope.articles[exchange].loading = false
+			if @nativeArticleFound
+				@timeout =>
+					@hideLastArticle()
+				, 350
 		, (response) =>
 			@refreshPage() if response.status is 401
+
+	startNativeArticleTimer: =>
+		@nativeArticleTimer = @interval =>
+			@checkForNativeArticle()
+		, 250
+
+	checkForNativeArticle: =>
+		console.log 'checkForNativeArticle'
+		if angular.element('article.article-listing.ntv_unt').length > 0
+			@timeout =>
+				console.log 'found'
+				@nativeArticleFound = true
+				@hideLastArticle()
+				@cancelNativeArticleTimer()
+
+	hideLastArticle: =>
+		angular.element('article.article-listing:visible').not('.ntv_unt').last().addClass('hidden_by_native_ad').hide()
+		@lastArticleHidden = true
+
+	showHiddenArticle: =>
+		console.log 'showHiddenArticle'
+		console.log angular.element('article.article-listing.hidden_by_native_ad').length
+		angular.element('article.article-listing.hidden_by_native_ad').removeClass('hidden_by_native_ad').show()
+		@lastArticleHidden = false
+
+	cancelNativeArticleTimer: =>
+		@interval.cancel(@nativeArticleTimer)
 
 	goodbye: =>
 		@alert "Your account has been deleted.  We are sorry to see you go.", "Account deleted"
