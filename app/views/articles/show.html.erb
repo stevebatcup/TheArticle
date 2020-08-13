@@ -363,6 +363,6 @@
 	<!-- End of Bibblio RCM includes -->
 <% end %>
 
-<% if Rails.env.production? %>
-<%= render 'layouts/teads_for_article' %>
+<% if Rails.env.production? && !@article.is_sponsored? %>
+	<%= render 'layouts/teads_for_article' %>
 <% end %>
