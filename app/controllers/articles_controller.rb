@@ -39,6 +39,7 @@ class ArticlesController < ApplicationController
 						sponsored_articles = Article.includes(:exchanges)
 																				.references(:exchanges)
 																				.where(id: sponsored_ids)
+																				.order(published_at: :desc)
 																				.to_a
 						items_to_get = per_page - (sponsored_articles.length)
 					else
