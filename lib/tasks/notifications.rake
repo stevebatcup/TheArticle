@@ -27,9 +27,9 @@ namespace :notifications do
 											.where("created_at > DATE_SUB(CONCAT(CURDATE(), ' ', '17:00:00'), INTERVAL 1 DAY)")
 											.group(:user_id)
 											.find_in_batches(batch_size: 200) do |group|
-			sleep(10)
+			sleep(2)
 			group.each do |item|
-				sleep(0.5)
+				sleep(0.2)
 				if user = User.where(status: :active).find_by(id: item.user_id)
 					user.send_daily_categorisations_mail
 				else
