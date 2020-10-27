@@ -1,65 +1,45 @@
 <div class="modal fade" id="sharingPanelModal" tabindex="-1" role="dialog">
   <div class="modal-dialog medium" role="document">
-    <div class="modal-content"
-          ng-controller="SharingPanelController"
-          data-article-id="<%= article.id %>"
-          data-article-title="<%= article.title.html_safe %>"
-          data-share-comments="<%= article_share(@article)['comments'] %>"
-          data-share-well_written="<%= convert_rating_to_dots(article_share(@article)['rating_well_written']) %>"
-          data-share-valid_points="<%= convert_rating_to_dots(article_share(@article)['rating_valid_points']) %>"
-          data-share-agree="<%= convert_rating_to_dots(article_share(@article)['rating_agree']) %>"
-          data-rating-text-labels="<%= rating_labels.to_json %>"
-          data-rating-text-classes="<%= rating_classes.to_json %>"
-          data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content.css") %>'
-          data-nanospell-url='<%= nanospell_url %>'>
+    <div class="modal-content" ng-controller="SharingPanelController" data-article-id="<%= article.id %>" data-article-title="<%= article.title.html_safe %>" data-share-comments="<%= article_share(@article)['comments'] %>" data-share-well_written="<%= convert_rating_to_dots(article_share(@article)['rating_well_written']) %>" data-share-valid_points="<%= convert_rating_to_dots(article_share(@article)['rating_valid_points']) %>" data-share-agree="<%= convert_rating_to_dots(article_share(@article)['rating_agree']) %>" data-rating-text-labels="<%= rating_labels.to_json %>" data-rating-text-classes="<%= rating_classes.to_json %>" data-tinymce-content-css-url='<%= asset_url("#{browser.device.mobile? ? 'mobile' : 'desktop'}/tinymce-content.css") %>' data-nanospell-url='<%= nanospell_url %>'>
 
-    	<div class="modal-header d-flex justify-content-between bg-grey">
-  			<h5 class="mb-2 mt-1">
+      <div class="modal-header d-flex justify-content-between bg-grey">
+        <h5 class="mb-2 mt-1">
           <span ng-if="sharingPanelMode == 'share'">Share this article</span>
           <span ng-if="sharingPanelMode == 'rate'">Rate this article</span>
-  				<span ng-if="sharingPanelMode == 'rerate'">Re-rate this article</span>
-  			</h5>
+          <span ng-if="sharingPanelMode == 'rerate'">Re-rate this article</span>
+        </h5>
 
-				<button data-dismiss="modal" class="btn btn-link close_share_modal">
-					<i class="fas fa-times text-green"></i>
-				</button>
+        <button data-dismiss="modal" class="btn btn-link close_share_modal">
+          <i class="fas fa-times text-green"></i>
+        </button>
 
-    	</div>
+      </div>
 
       <div class="modal-body px-4">
 
         <p ng-show="formError" class="alert alert-danger">{{ formError }}</p>
 
         <p ng-if="sharingPanelMode == 'rerate'">
-          You have already rated this article.  If you choose to re-rate it, your previous rating (and any comments) will be deleted from your profile.
+          You have already rated this article. If you choose to re-rate it, your previous rating (and any comments) will be deleted from your profile.
         </p>
 
-      	<div id="comments_box">
-      		<textarea name="comments" id="comments"
-                  placeholder="Add a comment..."
-                  ng-model="share.comments"
-                  ui-tinymce="tinymceOptions"
-                  ng-focus="expandCommentsBox($event)"></textarea>
-      	</div>
+        <div id="comments_box">
+          <textarea name="comments" id="comments" placeholder="Add a comment..." ng-model="share.comments" ui-tinymce="tinymceOptions" ng-focus="expandCommentsBox($event)"></textarea>
+        </div>
 
         <% unless article.is_sponsored? %>
-      	<h4 id="add_rating_heading" ng-if="sharingPanelMode == 'share'">
-      		<a href="#" ng-click="openRatingsBox($event)"
-                id="ratings_toggler"
-                class="btn btn-outline-dark">{{ratingsHeading}}</a>
-      	</h4>
+        <h4 id="add_rating_heading" ng-if="sharingPanelMode == 'share'">
+          <a href="#" ng-click="openRatingsBox($event)" id="ratings_toggler" class="btn btn-outline-dark">{{ratingsHeading}}</a>
+        </h4>
 
-      	<div id="ratings_box"
-               class="member_ratings"
-               ng-if="sharingPanelMode != 'share'">
-      		<div class="inner">
+        <div id="ratings_box" class="member_ratings" ng-if="sharingPanelMode != 'share'">
+          <div class="inner">
             <ul class="dots panel">
               <li class="mb-3">
+                <label class="mr-4 d-block">Well argued: </label>
                 <div class="justify-content-start d-md-flex align-items-start">
-                  <label class="mr-4 w-md-25">Well argued: </label>
                   <div class="dots">
-                    <span class="dot panel" ng-repeat="i in _.range(1, 6)"
-                            ng-click="toggleDots('well_written', i)">
+                    <span class="dot panel" ng-repeat="i in _.range(1, 6)" ng-click="toggleDots('well_written', i)">
                       <span ng-class="{
                         'filled': i <= share.rating_well_written,
                         'empty': i > share.rating_well_written
@@ -73,11 +53,10 @@
               </li>
 
               <li class="mb-3">
+                <label class="mr-4 d-block">Interesting: </label>
                 <div class="justify-content-start d-md-flex align-items-start">
-                  <label class="mr-4 w-md-25">Interesting: </label>
                   <div class="dots">
-                    <span class="dot panel" ng-repeat="i in _.range(1, 6)"
-                            ng-click="toggleDots('valid_points', i)">
+                    <span class="dot panel" ng-repeat="i in _.range(1, 6)" ng-click="toggleDots('valid_points', i)">
                       <span ng-class="{
                         'filled': i <= share.rating_valid_points,
                         'empty': i > share.rating_valid_points
@@ -91,11 +70,10 @@
               </li>
 
               <li class="mb-3">
+                <label class="mr-4 d-block">Agree: </label>
                 <div class="justify-content-start d-md-flex align-items-start">
-                  <label class="mr-4 w-md-25">Agree: </label>
                   <div class="dots">
-                    <span class="dot panel" ng-repeat="i in _.range(1, 6)"
-                            ng-click="toggleDots('agree', i)">
+                    <span class="dot panel" ng-repeat="i in _.range(1, 6)" ng-click="toggleDots('agree', i)">
                       <span ng-class="{
                         'filled': i <= share.rating_agree,
                         'empty': i > share.rating_agree
@@ -108,28 +86,26 @@
                 </div>
               </li>
             </ul>
-      		</div>
+          </div>
 
           <label id="share_on_twitter_item" class="d-flex">
             <input type="checkbox" ng-model="share.share_on_twitter" />
             <i class="text-colour-2 fab fa-twitter mr-md-1 ml-1 ml-md-2 ml-xl-3"></i>
             <span class="text">Also share on Twitter</span>
           </label>
-      	</div>
+        </div>
         <% end %>
 
-      	<div class="button_box justify-content-between align-items-start d-md-flex py-3">
+        <div class="button_box justify-content-between align-items-start d-md-flex py-3">
           <div class="w-md-50 px-md-3 py-md-3">
             <p>This will be posted on your public profile. <a href="/help?section=sharing" class="text-green" target="_blank">Learn more</a></p>
           </div>
           <div class="w-md-50 px-md-3 py-md-4 text-center">
-        		<button class="btn btn-success px-4 btn-block" ng-click="submitShare()"
-                    ng-disabled="((sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0) || (sharing == true)"
-                    ng-class="{
+            <button class="btn btn-success px-4 btn-block" ng-click="submitShare()" ng-disabled="((sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0) || (sharing == true)" ng-class="{
                       'disabled': ((sharingPanelMode == 'rate' || sharingPanelMode == 'rerate') && share.rating_well_written == 0 && share.rating_valid_points == 0 && share.rating_agree == 0) || (sharing == true)
                     }">Submit</button>
           </div>
-      	</div>
+        </div>
 
       </div>
 
