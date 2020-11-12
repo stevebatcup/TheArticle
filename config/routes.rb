@@ -203,6 +203,8 @@ Rails.application.routes.draw do
   post "push_registrations",   to: 'push_registrations#create'
   delete "push_registrations", to: 'push_registrations#destroy'
 
+  get 'donate-interstitial-impression', to: 'donate_interstitial_impressions#new'
+
   PageRouter.load
   LandingPageRouter.load
   get "landing_pages", to: "landing_pages#index"

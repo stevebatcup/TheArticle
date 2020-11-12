@@ -9,4 +9,5 @@
 //= require controllers/testing_feedback
 //= require controllers/photo_editor
 //= require controllers/register_interstitial
+//= require controllers/donate_interstitial
 //= require_tree ./controllers/desktop

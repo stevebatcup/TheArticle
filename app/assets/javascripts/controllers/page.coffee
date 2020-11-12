@@ -394,6 +394,19 @@ class TheArticle.PageController extends TheArticle.NGController
 			backdrop: 'static'
 			keyboard: false
 
+	showDonationInterstitial: =>
+		@logDonationInterstitialImpression()
+		tpl = $("#donationInterstitial").html().trim()
+		$content = @compile(tpl)(@scope)
+		$('body').append $content
+		$("#donationInterstitialModal").modal
+			backdrop: 'static'
+			keyboard: false
+
+	logDonationInterstitialImpression: =>
+		@http.get("/donate-interstitial-impression")
+
+
 	getCurrentWord: ($textbox) =>
 		stopCharacters = [' ', '\n', '\r', '\t']
 		start = $textbox[0].selectionStart
@@ -416,7 +429,7 @@ class TheArticle.PageController extends TheArticle.NGController
 		word = @getCurrentWord($textbox)
 		if word.match /^\@(.)+/
 			@http.get("/profile/search-by-username/#{word}").then (response) =>
-				console.log response.results
+				console.log response.results if console?
 
 	ignoreSuggestedMember: (memberId, callback=null) =>
 		@http.post("/ignore-suggestion", {id: memberId}).then (response) =>

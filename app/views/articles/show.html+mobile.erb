@@ -319,9 +319,13 @@
 <% end %>
 
 <% if show_registration_interstitial? %>
-	<script id="registerInterstitial" type="script/x-mustache">
-	  <%= render partial: 'promotional/register_modal' %>
-	</script>
+<script id="registerInterstitial" type="script/x-mustache">
+  <%= render partial: 'promotional/register_modal' %>
+</script>
+<% elsif show_donation_interstitial? %>
+<script id="donationInterstitial" type="script/x-mustache">
+  <%= render partial: 'promotional/donation_modal' %>
+</script>
 <% end %>
 
 <% if can_show_bibblio_snippet? %>

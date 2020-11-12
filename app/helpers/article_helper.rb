@@ -144,6 +144,19 @@ module ArticleHelper
 		end
 	end
 
+	def show_donation_interstitial?
+		return false unless user_signed_in?
+
+		donator = Donator.find_by(user_id: current_user.id)
+		return false if donator && donator.recurring?
+
+		last_impression = DonateInterstitialImpression.find_latest_for_user(current_user)
+		return true if last_impression.nil?
+
+		time_gap = donator ? 1.month.ago : 7.days.ago
+		last_impression.shown_at < time_gap
+	end
+
 	def written_by(article)
 		tpl = article.additional_author.present? ? 'written-by-dual' : 'written-by-single'
 		render partial: "articles/#{tpl}", locals: { article: article }

@@ -1,97 +1,101 @@
 <section>
-	<div class="container mt-md-4 mb-3 mb-md-2">
-		<article class="article_detail"
-			ng-controller="NativoController"
-			itemscope
-			itemprop="mainEntity"
-			itemtype="https://schema.org/NewsArticle">
+  <div class="container mt-md-4 mb-3 mb-md-2">
+    <article class="article_detail" ng-controller="NativoController" itemscope itemprop="mainEntity" itemtype="https://schema.org/NewsArticle">
 
-			<div class="row">
-				<div class="col-12 col-lg-8 pr-lg-0" id="content_bar">
+      <div class="row">
+        <div class="col-12 col-lg-8 pr-lg-0" id="content_bar">
 
-				</div>
+        </div>
 
-				<div class="col-12 col-md-0 col-lg-4" id="sidebar">
-					<div class="sidebar_inner mt-0">
-						<div class="ads_box mx-auto align-middle">
-							<% if show_ads? %>
-								<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/<%= @firstSideAdType %> -->
-								<div id='div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'>
-									<script>
-										googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'); });
-									</script>
-								</div>
-							<% end %>
-						</div>
-					</div>
+        <div class="col-12 col-md-0 col-lg-4" id="sidebar">
+          <div class="sidebar_inner mt-0">
+            <div class="ads_box mx-auto align-middle">
+              <% if show_ads? %>
+              <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/<%= @firstSideAdType %> -->
+              <div id='div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>'>
+                <script>
+                  googletag.cmd.push(function() {
+                    googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @firstSideAdSlot %>');
+                  });
+                </script>
+              </div>
+              <% end %>
+            </div>
+          </div>
 
-					<div class="sidebar_inner" id="most_read_articles">
-						<h2 class="bullet underline">Latest articles</h2>
-						<% trending_articles.each do |ta| %>
-							<article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
-								<div class="col-12">
-									<% if(ta.is_sponsored?) %>
-										<a href='/sponsors' class="sponsored">
-											<i class="fas fa-star"></i>
-											SPONSORED
-										</a>
-									<% end %>
-									<h5 class="mb-0">
-										<a href="<%= article_path(ta) %>">
-											<%= ta.title.html_safe %>
-										</a>
-									</h5>
-									<% footerPaddingBottom = ta.is_sponsored? ? 'pb-3' : 'pb-0' %>
-									<footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
-										<p class="author_link">
-											<%= written_by(ta) %>
+          <div class="sidebar_inner" id="most_read_articles">
+            <h2 class="bullet underline">Latest articles</h2>
+            <% trending_articles.each do |ta| %>
+            <article class="row mt-3 pl-1<%= ta.is_sponsored? ? ' sponsored_article' : '' %>">
+              <div class="col-12">
+                <% if(ta.is_sponsored?) %>
+                <a href='/sponsors' class="sponsored">
+                  <i class="fas fa-star"></i>
+                  SPONSORED
+                </a>
+                <% end %>
+                <h5 class="mb-0">
+                  <a href="<%= article_path(ta) %>">
+                    <%= ta.title.html_safe %>
+                  </a>
+                </h5>
+                <% footerPaddingBottom = ta.is_sponsored? ? 'pb-3' : 'pb-0' %>
+                <footer class="entry-footer pl-0 pb-0 pt-1 <%= footerPaddingBottom %>">
+                  <p class="author_link">
+                    <%= written_by(ta) %>
 
-											<% unless ta.is_sponsored %>
-											<span class="entry-date">
-												<%= article_date(ta) %>
-											</span>
-											<% end %>
-										</p>
-									</footer>
-								</div>
-							</article>
-						<% end %>
-					</div>
+                    <% unless ta.is_sponsored %>
+                    <span class="entry-date">
+                      <%= article_date(ta) %>
+                    </span>
+                    <% end %>
+                  </p>
+                </footer>
+              </div>
+            </article>
+            <% end %>
+          </div>
 
-					<div class="sidebar_inner">
-						<div class="ads_box mx-auto align-middle">
-							<% if show_ads? %>
-								<!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/<%= @secondSideAdType %> -->
-								<div id='div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'>
-									<script>
-										googletag.cmd.push(function() { googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'); });
-									</script>
-								</div>
-							<% end %>
-						</div>
-					</div>
+          <div class="sidebar_inner">
+            <div class="ads_box mx-auto align-middle">
+              <% if show_ads? %>
+              <!-- /<%= ad_publisher_id %>/thearticle_<%= ad_page_type %>/<%= @secondSideAdType %> -->
+              <div id='div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>'>
+                <script>
+                  googletag.cmd.push(function() {
+                    googletag.display('div-gpt-ad-<%= ad_page_id %>-<%= @secondSideAdSlot %>');
+                  });
+                </script>
+              </div>
+              <% end %>
+            </div>
+          </div>
 
-					<% if sponsored_picks.any? %>
-					<div class="sidebar_inner" id="featured_articles_sidebar">
-						<h2 class="bullet underline" style="display: none;">Sponsored picks</h2>
-						<div class="row">
-							<% sponsored_picks.each_with_index do |sp, i| %>
-								<%= render partial: 'articles/sponsored-item-for-sidebar', locals: { article: sp, counter: i+1 } %>
-							<% end %>
-						</div>
-					</div>
-					<% end %>
+          <% if sponsored_picks.any? %>
+          <div class="sidebar_inner" id="featured_articles_sidebar">
+            <h2 class="bullet underline" style="display: none;">Sponsored picks</h2>
+            <div class="row">
+              <% sponsored_picks.each_with_index do |sp, i| %>
+              <%= render partial: 'articles/sponsored-item-for-sidebar', locals: { article: sp, counter: i+1 } %>
+              <% end %>
+            </div>
+          </div>
+          <% end %>
 
-				</div>
-			</div>
-		</article>
-	</div>
+        </div>
+      </div>
+    </article>
+  </div>
 
 </section>
 
 
 <% if show_registration_interstitial? %>
-	<script id="registerInterstitial" type="script/x-mustache">
-	  <%= render partial: 'promotional/register_modal' %>
-	</script>
+<script id="registerInterstitial" type="script/x-mustache">
+  <%= render partial: 'promotional/register_modal' %>
+</script>
+<% elsif show_donation_interstitial? %>
+<script id="donationInterstitial" type="script/x-mustache">
+  <%= render partial: 'promotional/donation_modal' %>
+</script>
 <% end %>

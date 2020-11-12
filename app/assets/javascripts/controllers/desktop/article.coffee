@@ -40,6 +40,9 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 			@rootScope.articleRegisterInterstitialTimeout = @timeout =>
 				@showRegistrationInterstitial() unless $('.modal').is(':visible')
 			, 30000
+		else if $('#donationInterstitial').length > 0
+			@donationInterstitialSeen = false
+			@bindDonationInterstitialScrollEvent()
 
 	bindEvents: ->
 		super
@@ -52,6 +55,15 @@ class TheArticle.Article extends TheArticle.DesktopPageController
 						@rootScope.$broadcast 'copy_started_comments', { comments: data.startedComments }
 					, 500
 			, 350
+
+	bindDonationInterstitialScrollEvent: =>
+		$win = $(window)
+		triggerPoint = Math.ceil $win.height() / 2
+		$win.on 'scroll', =>
+			scrollTop = document.scrollingElement.scrollTop
+			if (scrollTop >= triggerPoint) && !@donationInterstitialSeen
+				@showDonationInterstitial()
+				@donationInterstitialSeen = true
 
 	loadMore: =>
 		@getArticlesInSameExchange()

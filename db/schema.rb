@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_09_095030) do
+ActiveRecord::Schema.define(version: 2020_11_12_124054) do
 
   create_table "account_deletions", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
@@ -213,6 +213,18 @@ ActiveRecord::Schema.define(version: 2020_06_09_095030) do
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_daily_user_mail_items_on_created_at"
     t.index ["user_id"], name: "index_daily_user_mail_items_on_user_id"
+  end
+
+  create_table "donate_interstitial_impressions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.datetime "shown_at"
+  end
+
+  create_table "donators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id"
+    t.boolean "recurring"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "email_alias_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
