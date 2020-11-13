@@ -327,7 +327,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    recaptcha (5.5.0)
+    recaptcha (5.6.0)
       json
     redis (4.1.4)
     redis-actionpack (5.2.0)
@@ -527,7 +527,7 @@ DEPENDENCIES
   rack (>= 2.0.8)
   rails (~> 5.2.4.2)
   rails-controller-testing
-  recaptcha
+  recaptcha (= 5.6.0)
   redis-rails
   rest-client
   rspec-rails

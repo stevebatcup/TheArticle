@@ -87,7 +87,7 @@ gem 'faraday_middleware'
 
 gem 'exception_notification'
 
-gem "recaptcha"
+gem "recaptcha", '5.6.0'
 gem "rest-client"
 gem "rss"
 gem 'fcm'
