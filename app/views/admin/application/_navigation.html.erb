@@ -8,124 +8,122 @@ as defined by the routes in the `admin/` namespace
 %>
 
 <nav id="admin_sidenav" class="navigation" role="navigation" ng-controller="NavController">
-	<div id="logo">
-	  <a href="/?force_home=1" target="_blank" style="" title="Open main website in another window">
-	  </a>
-	</div>
+  <div id="logo">
+    <a href="/?force_home=1" target="_blank" style="" title="Open main website in another window">
+    </a>
+  </div>
 
   <% if current_user.admin_level == 'super_admin' %>
-		<h3>Users</h3>
-		<ul>
-			<li>
-				<a class="navigation__link" href="#"
-							ng-click="openSearchPage($event)"
-							 ng-class="{'navigation__link--active': (openPageBoxId == 0) && (selectedPage == 'search')}">Search</a>
-			</li>
-			<li ng-if="userTabs.length > 0" class="mb-0 py-2 navigation__link" ng-class="{'navigation__link--active': openPageBoxId > 0}">
-				Accounts
-			</li>
-			<li ng-repeat="userTab in userTabs"
-						class="d-flex p-2 justify-content-between user_account_tab"
-						ng-hide="userTabs.length == 0"
-						ng-class="{'selected': openPageBoxId == userTab.id}" ng-cloak>
-				<h5><a href='#' ng-click="openAccountPage(userTab, $event)">{{userTab.name}}</a></h5>
-				<a ng-click="closeAccountPage(userTab, $event)" href='#' class="close">
-					<i class="fa fa-times"></i>
-				</a>
-			</li>
-			<li>
-				<span class="navigation__link">Concern reports</span>
-				<ul class="children">
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/user_concern_reports') %>" href="/admin/user_concern_reports">- Profiles <span class="badge attention"><%= user_concern_report_count %></span></a>
-					</li>
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/comment_concern_reports') %>" href="/admin/comment_concern_reports">- Comments <span class="badge attention"><%= comment_concern_report_count %></span></a>
-					</li>
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/share_concern_reports') %>" href="/admin/share_concern_reports">- Posts <span class="badge attention"><%= share_concern_report_count %></span></a>
-					</li>
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/processed_concern_reports') %>" href="/admin/processed_concern_reports">- Archive <span class="badge"><%= processed_concern_report_count %></span></a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<span class="navigation__link">Third party shares</span>
-				<ul class="children">
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Pending <span class="badge attention"><%= quarantined_post_count %></span></a>
-					</li>
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/approved_third_party_shares') %>" href="/admin/approved_third_party_shares">Approved <span class="badge"><%= approved_post_count %></span></a>
-					</li>
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/rejected_third_party_shares') %>" href="/admin/rejected_third_party_shares">Rejected <span class="badge"><%= rejected_post_count %></span></a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<span class="navigation__link">Watchlist</span>
-				<ul class="children">
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/pending_watch_list_users') %>" href="/admin/pending_watch_list_users">New  <span class="badge attention"><%= pending_watch_list_user_count %></span></a>
-					</li>
-					<li>
-						<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/in_review_watch_list_users') %>" href="/admin/in_review_watch_list_users">In review  <span class="badge"><%= in_review_watch_list_user_count %></span></a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/black_list_users') %>" href="/admin/black_list_users">Blacklist</a>
-			</li>
-		</ul>
-	<% end %>
+  <h3>Users</h3>
+  <ul>
+    <li>
+      <a class="navigation__link" href="#" ng-click="openSearchPage($event)" ng-class="{'navigation__link--active': (openPageBoxId == 0) && (selectedPage == 'search')}">Search</a>
+    </li>
+    <li ng-if="userTabs.length > 0" class="mb-0 py-2 navigation__link" ng-class="{'navigation__link--active': openPageBoxId > 0}">
+      Accounts
+    </li>
+    <li ng-repeat="userTab in userTabs" class="d-flex p-2 justify-content-between user_account_tab" ng-hide="userTabs.length == 0" ng-class="{'selected': openPageBoxId == userTab.id}" ng-cloak>
+      <h5><a href='#' ng-click="openAccountPage(userTab, $event)">{{userTab.name}}</a></h5>
+      <a ng-click="closeAccountPage(userTab, $event)" href='#' class="close">
+        <i class="fa fa-times"></i>
+      </a>
+    </li>
+    <li>
+      <span class="navigation__link">Concern reports</span>
+      <ul class="children">
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/user_concern_reports') %>" href="/admin/user_concern_reports">- Profiles <span class="badge attention"><%= user_concern_report_count %></span></a>
+        </li>
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/comment_concern_reports') %>" href="/admin/comment_concern_reports">- Comments <span class="badge attention"><%= comment_concern_report_count %></span></a>
+        </li>
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/share_concern_reports') %>" href="/admin/share_concern_reports">- Posts <span class="badge attention"><%= share_concern_report_count %></span></a>
+        </li>
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/processed_concern_reports') %>" href="/admin/processed_concern_reports">- Archive <span class="badge"><%= processed_concern_report_count %></span></a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span class="navigation__link">Third party shares</span>
+      <ul class="children">
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/quarantined_third_party_shares') %>" href="/admin/quarantined_third_party_shares">Pending <span class="badge attention"><%= quarantined_post_count %></span></a>
+        </li>
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/approved_third_party_shares') %>" href="/admin/approved_third_party_shares">Approved <span class="badge"><%= approved_post_count %></span></a>
+        </li>
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/rejected_third_party_shares') %>" href="/admin/rejected_third_party_shares">Rejected <span class="badge"><%= rejected_post_count %></span></a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <span class="navigation__link">Watchlist</span>
+      <ul class="children">
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/pending_watch_list_users') %>" href="/admin/pending_watch_list_users">New <span class="badge attention"><%= pending_watch_list_user_count %></span></a>
+        </li>
+        <li>
+          <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/in_review_watch_list_users') %>" href="/admin/in_review_watch_list_users">In review <span class="badge"><%= in_review_watch_list_user_count %></span></a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/black_list_users') %>" href="/admin/black_list_users">Blacklist</a>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/donations') %>" href="/admin/donations">Donations</a>
+    </li>
+  </ul>
+  <% end %>
 
-	<h3>Content</h3>
-	<ul>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/articles') %>" href="/admin/articles">Articles</a>
-		</li>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/exchanges') %>" href="/admin/exchanges">Exchanges</a>
-		</li>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/landing_pages') %>" href="/admin/landing_pages">Landing pages</a>
-		</li>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/keyword_tags') %>" href="/admin/keyword_tags">Keyword tags</a>
-		</li>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/white_listed_third_party_publishers') %>" href="/admin/white_listed_third_party_publishers">Publication whitelist</a>
-		</li>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/help_sections') %>" href="/admin/help_sections">Help centre</a>
-		</li>
-	</ul>
+  <h3>Content</h3>
+  <ul>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/articles') %>" href="/admin/articles">Articles</a>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/exchanges') %>" href="/admin/exchanges">Exchanges</a>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/landing_pages') %>" href="/admin/landing_pages">Landing pages</a>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/keyword_tags') %>" href="/admin/keyword_tags">Keyword tags</a>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/white_listed_third_party_publishers') %>" href="/admin/white_listed_third_party_publishers">Publication whitelist</a>
+    </li>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/help_sections') %>" href="/admin/help_sections">Help centre</a>
+    </li>
+  </ul>
 
-	<h3>Authors</h3>
-	<ul>
-		<li>
-				<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/authors') %>" href="/admin/authors">List</a>
-		</li>
-	</ul>
+  <h3>Authors</h3>
+  <ul>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/authors') %>" href="/admin/authors">List</a>
+    </li>
+  </ul>
 
-	<h3>Logs</h3>
-	<ul>
-		<li>
-			<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/wordpress_logs') %>" href="/admin/wordpress_logs">Articles from WP</a>
-		</li>
-		<% if current_user.admin_level == 'super_admin' %>
-			<li>
-				<a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/email_logs') %>" href="/admin/email_logs">Emails to users</a>
-			</li>
-		<% end %>
-	</ul>
+  <h3>Logs</h3>
+  <ul>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/wordpress_logs') %>" href="/admin/wordpress_logs">Articles from WP</a>
+    </li>
+    <% if current_user.admin_level == 'super_admin' %>
+    <li>
+      <a class="navigation__link navigation__link--<%= 'active' if request.path.include?('/admin/email_logs') %>" href="/admin/email_logs">Emails to users</a>
+    </li>
+    <% end %>
+  </ul>
 
 </nav>
 
 <script id="user_account_html" type="text/html">
-	<div class="user_account_page" data-id="{{userForBox.id}}">
-		<%= render 'admin/users/account' %>
-	</div>
+  <div class="user_account_page" data-id="{{userForBox.id}}">
+    <%= render 'admin/users/account' %>
+  </div>
 </script>

@@ -190,6 +190,7 @@ Rails.application.routes.draw do
     delete 'delete_donation/:id', to: 'users#delete_donation'
     delete 'cancel_recurring_donation/:id', to: 'users#cancel_recurring_donation'
     post 'new_donation', to: 'users#new_donation'
+    resources :donations
     root to: "users#index"
   end
 

@@ -1,90 +1,94 @@
 en:
- errors:
-  format: "%{message}"
- views:
-  profile:
-   form:
-    location_hint: Please enter your city or postcode
- helpers:
-  admin_indexes:
-   titles:
-    user: Search users
-    user_concern_report: "Concern reports > Profiles"
-    comment_concern_report: "Concern reports > Comments"
-    share_concern_report: "Concern reports > Posts"
-    processed_concern_report: "Concern reports > Archive"
-    quarantined_third_party_share: Quarantined 3rd party posts
-    approved_third_party_share: Approved 3rd party posts
-    rejected_third_party_share: Rejected 3rd party posts
-    watch_list_user: Watchlist
-    in_review_watch_list_user: Watchlist (in review)
-    pending_watch_list_user: Watchlist (new)
-    black_list_user: Blacklist
-    white_listed_third_party_publisher: Publication whitelist
-    wordpress_log: Wordpress logs
-    email_log: Email logs
-    help_section: Help centre sections
-    help_content: Help centre question
-    exchange: Exchanges
-    landing_page: Landing pages
-    author: Authors
-    keyword_tag: Keyword tags
-
-  label:
-   article:
-    admin_title: Title
-    admin_author: Author
-    admin_exchange_list: Exchanges
-    admin_tag_list: Keyword tags
-    admin_share_count: Shares
-    admin_published_at: Published
-    id: RID
-    wp_id: WID
-   user:
-    id: ID
-    full_name: Account name
-    first_name: First
-    last_name: Last
-    human_created_at: Registered
-    has_completed_wizard: Has completed registration
-    admin_account_status: Account
-    admin_profile_status: Profile
-    followers_count: Followers
-    share_ratings_count: Ratings
-   wordpress_log:
-    admin_type: Type
-    admin_article_title: Article
-    admin_date: Date
-   email_log:
-    admin_date: Sent at
-    user: Name
-    subject: Email subject
-   watch_list_user:
-    admin_user_name: Added by
-   pending_watch_list_user:
-    admin_user_name: Added by
-    humanised_reason: Reason listed
-   in_review_watch_list_user:
-    admin_user_name: Added by
-    humanised_reason: Reason listed
-   black_list_user:
-    admin_user_name: Added by
-   approved_third_party_share:
-    admin_user_name: Approved by
-   rejected_third_party_share:
-    admin_user_name: Rejected by
-   processed_concern_report:
-    build_reason_sentence: Reason
-   comment_concern_report:
-    build_reason_sentence: Reason
-   share_concern_report:
-    build_reason_sentence: Reason
-   user_concern_report:
-    build_reason_sentence: Reason
-   exchange:
-    users: Followers
-
- recaptcha:
   errors:
-    verification_failed: Please verify that you are not in fact a ROBOT!
-    recaptcha_unreachable: Oops, there was an error verifying that you are not a ROBOT. Please try again.
+    format: "%{message}"
+  views:
+    profile:
+      form:
+        location_hint: Please enter your city or postcode
+  helpers:
+    admin_indexes:
+      titles:
+        user: Search users
+        user_concern_report: "Concern reports > Profiles"
+        comment_concern_report: "Concern reports > Comments"
+        share_concern_report: "Concern reports > Posts"
+        processed_concern_report: "Concern reports > Archive"
+        quarantined_third_party_share: Quarantined 3rd party posts
+        approved_third_party_share: Approved 3rd party posts
+        rejected_third_party_share: Rejected 3rd party posts
+        watch_list_user: Watchlist
+        in_review_watch_list_user: Watchlist (in review)
+        pending_watch_list_user: Watchlist (new)
+        black_list_user: Blacklist
+        white_listed_third_party_publisher: Publication whitelist
+        wordpress_log: Wordpress logs
+        email_log: Email logs
+        help_section: Help centre sections
+        help_content: Help centre question
+        exchange: Exchanges
+        landing_page: Landing pages
+        author: Authors
+        keyword_tag: Keyword tags
+        donation: Donations
+
+    label:
+      article:
+        admin_title: Title
+        admin_author: Author
+        admin_exchange_list: Exchanges
+        admin_tag_list: Keyword tags
+        admin_share_count: Shares
+        admin_published_at: Published
+        id: RID
+        wp_id: WID
+      user:
+        id: ID
+        full_name: Account name
+        first_name: First
+        last_name: Last
+        human_created_at: Registered
+        has_completed_wizard: Has completed registration
+        admin_account_status: Account
+        admin_profile_status: Profile
+        followers_count: Followers
+        share_ratings_count: Ratings
+      wordpress_log:
+        admin_type: Type
+        admin_article_title: Article
+        admin_date: Date
+      email_log:
+        admin_date: Sent at
+        user: Name
+        subject: Email subject
+      watch_list_user:
+        admin_user_name: Added by
+      pending_watch_list_user:
+        admin_user_name: Added by
+        humanised_reason: Reason listed
+      in_review_watch_list_user:
+        admin_user_name: Added by
+        humanised_reason: Reason listed
+      black_list_user:
+        admin_user_name: Added by
+      approved_third_party_share:
+        admin_user_name: Approved by
+      rejected_third_party_share:
+        admin_user_name: Rejected by
+      processed_concern_report:
+        build_reason_sentence: Reason
+      comment_concern_report:
+        build_reason_sentence: Reason
+      share_concern_report:
+        build_reason_sentence: Reason
+      user_concern_report:
+        build_reason_sentence: Reason
+      exchange:
+        users: Followers
+      donation:
+        created_at: Donated on
+        user_name: Member
+
+  recaptcha:
+    errors:
+      verification_failed: Please verify that you are not in fact a ROBOT!
+      recaptcha_unreachable: Oops, there was an error verifying that you are not a ROBOT. Please try again.

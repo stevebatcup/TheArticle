@@ -1,4 +1,6 @@
 class Donation < ApplicationRecord
+  belongs_to  :user
+
   def self.non_recurrring_donations_for_user(user)
     where(user_id: user.id)
       .where(recurring: false)
@@ -12,5 +14,9 @@ class Donation < ApplicationRecord
 
   def cancel_recurring
     update_attributes(recurring: false, amount: 0.00)
+  end
+
+  def user_name
+    user.full_name
   end
 end

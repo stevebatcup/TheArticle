@@ -150,11 +150,16 @@ module ArticleHelper
 		donation = Donation.find_by(user_id: current_user.id)
 		return false if donation && donation.recurring?
 
-		last_impression = DonateInterstitialImpression.find_latest_for_user(current_user)
-		return true if last_impression.nil?
-
 		time_gap = donation ? 1.month.ago : 7.days.ago
-		last_impression.shown_at < time_gap
+		last_impression = DonateInterstitialImpression.find_latest_for_user(current_user)
+
+		if last_impression.nil?
+			return true if !donation
+
+			donation.created_at < time_gap
+		else
+			last_impression.shown_at < time_gap
+		end
 	end
 
 	def written_by(article)
