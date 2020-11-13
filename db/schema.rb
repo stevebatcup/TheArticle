@@ -220,9 +220,10 @@ ActiveRecord::Schema.define(version: 2020_11_12_124054) do
     t.datetime "shown_at"
   end
 
-  create_table "donators", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "donations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "recurring"
+    t.decimal "amount", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

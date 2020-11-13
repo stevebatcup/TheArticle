@@ -8,6 +8,9 @@
         <a data-toggle="tab" class="nav-link" href="#preview_{{userForBox.id}}">Preview profile</a>
       </li>
       <li class="nav-item">
+        <a data-toggle="tab" class="nav-link" href="#donations_{{userForBox.id}}">Donations</a>
+      </li>
+      <li class="nav-item">
         <a data-toggle="tab" class="nav-link" href="#bio_{{userForBox.id}}">Edit Bio</a>
       </li>
       <li class="nav-item">
@@ -127,50 +130,34 @@
         </div>
 
         <div class="w-33">
-          <button ng-click="addToWatchList($event)"
-                class="btn btn-block btn-danger"
-                ng-class="{'disabled': userForBox.watchlisted}"
-                ng-disabled="userForBox.watchlisted"
-                ng-if="!userForBox.deleted && !userForBox.blacklisted">
-                <i class="fas fa-stopwatch mr-2"></i>
-              <span ng-if="!userForBox.watchlisted">Add user to watchlist</span>
-              <span ng-if="userForBox.watchlisted">On watchlist</span>
-            </button>
-
-          <button ng-click="deactivate($event)"
-                    class="btn btn-block btn-danger"
-                    ng-if="!userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
-                  <i class="fas fa-toggle-on mr-2"></i>
-                  Deactivate user
-              </button>
-
-          <button ng-click="reactivate($event)"
-                    class="btn btn-block btn-danger"
-                    ng-if="userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
-                  <i class="fas fa-toggle-off mr-2"></i>
-                  Reactivate user
-              </button>
-
-          <button ng-click="delete($event)"
-                class="btn btn-block btn-danger"
-                ng-class="{'disabled': userForBox.deleted}"
-                ng-disabled="userForBox.deleted"
-                ng-if="!userForBox.blacklisted">
-                <span ng-if="!userForBox.deleted">
-                  <i class="fas fa-exclamation-triangle mr-2"></i>
-                  Delete account
-                </span>
-                <span ng-if="userForBox.deleted">ACCOUNT DELETED!</span>
+          <button ng-click="addToWatchList($event)" class="btn btn-block btn-danger" ng-class="{'disabled': userForBox.watchlisted}" ng-disabled="userForBox.watchlisted" ng-if="!userForBox.deleted && !userForBox.blacklisted">
+            <i class="fas fa-stopwatch mr-2"></i>
+            <span ng-if="!userForBox.watchlisted">Add user to watchlist</span>
+            <span ng-if="userForBox.watchlisted">On watchlist</span>
           </button>
 
-          <button ng-click="addToBlackList($event)"
-                class="btn btn-block btn-danger"
-                ng-class="{'disabled': userForBox.watchlisted}"
-                ng-disabled="userForBox.blacklisted"
-                ng-if="(!userForBox.deleted) || (userForBox.deleted && userForBox.blacklisted)">
-                <i class="fas fa-exclamation-triangle mr-2"></i>
-                <span ng-if="!userForBox.blacklisted">Delete account and add to blacklist</span>
-                <span ng-if="userForBox.blacklisted">DELETED AND BLACKLISTED</span>
+          <button ng-click="deactivate($event)" class="btn btn-block btn-danger" ng-if="!userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
+            <i class="fas fa-toggle-on mr-2"></i>
+            Deactivate user
+          </button>
+
+          <button ng-click="reactivate($event)" class="btn btn-block btn-danger" ng-if="userForBox.deactivated && !userForBox.deleted && !userForBox.blacklisted">
+            <i class="fas fa-toggle-off mr-2"></i>
+            Reactivate user
+          </button>
+
+          <button ng-click="delete($event)" class="btn btn-block btn-danger" ng-class="{'disabled': userForBox.deleted}" ng-disabled="userForBox.deleted" ng-if="!userForBox.blacklisted">
+            <span ng-if="!userForBox.deleted">
+              <i class="fas fa-exclamation-triangle mr-2"></i>
+              Delete account
+            </span>
+            <span ng-if="userForBox.deleted">ACCOUNT DELETED!</span>
+          </button>
+
+          <button ng-click="addToBlackList($event)" class="btn btn-block btn-danger" ng-class="{'disabled': userForBox.watchlisted}" ng-disabled="userForBox.blacklisted" ng-if="(!userForBox.deleted) || (userForBox.deleted && userForBox.blacklisted)">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <span ng-if="!userForBox.blacklisted">Delete account and add to blacklist</span>
+            <span ng-if="userForBox.blacklisted">DELETED AND BLACKLISTED</span>
           </button>
 
           <a class="btn btn-block btn-info" href="/admin/email_logs?user_id={{userForBox.id}}">
@@ -186,7 +173,7 @@
               <ul ng-if="userForBox.additionalEmails.length > 0" class="mt-1 mb-2">
                 <li ng-repeat="email in userForBox.additionalEmails" class="d-flex w-100 justify-content-between align-items-start">
                   <span>{{email.text}}</span>
-                  <a class="text-danger mt-1" ng-click="removeAdditionalEmail(email.id, $event)"href='#'>
+                  <a class="text-danger mt-1" ng-click="removeAdditionalEmail(email.id, $event)" href='#'>
                     <i class="fa fa-times"></i>
                   </a>
               </ul>
@@ -195,10 +182,7 @@
                 <small>{{userForBox.addingAdditionalEmail.message}}</small>
               </p>
               <div class="d-flex w-100 justify-content-between align-items-start">
-                <input type="email" name="additional_email_adder" id="additional_email_adder"
-                      ng-model="userForBox.addingAdditionalEmail.text"
-                      placeholder="Add another email address to this account..."
-                      class="mr-2" />
+                <input type="email" name="additional_email_adder" id="additional_email_adder" ng-model="userForBox.addingAdditionalEmail.text" placeholder="Add another email address to this account..." class="mr-2" />
                 <button class="btn btn-success" ng-click="addAdditionalEmail()">Add</button>
               </div>
             </dd>
@@ -211,7 +195,7 @@
               <ul ng-if="userForBox.linkedAccounts.length > 0" class="mt-1 mb-2">
                 <li ng-repeat="account in userForBox.linkedAccounts" class="d-flex w-100 justify-content-between align-items-start">
                   <span>{{account.id}} -> {{account.displayName}}</span>
-                  <a class="text-danger mt-1" ng-click="removeLinkedAccount(account.id, $event)"href='#'>
+                  <a class="text-danger mt-1" ng-click="removeLinkedAccount(account.id, $event)" href='#'>
                     <i class="fa fa-times"></i>
                   </a>
               </ul>
@@ -220,10 +204,7 @@
                 <small>{{userForBox.addingLinkedAccount.message}}</small>
               </p>
               <div class="d-flex w-100 justify-content-between align-items-start">
-                <input type="text" name="linked_account_adder" id="linked_account_adder"
-                      ng-model="userForBox.addingLinkedAccount.id"
-                      placeholder="Link another account id to this account..."
-                      class="mr-2" />
+                <input type="text" name="linked_account_adder" id="linked_account_adder" ng-model="userForBox.addingLinkedAccount.id" placeholder="Link another account id to this account..." class="mr-2" />
                 <button class="btn btn-success" ng-click="addLinkedAccount()">Add</button>
               </div>
             </dd>
@@ -231,21 +212,14 @@
 
             <dt class="">Linked to contributor</dt>
             <dd class="mb-3">
-              <select name="contributor_linker" id="contributor_linker"
-                      ng-model="userForBox.author"
-                      ng-change="updateAuthor()"
-                      ng-options="author.namail for author in availableAuthors"
-                      style="border: 1px solid #ccc; padding: 5px;">
-                      <option value="">Select a contributor to link to this user...</option>
+              <select name="contributor_linker" id="contributor_linker" ng-model="userForBox.author" ng-change="updateAuthor()" ng-options="author.namail for author in availableAuthors" style="border: 1px solid #ccc; padding: 5px;">
+                <option value="">Select a contributor to link to this user...</option>
               </select>
             </dd>
 
             <dt class="">Verified as genuine</dt>
             <dd class="">
-              <input type="checkbox" name="verified_genuine_box" id="verified_genuine_box"
-                      ng-model="userForBox.genuineVerified"
-                      ng-change="updateGenuineVerified()"
-                      style="transform: scale(1.8); margin: 10px; outline: none;" />
+              <input type="checkbox" name="verified_genuine_box" id="verified_genuine_box" ng-model="userForBox.genuineVerified" ng-change="updateGenuineVerified()" style="transform: scale(1.8); margin: 10px; outline: none;" />
             </dd>
           </dl>
 
@@ -268,6 +242,42 @@
       <iframe src="{{userForBox.profileUrl}}" data-user-id="{{userForBox.id}}" width="100%" height="800" border="0" style="border: none;"></iframe>
     </div>
 
+    <div class="py-2 px-4 tab-pane fade account_form" id="donations_{{userForBox.id}}">
+      <h3>Donations</h3>
+
+      <ul ng-if="userForBox.donations.length > 0">
+        <li ng-repeat="donation in userForBox.donations">
+          <span ng-if="!!donation.recurring == true" style="margin-top: 12px; display: inline-block">
+            <b>Recurring donation:</b><br />
+            {{ donation.amount }} started on
+            {{ donation.donatedOn }}
+            &nbsp; <a href='#' ng-click="cancelRecurringDonation(donation)" class="text-danger">mark donation as cancelled</a>
+          </span>
+
+          <span ng-if="!!donation.recurring == false">
+            > {{ donation.amount }} donated on {{ donation.donatedOn }} &nbsp;
+            <a href='#' ng-click="deleteDonation(donation)" class="text-danger">delete</a>
+          </span>
+        </li>
+      </ul>
+
+      <hr />
+
+      <div class="mt-5" style="background: #ededed; padding: 13px; border-radius: 6px;">
+        <h4>Add new donation</h4>
+        <dl style="overflow:hidden">
+          <dt>Recurring donation?</dt>
+          <dd><input type="checkbox" name="recurring" value="1" ng-model="newDonation.recurring" /></dd>
+
+          <dt>Amount</dt>
+          <dd><input type="number" step=".01" style="width: 125px;" ng-model="newDonation.amount" /></dd>
+
+          <button class="btn btn-success mt-3" ng-click="addDonation()">Add Donation</button>
+        </dl>
+      </div>
+
+    </div>
+
     <div class="py-2 px-4 tab-pane fade account_form" id="bio_{{userForBox.id}}">
       <dl style="overflow: hidden;">
         <dt class="">Bio</dt>
@@ -278,15 +288,12 @@
           Send email to user?
         </dt>
         <dd>
-          <input type="checkbox" name="alert_bio_updated" id="alert_bio_updated"
-                ng-model="userForBox.alertBioUpdated" />
+          <input type="checkbox" name="alert_bio_updated" id="alert_bio_updated" ng-model="userForBox.alertBioUpdated" />
         </dd>
       </dl>
       <div class="d-flex justify-content-end">
         <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.bioUpdated"></i>
-        <button class="btn btn-success" ng-click="updateBio()"
-                ng-class="{'disabled': userForBox.bioUpdating}"
-                ng-disabled="userForBox.bioUpdating">
+        <button class="btn btn-success" ng-click="updateBio()" ng-class="{'disabled': userForBox.bioUpdating}" ng-disabled="userForBox.bioUpdating">
           <span ng-if="!userForBox.bioUpdating">Update</span>
           <span ng-if="userForBox.bioUpdating">Updating...</span>
         </button>
@@ -296,19 +303,16 @@
 
     <div class="py-2 px-4 tab-pane fade" id="photos_{{userForBox.id}}">
       <dl style="overflow: hidden;">
-        <dt class="mt-1"><h3>Cover photo</h3></dt>
+        <dt class="mt-1">
+          <h3>Cover photo</h3>
+        </dt>
         <dd class="mb-5">
           <img ng-if="userForBox.coverPhoto.originalSrc.length > 0" ng-src="{{userForBox.coverPhoto.originalSrc}}" width="800px" height="160px" class="d-block mb-1" />
           <p ng-if="!userForBox.coverPhoto.originalSrc.length"> None uploaded</p>
 
 
           <div class="btn-group" role="group">
-            <a download="Cover photo for {{ userForBox.fullName }}"
-                  href="{{userForBox.coverPhoto.originalSrc}}"
-                  type="button"
-                  class="btn btn-info"
-                  ng-if="userForBox.coverPhoto.originalSrc.length > 0"
-                  target="_blank">Download cover photo</a>
+            <a download="Cover photo for {{ userForBox.fullName }}" href="{{userForBox.coverPhoto.originalSrc}}" type="button" class="btn btn-info" ng-if="userForBox.coverPhoto.originalSrc.length > 0" target="_blank">Download cover photo</a>
             <button ng-click="uploadPhoto($event, 'cover')" type="button" class="btn btn-success">Upload new cover photo</button>
             <button ng-click="removePhoto($event, 'cover')" type="button" class="btn btn-danger" ng-if="userForBox.coverPhoto.originalSrc.length > 0">
               <span ng-if="!userForBox.coverPhoto.removing">Remove cover photo</span>
@@ -317,18 +321,15 @@
           </div>
         </dd>
 
-        <dt class="mt-4"><h3>Profile photo</h3></dt>
+        <dt class="mt-4">
+          <h3>Profile photo</h3>
+        </dt>
         <dd class="">
           <img ng-src="{{userForBox.profilePhoto.originalSrc}}" width="200px" height="200px" class="d-block mb-1 rounded-circle" />
           <p ng-if="userForBox.profilePhoto.isDefault">Default photo</p>
 
           <div class="btn-group" role="group">
-            <a download="Profile photo for {{ userForBox.fullName }}"
-                  href="{{userForBox.profilePhoto.originalSrc}}"
-                  type="button"
-                  class="btn btn-info"
-                  ng-if="!userForBox.profilePhoto.isDefault"
-                  target="_blank">Download profile photo</a>
+            <a download="Profile photo for {{ userForBox.fullName }}" href="{{userForBox.profilePhoto.originalSrc}}" type="button" class="btn btn-info" ng-if="!userForBox.profilePhoto.isDefault" target="_blank">Download profile photo</a>
             <button ng-click="uploadPhoto($event, 'profile')" type="button" class="btn btn-success">Upload new profile photo</button>
             <button ng-click="removePhoto($event, 'profile')" type="button" class="btn btn-danger" ng-if="!userForBox.profilePhoto.isDefault">
               <span ng-if="!userForBox.profilePhoto.removing">Remove profile photo</span>
@@ -357,16 +358,16 @@
             </tr>
           </thead>
           <tbody>
-          <tr class="js-table-row" tabindex="0" ng-repeat="post in userForBox.posts">
-            <td class="cell-data">{{post.article.title}}</td>
-            <td class="cell-data" ng-bind-html="post.precis"></td>
-            <td class="cell-data">{{post.createdAt}}</td>
-            <td class="cell-data text-center text-slate"><a ng-href='{{post.path}}'>Show post</a></td>
-            <td class="cell-data text-center text-slate">
-              <a target="_blank" ng-href='{{post.article.path}}'>Show article</a>
-            </td>
-            <td class="cell-data text-center text-red"><a href='#' ng-click='deletePost($event, post.id)'>Delete post</a></td>
-          </tr>
+            <tr class="js-table-row" tabindex="0" ng-repeat="post in userForBox.posts">
+              <td class="cell-data">{{post.article.title}}</td>
+              <td class="cell-data" ng-bind-html="post.precis"></td>
+              <td class="cell-data">{{post.createdAt}}</td>
+              <td class="cell-data text-center text-slate"><a ng-href='{{post.path}}'>Show post</a></td>
+              <td class="cell-data text-center text-slate">
+                <a target="_blank" ng-href='{{post.article.path}}'>Show article</a>
+              </td>
+              <td class="cell-data text-center text-red"><a href='#' ng-click='deletePost($event, post.id)'>Delete post</a></td>
+            </tr>
         </table>
       </div>
     </div>
@@ -389,16 +390,16 @@
           </thead>
 
           <tbody>
-          <tr class="js-table-row" tabindex="0" ng-repeat="comment in userForBox.comments">
-            <td class="cell-data">{{comment.share.article.title}}</td>
-            <td class="cell-data" ng-bind-html="comment.precis"></td>
-            <td class="cell-data">{{comment.sentAt}}</td>
-            <td class="cell-data text-center text-slate"><a ng-href='{{comment.path}}'>Show comment</a></td>
-            <td class="cell-data text-center text-slate"><a ng-href='{{comment.share.path}}'>Show post</a></td>
-            <td class="cell-data text-center text-slate">
-              <a target="_blank" ng-href='{{comment.share.article.path}}'>Show article</a>
-            </td>
-          </tr>
+            <tr class="js-table-row" tabindex="0" ng-repeat="comment in userForBox.comments">
+              <td class="cell-data">{{comment.share.article.title}}</td>
+              <td class="cell-data" ng-bind-html="comment.precis"></td>
+              <td class="cell-data">{{comment.sentAt}}</td>
+              <td class="cell-data text-center text-slate"><a ng-href='{{comment.path}}'>Show comment</a></td>
+              <td class="cell-data text-center text-slate"><a ng-href='{{comment.share.path}}'>Show post</a></td>
+              <td class="cell-data text-center text-slate">
+                <a target="_blank" ng-href='{{comment.share.article.path}}'>Show article</a>
+              </td>
+            </tr>
         </table>
       </div>
     </div>
@@ -461,14 +462,14 @@
           </thead>
 
           <tbody>
-          <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernsReported">
-            <td class="cell-data">{{report.reporter.name}}</td>
-            <td class="cell-data">{{report.sentAt}}</td>
-            <td class="cell-data">{{report.type}}</td>
-            <td class="cell-data">{{report.reason}}</td>
-            <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
-            <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reporter, $event)">Open account</a></td>
-          </tr>
+            <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernsReported">
+              <td class="cell-data">{{report.reporter.name}}</td>
+              <td class="cell-data">{{report.sentAt}}</td>
+              <td class="cell-data">{{report.type}}</td>
+              <td class="cell-data">{{report.reason}}</td>
+              <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
+              <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reporter, $event)">Open account</a></td>
+            </tr>
         </table>
       </div>
 
@@ -489,14 +490,14 @@
           </thead>
 
           <tbody>
-          <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernReports">
-            <td class="cell-data">{{report.reported.name}}</td>
-            <td class="cell-data">{{report.sentAt}}</td>
-            <td class="cell-data">{{report.type}}</td>
-            <td class="cell-data">{{report.reason}}</td>
-            <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
-            <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reported, $event)">Open account</a></td>
-          </tr>
+            <tr class="js-table-row" tabindex="0" ng-repeat="report in userForBox.concernReports">
+              <td class="cell-data">{{report.reported.name}}</td>
+              <td class="cell-data">{{report.sentAt}}</td>
+              <td class="cell-data">{{report.type}}</td>
+              <td class="cell-data">{{report.reason}}</td>
+              <td class="cell-data text-center text-slate"><a ng-href='{{report.path}}'>Show report</a></td>
+              <td class="cell-data text-center text-slate"><a href='#' ng-click="createAccountPage(report.reported, $event)">Open account</a></td>
+            </tr>
         </table>
       </div>
     </div>
@@ -517,9 +518,7 @@
         <p class="alert alert-danger" ng-if="userForBox.newEmail.error">{{userForBox.newEmail.error}}</p>
         <div class="d-flex justify-content-end">
           <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.newEmail.sent"></i>
-          <button class="btn btn-success" ng-click="sendEmail()"
-                    ng-class="{'disabled': userForBox.newEmail.sending}"
-                    ng-disabled="userForBox.newEmail.sending">
+          <button class="btn btn-success" ng-click="sendEmail()" ng-class="{'disabled': userForBox.newEmail.sending}" ng-disabled="userForBox.newEmail.sending">
             <span ng-if="!userForBox.newEmail.sending">Send email</span>
             <span ng-if="userForBox.newEmail.sending">Sending...</span>
           </button>
@@ -547,9 +546,7 @@
           <p class="alert alert-danger" ng-if="userForBox.newAdminNote.error">{{userForBox.newAdminNote.error}}</p>
           <div class="d-flex justify-content-end">
             <i class="fas fa-check pr-4 pt-1" ng-if="userForBox.newAdminNote.added"></i>
-            <button class="btn btn-success" ng-click="addAdminNote($event)"
-                      ng-class="{'disabled': userForBox.newAdminNote.adding}"
-                      ng-disabled="userForBox.newAdminNote.adding">
+            <button class="btn btn-success" ng-click="addAdminNote($event)" ng-class="{'disabled': userForBox.newAdminNote.adding}" ng-disabled="userForBox.newAdminNote.adding">
               <span ng-if="!userForBox.newAdminNote.adding">Add note</span>
               <span ng-if="userForBox.newAdminNote.adding">Adding...</span>
             </button>

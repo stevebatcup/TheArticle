@@ -190,6 +190,28 @@ if @full_details
 		end
 	end
 
+	donations = []
+	Donation.non_recurrring_donations_for_user(@user).each do |donation|
+		donations << {
+			id: donation.id,
+			amount: number_to_currency(donation.amount, unit: '£'),
+			donatedOn: donation.created_at.strftime("%d %B, %Y"),
+			recurring: false
+		}
+	end
+
+	recurring = Donation.recurrring_donation_for_user(@user)
+	if recurring
+		donations << {
+			id: recurring.id,
+			amount: number_to_currency(recurring.amount, unit: '£'),
+			donatedOn: recurring.created_at.strftime("%d %B, %Y"),
+			recurring: true
+		}
+	end
+
+	json.donations donations
+
 else
 	json.fullDetailsLoaded = false
 	json.firstName @user.first_name

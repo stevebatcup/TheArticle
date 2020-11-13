@@ -321,7 +321,54 @@ module Admin
       end
     end
 
-  private
+    def delete_donation
+      if donation = Donation.find_by(id: params[:id])
+        if donation.destroy
+          render json: { status: :success }
+        else
+          render json: { status: :error, message: better_model_error_messages(donation) }
+        end
+      else
+        render json: { status: :error, message: "Donation not found" }
+      end
+    end
+
+    def cancel_recurring_donation
+      if donation = Donation.find_by(id: params[:id])
+        if donation.cancel_recurring
+          render json: { status: :success }
+        else
+          render json: { status: :error, message: better_model_error_messages(donation) }
+        end
+      else
+        render json: { status: :error, message: "Donation not found" }
+      end
+    end
+
+    def new_donation
+      donation = Donation.new(donation_params)
+
+      if donation.save
+        render json: { status: :success, donation: donation_to_data(donation) }
+      else
+        render json: { status: :error, message: better_model_error_messages(donation) }
+      end
+    end
+
+    private
+
+    def donation_to_data(donation)
+      {
+        amount: ActionController::Base.helpers.number_to_currency(donation.amount, unit: '£'),
+        recurring: donation.recurring,
+        user_id: donation.user_id,
+        donatedOn: donation.created_at.strftime("%d %B, %Y")
+      }
+    end
+
+    def donation_params
+      params.require(:donation).permit(:user_id, :amount, :recurring, :created_at)
+    end
 
     def query_is_digits_only?
       (@search_term.length > 1) && (@search_term.scan(/\D/).empty?)

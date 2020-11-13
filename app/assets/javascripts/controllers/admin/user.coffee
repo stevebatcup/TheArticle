@@ -16,6 +16,13 @@ class TheArticle.User extends TheArticle.AdminPageController
 		@setDefaultHttpHeaders()
 		@setCsrfTokenHeaders()
 		@watch()
+		@initNewDonation()
+
+	initNewDonation: =>
+		@scope.newDonation = {
+			amount: 0.00,
+			recurring: false
+		}
 
 	watch: =>
 		@scope.$watch 'userForBox.fullDetailsLoaded', (oldVal, newVal) =>
@@ -31,6 +38,32 @@ class TheArticle.User extends TheArticle.AdminPageController
 			if (oldVal isnt newVal) and newVal.length > 0
 				@showProfilePhotoCropper 'coverPhoto_holder', 'cover', @scope.userForBox.coverPhoto.width, @scope.userForBox.coverPhoto.height
 
+	deleteDonation: (donation) =>
+		@http.delete("/admin/delete_donation/#{donation.id}").then (response) =>
+			@removeDonationFromSet(donation)
+
+	cancelRecurringDonation: (donation) =>
+		@http.delete("/admin/cancel_recurring_donation/#{donation.id}").then (response) =>
+			@removeDonationFromSet(donation)
+
+	removeDonationFromSet: (donation) =>
+		@scope.userForBox.donations = _.reject @scope.userForBox.donations, (don) =>
+			don.id == donation.id
+
+	addDonation: =>
+		data = {
+			donation: {
+				user_id: @scope.userForBox.id,
+				amount: @scope.newDonation.amount,
+				recurring: @scope.newDonation.recurring
+			}
+		}
+		@http.post("/admin/new_donation", data).then (response) =>
+			if response.data.status == 'success'
+				@scope.userForBox.donations.push response.data.donation
+				@initNewDonation()
+			else
+				alert response.data.message, 'Error'
 
 	addToBlackList: ($event) =>
 		$event.preventDefault()
