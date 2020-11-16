@@ -251,7 +251,9 @@
             <b>Recurring donation:</b><br />
             {{ donation.amount }} started on
             {{ donation.donatedOn }}
-            &nbsp; <a href='#' ng-click="cancelRecurringDonation(donation)" class="text-danger">mark donation as cancelled</a>
+            &nbsp;
+            <a href='#' ng-click="cancelRecurringDonation(donation)" class="text-danger" ng-if="donation.status == 'paying'">mark donation as cancelled</a>
+            <span ng-if="donation.status == 'cancelled'" class="cancelled">CANCELLED</span>
           </span>
 
           <span ng-if="!!donation.recurring == false">

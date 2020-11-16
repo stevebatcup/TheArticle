@@ -79,6 +79,7 @@ gem "administrate", '>= 0.13.0'
 gem 'administrate_collapsible_navigation'
 gem 'administrate-field-date_picker', '~> 0.1.0'
 gem 'administrate-field-enum'
+gem 'administrate-field-belongs_to_search'
 gem "wysiwyg-rails"
 # gem "administrate-field-nested_has_many", git: "https://github.com/NedelescuVlad/administrate-field-nested_has_many"
 

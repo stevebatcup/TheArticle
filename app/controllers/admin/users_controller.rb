@@ -359,10 +359,12 @@ module Admin
 
     def donation_to_data(donation)
       {
+        id: donation.id,
         amount: ActionController::Base.helpers.number_to_currency(donation.amount, unit: '£'),
         recurring: donation.recurring,
         user_id: donation.user_id,
-        donatedOn: donation.created_at.strftime("%d %B, %Y")
+        donatedOn: donation.created_at.strftime("%d %B, %Y"),
+        status: donation.status
       }
     end
 

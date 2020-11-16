@@ -20,6 +20,7 @@ class User < ApplicationRecord
   before_create :fix_double_names
   after_create :assign_default_settings
   after_create :start_default_notification_settings_job
+  after_create :delay_donation_interstitial
 
   before_save :downcase_username
 
@@ -432,5 +433,12 @@ class User < ApplicationRecord
 
   def has_default_profile_photo
     self.profile_photo.url == self.profile_photo.default_url
+  end
+
+  def delay_donation_interstitial
+    DonateInterstitialImpression.create({
+      user_id: id,
+      shown_at: Time.now
+    })
   end
 end

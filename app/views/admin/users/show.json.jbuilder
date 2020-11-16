@@ -196,7 +196,8 @@ if @full_details
 			id: donation.id,
 			amount: number_to_currency(donation.amount, unit: '£'),
 			donatedOn: donation.created_at.strftime("%d %B, %Y"),
-			recurring: false
+			recurring: false,
+			status: donation.status
 		}
 	end
 
@@ -206,7 +207,8 @@ if @full_details
 			id: recurring.id,
 			amount: number_to_currency(recurring.amount, unit: '£'),
 			donatedOn: recurring.created_at.strftime("%d %B, %Y"),
-			recurring: true
+			recurring: true,
+			status: recurring.status
 		}
 	end
 

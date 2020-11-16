@@ -10,11 +10,13 @@ class DonationDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     user_id: Field::Number,
-    user_name: Field::String,
+    user_name: Field::String.with_options(searchable: false),
+    user: Field::BelongsTo.with_options(searchable: true, searchable_fields: ['first_name', 'last_name']),
     recurring: Field::Boolean,
     amount: Field::Number.with_options(searchable: false, decimals: 2, prefix: '£'),
     created_at: Field::DateTime.with_options(format: "%d %B, %Y"),
     updated_at: Field::DateTime,
+    status: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,6 +29,7 @@ class DonationDashboard < Administrate::BaseDashboard
   amount
   created_at
   recurring
+  status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

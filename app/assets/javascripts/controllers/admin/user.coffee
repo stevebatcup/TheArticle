@@ -44,13 +44,15 @@ class TheArticle.User extends TheArticle.AdminPageController
 
 	cancelRecurringDonation: (donation) =>
 		@http.delete("/admin/cancel_recurring_donation/#{donation.id}").then (response) =>
-			@removeDonationFromSet(donation)
+			donation.status = 'cancelled'
 
 	removeDonationFromSet: (donation) =>
 		@scope.userForBox.donations = _.reject @scope.userForBox.donations, (don) =>
 			don.id == donation.id
 
 	addDonation: =>
+		return alert("Please make sure that the donation is for £1 or more") if @scope.newDonation.amount < 1.00
+
 		data = {
 			donation: {
 				user_id: @scope.userForBox.id,
