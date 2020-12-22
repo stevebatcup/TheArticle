@@ -2,6 +2,7 @@ class Article < ApplicationRecord
   has_and_belongs_to_many	:keyword_tags
   belongs_to :author, optional: true
   belongs_to :additional_author, optional: true, class_name: 'Author'
+
   has_many :shares
 
   has_many  :categorisations, dependent: :destroy
@@ -60,10 +61,12 @@ class Article < ApplicationRecord
 
   def recalculate_ratings_caches
     if ratings.nil?
+      self.ratings_count = 0
       self.ratings_well_written_cache = nil
       self.ratings_valid_points_cache = nil
       self.ratings_agree_cache = nil
     else
+      self.ratings_count = shares.where(share_type: 'rating').length
       self.ratings_well_written_cache = ratings[:well_written]
       self.ratings_valid_points_cache = ratings[:valid_points]
       self.ratings_agree_cache = ratings[:agree]

@@ -9,8 +9,14 @@ class ExchangeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     name: Field::String,
-    article_count: Field::Number,
-    follower_count: Field::Number
+    article_count: UrlField.with_options({
+      target: "_self",
+      href: "/admin/articles?exchange=",
+      append_id: true
+    }),
+    follower_count: Field::Number,
+    image: ImageField,
+    description: Field::Text
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -27,6 +33,10 @@ class ExchangeDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :name,
+    :description,
+    :article_count,
+    :follower_count
   ].freeze
 
   # FORM_ATTRIBUTES

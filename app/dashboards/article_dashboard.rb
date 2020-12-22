@@ -10,12 +10,11 @@ class ArticleDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     keyword_tags: Field::HasMany,
     author: Field::BelongsTo,
-    shares: Field::HasMany,
     categorisations: Field::HasMany,
     exchanges: Field::HasMany,
     id: Field::Number,
     wp_id: Field::Number,
-    title: Field::String,
+    title: HtmlField,
     content: Field::Text,
     image: Field::String,
     image_caption: Field::String,
@@ -34,11 +33,11 @@ class ArticleDashboard < Administrate::BaseDashboard
     robots_nofollow: Field::Boolean,
     robots_noindex: Field::Boolean,
     is_sponsored: Field::Boolean,
-    admin_title: SanitizedStringField.with_options(searchable: false),
     admin_author: SanitizedStringField.with_options(searchable: false),
-    admin_exchange_list: Field::String.with_options(searchable: false),
+    admin_exchange_list: HtmlField.with_options(searchable: false),
     admin_tag_list: Field::String.with_options(searchable: false),
     admin_share_count: Field::String.with_options(searchable: false),
+    ratings_count: Field::Number.with_options(searchable: false),
     admin_published_at: Field::String.with_options(searchable: false),
   }.freeze
 
@@ -50,12 +49,12 @@ class ArticleDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :wp_id,
-    :admin_title,
+    :title,
     :admin_author,
+    :ratings_count,
     :admin_published_at,
     :admin_exchange_list,
     :admin_tag_list,
-    :shares,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

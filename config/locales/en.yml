@@ -33,11 +33,11 @@ en:
 
     label:
       article:
-        admin_title: Title
         admin_author: Author
         admin_exchange_list: Exchanges
         admin_tag_list: Keyword tags
         admin_share_count: Shares
+        admin_rating_count: Ratings
         admin_published_at: Published
         id: RID
         wp_id: WID
@@ -84,6 +84,8 @@ en:
         build_reason_sentence: Reason
       exchange:
         users: Followers
+        article_count: Articles
+        follower_count: Followers
       donation:
         created_at: Donated on
         user_name: Member

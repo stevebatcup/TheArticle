@@ -1,14 +1,15 @@
 module Admin
   class ArticlesController < Admin::ApplicationController
-
     def order
-      @order ||= Administrate::Order.new(
-        params.fetch(resource_name, {}).fetch(:order, :id),
-        params.fetch(resource_name, {}).fetch(:direction, :desc),
-      )
+      @order ||= begin
+        order_field = params.fetch(resource_name, {}).fetch(:order, :ratings_count)
+        order_direction = params.fetch(resource_name, {}).fetch(:direction, :desc)
+
+        Administrate::Order.new( order_field, order_direction )
+      end
     end
 
-   def valid_action?(name, resource = resource_class)
+    def valid_action?(name, resource = resource_class)
       %w[new create show].exclude?(name.to_s) && super
     end
 
@@ -17,7 +18,14 @@ module Admin
     end
 
     def scoped_resource
-      Article.not_remote
+      if params[:exchange].present?
+        exchange = Exchange.find(params[:exchange])
+        return Article.not_remote unless exchange
+
+        Article.joins(:exchanges).where(exchanges: { id: exchange.id })
+      else
+        Article.not_remote
+      end
     end
 
     def purge
