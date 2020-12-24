@@ -9,8 +9,8 @@ class User < ApplicationRecord
   validates_presence_of	:first_name, :last_name, on: :create
   validate :user_cannot_be_blacklisted, on: :create
 
-  enum  status: [:active, :deactivated, :deleted]
-  enum  admin_level: [:nothing, :admin, :super_admin]
+  enum  status: %i[active deactivated deleted]
+  enum  admin_level: %i[nothing admin super_admin]
 
   has_many  :subscriptions
   has_many  :exchanges, through: :subscriptions
@@ -20,18 +20,19 @@ class User < ApplicationRecord
   before_create :fix_double_names
   after_create :assign_default_settings
   after_create :start_default_notification_settings_job
+  after_create :add_to_mailchimp
   after_create :delay_donation_interstitial
 
   before_save :downcase_username
 
-  mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: -> (u) { u.photo_filename(:profile) }
-  mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: -> (u) { u.photo_filename(:cover) }
+  mount_base64_uploader :profile_photo, ProfilePhotoUploader, file_name: ->(u) { u.photo_filename(:profile) }
+  mount_base64_uploader :cover_photo, CoverPhotoUploader, file_name: ->(u) { u.photo_filename(:cover) }
 
   # people I follow
-  has_many :followings, class_name: "Follow"
+  has_many :followings, class_name: 'Follow'
 
   # people who follow me
-  has_many :fandoms, class_name: "Follow", foreign_key: :followed_id
+  has_many :fandoms, class_name: 'Follow', foreign_key: :followed_id
   has_many :followers, through: :fandoms, source: :user
 
   has_many :profile_suggestions
@@ -71,7 +72,7 @@ class User < ApplicationRecord
   has_many  :user_admin_notes
   has_many  :push_tokens
 
-  belongs_to   :author, optional: true
+  belongs_to :author, optional: true
 
   include Suggestable
   include Shareable
@@ -84,17 +85,17 @@ class User < ApplicationRecord
   attr_writer :login
 
   def strip_whitespace
-    self.first_name = self.first_name.strip unless self.first_name.nil?
-    self.last_name = self.last_name.strip unless self.last_name.nil?
-    self.email = self.email.strip unless self.email.nil?
+    self.first_name = first_name.strip unless first_name.nil?
+    self.last_name = last_name.strip unless last_name.nil?
+    self.email = email.strip unless email.nil?
   end
 
   def fix_double_names
-    if self.first_name == self.last_name
-      words = self.first_name.split
+    if first_name == last_name
+      words = first_name.split
       if words.count > 1
         self.first_name = words[0]
-        self.last_name = words.drop(1).join(" ")
+        self.last_name = words.drop(1).join(' ')
       end
     end
   end
@@ -104,17 +105,17 @@ class User < ApplicationRecord
   end
 
   def downcase_username
-    self.username = self.username.downcase
+    self.username = username.downcase
   end
 
   def login
-    @login || self.username || self.email
+    @login || username || email
   end
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions.to_h).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+      where(conditions.to_h).where(['lower(username) = :value OR lower(email) = :value', { value: login.downcase }]).first
     elsif conditions.has_key?(:username) || conditions.has_key?(:email)
       where(conditions.to_h).first
     end
@@ -122,6 +123,10 @@ class User < ApplicationRecord
 
   def start_default_notification_settings_job
     UserDefaultNotificationSettingsJob.set(wait_until: 10.seconds.from_now).perform_later(self)
+  end
+
+  def add_to_mailchimp
+    AddUserToMailchimpJob.set(wait_until: 30.seconds.from_now).perform_later(self)
   end
 
   def assign_default_settings
@@ -137,19 +142,19 @@ class User < ApplicationRecord
     trending_exchange_ids = Exchange.trending_list.map(&:id)
     other_exchange_ids = Exchange.non_trending.where("slug != 'editor-at-the-article'").order(article_count: :desc).map(&:id)
     self.exchange_ids = trending_exchange_ids.to_a.concat(other_exchange_ids)
-    self.exchange_ids << Exchange.editor_item.id
+    exchange_ids << Exchange.editor_item.id
   end
 
   def set_default_notification_settings
-    self.notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
-    self.notification_settings.build({ key: 'email_exchanges', value: 'daily' })
-    self.notification_settings.build({ key: 'email_responses', value: 'never' })
-    self.notification_settings.build({ key: 'email_replies', value: 'never' })
-    self.notification_settings.build({ key: 'push_followers', value: 'no' })
-    self.notification_settings.build({ key: 'push_exchanges', value: 'no' })
+    notification_settings.build({ key: 'email_followers', value: 'as_it_happens' })
+    notification_settings.build({ key: 'email_exchanges', value: 'daily' })
+    notification_settings.build({ key: 'email_responses', value: 'never' })
+    notification_settings.build({ key: 'email_replies', value: 'never' })
+    notification_settings.build({ key: 'push_followers', value: 'no' })
+    notification_settings.build({ key: 'push_exchanges', value: 'no' })
 
-    self.communication_preferences.build({ preference: 'newsletters_weekly', status: true })
-    self.communication_preferences.build({ preference: 'newsletters_offers', status: true })
+    communication_preferences.build({ preference: 'newsletters_weekly', status: true })
+    communication_preferences.build({ preference: 'newsletters_offers', status: true })
     save
   end
 
@@ -158,7 +163,7 @@ class User < ApplicationRecord
   end
 
   def has_active_status?
-    [:active, :deactivated].include?(self.status.to_sym)
+    %i[active deactivated].include?(status.to_sym)
   end
 
   def active_for_authentication?
@@ -174,7 +179,7 @@ class User < ApplicationRecord
   end
 
   def account_name
-    "#{self.first_name.strip} #{self.last_name.strip}"
+    "#{first_name.strip} #{last_name.strip}"
   end
 
   def set_ip_data(request)
@@ -189,7 +194,7 @@ class User < ApplicationRecord
   end
 
   def photo_filename(type)
-    "#{type}_photo_#{self.id}_#{Time.now.to_i}"
+    "#{type}_photo_#{id}_#{Time.now.to_i}"
   end
 
   def assign_default_profile_photo_id
@@ -197,12 +202,12 @@ class User < ApplicationRecord
   end
 
   def default_display_name
-  	"#{first_name.strip} #{last_name.strip}".gsub(/[^a-z_\'\- ]/i, '')
+    "#{first_name.strip} #{last_name.strip}".gsub(/[^a-z_'\- ]/i, '')
   end
 
-  def generate_usernames(amount=1)
-  	items = []
-    username = ""
+  def generate_usernames(amount = 1)
+    items = []
+    username = ''
     i = 0
     amount.times do
       begin
@@ -225,14 +230,14 @@ class User < ApplicationRecord
     self.lng = params[:location][:lng]
     self.country_code = params[:location][:country_code]
     self.has_completed_wizard = 1
-    self.save
+    save
   end
 
-  def self.popular_users(excludes=[], popular_follow_count=5, amount=10)
-    self.active.joins(:followers)
+  def self.popular_users(excludes = [], popular_follow_count = 5, amount = 10)
+    active.joins(:followers)
           .where.not(id: excludes)
-          .group("users.id")
-          .order("count(follows.user_id) DESC")
+          .group('users.id')
+          .order('count(follows.user_id) DESC')
           .having("count(follows.user_id) >= #{popular_follow_count}")
           .limit(amount)
   end
@@ -242,12 +247,12 @@ class User < ApplicationRecord
   end
 
   def self.is_username_available?(username)
-    !self.find_by(username: username).present?
+    !find_by(username: username).present?
   end
 
   def update_notification_counter_cache
-    count = self.notifications.where(is_new: true).size
-    self.update_attribute(:notification_counter_cache, count)
+    count = notifications.where(is_new: true).size
+    update_attribute(:notification_counter_cache, count)
   end
 
   def has_muted(user)
@@ -255,7 +260,7 @@ class User < ApplicationRecord
   end
 
   def muted_list
-    @muted_list ||= self.mutes.where(status: :active)
+    @muted_list ||= mutes.where(status: :active)
   end
 
   def muted_id_list
@@ -267,7 +272,7 @@ class User < ApplicationRecord
   end
 
   def blocked_list
-    @blocked_list ||= self.blocks.where(status: :active)
+    @blocked_list ||= blocks.where(status: :active)
   end
 
   def blocked_id_list
@@ -275,42 +280,42 @@ class User < ApplicationRecord
   end
 
   def is_comment_disallowed?(comment)
-    if self.has_blocked(comment.user)
+    if has_blocked(comment.user)
       true
     elsif comment.user.has_blocked(self)
       true
     else
-      blocked_usernames = self.blocked_list.map(&:blocked).map(&:username)
-      blocked_usernames.any? {|username| comment.body.include?(username)}
+      blocked_usernames = blocked_list.map(&:blocked).map(&:username)
+      blocked_usernames.any? { |username| comment.body.include?(username) }
     end
   end
 
   def profile_is_deactivated?
-    self.status.to_sym == :deactivated
+    status.to_sym == :deactivated
   end
 
-  def clear_user_data(deleting_account=false)
-    self.followings.destroy_all
-    self.fandoms.destroy_all
-    self.shares.destroy_all
-    self.comments.destroy_all
-    self.opinions.destroy_all
-    self.quarantined_third_party_shares.destroy_all
+  def clear_user_data(deleting_account = false)
+    followings.destroy_all
+    fandoms.destroy_all
+    shares.destroy_all
+    comments.destroy_all
+    opinions.destroy_all
+    quarantined_third_party_shares.destroy_all
     ProfileSuggestion.delete_suggested(self)
     ProfileSuggestionArchive.delete_suggested(self)
     if deleting_account
-      self.notifications.destroy_all
-      self.feed_users.destroy_all
-      self.feeds.destroy_all
-      self.profile_suggestions.destroy_all
-      self.profile_suggestion_archives.destroy_all
-      self.subscriptions.destroy_all
-      self.mutes.destroy_all
-      self.blocks.destroy_all
-      self.search_logs.destroy_all
+      notifications.destroy_all
+      feed_users.destroy_all
+      feeds.destroy_all
+      profile_suggestions.destroy_all
+      profile_suggestion_archives.destroy_all
+      subscriptions.destroy_all
+      mutes.destroy_all
+      blocks.destroy_all
+      search_logs.destroy_all
     else
-      self.feed_users.where.not(action_type: 'categorisation').destroy_all
-      self.notifications.where.not(eventable_type: 'Categorisation').destroy_all
+      feed_users.where.not(action_type: 'categorisation').destroy_all
+      notifications.where.not(eventable_type: 'Categorisation').destroy_all
     end
   end
 
@@ -335,110 +340,106 @@ class User < ApplicationRecord
     "_deleted_#{id}_#{slug}"
   end
 
-  def delete_account(reason="User deleted account", by_admin=false, no_mailchimp=false)
+  def delete_account(reason = 'User deleted account', by_admin = false, no_mailchimp = false)
     MailchimperService.remove_from_mailchimp_list(self) unless no_mailchimp
     clear_user_data(true)
-    poisoned_email = self.class.poison_email(self.email, self.id)
-    poisoned_username = self.class.poison_username(self.username, self.id)
-    poisoned_slug = self.class.poison_slug(self.slug, self.id)
+    poisoned_email = self.class.poison_email(email, id)
+    poisoned_username = self.class.poison_username(username, id)
+    poisoned_slug = self.class.poison_slug(slug, id)
     skip_reconfirmation!
-    self.email_alias_logs.create({
-      old_email: self.email,
-      new_email: poisoned_email,
-      old_username: self.username,
-      new_username: poisoned_username,
-      reason: reason
-    })
+    email_alias_logs.create({
+                              old_email: email,
+                              new_email: poisoned_email,
+                              old_username: username,
+                              new_username: poisoned_username,
+                              reason: reason
+                            })
     update_attributes({
-      status: :deleted,
-      email: poisoned_email,
-      username: poisoned_username,
-      slug: poisoned_slug
-    })
+                        status: :deleted,
+                        email: poisoned_email,
+                        username: poisoned_username,
+                        slug: poisoned_slug
+                      })
     AccountDeletion.create({
-      user_id: self.id,
-      reason: reason,
-      by_admin: by_admin
-    })
+                             user_id: id,
+                             reason: reason,
+                             by_admin: by_admin
+                           })
   end
 
   def all_notification_settings_are_off?
     result = true
-    self.notification_settings.each do |setting|
+    notification_settings.each do |setting|
       result = false if setting.value != 'never'
     end
     result
   end
 
   def after_confirmation
-    old_email = self.email_before_last_save
-    if old_email != self.email
+    old_email = email_before_last_save
+    if old_email != email
       MailchimperService.update_mailchimp_list(self, old_email, true)
       UserMailer.email_change_confirmed(self, old_email).deliver_now
     end
   end
 
   def mute_exchange(id)
-    self.exchange_mutes.create({muted_id: id})
+    exchange_mutes.create({ muted_id: id })
   end
 
   def has_muted_own_share?(share)
-    self.interaction_mutes.find_by(share_id: share.id).present?
+    interaction_mutes.find_by(share_id: share.id).present?
   end
 
   def has_full_profile?
-    self.username.present? && self.display_name.present? && self.location.present? && self.bio.present?
+    username.present? && display_name.present? && location.present? && bio.present?
   end
 
   def pending_any_confirmation
-    if (!confirmed? || pending_reconfirmation?)
-      yield
-    end
+    yield if !confirmed? || pending_reconfirmation?
   end
 
   def is_author?
-    self.author.present?
+    author.present?
   end
 
   def self.authors
-    where("author_id > 0")
+    where('author_id > 0')
   end
 
-  def self.authors_by_article_count(existing_ids, limit=12)
-    self.authors.includes(:author)
-          .references(:author)
-          .where.not(id: existing_ids)
-          .order("authors.article_count desc")
-          .limit(limit)
+  def self.authors_by_article_count(existing_ids, limit = 12)
+    authors.includes(:author)
+           .references(:author)
+           .where.not(id: existing_ids)
+           .order('authors.article_count desc')
+           .limit(limit)
   end
 
   def set_all_notifications_as_old
-    self.notifications.where(is_new: true).each do |notification|
+    notifications.where(is_new: true).each do |notification|
       Notification.record_timestamps = false
       notification.update_attribute(:is_new, false)
     end
   end
 
   def user_cannot_be_blacklisted
-    if BlackListUser.find_by(email: self.email)
-      errors.add(:email, "You cannot join TheArticle at this time")
-    end
+    errors.add(:email, 'You cannot join TheArticle at this time') if BlackListUser.find_by(email: email)
   end
 
   def add_to_bibblio
     result = BibblioApiService::Users.new(self).create == true
-    self.update_attribute(:on_bibblio, true) if result
+    update_attribute(:on_bibblio, true) if result
     result
   end
 
   def has_default_profile_photo
-    self.profile_photo.url == self.profile_photo.default_url
+    profile_photo.url == profile_photo.default_url
   end
 
   def delay_donation_interstitial
     DonateInterstitialImpression.create({
-      user_id: id,
-      shown_at: Time.now
-    })
+                                          user_id: id,
+                                          shown_at: Time.now
+                                        })
   end
 end
