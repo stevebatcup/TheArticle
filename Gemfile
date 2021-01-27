@@ -100,7 +100,7 @@ gem 'actionpack', '>= 5.2.4.3'
 gem 'activestorage', '>= 5.2.4.3'
 gem 'activesupport', '>= 5.2.4.3'
 gem 'kaminari', '>= 1.2.1'
-gem 'puma', '>= 4.3.5'
+gem 'puma', '5.1.1'
 gem 'websocket-extensions', '>= 0.1.5'
 
 group :development, :test do
