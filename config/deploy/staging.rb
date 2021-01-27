@@ -46,7 +46,7 @@ set :ssh_options, {
   keys: %w(/Users/steve/.ssh/thearticle_live.pem)
 }
 
-set :rbenv_ruby, '2.5.7'
+set :rbenv_ruby, '2.5.0'
 
 #
 # The server-based syntax can be used to override options:
