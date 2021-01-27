@@ -44,18 +44,10 @@ node_modules/
 solr/development/*
 solr/pids/*
 
-# Capistrano
-Capfile
-config/deploy
-config/deploy.rb
-config/recipes
-
 public/robots.txt
 public/uploads
 public/firebase-messaging-sw.js
 
 db/sphinx
-
-Procfile
 
 dump.rdb
