@@ -51,3 +51,9 @@ public/firebase-messaging-sw.js
 db/sphinx
 
 dump.rdb
+
+# local docker setup
+.env
+Dockerfile
+docker-compose.yml
+docker-rails-entrypoint.sh
