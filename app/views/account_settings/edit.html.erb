@@ -461,12 +461,16 @@
 
 								<p class="alert alert-danger" ng-if="errors.deleteAccount">{{errors.deleteAccount}}</p>
 
-								<p>Once you have deleted your account, it cannot be reinstated</p>
+								<p ng-if="!deletingAccount">Once you have deleted your account, it cannot be reinstated</p>
+								<p ng-if="deletingAccount">Your account is being deleted, this may take up to a minute to complete...</p>
 
 								<button class="btn btn-danger btn-lower btn-block"
 												ng-click="deleteAccount($event)"
 												ng-class="{'disabled': user.confirmingPassword.length == 0}"
-												ng-disabled="user.confirmingPassword.length == 0">Delete</button>
+												ng-disabled="user.confirmingPassword.length == 0 || deletingAccount">
+									<span ng-if="!deletingAccount">Delete</span>
+									<span ng-if="deletingAccount">Deleting...</span>
+								</button>
 
 							</div>
 						</div>

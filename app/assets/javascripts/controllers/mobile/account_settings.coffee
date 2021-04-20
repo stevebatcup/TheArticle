@@ -38,6 +38,7 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 		@scope.user = {}
 		@scope.userDup = {}
 		@scope.profile = {}
+		@scope.deletingAccount = false
 		@bindEvents()
 		@resetContainerHeight()
 		@getUser()
@@ -329,12 +330,14 @@ class TheArticle.AccountSettings extends TheArticle.mixOf TheArticle.MobilePageC
 	deleteAccount: ($event) =>
 		$event.preventDefault() if $event?
 		@scope.errors.deleteAccount = false
+		@scope.deletingAccount = true
 		@http.delete("/delete-account?auth=#{@scope.user.confirmingPassword}").then (response) =>
 			if response.data.status is 'success'
 				@timeout =>
 					window.location.href = "/?account_deleted=1"
 				, 1000
 			else if response.data.status is 'error'
+				@scope.deletingAccount = false
 				@scope.errors.deleteAccount = response.data.message
 
 	deactivateProfile: ($event) =>

@@ -342,7 +342,7 @@
 
 			<!-- Delete Account - continue -->
 			<div class="slidepage-page right" data-page="delete_account_continue" data-title="Delete your account" data-level="3">
-				<div class="nav_menu_form container pt-3 pb-4">
+				<div class="nav_menu_form container pt-5 pb-4">
 					<p>Please enter your password to permanently delete your account:</p>
 
 					<div class="form-group">
@@ -352,12 +352,16 @@
 
 					<p class="alert alert-danger" ng-if="errors.deleteAccount">{{errors.deleteAccount}}</p>
 
-					<p>Once you have deleted your account, it cannot be reinstated</p>
+					<p ng-if="!deletingAccount">Once you have deleted your account, it cannot be reinstated</p>
+					<p ng-if="deletingAccount">Your account is being deleted, this may take up to a minute to complete...</p>
 
-					<button class="btn btn-danger btn-block btn-lower"
+					<button class="btn btn-danger btn-lower btn-block"
 									ng-click="deleteAccount($event)"
 									ng-class="{'disabled': user.confirmingPassword.length == 0}"
-									ng-disabled="user.confirmingPassword.length == 0">Delete</button>
+									ng-disabled="user.confirmingPassword.length == 0 || deletingAccount">
+						<span ng-if="!deletingAccount">Delete</span>
+						<span ng-if="deletingAccount">Deleting...</span>
+					</button>
 
 				</div>
 			</div>
