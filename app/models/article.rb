@@ -13,9 +13,20 @@ class Article < ApplicationRecord
   mount_uploader :image, ArticleImageUploader
 
   scope :not_remote, -> { where("remote_article_url = '' OR remote_article_url IS NULL") }
+  scope :published, -> { where.not(published_at: nil) }
+  scope :authored, -> { where("author_id IS NOT NULL") }
 
   include WpCache
   include Adminable
+
+  def self.search(query, size=500)
+    not_remote
+      .published
+      .authored
+      .where("title LIKE '%#{query}%' OR excerpt LIKE '%#{query}%'")
+      .order(published_at: :desc)
+      .limit(size)
+  end
 
   def self.most_rated(limit = 10, within_days = 7)
     Rails.cache.fetch('most_rated_articles', expires_in: 30.minutes) do
@@ -482,21 +493,6 @@ class Article < ApplicationRecord
 
   def self.views_before_interstitial
     0
-  end
-
-  def self.build_search_query(term, from_tag = false)
-    query = term.to_s
-    if from_tag
-      tag = KeywordTag.find_by(slug: query)
-      other_tags = KeywordTag.where('LOWER(name) LIKE :query', query: "%#{sanitize_sql_like(query.downcase)}%")
-      other_tags = other_tags.where.not(id: tag.id) unless tag.nil?
-      other_tags.each do |ot|
-        query << " | #{ot.name}"
-      end
-      query = "#{query} | #{tag.name}" unless tag.nil?
-    end
-    query = "#{query} | #{term.pluralize}" unless term == term.pluralize
-    query
   end
 
   def self.recent_within_exchanges(exchange_ids)

@@ -149,13 +149,6 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.index ["user_id"], name: "index_blocks_on_user_id"
   end
 
-  create_table "chats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "last_message_id"
-    t.integer "message_count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci", force: :cascade do |t|
     t.integer "commentable_id"
     t.string "commentable_type"
@@ -196,16 +189,6 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.index ["sourceable_type", "sourceable_id"], name: "index_concern_reports_on_sourceable_type_and_sourceable_id"
   end
 
-  create_table "conversers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "chat_id"
-    t.bigint "user_id"
-    t.boolean "is_chat_initiator"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["chat_id"], name: "index_conversers_on_chat_id"
-    t.index ["user_id"], name: "index_conversers_on_user_id"
-  end
-
   create_table "daily_user_mail_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "user_id"
     t.string "action_type"
@@ -227,7 +210,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.decimal "amount", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "status"
+    t.integer "status", default: 0
   end
 
   create_table "email_alias_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -266,6 +249,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.bigint "exchange_id"
     t.bigint "user_id"
     t.datetime "created_at"
+    t.index ["exchange_id", "user_id"], name: "exchanges_users_together", unique: true
     t.index ["exchange_id", "user_id"], name: "index_exchanges_users_on_exchange_id_and_user_id", unique: true
     t.index ["exchange_id"], name: "index_exchanges_users_on_exchange_id"
     t.index ["user_id"], name: "index_exchanges_users_on_user_id"
@@ -398,7 +382,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.string "slug"
     t.text "intro"
     t.string "articles_heading"
-    t.boolean "show_home_link"
+    t.boolean "show_home_link", default: false
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -409,18 +393,6 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.integer "linked_account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "chat_id"
-    t.bigint "user_id"
-    t.text "body"
-    t.boolean "is_ice_breaker", default: false
-    t.datetime "read_by_recipient_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "mutes", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -514,7 +486,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
     t.datetime "updated_at", null: false
     t.index ["author_article_count"], name: "index_profile_suggestions_on_author_article_count"
     t.index ["reason"], name: "index_profile_suggestions_on_reason", type: :fulltext
-    t.index ["suggested_id", "user_id"], name: "index_profile_suggestions_on_suggested_id_and_user_id", unique: true
+    t.index ["suggested_id", "user_id"], name: "profile_suggestions_users_together", unique: true
     t.index ["user_id"], name: "index_profile_suggestions_on_user_id"
   end
 
@@ -651,7 +623,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
   create_table "watch_list_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "status", default: 0
-    t.integer "reason"
+    t.integer "reason", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "added_by_admin_user_id"
@@ -831,10 +803,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_120243) do
   add_foreign_key "articles_exchanges", "exchanges"
   add_foreign_key "articles_keyword_tags", "articles"
   add_foreign_key "articles_keyword_tags", "keyword_tags"
-  add_foreign_key "conversers", "chats"
-  add_foreign_key "conversers", "users"
   add_foreign_key "exchanges_users", "exchanges"
-  add_foreign_key "exchanges_users", "users"
   add_foreign_key "keyword_tags_landing_pages", "keyword_tags"
   add_foreign_key "keyword_tags_landing_pages", "landing_pages"
 end

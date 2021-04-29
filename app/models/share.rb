@@ -15,6 +15,15 @@ class Share < ApplicationRecord
 	after_save	:set_user_share_counts
 	after_destroy	:delete_associated_data
 
+  def self.search(query, size=500)
+		joins(:article)
+    	.where("post LIKE '%#{query}%'")
+      .where("shares.created_at IS NOT NULL")
+			.where("articles.author_id IS NOT NULL")
+      .order(created_at: :desc)
+      .limit(size)
+  end
+
 	def notify_mentioned_users
 		if self.post.length > 0
 			post_html =  Nokogiri::HTML.fragment(self.post)

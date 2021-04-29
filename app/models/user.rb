@@ -84,6 +84,13 @@ class User < ApplicationRecord
 
   attr_writer :login
 
+  def self.search(query, size=50)
+    where("display_name LIKE '%#{query}%' OR username LIKE '%#{query}%' OR location LIKE '%#{query}%' OR bio LIKE '%#{query}%'")
+      .where(status: 'active')
+      .where(has_completed_wizard: true)
+      .limit(size)
+  end
+
   def strip_whitespace
     self.first_name = first_name.strip unless first_name.nil?
     self.last_name = last_name.strip unless last_name.nil?

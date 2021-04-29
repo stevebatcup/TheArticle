@@ -54,7 +54,6 @@ gem 'browser'
 gem 'bower-rails', '~> 0.11.0'
 
 gem 'nokogiri', '>= 1.10.4'
-gem 'thinking-sphinx', '~> 4.0'
 
 # Upload images
 gem 'carrierwave'
@@ -104,6 +103,7 @@ gem 'puma', '5.1.1'
 gem 'websocket-extensions', '>= 0.1.5'
 
 gem 'marginalia'
+gem 'mimemagic', '>= 0.3.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

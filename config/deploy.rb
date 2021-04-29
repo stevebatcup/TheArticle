@@ -65,5 +65,3 @@ set :keep_releases, 3
 #   end
 #   after  :finishing, :clear_cache
 # end
-
-# before 'deploy:stop_unicorn', 'thinking_sphinx:rebuild'

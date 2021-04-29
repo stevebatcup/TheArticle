@@ -4,7 +4,18 @@ class Exchange < ApplicationRecord
   has_many :categorisations
   has_many :articles, through: :categorisations
 
+  scope :has_articles, -> { where("article_count > 0") }
+
   has_and_belongs_to_many  :users
+
+  def self.search(query, size=50)
+    has_articles
+      .where("name LIKE '%#{query}%' OR description LIKE '%#{query}%'")
+      .where.not(name: 'Sponsored')
+      .where.not(name: 'sponsored')
+      .order(article_count: :desc)
+      .limit(size)
+  end
 
   def is_followed_by(user)
     self.users.map(&:id).include?(user.id)

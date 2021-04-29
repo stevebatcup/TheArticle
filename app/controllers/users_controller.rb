@@ -91,8 +91,12 @@ class UsersController < ApplicationController
 	end
 
 	def search_by_username
-		@results = User.search(conditions: { username: "*#{params[:username]}*", status: 'active', has_completed_wizard: true },
-														page: 1, per_page: 6).to_a
+		@results = User.where("username LIKE '%#{params[:username]}%'")
+										.where(status: :active)
+										.where(has_completed_wizard: true)
+										.page(1)
+										.per(6)
+										.to_a
 	end
 
 private

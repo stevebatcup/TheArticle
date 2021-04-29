@@ -10,22 +10,10 @@ class SearchController < ApplicationController
 					begin
 						if @query.present?
 							@recent_searches = @who_to_follow = @trending_articles = @trending_exchanges = []
-							# topics
-							@topics = KeywordTag.search("*#{@query}*", conditions: { name: '!Sponsored pick' }, page: 1, per_page: 5, order: 'article_count DESC')
-							# exchanges
-							@exchanges = Exchange.search("*#{@query}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 5)
-							# contributors
-							@contributors = Author.search(conditions: { display_name: "*#{@query}*" }, page: 1, per_page: 5, order: 'article_count DESC')
-							# profiles
-							if user_signed_in?
-								# ids_to_exclude = [current_user.id] + current_user.blocks.map(&:blocked_id)
-								@profiles = User.search("*#{@query}*",
-																						conditions: { status: 'active', has_completed_wizard: true },
-																						page: 1, per_page: 5)
-							else
-								@profiles = User.search("*#{@query}*", conditions: { status: 'active', has_completed_wizard: true },
-																				page: 1, per_page: 5)
-							end
+							@topics = KeywordTag.search(@query, 5)
+							@exchanges = Exchange.search(@query, 5)
+							@contributors = Author.search(@query, 5)
+							@profiles = User.search(@query, 5)
 						else
 							@topics = @exchanges = @contributors = @profiles = []
 							if user_signed_in? && current_user.followings.any?
@@ -46,24 +34,15 @@ class SearchController < ApplicationController
 					end
 				elsif params[:mode] == :full
 					begin
-						article_query = Article.build_search_query(@query, params[:from_tag].present?)
-						articles = Article.search(article_query, order: 'published_at DESC', page: 1, per_page: 500).to_a
-						contributors = Author.search("*#{@query}*", order: 'article_count DESC').to_a
-						query_with_plurals = "#{@query} | #{@query.pluralize}"
-						exchanges = Exchange.search("*#{query_with_plurals}*", conditions: { name: '!Sponsored' }, page: 1, per_page: 50).to_a
-						posts = Share.search("*#{query_with_plurals}*", order: 'created_at DESC').to_a
-						if user_signed_in?
-							profiles = User.search("*#{query_with_plurals}*",
-																			conditions: { status: 'active', has_completed_wizard: true },
-																			page: 1, per_page: 50).to_a
-						else
-							profiles = User.search("*#{query_with_plurals}*", conditions: { status: 'active', has_completed_wizard: true },
-																			page: 1, per_page: 50).to_a
-						end
+						articles = Article.search(@query).to_a
+						contributors = Author.search(@query).to_a
+						exchanges = Exchange.search(@query).to_a
+						posts = Share.search(@query).to_a
+						profiles = User.search(@query).to_a
 						@results = (articles + contributors + profiles + exchanges + posts)
 						search_log = SearchLog.new({
 							term: @query,
-							full_article_term: article_query,
+							full_article_term: @query,
 							all_results_count: @results.size,
 							articles_results_count: articles.size,
 							contributors_results_count: contributors.size,
@@ -75,11 +54,10 @@ class SearchController < ApplicationController
 						search_log.save
 						@latest_articles = Article.latest.limit(20) if browser.device.mobile?
 						render :index_results
-					rescue Exception => e
-						render :index_results
 					end
 				end
 			end
+
 			format.html do
 				if !params[:query].present?
 					redirect_to user_signed_in? ?  front_page_path : root_path

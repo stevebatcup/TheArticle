@@ -3,6 +3,15 @@ class KeywordTag < ApplicationRecord
 	has_and_belongs_to_many	:articles
 	has_and_belongs_to_many	:landing_pages
 
+	scope :has_articles, -> { where("article_count > 0") }
+
+  def self.search(query, size=500)
+  	has_articles
+    	.where("name LIKE '%#{query}%'")
+      .order(article_count: :desc)
+      .limit(size)
+  end
+
 	def self.exclude_special
 		where.not(slug: special_tags)
 	end

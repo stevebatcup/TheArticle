@@ -7,6 +7,15 @@ class Author < ApplicationRecord
 	before_create	:stick_on_mailchimp_list
 	before_update	:update_mailchimp_list_subscription
 
+	scope :has_articles, -> { where("article_count > 0") }
+
+  def self.search(query, size=500)
+    has_articles
+      .where("display_name LIKE '%#{query}%' OR title LIKE '%#{query}%' OR twitter_handle LIKE '%#{query}%' OR blurb LIKE '%#{query}%'")
+      .order(article_count: :desc)
+      .limit(size)
+  end
+
 	def self.the_article_staff
 		where("email LIKE '%@thearticle.com%'")
 	end
