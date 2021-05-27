@@ -49,7 +49,8 @@ module User::Mailable
   def send_daily_categorisations_mail
     begin
       articles = []
-      items = DailyUserMailItem.where(user_id: self.id, action_type: "categorisation").where("DATE(created_at) = CURDATE()")
+      items = DailyUserMailItem.where(user_id: self.id, action_type: "categorisation")
+                                .where("created_at > DATE_SUB(CONCAT(CURDATE(), ' ', '17:00:00'), INTERVAL 1 DAY)")
       items.each do |item|
         if categorisation = Categorisation.find_by(id: item.action_id)
           articles << categorisation.article unless articles.include?(categorisation.article)
